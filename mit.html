@@ -2,40 +2,207 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CV Cambridge</title>
+    <title>Plantilla MIT - Dark Tech</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Estructura similar a Oxford pero colores y fuentes distintas -->
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .page { width: 210mm; min-height: 297mm; background: white; display: flex; margin: 20px auto; font-family: 'Georgia', serif; }
-        .left-col { width: 35%; background: #064e3b; color: white; padding: 2rem; } /* Verde oscuro */
-        .right-col { width: 65%; padding: 2rem; }
-        .h-title { font-family: 'Arial', sans-serif; color: #065f46; font-weight: bold; border-bottom: 2px solid #065f46; margin-bottom: 1rem; }
-        .left-col .h-title { color: #a7f3d0; border-color: #34d399; }
+        /* Estilos Base de la Hoja A4 */
+        .page { 
+            width: 210mm; 
+            min-height: 297mm; 
+            background: #0f172a; /* Fondo Oscuro (Slate 900) */
+            color: #e2e8f0; /* Texto Claro (Slate 200) */
+            display: flex; 
+            margin: 0 auto; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Columnas */
+        .sidebar { 
+            width: 32%; 
+            background-color: #1e293b; /* Slate 800 */
+            padding: 25px; 
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .main { 
+            width: 68%; 
+            padding: 30px; 
+            background-color: #0f172a; 
+        }
+
+        /* Títulos de Sección */
+        .section-header { 
+            color: #3b82f6; /* Azul brillante */
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 14px; 
+            letter-spacing: 1px;
+            border-bottom: 2px solid #3b82f6; 
+            padding-bottom: 5px; 
+            margin-bottom: 15px; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Elementos Movibles */
+        .draggable-item { 
+            cursor: grab; 
+            position: relative; 
+            margin-bottom: 20px;
+        }
+        
+        /* Estilos específicos para datos inyectados por el Creador */
+        .cv-job-title { color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 2px; }
+        .cv-highlight-date { color: #94a3b8; font-size: 12px; font-style: italic; }
+        .cv-job-company { color: #60a5fa; font-weight: 600; font-size: 13px; }
+        
+        /* Badges para Skills/Hobbies */
+        .skill-badge { background: #334155; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-right: 5px; display: inline-block; margin-bottom: 5px; }
+
+        /* Ajustes de impresión */
+        @media print {
+            body { margin: 0; background: #0f172a; -webkit-print-color-adjust: exact; }
+            .page { margin: 0; width: 100%; height: 100%; box-shadow: none; }
+        }
     </style>
 </head>
-<body class="bg-gray-200">
+<body>
+
+    <!-- ID Principal requerido por el Creador -->
     <div id="cv-content" class="page">
-        <div class="left-col" id="sortable-left">
-            <div id="display-photo-container" class="mb-6 text-center">
-                <img id="display-photo" class="w-32 h-32 rounded-full border-4 border-emerald-400 mx-auto object-cover">
-            </div>
-            <!-- Datos contacto, skills... -->
-             <div id="section-contact">
-                <h3 class="h-title">Contacto</h3>
-                <div id="display-email" class="mb-2 text-sm"></div>
-                <!-- ... -->
-            </div>
-        </div>
-        <div class="right-col" id="sortable-right">
-            <h1 id="display-fullname" class="text-4xl text-emerald-900 font-bold uppercase mb-1"></h1>
-            <h2 id="display-title" class="text-xl text-emerald-600 mb-6"></h2>
+
+        <!-- COLUMNA IZQUIERDA (SIDEBAR) -->
+        <div class="sidebar" id="sortable-left">
             
-            <div id="section-profile">
-                <h3 class="h-title">Perfil</h3>
-                <p id="display-profile" class="text-sm text-gray-700"></p>
+            <!-- FOTO -->
+            <div class="draggable-item text-center" id="display-photo-container">
+                <div class="w-36 h-36 mx-auto rounded-full p-1 bg-gradient-to-tr from-blue-500 to-cyan-400">
+                    <img id="display-photo" class="w-full h-full rounded-full object-cover border-4 border-[#1e293b]" src="" alt="Foto CV">
+                </div>
             </div>
-             <!-- ... -->
+
+            <!-- CONTACTO -->
+            <div class="draggable-item">
+                <h3 class="section-header"><i class="fa-solid fa-address-card"></i> Contacto</h3>
+                <ul class="text-xs space-y-3 text-gray-300">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-envelope text-blue-400 mt-1"></i> 
+                        <span id="display-email" class="break-all"></span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-phone text-blue-400 mt-1"></i> 
+                        <span id="display-phone"></span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-location-dot text-blue-400 mt-1"></i> 
+                        <span id="display-location"></span>
+                    </li>
+                    <!-- LinkedIn (Ocultable) -->
+                    <li id="li-linkedin" class="hidden flex items-start gap-3">
+                        <i class="fa-brands fa-linkedin text-blue-400 mt-1"></i> 
+                        <span id="display-linkedin" class="break-all"></span>
+                    </li>
+                    <!-- Web (Ocultable) -->
+                    <li id="li-website" class="hidden flex items-start gap-3">
+                        <i class="fa-solid fa-globe text-blue-400 mt-1"></i> 
+                        <span id="display-website" class="break-all"></span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- INFORMACIÓN PERSONAL EXTRA (Ocultable) -->
+            <div class="draggable-item hidden" id="block-extra-info">
+                <h3 class="section-header"><i class="fa-solid fa-id-card"></i> Info Personal</h3>
+                <ul class="text-xs space-y-2 text-gray-400">
+                    <li><strong class="text-gray-300">Nacimiento:</strong> <span id="display-birth"></span></li>
+                    <li><strong class="text-gray-300">Nacionalidad:</strong> <span id="display-nationality"></span></li>
+                    <li><strong class="text-gray-300">Estado Civil:</strong> <span id="display-civil"></span></li>
+                    <li><strong class="text-gray-300">Licencia:</strong> <span id="display-license"></span></li>
+                </ul>
+            </div>
+
+            <!-- HABILIDADES -->
+            <div class="draggable-item" id="section-skills">
+                <h3 class="section-header"><i class="fa-solid fa-code"></i> Skills</h3>
+                <div id="display-skills" class="space-y-2 text-xs">
+                    <!-- El JS inyectará las barras aquí -->
+                </div>
+            </div>
+
+            <!-- IDIOMAS (Ocultable) -->
+            <div class="draggable-item hidden" id="block-languages">
+                <h3 class="section-header"><i class="fa-solid fa-language"></i> Idiomas</h3>
+                <div id="display-languages" class="text-xs space-y-1 text-gray-300">
+                    <!-- El JS inyectará idiomas aquí -->
+                </div>
+            </div>
+
+            <!-- INTERESES / HOBBIES (Ocultable) -->
+            <div class="draggable-item hidden" id="block-hobbies">
+                <h3 class="section-header"><i class="fa-solid fa-heart"></i> Intereses</h3>
+                <div id="display-hobbies" class="flex flex-wrap gap-2">
+                    <!-- El JS inyectará tags aquí -->
+                </div>
+            </div>
+
         </div>
+
+        <!-- COLUMNA DERECHA (PRINCIPAL) -->
+        <div class="main" id="sortable-right">
+
+            <!-- HEADER / IDENTIDAD -->
+            <div class="draggable-item mb-8 border-b border-gray-700 pb-6">
+                <h1 id="display-fullname" class="text-5xl font-extrabold text-white uppercase tracking-tight mb-2 leading-none">NOMBRE APELLIDO</h1>
+                <h2 id="display-title" class="text-xl text-blue-500 font-medium tracking-widest uppercase">PUESTO PROFESIONAL</h2>
+            </div>
+
+            <!-- PERFIL PROFESIONAL -->
+            <div class="draggable-item" id="wrapper-profile">
+                <h3 class="section-header"><i class="fa-solid fa-user-tie"></i> Perfil Profesional</h3>
+                <p id="display-profile" class="text-sm leading-relaxed text-gray-400 text-justify">
+                    <!-- Texto del perfil -->
+                </p>
+            </div>
+
+            <!-- EXPERIENCIA LABORAL -->
+            <div class="draggable-item" id="section-experience">
+                <h3 class="section-header"><i class="fa-solid fa-briefcase"></i> Experiencia Laboral</h3>
+                <div id="display-experience" class="flex flex-col gap-4">
+                    <!-- El JS inyectará experiencia aquí -->
+                </div>
+            </div>
+
+            <!-- EDUCACIÓN -->
+            <div class="draggable-item" id="section-education">
+                <h3 class="section-header"><i class="fa-solid fa-graduation-cap"></i> Educación</h3>
+                <div id="display-education" class="flex flex-col gap-3">
+                    <!-- El JS inyectará educación aquí -->
+                </div>
+            </div>
+
+            <!-- CURSOS Y CERTIFICADOS (Ocultable) -->
+            <div class="draggable-item hidden" id="block-courses">
+                <h3 class="section-header"><i class="fa-solid fa-certificate"></i> Cursos y Certificados</h3>
+                <div id="display-courses" class="flex flex-col gap-2">
+                    <!-- El JS inyectará cursos aquí -->
+                </div>
+            </div>
+
+            <!-- SECCIONES PERSONALIZADAS -->
+            <div class="draggable-item" id="display-custom-sections-container">
+                <!-- El JS inyectará Referencias, Pasantías, etc. aquí -->
+            </div>
+
+        </div>
+
     </div>
+
 </body>
 </html>

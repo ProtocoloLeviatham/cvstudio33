@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Studio33</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                        dark: '#020617',
+                        light: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite', /* Más suave */
+                        'gradient-xy': 'gradient-xy 20s ease infinite', /* Más fluido */
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'gradient-xy': {
+                            '0%, 100%': {
+                                'background-size': '400% 400%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #0f172a; /* Fondo base oscuro */
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .font-heading {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Slidebar Personalizada (Igual a la página principal) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #3b82f6, #6366f1);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Fondo Animado Mejorado con Textura */
+        .bg-animated-mesh {
+            background: linear-gradient(-45deg, #020617, #1e1b4b, #0f172a, #312e81, #000000);
+            background-size: 400% 400%;
+            animation: gradient-xy 20s ease infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        /* Capa de ruido para textura profesional */
+        .bg-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.5); /* Borde azul al hover */
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Efecto NYX especial */
+        .nyx-card {
+            background: linear-gradient(145deg, rgba(168, 85, 247, 0.05), rgba(0,0,0,0));
+        }
+        .nyx-card:hover {
+            border: 1px solid rgba(168, 85, 247, 0.8); /* Borde violeta IA más fuerte */
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
+        }
+
+        /* Navbar Glass */
+        .nav-glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-100">
+
+    <!-- FONDO ANIMADO Y TEXTURA -->
+    <div class="bg-animated-mesh"></div>
+    <div class="bg-texture"></div>
+
+    <!-- NAVBAR PROFESIONAL -->
+    <nav class="nav-glass fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="mitrabajo.html" class="flex items-center gap-3 group">
+                        <!-- Placeholder Logo -->
+                        <img src="logo.png" alt="CV Studio33 Logo" class="h-10 w-auto object-contain transition-transform group-hover:scale-105">
+                        <div class="flex flex-col">
+                            <span class="font-heading font-extrabold text-xl text-white tracking-tight leading-none">CV STUDIO33</span>
+                            <span class="text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase">Intelligence Agency</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Enlace de regreso simple -->
+                <a href="index.html" class="text-sm text-gray-300 hover:text-white transition flex items-center gap-2 group">
+                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN PRINCIPAL: SELECCIÓN -->
+    <main class="flex-grow flex items-center justify-center pt-28 pb-16 px-4 relative">
+        <!-- Elementos decorativos flotantes -->
+        <div class="absolute top-1/4 left-10 w-96 h-96 bg-blue-600/10 rounded-full mix-blend-screen filter blur-3xl animate-blob opacity-40 pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-purple-600/10 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000 opacity-40 pointer-events-none"></div>
+
+        <div class="container mx-auto max-w-6xl relative z-10">
+            
+            <div class="text-center mb-16 reveal">
+                <span class="text-blue-400 font-bold tracking-[0.3em] uppercase text-xs mb-3 block animate-pulse-slow">Empieza tu camino</span>
+                <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white mb-6 leading-tight">
+                    ¡Hola! ¿Cómo te gustaría <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">crear tu CV?</span>
+                </h1>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto font-light">
+                    Selecciona la herramienta que mejor se adapte a tu situación actual y prepárate para destacar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- OPCIÓN 1: DESDE CERO -->
+                <a href="tucvdecero.html" class="block group h-full transform transition duration-500">
+                    <div class="glass-card rounded-2xl p-8 h-full flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-24 h-24 bg-gradient-to-br from-blue-900/50 to-blue-600/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition duration-500 border border-blue-500/20">
+                            <i class="fa-solid fa-pen-ruler text-4xl text-blue-400"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-4 font-heading text-white group-hover:text-blue-300 transition">Crear desde Cero</h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">
+                            Diseña tu legado profesional paso a paso. Nuestro <strong>constructor inteligente</strong> te guía sección por sección para estructurar una narrativa impecable, ideal si buscas un control total sobre cada detalle de tu historia.
+                        </p>
+                        <div class="w-full py-4 bg-blue-600/10 border border-blue-500/30 rounded-xl text-blue-300 font-bold text-sm group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition flex items-center justify-center gap-2">
+                            <span>Comenzar Manualmente</span> <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- OPCIÓN 2: VER PLANTILLAS -->
+                <a href="información.html" class="block group h-full transform transition duration-500">
+                    <div class="glass-card rounded-2xl p-8 h-full flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-24 h-24 bg-gradient-to-br from-green-900/50 to-green-600/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition duration-500 border border-green-500/20">
+                            <i class="fa-solid fa-layer-group text-4xl text-green-400"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-4 font-heading text-white group-hover:text-green-300 transition">Ver Plantillas</h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">
+                            Accede a nuestra <strong>galería premium</strong>. Diseños visualmente impactantes y 100% optimizados para ATS, categorizados por industria (Tech, Creativo, Ejecutivo) para proyectar la imagen exacta que tu carrera necesita.
+                        </p>
+                        <div class="w-full py-4 bg-green-600/10 border border-green-500/30 rounded-xl text-green-300 font-bold text-sm group-hover:bg-green-600 group-hover:text-white group-hover:border-transparent transition flex items-center justify-center gap-2">
+                            <span>Explorar Galería</span> <i class="fa-solid fa-magnifying-glass group-hover:rotate-12 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- OPCIÓN 3: IMPORTAR CON NYX AI -->
+                <a href="nyxteayuda.html" class="block group h-full transform transition duration-500">
+                    <div class="glass-card nyx-card rounded-2xl p-8 h-full flex flex-col items-center text-center relative overflow-hidden border-t-4 border-t-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+                        <div class="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse shadow-lg">
+                            Recomendado
+                        </div>
+                        <div class="w-24 h-24 bg-gradient-to-br from-purple-900/50 to-purple-600/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition duration-500 border border-purple-500/20">
+                            <i class="fa-solid fa-wand-magic-sparkles text-4xl text-purple-400"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-4 font-heading text-white group-hover:text-purple-300 transition">Importar con NYX</h2>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-8 flex-grow">
+                            <strong>Transformación instantánea con IA.</strong> Sube tu viejo CV (PDF/Word) y deja que NYX lo reconstruya, optimice palabras clave y eleve tu perfil al estándar del top 1% de candidatos en segundos.
+                        </p>
+                        <div class="w-full py-4 bg-purple-600/10 border border-purple-500/30 rounded-xl text-purple-300 font-bold text-sm group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-indigo-600 group-hover:text-white group-hover:border-transparent transition flex items-center justify-center gap-2 shadow-lg shadow-purple-900/20">
+                            <span>Mejorar con IA</span> <i class="fa-solid fa-robot ml-2 group-hover:animate-bounce"></i>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER SIMPLE -->
+    <footer class="bg-black/40 backdrop-blur-md border-t border-gray-800 text-center py-8">
+        <p class="text-gray-500 text-xs tracking-wide">
+            &copy; 2026 CV STUDIO33. Todos los derechos reservados.
+        </p>
+    </footer>
+
+</body>
+</html>

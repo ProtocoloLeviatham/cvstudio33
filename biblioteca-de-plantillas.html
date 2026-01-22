@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Plantillas | CV Studio33</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        sans: ['Open Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: 'Open Sans', sans-serif; }
+        .template-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .template-card:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+        /* Vista previa del CV en miniatura */
+        .cv-thumb {
+            height: 300px;
+            background-color: white;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        .cv-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 5s linear;
+        }
+        .cv-thumb:hover img {
+            transform: translateY(calc(-100% + 300px)); /* Efecto scroll al hover */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-primary/90 backdrop-blur-md border-b border-white/10 h-20 sticky top-0 z-50">
+        <div class="container mx-auto px-4 h-full flex justify-between items-center">
+            <a href="Creandotucv.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Editor
+            </a>
+            <div class="flex items-center gap-2">
+                <span class="font-heading font-bold text-xl">BIBLIOTECA DE DISEÑOS</span>
+                <span class="text-[10px] bg-blue-600 px-2 py-1 rounded">PREMIUM</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-16 text-center">
+        <h1 class="text-4xl md:text-5xl font-heading font-extrabold mb-4">Elige tu <span class="text-blue-500">Armadura Profesional</span></h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">Selecciona una plantilla para aplicar instantáneamente tus datos. Todos los diseños están optimizados para ATS y aprobados por expertos en RRHH.</p>
+    </header>
+
+    <!-- Grid de Plantillas -->
+    <main class="container mx-auto px-4 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- 1. OXFORD (Clásico) -->
+            <div class="template-card bg-white/5 rounded-xl overflow-hidden group">
+                <div class="cv-thumb">
+                    <!-- Placeholder visual del diseño -->
+                    <img src="https://placehold.co/400x600/e2e8f0/1e293b?text=DISEÑO+OXFORD+(Clásico+2+Col)" alt="Oxford">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold font-heading mb-2">Oxford</h3>
+                    <p class="text-sm text-gray-400 mb-4">Elegancia atemporal. Doble columna izquierda oscura. Ideal para perfiles ejecutivos.</p>
+                    <button onclick="selectTemplate('oxford.html', 'Oxford')" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold transition">Usar Plantilla</button>
+                </div>
+            </div>
+
+            <!-- 2. STANFORD (Moderno) -->
+            <div class="template-card bg-white/5 rounded-xl overflow-hidden group">
+                <div class="cv-thumb">
+                    <img src="https://placehold.co/400x600/1e293b/ffffff?text=DISEÑO+STANFORD+(Tech)" alt="Stanford">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold font-heading mb-2">Stanford</h3>
+                    <p class="text-sm text-gray-400 mb-4">Vanguardista. Panel derecho y acentos neón. Perfecto para Tech y Startups.</p>
+                    <button onclick="selectTemplate('stanford.html', 'Stanford')" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold transition">Usar Plantilla</button>
+                </div>
+            </div>
+
+            <!-- 3. HARVARD (Minimalista) -->
+            <div class="template-card bg-white/5 rounded-xl overflow-hidden group">
+                <div class="cv-thumb">
+                    <img src="https://placehold.co/400x600/ffffff/000000?text=DISEÑO+HARVARD+(Texto)" alt="Harvard">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold font-heading mb-2">Harvard</h3>
+                    <p class="text-sm text-gray-400 mb-4">Puro texto. Sin columnas, sin foto, máxima legibilidad ATS. Académico y Legal.</p>
+                    <button onclick="selectTemplate('harvard.html', 'Harvard')" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold transition">Usar Plantilla</button>
+                </div>
+            </div>
+
+            <!-- 4. CAMBRIDGE -->
+            <div class="template-card bg-white/5 rounded-xl overflow-hidden group">
+                <div class="cv-thumb"><img src="https://placehold.co/400x600/f1f5f9/334155?text=CAMBRIDGE" alt="Cambridge"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold font-heading mb-2">Cambridge</h3>
+                    <p class="text-sm text-gray-400 mb-4">Estructura tradicional con toques modernos de color en encabezados.</p>
+                    <button onclick="selectTemplate('cambridge.html', 'Cambridge')" class="w-full py-3 bg-transparent border border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white rounded-lg font-bold transition">Usar Plantilla</button>
+                </div>
+            </div>
+
+            <!-- 5. MIT -->
+            <div class="template-card bg-white/5 rounded-xl overflow-hidden group">
+                <div class="cv-thumb"><img src="https://placehold.co/400x600/0f172a/60a5fa?text=MIT+(Dark+Mode)" alt="MIT"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold font-heading mb-2">MIT</h3>
+                    <p class="text-sm text-gray-400 mb-4">Diseño audaz con fondo oscuro para imprimir en alta calidad o digital.</p>
+                    <button onclick="selectTemplate('mit.html', 'MIT')" class="w-full py-3 bg-transparent border border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white rounded-lg font-bold transition">Usar Plantilla</button>
+                </div>
+            </div>
+
+            <!-- Agrega aquí el resto de las 10 plantillas siguiendo el patrón -->
+
+        </div>
+    </main>
+
+    <script>
+        function selectTemplate(filename, name) {
+            // 1. Guardar la elección en LocalStorage
+            localStorage.setItem('selectedTemplate', name);
+            localStorage.setItem('selectedTemplateFile', filename);
+            
+            // 2. Redirigir al creador
+            // Nota: El creador leerá 'selectedTemplate' y sabrá qué hacer.
+            window.location.href = 'Creandotucv.html';
+        }
+    </script>
+</body>
+</html>

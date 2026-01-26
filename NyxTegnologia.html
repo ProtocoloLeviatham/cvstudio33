@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NYX | Inteligencia de Carrera</title>
+    <title>CV Studio33</title>
+       <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,7 +31,6 @@
             background-color: #050508;
             color: #e2e8f0;
             overflow-x: hidden;
-            /* Ocultar barra de scroll hasta que termine la intro */
         }
 
         h1, h2, h3, .brand-font {
@@ -39,7 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0; /* Background level */
+            z-index: 0;
             pointer-events: none;
         }
 
@@ -50,13 +55,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 50; /* Above regular content initially */
-            pointer-events: none; /* Let clicks pass through if needed, but primarily for text display */
+            z-index: 50;
+            pointer-events: none;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease;
         }
 
         .intro-text-slide {
@@ -66,9 +71,8 @@
             text-align: center;
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transition: all 0.5s ease-out;
             padding: 0 20px;
-            /* Ensure text is above particles visually */
             text-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
@@ -93,9 +97,8 @@
             60% {transform: translateY(-5px);}
         }
 
-        /* Spacer to create scroll length for the intro animation (Much longer now for 5 phases) */
         #intro-spacer {
-            height: 700vh; /* Increased for 5 phases */
+            height: 450vh; 
             width: 100%;
             position: relative;
             z-index: 10;
@@ -105,19 +108,18 @@
         #main-content {
             position: relative;
             z-index: 20;
-            opacity: 0; /* Hidden initially */
-            transition: opacity 1s ease;
-            margin-top: -100vh; /* Overlap last part of spacer */
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            margin-top: -100vh;
             padding-top: 100vh;
-            pointer-events: none; /* Disable interaction until visible */
+            pointer-events: none;
         }
         
         #main-content.visible {
             pointer-events: auto;
         }
 
-
-        /* Glassmorphism Card Style - Refined */
+        /* Glassmorphism Card Style */
         .glass-card {
             background: rgba(10, 8, 20, 0.75);
             backdrop-filter: blur(16px);
@@ -136,7 +138,7 @@
         /* Special R&D Panel Style */
         .rnd-card {
             background: linear-gradient(135deg, rgba(8, 20, 30, 0.8) 0%, rgba(5, 5, 8, 0.9) 100%);
-            border: 1px solid rgba(6, 182, 212, 0.2); /* Cyan border */
+            border: 1px solid rgba(6, 182, 212, 0.2);
             box-shadow: 0 0 40px rgba(6, 182, 212, 0.05);
         }
         .rnd-card:hover {
@@ -197,44 +199,40 @@
 </head>
 <body class="antialiased selection:bg-violet-500 selection:text-white">
 
-    <!-- 3D Background Container (Controlled by Three.js) -->
+    <!-- 3D Background Container -->
     <div id="canvas-container"></div>
 
-    <!-- INTRO OVERLAY TEXTS (5 PHASES) -->
+    <!-- INTRO OVERLAY TEXTS -->
     <div id="intro-overlay">
-        <!-- Slide 1: Earth -->
+        <!-- Slide 1 -->
         <div id="intro-text-1" class="intro-text-slide active">
             <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">Bienvenido a la era de contratación <br><span class="text-violet-400">automatizada por IA</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> DESLIZA PARA DESCUBRIR <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-        
-        <!-- Slide 2: Astronaut -->
+        <!-- Slide 2 -->
         <div id="intro-text-2" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Con nuestra tecnología laboral de punta <br>obtendrás una <span class="text-cyan-400">ventaja enorme</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> SIGUE DESLIZANDO <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-
-        <!-- Slide 3: Server -->
+        <!-- Slide 3 -->
         <div id="intro-text-3" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Un sistema de inteligencia creado para <br>obtener los <span class="text-violet-400">mayores resultados laborales</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> PROFUNDIZA MÁS <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-
-        <!-- Slide 4: Living Matter -->
+        <!-- Slide 4 -->
         <div id="intro-text-4" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">La última ventaja competitiva en un <br><span class="text-violet-500">mercado laboral saturado</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> YA CASI ESTÁS DENTRO <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-
-        <!-- Slide 5: Rocket -->
+        <!-- Slide 5 -->
         <div id="intro-text-5" class="intro-text-slide">
             <h2 class="text-3xl md:text-6xl font-bold text-white mb-6">¿Qué estás esperando para probar esta <br><span class="gradient-text">tecnología innovadora?</span></h2>
             <div class="scroll-indicator">
@@ -243,19 +241,17 @@
         </div>
     </div>
 
-    <!-- Scroll Spacer for Animation -->
+    <!-- Scroll Spacer -->
     <div id="intro-spacer"></div>
 
-    <!-- Main Content (Begins Hidden) -->
+    <!-- Main Content -->
     <div id="main-content">
         <!-- Navigation -->
         <nav class="fixed w-full z-50 top-0 pt-6 px-6 pointer-events-none">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <!-- Logo Button linked to MateriaNyx.html -->
                 <a href="MateriaNyx.html" class="glass-card rounded-full px-8 py-3 pointer-events-auto flex items-center justify-center hover:bg-white/5 transition-all group border-violet-500/30 hover:border-violet-500">
                     <img src="logonyx.png" alt="NYX 3D Logo" class="h-10 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(139,92,246,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(139,92,246,0.8)] transition-all">
                 </a>
-                
                 <button class="pointer-events-auto bg-violet-900/20 hover:bg-violet-600/20 border border-violet-500/50 text-violet-200 px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(124,58,237,0.2)] hover:shadow-[0_0_30px_rgba(124,58,237,0.4)] backdrop-blur-md">
                     Acceso Beta v.2.4
                 </button>
@@ -284,12 +280,22 @@
                     </p>
                 </div>
 
-                <a href="protocolonyx.html" class="inline-block group relative px-12 py-6 bg-white text-black font-bold text-lg rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.4)]">
-                    <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
-                        INICIAR PROTOCOLO NYX <i class="ph-bold ph-caret-right text-xl"></i>
-                    </span>
-                    <div class="absolute inset-0 bg-violet-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
-                </a>
+                <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                    <a href="protocolonyx.html" class="inline-block group relative px-12 py-6 bg-white text-black font-bold text-lg rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.4)]">
+                        <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
+                            INICIAR PROTOCOLO NYX <i class="ph-bold ph-caret-right text-xl"></i>
+                        </span>
+                        <div class="absolute inset-0 bg-violet-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                    </a>
+
+                    <!-- New AXON Button -->
+                    <a href="Axon.html" class="inline-block group relative px-10 py-5 bg-black border border-green-500/50 text-green-400 font-bold text-sm rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.2)] hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]">
+                        <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
+                            <i class="ph-bold ph-brain text-lg"></i> PRUEBA NUESTRA TECNOLOGÍA AXON
+                        </span>
+                        <div class="absolute inset-0 bg-green-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -304,7 +310,7 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Card 1 -->
+                    <!-- Cards 1, 2, 3 -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
                         <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
                             <i class="ph-fill ph-circuitry text-4xl text-violet-400"></i>
@@ -314,8 +320,6 @@
                             Nuestra arquitectura integra simultáneamente los motores más potentes del mundo, incluyendo <span class="text-white font-medium">OpenAI, Google Gemini y Pollinations</span>. No dependemos de una sola fuente de verdad susceptible a alucinaciones; sintetizamos la mejor respuesta posible triangulando datos de múltiples supermodelos para obtener una precisión quirúrgica.
                         </p>
                     </div>
-
-                    <!-- Card 2 -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
                         <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
                             <i class="ph-fill ph-gavel text-4xl text-violet-400"></i>
@@ -325,8 +329,6 @@
                             Esta estructura permite que cada decisión crítica —desde la redacción de una palabra clave de alto impacto hasta la elección de un horario de envío estratégico— sea validada por múltiples agentes especializados que trabajan en conjunto ("Peer Review AI") para garantizar la máxima eficacia estadística y reducir el margen de error a cero.
                         </p>
                     </div>
-
-                    <!-- Card 3 -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
                         <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
                             <i class="ph-fill ph-strategy text-4xl text-violet-400"></i>
@@ -337,7 +339,7 @@
                         </p>
                     </div>
 
-                    <!-- NEW CARD 4: RAM NYX -->
+                    <!-- RAM NYX Cards -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-3 opacity-20">
                             <i class="ph-duotone ph-memory text-8xl text-violet-500"></i>
@@ -350,8 +352,6 @@
                             Implementación de memoria de corto plazo de alta velocidad. Los agentes comparten contexto en tiempo real sin cuellos de botella. La "Memoria Operativa NYX" permite que la adaptación del CV y el cuerpo del correo se generen en el mismo ciclo de reloj, asegurando coherencia narrativa absoluta.
                         </p>
                     </div>
-
-                    <!-- NEW CARD 5: RAM NYX -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-3 opacity-20">
                             <i class="ph-duotone ph-hard-drives text-8xl text-violet-500"></i>
@@ -364,8 +364,6 @@
                             NYX recuerda cada interacción pasada, cada rechazo y cada éxito. Esta memoria a largo plazo permite refinar estrategias futuras para el mismo usuario, evitando errores repetitivos y aprendiendo qué tono de voz funciona mejor para industrias específicas.
                         </p>
                     </div>
-
-                    <!-- NEW CARD 6: RAM NYX -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-3 opacity-20">
                             <i class="ph-duotone ph-lightning text-8xl text-violet-500"></i>
@@ -382,7 +380,7 @@
             </div>
         </section>
 
-        <!-- Training Data Section -->
+        <!-- Training Data Section (RESTORED FULL CONTENT) -->
         <section class="py-20 px-4">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-4xl font-bold mb-10 text-center">Entrenamiento y <span class="gradient-text">Autoaprendizaje de Élite</span></h2>
@@ -425,7 +423,7 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 4 -->
+                    <!-- Training Block 4 (Restored) -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -436,7 +434,7 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 5 -->
+                    <!-- Training Block 5 (Restored) -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -447,7 +445,7 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 6 -->
+                    <!-- Training Block 6 (Restored) -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -483,36 +481,71 @@
                                     Utilizando agentes de la colmena, NYX analiza la descripción de la vacante, el sitio web y la cultura profunda de la empresa objetivo. Automáticamente, reescribe y adapta tus habilidades para que coincidan con precisión quirúrgica con lo que el algoritmo de búsqueda de la empresa está programado para encontrar. No mentimos; traducimos tu experiencia y logros al dialecto corporativo exacto que el reclutador necesita oír para validar su decisión de contratación.
                                 </p>
                                 <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Análisis semántico de cultura corporativa profunda.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Reescritura de Keywords y verbos de acción en tiempo real.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Alineación psicológica de "Soft Skills" implícitas.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Formato estructural compatible con ATS (ISO-standard).</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Generación de múltiples versiones dinámicas por perfil.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Inyección de "Invisible Text" para indexación oculta.</span>
-                                    </div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Análisis semántico de cultura corporativa profunda.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Reescritura de Keywords y verbos de acción.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Alineación psicológica de "Soft Skills".</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Formato estructural compatible con ATS (ISO).</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Generación de múltiples versiones dinámicas.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Inyección de "Invisible Text" para indexación.</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 2: EmailHarvest -->
+                    <!-- NEW TOOL 1: CHRONO PULSE -->
+                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 blur-[50px] rounded-full"></div>
+                        <div class="flex flex-col lg:flex-row gap-10 relative z-10">
+                            <div class="lg:w-1/3">
+                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)] bg-violet-900/20">
+                                    <i class="ph-fill ph-clock-countdown text-5xl"></i>
+                                </div>
+                                <h3 class="text-4xl font-bold text-white mb-2">Chrono Pulse</h3>
+                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Envío Diario Automatizado</p>
+                            </div>
+                            <div class="lg:w-2/3">
+                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                                    A diferencia de los envíos masivos únicos, Chrono Pulse es un sistema de persistencia programada. NYX envía tu solicitud diariamente a todas las empresas seleccionadas, manteniendo una puntualidad exacta para aparecer siempre al tope de la bandeja de entrada. Soporta el envío conjunto de <strong>Video Presentación, Carta de Presentación y CV</strong> en un mismo paquete encriptado, incrementando drásticamente el % de entrevista.
+                                </p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Persistencia diaria automatizada.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Soporte Multi-MIME (Video/PDF/Docx).</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Análisis de tasa de rebote en tiempo real.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Priorización de "Hora Dorada" (9:00 AM).</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Rotación de asuntos para evitar fatiga.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Reporte semanal de impacto acumulado.</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW TOOL 2: JOBBY SCOUT -->
+                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
+                        <div class="flex flex-col lg:flex-row gap-10">
+                            <div class="lg:w-1/3">
+                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-cyan-300 mb-6 shadow-[0_0_40px_rgba(34,211,238,0.2)] bg-cyan-900/20">
+                                    <i class="ph-fill ph-binoculars text-5xl"></i>
+                                </div>
+                                <h3 class="text-4xl font-bold text-white mb-2">Jobby Scout</h3>
+                                <p class="text-cyan-400 font-mono text-sm tracking-wider uppercase mb-4">Motor de Búsqueda Fresh-Data</p>
+                            </div>
+                            <div class="lg:w-2/3">
+                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                                    Un motor de inteligencia de mercado diseñado para cazar oportunidades frescas. Tú defines el trabajo soñado, sector y puesto; NYX despliega "Scouts" digitales que extraen las vacantes <strong>MÁS NUEVAS</strong> (menos de 2 horas de publicación) a través de APIs privadas, cargando los datos limpios directamente a tu base de objetivos. Elimina la competencia llegando antes que nadie.
+                                </p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Filtrado de vacantes < 2 horas de antigüedad.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Eliminación de ofertas duplicadas o fantasma.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Extracción de rangos salariales ocultos.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Detección de oportunidades "Remote-First".</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Carga automática a Distribution Hub.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Alertas de vacantes "Stealth".</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 (Original): EmailHarvest -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -527,36 +560,18 @@
                                     Gracias a este plugin, el usuario solo necesita ingresar un dominio corporativo. NYX despliega bots de reconocimiento (scrapers éticos avanzados) para extraer correos directos y verificados de los departamentos de contratación y jefes de área, saltándose los formularios genéricos ("careers@" o "info@") donde mueren la mayoría de las solicitudes y llegando directamente a la bandeja de entrada personal del tomador de decisiones real.
                                 </p>
                                 <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Escaneo profundo recursivo de dominios corporativos.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Validación SMTP "Handshake" de existencia de correos.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Identificación de jerarquías organizacionales (Jefes vs RRHH).</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Evasión sistemática de portales de empleo genéricos.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Actualización diaria de bases de datos de contacto.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Predicción de patrón de correos (nombre.apellido@).</span>
-                                    </div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Escaneo profundo recursivo de dominios.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Validación SMTP "Handshake".</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Identificación de jerarquías organizacionales.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Evasión sistemática de portales genéricos.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Actualización diaria de bases de datos.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Predicción de patrón de correos.</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 3: Distribution Hub -->
+                    <!-- Card 3 (Original): Distribution Hub -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -571,36 +586,18 @@
                                     Mediante la integración estratégica con infraestructuras de alto nivel como Resend y Mailrelay, NYX es capaz de gestionar más de 50,000 envíos mensuales. Esta tecnología asegura una tasa de entrega superior al 98%, utilizando protocolos anti-spam avanzados, rotación de IPs dedicadas y "envíos inteligentes" con pausas aleatorias que imitan a la perfección el comportamiento humano para evitar bloqueos por volumen excesivo.
                                 </p>
                                 <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Infraestructura Enterprise dedicada (Resend/Mailrelay).</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Tasa de entrega en Bandeja Principal >98% garantizada.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Simulación algorítmica de comportamiento humano (Anti-Bot).</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Rotación inteligente y calentamiento de IPs de salida.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Capacidad de carga escalable: +50k envíos/mes.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Optimización horaria por zona geográfica de destino.</span>
-                                    </div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Infraestructura Enterprise dedicada.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Tasa de entrega en Bandeja Principal >98%.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Simulación algorítmica humana.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Rotación inteligente de IPs.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Capacidad de carga escalable +50k.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Optimización horaria por zona.</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 4: Ghost Tracking -->
+                    <!-- Card 4 (Original): Ghost Tracking -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -615,36 +612,18 @@
                                     NYX está conectada a una red de agentes de lectura invisibles (píxeles de seguimiento indetectables). Sabrás en tiempo real qué empresa abrió tu correo, cuántas veces lo vio y desde qué ubicación geográfica exacta. Se acabó la incertidumbre del "silencio del reclutador". Tendrás métricas precisas y accionables para saber exactamente cuándo hacer seguimiento telefónico o re-enviar información.
                                 </p>
                                 <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Geolocalización precisa de apertura por IP inversa.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Conteo de re-aperturas y tiempo de permanencia.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Detección de dispositivo (Móvil vs Escritorio).</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Notificaciones push instantáneas al evento de lectura.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Dashboard de analíticas de conversión y embudo.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Detección de reenvío de correo interno en la empresa.</span>
-                                    </div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Geolocalización precisa de apertura.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Conteo de re-aperturas y tiempo.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Detección de dispositivo (Móvil vs Escritorio).</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Notificaciones push instantáneas.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Dashboard de analíticas de conversión.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Detección de reenvío interno.</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card 5: Eye Training -->
+                    <!-- Card 5 (Original): Eye Training -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -659,46 +638,26 @@
                                     Basado en estudios de 'eye-tracking' masivos, NYX predice con un 96% de precisión dónde mirarán los ojos del reclutador durante los primeros 6 segundos críticos de escaneo. El sistema reestructura visualmente el documento para colocar tus logros más impactantes exactamente en los "puntos calientes" (F-pattern y Z-pattern), asegurando que tu valor sea percibido antes de que el cerebro consciente del lector decida descartar.
                                 </p>
                                 <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Mapeo de calor (Heatmap) predictivo del documento.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Optimización para patrones de lectura 'F' y 'Z'.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Jerarquización visual de métricas de impacto.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Control de espacios en blanco para descanso visual.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Anclaje de atención mediante tipografía estratégica.</span>
-                                    </div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400">
-                                        <i class="ph-bold ph-check text-violet-500 text-xl"></i>
-                                        <span>Test A/B de distribución visual previo al envío.</span>
-                                    </div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Mapeo de calor (Heatmap) predictivo.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Optimización patrones 'F' y 'Z'.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Jerarquización visual de métricas.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Control de espacios en blanco.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Anclaje de atención tipográfico.</span></div>
+                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Test A/B de distribución visual.</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- NEW: FUTURE MODULES / R&D PANEL -->
+                    <!-- R&D Panel -->
                     <div class="rnd-card p-10 md:p-14 rounded-3xl mt-12 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
-                        
                         <div class="relative z-10 text-center mb-10">
                             <h3 class="text-3xl md:text-4xl font-bold rnd-title mb-4">Laboratorio de Futuro: Roadmap Confidencial</h3>
                             <p class="text-cyan-200/70 max-w-2xl mx-auto">
                                 Nuestro equipo de desarrollo trabaja sin descanso para evolucionar NYX. Estos son los módulos en fase de prueba Alfa que cambiarán el sistema laboral para siempre.
                             </p>
                         </div>
-
                         <div class="grid md:grid-cols-3 gap-8">
                             <!-- Module A -->
                             <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
@@ -736,7 +695,7 @@
             </div>
         </section>
 
-        <!-- Token Economics Section (Updated with WhatsApp Links) -->
+        <!-- Token Economics Section (UPDATED) -->
         <section class="py-24 px-4 relative z-10">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16">
@@ -758,7 +717,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-
                     <!-- Pack 2 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
@@ -769,7 +727,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Advanced%20de%2010%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-
                     <!-- Pack 3 -->
                     <div class="token-card best-value p-6 rounded-xl text-center flex flex-col justify-between group relative transform md:-translate-y-4 bg-violet-900/10">
                         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-violet-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Más Elegido</div>
@@ -781,7 +738,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20Tier%20de%2020%20Tokens" target="_blank" class="block w-full mt-6 py-2 bg-violet-600 hover:bg-violet-500 rounded transition-all text-sm font-bold text-white shadow-[0_0_15px_rgba(124,58,237,0.4)]">ADQUIRIR</a>
                     </div>
-
                     <!-- Pack 4 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
@@ -792,7 +748,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Elite%20de%2050%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-
                     <!-- Pack 5 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group border-white/20">
                         <div>
@@ -806,7 +761,7 @@
                     </div>
                 </div>
 
-                <!-- Consumption Table -->
+                <!-- Updated Consumption Table -->
                 <div class="glass-card p-8 rounded-2xl max-w-3xl mx-auto">
                     <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
                         <i class="ph-fill ph-fire text-orange-500"></i> Protocolo de Quema (Burn Rate)
@@ -822,26 +777,30 @@
                         </div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3">
                             <span class="text-gray-300">Módulo "Distribution Hub"</span>
-                            <span class="font-mono text-violet-400 font-bold">2.0 Tokens <span class="text-gray-600 text-xs font-normal">/ cada 10 envíos</span></span>
+                            <span class="font-mono text-violet-400 font-bold">5.0 Tokens <span class="text-gray-600 text-xs font-normal">/ sucursales cercanas</span></span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-bold text-cyan-300">Módulo "Jobby Scout" (NUEVO)</span>
+                            <span class="font-mono text-cyan-400 font-bold">2.0 Tokens <span class="text-gray-600 text-xs font-normal">/ +50 vacantes frescas</span></span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-bold text-violet-300">Módulo "Chrono Pulse" (NUEVO)</span>
+                            <span class="font-mono text-violet-400 font-bold">15.0 Tokens <span class="text-gray-600 text-xs font-normal">(10 Tokens 1ra vez)</span></span>
                         </div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3">
                             <span class="text-gray-300">Módulo "Ghost Tracking"</span>
                             <span class="font-mono text-green-400 font-bold">GRATIS <span class="text-gray-600 text-xs font-normal">(Incluido en Hub)</span></span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Módulo "Eye Training"</span>
-                            <span class="font-mono text-green-400 font-bold">GRATIS <span class="text-gray-600 text-xs font-normal">(Incluido en Hub)</span></span>
-                        </div>
                         <div class="flex justify-between items-center pt-2">
-                            <span class="text-white font-bold">Módulo "Run All" (Full Stack)</span>
-                            <span class="font-mono text-yellow-400 font-bold">5 - 10 Tokens <span class="text-gray-600 text-xs font-normal">(Pack Económico)</span></span>
+                            <span class="text-white font-bold">Módulo "RUN ALL" (Activación Total)</span>
+                            <span class="font-mono text-yellow-400 font-bold">20.0 Tokens <span class="text-gray-600 text-xs font-normal">(Pack Económico)</span></span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Future Section (Expanded) -->
+        <!-- Future Section (Full Text Restored) -->
         <section class="py-24 px-4 relative overflow-hidden bg-gradient-to-t from-violet-900/10 to-transparent">
             <div class="max-w-5xl mx-auto relative z-10">
                 <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center text-white">El Futuro: <span class="text-violet-400">Ejecución mediante Bots Especializados</span></h2>
@@ -869,12 +828,11 @@
             </div>
         </section>
 
-        <!-- Footer (Legal & Telegram) -->
+        <!-- Footer (Full Content Restored) -->
         <footer class="border-t border-white/5 bg-[#020203] pt-20 pb-12 px-4 relative overflow-hidden">
             <div class="max-w-7xl mx-auto text-center relative z-10">
                 
                 <div class="mb-12 flex justify-center">
-                    <!-- Footer Logo -->
                     <img src="logonyx.png" alt="NYX Logo" class="h-16 w-auto object-contain opacity-50 hover:opacity-100 transition-opacity duration-500">
                 </div>
 
@@ -945,16 +903,13 @@
             container.appendChild(renderer.domElement);
 
             // --- PARTICLE SYSTEM ---
-            const particleCount = 2800; // A bit more dense for complex shapes
-            
-            // Initial Positions (Random)
+            const particleCount = 2800; 
             const posArray = new Float32Array(particleCount * 3);
             for(let i=0; i<particleCount*3; i++) {
                 posArray[i] = (Math.random() - 0.5) * 100;
             }
 
             // --- TARGET DEFINITIONS ---
-            // We need 6 targets: Earth, Astronaut, Server, Matter, Rocket, Cloud
             const targets = {
                 earth: new Float32Array(particleCount * 3),
                 astronaut: new Float32Array(particleCount * 3),
@@ -964,126 +919,70 @@
                 cloud: new Float32Array(particleCount * 3)
             };
 
-            // 1. EARTH (Sphere)
+            // 1. EARTH
             for(let i=0; i<particleCount; i++) {
                 const r = 8;
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos(2 * Math.random() - 1);
-                
                 targets.earth[i*3] = r * Math.sin(phi) * Math.cos(theta);
                 targets.earth[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
                 targets.earth[i*3+2] = r * Math.cos(phi);
             }
 
-            // 2. ASTRONAUT (Procedural Humanoid Shape)
+            // 2. ASTRONAUT
             for(let i=0; i<particleCount; i++) {
                 let x, y, z;
                 const part = Math.random();
-                
                 if (part < 0.2) { 
-                    // Head (Sphere at top)
-                    const r = 2.5;
-                    const theta = Math.random() * Math.PI * 2;
-                    const phi = Math.acos(2 * Math.random() - 1);
-                    x = r * Math.sin(phi) * Math.cos(theta);
-                    y = r * Math.sin(phi) * Math.sin(theta) + 7; // Lift up
-                    z = r * Math.cos(phi);
+                    const r = 2.5; const theta = Math.random() * Math.PI * 2; const phi = Math.acos(2 * Math.random() - 1);
+                    x = r * Math.sin(phi) * Math.cos(theta); y = r * Math.sin(phi) * Math.sin(theta) + 7; z = r * Math.cos(phi);
                 } else if (part < 0.5) {
-                    // Body (Box/Cylinder)
-                    const w = 4;
-                    const h = 7;
-                    x = (Math.random() - 0.5) * w;
-                    y = (Math.random() - 0.5) * h + 1;
-                    z = (Math.random() - 0.5) * 3;
+                    const w = 4; const h = 7; x = (Math.random() - 0.5) * w; y = (Math.random() - 0.5) * h + 1; z = (Math.random() - 0.5) * 3;
                 } else if (part < 0.7) {
-                    // Legs
-                    const side = Math.random() > 0.5 ? 1 : -1;
-                    x = side * 1.5 + (Math.random()-0.5)*1.5;
-                    y = (Math.random() * -8) - 2;
-                    z = (Math.random()-0.5) * 2;
+                    const side = Math.random() > 0.5 ? 1 : -1; x = side * 1.5 + (Math.random()-0.5)*1.5; y = (Math.random() * -8) - 2; z = (Math.random()-0.5) * 2;
                 } else {
-                    // Arms (One waving)
-                    const side = Math.random() > 0.5 ? 1 : -1;
-                    if (side === 1) { // Waving arm (Up)
-                         x = 3 + Math.random()*2;
-                         y = 3 + Math.random()*4;
-                         z = (Math.random()-0.5)*2;
-                    } else { // Resting arm (Down)
-                         x = -3 - Math.random()*1.5;
-                         y = 1 - Math.random()*5;
-                         z = (Math.random()-0.5)*2;
-                    }
+                    const side = Math.random() > 0.5 ? 1 : -1; if (side === 1) { x = 3 + Math.random()*2; y = 3 + Math.random()*4; z = (Math.random()-0.5)*2; } else { x = -3 - Math.random()*1.5; y = 1 - Math.random()*5; z = (Math.random()-0.5)*2; }
                 }
-                targets.astronaut[i*3] = x;
-                targets.astronaut[i*3+1] = y;
-                targets.astronaut[i*3+2] = z;
+                targets.astronaut[i*3] = x; targets.astronaut[i*3+1] = y; targets.astronaut[i*3+2] = z;
             }
 
-            // 3. SERVER (Cube / Matrix)
+            // 3. SERVER
             for(let i=0; i<particleCount; i++) {
-                // A Cube of 10x15x10
                 targets.server[i*3] = (Math.random() - 0.5) * 12;
                 targets.server[i*3+1] = (Math.random() - 0.5) * 16;
                 targets.server[i*3+2] = (Math.random() - 0.5) * 12;
-                // Add some structure (layers)
                 if(i % 10 === 0) targets.server[i*3+1] = Math.round(targets.server[i*3+1]);
             }
 
-            // 4. LIVING MATTER (Sphere base, modified in animate loop for noise)
+            // 4. LIVING MATTER
             for(let i=0; i<particleCount; i++) {
-                 // Base sphere, we will add noise later
-                const r = 7;
-                const theta = Math.random() * 2 * Math.PI;
-                const phi = Math.acos(2 * Math.random() - 1);
-                
-                targets.matter[i*3] = r * Math.sin(phi) * Math.cos(theta);
-                targets.matter[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-                targets.matter[i*3+2] = r * Math.cos(phi);
+                const r = 7; const theta = Math.random() * 2 * Math.PI; const phi = Math.acos(2 * Math.random() - 1);
+                targets.matter[i*3] = r * Math.sin(phi) * Math.cos(theta); targets.matter[i*3+1] = r * Math.sin(phi) * Math.sin(theta); targets.matter[i*3+2] = r * Math.cos(phi);
             }
 
             // 5. ROCKET
             for(let i=0; i<particleCount; i++) {
-                const h = Math.random() * 22 - 11; // Height -11 to 11
-                const angle = Math.random() * Math.PI * 2;
-                let r = 2.5; 
-                // Cone top
-                if(h > 6) r = (11 - h) * 0.5;
-                // Fins bottom
-                if(h < -6) {
-                    const finAngle = Math.floor(angle / (Math.PI*2/3)) * (Math.PI*2/3);
-                    if(Math.abs(angle - finAngle) < 0.6) r = 6 + h*0.4;
-                }
-                targets.rocket[i*3] = Math.cos(angle) * r;
-                targets.rocket[i*3+1] = h;
-                targets.rocket[i*3+2] = Math.sin(angle) * r;
+                const h = Math.random() * 22 - 11; const angle = Math.random() * Math.PI * 2; let r = 2.5; 
+                if(h > 6) r = (11 - h) * 0.5; if(h < -6) { const finAngle = Math.floor(angle / (Math.PI*2/3)) * (Math.PI*2/3); if(Math.abs(angle - finAngle) < 0.6) r = 6 + h*0.4; }
+                targets.rocket[i*3] = Math.cos(angle) * r; targets.rocket[i*3+1] = h; targets.rocket[i*3+2] = Math.sin(angle) * r;
             }
 
-            // 6. CLOUD (Background)
+            // 6. CLOUD
             for(let i=0; i<particleCount; i++) {
-                const r = 45 * Math.cbrt(Math.random());
-                const theta = Math.random() * 2 * Math.PI;
-                const phi = Math.acos(2 * Math.random() - 1);
-                targets.cloud[i*3] = r * Math.sin(phi) * Math.cos(theta);
-                targets.cloud[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-                targets.cloud[i*3+2] = r * Math.cos(phi);
+                const r = 45 * Math.cbrt(Math.random()); const theta = Math.random() * 2 * Math.PI; const phi = Math.acos(2 * Math.random() - 1);
+                targets.cloud[i*3] = r * Math.sin(phi) * Math.cos(theta); targets.cloud[i*3+1] = r * Math.sin(phi) * Math.sin(theta); targets.cloud[i*3+2] = r * Math.cos(phi);
             }
 
-            // Geometry & Material
             const geometry = new THREE.BufferGeometry();
             geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
             
             const material = new THREE.PointsMaterial({
-                size: 0.15,
-                color: 0x8b5cf6,
-                transparent: true,
-                opacity: 0.9,
-                blending: THREE.AdditiveBlending
+                size: 0.15, color: 0x8b5cf6, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending
             });
 
             const particlesMesh = new THREE.Points(geometry, material);
             scene.add(particlesMesh);
 
-            // Core Elements (Hidden until final stage)
             const coreGroup = new THREE.Group();
             const coreGeometry = new THREE.IcosahedronGeometry(3.5, 1);
             const coreMaterial = new THREE.MeshBasicMaterial({ color: 0x2e1065, wireframe: true, transparent: true, opacity: 0 }); 
@@ -1091,7 +990,6 @@
             coreGroup.add(core);
             scene.add(coreGroup);
 
-            // Light
             const mouseLight = new THREE.PointLight(0xa78bfa, 2, 30);
             scene.add(mouseLight);
 
@@ -1101,28 +999,20 @@
             function updateScroll() {
                 const scrollY = window.scrollY;
                 const totalHeight = spacer.offsetHeight - window.innerHeight;
-                scrollProgress = Math.max(0, Math.min(scrollY / totalHeight, 1)); // 0 to 1
+                scrollProgress = Math.max(0, Math.min(scrollY / totalHeight, 1)); 
 
-                // Map 0-1 to Phases (0-0.2, 0.2-0.4, 0.4-0.6, 0.6-0.8, 0.8-1.0)
-                const phaseStep = 0.18; // Slightly less than 0.2 to allow transition gap
-                
                 // Hide all slides first
                 slides.forEach(s => s.classList.remove('active'));
 
-                if(scrollProgress < 0.15) {
-                    textSlide1.classList.add('active');
-                } else if(scrollProgress < 0.35) {
-                    textSlide2.classList.add('active');
-                } else if(scrollProgress < 0.55) {
-                    textSlide3.classList.add('active');
-                } else if(scrollProgress < 0.75) {
-                    textSlide4.classList.add('active');
-                } else if(scrollProgress < 0.92) {
-                    textSlide5.classList.add('active');
-                }
+                // Adjusted Phases for 450vh spacer
+                if(scrollProgress < 0.15) { textSlide1.classList.add('active'); } 
+                else if(scrollProgress < 0.35) { textSlide2.classList.add('active'); } 
+                else if(scrollProgress < 0.55) { textSlide3.classList.add('active'); } 
+                else if(scrollProgress < 0.75) { textSlide4.classList.add('active'); } 
+                else if(scrollProgress < 0.90) { textSlide5.classList.add('active'); }
 
-                // Handle Main Content Reveal
-                if(scrollProgress > 0.95) {
+                // Reveal Main Content immediately after rocket (approx 0.92)
+                if(scrollProgress > 0.92) {
                     mainContent.style.opacity = 1;
                     mainContent.classList.add('visible');
                     core.material.opacity = 0.15;
@@ -1144,45 +1034,17 @@
                 requestAnimationFrame(animate);
                 const time = clock.getElapsedTime();
 
-                // Logic to select target based on scrollProgress
                 let currentTarget;
                 let rotationSpeedY = 0;
                 let rotationSpeedZ = 0;
 
-                if (scrollProgress < 0.20) {
-                    // Phase 1: Earth
-                    currentTarget = targets.earth;
-                    rotationSpeedY = 0.2;
-                } else if (scrollProgress < 0.40) {
-                    // Phase 2: Astronaut
-                    currentTarget = targets.astronaut;
-                    rotationSpeedY = 0.1;
-                    // Gentle float
-                    particlesMesh.position.y = Math.sin(time) * 0.5;
-                } else if (scrollProgress < 0.60) {
-                    // Phase 3: Server
-                    currentTarget = targets.server;
-                    rotationSpeedY = 0.05;
-                    particlesMesh.position.y = 0;
-                } else if (scrollProgress < 0.80) {
-                    // Phase 4: Living Matter
-                    currentTarget = targets.matter;
-                    rotationSpeedY = 0.3;
-                    // Add noise in the loop below
-                } else if (scrollProgress < 0.95) {
-                    // Phase 5: Rocket
-                    currentTarget = targets.rocket;
-                    rotationSpeedY = 2.0;
-                    rotationSpeedZ = 0.5;
-                } else {
-                    // Final: Cloud
-                    currentTarget = targets.cloud;
-                    rotationSpeedY = 0.05;
-                    rotationSpeedZ = 0;
-                    particlesMesh.rotation.z = 0; // Reset tilt
-                }
+                if (scrollProgress < 0.20) { currentTarget = targets.earth; rotationSpeedY = 0.2; } 
+                else if (scrollProgress < 0.40) { currentTarget = targets.astronaut; rotationSpeedY = 0.1; particlesMesh.position.y = Math.sin(time) * 0.5; } 
+                else if (scrollProgress < 0.60) { currentTarget = targets.server; rotationSpeedY = 0.05; particlesMesh.position.y = 0; } 
+                else if (scrollProgress < 0.80) { currentTarget = targets.matter; rotationSpeedY = 0.3; } 
+                else if (scrollProgress < 0.92) { currentTarget = targets.rocket; rotationSpeedY = 2.0; rotationSpeedZ = 0.5; } 
+                else { currentTarget = targets.cloud; rotationSpeedY = 0.05; rotationSpeedZ = 0; particlesMesh.rotation.z = 0; }
 
-                // Morphing
                 const positions = particlesMesh.geometry.attributes.position.array;
                 const lerpSpeed = 0.08; 
 
@@ -1191,16 +1053,10 @@
                     let ty = currentTarget[i+1];
                     let tz = currentTarget[i+2];
 
-                    // Special Dynamic Effect for Phase 4 (Living Matter)
                     if(scrollProgress >= 0.60 && scrollProgress < 0.80) {
-                        const noise = Math.sin(time * 2 + i) * 1.5;
-                        tx += noise;
-                        ty += noise;
-                        tz += noise;
+                        const noise = Math.sin(time * 2 + i) * 1.5; tx += noise; ty += noise; tz += noise;
                     }
-                    
-                    // Special Jitter for Rocket
-                    if(scrollProgress >= 0.80 && scrollProgress < 0.95) {
+                    if(scrollProgress >= 0.80 && scrollProgress < 0.92) {
                         ty += (Math.random()-0.5) * 0.5;
                     }
 
@@ -1210,14 +1066,11 @@
                 }
 
                 particlesMesh.geometry.attributes.position.needsUpdate = true;
-
-                // Rotations
                 particlesMesh.rotation.y += rotationSpeedY * 0.01;
                 if(rotationSpeedZ > 0) particlesMesh.rotation.z = rotationSpeedZ;
-                else particlesMesh.rotation.z *= 0.95; // Return to 0
+                else particlesMesh.rotation.z *= 0.95;
 
-                // Core Animation (Background mode)
-                if(scrollProgress > 0.95) {
+                if(scrollProgress > 0.92) {
                     coreGroup.rotation.y += 0.002;
                     coreGroup.rotation.x = Math.sin(time * 0.2) * 0.1;
                 }
@@ -1225,21 +1078,18 @@
                 renderer.render(scene, camera);
             }
 
-            // Mouse Interaction
             document.addEventListener('mousemove', (event) => {
                 mouseLight.position.x = (event.clientX / window.innerWidth - 0.5) * 40;
                 mouseLight.position.y = -(event.clientY / window.innerHeight - 0.5) * 40;
                 mouseLight.position.z = 15;
             });
 
-            // Handle Resize
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
 
-            // Start
             updateScroll();
             animate();
         });

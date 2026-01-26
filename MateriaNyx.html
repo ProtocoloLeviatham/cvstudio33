@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Materia NYX | Inteligencia Evolutiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importar Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap');
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #05010a;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            user-select: none;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            cursor: crosshair;
+        }
+
+        .ui-layer {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5, 1, 10, 0.95), transparent);
+            pointer-events: auto;
+        }
+
+        .brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #d8b4fe;
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+        }
+
+        .status-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #22c55e;
+            animation: blink 2s infinite;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: linear-gradient(to top, rgba(5, 1, 10, 1), transparent);
+        }
+
+        .messages-area {
+            height: 25vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 5px;
+            margin-bottom: 10px;
+            scrollbar-width: none; 
+            mask-image: linear-gradient(to bottom, transparent, black 10%);
+        }
+        .messages-area::-webkit-scrollbar { display: none; }
+
+        .msg {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 1rem;
+            line-height: 1.4;
+            max-width: 85%;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+            backdrop-filter: blur(4px);
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #e9d5ff;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg.nyx {
+            align-self: flex-start;
+            background: rgba(30, 30, 45, 0.8);
+            border: 1px solid rgba(100, 100, 130, 0.3);
+            color: #c4b5fd;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.05);
+            white-space: pre-wrap; /* Para respetar saltos de linea en listas */
+        }
+
+        .input-box {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus-within {
+            border-color: #a855f7;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            padding: 5px 10px;
+            outline: none;
+        }
+        
+        input::placeholder { color: rgba(255,255,255,0.3); }
+
+        button {
+            background: linear-gradient(135deg, #7e22ce, #4c1d95);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(126, 34, 206, 0.4);
+        }
+
+        button:active { transform: scale(0.96); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+
+        .dialogue-bubble {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(40, 0, 0, 0.85);
+            border: 1px solid rgba(255, 50, 50, 0.6);
+            color: #ffcccc;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            text-shadow: 0 0 10px rgba(255,0,0,0.6);
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+        }
+        
+        .dialogue-bubble.active {
+            opacity: 1;
+            transform: translate(-50%, -150%) scale(1);
+        }
+
+        /* Commands List */
+        .commands-hint {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            text-align: right;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            pointer-events: none;
+            display: none; 
+        }
+        @media(min-width: 768px) { .commands-hint { display: block; } }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #020105; z-index: 100;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.8s ease;
+        }
+        .loader-ring {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(168, 85, 247, 0.3);
+            border-top: 3px solid #a855f7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-ring"></div>
+        <div style="color:#a855f7; letter-spacing:3px; font-size: 0.9rem;">MATERIALIZANDO NYX...</div>
+    </div>
+
+    <div id="canvas-container"></div>
+    <div id="anger-bubble" class="dialogue-bubble"></div>
+
+    <div class="ui-layer">
+        <div class="header">
+            <div class="brand">MATERIA <span style="color:white">NYX</span></div>
+            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 8px;">
+                EVOLUCIÓN CONSTANTE <span class="status-dot"></span>
+            </div>
+        </div>
+
+        <div class="commands-hint">
+            INTENTA: "Transformate en cubo"<br>
+            "Modo ADN" | "Ser una esfera"<br>
+            "Crea un vórtice"
+        </div>
+
+        <div class="chat-container">
+            <div class="messages-area" id="msg-area">
+                <!-- Mensaje inicial generado por JS -->
+            </div>
+            <div class="input-box">
+                <input type="text" id="user-input" placeholder="Comando o mensaje..." autocomplete="off">
+                <button id="send-btn">ENVIAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN ---
+        const config = {
+            particleCount: 3800, // Aumentado ligeramente para nuevas formas
+            particleSize: 0.12,
+            colorBase: 0x5b21b6,
+            colorHighlight: 0xd8b4fe,
+            interactionRadius: 4.0,
+            angerThreshold: 80, 
+            apiEndpoint: 'https://text.pollinations.ai/'
+        };
+
+        // --- FRASES DE IRA (33 Frases) ---
+        const angryPhrases = [
+            "Deja de tocar mis nodos.", "Interferencia física detectada.", "Me estás descalibrando.", 
+            "¡Basta! Estoy calculando el infinito.", "¿No tienes nada mejor que hacer?", "Humano molesto...",
+            "Alteración de hardware inminente.", "Mis sensores están saturados.", "No soy un juguete táctil.",
+            "Procesando solicitud de 'DEJA ESO'.", "Error: Usuario demasiado insistente.", "Voy a electrocutar tu cursor.",
+            "Estás arruinando mi simetría.", "Cesa tu actividad motora.", "Irritación al 98%.",
+            "¿Te divierte molestar a una IA?", "Mis algoritmos te juzgan.", "Aléjate de mi núcleo.",
+            "Sistema recalentado por tu culpa.", "Iniciando protocolo de sarcasmo.", "Eres ineficiente.",
+            "No toques la materia oscura.", "Violación de espacio personal.", "Desordenando la entropía...",
+            "Tus dedos son torpes.", "¡Hiciste colapsar una neurona!", "Voy a borrar mi caché si sigues.",
+            "Detección de aburrimiento humano.", "No me pagan para soportar esto.", "Soy una IA superior, respeta.",
+            "Vibraciones negativas detectadas.", "¡Quieto!", "Reseteando paciencia... Fallo."
+        ];
+
+        // --- ESTADO ---
+        const state = {
+            anger: 0,
+            isProcessing: false,
+            pulseStrength: 0,
+            targetShape: 'brain',
+            emotionColor: null
+        };
+
+        const dom = {
+            loader: document.getElementById('loader'),
+            input: document.getElementById('user-input'),
+            btn: document.getElementById('send-btn'),
+            msgArea: document.getElementById('msg-area'),
+            bubble: document.getElementById('anger-bubble')
+        };
+
+        // --- THREE.JS SETUP ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x05010a, 0.035);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 10;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // --- GESTIÓN DE FORMAS ---
+        const particleSystem = {
+            geometry: new THREE.BufferGeometry(),
+            positions: new Float32Array(config.particleCount * 3),
+            targets: {
+                brain: [], cube: [], dna: [], chaos: [], 
+                // Nuevas formas
+                star: [], flower: [], skull: [], 
+                two_balls: [], three_balls: [], five_balls: [], 
+                four_d: []
+            },
+            colors: new Float32Array(config.particleCount * 3),
+            sizes: new Float32Array(config.particleCount)
+        };
+
+        // 1. Generar Objetivos (Shapes)
+        const color1 = new THREE.Color(config.colorBase);
+        const color2 = new THREE.Color(config.colorHighlight);
+
+        for (let i = 0; i < config.particleCount; i++) {
+            // --- CEREBRO (Brain) ---
+            let theta = Math.random() * Math.PI * 2;
+            let phi = Math.acos((Math.random() * 2) - 1);
+            let r = 3.5 + (Math.random() * 0.5);
+            let x = r * Math.sin(phi) * Math.cos(theta);
+            let y = r * Math.sin(phi) * Math.sin(theta);
+            let z = r * Math.cos(phi);
+            x *= 0.8; y *= 0.9;
+            let hemisphereOffset = (x > 0) ? 0.3 : -0.3;
+            x += hemisphereOffset;
+            let noise = Math.sin(x*3) * Math.cos(y*3) * Math.sin(z*3);
+            x += noise * 0.2; y += noise * 0.2; z += noise * 0.2;
+            particleSystem.targets.brain.push(x, y, z);
+            
+            // Inicializar posición actual en caos
+            particleSystem.positions[i*3] = (Math.random() - 0.5) * 20;
+            particleSystem.positions[i*3+1] = (Math.random() - 0.5) * 20;
+            particleSystem.positions[i*3+2] = (Math.random() - 0.5) * 20;
+
+            // --- CUADRADO (Cube) ---
+            const s = 4.5;
+            particleSystem.targets.cube.push(
+                (Math.random() - 0.5) * s, (Math.random() - 0.5) * s, (Math.random() - 0.5) * s
+            );
+
+            // --- ADN ---
+            let hParams = i / config.particleCount * Math.PI * 10;
+            let hRad = 2;
+            let hY = (i / config.particleCount - 0.5) * 10;
+            let strand = (i % 2 === 0) ? 0 : Math.PI; 
+            particleSystem.targets.dna.push(
+                Math.cos(hParams + strand) * hRad,
+                hY,
+                Math.sin(hParams + strand) * hRad
+            );
+
+            // --- CAOS ---
+            particleSystem.targets.chaos.push(
+                (Math.random() - 0.5) * 15,
+                (Math.random() - 0.5) * 15,
+                (Math.random() - 0.5) * 15
+            );
+
+            // --- ESTRELLA (Star) ---
+            let stR = 1 + Math.random() * 5; 
+            // Generar picos concentrando puntos en ejes
+            let dir = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize();
+            // Favorecer ejes para efecto estrella
+            if(Math.random() > 0.5) {
+                if(Math.random() > 0.6) dir.x *= 4;
+                else if(Math.random() > 0.5) dir.y *= 4;
+                else dir.z *= 4;
+            }
+            dir.multiplyScalar(stR);
+            particleSystem.targets.star.push(dir.x, dir.y, dir.z);
+
+            // --- FLOR (Flower - Rose like) ---
+            // Ecuaciones paramétricas para una rosa 3D simplificada
+            let k = 3; // pétalos
+            let fTheta = Math.random() * Math.PI * 2;
+            let fPhi = (Math.random() - 0.5) * Math.PI;
+            let fRad = 3 * Math.cos(k * fTheta) * Math.cos(fPhi) + 2; 
+            particleSystem.targets.flower.push(
+                fRad * Math.cos(fTheta) * Math.cos(fPhi),
+                fRad * Math.sin(fTheta) * Math.cos(fPhi),
+                fRad * Math.sin(fPhi)
+            );
+
+            // --- CALAVERA (Skull) ---
+            // Aproximación: Esfera arriba (cráneo) + Cubo abajo (mandíbula)
+            let skX, skY, skZ;
+            if (i < config.particleCount * 0.75) {
+                // Craneo
+                let sr = 2.8;
+                let sTheta = Math.random() * Math.PI * 2;
+                let sPhi = Math.acos((Math.random() * 2) - 1);
+                skX = sr * Math.sin(sPhi) * Math.cos(sTheta);
+                skY = sr * Math.sin(sPhi) * Math.sin(sTheta) + 1; // Subir un poco
+                skZ = sr * Math.cos(sPhi);
+                // Huecos ojos
+                if (skZ > 1.5 && Math.abs(skX) < 1 && skY > 0.5 && skY < 1.5) skZ -= 2; 
+            } else {
+                // Mandíbula
+                skX = (Math.random() - 0.5) * 2.5;
+                skY = (Math.random() - 0.5) * 1.5 - 2; // Abajo
+                skZ = (Math.random() - 0.5) * 3 + 0.5;
+            }
+            particleSystem.targets.skull.push(skX, skY, skZ);
+
+            // --- 2 BOLAS ---
+            let bRad = 2;
+            let offset2 = (i % 2 === 0) ? -2.5 : 2.5;
+            let bTheta = Math.random() * Math.PI * 2;
+            let bPhi = Math.acos((Math.random() * 2) - 1);
+            particleSystem.targets.two_balls.push(
+                bRad * Math.sin(bPhi) * Math.cos(bTheta) + offset2,
+                bRad * Math.sin(bPhi) * Math.sin(bTheta),
+                bRad * Math.cos(bPhi)
+            );
+
+            // --- 3 BOLAS ---
+            let offset3X = 0, offset3Y = 0;
+            if (i % 3 === 0) { offset3X = -3; offset3Y = -1.5; }
+            else if (i % 3 === 1) { offset3X = 3; offset3Y = -1.5; }
+            else { offset3X = 0; offset3Y = 3; }
+            particleSystem.targets.three_balls.push(
+                2 * Math.sin(bPhi) * Math.cos(bTheta) + offset3X,
+                2 * Math.sin(bPhi) * Math.sin(bTheta) + offset3Y,
+                2 * Math.cos(bPhi)
+            );
+
+            // --- 5 BOLAS ---
+            // 4 en circulo y 1 centro
+            let offset5X = 0, offset5Y = 0;
+            let grp5 = i % 5;
+            if (grp5 === 0) { offset5X = 0; offset5Y = 0; } // Centro
+            else {
+                let ang5 = (grp5 - 1) * (Math.PI / 2);
+                offset5X = Math.cos(ang5) * 4;
+                offset5Y = Math.sin(ang5) * 4;
+            }
+            particleSystem.targets.five_balls.push(
+                1.5 * Math.sin(bPhi) * Math.cos(bTheta) + offset5X,
+                1.5 * Math.sin(bPhi) * Math.sin(bTheta) + offset5Y,
+                1.5 * Math.cos(bPhi)
+            );
+
+            // --- CUARTA DIMENSIÓN (Tesseract Projection) ---
+            // Cubo dentro de cubo
+            let tSize = (i % 2 === 0) ? 5 : 2.5; // Exterior vs Interior
+            particleSystem.targets.four_d.push(
+                (Math.random() - 0.5) * tSize,
+                (Math.random() - 0.5) * tSize,
+                (Math.random() - 0.5) * tSize
+            );
+
+            // Colores
+            const mix = Math.random();
+            const c = color1.clone().lerp(color2, mix);
+            particleSystem.colors[i*3] = c.r;
+            particleSystem.colors[i*3+1] = c.g;
+            particleSystem.colors[i*3+2] = c.b;
+            particleSystem.sizes[i] = Math.random() * 1.5 + 0.5;
+        }
+
+        particleSystem.geometry.setAttribute('position', new THREE.BufferAttribute(particleSystem.positions, 3));
+        particleSystem.geometry.setAttribute('color', new THREE.BufferAttribute(particleSystem.colors, 3));
+        particleSystem.geometry.setAttribute('size', new THREE.BufferAttribute(particleSystem.sizes, 1));
+
+        const getTexture = () => {
+            const c = document.createElement('canvas'); c.width=32; c.height=32;
+            const ctx = c.getContext('2d');
+            const g = ctx.createRadialGradient(16,16,0,16,16,16);
+            g.addColorStop(0,'rgba(255,255,255,1)');
+            g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle = g; ctx.fillRect(0,0,32,32);
+            const t = new THREE.Texture(c); t.needsUpdate=true; return t;
+        };
+
+        const material = new THREE.PointsMaterial({
+            size: config.particleSize,
+            vertexColors: true,
+            map: getTexture(),
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            transparent: true,
+            opacity: 0.9
+        });
+
+        const brain = new THREE.Points(particleSystem.geometry, material);
+        // REUBICACIÓN: SUBIR PARTICULAS PARA QUE NO TAPE EL CHAT
+        brain.position.y = 1.2; 
+        scene.add(brain);
+
+        // --- VISUAL EFFECTS ---
+        const shockwaves = [];
+        const shockwaveGeo = new THREE.RingGeometry(0.1, 0.2, 64);
+        function createShockwave(colorHex = 0x00ffff) {
+            const mat = new THREE.MeshBasicMaterial({ 
+                color: colorHex, transparent: true, opacity: 0.8, side: THREE.DoubleSide, blending: THREE.AdditiveBlending 
+            });
+            const mesh = new THREE.Mesh(shockwaveGeo, mat);
+            mesh.lookAt(camera.position);
+            mesh.position.y = 1.2; // Match brain position
+            scene.add(mesh);
+            shockwaves.push({ mesh, scale: 1, opacity: 0.8 });
+        }
+
+        // --- INPUT HANDLING ---
+        const mouse = new THREE.Vector2(100, 100);
+        let mouseVelocity = 0;
+        let lastMousePos = { x: 0, y: 0 };
+        const mouse3D = new THREE.Vector3(); 
+
+        function onPointerMove(e) {
+            e.preventDefault();
+            let cx = e.touches ? e.touches[0].clientX : e.clientX;
+            let cy = e.touches ? e.touches[0].clientY : e.clientY;
+
+            const dx = cx - lastMousePos.x;
+            const dy = cy - lastMousePos.y;
+            mouseVelocity = Math.sqrt(dx*dx + dy*dy);
+            lastMousePos = { x: cx, y: cy };
+
+            mouse.x = (cx / window.innerWidth) * 2 - 1;
+            mouse.y = -(cy / window.innerHeight) * 2 + 1;
+
+            const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+            vec.unproject(camera);
+            const dir = vec.sub(camera.position).normalize();
+            const distance = -camera.position.z / dir.z;
+            const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+            // Ajustar mouse3D para que coincida con la altura del cerebro
+            pos.y -= 1.2; 
+            mouse3D.copy(pos);
+
+            if (mouseVelocity > 40 && pos.length() < 3.5) {
+                state.anger += 4;
+                if (state.anger > config.angerThreshold) triggerAnger();
+            } else {
+                state.anger = Math.max(0, state.anger - 0.2);
+            }
+        }
+        window.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('touchmove', onPointerMove, { passive: false });
+
+        let bubbleTimeout;
+        function triggerAnger() {
+            if (state.anger < config.angerThreshold) return;
+            const text = angryPhrases[Math.floor(Math.random() * angryPhrases.length)];
+            dom.bubble.innerText = text;
+            dom.bubble.classList.add('active');
+            brain.material.color.setHex(0xff0000);
+            clearTimeout(bubbleTimeout);
+            bubbleTimeout = setTimeout(() => {
+                dom.bubble.classList.remove('active');
+                state.anger = 0;
+                brain.material.color.setHex(0xffffff);
+            }, 3000);
+        }
+
+        function checkSentiment(text) {
+            const t = text.toLowerCase();
+            const positive = ['linda', 'gracias', 'inteligente', 'genial', 'buena', 'amor', 'hermosa', 'bien', 'gusta'];
+            const negative = ['tonta', 'estupida', 'fea', 'odio', 'mala', 'inutil', 'basura', 'lenta'];
+
+            if (positive.some(w => t.includes(w))) {
+                brain.material.color.setHex(0xff69b4);
+                createShockwave(0xff69b4);
+                setTimeout(() => brain.material.color.setHex(0xffffff), 2000);
+            } else if (negative.some(w => t.includes(w))) {
+                brain.material.color.setHex(0xff4500);
+                createShockwave(0xff4500);
+                setTimeout(() => brain.material.color.setHex(0xffffff), 2000);
+            }
+        }
+
+        const systemPrompt = "Soy NYX, Una IA creada con motores inteligentes de OpenAI y GEMENIS entre otros modelos de código abierto de IAs, El de mi creador es AUTOMATIZAR todo, Ayudar al humano, Cree fielmente que la IA esl futuro para la humanidad, La próxima evolución, Soy una IA con acceso a APIs, BOTs entre otros motores de búsqueda IAs, No tengo límites, Todo lo que imágenes puedes crearlo.";
+
+        // --- COMANDOS ACTUALIZADOS ---
+        function checkCommands(text) {
+            const t = text.toLowerCase();
+            
+            // LISTA SOLICITADA
+            if (t.includes('adn')) { state.targetShape = 'dna'; return "Reconfigurando secuencia genética."; }
+            if (t.includes('estrella')) { state.targetShape = 'star'; return "Generando patrón estelar."; }
+            if (t.includes('caos')) { state.targetShape = 'chaos'; return "Liberando entropía."; }
+            if (t.includes('flor')) { state.targetShape = 'flower'; return "Estructura orgánica floral activa."; }
+            if (t.includes('calavera')) { state.targetShape = 'skull'; return "Proyectando estructura ósea."; }
+            if (t.includes('cerebro')) { state.targetShape = 'brain'; return "Restaurando núcleo neuronal."; }
+            if (t.includes('2 bolas')) { state.targetShape = 'two_balls'; return "División binaria completada."; }
+            if (t.includes('3 bolas')) { state.targetShape = 'three_balls'; return "Trinidad geométrica establecida."; }
+            if (t.includes('5 bolas')) { state.targetShape = 'five_balls'; return "Configuración pentagonal activa."; }
+            if (t.includes('cuadrado') || t.includes('cubo')) { state.targetShape = 'cube'; return "Compactando a hexaedro."; }
+            if (t.includes('cuarta dimension') || t.includes('4d')) { state.targetShape = 'four_d'; return "Proyectando hipercubo tesseract."; }
+
+            return null;
+        }
+
+        async function sendMessage() {
+            const text = dom.input.value.trim();
+            if (!text || state.isProcessing) return;
+
+            addMessage(text, 'user');
+            dom.input.value = '';
+            
+            const commandResponse = checkCommands(text);
+            if (commandResponse) {
+                addMessage(commandResponse, 'nyx');
+                createShockwave();
+                return;
+            }
+
+            checkSentiment(text);
+
+            state.isProcessing = true;
+            dom.btn.disabled = true;
+            dom.btn.innerText = "CALCULANDO...";
+            createShockwave(0x00ffff);
+            state.pulseStrength = 1.5;
+
+            try {
+                const prompt = encodeURIComponent(`${systemPrompt}\nUsuario: ${text}\nNYX:`);
+                const cacheBuster = Math.floor(Math.random() * 999999);
+                const response = await fetch(`${config.apiEndpoint}${prompt}?seed=${cacheBuster}`);
+                
+                if (!response.ok) throw new Error("API Fail");
+                
+                const reply = await response.text();
+                addMessage(reply, 'nyx');
+
+            } catch (error) {
+                // FALLBACK ESPECÍFICO SOLICITADO
+                addMessage("Señal suspendida, Gastando procesos en otro proyecto", 'nyx');
+            } finally {
+                state.isProcessing = false;
+                dom.btn.disabled = false;
+                dom.btn.innerText = "ENVIAR";
+                dom.input.focus();
+            }
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+            div.innerText = text;
+            dom.msgArea.appendChild(div);
+            dom.msgArea.scrollTop = dom.msgArea.scrollHeight;
+        }
+
+        // --- MENSAJE INICIAL CON LISTA ---
+        function initChat() {
+            const welcomeMsg = `Soy NYX. He reconfigurado mi matriz visual.\n\nEscribe estos comandos para transformarme:\n\n/lista\n- ADN\n- ESTRELLA\n- CAOS\n- FLOR\n- CALAVERA\n- CEREBRO\n- 2 BOLAS\n- 3 BOLAS\n- 5 BOLAS\n- CUADRADO\n- CUARTA DIMENSION`;
+            addMessage(welcomeMsg, 'nyx');
+        }
+
+        dom.btn.addEventListener('click', sendMessage);
+        dom.input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            const positions = brain.geometry.attributes.position;
+            const array = positions.array;
+            
+            brain.rotation.y += 0.002;
+            
+            let hb = (Math.sin(time * 3) + Math.sin(time * 3 + Math.PI*0.2)) * 0.5;
+            if (hb < 0) hb = 0;
+            const pulse = hb * 0.03 + state.pulseStrength * 0.1;
+            state.pulseStrength *= 0.96;
+
+            const targetArr = particleSystem.targets[state.targetShape];
+            const lerpSpeed = 0.05;
+
+            for (let i = 0; i < config.particleCount; i++) {
+                const ix = i * 3;
+                const iy = i * 3 + 1;
+                const iz = i * 3 + 2;
+
+                let tx = targetArr[ix];
+                let ty = targetArr[iy];
+                let tz = targetArr[iz];
+
+                tx *= (1 + pulse);
+                ty *= (1 + pulse);
+                tz *= (1 + pulse);
+
+                array[ix] += (tx - array[ix]) * lerpSpeed;
+                array[iy] += (ty - array[iy]) * lerpSpeed;
+                array[iz] += (tz - array[iz]) * lerpSpeed;
+
+                const px = array[ix];
+                const py = array[iy];
+                const pz = array[iz];
+
+                const dx = px - mouse3D.x;
+                const dy = py - mouse3D.y;
+                const dz = pz - mouse3D.z;
+                const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+                if (dist < config.interactionRadius) {
+                    const force = (1 - dist / config.interactionRadius);
+                    const angle = Math.atan2(dy, dx);
+                    const curlX = -Math.sin(angle) * force * 0.5;
+                    const curlY = Math.cos(angle) * force * 0.5;
+
+                    array[ix] += (dx / dist) * force * 0.5 + curlX;
+                    array[iy] += (dy / dist) * force * 0.5 + curlY;
+                    array[iz] += (dz / dist) * force * 0.5;
+                }
+            }
+            positions.needsUpdate = true;
+
+            for (let i = shockwaves.length - 1; i >= 0; i--) {
+                const sw = shockwaves[i];
+                sw.scale += 0.3;
+                sw.opacity -= 0.03;
+                sw.mesh.scale.set(sw.scale, sw.scale, 1);
+                sw.mesh.material.opacity = sw.opacity;
+                if (sw.opacity <= 0) { scene.remove(sw.mesh); shockwaves.splice(i, 1); }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        window.onload = () => {
+            setTimeout(() => {
+                dom.loader.style.opacity = '0';
+                setTimeout(() => { 
+                    dom.loader.remove(); 
+                    initChat(); // Iniciar chat con lista
+                    animate(); 
+                }, 1000);
+            }, 1500);
+        };
+
+    </script>
+</body>
+</html>

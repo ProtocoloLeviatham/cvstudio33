@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marco Legal y Condiciones de Servicio | CV Studio33</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0b1120',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                        dark: '#020617',
+                        textMain: '#cbd5e1',
+                        textHead: '#f8fafc',
+                        legalGold: '#d4af37',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        sans: ['Open Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: #0b1120; 
+            color: #cbd5e1; 
+            overflow-x: hidden; 
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        /* Contenedor Legal Glassmorphism */
+        .legal-container {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Títulos de Cláusulas */
+        .clause-title {
+            font-family: 'Montserrat', sans-serif;
+            color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+        
+        .clause-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1.5rem;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, transparent);
+            margin-bottom: -10px;
+        }
+
+        /* Subtítulos */
+        .clause-subtitle {
+            color: #93c5fd;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(147, 197, 253, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        .clause-subtitle i {
+            color: #6366f1;
+        }
+
+        /* Texto Legal */
+        .legal-text {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+            text-align: justify;
+            font-weight: 300;
+        }
+
+        .legal-list {
+            list-style: none;
+            padding-left: 1rem;
+            margin-top: 1.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .legal-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            color: #94a3b8;
+        }
+        .legal-list li:last-child { margin-bottom: 0; }
+        .legal-list li::before {
+            content: '\f058'; /* Check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-size: 0.9rem;
+            top: 4px;
+        }
+
+        /* Navegación Lateral (Sticky) */
+        .sidebar-nav {
+            position: sticky;
+            top: 120px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1.2rem;
+            color: #64748b;
+            font-size: 0.8rem;
+            border-left: 2px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #f8fafc;
+            border-left-color: #3b82f6;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+            padding-left: 1.5rem;
+        }
+        .nav-link i { opacity: 0; transition: opacity 0.3s; }
+        .nav-link:hover i { opacity: 1; }
+
+        /* Fondo Grid Tecnológico */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        .highlight-box {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+        }
+        .highlight-box i { color: #d4af37; font-size: 1.2rem; margin-top: 3px; }
+
+        /* Footer Moderno */
+        footer {
+            background: #02040a;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-link {
+            color: #64748b;
+            transition: color 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-link:hover { color: #3b82f6; }
+        .footer-social-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
+            color: #cbd5e1;
+        }
+        .footer-social-icon:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <!-- NAVBAR CORPORATIVA -->
+    <nav class="bg-primary/90 backdrop-blur-md border-b border-white/5 h-20 sticky top-0 z-50">
+        <div class="container mx-auto px-6 h-full flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33 Logo Corporativo" class="h-10 w-auto opacity-90 filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
+                <div class="h-8 w-px bg-white/10 hidden md:block"></div>
+                <div class="flex flex-col hidden md:flex">
+                    <span class="font-heading font-bold text-sm tracking-widest text-white uppercase">CV Studio33</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wide">Legal & Compliance</span>
+                </div>
+            </div>
+            <a href="Servicios.html" class="group flex items-center gap-3 px-5 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white">
+                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span>Volver a Servicios</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER EJECUTIVO -->
+    <header class="py-24 bg-gradient-to-b from-primary via-[#0f172a] to-dark border-b border-white/5 relative overflow-hidden">
+        <!-- Decoración de fondo -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 mb-6">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <span class="text-blue-400 text-[10px] font-bold uppercase tracking-widest">Documento Oficial V.2026.1</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 mb-6 leading-tight">
+                Términos y Condiciones de Uso
+            </h1>
+            <p class="text-gray-400 text-sm md:text-lg max-w-3xl mx-auto leading-relaxed font-light">
+                Acuerdo marco de prestación de servicios tecnológicos y consultoría estratégica.<br>
+                <span class="text-gray-500 text-xs mt-2 block">Vigencia efectiva a partir de: <span id="current-date" class="text-blue-400 font-mono font-bold"></span></span>
+            </p>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-20 flex flex-col lg:flex-row gap-16 relative">
+        
+        <!-- SIDEBAR DE NAVEGACIÓN -->
+        <aside class="hidden lg:block lg:w-1/4">
+            <div class="sidebar-nav">
+                <h4 class="text-white font-bold mb-6 px-4 uppercase tracking-widest text-xs border-b border-white/10 pb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-blue-500"></i> Tabla de Contenidos
+                </h4>
+                <nav class="space-y-1">
+                    <a href="#general" class="nav-link">1. Disposiciones Generales <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#nyx-tech" class="nav-link">2. Infraestructura NYX <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#axon-tech" class="nav-link">3. Infraestructura AXON <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#consultoria" class="nav-link">4. Servicios Humanos <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#economia" class="nav-link">5. Economía & Pagos <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#propiedad" class="nav-link">6. Propiedad Intelectual <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#privacidad" class="nav-link">7. Privacidad & Datos <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#responsabilidad" class="nav-link">8. Limitación Resp. <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO LEGAL -->
+        <main class="lg:w-3/4 legal-container p-8 md:p-16">
+            
+            <!-- 1. GENERAL -->
+            <section id="general" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">1. Disposiciones Generales y Alcance</h2>
+                <div class="legal-text space-y-4">
+                    <p>
+                        <strong>CV Studio33</strong> (en adelante, "la Entidad" o "el Proveedor") ofrece un ecosistema híbrido de alto rendimiento que integra software de inteligencia artificial propietaria (Módulos NYX y AXON) con consultoría humana experta en Recursos Humanos. Este Acuerdo regula el acceso y uso de dicha infraestructura tecnológica y servicios profesionales.
+                    </p>
+                    <p>
+                        Al contratar cualquier plan (Start, Avanzado, Profesional o VIP), el Usuario ("el Cliente") reconoce expresamente que está adquiriendo herramientas de optimización, análisis estadístico y estrategia de posicionamiento de mercado, y no una garantía contractual de empleo. La decisión final de contratación es potestad exclusiva de terceras partes (empleadores) y depende de variables macroeconómicas fuera del control de la Entidad.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 2. NYX TECH -->
+            <section id="nyx-tech" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">2. Protocolos de Infraestructura NYX (Ofensiva)</h2>
+                <div class="legal-text space-y-8">
+                    
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-microchip"></i> 2.1. Red Neuronal NYX y Mirroring Semántico</h3>
+                        <p>
+                            NYX opera como un motor de reestructuración de datos (Data Parsing & Structuring). El Cliente autoriza el procesamiento de su historial profesional para aplicar técnicas de "Mirroring", adaptando la semántica, sintaxis y metadatos del perfil a los patrones detectados en las descripciones de puesto objetivo.
+                        </p>
+                        <ul class="legal-list">
+                            <li><strong>Autoaprendizaje:</strong> Los algoritmos se calibran continuamente con bases de datos globales; la eficacia puede variar según el sector industrial.</li>
+                            <li><strong>Optimización Invisible:</strong> Se utilizan técnicas de "Invisible Text" e inyección de metadatos para maximizar la densidad de keywords sin alterar la legibilidad humana.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-satellite-dish"></i> 2.2. Distribution Hub & Chrono Pulse</h3>
+                        <p>
+                            Las herramientas de despliegue masivo (Distribution Hub) y persistencia programada (Chrono Pulse) utilizan infraestructura de terceros certificada (Smtp/API Rest) para la entrega de correos.
+                        </p>
+                        <div class="highlight-box">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <strong>Nota de Cumplimiento:</strong> El Cliente debe adherirse a las normativas internacionales anti-spam. CV Studio33 implementa "Rate Limiting" y protocolos de humanización de tráfico para proteger la reputación del remitente, pero declina responsabilidad por suspensiones en proveedores de correo (Gmail, Outlook) derivadas de un uso abusivo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-magnifying-glass-chart"></i> 2.3. Jobby Scout (Fresh Data Mining)</h3>
+                        <p>
+                            El motor Jobby Scout extrae información de vacantes en tiempo real (< 2 horas de antigüedad) mediante APIs públicas y privadas. La disponibilidad y precisión de los datos dependen de la estabilidad de los portales de origen y no son garantizadas por CV Studio33.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. AXON TECH -->
+            <section id="axon-tech" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">3. Protocolos de Infraestructura AXON (Analítica)</h2>
+                <div class="legal-text space-y-8">
+                    
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-chart-pie"></i> 3.1. Auditoría Predictiva</h3>
+                        <p>
+                            AXON emplea modelos de Deep Learning para comparar perfiles contra clusters de "Perfiles de Oro" (candidatos históricamente contratados). El "Score de Compatibilidad" es una métrica estadística interna de probabilidad y no representa una validación oficial por parte de ninguna empresa externa.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-eye"></i> 3.2. Biometría y Eye Tracking</h3>
+                        <p>
+                            Los mapas de calor generados se basan en estudios biométricos agregados de comportamiento ocular de reclutadores. Estos modelos son aproximaciones probabilísticas diseñadas para optimizar la jerarquía visual del documento, no grabaciones reales de sesiones de revisión.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-server"></i> 3.3. Simulación ATS Viva</h3>
+                        <p>
+                            AXON emula los entornos de filtrado de sistemas Enterprise como Workday, Taleo y Greenhouse. Dado que estos sistemas son cajas negras propietarias sujetas a actualizaciones, la simulación representa un "Best Effort" basado en ingeniería inversa continua, garantizando una tasa de precisión técnica estimada superior al 95%.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. CONSULTORÍA -->
+            <section id="consultoria" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">4. Servicios de Consultoría Estratégica</h2>
+                <div class="legal-text space-y-6">
+                    
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-user-tie"></i> 4.1. Redacción y Estrategia Documental</h3>
+                        <p>
+                            La redacción estratégica es ejecutada por consultores humanos senior, asistidos por IA. El servicio incluye rondas de revisión limitadas según el plan contratado (Start: 1 revisión, Avanzado: 2 revisiones, Profesional: Ilimitadas durante 15 días hábiles). La veracidad final de los datos curriculares es responsabilidad exclusiva del Cliente.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-lock-open"></i> 4.2. Bolsa de Trabajo VIP (Mercado Oculto)</h3>
+                        <p>
+                            El acceso a la "Bolsa VIP" y "Mercado Oculto" proporciona inteligencia sobre vacantes no indexadas públicamente, obtenidas mediante redes de networking y scraping avanzado. La disponibilidad de ofertas específicas en el sector del Cliente fluctúa según la demanda del mercado y no está garantizada contractualmente.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. ECONOMÍA -->
+            <section id="economia" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">5. Economía Interna y Facturación</h2>
+                <div class="legal-text space-y-6">
+                    
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-coins"></i> 5.1. Sistema de Tokens (Unidades de Cómputo)</h3>
+                        <p>
+                            Los servicios automatizados consumen "Tokens". Los costos operativos son dinámicos para mantener la estabilidad del servidor. Esquema de consumo base:
+                        </p>
+                        <ul class="legal-list">
+                            <li><strong>Mirror CV / Salary Range:</strong> 1 Token por ejecución.</li>
+                            <li><strong>Jobby Scout:</strong> 2 Tokens por sesión de búsqueda profunda.</li>
+                            <li><strong>Escaneo Básico AXON:</strong> 3 Tokens.</li>
+                            <li><strong>Distribution Hub:</strong> 5 Tokens (lote estándar).</li>
+                            <li><strong>Escaneo Completo AXON:</strong> 5 Tokens.</li>
+                            <li><strong>Chrono Pulse:</strong> 15 Tokens (Activación) / 10 Tokens (Renovación).</li>
+                            <li><strong>RUN ALL (Suite Completa):</strong> 20 Tokens.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-cash-register"></i> 5.2. Política de Pagos Consultivos</h3>
+                        <p>
+                            <strong>CV Studio33 opera bajo un modelo de consultoría boutique. No utilizamos pasarelas de pago automatizadas en el sitio web para proteger la calidad del servicio.</strong> 
+                        </p>
+                        <p>
+                            Todas las transacciones se realizan tras un contacto directo (vía WhatsApp/Email) para verificar la identidad del cliente (KYC), asegurar la alineación de objetivos profesionales y evitar la saturación de servidores por bots externos.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="clause-subtitle"><i class="fa-solid fa-ban"></i> 5.3. Política de Reembolso</h3>
+                        <p>
+                            Debido a la naturaleza digital de los tokens y el trabajo intelectual irrevocable inherente a la consultoría, <strong>no se ofrecen reembolsos</strong> una vez entregado el producto digital, consumidos los tokens o iniciado el proceso de redacción por parte del equipo humano.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. PROPIEDAD -->
+            <section id="propiedad" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">6. Propiedad Intelectual</h2>
+                <div class="legal-text space-y-4">
+                    <p>
+                        El Cliente retiene la propiedad plena de sus datos biográficos personales. Sin embargo, la estructura, código fuente de las herramientas (NYX/AXON), metodologías de análisis ("Método 33"), bases de datos de "Perfiles de Oro" y formatos de diseño generados son propiedad intelectual exclusiva de CV Studio33. Queda terminantemente prohibida la reventa, ingeniería inversa, o distribución comercial no autorizada de los entregables.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 7. PRIVACIDAD (NUEVO) -->
+            <section id="privacidad" class="mb-24 scroll-mt-32">
+                <h2 class="clause-title">7. Política de Privacidad y Datos</h2>
+                <div class="legal-text space-y-4">
+                    <p>
+                        CV Studio33 cumple con los estándares internacionales de protección de datos. La información procesada por nuestros motores de IA es anonimizada y encriptada (AES-256) antes de su análisis. 
+                    </p>
+                    <p>
+                        Los datos cargados para análisis temporal (parsing) son eliminados automáticamente de los servidores de procesamiento tras 24 horas de inactividad para garantizar la confidencialidad absoluta del Cliente. No compartimos ni vendemos datos a terceros.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 8. RESPONSABILIDAD -->
+            <section id="responsabilidad" class="mb-10 scroll-mt-32">
+                <h2 class="clause-title">8. Limitación de Responsabilidad</h2>
+                <div class="legal-text">
+                    <p>
+                        CV Studio33 proporciona herramientas de "Mejora de Probabilidades". En ningún caso la Entidad, sus directores, empleados o afiliados serán responsables por daños directos, indirectos, incidentales o consecuentes que resulten de: (i) la imposibilidad de conseguir empleo tras el uso del servicio; (ii) decisiones tomadas por empleadores basadas en la información procesada; (iii) interrupciones temporales del servicio por mantenimiento. La responsabilidad máxima de CV Studio33 se limita al monto abonado por el Cliente.
+                    </p>
+                </div>
+            </section>
+            
+            <div class="border-t border-white/10 pt-10 mt-12 text-center text-xs text-gray-500 font-mono">
+                <p class="mb-2">Para consultas legales o soporte de cumplimiento: <span class="text-blue-400 cursor-pointer hover:text-blue-300">legal@cvstudio33.com</span></p>
+                <p>Buenos Aires, Argentina. Jurisdicción aplicable: Tribunales Ordinarios en lo Comercial.</p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- FOOTER 2026 PROFESIONAL -->
+    <footer class="bg-black pt-16 pb-8 border-t border-white/5 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Columna 1: Logo e Info -->
+                <div class="md:col-span-1">
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-14 w-auto mb-6 opacity-90">
+                    <p class="text-xs text-gray-500 leading-relaxed mb-6">
+                        Líderes en ingeniería de carrera y optimización algorítmica. Fusionamos tecnología de punta con estrategia humana para posicionar talento de alto nivel.
+                    </p>
+                    <div class="flex gap-4">
+                    
+
+                <!-- Columna 4: Certificación -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Seguridad</h4>
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-shield-halved text-2xl text-green-500"></i>
+                        <div class="text-xs text-gray-400">
+                            <p class="font-bold text-gray-200">Datos Encriptados</p>
+                            <p>Protocolo AES-256</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-lock text-2xl text-blue-500"></i>
+                        <div class="text-xs text-gray-400">
+                            <p class="font-bold text-gray-200">SSL Seguro</p>
+                            <p>Conexión Verificada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[10px] text-gray-600 font-mono tracking-widest uppercase">
+                    &copy; 2026 CV Studio33 Global Services. Todos los derechos reservados.
+                </p>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-[10px] text-gray-500 font-mono uppercase">Systems Operational</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Fecha -->
+    <script>
+        const date = new Date();
+        const month = date.toLocaleString('es-ES', { month: 'long' });
+        // Force 2026 as requested
+        const year = 2026; 
+        document.getElementById('current-date').textContent = `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+    </script>
+</body>
+</html>

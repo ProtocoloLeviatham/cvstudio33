@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto y Soporte | CV Studio33</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0b1120',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                        dark: '#020617',
+                        success: '#10b981',
+                        textMain: '#cbd5e1',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        sans: ['Open Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: #0b1120; 
+            color: #cbd5e1; 
+            overflow-x: hidden; 
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        
+        /* Scrollbar interna del panel */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Fondo Animado */
+        .bg-depth {
+            background: radial-gradient(circle at 80% 20%, #1e1b4b 0%, #0b1120 60%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        }
+        .bg-grid {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+        }
+
+        /* Contenedores Glass */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+        }
+
+        /* Inputs */
+        .contact-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .contact-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Botón Enviar */
+        .btn-send {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5);
+        }
+        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Loader */
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-left-color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Admin Panel Styles */
+        .admin-panel-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 9999;
+            display: none; justify-content: center; align-items: center;
+        }
+        .admin-panel-overlay.active { display: flex; }
+        .admin-content {
+            width: 90%; max-width: 1000px; height: 85vh;
+            background: #0f172a; border: 1px solid #334155;
+            border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.1);
+        }
+        .ticket-item {
+            border-bottom: 1px solid #1e293b;
+            padding: 15px; cursor: pointer; transition: background 0.2s;
+        }
+        .ticket-item:hover { background: #1e293b; }
+        .ticket-status-new { color: #10b981; font-weight: bold; }
+        
+        /* Modal Password */
+        .pwd-modal {
+            background: #1e293b; padding: 2rem; border-radius: 12px;
+            border: 1px solid #334155; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Manejo de texto largo */
+        .break-text {
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-depth"></div>
+    <div class="bg-grid"></div>
+
+    <!-- NAVBAR -->
+    <nav class="bg-primary/95 backdrop-blur-xl border-b border-white/5 h-20 sticky top-0 z-50">
+        <div class="container mx-auto px-6 h-full flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33" class="h-8 w-auto opacity-80">
+                <div class="h-6 w-px bg-gray-700"></div>
+                <span class="font-heading font-bold text-sm tracking-widest text-gray-400 uppercase">Soporte</span>
+            </div>
+            <a href="mitrabajo.html" class="text-sm text-blue-400 hover:text-white transition font-semibold flex items-center gap-2">
+                <i class="fa-solid fa-home"></i> Ir al Inicio
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="py-16 text-center">
+        <div class="container mx-auto px-4" data-aos="fade-down">
+            <h1 class="text-4xl md:text-5xl font-heading font-black text-white mb-4">Hablemos de tu Futuro</h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                ¿Tienes dudas sobre los planes, problemas técnicos con NYX o consultas empresariales? Nuestro equipo está listo para ayudarte.
+            </p>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 pb-20 flex flex-col lg:flex-row gap-12 max-w-6xl">
+        
+        <!-- COLUMNA IZQUIERDA: DATOS DE CONTACTO -->
+        <div class="lg:w-1/3 space-y-6" data-aos="fade-right">
+            
+            <div class="glass-panel p-8 hover:border-blue-500/30 transition">
+                <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-400 text-xl mb-4">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <h3 class="text-white font-bold text-lg mb-2">Correo Electrónico</h3>
+                <p class="text-sm text-gray-400 mb-4">Para documentación y contratos:</p>
+                <a href="mailto:CvStudio33@gmail.com" class="text-white font-mono hover:text-blue-400 transition">CvStudio33@gmail.com</a>
+            </div>
+
+            <div class="glass-panel p-8 hover:border-green-500/30 transition">
+                <div class="w-12 h-12 bg-green-600/20 rounded-lg flex items-center justify-center text-green-400 text-xl mb-4">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <h3 class="text-white font-bold text-lg mb-2">Venta Directa</h3>
+                <p class="text-sm text-gray-400 mb-4">Atención prioritaria para usuarios Premium.</p>
+                <!-- TEXTO PREDEFINIDO WHATSAPP AGREGADO -->
+                <a href="https://wa.me/1234567890?text=Hola,%20me%20comunico%20desde%20el%20Centro%20de%20Soporte%20de%20CV%20Studio33.%20Necesito%20asistencia%20profesional." target="_blank" class="inline-block px-6 py-2 bg-green-600 hover:bg-green-500 text-white rounded-full font-bold text-sm transition">
+                    Iniciar Chat
+                </a>
+            </div>
+
+            <div class="glass-panel p-8 bg-gradient-to-br from-purple-900/20 to-transparent border-purple-500/20">
+                <h3 class="text-white font-bold text-lg mb-2"><i class="fa-solid fa-robot mr-2 text-purple-400"></i> Estado del Sistema</h3>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-xs text-gray-300">NYX AI: <strong>Online</strong></span>
+                </div>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-xs text-gray-300">AXON BOT: <strong>Online</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: FORMULARIO FIREBASE MEJORADO -->
+        <div class="lg:w-2/3" data-aos="fade-left">
+            <div class="glass-panel p-8 md:p-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -z-10"></div>
+
+                <h2 class="text-2xl font-bold text-white mb-6">Crear Ticket de Soporte</h2>
+                
+                <form id="contactForm" class="space-y-6">
+                    <!-- Fila 1 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Nombre Completo / Empresa</label>
+                            <input type="text" id="name" class="contact-input" placeholder="Tu nombre" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Contacto Directo</label>
+                            <input type="text" id="contact_method" class="contact-input" placeholder="Email o WhatsApp (+54...)" required>
+                        </div>
+                    </div>
+
+                    <!-- Fila 2: Detalles Clasificación -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Departamento</label>
+                            <select id="subject" class="contact-input appearance-none cursor-pointer text-gray-300">
+                                <option value="Soporte General" class="bg-gray-900">Soporte General</option>
+                                <option value="Negocios y Partners" class="bg-gray-900">Negocios y Partners (B2B)</option>
+                                <option value="Contratos y Legal" class="bg-gray-900">Contratos y Legal</option>
+                                <option value="Reporte Bug Web/Bot" class="bg-gray-900 text-red-400">Reportar Bug / Error Web</option>
+                                <option value="Problema Tokens/Pagos" class="bg-gray-900 text-yellow-400">Problema con Tokens / Pagos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Prioridad</label>
+                            <select id="priority" class="contact-input appearance-none cursor-pointer text-gray-300">
+                                <option value="Baja" class="bg-gray-900">Baja (Consulta)</option>
+                                <option value="Media" class="bg-gray-900">Media</option>
+                                <option value="Alta" class="bg-gray-900 text-orange-400">Alta (Servicio Afectado)</option>
+                                <option value="Critica" class="bg-gray-900 text-red-500">Crítica (Bloqueo Total)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Fila 3: Detalles Técnicos -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Servicio Relacionado</label>
+                            <select id="service_related" class="contact-input appearance-none cursor-pointer text-gray-300">
+                                <option value="General" class="bg-gray-900">General</option>
+                                <option value="NYX IA" class="bg-gray-900 text-purple-400">NYX IA</option>
+                                <option value="AXON Bot" class="bg-gray-900 text-green-400">AXON Bot</option>
+                                <option value="Creador CV" class="bg-gray-900 text-blue-400">Creador de CV</option>
+                                <option value="Bolsa VIP" class="bg-gray-900 text-yellow-400">Bolsa VIP</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Plan Actual (Opcional)</label>
+                            <select id="user_plan" class="contact-input appearance-none cursor-pointer text-gray-300">
+                                <option value="Gratis" class="bg-gray-900">Usuario Gratis</option>
+                                <option value="Basico" class="bg-gray-900">Plan Básico</option>
+                                <option value="Avanzado" class="bg-gray-900">Plan Avanzado</option>
+                                <option value="Profesional" class="bg-gray-900 text-purple-400">Plan Profesional</option>
+                                <option value="Elite/Empresa" class="bg-gray-900 text-yellow-400">Elite / Empresa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">ID de Transacción / Cliente (Opcional)</label>
+                        <input type="text" id="transaction_id" class="contact-input" placeholder="Ej: #MP-123456">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Detalle de la Solicitud</label>
+                        <textarea id="message" rows="5" class="contact-input" placeholder="Describe tu situación detalladamente. Si es un bug, indica los pasos para reproducirlo..." required></textarea>
+                    </div>
+
+                    <div id="statusMessage" class="hidden p-4 rounded-lg text-sm text-center"></div>
+
+                    <button type="submit" id="submitBtn" class="btn-send w-full py-4 rounded-lg shadow-lg flex items-center justify-center gap-3">
+                        <span>Generar Ticket</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                    
+                    <p class="text-center text-[10px] text-gray-500 mt-4">
+                        Al enviar este formulario, aceptas nuestros <a href="Terminos-y-condiciones.html" class="underline hover:text-white">Términos</a> y <a href="politica-de-privacidad.html" class="underline hover:text-white">Política de Privacidad</a>.
+                    </p>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER CON PANEL SECRETO -->
+    <footer class="bg-black py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4 flex flex-col items-center">
+            <div class="mb-6">
+                <!-- LOGO TRIGGER (5 CLICKS) -->
+                <img src="logo.png" id="adminTrigger" alt="Admin Login" class="h-16 w-auto opacity-50 hover:opacity-100 transition cursor-pointer" title="Panel Administrativo (Acceso Restringido)">
+            </div>
+            
+            <div class="text-center text-xs text-gray-500 max-w-2xl">
+                <p class="mb-2"><strong>Aviso Legal de Soporte:</strong> Los tickets generados a través de esta plataforma son procesados por nuestro equipo de soporte nivel 1 y 2. El tiempo de respuesta estimado es de 24 a 48 horas hábiles.</p>
+                <p>© 2026 CV Studio33. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PANEL ADMIN SECRETO -->
+    <div id="adminPanel" class="admin-panel-overlay">
+        
+        <!-- LOGIN MODAL (Inicialmente visible dentro del overlay) -->
+        <div id="adminLogin" class="pwd-modal">
+            <h3 class="text-white font-bold mb-4 text-lg">Acceso Restringido</h3>
+            <input type="password" id="adminPwd" class="contact-input text-center mb-4" placeholder="Clave de Acceso">
+            <div class="flex gap-2 justify-center">
+                <button onclick="verifyAdmin()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500">Entrar</button>
+                <button onclick="closeAdminPanel()" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+            </div>
+            <p id="loginError" class="text-red-500 text-xs mt-2 hidden">Acceso Denegado</p>
+        </div>
+
+        <!-- CONTENT (Oculto hasta login) -->
+        <div id="adminContent" class="admin-content hidden">
+            <!-- Header Admin -->
+            <div class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="text-white font-bold"><i class="fa-solid fa-user-shield text-red-500 mr-2"></i> Panel de Tickets</h3>
+                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark fa-lg"></i></button>
+            </div>
+            
+            <!-- Body Admin -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Lista Tickets -->
+                <div class="w-1/3 border-r border-slate-700 overflow-y-auto bg-slate-900 custom-scroll" id="ticketsList">
+                    <p class="text-center text-gray-500 p-4">Cargando tickets...</p>
+                </div>
+                <!-- Detalle Ticket -->
+                <div class="w-2/3 p-6 bg-slate-900 overflow-y-auto custom-scroll" id="ticketDetail">
+                    <div class="flex flex-col items-center justify-center h-full text-gray-500">
+                        <i class="fa-regular fa-folder-open text-4xl mb-4"></i>
+                        <p>Selecciona un ticket para ver los detalles.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Admin -->
+            <div class="bg-slate-800 p-3 border-t border-slate-700 text-xs text-right text-gray-500">
+                Conectado a Firebase: cv-studio33 | Modo Seguro (Local Auth)
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- FIREBASE MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- FORMULARIO PÚBLICO ---
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loader"></div> Procesando...';
+            statusMsg.classList.add('hidden');
+
+            const name = document.getElementById('name').value;
+            const contact = document.getElementById('contact_method').value;
+            const subject = document.getElementById('subject').value;
+            const priority = document.getElementById('priority').value;
+            const serviceRelated = document.getElementById('service_related').value;
+            const userPlan = document.getElementById('user_plan').value;
+            const transactionId = document.getElementById('transaction_id').value;
+            const message = document.getElementById('message').value;
+
+            try {
+                const docRef = await addDoc(collection(db, "tickets"), {
+                    name, contact, subject, priority, serviceRelated, userPlan, transactionId, message,
+                    status: 'Pendiente',
+                    timestamp: serverTimestamp()
+                });
+
+                statusMsg.className = 'p-4 rounded-lg text-sm text-center bg-green-500/20 text-green-400 border border-green-500/30 mb-4 block';
+                statusMsg.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i> Ticket <strong>#${docRef.id.slice(0, 6)}</strong> generado.`;
+                form.reset();
+            } catch (error) {
+                console.error("Error:", error);
+                statusMsg.className = 'p-4 rounded-lg text-sm text-center bg-red-500/20 text-red-400 border border-red-500/30 mb-4 block';
+                statusMsg.innerHTML = "Error de conexión. Intente más tarde.";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            }
+        });
+
+        // --- PANEL SECRETO ADMIN ---
+        let clickCount = 0;
+        let clickTimer;
+        const adminTrigger = document.getElementById('adminTrigger');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminLogin = document.getElementById('adminLogin');
+        const adminContent = document.getElementById('adminContent');
+
+        // Trigger 5 clicks
+        adminTrigger.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+            }
+            if (clickCount === 5) {
+                clearTimeout(clickTimer);
+                clickCount = 0;
+                // Mostrar Login
+                adminPanel.classList.add('active');
+                adminLogin.classList.remove('hidden');
+                adminContent.classList.add('hidden');
+                document.getElementById('adminPwd').value = '';
+                document.getElementById('loginError').classList.add('hidden');
+            }
+        });
+
+        window.closeAdminPanel = () => { adminPanel.classList.remove('active'); };
+        
+        window.verifyAdmin = async () => {
+            const pwd = document.getElementById('adminPwd').value;
+            const btn = document.querySelector('#adminLogin button');
+            btn.disabled = true; btn.innerText = 'Verificando...';
+
+            // Clave camuflada (#33# en Base64 es IzMzIw==)
+            const secret = atob("IzMzIw=="); 
+
+            if (pwd === secret) {
+                adminLogin.classList.add('hidden');
+                adminContent.classList.remove('hidden');
+                loadTickets();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+                document.getElementById('loginError').innerText = "Acceso Denegado.";
+            }
+            btn.disabled = false; btn.innerText = 'Entrar';
+        };
+
+        async function loadTickets() {
+            const listContainer = document.getElementById('ticketsList');
+            listContainer.innerHTML = '<p class="text-center text-gray-500 p-4"><div class="loader"></div> Cargando...</p>';
+
+            try {
+                const q = query(collection(db, "tickets"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                listContainer.innerHTML = ''; 
+                
+                if (querySnapshot.empty) {
+                    listContainer.innerHTML = '<p class="text-center text-gray-500 p-4">No hay tickets pendientes.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const t = doc.data();
+                    const date = t.timestamp ? new Date(t.timestamp.seconds * 1000).toLocaleDateString() : 'N/A';
+                    
+                    let statusColor = t.status === 'Resuelto' ? 'text-green-500' : (t.priority === 'Critica' ? 'text-red-500' : 'text-yellow-500');
+
+                    const div = document.createElement('div');
+                    div.className = 'ticket-item hover:bg-slate-800 transition';
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <span class="text-sm font-bold text-white truncate w-2/3">${t.subject}</span>
+                            <span class="text-[10px] text-gray-500">${date}</span>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1">${t.name}</div>
+                        <div class="flex justify-between mt-1">
+                             <span class="text-[10px] font-bold ${statusColor} uppercase">${t.status}</span>
+                             <span class="text-[10px] text-blue-400">${t.priority || 'Normal'}</span>
+                        </div>
+                    `;
+                    div.onclick = () => showTicketDetail(doc.id, t);
+                    listContainer.appendChild(div);
+                });
+
+            } catch (error) {
+                console.error("Error loading tickets:", error);
+                listContainer.innerHTML = `<p class="text-center text-red-400 p-4">Error al cargar tickets (Verifica Reglas).</p>`;
+            }
+        }
+
+        window.showTicketDetail = (id, data) => {
+            const container = document.getElementById('ticketDetail');
+            
+            // Detección inteligente de contacto
+            let actionBtn = '';
+            const contact = data.contact || '';
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+            
+            if (isEmail) {
+                actionBtn = `<a href="mailto:${contact}?subject=Soporte CV Studio33: Ticket ${id}&body=Hola ${data.name}, respecto a tu consulta..." class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-500 transition"><i class="fa-solid fa-envelope mr-2"></i> Responder por Email</a>`;
+            } else {
+                const cleanNum = contact.replace(/[^0-9]/g, '');
+                actionBtn = `<a href="https://wa.me/${cleanNum}?text=Hola%20${data.name},%20te%20contactamos%20de%20soporte%20CV%20Studio33%20sobre%20tu%20ticket." target="_blank" class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp mr-2"></i> Responder por WhatsApp</a>`;
+            }
+
+            container.innerHTML = `
+                <div class="border-b border-slate-700 pb-4 mb-4">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-xl font-bold text-white mb-2">${data.subject}</h2>
+                        <span class="bg-slate-700 text-xs px-2 py-1 rounded text-white">ID: ${id.slice(0,6)}</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 text-xs text-gray-400 mt-2">
+                        <p><strong class="text-gray-300">Usuario:</strong> ${data.name}</p>
+                        <p><strong class="text-gray-300">Contacto:</strong> ${contact}</p>
+                        <p><strong class="text-gray-300">Prioridad:</strong> <span class="${data.priority === 'Critica' ? 'text-red-500 font-bold' : ''}">${data.priority || 'Normal'}</span></p>
+                        <p><strong class="text-gray-300">Plan:</strong> ${data.userPlan || 'N/A'}</p>
+                        <p><strong class="text-gray-300">Servicio:</strong> ${data.serviceRelated || 'N/A'}</p>
+                        <p><strong class="text-gray-300">ID Transacción:</strong> ${data.transactionId || 'N/A'}</p>
+                        <p><strong class="text-gray-300">Fecha:</strong> ${data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleString() : 'N/A'}</p>
+                        <p><strong class="text-gray-300">Estado:</strong> ${data.status}</p>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-800/50 p-4 rounded-lg mb-6 border border-slate-700 max-h-[400px] overflow-y-auto custom-scroll">
+                    <p class="text-gray-300 text-sm leading-relaxed break-text">${data.message}</p>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-slate-700">
+                    ${actionBtn}
+                    ${data.status !== 'Resuelto' ? 
+                        `<button class="border border-green-500 text-green-500 px-4 py-2 rounded text-sm hover:bg-green-500 hover:text-white transition" onclick="markResolved('${id}')"><i class="fa-solid fa-check mr-2"></i> Marcar Resuelto</button>` : 
+                        `<span class="px-4 py-2 bg-green-900/30 text-green-400 rounded text-sm border border-green-900"><i class="fa-solid fa-check-double mr-2"></i> Ticket Cerrado</span>`
+                    }
+                </div>
+            `;
+        };
+
+        window.markResolved = async (id) => {
+            if(!confirm('¿Confirmar que este ticket está resuelto?')) return;
+            try {
+                const ticketRef = doc(db, "tickets", id);
+                await updateDoc(ticketRef, { status: "Resuelto" });
+                alert("Ticket actualizado.");
+                loadTickets(); 
+                document.getElementById('ticketDetail').innerHTML = '<div class="flex flex-col items-center justify-center h-full text-gray-500"><i class="fa-regular fa-folder-open text-4xl mb-4"></i><p>Selecciona un ticket.</p></div>';
+            } catch (e) {
+                console.error("Error updating:", e);
+                alert("Error al actualizar.");
+            }
+        };
+
+        AOS.init({ once: true, offset: 50, duration: 800 });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Studio33</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0b1120',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                        dark: '#020617',
+                        textMain: '#cbd5e1',
+                        textHead: '#f8fafc',
+                        helpColor: '#10b981', 
+                        nyx: '#8b5cf6',
+                        axon: '#10b981',
+                        gold: '#f59e0b',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        sans: ['Open Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: #0b1120; 
+            color: #cbd5e1; 
+            overflow-x: hidden; 
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Contenedor Glass */
+        .glass-container {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+        }
+
+        /* Navegación Lateral Sticky */
+        .sidebar-nav {
+            position: sticky;
+            top: 120px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-left: 2px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #10b981;
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .nav-link i { width: 20px; text-align: center; }
+
+        /* Acordeón de Preguntas */
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem 0;
+            text-align: left;
+            font-weight: 600;
+            color: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .faq-question:hover { color: #3b82f6; }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 800px; /* Aumentado para respuestas largas */
+            padding-bottom: 1.5rem;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: #3b82f6;
+        }
+
+        /* Input de Búsqueda */
+        .search-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 50px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Fondo sutil */
+        .bg-grid {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <!-- NAVBAR SIMPLE -->
+    <nav class="bg-primary/95 backdrop-blur-xl border-b border-white/5 h-20 sticky top-0 z-50">
+        <div class="container mx-auto px-6 h-full flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33" class="h-8 w-auto opacity-80">
+                <div class="h-6 w-px bg-gray-700"></div>
+                <span class="font-heading font-bold text-sm tracking-widest text-gray-400 uppercase">Centro de Ayuda</span>
+            </div>
+            <!-- CAMBIO SOLICITADO: Link a index.html y texto "Volver al inicio" -->
+            <a href="index.html" class="text-sm text-green-400 hover:text-white transition font-semibold flex items-center gap-2">
+                <i class="fa-solid fa-home"></i> Volver al inicio
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER & BUSCADOR -->
+    <header class="py-20 bg-gradient-to-b from-primary to-dark border-b border-white/5 relative overflow-hidden">
+        <!-- Efecto de fondo -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-3xl md:text-5xl font-heading font-black text-white mb-6">¿Cómo podemos ayudarte?</h1>
+            
+            <div class="max-w-2xl mx-auto relative group">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500 group-hover:text-green-400 transition"></i>
+                <input type="text" class="search-box" placeholder="Buscar temas (ej: Tokens, Plantillas, Pagos, ATS...)" onkeyup="filterFAQ()">
+            </div>
+
+            <div class="flex justify-center gap-4 mt-6 text-xs text-gray-500">
+                <span><i class="fa-solid fa-fire text-orange-500 mr-1"></i> Popular:</span>
+                <a href="#ia-tokens" class="hover:text-white underline">¿Qué es un Token?</a>
+                <a href="#creador" class="hover:text-white underline">Descargar PDF</a>
+                <a href="#pagos" class="hover:text-white underline">Métodos de Pago</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-16 flex flex-col lg:flex-row gap-12">
+        
+        <!-- SIDEBAR DE NAVEGACIÓN -->
+        <aside class="hidden lg:block lg:w-1/4">
+            <div class="sidebar-nav">
+                <h4 class="text-white font-bold mb-6 px-4 uppercase tracking-widest text-xs">Categorías</h4>
+                <nav class="space-y-1">
+                    <a href="#general" class="nav-link active"><i class="fa-solid fa-rocket"></i> Primeros Pasos</a>
+                    <a href="#creador" class="nav-link"><i class="fa-solid fa-file-pen"></i> Creador y Plantillas</a>
+                    <a href="#ia-tokens" class="nav-link"><i class="fa-solid fa-robot"></i> NYX & AXON (IA)</a>
+                    <a href="#servicios-humanos" class="nav-link"><i class="fa-solid fa-user-tie"></i> Servicios Humanos</a>
+                    <a href="#pagos" class="nav-link"><i class="fa-solid fa-credit-card"></i> Pagos y Planes</a>
+                    <a href="#vip" class="nav-link"><i class="fa-solid fa-crown"></i> Bolsa VIP & Career Suite</a>
+                </nav>
+                
+                <div class="mt-8 p-6 glass-container border border-green-500/20">
+                    <h5 class="text-white font-bold text-sm mb-2">¿No encuentras respuesta?</h5>
+                    <p class="text-xs text-gray-400 mb-4">Nuestro equipo de soporte humano está disponible.</p>
+                    <a href="https://wa.me/1234567890" target="_blank" class="block w-full py-2 bg-green-600 hover:bg-green-500 text-white text-xs font-bold text-center rounded transition">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> Contactar Soporte
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="lg:w-3/4">
+            
+            <!-- 1. GENERAL -->
+            <section id="general" class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-sm"><i class="fa-solid fa-rocket"></i></span>
+                    General y Primeros Pasos
+                </h2>
+                
+                <div class="glass-container px-6 py-2">
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué es CV Studio33? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Es una plataforma integral de ingeniería curricular. Fusionamos Inteligencia Artificial (NYX y AXON) con consultoría de RRHH para crear CVs optimizados para sistemas ATS y persuasivos para humanos.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Es gratis usar la plataforma? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Sí, ofrecemos un "Starter Pack" gratuito que incluye 3 plantillas básicas (Administrativo, Oxford Básico, Harvard Texto) y acceso al editor. Las funciones avanzadas de IA y las plantillas Premium requieren la compra de Tokens o Planes.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Necesito registrarme para empezar? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">No obligatoriamente. Nuestro sistema utiliza <strong>Almacenamiento Local (LocalStorage)</strong>, por lo que puedes empezar a editar tu CV inmediatamente y los datos se guardarán en tu navegador.</div>
+                    </div>
+                     <div class="faq-item">
+                        <div class="faq-question">¿Qué es el "Método 33"? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Es nuestra metodología propietaria de 5 pasos: Diagnóstico, Extracción de Logros, Redacción Persuasiva, Hackeo ATS y Diseño Arquitectónico. Garantiza que tu CV no sea solo una lista de tareas, sino una herramienta de venta.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CREADOR Y PLANTILLAS -->
+            <section id="creador" class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded bg-indigo-600 flex items-center justify-center text-sm"><i class="fa-solid fa-file-pen"></i></span>
+                    Creador de CV y Plantillas
+                </h2>
+                
+                <div class="glass-container px-6 py-2">
+                    <div class="faq-item">
+                        <div class="faq-question">¿Cómo guardo mi progreso? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">El editor guarda automáticamente cada cambio en tiempo real en la memoria de tu navegador (LocalStorage). Si cierras la pestaña y vuelves a entrar, tu información seguirá ahí.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Cómo funcionan las diferentes Plantillas (Oxford, MIT, etc.)? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">
+                            <ul class="list-disc pl-5 mt-2 space-y-1">
+                                <li><strong>Oxford/Cambridge:</strong> Diseños clásicos con barra lateral, ideales para perfiles ejecutivos y tradicionales.</li>
+                                <li><strong>MIT/Stanford:</strong> Diseños modernos/tech, optimizados para el sector tecnológico y startups.</li>
+                                <li><strong>Harvard:</strong> Formato de texto puro, sin fotos, estándar legal y académico en EE.UU.</li>
+                            </ul>
+                            Puedes cambiar de plantilla en la Biblioteca sin perder tus datos.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿En qué formato se descarga el CV? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">El CV se descarga en formato <strong>PDF de Alta Resolución</strong>, optimizado para mantener el diseño intacto y ser legible por sistemas ATS.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. IA (NYX & AXON) -->
+            <section id="ia-tokens" class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded bg-purple-600 flex items-center justify-center text-sm"><i class="fa-solid fa-robot"></i></span>
+                    Tecnología NYX y AXON
+                </h2>
+                
+                <div class="glass-container px-6 py-2">
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué diferencia hay entre NYX y AXON? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">
+                            <ul class="list-disc pl-5 mt-2 space-y-2">
+                                <li><strong>NYX (Generativa):</strong> Es el motor creativo. Redacta textos, mejora descripciones, optimiza keywords para ATS y gestiona la distribución masiva.</li>
+                                <li><strong>AXON (Analítica):</strong> Es el auditor forense. Lee tu CV terminado, simula filtros ATS, te da un "Score de Compatibilidad" (0-100%) y genera mapas de calor visuales.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué es el Semáforo de Habilidades de AXON? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">AXON analiza tus skills y las clasifica: <strong class="text-green-400">Verde</strong> (Alta demanda/Impacto), <strong class="text-yellow-400">Amarillo</strong> (Estándar) y <strong class="text-red-400">Rojo</strong> (Obsoletas o irrelevantes para tu puesto objetivo).</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué es el "Bypass ATS 3.0" de NYX? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Es una tecnología de estructuración de datos invisible. NYX organiza el código de tu CV para que los robots de lectura (Taleo, Workday) puedan extraer tu información sin errores, aumentando tu probabilidad de pasar el filtro en un 87%.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Cómo funcionan los Tokens? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Son créditos de uso. 1 Token AXON = 1 Análisis completo. 1 Token NYX = 1 Distribución masiva o mejora profunda de perfil. Los tokens no caducan y vienen incluidos en los Planes Combo.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SERVICIOS HUMANOS -->
+            <section id="servicios-humanos" class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-sm"><i class="fa-solid fa-user-tie"></i></span>
+                    Servicios Profesionales Humanos
+                </h2>
+                
+                <div class="glass-container px-6 py-2">
+                    <div class="faq-item">
+                        <div class="faq-question">¿En qué consiste el CV Personalizado? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Es un servicio de consultoría 1 a 1. Un Headhunter Senior te entrevista, extrae tus logros ocultos y redacta tu CV desde cero usando técnicas de Neuro-Copywriting. No es una plantilla automática, es una artesanía estratégica.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Para qué sirve la Carta de Presentación Narrativa? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">El CV muestra tu pasado; la carta vende tu futuro. Nuestros redactores crean una narrativa que conecta emocionalmente con la cultura de la empresa, demostrando investigación y "Culture Fit".</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. PAGOS -->
+            <section id="pagos" class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded bg-green-600 flex items-center justify-center text-sm"><i class="fa-solid fa-credit-card"></i></span>
+                    Pagos y Planes
+                </h2>
+                
+                <div class="glass-container px-6 py-2">
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué métodos de pago aceptan? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Procesamos pagos seguros a través de <strong>Mercado Pago</strong> (Tarjetas, Débito, Efectivo) y Transferencia Bancaria para clientes corporativos.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Por qué contactar por WhatsApp para comprar? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Para servicios Premium y Elite, realizamos una validación de perfil previa. Queremos asegurarnos de que el plan elegido (ej: $50.000) sea el correcto para tus objetivos antes de que pagues.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué incluye el Plan Mensual de $50.000? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Acceso ILIMITADO a todas las herramientas IA (NYX + AXON), consultoría continua y acceso total a la Career Suite durante 30 días. Ideal para búsquedas intensivas.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. VIP -->
+            <section id="vip" class="mb-16">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded bg-yellow-600 flex items-center justify-center text-sm"><i class="fa-solid fa-crown"></i></span>
+                    Bolsa VIP y Career Suite
+                </h2>
+                
+                <div class="glass-container px-6 py-2">
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué es el "Mercado Oculto"? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">El 70-80% de las vacantes ejecutivas no se publican. Nuestra Career Suite te da acceso a este mercado mediante bases de datos de Headhunters privados y alertas confidenciales.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">¿Qué son los Bots de Aplicación? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                        <div class="faq-answer">Son scripts automatizados que rellenan formularios complejos en portales de empleo externos por ti, trabajando en conjunto con NYX para ahorrarte horas de trabajo manual.</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black/50 py-8 text-center text-xs text-gray-500 border-t border-white/5">
+        <p>© 2026 CV Studio33. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Lógica de Acordeón
+        const items = document.querySelectorAll('.faq-item');
+
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                // Cerrar otros (opcional, activado para limpieza visual)
+                /* items.forEach(other => {
+                    if (other !== item) other.classList.remove('active');
+                }); */
+                // Toggle actual
+                item.classList.toggle('active');
+            });
+        });
+
+        // Lógica de Búsqueda
+        function filterFAQ() {
+            const input = document.querySelector('.search-box');
+            const filter = input.value.toUpperCase();
+            const faqs = document.querySelectorAll('.faq-item');
+
+            faqs.forEach(faq => {
+                const question = faq.querySelector('.faq-question').innerText;
+                const answer = faq.querySelector('.faq-answer').innerText;
+                // Buscar tanto en pregunta como en respuesta
+                if (question.toUpperCase().indexOf(filter) > -1 || answer.toUpperCase().indexOf(filter) > -1) {
+                    faq.style.display = "";
+                } else {
+                    faq.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

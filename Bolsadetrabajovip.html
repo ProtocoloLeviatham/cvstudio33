@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Suite VIP | CV Studio33</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vipBlack: '#050505',
+                        vipDark: '#0a0a0a',
+                        vipGold: '#d4af37',
+                        vipGoldLight: '#f3e5ab',
+                        vipGray: '#262626',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #050505; color: #e5e5e5; overflow-x: hidden; }
+        .bg-luxury {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 40%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .vip-heading { font-family: 'Playfair Display', serif; color: #d4af37; text-transform: uppercase; letter-spacing: 2px; }
+        .vip-card { background: rgba(20, 20, 20, 0.6); border: 1px solid rgba(212, 175, 55, 0.1); backdrop-filter: blur(10px); transition: all 0.5s ease; position: relative; overflow: hidden; }
+        .vip-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-5px); box-shadow: 0 10px 40px -10px rgba(212, 175, 55, 0.15); }
+        .vip-image-container { position: relative; overflow: hidden; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); }
+        .vip-image { transition: transform 0.7s ease; width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) contrast(1.1); }
+        .vip-card:hover .vip-image { transform: scale(1.05); }
+        .btn-gold { background: linear-gradient(135deg, #d4af37 0%, #a08221 100%); color: #000; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding: 12px 30px; border-radius: 4px; transition: all 0.3s; display: inline-block; cursor: pointer; }
+        .btn-locked { background: #1a1a1a; border: 1px solid #333; color: #666; cursor: not-allowed; width: 100%; padding: 10px; font-size: 0.7rem; border-radius: 4px; margin-top: 15px; transition: all 0.3s; }
+        .btn-locked:hover { border-color: #d4af37; color: #d4af37; background: #000; }
+        .gold-divider { height: 1px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 4rem 0; opacity: 0.3; }
+        .lock-notice { font-size: 0.65rem; color: #d4af37; margin-top: 10px; font-style: italic; }
+
+        /* MODAL CUSTOM STYLES */
+        #lockedModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #lockedModal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #lockedModal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-luxury"></div>
+
+    <div id="lockedModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
+        <div class="bg-vipBlack border border-vipGold rounded-lg max-w-md w-full p-8 text-center relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-vipGold"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div class="text-vipGold text-4xl mb-4"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="text-2xl font-serif text-white mb-2">Acceso Restringido</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                Esta herramienta es exclusiva para miembros con Licencia Activa. Su cuenta actual no posee las credenciales (KEY) necesarias para ejecutar esta función en tiempo real.
+            </p>
+            
+            <div class="flex flex-col gap-3">
+                <a href="Servicios.html" class="btn-gold text-xs py-3">Adquirir Licencia (KEY)</a>
+                <a href="Centro-de-ayuda.html" class="text-gray-500 text-xs hover:text-vipGold underline decoration-vipGold/30">Contactar Soporte si es un error</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="h-24 flex items-center border-b border-vipGold/10 sticky top-0 z-50 bg-vipBlack/90 backdrop-blur-md">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="Servicios.html" class="text-xs font-bold tracking-widest text-gray-400 hover:text-vipGold transition uppercase group">
+                <i class="fa-solid fa-chevron-left group-hover:-translate-x-1 transition-transform"></i> Volver a Servicios
+            </a>
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33" class="h-12 w-auto object-contain">
+                <div class="h-8 w-px bg-vipGold/30"></div>
+                <span class="font-serif text-vipGold text-lg tracking-widest">CAREER SUITE ELITE</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-32 relative text-center">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="inline-block border border-vipGold/50 px-6 py-2 rounded-full mb-8" data-aos="fade-down">
+                <span class="text-vipGold text-xs font-bold tracking-[0.3em] uppercase">Ecosistema de Alta Dirección Argentina & LATAM</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl vip-heading mb-8 leading-tight" data-aos="zoom-in">
+                Ingeniería de <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-vipGold to-white">Carrera Real</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-4xl mx-auto font-light leading-relaxed mb-12" data-aos="fade-up">
+                Herramientas técnicas reales para el mercado laboral actual. Sin promesas vacías. Acceda a nuestra base de datos propietaria, analíticas de mercado y sistemas de monitoreo para ejecutivos en Argentina y la región.
+            </p>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 max-w-7xl">
+
+        <section class="py-16">
+            <div class="flex flex-col lg:flex-row items-center gap-16 mb-20">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <div class="vip-image-container h-[500px]">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" alt="Corporate Skyscraper" class="vip-image">
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <h2 class="vip-heading text-4xl mb-6">Acceso al Hidden Job Market</h2>
+                    <p class="text-gray-300 mb-6 leading-8 text-justify">
+                        En Argentina, más del 70% de las vacantes jerárquicas no se publican en LinkedIn. Se mueven a través de referidos directos y bases de datos internas de consultoras.
+                    </p>
+                    <p class="text-gray-300 mb-8 leading-8 text-justify font-light">
+                        Esta suite le permite realizar consultas sobre nuestra base de datos propietaria (construida con años de recolección de datos del mercado local) y acceder a perfiles públicos de reclutadores que hemos indexado manualmente para facilitar su networking.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="Servicios.html" class="btn-gold text-xs">Adquirir Membresía</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-solid fa-user-secret text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">GHOST SEARCH</h4>
+                    <p class="text-[11px] text-gray-400">Buscador de vacantes de nicho y ofertas indexadas de redes de partners no masivos.</p>
+                    <div class="lock-notice">Requiere Llave Nivel 1</div>
+                    <button class="btn-locked" onclick="showLockedAlert()">BUSCAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-link text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">DIRECT LINK</h4>
+                    <p class="text-[11px] text-gray-400">Redirección directa a perfiles de LinkedIn de Decision Makers en nuestra DB.</p>
+                    <div class="lock-notice">Acceso Restringido</div>
+                    <button class="btn-locked" onclick="showLockedAlert()">CONECTAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fa-solid fa-envelope-open-text text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">EMAIL STEALTH</h4>
+                    <p class="text-[11px] text-gray-400">Consulta si el email corporativo del reclutador existe en nuestros registros históricos.</p>
+                    <div class="lock-notice">Clave de Acceso VIP</div>
+                    <button class="btn-locked" onclick="showLockedAlert()">CONSULTAR DB</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fa-solid fa-building text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">HEADHUNTER LIST</h4>
+                    <p class="text-[11px] text-gray-400">Directorio curado de las Top 50 Firmas de Executive Search en Buenos Aires.</p>
+                    <div class="lock-notice">No Autorizado</div>
+                    <button class="btn-locked" onclick="showLockedAlert()">VER LISTA</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="500">
+                    <i class="fa-solid fa-industry text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">SECTOR MAP</h4>
+                    <p class="text-[11px] text-gray-400">Mapa de calor de industrias contratando activamente este mes en la región.</p>
+                    <div class="lock-notice">Nivel Elite Necesario</div>
+                    <button class="btn-locked" onclick="showLockedAlert()">ANALIZAR</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="gold-divider"></div>
+
+        <section class="py-16">
+            <div class="flex flex-col lg:flex-row-reverse items-center gap-16 mb-20">
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <div class="vip-image-container h-[500px]">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Data Streams" class="vip-image">
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <h2 class="vip-heading text-4xl mb-6">Sistema de Alertas Tempranas</h2>
+                    <p class="text-gray-300 mb-6 leading-8 text-justify">
+                        El tiempo es crucial. Utilizamos tecnología de monitoreo estándar para revisar cambios públicos en las páginas de carreras de empresas objetivo.
+                    </p>
+                    <p class="text-gray-300 mb-8 leading-8 text-justify font-light">
+                        Configure sus preferencias y reciba notificaciones cuando una URL pública cambie o cuando nuestro sistema detecte una nueva entrada en las bolsas de trabajo que indexamos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="vip-card p-6" data-aos="fade-up">
+                    <i class="fa-solid fa-bolt text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">FLASH MONITOR</h4>
+                    <p class="text-[11px] text-gray-400">Bot que revisa URLs públicas de "Careers" cada 6 horas por cambios de texto.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">ACTIVAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-brands fa-whatsapp text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">WHATSAPP BOT ALERTAS</h4>
+                    <p class="text-[11px] text-gray-400">Recibe un mensaje automático cuando una vacante coincida con tu filtro.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">SINCRONIZAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-clock-rotate-left text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">EARLY BIRD STATS</h4>
+                    <p class="text-[11px] text-gray-400">Estadística histórica: ¿Qué día y hora suele publicar vacantes X empresa?</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">VER DATOS</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fa-solid fa-tag text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">KEYWORD TRACKER</h4>
+                    <p class="text-[11px] text-gray-400">Rastreo de palabras clave específicas (ej: "Remote", "USD") en descripciones.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">CONFIGURAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fa-solid fa-rss text-vipGold mb-4 text-2xl"></i>
+                    <h4 class="text-white font-bold text-sm mb-2">FEED RSS PERSONAL</h4>
+                    <p class="text-[11px] text-gray-400">Generación de un link RSS único con tus búsquedas para tu lector de noticias.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">GENERAR</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="gold-divider"></div>
+
+        <section class="py-16 bg-vipDark/50 rounded-3xl border border-vipGold/10 p-8 md:p-12 mb-20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-vipGold/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="vip-heading text-4xl mb-4">The Vault (La Bóveda)</h2>
+                <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+                    Acceso directo a nuestra base de conocimiento acumulado. Datos reales sobre entrevistas, salarios en pesos y dólares, y guías prácticas.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
+                    <div class="flex items-center justify-between mb-4">
+                        <i class="fa-solid fa-clipboard-question text-vipGold text-xl"></i>
+                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">DB INTERNA</span>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Preguntas de Entrevista</h3>
+                    <p class="text-xs text-gray-400 mb-4">Registro histórico de preguntas realizadas en procesos reales.</p>
+                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
+                        <li><i class="fa-solid fa-folder mr-1"></i> Mercado Libre (IT/Product)</li>
+                        <li><i class="fa-solid fa-folder mr-1"></i> Globant (Management)</li>
+                        <li><i class="fa-solid fa-folder mr-1"></i> J.P. Morgan (Finance)</li>
+                        <li><i class="fa-solid fa-plus mr-1"></i> 120+ Empresas</li>
+                    </ul>
+                </div>
+
+                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
+                    <div class="flex items-center justify-between mb-4">
+                        <i class="fa-solid fa-money-bill-wave text-vipGold text-xl"></i>
+                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">ARG & LATAM</span>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Reportes Salariales</h3>
+                    <p class="text-xs text-gray-400 mb-4">Datos de sueldos reales reportados por candidatos (ARS/USD).</p>
+                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
+                        <li><i class="fa-solid fa-chart-line mr-1"></i> Gerencia Media (Por Industria)</li>
+                        <li><i class="fa-solid fa-chart-line mr-1"></i> C-Level Compensation</li>
+                        <li><i class="fa-solid fa-chart-line mr-1"></i> Ajustes por Inflación</li>
+                    </ul>
+                </div>
+
+                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
+                    <div class="flex items-center justify-between mb-4">
+                        <i class="fa-solid fa-book-open text-vipGold text-xl"></i>
+                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">PDFs</span>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Guías de Negociación</h3>
+                    <p class="text-xs text-gray-400 mb-4">Scripts y plantillas de correo masivas para negociar.</p>
+                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
+                        <li><i class="fa-solid fa-file-pdf mr-1"></i> Contraofertas Salariales</li>
+                        <li><i class="fa-solid fa-file-pdf mr-1"></i> Negociación de Equity</li>
+                        <li><i class="fa-solid fa-file-pdf mr-1"></i> Beneficios Flexibles</li>
+                    </ul>
+                </div>
+
+                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
+                    <div class="flex items-center justify-between mb-4">
+                        <i class="fa-solid fa-lightbulb text-vipGold text-xl"></i>
+                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">INSIGHTS</span>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Consejos Prácticos</h3>
+                    <p class="text-xs text-gray-400 mb-4">Estrategias probadas para el mercado local.</p>
+                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
+                        <li><i class="fa-solid fa-check mr-1"></i> Manejo de LinkedIn</li>
+                        <li><i class="fa-solid fa-check mr-1"></i> Networking Efectivo</li>
+                        <li><i class="fa-solid fa-check mr-1"></i> Marca Personal</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <button class="btn-locked w-auto px-12" onclick="showLockedAlert()">ACCEDER A LA BASE DE DATOS COMPLETA</button>
+            </div>
+        </section>
+
+        <div class="gold-divider"></div>
+
+        <section class="py-16">
+            <div class="flex flex-col lg:flex-row items-center gap-16 mb-20">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <div class="vip-image-container h-[400px]">
+                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" alt="Financial Analysis" class="vip-image">
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <h2 class="vip-heading text-4xl mb-6">Herramientas de Cierre</h2>
+                    <p class="text-gray-300 mb-6 leading-8 text-justify">
+                        Prepare su estrategia de salida y entrada con datos. Nuestras herramientas de cálculo le ayudan a entender su posición neta real.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div class="flex items-center gap-3 text-vipGoldLight text-xs">
+                            <i class="fa-solid fa-check text-vipGold"></i> Comparador Bruto vs Neto
+                        </div>
+                        <div class="flex items-center gap-3 text-vipGoldLight text-xs">
+                            <i class="fa-solid fa-check text-vipGold"></i> Scripts Profesionales
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="vip-card p-6" data-aos="fade-up">
+                    <h4 class="text-white font-bold text-xs mb-3">GENERADOR SCRIPT</h4>
+                    <p class="text-[10px] text-gray-400 mb-4">Crea guiones de email basados en plantillas exitosas.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">DESBLOQUEAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="text-white font-bold text-xs mb-3">BENCHMARK DB</h4>
+                    <p class="text-[10px] text-gray-400 mb-4">Consulta rangos salariales en nuestra base de datos histórica.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">CONSULTAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="text-white font-bold text-xs mb-3">SALARY CHECK</h4>
+                    <p class="text-[10px] text-gray-400 mb-4">Calculadora de sueldo Neto/Bruto y conversión a Dólar Blue/MEP.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">CALCULAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="text-white font-bold text-xs mb-3">INFLATION ADJUST</h4>
+                    <p class="text-[10px] text-gray-400 mb-4">Calculadora de ajuste por inflación proyectada (REM del BCRA).</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">USAR</button>
+                </div>
+                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="text-white font-bold text-xs mb-3">OFFER COMPARATOR</h4>
+                    <p class="text-[10px] text-gray-400 mb-4">Matriz simple para comparar dos ofertas laborales lado a lado.</p>
+                    <button class="btn-locked" onclick="showLockedAlert()">COMPARAR</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 text-center" data-aos="fade-up">
+            <h3 class="vip-heading text-2xl mb-8">¿Su acceso está restringido?</h3>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="Servicios.html" class="btn-gold">Comprar Licencia (KEY)</a>
+                <a href="Centro-de-ayuda.html" class="border border-vipGold text-vipGold px-8 py-3 rounded uppercase font-bold text-xs hover:bg-vipGold hover:text-black transition">Soporte Técnico</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="bg-black py-16 border-t border-vipGold/20">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33" class="h-16 w-auto grayscale opacity-50">
+                <div>
+                    <p class="uppercase tracking-widest font-bold text-gray-400 text-xs">CV Studio33 Elite</p>
+                    <p class="text-[10px] text-gray-600">Herramientas Profesionales de Gestión de Carrera</p>
+                </div>
+            </div>
+            <div class="text-xs text-gray-600">
+                <div class="flex gap-6 justify-center md:justify-end mb-4">
+                    <a href="Servicios.html" class="hover:text-vipGold">Servicios</a>
+                    <a href="Centro-de-ayuda.html" class="hover:text-vipGold">Centro de Ayuda</a>
+                    <a href="Contacto.html" class="hover:text-vipGold">Contacto VIP</a>
+                </div>
+                <p>© 2026 CV Studio33. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, duration: 1000, easing: 'ease-out-cubic' });
+
+        // Función para mostrar el modal personalizado
+        function showLockedAlert() {
+            const modal = document.getElementById('lockedModal');
+            modal.classList.remove('hidden');
+        }
+
+        // Función para cerrar el modal
+        function closeModal() {
+            const modal = document.getElementById('lockedModal');
+            modal.classList.add('hidden');
+        }
+
+        // Cerrar modal al hacer click fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById('lockedModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

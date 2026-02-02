@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYX & AXON Partnership | Ecosistema de Negocios CV Studio33</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#050b14',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                        dark: '#020617',
+                        nyx: '#8b5cf6',
+                        axon: '#10b981',
+                        gold: '#d4af37',
+                        platinum: '#e5e7eb',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        sans: ['Open Sans', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 8s ease-in-out infinite',
+                        'slide': 'slide 20s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        slide: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: #050b14; 
+            color: #e2e8f0; 
+            overflow-x: hidden; 
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #8b5cf6, #10b981); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+
+        /* Fondos Tecnológicos */
+        .bg-matrix {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.05), transparent 25%), 
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+        }
+
+        /* Tarjetas de Información */
+        .partner-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .partner-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, #8b5cf6, #10b981);
+            opacity: 0.5;
+        }
+        .partner-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.3); /* Gold border on hover */
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            background: rgba(15, 23, 42, 0.9);
+        }
+        .partner-card:hover::before { opacity: 1; width: 6px; }
+
+        /* Texto Gradiente */
+        .text-gradient {
+            background: linear-gradient(to right, #8b5cf6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gold { color: #d4af37; }
+
+        /* Botón WhatsApp */
+        .btn-business {
+            background: linear-gradient(135deg, #d4af37 0%, #a08221 100%); /* Gold Luxury */
+            color: #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-business:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        .btn-business::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        .btn-business:hover::after { left: 100%; }
+
+        /* Code Block Style */
+        .code-block {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: #a5b4fc;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-matrix"></div>
+
+    <!-- NAVBAR -->
+    <nav class="bg-primary/95 backdrop-blur-xl border-b border-white/5 h-24 sticky top-0 z-50">
+        <div class="container mx-auto px-6 h-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-gray-400 hover:text-white transition uppercase text-xs font-bold tracking-widest group">
+                <i class="fa-solid fa-chevron-left text-secondary group-hover:-translate-x-1 transition-transform"></i> Volver a Inicio
+            </a>
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33" class="h-12 w-auto object-contain opacity-90">
+                <div class="h-6 w-px bg-gray-700"></div>
+                <span class="font-heading font-bold text-lg tracking-tight text-white">PARTNERSHIP PROGRAM</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="py-32 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-r from-nyx/10 to-axon/10 rounded-full blur-[120px] -z-10 animate-pulse-slow"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-gold/30 bg-gold/10 text-gold text-xs font-bold tracking-[0.2em] mb-8 uppercase" data-aos="fade-down">
+                <i class="fa-solid fa-handshake"></i> Soluciones B2B & White Label
+            </div>
+            
+            <h1 class="text-4xl md:text-7xl font-heading font-black mb-8 leading-tight text-white" data-aos="zoom-in">
+                INTEGRA LA POTENCIA DE <br>
+                <span class="text-gradient">NYX & AXON</span> EN TU NEGOCIO
+            </h1>
+            
+            <p class="text-xl text-gray-300 max-w-4xl mx-auto font-light leading-relaxed mb-12" data-aos="fade-up" data-aos-delay="200">
+                Transforma tu oferta de valor. Ofrecemos nuestra infraestructura de Inteligencia Artificial como servicio (SaaS). Ya sea que dirijas una agencia de reclutamiento, una startup de EdTech o un servicio de redacción, puedes licenciar nuestros motores algorítmicos para escalar tus operaciones.
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-16 opacity-70">
+                <div class="flex flex-col items-center"><i class="fa-solid fa-server text-2xl text-gray-500 mb-2"></i><span class="text-xs uppercase font-bold">API Rest</span></div>
+                <div class="flex flex-col items-center"><i class="fa-solid fa-shield-halved text-2xl text-gray-500 mb-2"></i><span class="text-xs uppercase font-bold">GDPR Compliant</span></div>
+                <div class="flex flex-col items-center"><i class="fa-solid fa-bolt text-2xl text-gray-500 mb-2"></i><span class="text-xs uppercase font-bold">99.9% Uptime</span></div>
+                <div class="flex flex-col items-center"><i class="fa-solid fa-headset text-2xl text-gray-500 mb-2"></i><span class="text-xs uppercase font-bold">Soporte 24/7</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MODELO DE NEGOCIO DETALLADO -->
+    <section class="py-24 border-y border-white/5 bg-black/20 relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl font-heading font-bold text-white mb-8">Modelos de Asociación Estratégica</h2>
+                    
+                    <div class="space-y-8">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-gold text-xl border border-gold/30"><i class="fa-solid fa-file-contract"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">1. Licencia Enterprise (Compra Directa)</h3>
+                                <p class="text-sm text-gray-400 leading-7 text-justify">
+                                    Adquiere paquetes masivos de Tokens o una licencia de uso de software "White Label" para implementar en tu propia infraestructura. Ideal para empresas establecidas que buscan control total de la marca y datos. Tu logo, tu dominio, nuestra tecnología de fondo.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-axon text-xl border border-axon/30"><i class="fa-solid fa-chart-line"></i></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">2. Revenue Share (Comisión por Venta)</h3>
+                                <p class="text-sm text-gray-400 leading-7 text-justify">
+                                    Si tienes el tráfico pero no la tecnología, te proveemos las herramientas (Bots ATS, Generadores de CV). Nosotros mantenemos la infraestructura y los servidores, tú realizas la venta a tu audiencia, y se aplica una pequeña comisión operativa por cada transacción exitosa. Cero riesgo inicial, escalabilidad infinita.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-gradient-to-r from-nyx/20 to-axon/20 blur-3xl rounded-full"></div>
+                    <div class="relative z-10 bg-gray-900/90 p-8 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl">
+                        <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                            <span class="text-xs font-mono text-gray-500">API_CONSOLE_V2</span>
+                            <span class="text-xs font-bold text-green-500 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> LIVE</span>
+                        </div>
+                        <div class="space-y-4 font-mono text-xs">
+                            <div class="code-block">
+                                <span class="text-purple-400">POST</span> /api/v1/partners/generate_cv <br>
+                                {<br>
+                                &nbsp;&nbsp;"partner_id": <span class="text-gold">"CORP_8821"</span>,<br>
+                                &nbsp;&nbsp;"model": <span class="text-blue-400">"nyx-executive"</span>,<br>
+                                &nbsp;&nbsp;"input_data": { ... }<br>
+                                }
+                            </div>
+                            <div class="flex justify-between text-gray-300 px-2">
+                                <span>> Status Code:</span>
+                                <span class="text-green-400">200 OK</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300 px-2">
+                                <span>> Processing Time:</span>
+                                <span class="text-blue-400">0.45s</span>
+                            </div>
+                            <div class="mt-4 p-4 bg-black/60 rounded border border-white/5 text-gray-400">
+                                "Revenue Share event triggered. Commission: 15% allocated to Studio33. Balance updated."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 CUADROS DE INFORMACIÓN (CAPACIDADES DEL ECOSISTEMA) -->
+    <section class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-down">
+                <h2 class="text-4xl font-heading font-bold text-white mb-4">Capacidades del Ecosistema</h2>
+                <p class="text-gray-400">Tecnología modular lista para integrar.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                
+                <!-- Cuadro 1 -->
+                <div class="partner-card group" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="feature-icon-box bg-purple-900/20 text-nyx border border-purple-500/30 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Motor Semántico NYX</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4 flex-grow text-justify">
+                        Acceso directo vía API a nuestro motor de redacción generativa. Capaz de reescribir experiencias laborales completas en segundos, adaptando el tono, la longitud y la densidad de palabras clave según la industria. Perfecto para plataformas SaaS de RRHH.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-nyx font-mono">
+                        <span>API ENDPOINT</span>
+                        <span>v4.2.0</span>
+                    </div>
+                </div>
+
+                <!-- Cuadro 2 -->
+                <div class="partner-card group" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-icon-box bg-green-900/20 text-axon border border-green-500/30 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-microscope"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Auditoría Forense AXON</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4 flex-grow text-justify">
+                        Integra nuestro validador ATS en tu flujo de trabajo. AXON escanea documentos PDF/Word y devuelve un reporte JSON detallado con scores de compatibilidad, errores de parsing y sugerencias de mejora. Vital para agencias de reclutamiento masivo.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-axon font-mono">
+                        <span>DIAGNOSTIC TOOL</span>
+                        <span>99.8% ACCURACY</span>
+                    </div>
+                </div>
+
+                <!-- Cuadro 3 -->
+                <div class="partner-card group" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-icon-box bg-blue-900/20 text-secondary border border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Bots de Aplicación Autónoma</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4 flex-grow text-justify">
+                        Scripts de automatización (RPA) diseñados para rellenar formularios complejos en portales como Workday, Taleo y Greenhouse. Reduce el costo operativo de tu agencia permitiendo que nuestros bots gestionen la carga de datos repetitiva.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-secondary font-mono">
+                        <span>AUTO-FILL</span>
+                        <span>HEADLESS BROWSER</span>
+                    </div>
+                </div>
+
+                <!-- Cuadro 4 -->
+                <div class="partner-card group" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-icon-box bg-yellow-900/20 text-gold border border-yellow-500/30 group-hover:bg-yellow-600 group-hover:text-black transition-colors duration-300">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Infraestructura White Label</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4 flex-grow text-justify">
+                        ¿Quieres montar tu propia consultora de CVs? Te ofrecemos la plataforma completa bajo tu propia marca. Utiliza nuestra tecnología de fondo (Backend), nuestros diseños de plantillas y nuestros procesadores de pago, presentando todo con tu logotipo y dominio.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-gold font-mono">
+                        <span>BRANDING</span>
+                        <span>CUSTOMIZABLE</span>
+                    </div>
+                </div>
+
+                <!-- Cuadro 5 -->
+                <div class="partner-card group" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="feature-icon-box bg-red-900/20 text-red-400 border border-red-500/30 group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Invisible SEO & Seguridad</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4 flex-grow text-justify">
+                        Tecnología exclusiva de inyección de metadatos. Garantiza que los archivos generados por tu negocio sean indetectables como "generados por IA" pero altamente legibles por los algoritmos de clasificación. Protección de datos de nivel bancario.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-red-400 font-mono">
+                        <span>ENCRYPTION</span>
+                        <span>AES-256</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CASOS DE USO -->
+    <section class="py-20 bg-dark border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-heading font-bold text-white mb-12 text-center">Industrias que Potenciamos</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-white/5 hover:border-gold/30 transition">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Agencias RRHH" class="w-full h-48 object-cover rounded-lg mb-4 opacity-80 hover:opacity-100 transition">
+                    <h4 class="text-white font-bold mb-2">Agencias de Reclutamiento</h4>
+                    <p class="text-xs text-gray-400">Automatiza el filtrado inicial de miles de candidatos con AXON.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-white/5 hover:border-gold/30 transition">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="EdTech" class="w-full h-48 object-cover rounded-lg mb-4 opacity-80 hover:opacity-100 transition">
+                    <h4 class="text-white font-bold mb-2">Universidades & EdTech</h4>
+                    <p class="text-xs text-gray-400">Ofrece a tus estudiantes herramientas de empleabilidad de nivel ejecutivo.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-white/5 hover:border-gold/30 transition">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Portales de Empleo" class="w-full h-48 object-cover rounded-lg mb-4 opacity-80 hover:opacity-100 transition">
+                    <h4 class="text-white font-bold mb-2">Portales de Empleo</h4>
+                    <p class="text-xs text-gray-400">Integra el constructor de CV NYX como un valor añadido premium.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ESPECIFICACIONES TÉCNICAS -->
+    <section class="py-16 bg-primary border-t border-white/5">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-white mb-8">Estándares de Seguridad</h2>
+            <div class="flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition duration-500">
+                <!-- Logos de seguridad (simulados) -->
+                <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-3xl"></i> <span class="font-bold">SOC 2 Type II</span></div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-lock text-3xl"></i> <span class="font-bold">GDPR Ready</span></div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-server text-3xl"></i> <span class="font-bold">ISO 27001</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROADMAP 2027 -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-heading font-bold text-gray-500 mb-8 uppercase tracking-widest">Roadmap 2027</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-8 opacity-50 hover:opacity-100 transition duration-500">
+                <div class="border border-white/10 p-4 rounded-lg"><span class="text-accent font-bold">Q1</span> Integración LinkedIn API V2</div>
+                <div class="border border-white/10 p-4 rounded-lg"><span class="text-accent font-bold">Q2</span> Simulador de Entrevista VR</div>
+                <div class="border border-white/10 p-4 rounded-lg"><span class="text-accent font-bold">Q4</span> Marketplace Global de Talentos</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN CTA: NEGOCIOS -->
+    <section class="py-24 bg-gradient-to-b from-dark to-primary relative overflow-hidden">
+        <!-- Decoración de fondo -->
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[100px]"></div>
+
+        <div class="container mx-auto px-6 text-center relative z-10" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-heading font-black text-white mb-8">¿Listo para Escalar?</h2>
+            <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
+                Hablemos de números. Ya sea que busques una licencia enterprise o un modelo de comisión por ventas, tenemos una estructura comercial flexible para ti.
+            </p>
+            
+            <a href="https://wa.me/1234567890?text=Hola,%20estoy%20interesado%20en%20el%20programa%20de%20Partnership%20B2B" target="_blank" class="btn-business inline-flex items-center gap-3">
+                <i class="fa-brands fa-whatsapp text-xl"></i> Agendar Reunión de Negocios
+            </a>
+            
+            <p class="mt-6 text-xs text-gray-500">Atención directa con la Dirección Comercial de CV Studio33.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER LEGAL 2026 -->
+    <footer class="bg-black py-16 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-10">
+                <div class="flex items-center gap-4">
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-16 w-auto opacity-70 grayscale hover:grayscale-0 transition duration-500">
+                    <div class="text-left">
+                        <h4 class="text-white font-bold text-sm tracking-widest uppercase">CV Studio33 Inc.</h4>
+                        <p class="text-gray-500 text-xs">Buenos Aires, Argentina</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 text-sm text-gray-400 font-semibold">
+                    <a href="Terminos-y-condiciones.html" class="hover:text-white transition">Términos de Servicio B2B</a>
+                    <a href="politica-de-privacidad.html" class="hover:text-white transition">Privacidad de Datos</a>
+                    <a href="politica-de-cookies.html" class="hover:text-white transition">Cookies</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 text-center md:text-left text-xs text-gray-600 leading-relaxed">
+                <p class="mb-2">
+                    © 2026 CV Studio33. Todos los derechos reservados. NYX™ y AXON™ son marcas registradas de tecnología propietaria.
+                </p>
+                <p>
+                    El uso no autorizado de nuestras APIs, ingeniería inversa de nuestros bots o redistribución de nuestra tecnología sin licencia conllevará acciones legales inmediatas bajo la jurisdicción internacional de protección de software.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 1000,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+
+</body>
+</html>

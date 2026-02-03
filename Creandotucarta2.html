@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de Carta - Plantilla Modern Side | CV Studio33</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#3b82f6',
+                        accent: '#6366f1',
+                        dark: '#020617',
+                        paper: '#ffffff',
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    screens: {
+                        'print': {'raw': 'print'},
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos Base del Editor */
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+
+        /* Panel Editor */
+        .editor-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            height: calc(100vh - 80px); 
+            overflow-y: auto;
+        }
+
+        /* --- ESTILOS DE LA NUEVA PLANTILLA (PAM BEESLY) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Sombra para resaltar en el editor */
+            display: flex;
+            overflow: hidden;
+            color: #333;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0 auto;
+            transform-origin: top center;
+            transition: transform 0.3s ease;
+        }
+
+        /* Barra Lateral (Izquierda) */
+        .sidebar {
+            width: 32%;
+            background-color: #4e5661; /* Default */
+            color: #ffffff;
+            padding: 40px 25px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-header {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 35px;
+            border-bottom: 0px solid white;
+        }
+
+        .personal-info-item {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-weight: 700;
+            font-size: 11px;
+            margin-bottom: 3px;
+            display: block;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .value {
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 1.4;
+            opacity: 0.95;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        /* Contenido Principal (Derecha) */
+        .main-content {
+            width: 68%;
+            background-color: #ffffff;
+            padding: 55px 50px 40px 40px;
+            color: #333333;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipient-block {
+            margin-bottom: 35px;
+            line-height: 1.5;
+            font-size: 11px;
+        }
+
+        .date-block {
+            margin-bottom: 35px;
+            font-size: 11px;
+        }
+
+        .letter-body {
+            line-height: 1.8;
+            text-align: left;
+            white-space: pre-wrap; /* Mantiene párrafos del textarea */
+            font-size: 11px;
+        }
+
+        .letter-body p {
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-size: 11px;
+        }
+
+        .signature p {
+            margin-bottom: 30px; /* Espacio para firma manuscrita si se imprime */
+        }
+
+        /* --- UI EDITOR COMPONENTS --- */
+        .cv-input, .cv-select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .cv-input:focus, .cv-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .cv-label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .config-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+        .config-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+        }
+        .config-slider::-webkit-slider-thumb:hover { background: #60a5fa; }
+
+        .accordion-header { cursor: pointer; transition: background 0.3s; }
+        .accordion-header:hover { background: rgba(255,255,255,0.05); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+        .accordion-content.active { max-height: 2000px; }
+
+        /* Loading IA */
+        .ai-loading { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Warning text helper */
+        .warning-text { font-size: 0.65rem; color: #fbbf24; margin-top: 2px; font-style: italic; }
+
+        /* Botones de Color */
+        .color-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .color-btn:hover { transform: scale(1.1); }
+        .color-btn.selected { border-color: white; transform: scale(1.2); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+        /* Modal Móvil */
+        .mobile-preview-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 100; overflow-y: auto; display: none;
+        }
+        .mobile-preview-modal.active { display: block; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+
+    <nav class="bg-primary/90 backdrop-blur-md border-b border-white/10 h-20 flex-shrink-0 z-50 relative no-print">
+        <div class="container mx-auto px-4 h-full flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="Selecionatuforma.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition">
+                    <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Volver</span>
+                </a>
+                <a href="Biblioteca-de-cartas.html" class="bg-purple-600/20 border border-purple-500 text-purple-300 px-3 py-1 rounded-full text-xs font-bold hover:bg-purple-600 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-envelope-open-text"></i> Biblioteca de Cartas
+                </a>
+            </div>
+            
+            <div class="flex items-center gap-2 hidden md:flex">
+                <span class="font-heading font-bold text-lg">CREADOR DE CARTA</span>
+                <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">Plantilla: Modern Side</span>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="downloadPDFDirect()" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm transition flex items-center gap-2 shadow-lg shadow-green-900/50">
+                    <i class="fa-solid fa-file-pdf"></i> <span class="hidden sm:inline">Descargar PDF</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex flex-1 overflow-hidden relative">
+        
+        <div class="w-full md:w-1/2 lg:w-5/12 editor-panel p-6 pb-32 no-print custom-scrollbar">
+            
+            <div class="mb-6 bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg">
+                <h2 class="text-xl font-bold text-blue-400 mb-1">Editor de Carta</h2>
+                <p class="text-xs text-gray-400">Personaliza el contenido de tu carta de presentación.</p>
+            </div>
+
+            <div class="mb-4 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                <div class="accordion-header bg-white/5 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-design')">
+                    <h3 class="font-bold flex items-center gap-2 text-sm uppercase"><i class="fa-solid fa-paintbrush text-pink-400"></i> Ajustes de Diseño</h3>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+                <div id="acc-design" class="accordion-content active p-4">
+                    <label class="cv-label">Color de Barra Lateral</label>
+                    <div class="flex gap-3 mb-4">
+                        <button onclick="setSidebarColor('#4e5661', this)" class="color-btn selected" style="background-color: #4e5661;" title="Gris Original"></button>
+                        <button onclick="setSidebarColor('#1e3a8a', this)" class="color-btn" style="background-color: #1e3a8a;" title="Azul Marino"></button>
+                        <button onclick="setSidebarColor('#064e3b', this)" class="color-btn" style="background-color: #064e3b;" title="Verde Esmeralda"></button>
+                        <button onclick="setSidebarColor('#7f1d1d', this)" class="color-btn" style="background-color: #7f1d1d;" title="Rojo Vino"></button>
+                        <button onclick="setSidebarColor('#171717', this)" class="color-btn" style="background-color: #171717;" title="Negro Profundo"></button>
+                    </div>
+                    <input type="hidden" id="sidebar-color-input" value="#4e5661">
+
+                    <label class="cv-label">Tipo de Letra Principal</label>
+                    <select class="cv-select mb-2" id="font-global" onchange="updateDesign()">
+                        <option value="'Open Sans', sans-serif">Open Sans (Original)</option>
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                        <option value="'Playfair Display', serif">Playfair Display</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Lato', sans-serif">Lato</option>
+                    </select>
+
+                    <label class="cv-label">Dimensión de Letra (Cuerpo)</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="font-size-body" class="config-slider" min="9" max="14" step="0.5" value="11" oninput="updateDesign()">
+                        <span id="font-size-val" class="text-xs text-gray-400 w-8">11pt</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                <div class="accordion-header bg-white/5 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-personal')">
+                    <h3 class="font-bold flex items-center gap-2 text-sm uppercase"><i class="fa-solid fa-user text-blue-400"></i> Tus Datos (Remitente)</h3>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+                <div id="acc-personal" class="accordion-content p-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="cv-label">Nombre</label><input type="text" class="cv-input" id="input-name" placeholder="Pam" oninput="updateLetter()"></div>
+                        <div><label class="cv-label">Apellido</label><input type="text" class="cv-input" id="input-lastname" placeholder="Beesly" oninput="updateLetter()"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                        <div><label class="cv-label">Email</label><input type="email" class="cv-input" id="input-email" placeholder="info@example.com" oninput="updateLetter()"></div>
+                        <div><label class="cv-label">Teléfono</label><input type="tel" class="cv-input" id="input-phone" placeholder="+123 456 7890" oninput="updateLetter()"></div>
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="cv-label">Dirección</label><input type="text" class="cv-input" id="input-address" placeholder="Herengracht 458" oninput="updateLetter()">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-2">
+                        <div><label class="cv-label">Ciudad</label><input type="text" class="cv-input" id="input-city" placeholder="Amsterdam" oninput="updateLetter()"></div>
+                        <div><label class="cv-label">Código Postal</label><input type="text" class="cv-input" id="input-zip" placeholder="1017CA" oninput="updateLetter()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                <div class="accordion-header bg-white/5 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-recipient')">
+                    <h3 class="font-bold flex items-center gap-2 text-sm uppercase"><i class="fa-solid fa-building text-green-400"></i> Datos del Destinatario</h3>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+                <div id="acc-recipient" class="accordion-content p-4">
+                    <label class="cv-label">Empresa / Organización</label>
+                    <input type="text" class="cv-input" id="input-rec-company" placeholder="Acme Company" oninput="updateLetter()">
+                    
+                    <label class="cv-label">Nombre del Contacto</label>
+                    <input type="text" class="cv-input" id="input-rec-name" placeholder="Miranda Smith" oninput="updateLetter()">
+                    
+                    <label class="cv-label">Dirección Empresa</label>
+                    <input type="text" class="cv-input" id="input-rec-address" placeholder="Piet Heinkade 221" oninput="updateLetter()">
+                    
+                    <label class="cv-label">Ciudad / Estado / CP</label>
+                    <input type="text" class="cv-input" id="input-rec-city" placeholder="London, LC 11122" oninput="updateLetter()">
+                </div>
+            </div>
+
+            <div class="mb-4 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                <div class="accordion-header bg-white/5 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-config')">
+                    <h3 class="font-bold flex items-center gap-2 text-sm uppercase"><i class="fa-solid fa-calendar-days text-purple-400"></i> Configuración Carta</h3>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+                <div id="acc-config" class="accordion-content p-4">
+                    <label class="cv-label">Fecha</label>
+                    <input type="date" class="cv-input" id="input-letter-date" oninput="updateLetter()">
+                    
+                    <label class="cv-label">Saludo Inicial</label>
+                    <input type="text" class="cv-input" id="input-salutation" placeholder="Dear Ms. Smith," oninput="updateLetter()">
+
+                    <label class="cv-label">Despedida</label>
+                    <input type="text" class="cv-input" id="input-closing" placeholder="Sincerely," oninput="updateLetter()">
+                </div>
+            </div>
+
+            <div class="mb-4 border border-white/10 rounded-lg overflow-hidden bg-black/20">
+                <div class="accordion-header bg-white/5 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-body')">
+                    <h3 class="font-bold flex items-center gap-2 text-sm uppercase"><i class="fa-solid fa-align-left text-yellow-400"></i> Cuerpo de la Carta</h3>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+                <div id="acc-body" class="accordion-content p-4">
+                    <div class="relative">
+                        <textarea class="cv-input h-96 text-sm" id="input-letter-body" placeholder="Escribe aquí el cuerpo de tu carta..." oninput="updateLetter()"></textarea>
+                        
+                        <button id="btn-ai-body" class="absolute bottom-2 right-2 text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition flex items-center gap-1 shadow-lg" onclick="improveTextAI('input-letter-body', 'btn-ai-body')">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Mejorar con IA
+                        </button>
+                    </div>
+                    <p class="warning-text">Usa doble Enter para separar párrafos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden md:flex w-1/2 lg:w-7/12 bg-gray-800 justify-center overflow-y-auto relative no-print p-8 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+            <div class="scale-90 origin-top transition-transform duration-300" id="preview-wrapper"> 
+                
+                <div id="letter-preview" class="page">
+                    <aside class="sidebar" id="sidebar-preview">
+                        <div class="sidebar-header">PERSONAL DETAILS</div>
+            
+                        <div class="personal-info-item">
+                            <span class="label">Name</span>
+                            <span class="value" id="display-sender-name">Pam Beesly</span>
+                        </div>
+            
+                        <div class="personal-info-item">
+                            <span class="label">Address</span>
+                            <span class="value">
+                                <span id="display-sender-address">Herengracht 458</span><br>
+                                <span id="display-sender-city-zip">Amsterdam, 1017CA</span>
+                            </span>
+                        </div>
+            
+                        <div class="personal-info-item">
+                            <span class="label">Email</span>
+                            <span class="value" id="display-sender-email">info@example.com</span>
+                        </div>
+            
+                        <div class="personal-info-item">
+                            <span class="label">Phone number</span>
+                            <span class="value" id="display-sender-phone">+123 456 7890</span>
+                        </div>
+                    </aside>
+            
+                    <main class="main-content">
+                        <div class="recipient-block">
+                            <span id="display-rec-name">Miranda Smith</span><br>
+                            <span id="display-rec-company" style="font-weight:bold;">Acme Company</span><br>
+                            <span id="display-rec-address">Piet Heinkade 221</span><br>
+                            <span id="display-rec-city">London, LC 11122</span>
+                        </div>
+            
+                        <div class="date-block" id="display-date">
+                            Amsterdam, 19 September 2022
+                        </div>
+            
+                        <div class="letter-body">
+                            <div id="display-salutation-body" style="margin-bottom:15px;">Dear Ms. Smith,</div>
+                            
+                            <div id="display-body">
+I am interested in the author’s assistant position at Acme Company, as advertised on LinkedIn. I am currently employed as legislative director for Assemblywoman Nora Kiel, Chairperson of the NYS Assembly. I believe that the skills and experiences I have gained at this position make me an ideal candidate for the job of author’s assistant.
+
+As legislative director, I have developed strong writing and editing skills. For example, one of my main duties is to prepare Assemblywoman Nora Kiel’s personal legislation, which deals with issues related to her position as Senior Member of the NYS Assembly Standing Committee.
+
+This duty requires meticulous writing and editing skills, and an ability to convey complex legal ideas clearly. I have prepared dozens of pieces of legislation and received praise for the clarity of my writing.
+                            </div>
+            
+                            <div class="signature">
+                                <p id="display-closing">Sincerely,</p>
+                                <span id="display-sign-name">Joseph Q. Applicant</span>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 right-6 md:hidden z-50 no-print">
+        <button onclick="toggleMobileModal()" class="bg-blue-600 hover:bg-blue-500 text-white rounded-full p-4 shadow-2xl animate-bounce">
+            <i class="fa-solid fa-eye text-xl"></i>
+        </button>
+    </div>
+
+    <div id="mobile-modal" class="mobile-preview-modal no-print">
+        <div class="p-4">
+            <button onclick="toggleMobileModal()" class="fixed top-4 right-4 bg-red-600 text-white p-2 rounded-full z-50 shadow-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex justify-center min-h-screen pt-12 pb-20">
+                <div id="mobile-cv-clone-container" class="origin-top scale-[0.45] sm:scale-75 shadow-2xl"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- INICIALIZACIÓN ---
+        window.onload = function() {
+            // Texto por defecto
+            const defaultBody = "I am interested in the author’s assistant position at Acme Company, as advertised on LinkedIn. I am currently employed as legislative director for Assemblywoman Nora Kiel, Chairperson of the NYS Assembly. I believe that the skills and experiences I have gained at this position make me an ideal candidate for the job of author’s assistant.\n\nAs legislative director, I have developed strong writing and editing skills. For example, one of my main duties is to prepare Assemblywoman Nora Kiel’s personal legislation, which deals with issues related to her position as Senior Member of the NYS Assembly Standing Committee.\n\nThis duty requires meticulous writing and editing skills, and an ability to convey complex legal ideas clearly. I have prepared dozens of pieces of legislation and received praise for the clarity of my writing.";
+            
+            if(!localStorage.getItem('letterData2Studio33')) {
+               document.getElementById('input-letter-body').value = defaultBody;
+            }
+
+            loadData();
+            updateLetter();
+            updateDesign();
+        };
+
+        // --- GESTIÓN DE DATOS ---
+        function saveData() {
+            const data = {
+                // Remitente
+                name: val('input-name'),
+                lastname: val('input-lastname'),
+                email: val('input-email'),
+                phone: val('input-phone'),
+                address: val('input-address'),
+                city: val('input-city'),
+                zip: val('input-zip'),
+                // Destinatario
+                recCompany: val('input-rec-company'),
+                recName: val('input-rec-name'),
+                recAddress: val('input-rec-address'),
+                recCity: val('input-rec-city'),
+                // Config
+                date: val('input-letter-date'),
+                salutation: val('input-salutation'),
+                closing: val('input-closing'),
+                // Body
+                body: val('input-letter-body'),
+                // Design
+                fontGlobal: val('font-global'),
+                fontSize: val('font-size-body'),
+                sidebarColor: val('sidebar-color-input')
+            };
+            localStorage.setItem('letterData2Studio33', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('letterData2Studio33');
+            if(saved) {
+                const data = JSON.parse(saved);
+                if(data.name) document.getElementById('input-name').value = data.name;
+                if(data.lastname) document.getElementById('input-lastname').value = data.lastname;
+                if(data.email) document.getElementById('input-email').value = data.email;
+                if(data.phone) document.getElementById('input-phone').value = data.phone;
+                if(data.address) document.getElementById('input-address').value = data.address;
+                if(data.city) document.getElementById('input-city').value = data.city;
+                if(data.zip) document.getElementById('input-zip').value = data.zip;
+                
+                if(data.recCompany) document.getElementById('input-rec-company').value = data.recCompany;
+                if(data.recName) document.getElementById('input-rec-name').value = data.recName;
+                if(data.recAddress) document.getElementById('input-rec-address').value = data.recAddress;
+                if(data.recCity) document.getElementById('input-rec-city').value = data.recCity;
+
+                if(data.date) document.getElementById('input-letter-date').value = data.date;
+                if(data.salutation) document.getElementById('input-salutation').value = data.salutation;
+                if(data.closing) document.getElementById('input-closing').value = data.closing;
+                if(data.body) document.getElementById('input-letter-body').value = data.body;
+                
+                // Cargar Diseño
+                if(data.fontGlobal) document.getElementById('font-global').value = data.fontGlobal;
+                if(data.fontSize) document.getElementById('font-size-body').value = data.fontSize;
+                if(data.sidebarColor) {
+                    // Update input value
+                    document.getElementById('sidebar-color-input').value = data.sidebarColor;
+                    // Update buttons UI
+                    const btns = document.querySelectorAll('.color-btn');
+                    btns.forEach(btn => {
+                        if(btn.style.backgroundColor === data.sidebarColor) btn.classList.add('selected');
+                        else btn.classList.remove('selected'); // Close enough comparison
+                    });
+                }
+            }
+        }
+
+        // --- MANEJO DE COLOR ---
+        function setSidebarColor(color, btn) {
+            document.getElementById('sidebar-color-input').value = color;
+            
+            // UI Feedback
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+
+            updateDesign();
+        }
+
+        // --- ACTUALIZAR DISEÑO ---
+        function updateDesign() {
+            saveData();
+            const font = document.getElementById('font-global').value;
+            const size = document.getElementById('font-size-body').value;
+            const color = document.getElementById('sidebar-color-input').value;
+
+            // Fuentes
+            document.getElementById('letter-preview').style.fontFamily = font;
+            
+            // Tamaños
+            document.querySelector('.letter-body').style.fontSize = size + 'pt';
+            document.querySelector('.recipient-block').style.fontSize = size + 'pt';
+            document.querySelector('.date-block').style.fontSize = size + 'pt';
+            document.getElementById('font-size-val').innerText = size + 'pt';
+
+            // Color Sidebar
+            document.getElementById('sidebar-preview').style.backgroundColor = color;
+        }
+
+        // --- LÓGICA DE ACTUALIZACIÓN CONTENIDO ---
+        function updateLetter() {
+            saveData(); 
+
+            // REMITENTE (BARRA LATERAL)
+            const name = val('input-name') || 'Pam';
+            const lastname = val('input-lastname') || 'Beesly';
+            txt('display-sender-name', `${name} ${lastname}`);
+            txt('display-sign-name', `${name} ${lastname}`); // Firma
+
+            txt('display-sender-address', val('input-address') || 'Herengracht 458');
+            const city = val('input-city') || 'Amsterdam';
+            const zip = val('input-zip') || '1017CA';
+            txt('display-sender-city-zip', `${city}, ${zip}`);
+            
+            txt('display-sender-email', val('input-email') || 'info@example.com');
+            txt('display-sender-phone', val('input-phone') || '+123 456 7890');
+
+            // DESTINATARIO (MAIN CONTENT)
+            txt('display-rec-company', val('input-rec-company') || 'Acme Company');
+            txt('display-rec-name', val('input-rec-name') || 'Miranda Smith');
+            txt('display-rec-address', val('input-rec-address') || 'Piet Heinkade 221');
+            txt('display-rec-city', val('input-rec-city') || 'London, LC 11122');
+
+            // CONFIG (FECHA)
+            const dateInput = val('input-letter-date');
+            if (dateInput) {
+                const dateObj = new Date(dateInput);
+                const userTimezoneOffset = dateObj.getTimezoneOffset() * 60000;
+                const adjustedDate = new Date(dateObj.getTime() + userTimezoneOffset);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                txt('display-date', adjustedDate.toLocaleDateString('es-ES', options)); // Formato local
+            } else {
+                txt('display-date', 'Amsterdam, 19 September 2022');
+            }
+
+            txt('display-salutation-body', val('input-salutation') || 'Dear Ms. Smith,');
+            txt('display-closing', val('input-closing') || 'Sincerely,');
+
+            // BODY
+            const bodyText = val('input-letter-body');
+            txt('display-body', bodyText);
+        }
+
+        function val(id) { return document.getElementById(id) ? document.getElementById(id).value : ''; }
+        function txt(id, text) { if(document.getElementById(id)) document.getElementById(id).innerText = text; }
+
+        function toggleAccordion(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        // --- IA FIXED (CORS/SEED) ---
+        async function improveTextAI(inputId, btnId) {
+            const input = document.getElementById(inputId);
+            const btn = document.getElementById(btnId);
+            const original = input.value;
+            
+            if(!original) return alert("Escribe algo primero.");
+            if(original.length < 10) return alert("Texto muy corto.");
+
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner ai-loading"></i>`;
+            btn.disabled = true;
+
+            try {
+                // Random seed to bypass browser cache issues
+                const seed = Math.floor(Math.random() * 100000);
+                
+                // System prompt optimized for Spanish professional text
+                const systemPrompt = "Actúa como un experto en redacción de recursos humanos. Reescribe el siguiente texto de carta de presentación para que sea profesional, persuasivo y conciso en ESPAÑOL. NO uses markdown, comillas ni asteriscos. Devuelve SOLO el texto reescrito.";
+                
+                // URL encode the entire prompt part to prevent URL breakages
+                const fullPrompt = encodeURIComponent(`${systemPrompt} Texto original: ${original}`);
+                
+                const response = await fetch(`https://text.pollinations.ai/${fullPrompt}?seed=${seed}`, {
+                    method: 'GET',
+                    headers: { 'Cache-Control': 'no-cache' }
+                });
+
+                if (!response.ok) throw new Error('Error en la API');
+                
+                let improvedText = await response.text();
+                
+                // Cleaning potential artifacts
+                improvedText = improvedText.replace(/^"|"$/g, '').replace(/\*\*/g, '').trim();
+                
+                input.value = improvedText;
+                updateLetter();
+                
+            } catch (error) {
+                console.error("AI Error:", error);
+                alert("Hubo un problema al conectar con la IA. Por favor, intenta nuevamente en unos segundos.");
+            } finally {
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            }
+        }
+
+        function downloadPDFDirect() {
+            const element = document.getElementById('letter-preview');
+            const opt = {
+                margin:       0,
+                filename:     'mi-carta-presentacion.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function toggleMobileModal() {
+            const modal = document.getElementById('mobile-modal');
+            const container = document.getElementById('mobile-cv-clone-container');
+            const original = document.getElementById('letter-preview');
+            if (modal.classList.contains('active')) { modal.classList.remove('active'); container.innerHTML = ''; } 
+            else { modal.classList.add('active'); const clone = original.cloneNode(true); clone.style.margin = '0'; clone.style.transform = 'scale(1)'; container.appendChild(clone); }
+        }
+    </script>
+</body>
+</html>

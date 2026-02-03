@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV Studio33</title>
-     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -12,39 +12,35 @@
 <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0f172a',
-                        secondary: '#3b82f6',
-                        accent: '#6366f1',
-                        dark: '#020617',
-                        success: '#10b981',
-                        premium: '#f59e0b',
-                        mp: '#009ee3',
+                        primary: '#0f172a', /* Fondo Principal */
+                        secondary: '#1e293b', /* Cartas */
+                        accent: '#3b82f6', /* Azul Brand */
+                        axon: '#10b981', /* Verde AXON */
+                        nyx: '#8b5cf6', /* Violeta NYX */
+                        elite: '#f59e0b', /* Dorado Elite */
+                        mp: '#009ee3', /* Mercado Pago */
                     },
                     fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
                         heading: ['Montserrat', 'sans-serif'],
-                        sans: ['Open Sans', 'sans-serif']
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'tech-grid': "url('https://www.transparenttextures.com/patterns/cubes.png')",
                     },
                     animation: {
-                        'gradient-xy': 'gradient-xy 15s ease infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        'gradient-xy': {
-                            '0%, 100%': { 'background-size': '400% 400%', 'background-position': 'left center' },
-                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' }
-                        },
-                        'float': {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' }
-                        }
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -52,427 +48,556 @@
     </script>
 
     <style>
-        body { font-family: 'Open Sans', sans-serif; background-color: #0f172a; color: white; overflow-x: hidden; }
-        
-        /* SCROLLBAR PERSONALIZADA */
-        ::-webkit-scrollbar { height: 8px; width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #3b82f6, #6366f1); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-
-        /* FONDO ANIMADO */
-        .bg-animated-mesh {
-            background: linear-gradient(-45deg, #020617, #1e1b4b, #0f172a, #312e81);
-            background-size: 400% 400%;
-            animation: gradient-xy 15s ease infinite;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        body {
+            background-color: #0f172a;
+            color: white;
+            overflow-x: hidden;
         }
 
-        /* CONTENEDOR HORIZONTAL (IZQUIERDA A DERECHA) */
-        .horizontal-scroll-container {
+        /* Scrollbar Oculto pero funcional (Estilo Netflix) */
+        .scrolling-wrapper {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             display: flex;
             overflow-x: auto;
             gap: 2rem;
-            padding: 2rem 1rem;
+            padding-bottom: 3rem;
+            padding-top: 1rem;
             scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
+        }
+        .scrolling-wrapper::-webkit-scrollbar { display: none; }
+
+        /* Efecto 3D en Tarjetas */
+        .card-3d {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
         }
         
-        /* TARJETAS 3D */
-        .template-card {
-            flex: 0 0 350px; /* Ancho fijo para las tarjetas */
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            scroll-snap-align: start;
-            /* Efecto 3D simulado */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .template-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: #3b82f6;
-            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25);
-            z-index: 10;
-            background: rgba(30, 41, 59, 0.8);
+        .card-3d:hover {
+            transform: translateY(-15px) rotateX(2deg) rotateY(2deg) scale(1.03);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+            z-index: 20;
         }
 
-        /* IMAGEN A4 */
-        .cv-preview-container {
-            height: 400px; 
-            background-color: #e2e8f0;
-            overflow: hidden;
-            position: relative;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .cv-preview-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top;
-            transition: transform 0.8s ease;
-        }
-        .template-card:hover .cv-preview-container img {
-            transform: scale(1.1);
+        /* Animación de Iconos */
+        .icon-animate:hover {
+            transform: scale(1.2) rotate(10deg);
+            color: white;
         }
 
-        /* ETIQUETAS DE VERIFICACIÓN */
-        .verification-tag {
-            font-size: 0.6rem;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-right: 4px;
-            margin-bottom: 4px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .tag-ats { background: rgba(16, 185, 129, 0.2); color: #34d399; border-color: rgba(16, 185, 129, 0.3); }
-        .tag-nyx { background: rgba(139, 92, 246, 0.2); color: #a78bfa; border-color: rgba(139, 92, 246, 0.3); }
-        .tag-pro { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border-color: rgba(59, 130, 246, 0.3); }
-        .tag-elite { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%); color: white; border: none; box-shadow: 0 2px 5px rgba(245, 158, 11, 0.3); }
-
-        /* PRECIO */
-        .price-container {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            margin-top: auto;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* SECCIONES TITULO */
-        .category-header {
-            padding: 0 1rem;
-            margin-top: 3rem;
-            border-left: 4px solid;
-            padding-left: 1rem;
-        }
+        /* Acordeón FAQ */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .5s ease-in-out; }
+        @keyframes sweep { 0% {opacity: 0; margin-top: -10px} 100% {opacity: 1; margin-top: 0px} }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen bg-tech-grid bg-fixed">
 
-    <div class="bg-animated-mesh"></div>
-
-    <!-- NAVBAR -->
-    <nav class="bg-primary/95 backdrop-blur-xl border-b border-white/10 h-24 sticky top-0 z-50 shadow-2xl">
+    <nav class="bg-primary/90 backdrop-blur-xl border-b border-white/10 h-20 sticky top-0 z-50">
         <div class="container mx-auto px-4 h-full flex justify-between items-center">
-            <a href="Creandotucv.html" class="flex items-center gap-2 text-gray-400 hover:text-white transition group font-semibold text-sm uppercase tracking-wide">
-                <i class="fa-solid fa-chevron-left group-hover:-translate-x-1 transition-transform text-accent"></i> Volver al Editor
-            </a>
             <div class="flex items-center gap-3">
-                <img src="logo.png" alt="CV Studio33 Tienda" class="h-12 w-auto object-contain">
-                <div class="h-8 w-px bg-gray-700 mx-2"></div>
-                <span class="font-heading font-black text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">TIENDA</span>
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-12 object-contain">
+                <span class="font-heading font-bold text-xl tracking-wider text-white">CV STUDIO33</span>
             </div>
+            <a href="Creandotucv.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition group border border-white/10 px-4 py-2 rounded-full hover:bg-white/5">
+                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden sm:inline">Volver al Editor</span>
+            </a>
         </div>
     </nav>
 
-    <!-- HEADER DE IMPACTO -->
-    <header class="py-24 text-center px-4 relative overflow-hidden">
-        <!-- Efectos de fondo -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] -z-10 animate-pulse"></div>
-        
-        <h1 class="text-5xl md:text-7xl font-heading font-black mb-8 leading-tight drop-shadow-2xl">
-            DOMINA EL <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">MERCADO LABORAL GLOBAL</span>
+    <header class="py-20 px-4 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-radial from-accent/10 to-transparent opacity-40 pointer-events-none"></div>
+        <h1 class="relative z-10 font-heading text-4xl md:text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-gray-500 tracking-tight">
+            ARQUITECTURA CURRICULAR
         </h1>
-        <p class="text-blue-100 text-xl md:text-2xl max-w-4xl mx-auto font-medium leading-relaxed">
-            Deja de enviar currículums al vacío. <br>
-            <span class="text-white bg-blue-600/20 px-2 rounded">Utiliza ingeniería inversa de reclutamiento</span> para hackear el sistema y conseguir la entrevista.
+        <p class="relative z-10 text-gray-400 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
+            Bienvenido al repositorio central de ingeniería de carrera. Aquí no seleccionas un diseño bonito; seleccionas una estrategia de datos. Desde estructuras básicas hasta ecosistemas validados por IA con inyección de código invisible para dominar los algoritmos ATS globales.
         </p>
     </header>
 
-    <main class="pb-40">
+    <main class="container mx-auto px-4 pb-20 space-y-24">
 
-        <!-- ================= GRATIS (1-3) ================= -->
-        <div class="container mx-auto">
-            <div class="category-header border-gray-500">
-                <h2 class="text-3xl font-heading font-bold text-gray-200">Starter Pack <span class="text-sm font-normal text-gray-500 ml-2 bg-gray-800 px-2 py-1 rounded">GRATUITO</span></h2>
-                <p class="text-sm text-gray-400 mt-2 max-w-2xl">Plantillas estructurales genéricas. <span class="text-red-400 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> ADVERTENCIA:</span> No incluyen optimización de algoritmos ATS, ni validación de nuestra IA NYX, ni visualización predictiva de reclutador.</p>
-            </div>
-            
-            <div class="horizontal-scroll-container">
-                <!-- Template 1 -->
-                <div class="template-card">
-                    <div class="cv-preview-container">
-                        <img src="https://placehold.co/595x842/334155/FFF?text=Creandotucv1.png" alt="CV 1">
-                        <div class="absolute top-3 right-3 bg-gray-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow-lg border border-gray-500">Básico</div>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-1 text-white">Administrativo Simple</h3>
-                        <p class="text-xs text-gray-400 mb-4">Estructura lineal estándar.</p>
-                        <a href="Creandotucv.html" class="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-lg font-bold transition text-center text-sm">
-                            Usar Plantilla
-                        </a>
-                    </div>
-                </div>
-                <!-- Template 2 -->
-                <div class="template-card">
-                    <div class="cv-preview-container">
-                        <img src="https://placehold.co/595x842/334155/FFF?text=Creandotucv2.png" alt="CV 2">
-                        <div class="absolute top-3 right-3 bg-gray-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow-lg border border-gray-500">Básico</div>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-1 text-white">Formato Oxford</h3>
-                        <p class="text-xs text-gray-400 mb-4">Doble columna clásica.</p>
-                        <a href="Creandotucv2.html" class="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-lg font-bold transition text-center text-sm">
-                            Usar Plantilla
-                        </a>
-                    </div>
-                </div>
-                <!-- Template 3 -->
-                <div class="template-card">
-                    <div class="cv-preview-container">
-                        <img src="https://placehold.co/595x842/334155/FFF?text=Creandotucv3.png" alt="CV 3">
-                        <div class="absolute top-3 right-3 bg-gray-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow-lg border border-gray-500">Básico</div>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-1 text-white">Texto Académico</h3>
-                        <p class="text-xs text-gray-400 mb-4">Solo texto, sin gráficos.</p>
-                        <a href="Creandotucv3.html" class="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-lg font-bold transition text-center text-sm">
-                            Usar Plantilla
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= BÁSICAS (4-6) ================= -->
-        <div class="container mx-auto mt-12">
-            <div class="category-header border-blue-500">
-                <h2 class="text-3xl font-heading font-bold text-blue-400">Diseños Esenciales <i class="fa-solid fa-layer-group ml-2 text-xl"></i></h2>
-                <p class="text-sm text-gray-400 mt-2 max-w-3xl">Estas estructuras tienen un <strong>% de éxito superior</strong> a las gratuitas por su organización visual. Son las preferidas por reclutadores humanos para lecturas rápidas, aunque no cuentan con la certificación algorítmica de NYX.</p>
-            </div>
-
-            <div class="horizontal-scroll-container">
-                <!-- Template 4 -->
-                <div class="template-card shadow-lg shadow-blue-900/10">
-                    <div class="cv-preview-container">
-                        <img src="https://placehold.co/595x842/1e3a8a/FFF?text=Creandotucv4.png" alt="CV 4">
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-1 text-white">Modern Slate</h3>
-                        <p class="text-xs text-gray-400 mb-4">Jerarquía visual mejorada.</p>
-                        <div class="price-container">
-                            <div class="flex justify-between items-end mb-3">
-                                <span class="price-tag price-basic-display text-blue-300">$3.500</span>
-                                <span class="price-usd usd-basic-display text-[10px]">USD...</span>
-                            </div>
-                            <a href="#" id="link-4" target="_blank" class="w-full py-3 bg-mp hover:bg-sky-400 text-white rounded-lg font-bold transition text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-sky-500/50 transform hover:-translate-y-1">
-                                <i class="fa-solid fa-cart-shopping"></i> Comprar
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Template 5 -->
-                <div class="template-card shadow-lg shadow-blue-900/10">
-                    <div class="cv-preview-container"><img src="https://placehold.co/595x842/1e3a8a/FFF?text=Creandotucv5.png"></div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-1 text-white">Creative Air</h3>
-                        <p class="text-xs text-gray-400 mb-4">Espaciado estratégico.</p>
-                        <div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-basic-display text-blue-300">$3.500</span><span class="price-usd usd-basic-display text-[10px]">USD...</span></div><a href="#" id="link-5" target="_blank" class="w-full py-3 bg-mp hover:bg-sky-400 text-white rounded-lg font-bold transition text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-sky-500/50 transform hover:-translate-y-1"><i class="fa-solid fa-cart-shopping"></i> Comprar</a></div>
-                    </div>
-                </div>
-                <!-- Template 6 -->
-                <div class="template-card shadow-lg shadow-blue-900/10">
-                    <div class="cv-preview-container"><img src="https://placehold.co/595x842/1e3a8a/FFF?text=Creandotucv6.png"></div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-1 text-white">Compact Pro</h3>
-                        <p class="text-xs text-gray-400 mb-4">Alta densidad de datos.</p>
-                        <div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-basic-display text-blue-300">$3.500</span><span class="price-usd usd-basic-display text-[10px]">USD...</span></div><a href="#" id="link-6" target="_blank" class="w-full py-3 bg-mp hover:bg-sky-400 text-white rounded-lg font-bold transition text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-sky-500/50 transform hover:-translate-y-1"><i class="fa-solid fa-cart-shopping"></i> Comprar</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= CERTIFICADAS NYX IA (7-12) ================= -->
-        <div class="container mx-auto mt-12">
-            <div class="category-header border-purple-500 bg-gradient-to-r from-purple-900/20 to-transparent py-4 rounded-r-xl">
-                <div class="flex items-center gap-3">
-                    <div class="text-3xl text-purple-400 animate-pulse-slow"><i class="fa-solid fa-cube fa-spin" style="--fa-animation-duration: 3s;"></i></div>
-                    <h2 class="text-3xl font-heading font-black text-white">CERTIFICACIÓN <span class="text-purple-400">NYX A.I.</span></h2>
-                </div>
-                <p class="text-sm text-gray-300 mt-2 max-w-4xl leading-relaxed">
-                    Diseños sometidos a <strong>Ingeniería Inversa de Filtros ATS</strong>. Estas plantillas han sido escaneadas y validadas por nuestra IA propietaria para garantizar visibilidad ante robots de RRHH.
-                    <br><span class="text-purple-300 font-bold"><i class="fa-solid fa-gift"></i> BONUS:</span> Incluye el <strong>Plugin Asistente NYX</strong> que te guía frase por frase mientras escribes.
+        <section>
+            <div class="mb-8 border-l-4 border-gray-500 pl-6 py-2">
+                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-cube text-gray-400"></i> Starter Pack <span class="text-xs bg-gray-700 text-white px-2 py-1 rounded">GENÉRICO</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-4 max-w-3xl leading-relaxed">
+                    Estas plantillas representan el estándar base de la industria. Son diseños limpios y funcionales, ideales para entregas en mano, envíos por email directo a reclutadores conocidos o empresas pequeñas sin sistemas digitalizados complejos.
                 </p>
+                <div class="mt-4 bg-red-500/10 border border-red-500/30 p-3 rounded-lg flex items-start gap-3 max-w-2xl">
+                    <i class="fa-solid fa-triangle-exclamation text-red-400 mt-1"></i>
+                    <p class="text-xs text-red-200">
+                        <strong>Advertencia Crítica:</strong> Estas estructuras NO contienen metadatos ocultos, ni validación de contraste ATS, ni la certificación algorítmica de CV33. Su tasa de rechazo en portales automáticos (LinkedIn Easy Apply, Workday) es estándar.
+                    </p>
+                </div>
             </div>
 
-            <div class="horizontal-scroll-container">
-                <!-- Loop Templates 7-12 -->
-                <!-- Template 7 -->
-                <div class="template-card border-purple-500/50 hover:border-purple-400 shadow-2xl shadow-purple-900/20">
-                    <div class="cv-preview-container">
-                        <img src="https://placehold.co/595x842/581c87/FFF?text=Creandotucv7.png" alt="CV 7">
-                        <div class="absolute top-0 right-0 bg-purple-600 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl shadow-lg">IA VERIFIED</div>
+            <div class="scrolling-wrapper snap-x">
+                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group">
+                    <div class="h-96 overflow-hidden relative bg-gray-800">
+                        <img src="Cv1.png" onerror="this.src='https://placehold.co/1024x1024/1e293b/FFF?text=Cv1.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
                     </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-2 text-purple-200">NYX Alpha Protocol</h3>
-                        
-                        <!-- 3 VERIFICACIONES -->
-                        <div class="flex flex-wrap mb-4">
-                            <span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS V3.0 PASS</span>
-                            <span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO-REDACCIÓN</span>
-                            <span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR OK</span>
-                        </div>
-                        
-                        <p class="text-xs text-gray-400 mb-4 flex-grow">Incluye campos de personalización profunda para métricas de éxito.</p>
-                        
-                        <div class="price-container">
-                            <div class="flex justify-between items-end mb-3">
-                                <span class="price-tag price-nyx-display text-purple-300">$5.500</span>
-                                <span class="price-usd usd-nyx-display text-[10px]">USD...</span>
-                            </div>
-                            <a href="#" id="link-7" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg font-bold transition text-center flex items-center justify-center gap-2 shadow-lg shadow-purple-900/50 transform hover:-translate-y-1">
-                                <i class="fa-solid fa-unlock"></i> Desbloquear Pack
-                            </a>
-                        </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 font-heading">Estructura Clásica</h3>
+                        <a href="Creandotucv.html" class="block w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-center font-bold transition border border-white/10 backdrop-blur-sm">
+                            Usar Plantilla
+                        </a>
                     </div>
                 </div>
 
-                <!-- Template 8 -->
-                <div class="template-card border-purple-500/50 hover:border-purple-400 shadow-2xl shadow-purple-900/20">
-                    <div class="cv-preview-container"><img src="https://placehold.co/595x842/581c87/FFF?text=Creandotucv8.png"><div class="absolute top-0 right-0 bg-purple-600 text-white text-[10px] font-bold px-4 py-1 rounded-bl-xl shadow-lg">IA VERIFIED</div></div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-bold font-heading mb-2 text-purple-200">NYX Beta Flow</h3>
-                        <div class="flex flex-wrap mb-4"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS V3.0 PASS</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO-REDACCIÓN</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR OK</span></div>
-                        <p class="text-xs text-gray-400 mb-4 flex-grow">Estructura semántica para keyword stuffing ético.</p>
-                        <div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-nyx-display text-purple-300">$5.500</span><span class="price-usd usd-nyx-display text-[10px]">USD...</span></div><a href="#" id="link-8" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg font-bold transition text-center flex items-center justify-center gap-2 shadow-lg shadow-purple-900/50 transform hover:-translate-y-1"><i class="fa-solid fa-unlock"></i> Desbloquear Pack</a></div>
+                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group">
+                    <div class="h-96 overflow-hidden relative bg-gray-800">
+                        <img src="Cv2.png" onerror="this.src='https://placehold.co/1024x1024/334155/FFF?text=Cv2.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 font-heading">Minimalista</h3>
+                        <a href="Creandotucv2.html" class="block w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-center font-bold transition border border-white/10 backdrop-blur-sm">
+                            Usar Plantilla
+                        </a>
                     </div>
                 </div>
 
-                <!-- Template 9, 10, 11, 12 (Simplificados en estructura para brevedad, pero completos en código) -->
-                <!-- Repetir estructura para 9, 10, 11, 12 con links correspondientes -->
-                <div class="template-card border-purple-500/50 hover:border-purple-400 shadow-2xl shadow-purple-900/20"><div class="cv-preview-container"><img src="https://placehold.co/595x842/581c87/FFF?text=Creandotucv9.png"></div><div class="p-5 flex flex-col flex-grow"><h3 class="text-lg font-bold font-heading mb-2 text-purple-200">NYX Gamma</h3><div class="flex flex-wrap mb-4"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS V3.0 PASS</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO-REDACCIÓN</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR OK</span></div><p class="text-xs text-gray-400 mb-4 flex-grow">Optimizado para Tech y Startups.</p><div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-nyx-display text-purple-300">$5.500</span><span class="price-usd usd-nyx-display text-[10px]">...</span></div><a href="#" id="link-9" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-bold text-center flex items-center justify-center gap-2 transform hover:-translate-y-1"><i class="fa-solid fa-unlock"></i> Desbloquear</a></div></div></div>
-                <div class="template-card border-purple-500/50 hover:border-purple-400 shadow-2xl shadow-purple-900/20"><div class="cv-preview-container"><img src="https://placehold.co/595x842/581c87/FFF?text=Creandotucv10.png"></div><div class="p-5 flex flex-col flex-grow"><h3 class="text-lg font-bold font-heading mb-2 text-purple-200">NYX Delta</h3><div class="flex flex-wrap mb-4"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS V3.0 PASS</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO-REDACCIÓN</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR OK</span></div><p class="text-xs text-gray-400 mb-4 flex-grow">Para puestos directivos y liderazgo.</p><div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-nyx-display text-purple-300">$5.500</span><span class="price-usd usd-nyx-display text-[10px]">...</span></div><a href="#" id="link-10" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-bold text-center flex items-center justify-center gap-2 transform hover:-translate-y-1"><i class="fa-solid fa-unlock"></i> Desbloquear</a></div></div></div>
-                <div class="template-card border-purple-500/50 hover:border-purple-400 shadow-2xl shadow-purple-900/20"><div class="cv-preview-container"><img src="https://placehold.co/595x842/581c87/FFF?text=Creandotucv11.png"></div><div class="p-5 flex flex-col flex-grow"><h3 class="text-lg font-bold font-heading mb-2 text-purple-200">NYX Epsilon</h3><div class="flex flex-wrap mb-4"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS V3.0 PASS</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO-REDACCIÓN</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR OK</span></div><p class="text-xs text-gray-400 mb-4 flex-grow">Híbrido cronológico-funcional.</p><div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-nyx-display text-purple-300">$5.500</span><span class="price-usd usd-nyx-display text-[10px]">...</span></div><a href="#" id="link-11" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-bold text-center flex items-center justify-center gap-2 transform hover:-translate-y-1"><i class="fa-solid fa-unlock"></i> Desbloquear</a></div></div></div>
-                <div class="template-card border-purple-500/50 hover:border-purple-400 shadow-2xl shadow-purple-900/20"><div class="cv-preview-container"><img src="https://placehold.co/595x842/581c87/FFF?text=Creandotucv12.png"></div><div class="p-5 flex flex-col flex-grow"><h3 class="text-lg font-bold font-heading mb-2 text-purple-200">NYX Zeta</h3><div class="flex flex-wrap mb-4"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS V3.0 PASS</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO-REDACCIÓN</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR OK</span></div><p class="text-xs text-gray-400 mb-4 flex-grow">Alto contraste y accesibilidad universal.</p><div class="price-container"><div class="flex justify-between items-end mb-3"><span class="price-tag price-nyx-display text-purple-300">$5.500</span><span class="price-usd usd-nyx-display text-[10px]">...</span></div><a href="#" id="link-12" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-bold text-center flex items-center justify-center gap-2 transform hover:-translate-y-1"><i class="fa-solid fa-unlock"></i> Desbloquear</a></div></div></div>
-            </div>
-        </div>
-
-        <!-- ================= ELITE PREMIUM (13-15) ================= -->
-        <div class="container mx-auto mt-12">
-            <div class="category-header border-yellow-500 bg-gradient-to-r from-yellow-900/30 to-transparent py-6 rounded-r-xl">
-                <div class="flex items-center gap-3">
-                    <div class="text-4xl text-yellow-400 animate-float"><i class="fa-solid fa-crown"></i></div>
-                    <h2 class="text-4xl font-heading font-black text-white">ESTANDARTE DE ORO <span class="text-yellow-400">PREMIUM</span></h2>
-                </div>
-                <p class="text-sm text-gray-200 mt-3 max-w-4xl leading-relaxed">
-                    Estas plantillas representan el <strong>1% superior del mercado</strong>. Han superado pruebas de estrés masivas (>87% Aprobación) en los sistemas ATS más restrictivos del mundo (Taleo, Workday).
-                    <br><br>
-                    <span class="text-yellow-300 font-bold bg-yellow-900/50 px-2 py-1 rounded border border-yellow-500/30">
-                        <i class="fa-solid fa-microchip"></i> INCLUYE PLUGIN NYX 100%:
-                    </span> 
-                    El asistente se activa en "Modo Reclutador Riguroso", analizando cada palabra que escribes, sugiriendo mejoras de impacto en tiempo real y habilitando campos de configuración estratégica oculta.
-                </p>
-            </div>
-
-            <div class="horizontal-scroll-container">
-                <!-- Template 13 -->
-                <div class="template-card border-yellow-500/50 bg-yellow-500/5 hover:bg-yellow-500/10 shadow-[0_0_40px_rgba(234,179,8,0.15)]">
-                    <div class="cv-preview-container">
-                        <img src="https://placehold.co/595x842/451a03/FFF?text=Creandotucv13.png" alt="CV 13">
-                        <div class="absolute top-0 right-0 bg-gradient-to-r from-yellow-600 to-yellow-400 text-black text-[10px] font-bold px-4 py-1 rounded-bl-xl shadow-lg">ELITE TIER</div>
+                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group">
+                    <div class="h-96 overflow-hidden relative bg-gray-800">
+                        <img src="Cv3.png" onerror="this.src='https://placehold.co/1024x1024/475569/FFF?text=Cv3.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
                     </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold font-heading mb-2 text-yellow-200">Executive Gold</h3>
-                        
-                        <!-- 5 VERIFICACIONES -->
-                        <div class="flex flex-wrap mb-4 gap-1">
-                            <span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS MAX</span>
-                            <span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO</span>
-                            <span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR</span>
-                            <span class="verification-tag tag-elite"><i class="fa-solid fa-star"></i> >87% SUCCESS</span>
-                            <span class="verification-tag tag-elite"><i class="fa-solid fa-plug"></i> NYX PLUGIN 100%</span>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2 font-heading">Corporativo</h3>
+                        <a href="Creandotucv3.html" class="block w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-center font-bold transition border border-white/10 backdrop-blur-sm">
+                            Usar Plantilla
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="mb-8 border-l-4 border-axon pl-6 py-2">
+                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-layer-group text-axon"></i> Diseños Especiales <span class="text-xs bg-axon text-black px-2 py-1 rounded font-bold">VISUAL AXON</span>
+                </h2>
+                <div class="mt-4 grid md:grid-cols-2 gap-6">
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Estas estructuras han sido diseñadas bajo la supervisión de psicólogos visuales y reclutadores senior. Utilizan la <strong>Certificación Visual AXON</strong>, optimizando la jerarquía de la información para guiar el ojo humano a través de un "mapa de calor" estratégico.
+                    </p>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-eye text-axon icon-animate transition-transform"></i> Lectura rápida humana (6 segundos garantizados).</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-swatchbook text-axon icon-animate transition-transform"></i> Paletas de color de autoridad psicológica.</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-chart-pie text-axon icon-animate transition-transform"></i> Organización por bloques de competencia.</li>
+                        <li class="flex items-center gap-2 text-yellow-500"><i class="fa-solid fa-circle-exclamation"></i> Nota: No cuentan con certificación algorítmica NYX.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="scrolling-wrapper snap-x">
+                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-axon/30 shadow-lg shadow-axon/5 group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="Cv4.png" onerror="this.src='https://placehold.co/1024x1024/064e3b/FFF?text=Cv4.png'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">AXON VERIFIED</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Visual Flow Pro</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-white">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-gray-500 bg-black/30 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
                         </div>
-                        
-                        <p class="text-xs text-yellow-100/70 mb-4 flex-grow">Campos exclusivos de marca personal y estrategia de carrera.</p>
-                        
-                        <div class="price-container bg-yellow-900/20 border-t border-yellow-500/20">
-                            <div class="flex justify-between items-end mb-3">
-                                <span class="price-tag price-premium-display text-yellow-400">$10.000</span>
-                                <span class="price-usd usd-premium-display text-[10px]">USD...</span>
-                            </div>
-                            <a href="#" id="link-13" target="_blank" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black rounded-lg font-bold transition text-center flex items-center justify-center gap-2 shadow-lg shadow-yellow-500/20 transform hover:-translate-y-1">
-                                <i class="fa-solid fa-gem animate-pulse"></i> Adquirir Elite
-                            </a>
-                        </div>
+                        <a href="#" class="w-full py-3 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
                     </div>
                 </div>
 
-                <!-- Template 14 -->
-                <div class="template-card border-yellow-500/50 bg-yellow-500/5 hover:bg-yellow-500/10 shadow-[0_0_40px_rgba(234,179,8,0.15)]"><div class="cv-preview-container"><img src="https://placehold.co/595x842/451a03/FFF?text=Creandotucv14.png"><div class="absolute top-0 right-0 bg-gradient-to-r from-yellow-600 to-yellow-400 text-black text-[10px] font-bold px-4 py-1 rounded-bl-xl shadow-lg">ELITE TIER</div></div><div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold font-heading mb-2 text-yellow-200">Global CEO</h3><div class="flex flex-wrap mb-4 gap-1"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS MAX</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR</span><span class="verification-tag tag-elite"><i class="fa-solid fa-star"></i> >87% SUCCESS</span><span class="verification-tag tag-elite"><i class="fa-solid fa-plug"></i> NYX PLUGIN 100%</span></div><p class="text-xs text-yellow-100/70 mb-4 flex-grow">Estructura para mercados internacionales.</p><div class="price-container bg-yellow-900/20 border-t border-yellow-500/20"><div class="flex justify-between items-end mb-3"><span class="price-tag price-premium-display text-yellow-400">$10.000</span><span class="price-usd usd-premium-display text-[10px]">...</span></div><a href="#" id="link-14" target="_blank" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black rounded-lg font-bold text-center flex items-center justify-center gap-2 transform hover:-translate-y-1"><i class="fa-solid fa-gem"></i> Adquirir Elite</a></div></div></div>
-                <div class="template-card border-yellow-500/50 bg-yellow-500/5 hover:bg-yellow-500/10 shadow-[0_0_40px_rgba(234,179,8,0.15)]"><div class="cv-preview-container"><img src="https://placehold.co/595x842/451a03/FFF?text=Creandotucv15.png"><div class="absolute top-0 right-0 bg-gradient-to-r from-yellow-600 to-yellow-400 text-black text-[10px] font-bold px-4 py-1 rounded-bl-xl shadow-lg">ELITE TIER</div></div><div class="p-5 flex flex-col flex-grow"><h3 class="text-xl font-bold font-heading mb-2 text-yellow-200">Tech Lead Pro</h3><div class="flex flex-wrap mb-4 gap-1"><span class="verification-tag tag-ats"><i class="fa-solid fa-check"></i> ATS MAX</span><span class="verification-tag tag-nyx"><i class="fa-solid fa-brain"></i> NEURO</span><span class="verification-tag tag-pro"><i class="fa-solid fa-briefcase"></i> RECLUTADOR</span><span class="verification-tag tag-elite"><i class="fa-solid fa-star"></i> >87% SUCCESS</span><span class="verification-tag tag-elite"><i class="fa-solid fa-plug"></i> NYX PLUGIN 100%</span></div><p class="text-xs text-yellow-100/70 mb-4 flex-grow">Diseño Silicon Valley aprobado.</p><div class="price-container bg-yellow-900/20 border-t border-yellow-500/20"><div class="flex justify-between items-end mb-3"><span class="price-tag price-premium-display text-yellow-400">$10.000</span><span class="price-usd usd-premium-display text-[10px]">...</span></div><a href="#" id="link-15" target="_blank" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black rounded-lg font-bold text-center flex items-center justify-center gap-2 transform hover:-translate-y-1"><i class="fa-solid fa-gem"></i> Adquirir Elite</a></div></div></div>
+                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-axon/30 shadow-lg shadow-axon/5 group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="Cv5.png" onerror="this.src='https://placehold.co/1024x1024/064e3b/FFF?text=Cv5.png'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">AXON VERIFIED</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Grid System UX</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-white">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-gray-500 bg-black/30 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-3 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-axon/30 shadow-lg shadow-axon/5 group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="Cv6.png" onerror="this.src='https://placehold.co/1024x1024/064e3b/FFF?text=Cv6.png'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                        <div class="absolute top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">AXON VERIFIED</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Focus Lead</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-white">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-gray-500 bg-black/30 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-3 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section>
+            <div class="mb-8 border-l-4 border-nyx pl-6 py-2 bg-gradient-to-r from-nyx/10 to-transparent rounded-r-xl">
+                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-microchip text-nyx"></i> Certificación NYX <span class="text-xs bg-nyx text-white px-2 py-1 rounded font-bold">ATS SHIELD</span>
+                </h2>
+                <div class="mt-4 grid md:grid-cols-2 gap-8">
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Estas plantillas han sido sometidas a <strong>Ingeniería Inversa de Filtros ATS</strong>. Han sido escaneadas y validadas por nuestra IA propietaria para garantizar visibilidad total ante los robots de Recursos Humanos (Taleo, Greenhouse, Workday).
+                    </p>
+                    <ul class="space-y-3 text-xs text-gray-300">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-user-secret text-nyx text-lg icon-animate"></i> <strong>Texto Invisible Inyectable:</strong> Capa oculta de keywords para el robot.</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-robot text-nyx text-lg icon-animate"></i> <strong>Asistente AXON Integrado:</strong> Valida la estructura visual.</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-shield-halved text-nyx text-lg icon-animate"></i> <strong>ATS Verificado:</strong> Estructura de código limpia libre de errores de parseo.</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-arrow-trend-up text-green-400 text-lg icon-animate"></i> <strong>+55% Ventaja Competitiva</strong> contra aplicantes estándar.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="scrolling-wrapper snap-x">
+                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv7.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv7.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 text-white">NYX Alpha</h3>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv8.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv8.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 text-white">NYX Beta</h3>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv9.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv9.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 text-white">NYX Gamma</h3>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv10.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv10.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 text-white">NYX Delta</h3>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv11.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv11.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 text-white">NYX Epsilon</h3>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv12.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv12.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 text-white">NYX Zeta</h3>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="mb-8 border-l-4 border-elite pl-6 py-4 bg-gradient-to-r from-elite/10 to-transparent rounded-r-xl">
+                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-rocket text-elite"></i> Tecnología de CV33 <span class="text-xs bg-elite text-black px-2 py-1 rounded ml-2 font-bold">ELITE 1%</span>
+                </h2>
+                <div class="mt-4 grid md:grid-cols-1 gap-6">
+                    <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
+                        Estas plantillas representan la cúspide de la ingeniería curricular. Han superado <strong>pruebas de estrés masivas (>87% Aprobación)</strong> en los entornos corporativos más competitivos. Al adquirir un modelo Elite, obtienes una ventaja tecnológica injusta sobre el resto de candidatos.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
+                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-brain icon-animate"></i> Plugin NYX 100% - Modo Reclutador</h4>
+                            <p class="text-xs text-gray-400">El asistente se activa en "Modo Riguroso", analizando semánticamente cada palabra, sugiriendo verbos de acción de alto impacto y habilitando campos de configuración estratégica oculta.</p>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
+                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-database icon-animate"></i> Inteligencia de Base de Datos</h4>
+                            <p class="text-xs text-gray-400">Acceso a la DB extensa de NYX. Al ingresar la sucursal o puesto, el sistema arroja las Palabras Clave exactas y preguntas de entrevista probables para esa empresa específica.</p>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
+                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-chart-line icon-animate"></i> Predicción de Éxito</h4>
+                            <p class="text-xs text-gray-400">Botón exclusivo para analizar el proceso del CV y visualizar una estimación porcentual de éxito basada en datos históricos de contratación.</p>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
+                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-filter icon-animate"></i> Simulador de Filtros</h4>
+                            <p class="text-xs text-gray-400">Prueba tu CV contra filtros ATS específicos de tu sucursal seleccionada antes de enviarlo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scrolling-wrapper snap-x">
+                <div class="card-3d min-w-[340px] w-[340px] bg-gradient-to-b from-[#2a1b05] to-[#120a02] rounded-2xl overflow-hidden border border-elite/50 shadow-2xl shadow-elite/20 group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="Cv13.png" onerror="this.src='https://placehold.co/1024x1024/451a03/f59e0b?text=Cv13.png'" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 right-3 bg-elite text-black text-[10px] font-extrabold px-2 py-1 rounded shadow-lg shadow-elite/50 flex items-center gap-1">
+                            <i class="fa-solid fa-crown animate-pulse"></i> ULTIMATE
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-1 text-white">Titan Protocol</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl font-bold text-elite">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
+                            <span class="text-xs text-elite border border-elite/30 px-2 py-1 rounded usd-price" data-ars="10500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-3 rounded-lg bg-gradient-to-r from-mp to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/30 transform active:scale-95">
+                            <i class="fa-solid fa-bolt"></i> Acceso Total Mercado Pago
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[340px] w-[340px] bg-gradient-to-b from-[#2a1b05] to-[#120a02] rounded-2xl overflow-hidden border border-elite/50 shadow-2xl shadow-elite/20 group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="Cv14.png" onerror="this.src='https://placehold.co/1024x1024/451a03/f59e0b?text=Cv14.png'" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 right-3 bg-elite text-black text-[10px] font-extrabold px-2 py-1 rounded shadow-lg shadow-elite/50 flex items-center gap-1">
+                            <i class="fa-solid fa-crown animate-pulse"></i> ULTIMATE
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-1 text-white">Quantum Leap</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl font-bold text-elite">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
+                            <span class="text-xs text-elite border border-elite/30 px-2 py-1 rounded usd-price" data-ars="10500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-3 rounded-lg bg-gradient-to-r from-mp to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/30 transform active:scale-95">
+                            <i class="fa-solid fa-bolt"></i> Acceso Total Mercado Pago
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-3d min-w-[340px] w-[340px] bg-gradient-to-b from-[#2a1b05] to-[#120a02] rounded-2xl overflow-hidden border border-elite/50 shadow-2xl shadow-elite/20 group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="Cv15.png" onerror="this.src='https://placehold.co/1024x1024/451a03/f59e0b?text=Cv15.png'" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 right-3 bg-elite text-black text-[10px] font-extrabold px-2 py-1 rounded shadow-lg shadow-elite/50 flex items-center gap-1">
+                            <i class="fa-solid fa-crown animate-pulse"></i> ULTIMATE
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-1 text-white">Nexus Core</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl font-bold text-elite">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
+                            <span class="text-xs text-elite border border-elite/30 px-2 py-1 rounded usd-price" data-ars="10500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-3 rounded-lg bg-gradient-to-r from-mp to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/30 transform active:scale-95">
+                            <i class="fa-solid fa-bolt"></i> Acceso Total Mercado Pago
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-4xl mx-auto mt-20">
+            <h2 class="text-4xl font-bold text-center mb-10 font-heading text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+                Centro de Conocimiento
+            </h2>
+            <div class="space-y-6">
+                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-shield-cat text-nyx"></i> ¿Cómo funciona la Inyección de Texto Invisible en los diseños NYX?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                    </summary>
+                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-nyx pl-4">
+                        <p>Los sistemas ATS (Applicant Tracking Systems) escanean el código, no solo lo que ve el humano. Nuestras plantillas NYX contienen capas de datos estructurados en el HTML que son invisibles al ojo humano al renderizarse en PDF/Web, pero que los bots leen como "Keywords de Alta Relevancia". Esto dispara tu puntuación de coincidencia (match rate) sin ensuciar el diseño visual.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-eye text-axon"></i> ¿Qué es el "Mapa de Calor" de la certificación AXON?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                    </summary>
+                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-axon pl-4">
+                        <p>Estudios de eyetracking demuestran que los reclutadores escanean en forma de "F" o "Z". La certificación AXON garantiza que la información crítica (Cargo, Logros, Stack Tecnológico) esté ubicada exactamente en los puntos focales donde el ojo humano se detiene naturalmente durante los primeros 6 segundos de lectura.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-database text-elite"></i> ¿Cómo funciona la Base de Datos de Sucursales en las plantillas Elite?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                    </summary>
+                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-elite pl-4">
+                        <p>CV Studio33 mantiene una base de datos activa de descripciones de puestos y requisitos de grandes empresas. Al usar una plantilla Elite y escribir el nombre de la empresa objetivo, nuestro sistema cruza datos para sugerirte las palabras clave exactas que esa empresa suele buscar en sus descripciones internas, aumentando drásticamente tu relevancia.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-file-pdf text-red-400"></i> ¿Por qué debería evitar las plantillas gratuitas para aplicaciones online importantes?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                    </summary>
+                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-red-400 pl-4">
+                        <p>Las plantillas gratuitas suelen tener código "sucio" (tablas anidadas, columnas flotantes incorrectas) que confunde a los parsers ATS. Esto resulta en que tu información llegue fragmentada o vacía a la base de datos del reclutador, causando un "descarte técnico" automático, independientemente de tu talento.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-lock text-mp"></i> ¿Es seguro el pago y qué obtengo exactamente?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                    </summary>
+                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-mp pl-4">
+                        <p>Utilizamos Mercado Pago, garantizando la seguridad total de la transacción. Al comprar, recibes acceso inmediato y de por vida al editor de la plantilla seleccionada, con todas las funcionalidades desbloqueadas (IA, Análisis, Exportación HD) y futuras actualizaciones del algoritmo de validación.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
 
     </main>
 
-    <!-- CONFIGURACIÓN DE PRECIOS Y LINKS -->
+    <footer class="bg-black py-10 border-t border-white/10 text-gray-400 text-xs">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain">
+                        <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
+                    </div>
+                    <p class="leading-relaxed">Tecnología avanzada para la creación de documentos profesionales. Potenciamos tu perfil con datos y diseño.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-accent transition">Términos de Servicio</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Política de Cookies</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Aviso Legal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Soporte</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-accent transition">Centro de Ayuda</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Contacto</a></li>
+                        <li><a href="#" class="hover:text-accent transition">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Certificación</h4>
+                    <p class="mb-2">Nuestros packs premium cumplen con los estándares internacionales de lectura ATS.</p>
+                    <div class="flex gap-3 text-lg">
+                        <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
+                        <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
+                        <i class="fa-brands fa-paypal hover:text-white transition"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
+                </div>
+        </div>
+    </footer>
+
     <script>
-        const CONFIG = {
-            prices: {
-                basic: 3500,
-                nyx: 5500,
-                premium: 10000
-            },
-            links: {
-                4: "https://mpago.la/27FNTeS",
-                5: "#link-pago-5-editame",
-                6: "#link-pago-6-editame",
-                7: "#link-pago-7-editame",
-                8: "#link-pago-8-editame",
-                9: "#link-pago-9-editame",
-                10: "#link-pago-10-editame",
-                11: "#link-pago-11-editame",
-                12: "#link-pago-12-editame",
-                13: "#link-pago-13-editame",
-                14: "#link-pago-14-editame",
-                15: "#link-pago-15-editame"
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Aplicar links
-            for (let i = 4; i <= 15; i++) {
-                const btn = document.getElementById(`link-${i}`);
-                if(btn) btn.href = CONFIG.links[i];
-            }
-
-            // Textos de Precios Local (Formato Argentina)
-            document.querySelectorAll('.price-basic-display').forEach(tag => tag.innerText = `$${CONFIG.prices.basic.toLocaleString('es-AR')}`);
-            document.querySelectorAll('.price-nyx-display').forEach(tag => tag.innerText = `$${CONFIG.prices.nyx.toLocaleString('es-AR')}`);
-            document.querySelectorAll('.price-premium-display').forEach(tag => tag.innerText = `$${CONFIG.prices.premium.toLocaleString('es-AR')}`);
-
-            // Calcular USD
-            calculateUSD();
-        });
-
-        async function calculateUSD() {
+        document.addEventListener('DOMContentLoaded', async () => {
+            const apiURL = 'https://dolarapi.com/v1/dolares/blue'; 
+            
             try {
-                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const response = await fetch(apiURL);
+                if (!response.ok) throw new Error('Error API');
+                
                 const data = await response.json();
-                const rateARS = data.rates.ARS; // Tasa ARS/USD
+                const rate = data.venta; 
 
-                const calc = (price) => `≈ $${(price / rateARS).toFixed(2)} USD`;
-
-                document.querySelectorAll('.usd-basic-display').forEach(d => d.innerText = calc(CONFIG.prices.basic));
-                document.querySelectorAll('.usd-nyx-display').forEach(d => d.innerText = calc(CONFIG.prices.nyx));
-                document.querySelectorAll('.usd-premium-display').forEach(d => d.innerText = calc(CONFIG.prices.premium));
+                document.querySelectorAll('.usd-price').forEach(el => {
+                    const arsPrice = parseFloat(el.getAttribute('data-ars'));
+                    if (arsPrice && rate) {
+                        const usdPrice = (arsPrice / rate).toFixed(2);
+                        el.innerHTML = `aprox. $${usdPrice} USD`;
+                        el.title = `Cotización Dólar Blue: $${rate} ARS`;
+                    }
+                });
 
             } catch (error) {
-                console.error("Error divisa:", error);
-                document.querySelectorAll('.price-usd').forEach(d => d.innerText = "USD N/A");
+                console.error("Error al obtener cotización:", error);
+                document.querySelectorAll('.usd-price').forEach(el => {
+                    el.style.display = 'none'; 
+                });
             }
-        }
+        });
     </script>
+
 </body>
 </html>

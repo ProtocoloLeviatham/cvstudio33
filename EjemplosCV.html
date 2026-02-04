@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos y Estándares de CV 2026 | CV Studio33</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a', /* Fondo Slate 900 */
+                        secondary: '#1e293b', /* Cartas Slate 800 */
+                        accent: '#3b82f6', /* Azul Brand */
+                        axon: '#10b981', /* Verde AXON */
+                        nyx: '#8b5cf6', /* Violeta NYX */
+                        gold: '#f59e0b', /* Dorado */
+                        darkglass: 'rgba(15, 23, 42, 0.8)',
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'tech-grid': "url('https://www.transparenttextures.com/patterns/cubes.png')",
+                        'gradient-radial': 'radial-gradient(circle, var(--tw-gradient-stops))',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* --- SCROLLBAR PERSONALIZADA (NEON STYLE) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+            border-left: 1px solid #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #1e3a8a, #3b82f6);
+            border-radius: 4px;
+            border: 1px solid #0f172a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #60a5fa;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+
+        /* Efectos de Tarjetas Avanzados */
+        .tech-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+        }
+        .tech-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Listas personalizadas */
+        .check-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            transition: color 0.3s;
+        }
+        .check-list li:hover { color: #e2e8f0; }
+        .check-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #3b82f6; /* Accent default */
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Tabla Estilizada */
+        .comparison-table th { 
+            background: linear-gradient(90deg, rgba(15,23,42,0.9) 0%, rgba(30,41,59,0.9) 100%);
+            backdrop-filter: blur(5px);
+        }
+        .comparison-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.3s; }
+        .comparison-table tr:hover { background-color: rgba(59, 130, 246, 0.05); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-tech-grid bg-fixed">
+
+    <nav class="bg-primary/90 backdrop-blur-xl border-b border-white/10 h-20 sticky top-0 z-50">
+        <div class="container mx-auto px-4 h-full flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-10 w-10 object-contain animate-pulse-slow">
+                <span class="font-heading font-bold text-xl tracking-wider text-white">CV STUDIO33</span>
+            </div>
+            <a href="index.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition group border border-white/10 px-4 py-2 rounded-full hover:bg-white/5 hover:border-accent/50">
+                <i class="fa-solid fa-house group-hover:text-accent"></i> <span class="hidden sm:inline">Inicio</span>
+            </a>
+        </div>
+    </nav>
+
+    <header class="py-20 px-4 text-center bg-gradient-to-b from-secondary via-primary to-primary relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-full bg-accent/5 blur-[100px] pointer-events-none"></div>
+        
+        <h1 class="relative z-10 font-heading text-4xl md:text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-gray-400 animate-float drop-shadow-2xl">
+            ANATOMÍA DEL CV DE ALTO IMPACTO
+        </h1>
+        <p class="relative z-10 text-gray-300 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed font-light">
+            En un entorno laboral saturado por la automatización, desglosamos los protocolos de arquitectura de información que transforman un documento estático en un activo digital de alta conversión. Implementamos metodologías validadas por algoritmos de Inteligencia Artificial y principios de neurociencia aplicada al reclutamiento para garantizar tu visibilidad.
+        </p>
+    </header>
+
+    <main class="container mx-auto px-4 py-16 space-y-32">
+
+        <section>
+            <div class="mb-12 text-center">
+                <h2 class="text-4xl font-heading font-bold text-white mb-2">Pilares de Ingeniería Curricular</h2>
+                <div class="h-1 w-24 bg-accent mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="tech-card p-8 rounded-2xl border-t-4 border-t-accent hover:border-t-white group">
+                    <div class="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6 text-accent text-3xl group-hover:scale-110 transition-transform shadow-lg shadow-accent/20">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-heading group-hover:text-accent transition-colors">Prompt-Profile</h3>
+                    <p class="text-sm text-gray-400 mb-6 text-justify leading-relaxed">
+                        El resumen profesional ya no es una narrativa pasiva; es una instrucción lógica (Prompt) diseñada específicamente para que los motores de IA clasifiquen tu perfil como "Senior/Expert" en milisegundos.
+                    </p>
+                    <ul class="check-list">
+                        <li>Keywords de alta densidad semántica (NLP).</li>
+                        <li>Eliminación radical de adjetivos subjetivos.</li>
+                        <li>Sintaxis: [Rol] + [Años] + [Especialidad] + [Logro].</li>
+                        <li>Optimización para indexación de Google Jobs.</li>
+                        <li>Definición de ROI (Retorno de Inversión) inmediato.</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card p-8 rounded-2xl border-t-4 border-t-green-500 hover:border-t-white group">
+                    <div class="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center mb-6 text-green-400 text-3xl group-hover:scale-110 transition-transform shadow-lg shadow-green-500/20">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-heading group-hover:text-green-400 transition-colors">Proof of Impact</h3>
+                    <p class="text-sm text-gray-400 mb-6 text-justify leading-relaxed">
+                        En la economía de datos, las responsabilidades son irrelevantes; los resultados son la moneda de cambio. Convertimos tus tareas diarias en métricas financieras y operativas auditables.
+                    </p>
+                    <ul class="check-list">
+                        <li class="before:text-green-500">Métricas de dinero (Ahorro/Ganancia) en negrita.</li>
+                        <li class="before:text-green-500">KPIs de eficiencia y crecimiento porcentual.</li>
+                        <li class="before:text-green-500">Comparativas "Antes vs Después" en cada rol.</li>
+                        <li class="before:text-green-500">Escala de equipos liderados o presupuestos.</li>
+                        <li class="before:text-green-500">Datos verificables en tiempo real.</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card p-8 rounded-2xl border-t-4 border-t-purple-500 hover:border-t-white group">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6 text-purple-400 text-3xl group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/20">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-heading group-hover:text-purple-400 transition-colors">IA Fluency</h3>
+                    <p class="text-sm text-gray-400 mb-6 text-justify leading-relaxed">
+                        Demostrar capacidad técnica es el estándar. Demostrar dominio de herramientas de IA generativa y automatización es la ventaja competitiva definitiva del 2026.
+                    </p>
+                    <ul class="check-list">
+                        <li class="before:text-purple-500">Listado de herramientas SaaS específicas.</li>
+                        <li class="before:text-purple-500">Nivel de proficiencia en Prompt Engineering.</li>
+                        <li class="before:text-purple-500">Integración de IA en flujos de trabajo.</li>
+                        <li class="before:text-purple-500">Certificaciones técnicas (últimos 12 meses).</li>
+                        <li class="before:text-purple-500">Habilidades de automatización (No-Code).</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card p-8 rounded-2xl border-t-4 border-t-orange-500 hover:border-t-white group">
+                    <div class="w-14 h-14 bg-orange-500/10 rounded-xl flex items-center justify-center mb-6 text-orange-400 text-3xl group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/20">
+                        <i class="fa-solid fa-people-arrows"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-heading group-hover:text-orange-400 transition-colors">Human-Centric</h3>
+                    <p class="text-sm text-gray-400 mb-6 text-justify leading-relaxed">
+                        En un mundo automatizado, las habilidades blandas se revalorizan. Validamos tu inteligencia emocional y liderazgo a través de ejemplos de gestión de crisis y empatía aplicada.
+                    </p>
+                    <ul class="check-list">
+                        <li class="before:text-orange-500">Inteligencia emocional en resolución de conflictos.</li>
+                        <li class="before:text-orange-500">Gestión de equipos remotos y multiculturales.</li>
+                        <li class="before:text-orange-500">Comunicación asertiva asíncrona.</li>
+                        <li class="before:text-orange-500">Adaptabilidad y resiliencia demostrable.</li>
+                        <li class="before:text-orange-500">Mentoria y desarrollo de talento junior.</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card p-8 rounded-2xl border-t-4 border-t-blue-500 hover:border-t-white group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400 text-3xl group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/20">
+                        <i class="fa-solid fa-link"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4 font-heading group-hover:text-blue-400 transition-colors">Enlaces Vivos</h3>
+                    <p class="text-sm text-gray-400 mb-6 text-justify leading-relaxed">
+                        El PDF es solo la puerta de entrada. Tu CV moderno actúa como un "Hub Central" de hipervínculos hacia la evidencia digital irrefutable de tu trabajo.
+                    </p>
+                    <ul class="check-list">
+                        <li class="before:text-blue-500">Links directos a Portafolio/GitHub/Behance.</li>
+                        <li class="before:text-blue-500">Códigos QR funcionales para video-intro.</li>
+                        <li class="before:text-blue-500">Enlace a perfil de LinkedIn optimizado.</li>
+                        <li class="before:text-blue-500">Proyectos en vivo desplegados.</li>
+                        <li class="before:text-blue-500">Validación externa mediante credenciales.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-secondary/30 py-16 px-4 rounded-3xl border border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-tech-grid opacity-10 pointer-events-none"></div>
+            
+            <div class="text-center mb-12 relative z-10">
+                <span class="text-xs font-bold text-accent uppercase tracking-[0.2em] mb-2 block">Darwinismo Digital</span>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white">Evolución: El Estándar 2026</h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Comparativa técnica de elementos críticos para la supervivencia en bases de datos ATS.</p>
+            </div>
+
+            <div class="overflow-x-auto rounded-2xl border border-white/10 shadow-2xl relative z-10">
+                <table class="w-full text-left border-collapse comparison-table">
+                    <thead>
+                        <tr>
+                            <th class="p-6 text-accent font-extrabold uppercase text-xs tracking-wider w-1/4 border-b border-white/10">
+                                <i class="fa-solid fa-cube mr-2"></i> Elemento
+                            </th>
+                            <th class="p-6 text-white font-extrabold uppercase text-xs tracking-wider w-1/3 border-b border-white/10">
+                                <i class="fa-solid fa-question-circle mr-2"></i> ¿Por qué en 2026?
+                            </th>
+                            <th class="p-6 text-green-400 font-extrabold uppercase text-xs tracking-wider w-1/3 border-b border-white/10">
+                                <i class="fa-solid fa-chart-line mr-2"></i> ROI Real
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-gray-300">
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-file-lines text-gray-500 mr-2 opacity-70"></i> Diseño Single Column</td>
+                            <td class="p-5">Las IAs leen linealmente (arriba-abajo). Las columnas complejas rompen el parseo.</td>
+                            <td class="p-5 font-medium text-green-200">Evita el descarte automático por "Parsing Error" (Error de Lectura).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-bolt text-yellow-500 mr-2"></i> Verbos de Acción</td>
+                            <td class="p-5">"Lideré", "Optimicé" proyectan autoridad frente a la pasividad de "Encargado de".</td>
+                            <td class="p-5 font-medium text-green-200">Aumenta la percepción de liderazgo proactivo en un 40%.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-certificate text-purple-500 mr-2"></i> Certificaciones Vivas</td>
+                            <td class="p-5">Micro-credenciales recientes (6 meses) demuestran agilidad de aprendizaje.</td>
+                            <td class="p-5 font-medium text-green-200">Valida actualización constante ante tecnologías emergentes.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-user-tag text-blue-400 mr-2"></i> Hiper-Personalización</td>
+                            <td class="p-5">El "Spray & Pray" murió. La IA detecta CVs genéricos al instante.</td>
+                            <td class="p-5 font-medium text-green-200">Duplica la tasa de respuesta al alinear el 100% con la vacante.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-eye-slash text-red-400 mr-2"></i> Keywords Invisibles</td>
+                            <td class="p-5">Los ATS necesitan densidad de palabras clave sin saturar la lectura humana.</td>
+                            <td class="p-5 font-medium text-green-200">Ranking superior en la base de datos sin afectar el diseño visual.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-layer-group text-indigo-400 mr-2"></i> Tech Stack Modular</td>
+                            <td class="p-5">Las herramientas cambian mensualmente; tu CV debe reflejar adaptabilidad.</td>
+                            <td class="p-5 font-medium text-green-200">Demuestra alta capacidad de aprendizaje (Learnability).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-globe text-cyan-400 mr-2"></i> Disponibilidad Global</td>
+                            <td class="p-5">Claridad sobre zona horaria y modalidad (Híbrido/Remoto/Async).</td>
+                            <td class="p-5 font-medium text-green-200">Filtra ofertas irrelevantes y atrae empresas internacionales.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-video text-pink-400 mr-2"></i> Video Intro Link</td>
+                            <td class="p-5">El video humaniza el perfil antes de la primera entrevista.</td>
+                            <td class="p-5 font-medium text-green-200">Genera conexión emocional y confianza previa al contacto.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-brain text-orange-400 mr-2"></i> Neuro-Inclusividad</td>
+                            <td class="p-5">Fuentes y contrastes amigables para lectura prolongada y escaneo rápido.</td>
+                            <td class="p-5 font-medium text-green-200">Reduce la fatiga cognitiva del reclutador, manteniendo atención.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-bold text-white"><i class="fa-solid fa-user-shield text-gray-400 mr-2"></i> Privacidad de Datos</td>
+                            <td class="p-5">Minimización de datos sensibles (Dirección exacta, edad, estado civil).</td>
+                            <td class="p-5 font-medium text-green-200">Protección contra sesgos inconscientes y seguridad digital.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-2 gap-12 items-center bg-black/40 p-10 rounded-3xl border border-white/5">
+            <div>
+                <span class="text-accent font-mono text-xs uppercase mb-2 block">El Factor Invisible</span>
+                <h2 class="text-3xl font-heading font-bold mb-6 text-white leading-tight">Ranking de Compatibilidad ATS</h2>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                    En 2026, el <strong class="text-white">95% de las empresas Fortune 500</strong> utilizan IA para filtrar candidatos. Tu CV no es papel; es un archivo de datos. Si la estructura falla, el contenido es irrelevante.
+                </p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold text-gray-400 mb-2">
+                            <span>CV Estándar (Word/Canva)</span>
+                            <span class="text-red-400">35% Parse Rate</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+                            <div class="bg-red-500 h-3 rounded-full flex items-center justify-end pr-2 text-[8px] text-white font-bold" style="width: 35%">Error</div>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mt-1">Fallo por gráficos, columnas o tablas complejas.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold text-white mb-2">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-rocket text-accent"></i> CV Studio33 (NYX Certified)</span>
+                            <span class="text-accent">99.8% Parse Rate</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+                            <div class="bg-accent h-3 rounded-full shadow-[0_0_15px_#3b82f6] flex items-center justify-end pr-2 text-[8px] text-white font-bold animate-pulse-slow" style="width: 99%">Validado</div>
+                        </div>
+                        <p class="text-[10px] text-accent/70 mt-1">Estructura lineal, metadatos inyectados y OCR optimizado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative flex justify-center items-center">
+                <div class="absolute w-64 h-64 border border-accent/20 rounded-full animate-spin-slow"></div>
+                <div class="absolute w-48 h-48 border border-white/10 rounded-full animate-spin-slow" style="animation-direction: reverse;"></div>
+                
+                <div class="bg-secondary p-6 rounded-2xl border border-white/10 shadow-2xl relative z-10 w-full max-w-sm">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-2">
+                        <span class="text-xs font-mono text-gray-400">System_Scan: Running...</span>
+                        <div class="flex gap-1"><div class="w-2 h-2 bg-green-500 rounded-full"></div><div class="w-2 h-2 bg-green-500 rounded-full animate-ping"></div></div>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs">
+                        <div class="flex justify-between text-green-400"><span>> Estructura HTML:</span> <span>OK</span></div>
+                        <div class="flex justify-between text-green-400"><span>> Metadatos Ocultos:</span> <span>DETECTADO</span></div>
+                        <div class="flex justify-between text-green-400"><span>> Contraste OCR:</span> <span>99%</span></div>
+                        <div class="flex justify-between text-green-400"><span>> Keywords Density:</span> <span>OPTIMAL</span></div>
+                        <div class="mt-4 pt-2 border-t border-white/10 text-center text-white font-bold">
+                            <i class="fa-solid fa-check-circle text-accent mr-2"></i> APROBADO POR ATS
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pb-20">
+            <div class="text-center mb-12">
+                <span class="text-gold font-bold text-xs uppercase tracking-widest mb-2 block">Metodología Elite</span>
+                <h2 class="text-4xl font-heading font-bold text-white">Micro-Storytelling: <span class="text-gold">El Método STAR</span></h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto text-sm">
+                    Los datos son la única prueba de valor. Transformamos listas de tareas en historias de éxito cuantificables utilizando los 6 principios de narrativa corporativa.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="bg-gradient-to-br from-[#2a1b05] to-[#120a02] p-6 rounded-xl border border-gold/30 hover:border-gold/60 transition group shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-gold font-bold text-lg font-heading">1. Situación (Contexto)</h4>
+                        <i class="fa-solid fa-map-location-dot text-gold/50 text-2xl group-hover:scale-110 transition"></i>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        Define el escenario. No digas "trabajé en ventas". Di "En un mercado con caída del 20% anual...".
+                    </p>
+                    <div class="bg-black/40 p-2 rounded text-[10px] text-gray-400 border-l-2 border-gold">
+                        "Ante una reestructuración masiva del departamento..."
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#2a1b05] to-[#120a02] p-6 rounded-xl border border-gold/30 hover:border-gold/60 transition group shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-gold font-bold text-lg font-heading">2. Tarea (Desafío)</h4>
+                        <i class="fa-solid fa-list-check text-gold/50 text-2xl group-hover:scale-110 transition"></i>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        ¿Qué se esperaba de ti? Establece la meta para que el resultado tenga peso.
+                    </p>
+                    <div class="bg-black/40 p-2 rounded text-[10px] text-gray-400 border-l-2 border-gold">
+                        "...mi objetivo fue retener al 90% de la cartera de clientes clave..."
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#2a1b05] to-[#120a02] p-6 rounded-xl border border-gold/30 hover:border-gold/60 transition group shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-gold font-bold text-lg font-heading">3. Acción (Liderazgo)</h4>
+                        <i class="fa-solid fa-hand-fist text-gold/50 text-2xl group-hover:scale-110 transition"></i>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        Usa verbos de poder. Tú fuiste el agente de cambio, no un espectador.
+                    </p>
+                    <div class="bg-black/40 p-2 rounded text-[10px] text-gray-400 border-l-2 border-gold">
+                        "...Orquesté la implementación de un CRM automatizado y reentrené al equipo..."
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#2a1b05] to-[#120a02] p-6 rounded-xl border border-gold/30 hover:border-gold/60 transition group shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-gold font-bold text-lg font-heading">4. Resultado (Data)</h4>
+                        <i class="fa-solid fa-trophy text-gold/50 text-2xl group-hover:scale-110 transition"></i>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        El dato mata al relato. Números, porcentajes y símbolos de moneda ($).
+                    </p>
+                    <div class="bg-black/40 p-2 rounded text-[10px] text-gray-400 border-l-2 border-gold">
+                        "...logrando un incremento del 15% en retención y $50k USD en upsell."
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#2a1b05] to-[#120a02] p-6 rounded-xl border border-gold/30 hover:border-gold/60 transition group shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-gold font-bold text-lg font-heading">5. Obstáculo (Resiliencia)</h4>
+                        <i class="fa-solid fa-mountain text-gold/50 text-2xl group-hover:scale-110 transition"></i>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        Mencionar la dificultad aumenta el valor del logro. ¿Fue con presupuesto cero? ¿Tiempo récord?
+                    </p>
+                    <div class="bg-black/40 p-2 rounded text-[10px] text-gray-400 border-l-2 border-gold">
+                        "...todo ejecutado con un presupuesto 0 y equipos 100% remotos."
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#2a1b05] to-[#120a02] p-6 rounded-xl border border-gold/30 hover:border-gold/60 transition group shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-gold font-bold text-lg font-heading">6. Escala (Futuro)</h4>
+                        <i class="fa-solid fa-arrow-trend-up text-gold/50 text-2xl group-hover:scale-110 transition"></i>
+                    </div>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        Cómo ese logro impactó a largo plazo o sentó las bases para el futuro de la empresa.
+                    </p>
+                    <div class="bg-black/40 p-2 rounded text-[10px] text-gray-400 border-l-2 border-gold">
+                        "...estableciendo el nuevo estándar operativo para LATAM."
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-black py-10 border-t border-white/10 text-gray-400 text-xs">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain">
+                        <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
+                    </div>
+                    <p class="leading-relaxed">Tecnología avanzada para la creación de documentos profesionales. Potenciamos tu perfil con datos y diseño.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="terminos-y-condiciones.html" class="hover:text-accent transition">Términos y Condiciones</a></li>
+                        <li><a href="politica-de-privacidad.html" class="hover:text-accent transition">Política de Privacidad</a></li>
+                        <li><a href="politica-de-cookies.html" class="hover:text-accent transition">Política de Cookies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Soporte</h4>
+                    <ul class="space-y-2">
+                        <li><a href="Centro-de-ayuda.html" class="hover:text-accent transition">Centro de Ayuda</a></li>
+                        <li><a href="Contacto.html" class="hover:text-accent transition">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Certificación</h4>
+                    <p class="mb-2">Nuestros packs premium cumplen con los estándares internacionales de lectura ATS.</p>
+                    <div class="flex gap-3 text-lg">
+                        <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
+                        <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
+                        <i class="fa-brands fa-paypal hover:text-white transition"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

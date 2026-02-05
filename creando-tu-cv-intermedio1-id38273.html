@@ -26,6 +26,7 @@
                         dark: '#020617',
                         paper: '#ffffff',
                         axon: '#10b981', /* Verde AXON */
+                        axonDark: '#064e3b',
                     },
                     fontFamily: {
                         sans: ['Open Sans', 'sans-serif'],
@@ -33,6 +34,15 @@
                     },
                     screens: {
                         'print': {'raw': 'print'},
+                    },
+                    animation: {
+                        'fade-in-down': 'fadeInDown 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeInDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px) translateX(-50%)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) translateX(-50%)' },
+                        }
                     }
                 }
             }
@@ -40,7 +50,7 @@
     </script>
 
     <style>
-        /* Estilos Base del Editor */
+        /* Estilos Base */
         body {
             background-color: #0f172a;
             color: white;
@@ -59,287 +69,97 @@
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
-            height: calc(100vh - 120px); /* Ajustado por el banner superior */
+            height: calc(100vh - 120px); 
             overflow-y: auto;
         }
 
-        /* --- ESTILOS DE LA NUEVA PLANTILLA (DANIELA RUIZ) --- */
+        /* --- PLANTILLA DANIELA RUIZ --- */
         .page {
             width: 210mm;
             min-height: 297mm;
             background-color: white;
             padding: 15mm 20mm;
             box-sizing: border-box;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Sombra para resaltar en editor */
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
             color: #000;
-            font-family: Arial, Helvetica, sans-serif; /* Default, se sobreescribe por JS */
-            margin: 0 auto;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0 auto 30px auto; 
             transform-origin: top center;
             transition: transform 0.3s ease;
+            position: relative;
         }
 
-        /* ENCABEZADO */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding-bottom: 20px;
-        }
+        header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 20px; }
+        .header-left h1 { font-size: 26pt; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+        .header-left h2 { font-size: 10pt; text-transform: uppercase; margin: 5px 0 0 0; font-weight: normal; letter-spacing: 0.5px; color: #333; }
+        .header-right { display: flex; gap: 40px; font-size: 9pt; text-align: left; }
+        .contact-item h3 { margin: 0; text-transform: uppercase; font-size: 8pt; font-weight: bold; margin-bottom: 3px; }
+        .contact-item p { margin: 0; font-weight: bold; text-transform: uppercase; }
 
-        .header-left h1 {
-            font-size: 26pt;
-            text-transform: uppercase;
-            margin: 0;
-            font-weight: 900;
-            letter-spacing: -1px;
-            line-height: 1;
-        }
+        .section-divider { border: 0; border-top: 2px solid black; margin: 0 0 25px 0; width: 100%; }
+        .section-row { display: flex; margin-bottom: 25px; }
+        .section-title { width: 30%; font-size: 9pt; font-weight: bold; text-transform: uppercase; padding-right: 20px; flex-shrink: 0; }
+        .section-content { width: 70%; font-size: 9.5pt; line-height: 1.4; color: #111; }
 
-        .header-left h2 {
-            font-size: 10pt;
-            text-transform: uppercase;
-            margin: 5px 0 0 0;
-            font-weight: normal;
-            letter-spacing: 0.5px;
-            color: #333;
-        }
-
-        .header-right {
-            display: flex;
-            gap: 40px;
-            font-size: 9pt;
-            text-align: left;
-        }
-
-        .contact-item h3 {
-            margin: 0;
-            text-transform: uppercase;
-            font-size: 8pt;
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-
-        .contact-item p {
-            margin: 0;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* ESTRUCTURA SECCIONES */
-        .section-divider {
-            border: 0;
-            border-top: 2px solid black;
-            margin: 0 0 25px 0;
-            width: 100%;
-        }
-
-        .section-row {
-            display: flex;
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            width: 30%;
-            font-size: 9pt;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding-right: 20px;
-            flex-shrink: 0;
-        }
-
-        .section-content {
-            width: 70%;
-            font-size: 9.5pt;
-            line-height: 1.4;
-            color: #111;
-        }
-
-        /* CONTENIDO ESPECÍFICO */
-        .address-block p {
-            margin: 0;
-            font-weight: bold;
-        }
-        .address-label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .profile-text {
-            text-align: justify;
-            margin: 0;
-            white-space: pre-wrap;
-        }
-
-        .job-entry, .edu-entry {
-            margin-bottom: 20px;
-        }
+        .address-block p { margin: 0; font-weight: bold; }
+        .address-label { font-weight: bold; display: block; margin-bottom: 2px; }
+        .profile-text { text-align: justify; margin: 0; white-space: pre-wrap; }
         
-        .entry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 2px;
-        }
-
-        .entry-title {
-            font-weight: bold;
-            font-size: 10pt;
-        }
-
-        .entry-date {
-            font-weight: bold;
-            font-size: 9pt;
-        }
-
-        .entry-subtitle {
-            font-size: 9pt;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .entry-desc {
-            margin: 0;
-            white-space: pre-wrap;
-        }
+        .job-entry, .edu-entry { margin-bottom: 20px; }
+        .entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+        .entry-title { font-weight: bold; font-size: 10pt; }
+        .entry-date { font-weight: bold; font-size: 9pt; }
+        .entry-subtitle { font-size: 9pt; font-weight: bold; margin-bottom: 8px; display: block; }
+        .entry-desc { margin: 0; white-space: pre-wrap; }
 
         /* HABILIDADES (Grid y Puntos) */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            column-gap: 30px;
-            row-gap: 10px;
-        }
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; row-gap: 10px; }
+        .skill-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .skill-name { font-weight: bold; font-size: 9.5pt; }
+        .skill-dots { display: flex; gap: 4px; }
+        .dot { width: 9px; height: 9px; border-radius: 50%; background-color: black; }
+        .dot.empty { background-color: #ccc; }
 
-        .skill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px; /* Espaciado entre skills */
-        }
-
-        .skill-name {
-            font-weight: bold;
-            font-size: 9.5pt;
-        }
-
-        .skill-dots {
-            display: flex;
-            gap: 4px;
-        }
-
-        .dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background-color: black;
-        }
-
-        .dot.empty {
-            background-color: #ccc;
-        }
-
-        /* --- UI EDITOR INPUTS --- */
-        .cv-input, .cv-select {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            width: 100%;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-        .cv-input:focus, .cv-select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-        }
+        /* UI COMPONENTS */
+        .cv-input, .cv-select { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 10px; border-radius: 8px; width: 100%; transition: all 0.3s; font-size: 0.9rem; }
+        .cv-input:focus, .cv-select:focus { outline: none; border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .cv-label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 4px; font-weight: 600; margin-top: 10px; }
         
-        .cv-label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #94a3b8;
-            margin-bottom: 4px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
         .accordion-header { cursor: pointer; transition: background 0.3s; }
         .accordion-header:hover { background: rgba(255,255,255,0.05); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
         .accordion-content.active { max-height: 5000px; }
 
-        /* Sliders */
-        .config-slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 4px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 2px;
-            outline: none;
-        }
-        .config-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-        }
+        .config-slider { -webkit-appearance: none; width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; outline: none; }
+        .config-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #3b82f6; cursor: pointer; }
 
-        /* IA Loading */
         .ai-loading { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        
         .warning-text { font-size: 0.65rem; color: #fbbf24; margin-top: 2px; font-style: italic; }
 
-        /* Modal Móvil */
-        .mobile-preview-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 100; overflow-y: auto; display: none;
-        }
+        .mobile-preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; overflow-y: auto; display: none; }
         .mobile-preview-modal.active { display: block; }
 
-        /* Panel Admin Oculto */
-        #admin-panel {
-            display: none;
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            border: 2px solid #ef4444;
-            z-index: 9999;
-            width: 300px;
-        }
+        /* PANEL ADMIN */
+        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 2px solid #ef4444; z-index: 9999; width: 320px; }
+
+        /* TOAST AXON */
+        #axon-toast { visibility: hidden; min-width: 250px; background-color: #064e3b; border-left: 4px solid #10b981; color: #fff; text-align: left; border-radius: 8px; padding: 16px; position: fixed; z-index: 9999; left: 50%; top: 30px; transform: translateX(-50%); box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 13px; display: flex; align-items: center; gap: 10px; }
+        #axon-toast.show { visibility: visible; animation: fadeInDown 0.5s; }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden">
 
-    <div class="bg-gray-900 border-b border-white/10 px-4 py-2 flex flex-col md:flex-row justify-between items-center z-50 text-xs gap-2">
-        <div class="flex items-center gap-2 text-yellow-500">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span><strong>Estado AXON:</strong> Si la IA tarda, usa tu propia Key o contacta soporte.</span>
+    <div class="bg-gray-900 border-b border-white/10 px-4 py-1 flex justify-between items-center z-50 text-[10px]">
+        <div class="flex items-center gap-2 text-axon">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Red Neuronal AXON: <strong>Online</strong></span>
         </div>
-        
-        <div class="flex items-center gap-4 w-full md:w-auto">
-            <div class="flex items-center gap-2 flex-1 md:flex-none">
-                <span class="text-gray-400 whitespace-nowrap">Key AXON (Opcional):</span>
-                <input type="password" id="user-manual-key" placeholder="Pegar API Key Manual" class="bg-black/30 border border-white/10 rounded px-2 py-1 text-white w-full md:w-40 focus:outline-none focus:border-axon">
-            </div>
-            
-            <a href="https://wa.me/1234567890" target="_blank" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded flex items-center gap-2 transition font-bold">
-                <i class="fa-brands fa-whatsapp"></i> Admin
-            </a>
-        </div>
+        <a href="https://wa.me/1234567890" target="_blank" class="text-gray-400 hover:text-white flex items-center gap-1">
+            <i class="fa-brands fa-whatsapp"></i> Soporte
+        </a>
     </div>
 
     <nav class="bg-primary/90 backdrop-blur-md border-b border-white/10 h-20 flex-shrink-0 z-50 relative no-print">
@@ -375,6 +195,23 @@
                 <p class="text-xs text-gray-400">Personaliza el contenido de tu CV estilo Daniela.</p>
             </div>
 
+            <div class="mb-4 border border-axon/30 rounded-lg overflow-hidden bg-axon/5">
+                <div class="accordion-header bg-axon/10 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-axon-config')">
+                    <h3 class="font-bold flex items-center gap-2 text-sm uppercase text-axon">
+                        <i class="fa-solid fa-robot"></i> Configuración AXON
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-xs text-axon"></i>
+                </div>
+                <div id="acc-axon-config" class="accordion-content p-4">
+                    <p class="text-[10px] text-gray-400 mb-2">Si la IA no responde, pega aquí tu propia API Key de Google Gemini para reactivar AXON instantáneamente.</p>
+                    <div class="flex gap-2">
+                        <input type="password" id="user-local-key" placeholder="Tu API Key (AIza...)" class="cv-input text-xs" onchange="saveLocalKey()">
+                        <button onclick="saveLocalKey()" class="bg-axon text-white px-3 rounded hover:bg-green-600 transition"><i class="fa-solid fa-save"></i></button>
+                    </div>
+                    <p class="text-[9px] text-gray-500 mt-1">Se guarda de forma segura en tu navegador (LocalStorage).</p>
+                </div>
+            </div>
+
             <div class="mb-4 border border-white/10 rounded-lg overflow-hidden bg-black/20">
                 <div class="accordion-header bg-white/5 p-4 flex justify-between items-center" onclick="toggleAccordion('acc-design')">
                     <h3 class="font-bold flex items-center gap-2 text-sm uppercase">
@@ -403,9 +240,16 @@
                     </select>
 
                     <label class="cv-label">Dimensión de Letra (Cuerpo)</label>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 mb-2">
                         <input type="range" id="font-size-body" class="config-slider" min="8" max="12" step="0.5" value="9.5" oninput="updateDesign()">
                         <span id="font-size-val" class="text-xs text-gray-400 w-8">9.5pt</span>
+                    </div>
+
+                    <div class="mt-4 pt-2 border-t border-white/10">
+                        <label class="flex items-center gap-2 text-xs text-white cursor-pointer">
+                            <input type="checkbox" id="check-page2" onchange="togglePage2()" class="form-checkbox text-accent h-4 w-4">
+                            <span class="font-bold text-accent">Activar Página 2 (Contenido Extra)</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -449,7 +293,7 @@
                 <div id="acc-profile" class="accordion-content p-4">
                     <div class="relative">
                         <textarea class="cv-input h-40" id="input-profile" placeholder="Escribe aquí tu perfil profesional..." oninput="updateCV()"></textarea>
-                        <button id="btn-ai-profile" class="absolute bottom-2 right-2 text-xs bg-axon hover:bg-green-600 text-white px-3 py-1 rounded transition flex items-center gap-1 shadow-lg border border-white/20" onclick="improveTextAI('input-profile', 'btn-ai-profile')">
+                        <button id="btn-ai-profile" class="absolute bottom-2 right-2 text-xs bg-axon hover:bg-green-600 text-white px-3 py-1 rounded transition flex items-center gap-1 shadow-lg border border-white/20 font-bold" onclick="improveTextAI('input-profile', 'btn-ai-profile')">
                             <i class="fa-solid fa-robot"></i> Mejorar con AXON
                         </button>
                     </div>
@@ -513,76 +357,91 @@
         <div class="hidden md:flex w-1/2 lg:w-7/12 bg-gray-800 justify-center overflow-y-auto relative no-print p-8 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
             <div class="scale-90 origin-top transition-transform duration-300" id="preview-wrapper"> 
                 
-                <div id="cv-preview" class="page">
-                    <header class="cv-header-group">
-                        <div class="header-left">
-                            <h1 id="display-fullname">DANIELA RUÍZ</h1>
-                            <h2 id="display-title">GERENTE DE SERVICIOS DE ALIMENTOS</h2>
-                        </div>
-                        <div class="header-right">
-                            <div class="contact-item">
-                                <h3>Correo electrónico</h3>
-                                <p id="display-email">ejemplo@cvstudio33.es</p>
+                <div id="export-container">
+                    
+                    <div id="cv-preview" class="page">
+                        <header>
+                            <div class="header-left">
+                                <h1 id="display-fullname">DANIELA RUÍZ</h1>
+                                <h2 id="display-title">GERENTE DE SERVICIOS DE ALIMENTOS</h2>
                             </div>
-                            <div class="contact-item">
-                                <h3>Número de teléfono</h3>
-                                <p id="display-phone">+34 365 8956 000</p>
+                            <div class="header-right">
+                                <div class="contact-item">
+                                    <h3>Correo electrónico</h3>
+                                    <p id="display-email">ejemplo@cvstudio33.es</p>
+                                </div>
+                                <div class="contact-item">
+                                    <h3>Número de teléfono</h3>
+                                    <p id="display-phone">+34 365 8956 000</p>
+                                </div>
+                            </div>
+                        </header>
+                
+                        <hr class="section-divider">
+                
+                        <div class="section-row">
+                            <div class="section-title">Información adicional</div>
+                            <div class="section-content address-block">
+                                <span class="address-label">Dirección</span>
+                                <p id="display-address">Calle principal 345</p>
+                                <p id="display-city-zip">Madrid, 56870</p>
                             </div>
                         </div>
-                    </header>
-            
-                    <hr class="section-divider">
-            
-                    <div class="section-row">
-                        <div class="section-title">Información adicional</div>
-                        <div class="section-content address-block">
-                            <span class="address-label">Dirección</span>
-                            <p id="display-address">Calle principal 345</p>
-                            <p id="display-city-zip">Madrid, 56870</p>
-                        </div>
-                    </div>
-            
-                    <hr class="section-divider">
-            
-                    <div class="section-row">
-                        <div class="section-title">Perfil</div>
-                        <div class="section-content">
-                            <p class="profile-text" id="display-profile">
-                                Supe desde temprana edad que quería trabajar en la industria hotelera. En el restaurante de mis padres me sentía como pez en el agua. Soy sociable y tengo una relación amistosa con los huéspedes. Al mismo tiempo, también puedo irradiar autoridad cuando la situación lo requiere.
-                            </p>
-                        </div>
-                    </div>
-            
-                    <hr class="section-divider">
-            
-                    <div class="section-row">
-                        <div class="section-title">Experiencia laboral</div>
-                        <div class="section-content" id="display-experience">
+                
+                        <hr class="section-divider">
+                
+                        <div class="section-row">
+                            <div class="section-title">Perfil</div>
+                            <div class="section-content">
+                                <p class="profile-text" id="display-profile">
+                                    Supe desde temprana edad que quería trabajar en la industria hotelera. En el restaurante de mis padres me sentía como pez en el agua. Soy sociable y tengo una relación amistosa con los huéspedes. Al mismo tiempo, también puedo irradiar autoridad cuando la situación lo requiere.
+                                </p>
                             </div>
-                    </div>
-            
-                    <hr class="section-divider">
-            
-                    <div class="section-row">
-                        <div class="section-title">Educación</div>
-                        <div class="section-content" id="display-education">
-                            </div>
-                    </div>
-            
-                    <hr class="section-divider">
-            
-                    <div class="section-row">
-                        <div class="section-title">Habilidades</div>
-                        <div class="section-content">
-                            <div class="skills-grid" id="display-skills">
+                        </div>
+                
+                        <hr class="section-divider">
+                
+                        <div class="section-row">
+                            <div class="section-title">Experiencia laboral</div>
+                            <div class="section-content" id="display-experience">
                                 </div>
                         </div>
+                
+                        <hr class="section-divider">
+                
+                        <div class="section-row">
+                            <div class="section-title">Educación</div>
+                            <div class="section-content" id="display-education">
+                                </div>
+                        </div>
+                
+                        <hr class="section-divider">
+                
+                        <div class="section-row">
+                            <div class="section-title">Habilidades</div>
+                            <div class="section-content">
+                                <div class="skills-grid" id="display-skills">
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div id="display-custom-sections-container"></div>
                     </div>
 
-                    <div id="display-custom-sections-container"></div>
+                    <div id="cv-page-2" class="page hidden relative">
+                        <div class="absolute top-0 right-0 p-4 opacity-50 text-xs font-bold text-gray-300">PÁGINA 2</div>
+                        <div class="pt-10">
+                            <div class="section-row">
+                                <div class="section-title">Anexos</div>
+                                <div class="section-content">
+                                    <p class="profile-text text-gray-400 italic">Espacio para contenido adicional...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-                </div>
+            </div>
         </div>
 
     </div>
@@ -605,21 +464,31 @@
     </div>
 
     <div id="admin-panel">
-        <h3 class="text-red-500 font-bold mb-3 uppercase text-xs tracking-wider">Configuración Global Admin</h3>
-        <p class="text-[10px] text-gray-400 mb-2">Actualizar Key en Base de Datos:</p>
-        <input type="password" id="admin-global-key" placeholder="Nueva AI Key Global" class="w-full bg-black border border-gray-600 text-white text-xs p-2 rounded mb-3">
+        <h3 class="text-red-500 font-bold mb-3 uppercase text-xs tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-user-secret"></i> Admin Global
+        </h3>
+        <p class="text-[10px] text-gray-400 mb-2">Key API AXON:</p>
+        <input type="password" id="admin-global-key" placeholder="Pegar Key AIza..." class="w-full bg-black border border-gray-600 text-white text-xs p-2 rounded mb-3">
         <div class="flex justify-end gap-2">
             <button onclick="closeAdminPanel()" class="text-gray-400 text-xs hover:text-white">Cerrar</button>
-            <button onclick="updateGlobalKey()" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1 rounded font-bold">Guardar Global</button>
+            <button onclick="updateGlobalKey()" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1 rounded font-bold">Guardar</button>
+        </div>
+    </div>
+
+    <div id="axon-toast">
+        <i class="fa-solid fa-robot text-lg animate-pulse"></i>
+        <div>
+            <strong class="block text-xs uppercase tracking-wider">AXON AI</strong>
+            <span id="axon-toast-message">Conectado.</span>
         </div>
     </div>
 
     <script type="module">
-        // Importar Firebase
+        // Importar Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Configuración Firebase (Tu config)
+        // Configuración Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
             authDomain: "cv-studio33.firebaseapp.com",
@@ -629,118 +498,122 @@
             appId: "1:189453088234:web:639c130a6287ff34122e93"
         };
 
-        // Inicializar
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- FUNCIÓN GLOBAL IA (AXON) ---
-        // Se expone al objeto window para que los onclick del HTML funcionen
+        // --- GESTIÓN DE KEYS ---
+        window.saveLocalKey = function() {
+            const val = document.getElementById('user-local-key').value;
+            if(val) {
+                localStorage.setItem('axon_user_key', val);
+                window.showAxonToast("Key Local Guardada.");
+            }
+        }
+
+        window.getLocalKey = function() {
+            return localStorage.getItem('axon_user_key');
+        }
+
+        // --- FUNCIÓN AXON CORE
         window.improveTextAI = async function(inputId, btnId) {
             const input = document.getElementById(inputId);
             const btn = (typeof btnId === 'string') ? document.getElementById(btnId) : btnId;
             const original = input.value;
-            const manualKey = document.getElementById('user-manual-key').value; // Key manual del usuario
             
-            if(!original) return alert("Escribe algo primero.");
+            if(!original) {
+                window.showAxonToast("Escribe algo para que AXON trabaje.", 'error');
+                return;
+            }
+
             const originalBtnText = btn.innerHTML;
             btn.innerHTML = `<i class="fa-solid fa-spinner ai-loading"></i> AXON...`;
             btn.disabled = true;
 
             try {
-                let apiKey = manualKey;
+                let apiKey = window.getLocalKey(); // 1. Intentar Local
 
-                // Si no hay key manual, buscar en Base de Datos
                 if (!apiKey) {
-                    const docRef = doc(db, "config", "ID33");
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        apiKey = docSnap.data().key;
+                    // 2. Intentar Firestore Global
+                    try {
+                        const docRef = doc(db, "config", "ID33");
+                        const docSnap = await getDoc(docRef);
+                        if (docSnap.exists()) {
+                            apiKey = docSnap.data().key;
+                        }
+                    } catch (dbError) {
+                        console.error("Error leyendo Firestore:", dbError);
                     }
                 }
 
-                if (!apiKey) throw new Error("Falta API Key (BD o Manual)");
+                if (!apiKey) {
+                    window.showAxonToast("Falta API Key. Configúrala en el menú.", 'error');
+                    throw new Error("No Key");
+                }
 
-                // Llamada a Gemini (Google AI Studio)
+                // API Request 
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-                
-                // System Prompt Mejorado para AXON
-                const systemPrompt = `Actúa como AXON, una Inteligencia Artificial experta en Recursos Humanos y optimización ATS (Applicant Tracking Systems). 
-                Tu tarea es reescribir el texto proporcionado para un CV de alto impacto. 
-                Instrucciones: 
-                1. Mantén la esencia del mensaje pero usa vocabulario profesional, verbos de acción y estructura ejecutiva.
-                2. Expande ligeramente el texto para dar más contexto y valor, pero sin inventar datos. 
-                3. El tono debe ser formal, persuasivo y directo.
-                4. REGLA DE ORO: NO uses formato Markdown (negritas, cursivas), NO uses comillas, NO uses introducciones como 'Aquí tienes la mejora'. Devuelve ÚNICAMENTE el texto final plano.`;
+                const systemPrompt = "Actúa como AXON, IA experta en RRHH. Reescribe el texto para CV profesionalmente. Sé directo, usa verbos de acción y NO uses markdown ni comillas.";
                 
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: `${systemPrompt} \n\nTexto a mejorar: "${original}"` }]
-                        }]
+                        contents: [{ parts: [{ text: `${systemPrompt} Texto: "${original}"` }] }]
                     })
                 });
 
-                if (!response.ok) throw new Error('Error Gemini API');
-                const data = await response.json();
+                if (!response.ok) throw new Error('Error AXON API');
                 
-                if(data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
-                    const improvedText = data.candidates[0].content.parts[0].text;
-                    input.value = improvedText.trim();
+                const data = await response.json();
+                if(data.candidates && data.candidates[0].content) {
+                    const text = data.candidates[0].content.parts[0].text;
+                    input.value = text.trim();
                     if (window.updateCV) window.updateCV();
-                } else {
-                    throw new Error("Respuesta inesperada de Gemini");
+                    window.showAxonToast("Mejora aplicada por AXON.");
                 }
 
             } catch (error) {
-                console.error("Error AXON:", error);
-                alert("AXON no pudo conectar. Verifica la Key manual o intenta más tarde.");
+                console.error("AXON Error:", error);
+                if(error.message !== "No Key") window.showAxonToast("Error de conexión con AXON.", 'error');
             } finally {
                 btn.innerHTML = originalBtnText;
                 btn.disabled = false;
             }
         };
 
-        // --- LÓGICA PANEL ADMIN OCULTO ---
-        let adminClickCount = 0;
-        
-        // Exponer funciones del panel admin
-        window.showAdminPanel = function() {
-            document.getElementById('admin-panel').style.display = 'block';
-        }
-        window.closeAdminPanel = function() {
-            document.getElementById('admin-panel').style.display = 'none';
-            adminClickCount = 0;
-        }
-        
-        // Función para actualizar la Key Global en Firestore
+        // --- ADMIN PANEL ---
+        let clicks = 0;
         window.updateGlobalKey = async function() {
-            const newKey = document.getElementById('admin-global-key').value;
-            if(!newKey) return alert("Ingresa una key");
-            
-            try {
-                await setDoc(doc(db, "config", "ID33"), { key: newKey });
-                alert("Key Global Actualizada en Base de Datos.");
-                closeAdminPanel();
-            } catch (e) {
-                alert("Error escribiendo en BD: " + e.message);
+            const k = document.getElementById('admin-global-key').value;
+            if(k) {
+                await setDoc(doc(db, "config", "ID33"), { key: k }, { merge: true });
+                window.showAxonToast("Key Global Actualizada.");
+                document.getElementById('admin-panel').style.display = 'none';
             }
-        }
-
-        // Trigger del icono
+        };
+        
         document.getElementById('hidden-trigger-btn').addEventListener('click', (e) => {
-            e.stopPropagation(); // Evitar que colapse el acordeón
-            adminClickCount++;
-            if(adminClickCount >= 5) {
-                window.showAdminPanel();
+            e.stopPropagation();
+            clicks++;
+            if(clicks >= 5) {
+                document.getElementById('admin-panel').style.display = 'block';
+                clicks = 0;
             }
         });
 
+        // Toast Helper
+        window.showAxonToast = function(msg, type='success') {
+            const t = document.getElementById('axon-toast');
+            document.getElementById('axon-toast-message').innerText = msg;
+            t.style.backgroundColor = type === 'error' ? '#7f1d1d' : '#064e3b';
+            t.style.borderLeftColor = type === 'error' ? '#ef4444' : '#10b981';
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 4000);
+        }
     </script>
 
     <script>
-        // --- VARIABLES GLOBALES ---
+        // Variables y Funciones del Editor (Sin cambios lógicos mayores)
         let experienceCount = 0;
         let educationCount = 0;
         let skillCount = 0;
@@ -749,35 +622,28 @@
         const maxEdu = 3;
         const maxCustom = 2;
 
-        // --- INICIALIZACIÓN ---
         window.onload = function() {
-            // Inicializar inputs vacíos o por defecto
-            addExperience();
-            addEducation();
-            addSkill();
-            addSkill(); // Poner 2 por defecto
-            
-            loadData();
-            updateCV();
-            updateDesign();
+            if(localStorage.getItem('axon_user_key')) {
+                document.getElementById('user-local-key').value = localStorage.getItem('axon_user_key');
+            }
+            addExperience(); addEducation(); addSkill(); addSkill();
+            loadData(); updateCV(); updateDesign();
         };
 
-        // --- GESTIÓN DE DATOS ---
+        function togglePage2() {
+            const chk = document.getElementById('check-page2');
+            const p2 = document.getElementById('cv-page-2');
+            if(chk.checked) p2.classList.remove('hidden');
+            else p2.classList.add('hidden');
+        }
+
         function saveData() {
             const data = {
-                name: val('input-name'),
-                lastname: val('input-lastname'),
-                title: val('input-title'),
-                email: val('input-email'),
-                phone: val('input-phone'),
-                address: val('input-address'),
-                city: val('input-city'),
-                zip: val('input-zip'),
-                profile: val('input-profile'),
-                // Diseño
-                fontHeader: val('font-header'),
-                fontBody: val('font-body'),
-                fontSize: val('font-size-body')
+                name: val('input-name'), lastname: val('input-lastname'), title: val('input-title'),
+                email: val('input-email'), phone: val('input-phone'), address: val('input-address'),
+                city: val('input-city'), zip: val('input-zip'), profile: val('input-profile'),
+                fontHeader: val('font-header'), fontBody: val('font-body'), fontSize: val('font-size-body'),
+                showPage2: document.getElementById('check-page2').checked
             };
             localStorage.setItem('cvDataDaniela', JSON.stringify(data));
         }
@@ -785,289 +651,107 @@
         function loadData() {
             const saved = localStorage.getItem('cvDataDaniela');
             if(saved) {
-                const data = JSON.parse(saved);
-                if(data.name) document.getElementById('input-name').value = data.name;
-                if(data.lastname) document.getElementById('input-lastname').value = data.lastname;
-                if(data.title) document.getElementById('input-title').value = data.title;
-                if(data.email) document.getElementById('input-email').value = data.email;
-                if(data.phone) document.getElementById('input-phone').value = data.phone;
-                if(data.address) document.getElementById('input-address').value = data.address;
-                if(data.city) document.getElementById('input-city').value = data.city;
-                if(data.zip) document.getElementById('input-zip').value = data.zip;
-                if(data.profile) document.getElementById('input-profile').value = data.profile;
-                
-                if(data.fontHeader) document.getElementById('font-header').value = data.fontHeader;
-                if(data.fontBody) document.getElementById('font-body').value = data.fontBody;
-                if(data.fontSize) document.getElementById('font-size-body').value = data.fontSize;
+                const d = JSON.parse(saved);
+                if(d.name) document.getElementById('input-name').value = d.name;
+                if(d.lastname) document.getElementById('input-lastname').value = d.lastname;
+                if(d.title) document.getElementById('input-title').value = d.title;
+                if(d.email) document.getElementById('input-email').value = d.email;
+                if(d.phone) document.getElementById('input-phone').value = d.phone;
+                if(d.address) document.getElementById('input-address').value = d.address;
+                if(d.city) document.getElementById('input-city').value = d.city;
+                if(d.zip) document.getElementById('input-zip').value = d.zip;
+                if(d.profile) document.getElementById('input-profile').value = d.profile;
+                if(d.fontHeader) document.getElementById('font-header').value = d.fontHeader;
+                if(d.fontBody) document.getElementById('font-body').value = d.fontBody;
+                if(d.fontSize) document.getElementById('font-size-body').value = d.fontSize;
+                if(d.showPage2) { document.getElementById('check-page2').checked = true; togglePage2(); }
             }
         }
 
-        // --- LÓGICA DE DISEÑO ---
         function updateDesign() {
             saveData();
-            const fontHeader = document.getElementById('font-header').value;
-            const fontBody = document.getElementById('font-body').value;
-            const size = document.getElementById('font-size-body').value;
-
-            // Aplicar fuentes Header
-            document.querySelector('.header-left h1').style.fontFamily = fontHeader;
-            document.querySelector('.header-left h2').style.fontFamily = fontHeader;
-            
-            // Aplicar fuentes Body
-            document.getElementById('cv-preview').style.fontFamily = fontBody;
-            
-            // Aplicar tamaño
-            document.querySelectorAll('.section-content, .address-block, .profile-text').forEach(el => {
-                el.style.fontSize = size + 'pt';
-            });
-            document.getElementById('font-size-val').innerText = size + 'pt';
+            const fh = document.getElementById('font-header').value;
+            const fb = document.getElementById('font-body').value;
+            const sz = document.getElementById('font-size-body').value;
+            document.querySelectorAll('.header-left h1, .header-left h2').forEach(el => el.style.fontFamily = fh);
+            document.querySelectorAll('.page').forEach(el => el.style.fontFamily = fb);
+            document.querySelectorAll('.section-content, .address-block, .profile-text').forEach(el => el.style.fontSize = sz + 'pt');
+            document.getElementById('font-size-val').innerText = sz + 'pt';
         }
 
-        // --- LÓGICA DE ACTUALIZACIÓN CV ---
         function updateCV() {
-            saveData(); 
-
-            // HEADER
-            const name = val('input-name') || 'DANIELA';
-            const lastname = val('input-lastname') || 'RUÍZ';
-            txt('display-fullname', `${name} ${lastname}`);
-            txt('display-title', val('input-title') || 'GERENTE DE SERVICIOS');
-            
-            txt('display-email', val('input-email') || 'ejemplo@cvstudio33.es');
-            txt('display-phone', val('input-phone') || '+34 365 8956 000');
-
-            // ADDRESS
-            txt('display-address', val('input-address') || 'Calle principal 345');
-            const city = val('input-city') || 'Madrid';
-            const zip = val('input-zip') || '56870';
-            txt('display-city-zip', `${city}, ${zip}`);
-
-            // PROFILE
-            txt('display-profile', val('input-profile') || 'Supe desde temprana edad que quería trabajar en la industria hotelera...');
-
-            // SECCIONES DINÁMICAS
-            renderExperience();
-            renderEducation();
-            renderSkills();
-            renderCustomSections();
+            saveData();
+            const n = val('input-name') || 'DANIELA'; const l = val('input-lastname') || 'RUÍZ';
+            txt('display-fullname', `${n} ${l}`); txt('display-title', val('input-title') || 'GERENTE');
+            txt('display-email', val('input-email') || 'email@ejemplo.com'); txt('display-phone', val('input-phone') || '+34 000 000');
+            txt('display-address', val('input-address') || 'Calle 123');
+            txt('display-city-zip', `${val('input-city')||'Madrid'}, ${val('input-zip')||'28000'}`);
+            txt('display-profile', val('input-profile') || 'Perfil profesional...');
+            renderExperience(); renderEducation(); renderSkills(); renderCustomSections();
         }
 
         function val(id) { return document.getElementById(id) ? document.getElementById(id).value : ''; }
-        function txt(id, text) { if(document.getElementById(id)) document.getElementById(id).innerText = text; }
-        
-        function toggleAccordion(id) {
-            document.getElementById(id).classList.toggle('active');
-        }
+        function txt(id, t) { if(document.getElementById(id)) document.getElementById(id).innerText = t; }
+        function toggleAccordion(id) { document.getElementById(id).classList.toggle('active'); }
+        function formatDate(s) { if(!s)return''; const[y,m]=s.split('-'); return `${m}/${y}`; }
 
-        function formatDate(dateStr) {
-            if(!dateStr) return '';
-            const [y, m, d] = dateStr.split('-');
-            return `${m}/${y}`;
-        }
-
-        // --- RENDERIZADO DINÁMICO ---
-
-        // EXPERIENCIA
         function addExperience() {
-            if (experienceCount >= maxExp) return;
-            experienceCount++;
-            const id = experienceCount;
-            const html = `
-                <div class="bg-white/5 p-3 rounded mb-3 border border-white/10" id="exp-form-${id}">
-                    <div class="flex justify-between mb-2"><span class="text-xs font-bold text-blue-300">Exp ${id}</span><button class="text-red-400 text-xs" onclick="removeEl('exp-form-${id}'); updateCV()"><i class="fa-solid fa-trash"></i></button></div>
-                    <input type="text" class="cv-input mb-2" id="exp-role-${id}" placeholder="Puesto (Ej: Gerente)" oninput="updateCV()">
-                    <input type="text" class="cv-input mb-2" id="exp-comp-${id}" placeholder="Empresa (Ej: Club Poema)" oninput="updateCV()">
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <div><label class="text-[10px] text-gray-400">Inicio</label><input type="date" class="cv-input text-xs" id="exp-start-${id}" oninput="updateCV()"></div>
-                        <div><label class="text-[10px] text-gray-400">Fin</label><input type="date" class="cv-input text-xs" id="exp-end-${id}" oninput="updateCV()"></div>
-                    </div>
-                    <label class="flex items-center gap-2 mb-2 text-xs text-gray-400"><input type="checkbox" id="exp-current-${id}" onchange="updateCV()"> Presente</label>
-                    <div class="relative">
-                        <textarea class="cv-input h-20 text-xs" id="exp-desc-${id}" placeholder="Descripción..." oninput="updateCV()"></textarea>
-                        <button class="absolute bottom-1 right-1 text-[10px] bg-axon px-2 rounded hover:bg-green-600 text-white" onclick="improveTextAI('exp-desc-${id}', this)">
-                            <i class="fa-solid fa-robot"></i> AXON
-                        </button>
-                    </div>
-                </div>`;
-            document.getElementById('experience-container').insertAdjacentHTML('beforeend', html);
+            if(experienceCount>=maxExp)return; experienceCount++; const id=experienceCount;
+            const h=`<div class="bg-white/5 p-3 rounded mb-3 border border-white/10" id="exp-form-${id}"><div class="flex justify-between mb-2"><span class="text-xs font-bold text-blue-300">Exp ${id}</span><button class="text-red-400 text-xs" onclick="removeEl('exp-form-${id}');updateCV()"><i class="fa-solid fa-trash"></i></button></div><input type="text" class="cv-input mb-2" id="exp-role-${id}" placeholder="Puesto" oninput="updateCV()"><input type="text" class="cv-input mb-2" id="exp-comp-${id}" placeholder="Empresa" oninput="updateCV()"><div class="grid grid-cols-2 gap-2 mb-2"><div><label class="text-[10px] text-gray-400">Inicio</label><input type="date" class="cv-input text-xs" id="exp-start-${id}" oninput="updateCV()"></div><div><label class="text-[10px] text-gray-400">Fin</label><input type="date" class="cv-input text-xs" id="exp-end-${id}" oninput="updateCV()"></div></div><label class="flex items-center gap-2 mb-2 text-xs text-gray-400"><input type="checkbox" id="exp-current-${id}" onchange="updateCV()"> Presente</label><div class="relative"><textarea class="cv-input h-20 text-xs" id="exp-desc-${id}" placeholder="Descripción..." oninput="updateCV()"></textarea><button class="absolute bottom-1 right-1 text-[10px] bg-axon px-2 rounded hover:bg-green-600 text-white font-bold" onclick="improveTextAI('exp-desc-${id}',this)"><i class="fa-solid fa-robot"></i> AXON</button></div></div>`;
+            document.getElementById('experience-container').insertAdjacentHTML('beforeend',h);
         }
-
         function renderExperience() {
-            let html = '';
-            for(let i=1; i<=experienceCount; i++) {
-                if(!document.getElementById(`exp-role-${i}`)) continue;
-                const role = val(`exp-role-${i}`);
-                const comp = val(`exp-comp-${i}`);
-                const start = formatDate(val(`exp-start-${i}`));
-                const end = document.getElementById(`exp-current-${i}`).checked ? "Presente" : formatDate(val(`exp-end-${i}`));
-                const desc = val(`exp-desc-${i}`);
-
-                if(role || comp) {
-                    html += `
-                    <div class="job-entry">
-                        <div class="entry-header">
-                            <span class="entry-title">${role}</span>
-                            <span class="entry-date">${start} - ${end}</span>
-                        </div>
-                        <span class="entry-subtitle">${comp}</span>
-                        <p class="entry-desc">${desc}</p>
-                    </div>`;
-                }
-            }
-            document.getElementById('display-experience').innerHTML = html;
+            let h=''; for(let i=1;i<=experienceCount;i++){ if(!document.getElementById(`exp-role-${i}`))continue;
+            const r=val(`exp-role-${i}`), c=val(`exp-comp-${i}`), s=formatDate(val(`exp-start-${i}`)), e=document.getElementById(`exp-current-${i}`).checked?'Presente':formatDate(val(`exp-end-${i}`)), d=val(`exp-desc-${i}`);
+            if(r||c) h+=`<div class="job-entry"><div class="entry-header"><span class="entry-title">${r}</span><span class="entry-date">${s} - ${e}</span></div><span class="entry-subtitle">${c}</span><p class="entry-desc">${d}</p></div>`; }
+            document.getElementById('display-experience').innerHTML=h;
         }
 
-        // EDUCACIÓN
         function addEducation() {
-            if (educationCount >= maxEdu) return;
-            educationCount++;
-            const id = educationCount;
-            const html = `
-                <div class="bg-white/5 p-3 rounded mb-3 border border-white/10" id="edu-form-${id}">
-                    <div class="flex justify-between mb-2"><span class="text-xs font-bold text-blue-300">Edu ${id}</span><button class="text-red-400 text-xs" onclick="removeEl('edu-form-${id}'); updateCV()"><i class="fa-solid fa-trash"></i></button></div>
-                    <input type="text" class="cv-input mb-2" id="edu-degree-${id}" placeholder="Título (Ej: Enología)" oninput="updateCV()">
-                    <input type="text" class="cv-input mb-2" id="edu-inst-${id}" placeholder="Instituto" oninput="updateCV()">
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <div><label class="text-[10px] text-gray-400">Inicio</label><input type="date" class="cv-input text-xs" id="edu-start-${id}" oninput="updateCV()"></div>
-                        <div><label class="text-[10px] text-gray-400">Fin</label><input type="date" class="cv-input text-xs" id="edu-end-${id}" oninput="updateCV()"></div>
-                    </div>
-                    <label class="flex items-center gap-2 mb-2 text-xs text-gray-400"><input type="checkbox" id="edu-current-${id}" onchange="updateCV()"> Presente</label>
-                    <div class="relative">
-                        <textarea class="cv-input h-16 text-xs" id="edu-desc-${id}" placeholder="Detalles..." oninput="updateCV()"></textarea>
-                        <button class="absolute bottom-1 right-1 text-[10px] bg-axon px-2 rounded hover:bg-green-600 text-white" onclick="improveTextAI('edu-desc-${id}', this)">
-                            <i class="fa-solid fa-robot"></i> AXON
-                        </button>
-                    </div>
-                </div>`;
-            document.getElementById('education-container').insertAdjacentHTML('beforeend', html);
+            if(educationCount>=maxEdu)return; educationCount++; const id=educationCount;
+            const h=`<div class="bg-white/5 p-3 rounded mb-3 border border-white/10" id="edu-form-${id}"><div class="flex justify-between mb-2"><span class="text-xs font-bold text-blue-300">Edu ${id}</span><button class="text-red-400 text-xs" onclick="removeEl('edu-form-${id}');updateCV()"><i class="fa-solid fa-trash"></i></button></div><input type="text" class="cv-input mb-2" id="edu-degree-${id}" placeholder="Título" oninput="updateCV()"><input type="text" class="cv-input mb-2" id="edu-inst-${id}" placeholder="Instituto" oninput="updateCV()"><div class="grid grid-cols-2 gap-2 mb-2"><div><label class="text-[10px] text-gray-400">Inicio</label><input type="date" class="cv-input text-xs" id="edu-start-${id}" oninput="updateCV()"></div><div><label class="text-[10px] text-gray-400">Fin</label><input type="date" class="cv-input text-xs" id="edu-end-${id}" oninput="updateCV()"></div></div><label class="flex items-center gap-2 mb-2 text-xs text-gray-400"><input type="checkbox" id="edu-current-${id}" onchange="updateCV()"> Presente</label><div class="relative"><textarea class="cv-input h-16 text-xs" id="edu-desc-${id}" placeholder="Detalles..." oninput="updateCV()"></textarea><button class="absolute bottom-1 right-1 text-[10px] bg-axon px-2 rounded hover:bg-green-600 text-white font-bold" onclick="improveTextAI('edu-desc-${id}',this)"><i class="fa-solid fa-robot"></i> AXON</button></div></div>`;
+            document.getElementById('education-container').insertAdjacentHTML('beforeend',h);
         }
-
         function renderEducation() {
-            let html = '';
-            for(let i=1; i<=educationCount; i++) {
-                if(!document.getElementById(`edu-degree-${i}`)) continue;
-                const degree = val(`edu-degree-${i}`);
-                const inst = val(`edu-inst-${i}`);
-                const start = formatDate(val(`edu-start-${i}`));
-                const end = document.getElementById(`edu-current-${i}`).checked ? "Presente" : formatDate(val(`edu-end-${i}`));
-                const desc = val(`edu-desc-${i}`);
-
-                if(degree || inst) {
-                    html += `
-                    <div class="edu-entry">
-                        <div class="entry-header">
-                            <span class="entry-title">${degree}</span>
-                            <span class="entry-date">${start} - ${end}</span>
-                        </div>
-                        <span class="entry-subtitle">${inst}</span>
-                        <p class="entry-desc">${desc}</p>
-                    </div>`;
-                }
-            }
-            document.getElementById('display-education').innerHTML = html;
+            let h=''; for(let i=1;i<=educationCount;i++){ if(!document.getElementById(`edu-degree-${i}`))continue;
+            const deg=val(`edu-degree-${i}`), inst=val(`edu-inst-${i}`), s=formatDate(val(`edu-start-${i}`)), e=document.getElementById(`edu-current-${i}`).checked?'Presente':formatDate(val(`edu-end-${i}`)), d=val(`edu-desc-${i}`);
+            if(deg||inst) h+=`<div class="edu-entry"><div class="entry-header"><span class="entry-title">${deg}</span><span class="entry-date">${s} - ${e}</span></div><span class="entry-subtitle">${inst}</span><p class="entry-desc">${d}</p></div>`; }
+            document.getElementById('display-education').innerHTML=h;
         }
 
-        // HABILIDADES (DOTS)
-        function addSkill() { 
-            skillCount++; 
-            const id = skillCount; 
-            const html = `
-            <div class="flex gap-2 items-center mb-2" id="skill-form-${id}">
-                <input type="text" class="cv-input" id="skill-name-${id}" placeholder="Habilidad" oninput="updateCV()">
-                <select class="cv-select w-1/3 text-xs" id="skill-level-${id}" onchange="updateCV()">
-                    <option value="1">1/5</option>
-                    <option value="2">2/5</option>
-                    <option value="3">3/5</option>
-                    <option value="4">4/5</option>
-                    <option value="5" selected>5/5</option>
-                </select>
-                <button class="text-red-400" onclick="removeEl('skill-form-${id}'); updateCV()"><i class="fa-solid fa-xmark"></i></button>
-            </div>`; 
-            document.getElementById('skills-container').insertAdjacentHTML('beforeend', html); 
+        function addSkill() {
+            skillCount++; const id=skillCount;
+            const h=`<div class="flex gap-2 items-center mb-2" id="skill-form-${id}"><input type="text" class="cv-input" id="skill-name-${id}" placeholder="Habilidad" oninput="updateCV()"><select class="cv-select w-1/3 text-xs" id="skill-level-${id}" onchange="updateCV()"><option value="1">1/5</option><option value="2">2/5</option><option value="3">3/5</option><option value="4">4/5</option><option value="5" selected>5/5</option></select><button class="text-red-400" onclick="removeEl('skill-form-${id}');updateCV()"><i class="fa-solid fa-xmark"></i></button></div>`;
+            document.getElementById('skills-container').insertAdjacentHTML('beforeend',h);
+        }
+        function renderSkills() {
+            let h=''; for(let i=1;i<=skillCount;i++){ if(!document.getElementById(`skill-name-${i}`))continue;
+            const n=val(`skill-name-${i}`), l=parseInt(val(`skill-level-${i}`));
+            let dots=''; for(let d=1;d<=5;d++) dots+=`<div class="dot ${d<=l?'':'empty'}"></div>`;
+            if(n) h+=`<div class="skill-item"><span class="skill-name">${n}</span><div class="skill-dots">${dots}</div></div>`; }
+            document.getElementById('display-skills').innerHTML=h;
         }
 
-        function renderSkills() { 
-            let html = ''; 
-            for(let i=1; i<=skillCount; i++) { 
-                if(!document.getElementById(`skill-name-${i}`)) continue; 
-                const name = val(`skill-name-${i}`); 
-                const level = parseInt(val(`skill-level-${i}`)); 
-                
-                // Generar Puntos
-                let dotsHtml = '';
-                for(let d=1; d<=5; d++) {
-                    if (d <= level) {
-                        dotsHtml += '<div class="dot"></div>';
-                    } else {
-                        dotsHtml += '<div class="dot empty"></div>';
-                    }
-                }
-
-                if(name) {
-                    html += `
-                    <div class="skill-item">
-                        <span class="skill-name">${name}</span>
-                        <div class="skill-dots">${dotsHtml}</div>
-                    </div>`; 
-                }
-            } 
-            document.getElementById('display-skills').innerHTML = html; 
-        }
-
-        // SECCIONES PERSONALIZADAS
         function addCustomSectionBlock() {
-            if (customSectionsCount >= maxCustom) return;
-            customSectionsCount++;
-            const id = customSectionsCount;
-            const html = `
-                <div class="mt-4 pt-4 border-t-2 border-blue-500/30" id="custom-block-${id}">
-                    <div class="flex justify-between"><p class="text-xs text-blue-400 font-bold mb-3 uppercase flex items-center gap-2">Custom #${id}</p><button class="text-red-400 text-xs" onclick="removeEl('custom-block-${id}'); updateCV()"><i class="fa-solid fa-trash"></i></button></div>
-                    <input type="text" class="cv-input mb-1" id="cust-title-${id}" placeholder="Título Sección" oninput="updateCV()">
-                    <textarea class="cv-input h-24" id="cust-content-${id}" placeholder="Contenido..." oninput="updateCV()"></textarea>
-                </div>`;
-            document.getElementById('custom-sections-wrapper').insertAdjacentHTML('beforeend', html);
+            if(customSectionsCount>=maxCustom)return; customSectionsCount++; const id=customSectionsCount;
+            const h=`<div class="mt-4 pt-4 border-t-2 border-blue-500/30" id="custom-block-${id}"><div class="flex justify-between"><p class="text-xs text-blue-400 font-bold mb-3 uppercase flex items-center gap-2">Custom #${id}</p><button class="text-red-400 text-xs" onclick="removeEl('custom-block-${id}');updateCV()"><i class="fa-solid fa-trash"></i></button></div><input type="text" class="cv-input mb-1" id="cust-title-${id}" placeholder="Título Sección" oninput="updateCV()"><textarea class="cv-input h-24" id="cust-content-${id}" placeholder="Contenido..." oninput="updateCV()"></textarea></div>`;
+            document.getElementById('custom-sections-wrapper').insertAdjacentHTML('beforeend',h);
         }
-
         function renderCustomSections() {
-            let html = '';
-            for(let i=1; i<=customSectionsCount; i++) {
-                if(!document.getElementById(`custom-block-${i}`)) continue;
-                const title = val(`cust-title-${i}`) || 'Sección Personalizada';
-                const content = val(`cust-content-${i}`);
-                
-                html += `
-                <hr class="section-divider">
-                <div class="section-row">
-                    <div class="section-title">${title}</div>
-                    <div class="section-content">
-                        <p class="profile-text">${content.replace(/\n/g, '<br>')}</p>
-                    </div>
-                </div>`;
-            }
-            document.getElementById('display-custom-sections-container').innerHTML = html;
+            let h=''; for(let i=1;i<=customSectionsCount;i++){ if(!document.getElementById(`custom-block-${i}`))continue;
+            h+=`<hr class="section-divider"><div class="section-row"><div class="section-title">${val(`cust-title-${i}`)||'Sección'}</div><div class="section-content"><p class="profile-text">${val(`cust-content-${i}`).replace(/\n/g,'<br>')}</p></div></div>`; }
+            document.getElementById('display-custom-sections-container').innerHTML=h;
         }
 
-        // UTILIDADES
         function removeEl(id) { document.getElementById(id).remove(); updateCV(); }
-
         function downloadPDFDirect() {
-            const element = document.getElementById('cv-preview');
-            const opt = {
-                margin:       0,
-                filename:     'mi-cv-daniela.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
+            const el=document.getElementById('export-container');
+            html2pdf().set({ margin:0, filename:'mi-cv-daniela.pdf', image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'} }).from(el).save();
         }
-
         function toggleMobileModal() {
-            const modal = document.getElementById('mobile-modal');
-            const container = document.getElementById('mobile-cv-clone-container');
-            const original = document.getElementById('cv-preview');
-            if (modal.classList.contains('active')) { modal.classList.remove('active'); container.innerHTML = ''; } 
-            else { modal.classList.add('active'); const clone = original.cloneNode(true); clone.style.margin = '0'; clone.style.transform = 'scale(1)'; container.appendChild(clone); }
+            const m=document.getElementById('mobile-modal'), c=document.getElementById('mobile-cv-clone-container'), o=document.getElementById('cv-preview');
+            if(m.classList.contains('active')){ m.classList.remove('active'); c.innerHTML=''; }
+            else{ m.classList.add('active'); const cl=o.cloneNode(true); cl.style.margin='0'; cl.style.transform='scale(1)'; c.appendChild(cl); }
         }
     </script>
 </body>

@@ -75,19 +75,6 @@
             border-radius: 5px;
         }
 
-        /* Lixie Chat Scrollbar */
-        .lixie-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .lixie-scrollbar::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-        }
-        .lixie-scrollbar::-webkit-scrollbar-thumb {
-            background: #3b82f6;
-            border-radius: 10px;
-        }
-
         /* Reveal Animation */
         .reveal {
             opacity: 0;
@@ -136,13 +123,15 @@
 
         /* ESTILO NUEVO PARA EL FONDO TECH CONECTADO (NYX) */
         .bg-tech-nyx {
+            /* Imagen Abstracta 3D de Redes/Datos */
             background-image: linear-gradient(to bottom, rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.9)), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: fixed; /* ESTO HACE LA MAGIA DE CONEXIÓN */
             position: relative;
         }
         
+        /* Overlay de grilla sutil para efecto técnico */
         .bg-tech-nyx::before {
             content: '';
             position: absolute;
@@ -179,14 +168,16 @@
             gap: 2rem;
             padding: 2rem 1rem;
             scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch; 
+            -webkit-overflow-scrolling: touch; /* Suavidad en iOS */
             align-items: center;
+            /* Personalización de scrollbar para esta sección */
             scrollbar-width: thin;
             scrollbar-color: #3b82f6 #f3f4f6;
         }
         
+        /* Personalización Scrollbar Webkit (Chrome/Safari) para Marcas */
         .brands-scroll-container::-webkit-scrollbar {
-            height: 12px;
+            height: 12px; /* Un poco más alta para ser fácil de usar con mouse */
         }
         .brands-scroll-container::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -1030,70 +1021,6 @@
         </footer>
     </div>
 
-    <div id="lixie-container" class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
-        <div id="lixie-tooltip" onclick="toggleLixieChat()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-bold py-3 px-5 rounded-2xl rounded-br-sm shadow-[0_0_15px_rgba(59,130,246,0.5)] mb-4 animate-bounce relative cursor-pointer border border-blue-400 hover:scale-105 transition">
-            ¿Necesitas ayuda?
-            <div class="absolute -bottom-2 right-4 w-4 h-4 bg-indigo-600 transform rotate-45 border-b border-r border-blue-400"></div>
-        </div>
-
-        <div class="relative w-20 h-20 rounded-full border-4 border-blue-500 shadow-[0_0_25px_rgba(59,130,246,0.6)] cursor-pointer hover:scale-110 transition-transform overflow-hidden bg-[#0f172a] flex items-center justify-center z-10" onclick="toggleLixieChat()">
-            <img src="chatbotcv.png" alt="Lixie Avatar" class="w-full h-full object-cover">
-        </div>
-
-        <div id="lixie-panel" class="hidden absolute bottom-24 right-0 w-[350px] sm:w-[400px] h-[550px] glass-dark rounded-2xl border border-blue-500/40 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden transition-all duration-300 transform origin-bottom-right">
-            
-            <div class="bg-gradient-to-r from-blue-900 to-[#020617] p-4 border-b border-white/10 flex justify-between items-center shadow-lg relative z-20">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] bg-black">
-                        <img src="chatbotcv.png" alt="Lixie" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-white text-md flex items-center gap-2">Lixie <i class="fa-solid fa-bolt text-yellow-400 text-xs"></i></h3>
-                        <div class="flex items-center gap-1">
-                            <span id="lixie-status-dot" class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
-                            <span class="text-xs text-gray-300 font-mono" id="lixie-status-text">Iniciando conexión...</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="clearLixieChat()" title="Borrar memoria local" class="text-gray-400 hover:text-red-400 transition"><i class="fa-solid fa-trash-can"></i></button>
-                    <button onclick="toggleLixieChat()" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
-                </div>
-            </div>
-
-            <div id="lixie-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-4 lixie-scrollbar text-sm bg-tech-nyx relative z-10">
-                <div class="self-start bg-slate-800/90 backdrop-blur-md text-gray-200 p-3 rounded-2xl rounded-tl-sm border border-cyan-500/30 max-w-[85%] shadow-lg">
-                    ¡Hola! Soy Lixie, tu asistente IA de CV Studio33. ¿En qué puedo guiarte hoy? 🚀
-                </div>
-            </div>
-
-            <div id="lixie-presets" class="p-3 border-t border-white/5 flex gap-2 overflow-x-auto lixie-scrollbar whitespace-nowrap bg-slate-900/80 backdrop-blur-sm relative z-20">
-                <button onclick="sendLixiePreset('¿Qué hace exactamente la tecnología NYX?')" class="bg-blue-900/40 hover:bg-blue-600 text-blue-200 hover:text-white text-xs px-3 py-1.5 rounded-full border border-blue-500/30 transition shadow-sm">¿Qué es NYX?</button>
-                <button onclick="sendLixiePreset('¿Cuáles son los precios de los servicios de CV?')" class="bg-blue-900/40 hover:bg-blue-600 text-blue-200 hover:text-white text-xs px-3 py-1.5 rounded-full border border-blue-500/30 transition shadow-sm">¿Precios de CV?</button>
-                <button onclick="sendLixiePreset('¿Cuánto tiempo tardan en entregar un CV optimizado?')" class="bg-blue-900/40 hover:bg-blue-600 text-blue-200 hover:text-white text-xs px-3 py-1.5 rounded-full border border-blue-500/30 transition shadow-sm">¿Tiempos de entrega?</button>
-                <button onclick="sendLixiePreset('¿Cómo funciona el envío masivo o Distribution Hub?')" class="bg-blue-900/40 hover:bg-blue-600 text-blue-200 hover:text-white text-xs px-3 py-1.5 rounded-full border border-blue-500/30 transition shadow-sm">¿Envío Masivo?</button>
-                <button onclick="sendLixiePreset('¿Garantizan que consiga entrevistas de trabajo?')" class="bg-blue-900/40 hover:bg-blue-600 text-blue-200 hover:text-white text-xs px-3 py-1.5 rounded-full border border-blue-500/30 transition shadow-sm">¿Hay garantía?</button>
-            </div>
-
-            <div class="p-3 bg-[#020617] border-t border-white/10 flex flex-col gap-2 relative z-20">
-                <div class="flex justify-between items-center px-1">
-                    <span class="text-[10px] text-gray-500 flex items-center gap-1"><i class="fa-solid fa-circle-info"></i> Si falla, cambia el nodo:</span>
-                    <select id="lixie-node-selector" onchange="changeLixieNode()" class="bg-slate-800 text-cyan-400 text-[10px] rounded px-2 py-1 border border-cyan-500/30 focus:outline-none cursor-pointer">
-                        <option value="key1">Nodo 1 (Principal)</option>
-                        <option value="key2">Nodo 2 (Respaldo)</option>
-                        <option value="key3">Nodo 3 (Emergencia)</option>
-                    </select>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="lixie-input" placeholder="Pregúntale a Lixie..." class="flex-1 bg-slate-800 text-white text-sm rounded-lg px-4 py-2 border border-white/10 focus:border-cyan-500 focus:outline-none placeholder-gray-500 transition" onkeypress="handleLixieEnter(event)">
-                    <button id="lixie-send-btn" onclick="sendLixieMessage()" class="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white rounded-lg w-12 flex items-center justify-center transition shadow-[0_0_10px_rgba(6,182,212,0.4)]">
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         // Swiper CV (Coverflow 3D)
@@ -1126,7 +1053,7 @@
             }
         });
 
-        // Swiper Blog
+        // Swiper Blog (Nuevo)
         var swiperBlog = new Swiper(".mySwiperBlog", {
             slidesPerView: 1,
             spaceBetween: 30,
@@ -1171,6 +1098,7 @@
             });
         });
         
+        // Trigger reveal on load
         window.dispatchEvent(new Event('scroll'));
 
         // FAQ Logic Robusto
@@ -1179,223 +1107,17 @@
                 const item = button.parentElement;
                 const isActive = item.classList.contains('active');
                 
+                // Cerrar todos los demás
                 document.querySelectorAll('.faq-item').forEach(otherItem => {
                     otherItem.classList.remove('active');
                 });
 
+                // Toggle actual
                 if (!isActive) {
                     item.classList.add('active');
                 }
             });
         });
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-        // Configuración entregada en el prompt
-        const firebaseConfig = {
-            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
-            authDomain: "cv-studio33.firebaseapp.com",
-            projectId: "cv-studio33",
-            storageBucket: "cv-studio33.firebasestorage.app",
-            messagingSenderId: "189453088234",
-            appId: "1:189453088234:web:639c130a6287ff34122e93"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Estado global atado a window para que funcione con los onclick del HTML
-        window.lixieState = {
-            keys: { key1: null, key2: null, key3: null },
-            currentNode: 'key1',
-            history: [],
-            isTyping: false
-        };
-
-        const lixiePrompt = "Eres Lixie, la IA asistente de CV Studio33. Eres divertida, muy profesional y empática. Ayudas a los usuarios con dudas sobre la creación de CVs, la tecnología NYX, el Distribution Hub, precios y tiempos de entrega. Da respuestas cortas, al punto y siempre guiando a que usen el servicio.";
-
-        // Función para cargar llaves de Firestore
-        async function fetchLixieKeys() {
-            try {
-                // Ruta exigida: collection 'chatbotcv' > document 'IDCV'
-                const docRef = doc(db, "chatbotcv", "IDCV");
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    window.lixieState.keys = docSnap.data();
-                    document.getElementById('lixie-status-text').textContent = "NYX: Nodos de conexión asegurados";
-                    document.getElementById('lixie-status-dot').classList.replace('bg-yellow-500', 'bg-green-500');
-                } else {
-                    throw new Error("El documento IDCV no existe en la BD.");
-                }
-            } catch (error) {
-                console.error("Error cargando Keys de Firebase:", error);
-                document.getElementById('lixie-status-text').textContent = "Fallo crítico en conexión DB";
-                document.getElementById('lixie-status-dot').classList.replace('bg-yellow-500', 'bg-red-500');
-                appendLixieUI("Sistema", `Error de Firebase: ${error.message}. Verifica las reglas de Firestore o la ruta de los nodos.`, true);
-            }
-        }
-
-        // Cargar historial de LocalStorage
-        function loadLocalHistory() {
-            const saved = localStorage.getItem('lixie_chat_history');
-            if (saved) {
-                window.lixieState.history = JSON.parse(saved);
-                window.lixieState.history.forEach(msg => {
-                    appendLixieUI(msg.role, msg.parts[0].text, false);
-                });
-                scrollLixieToBottom();
-            }
-        }
-
-        // Guardar historial
-        function saveLocalHistory() {
-            localStorage.setItem('lixie_chat_history', JSON.stringify(window.lixieState.history));
-        }
-
-        // Mostrar u Ocultar Chat
-        window.toggleLixieChat = () => {
-            const panel = document.getElementById('lixie-panel');
-            const tooltip = document.getElementById('lixie-tooltip');
-            panel.classList.toggle('hidden');
-            tooltip.classList.add('hidden');
-            scrollLixieToBottom();
-        };
-
-        // Cambiar Nodo
-        window.changeLixieNode = () => {
-            const selector = document.getElementById('lixie-node-selector');
-            window.lixieState.currentNode = selector.value;
-            appendLixieUI("Sistema", `⚡ Cambiaste al nodo: ${selector.options[selector.selectedIndex].text}. Conexión lista.`, true);
-        };
-
-        // Borrar Chat
-        window.clearLixieChat = () => {
-            window.lixieState.history = [];
-            localStorage.removeItem('lixie_chat_history');
-            const container = document.getElementById('lixie-messages');
-            container.innerHTML = `
-                <div class="self-start bg-slate-800/90 backdrop-blur-md text-gray-200 p-3 rounded-2xl rounded-tl-sm border border-cyan-500/30 max-w-[85%] shadow-lg">
-                    Memoria local borrada. ¡Empecemos de nuevo! 🚀
-                </div>
-            `;
-        };
-
-        // Manejar Enter
-        window.handleLixieEnter = (e) => {
-            if (e.key === 'Enter') {
-                window.sendLixieMessage();
-            }
-        };
-
-        // Enviar Preset
-        window.sendLixiePreset = (text) => {
-            const input = document.getElementById('lixie-input');
-            input.value = text;
-            window.sendLixieMessage();
-        };
-
-        // Lógica de Renderizado en UI
-        function appendLixieUI(role, text, isSystem = false) {
-            const container = document.getElementById('lixie-messages');
-            const div = document.createElement('div');
-            
-            if (isSystem) {
-                div.className = "self-center text-[10px] text-gray-400 bg-black/50 px-3 py-1 rounded-full border border-white/5 my-2";
-                div.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-yellow-500 mr-1"></i> ${text}`;
-            } else if (role === 'user') {
-                div.className = "self-end bg-blue-600 text-white p-3 rounded-2xl rounded-tr-sm shadow-lg max-w-[85%] text-sm";
-                div.textContent = text;
-            } else {
-                div.className = "self-start bg-slate-800/90 backdrop-blur-md text-gray-200 p-3 rounded-2xl rounded-tl-sm border border-cyan-500/30 max-w-[85%] shadow-lg text-sm";
-                // Simple markdown parse for boldness
-                div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            }
-            container.appendChild(div);
-            scrollLixieToBottom();
-        }
-
-        function scrollLixieToBottom() {
-            const container = document.getElementById('lixie-messages');
-            container.scrollTop = container.scrollHeight;
-        }
-
-        // Enviar mensaje a Gemini
-        window.sendLixieMessage = async () => {
-            if (window.lixieState.isTyping) return;
-            
-            const input = document.getElementById('lixie-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            input.value = "";
-            appendLixieUI("user", text);
-            window.lixieState.history.push({ role: "user", parts: [{ text }] });
-            saveLocalHistory();
-
-            window.lixieState.isTyping = true;
-            document.getElementById('lixie-send-btn').innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-
-            const rawKey = window.lixieState.keys[window.lixieState.currentNode];
-            const currentKey = rawKey ? rawKey.trim() : null;
-            
-            if (!currentKey) {
-                appendLixieUI("Sistema", `La API Key para el ${window.lixieState.currentNode} no se encontró en Firebase. Verifica la base de datos.`, true);
-                resetLixieInput();
-                return;
-            }
-
-            // FORMA CORRECTA Y ESTABLE
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${currentKey}`;
-            
-            const payload = {
-                system_instruction: { parts: [{ text: lixiePrompt }] },
-                contents: window.lixieState.history
-            };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    let errMsg = `Error HTTP: ${response.status}.`;
-                    if (response.status === 404) errMsg += " Endpoint no encontrado o modelo inválido.";
-                    if (response.status === 403) errMsg += " API Key inválida o sin permisos.";
-                    if (response.status === 400) errMsg += ` Payload incorrecto: ${errorText}`;
-                    
-                    throw new Error(errMsg);
-                }
-
-                const data = await response.json();
-                const botReply = data.candidates[0].content.parts[0].text;
-                
-                appendLixieUI("model", botReply);
-                window.lixieState.history.push({ role: "model", parts: [{ text: botReply }] });
-                saveLocalHistory();
-
-            } catch (error) {
-                appendLixieUI("Sistema", `Fallo en el nodo manual (${window.lixieState.currentNode}): ${error.message} - Por favor cambia al siguiente nodo abajo.`, true);
-            } finally {
-                resetLixieInput();
-            }
-        };
-
-        function resetLixieInput() {
-            window.lixieState.isTyping = false;
-            document.getElementById('lixie-send-btn').innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
-            document.getElementById('lixie-input').focus();
-        }
-
-        // Init
-        fetchLixieKeys();
-        loadLocalHistory();
     </script>
 </body>
 </html>

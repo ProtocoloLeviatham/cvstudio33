@@ -1021,6 +1021,16 @@
         </footer>
     </div>
 
+    <a href="chatbotguia.hmtl" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end group cursor-pointer" style="text-decoration: none;">
+        <div class="bg-white text-gray-800 text-sm font-bold py-3 px-5 rounded-2xl rounded-br-none shadow-[0_10px_25px_rgba(59,130,246,0.3)] border border-blue-100 mb-3 relative transform transition-all duration-300 group-hover:scale-105 group-hover:-translate-y-1">
+            <span id="lixie-msg" class="block w-[130px] text-center transition-opacity duration-500 ease-in-out">Hola soy Lixie</span>
+            <div class="absolute -bottom-2 right-5 w-4 h-4 bg-white border-b border-r border-blue-100 transform rotate-45"></div>
+        </div>
+        <div class="relative w-20 h-20 rounded-full border-4 border-white shadow-2xl flex items-center justify-center overflow-hidden transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] bg-blue-50">
+            <img src="chatbotcv.png" alt="Lixie Chatbot" width="256" height="256" class="w-full h-full object-cover">
+        </div>
+        <span class="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse"></span>
+    </a>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         // Swiper CV (Coverflow 3D)
@@ -1118,6 +1128,23 @@
                 }
             });
         });
+
+        // --- INICIO LÓGICA DEL CHATBOT LIXIE AÑADIDA ---
+        const lixieMsg = document.getElementById('lixie-msg');
+        if(lixieMsg) {
+            const lixieTexts = ["Hola soy Lixie", "¿Necesitas ayuda?"];
+            let lixieIndex = 0;
+            setInterval(() => {
+                lixieMsg.style.opacity = '0';
+                setTimeout(() => {
+                    lixieIndex = (lixieIndex + 1) % lixieTexts.length;
+                    lixieMsg.textContent = lixieTexts[lixieIndex];
+                    lixieMsg.style.opacity = '1';
+                }, 500); // Espera a que termine la animación de opacidad
+            }, 3500); // Cambia cada 3.5 segundos
+        }
+        // --- FIN LÓGICA DEL CHATBOT LIXIE AÑADIDA ---
+
     </script>
 </body>
 </html>

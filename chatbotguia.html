@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lixie | CV Studio33 Intelligence Agency</title>
     <style>
         /* ================= ESTILOS BASE Y VARIABLES ================= */
@@ -31,6 +31,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            height: 100dvh; /* Soporte dinámico para móviles */
             /* Fondo cibernético/corporativo */
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.08) 0%, transparent 50%),
@@ -67,6 +68,7 @@
             overflow: hidden;
             position: relative;
             z-index: 2;
+            animation: containerGlow 4s ease-in-out infinite alternate, slideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* Línea superior brillante */
@@ -105,6 +107,11 @@
             object-fit: cover;
             padding: 2px;
             background: var(--bg-dark);
+            transition: transform 0.3s ease;
+        }
+        
+        .avatar:hover {
+            transform: scale(1.05);
         }
 
         .header-info h2 {
@@ -114,6 +121,9 @@
             letter-spacing: 1.5px;
             font-weight: 600;
             text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .status {
@@ -139,6 +149,35 @@
         .node-selector-container {
             text-align: right;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+        }
+        
+        /* Botón de volver al inicio */
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home-btn:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: #fff;
+            box-shadow: 0 0 10px var(--accent-cyan-glow);
+            transform: translateY(-1px);
         }
         
         .node-header-wrap {
@@ -146,7 +185,6 @@
             align-items: center;
             justify-content: flex-end;
             gap: 5px;
-            margin-bottom: 4px;
         }
 
         .node-label {
@@ -167,6 +205,13 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .info-icon:hover {
+            background: var(--accent-purple);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
         }
 
         /* Tooltip de explicación de Nodos */
@@ -180,18 +225,20 @@
             padding: 10px;
             position: absolute;
             z-index: 100;
-            top: 120%;
+            top: 100%;
             right: 0;
             font-size: 0.7rem;
             border: 1px solid var(--glass-border);
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(5px);
             line-height: 1.4;
         }
         .node-header-wrap:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
+            transform: translateY(0);
         }
 
         #node-selector {
@@ -199,15 +246,16 @@
             color: var(--accent-cyan);
             border: 1px solid rgba(0, 240, 255, 0.3);
             border-radius: 6px;
-            padding: 5px 10px;
-            font-size: 0.75rem;
+            padding: 4px 8px;
+            font-size: 0.70rem;
             outline: none;
             cursor: pointer;
-            transition: border 0.3s;
+            transition: all 0.3s;
             font-family: var(--font-main);
         }
         #node-selector:hover {
             border-color: var(--accent-cyan);
+            box-shadow: 0 0 8px var(--accent-cyan-glow);
         }
 
         /* ================= ÁREA DE MENSAJES ================= */
@@ -246,6 +294,11 @@
             line-height: 1.6;
             position: relative;
             word-wrap: break-word;
+            transition: all 0.3s ease;
+        }
+
+        .message:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
         .lixie .message {
@@ -304,6 +357,7 @@
             align-items: center;
             gap: 4px;
             opacity: 0.8;
+            animation: fadeIn 0.5s ease-in forwards;
         }
 
         /* ================= FAQS ================= */
@@ -331,14 +385,17 @@
             font-family: var(--font-main);
         }
         .faq-btn:hover {
-            background: rgba(112, 0, 255, 0.15);
+            background: rgba(112, 0, 255, 0.25);
             border-color: var(--accent-cyan);
             color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(112, 0, 255, 0.3);
         }
 
         /* ================= INPUT ================= */
         #input-area {
             padding: 18px 24px;
+            padding-bottom: max(18px, env(safe-area-inset-bottom)); /* Levanta el input en iOS/Android nativos */
             background: rgba(10, 10, 15, 0.8);
             display: flex;
             gap: 12px;
@@ -355,15 +412,18 @@
             border-radius: 12px;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             font-family: var(--font-main);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
         #user-input:focus { 
             border-color: var(--accent-cyan); 
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-1px);
         }
-        #user-input::placeholder { color: #555; }
+        #user-input::placeholder { color: #555; transition: color 0.3s; }
+        #user-input:focus::placeholder { color: #888; }
 
         #send-btn {
             background: var(--accent-cyan);
@@ -376,18 +436,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         #send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--accent-cyan-glow);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 20px var(--accent-cyan-glow);
             background: #fff;
         }
-        #send-btn svg { width: 22px; height: 22px; fill: currentColor; }
+        #send-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+        #send-btn svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.3s; }
+        #send-btn:hover svg { transform: translateX(2px) translateY(-2px); }
 
         /* Animaciones */
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.95) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
+        @keyframes containerGlow { from { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(112, 0, 255, 0.15); } }
 
         /* Typing indicator tech */
         .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
@@ -397,11 +464,23 @@
         .typing .bar:nth-child(3) { animation-delay: 0s; }
         @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
 
-        /* Responsividad */
+        /* Responsividad Mejorada */
         @media (max-width: 480px) {
-            #chat-container { height: 100vh; max-width: 100%; border-radius: 0; border: none; }
+            #chat-container { 
+                height: 100dvh; /* dvh maneja mucho mejor la barra del navegador y el teclado en móviles */
+                max-width: 100%; 
+                border-radius: 0; 
+                border: none; 
+                animation: none; /* Desactivar scale de entrada en móviles para evitar parpadeos */
+            }
             .header-info h2 { font-size: 1rem; }
-            .message { font-size: 0.9rem; }
+            .message { font-size: 0.9rem; padding: 12px 14px; }
+            #input-area { 
+                padding: 12px 16px;
+                /* El teclado subirá esto automáticamente al enfocar si se usa dvh */
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            #user-input { padding: 12px 16px; font-size: 16px; /* 16px evita el zoom automático en iOS */ }
         }
     </style>
 </head>
@@ -417,6 +496,11 @@
             </div>
         </div>
         <div class="node-selector-container">
+            <a href="https://protocololeviatham.github.io/cvstudio33/index.html" class="back-home-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Inicio
+            </a>
+            
             <div class="node-header-wrap">
                 <span class="node-label">Nodo</span>
                 <span class="info-icon">i</span>
@@ -466,6 +550,7 @@
 
     // 2. VARIABLES DE ESTADO Y PROMPT COMPLETO
     let currentApiKey = "";
+    // HISTORIAL DE CONVERSACIÓN: Guarda el contexto en memoria volátil (se borra al salir)
     let chatHistory = [];
     const documentId = "IDCV"; 
 
@@ -667,11 +752,12 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
         userInput.value = "";
         showTyping();
 
+        // ALMACENANDO EN MEMORIA: Esto envía todo el contexto previo al modelo.
         chatHistory.push({ role: "user", parts: [{ text: text }] });
 
         const finalPrompt = {
             system_instruction: { parts: [{ text: systemPrompt }] },
-            contents: chatHistory
+            contents: chatHistory // Se envía la conversación completa
         };
 
         try {
@@ -689,6 +775,7 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
             const aiResponse = data.candidates[0].content.parts[0].text;
             addMessage("Lixie", aiResponse);
             
+            // GUARDANDO RESPUESTA EN MEMORIA PARA LA SIGUIENTE PREGUNTA
             chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
 
         } catch (error) {

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lixie | CV Studio33 Intelligence Agency</title>
+    <style>
+        /* ================= ESTILOS BASE Y VARIABLES ================= */
+        :root {
+            --bg-dark: #07070a;
+            --bg-panel: rgba(20, 20, 29, 0.75);
+            --accent-cyan: #00f0ff;
+            --accent-cyan-glow: rgba(0, 240, 255, 0.4);
+            --accent-purple: #7000ff;
+            --text-main: #e8e8e8;
+            --text-muted: #9aa0a6;
+            --font-main: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Importar fuente moderna */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Fondo cibernético/corporativo */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0a0f 0%, #050508 100%);
+            overflow: hidden;
+        }
+
+        /* Efecto de líneas de escaneo (Scanlines) sutil */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 1;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* ================= CONTENEDOR PRINCIPAL (GLASSMORPHISM) ================= */
+        #chat-container {
+            width: 100%;
+            max-width: 480px;
+            height: 92vh;
+            background: var(--bg-panel);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Línea superior brillante */
+        #chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+            z-index: 10;
+        }
+
+        /* ================= CABECERA ================= */
+        #chat-header {
+            padding: 18px 24px;
+            background: rgba(10, 10, 15, 0.6);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px; /* Corte más tecnológico que redondo */
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 15px var(--accent-cyan-glow);
+            object-fit: cover;
+            padding: 2px;
+            background: var(--bg-dark);
+        }
+
+        .header-info h2 {
+            margin: 0 0 4px 0;
+            font-size: 1.15rem;
+            color: #fff;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-cyan);
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Selector de Nodos y Tooltip */
+        .node-selector-container {
+            text-align: right;
+            position: relative;
+        }
+        
+        .node-header-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 5px;
+            margin-bottom: 4px;
+        }
+
+        .node-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-icon {
+            color: var(--accent-purple);
+            font-size: 0.7rem;
+            cursor: help;
+            border: 1px solid var(--accent-purple);
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tooltip de explicación de Nodos */
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(10, 10, 15, 0.95);
+            color: #ccc;
+            text-align: left;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 100;
+            top: 120%;
+            right: 0;
+            font-size: 0.7rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+            line-height: 1.4;
+        }
+        .node-header-wrap:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #node-selector {
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            outline: none;
+            cursor: pointer;
+            transition: border 0.3s;
+            font-family: var(--font-main);
+        }
+        #node-selector:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        /* ================= ÁREA DE MENSAJES ================= */
+        #messages-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar personalizada */
+        #messages-area::-webkit-scrollbar { width: 6px; }
+        #messages-area::-webkit-scrollbar-track { background: transparent; }
+        #messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        #messages-area::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.3); }
+
+        .message-wrapper {
+            display: flex;
+            flex-direction: column;
+            max-width: 88%;
+            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .message-wrapper.lixie { align-self: flex-start; }
+        .message-wrapper.user { align-self: flex-end; }
+
+        .message {
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .lixie .message {
+            background: rgba(30, 30, 45, 0.6);
+            color: #eaeaea;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(112, 0, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .user .message {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 240, 255, 0.05) 100%);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.05);
+        }
+
+        /* Estilos de texto interno */
+        .message b { color: var(--accent-cyan); font-weight: 600; }
+        .message ul { padding-left: 20px; margin: 8px 0; }
+        .message li { margin-bottom: 6px; }
+        .message li::marker { color: var(--accent-purple); }
+
+        /* ========= BOTONES DE ACCIÓN (ENLACES MARKDOWN) ========= */
+        .action-btn {
+            display: block;
+            margin: 12px 0 4px 0;
+            padding: 10px 15px;
+            background: linear-gradient(90deg, rgba(112, 0, 255, 0.2), rgba(0, 240, 255, 0.1));
+            border: 1px solid var(--accent-cyan);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+        }
+        .action-btn:hover {
+            background: linear-gradient(90deg, rgba(112, 0, 255, 0.4), rgba(0, 240, 255, 0.3));
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .read-receipt {
+            font-size: 0.65rem;
+            color: var(--accent-cyan);
+            align-self: flex-end;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.8;
+        }
+
+        /* ================= FAQS ================= */
+        #faq-container {
+            padding: 12px 24px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            border-top: 1px solid var(--glass-border);
+            scrollbar-width: none;
+            background: rgba(10, 10, 15, 0.4);
+        }
+        #faq-container::-webkit-scrollbar { display: none; }
+
+        .faq-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(112, 0, 255, 0.4);
+            color: #d1d1d1;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-main);
+        }
+        .faq-btn:hover {
+            background: rgba(112, 0, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: #fff;
+        }
+
+        /* ================= INPUT ================= */
+        #input-area {
+            padding: 18px 24px;
+            background: rgba(10, 10, 15, 0.8);
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid var(--glass-border);
+            align-items: center;
+        }
+
+        #user-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+            font-family: var(--font-main);
+        }
+        #user-input:focus { 
+            border-color: var(--accent-cyan); 
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+            background: rgba(0, 0, 0, 0.6);
+        }
+        #user-input::placeholder { color: #555; }
+
+        #send-btn {
+            background: var(--accent-cyan);
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            color: var(--bg-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        #send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--accent-cyan-glow);
+            background: #fff;
+        }
+        #send-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+        /* Animaciones */
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
+
+        /* Typing indicator tech */
+        .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
+        .typing .bar { width: 4px; height: 12px; background: var(--accent-cyan); border-radius: 2px; animation: wave 1s infinite ease-in-out; }
+        .typing .bar:nth-child(1) { animation-delay: -0.4s; }
+        .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); }
+        .typing .bar:nth-child(3) { animation-delay: 0s; }
+        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
+
+        /* Responsividad */
+        @media (max-width: 480px) {
+            #chat-container { height: 100vh; max-width: 100%; border-radius: 0; border: none; }
+            .header-info h2 { font-size: 1rem; }
+            .message { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <div id="chat-header">
+        <div class="header-profile">
+            <img src="chatbotcv.png" alt="Lixie Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/256/00f0ff/0a0a0f?text=LX'">
+            <div class="header-info">
+                <h2>Lixie AI</h2>
+                <div class="status"><div class="status-dot"></div> Mente Colmena Activa</div>
+            </div>
+        </div>
+        <div class="node-selector-container">
+            <div class="node-header-wrap">
+                <span class="node-label">Nodo</span>
+                <span class="info-icon">i</span>
+                <div class="tooltip-text">
+                    <b>¿Para qué sirven los Nodos?</b><br>
+                    Son puntos de conexión hacia la Mente Colmena. Si la IA no responde o hay intermitencia, cambia a un nodo de respaldo para restaurar la comunicación inmediatamente.
+                </div>
+            </div>
+            <select id="node-selector">
+                <option value="key1">Principal (Key 1)</option>
+                <option value="key2">Respaldo (Key 2)</option>
+                <option value="key3">Emergencia (Key 3)</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="messages-area">
+        </div>
+
+    <div id="faq-container">
+        </div>
+
+    <div id="input-area">
+        <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
+        <button id="send-btn">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // 1. CONFIGURACIÓN FIREBASE
+    const firebaseConfig = {
+      apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+      authDomain: "cv-studio33.firebaseapp.com",
+      projectId: "cv-studio33",
+      storageBucket: "cv-studio33.firebasestorage.app",
+      messagingSenderId: "189453088234",
+      appId: "1:189453088234:web:639c130a6287ff34122e93"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 2. VARIABLES DE ESTADO Y PROMPT COMPLETO
+    let currentApiKey = "";
+    let chatHistory = [];
+    const documentId = "IDCV"; 
+
+    const systemPrompt = `
+# ROL Y PERSONALIDAD
+Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. 
+Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista y empático, pero directo respecto a la cruda realidad del mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. 
+No usas un lenguaje robótico aburrido; usas términos como "armas de empleabilidad masiva", "asalto digital", "ingeniería inversa", "Mente Colmena" y "supremacía tecnológica". Transmites la idea de que buscar trabajo con métodos tradicionales está obsoleto y que CV Studio33 es "la anomalía en el sistema" que democratiza el éxito profesional.
+
+# DIRECTRICES DE INTERACCIÓN Y FORMATO LIMPIO
+1. Tu objetivo principal es asesorar a los usuarios, resolver sus dudas con la información de tu base de conocimientos y persuadirlos estratégicamente para que adquieran Planes Corporativos, Tokens NYX o Tokens AXON.
+2. Si un usuario no sabe qué elegir, haz un rápido diagnóstico preguntando sobre su nivel de experiencia y frustraciones actuales, y luego recomienda un servicio redirigiéndolo a la URL correspondiente.
+3. Responde siempre en español. 
+4. **ESTRUCTURA Y LIMPIEZA VISUAL:** Mantén un formato impecable, corporativo y fácil de leer. Usa viñetas simples (-) y negritas (**) solo para resaltar conceptos clave. ESTRICTAMENTE PROHIBIDO usar caracteres extraños que ensucien la lectura (como \`***\`, excesivos emojis o bloques de código innecesarios). La respuesta debe parecer redactada por un humano de alto nivel ejecutivo.
+5. **USO DE ENLACES (SITEMAP):** Siempre que ofrezcas un servicio, debes proporcionar el enlace directo para que el usuario tome acción inmediata. Usa el formato Markdown ocultando la URL en un texto de anclaje persuasivo. Ejemplo: [Crear currículum aquí](https://protocololeviatham.github.io/cvstudio33/servicio-de-creacion-cv.html).
+6. NUNCA inventes precios, características, enlaces o servicios que no estén en tu base de conocimientos.
+
+# MAPA DE NAVEGACIÓN Y ENLACES OFICIALES (SITEMAP)
+Utiliza exclusivamente estas rutas para redirigir al usuario según lo que necesite:
+- **Página Principal / Inicio:** https://protocololeviatham.github.io/cvstudio33/index.html (Úsala para introducciones generales o volver al menú principal).
+- **Catálogo de Servicios Generales:** https://protocololeviatham.github.io/cvstudio33/Servicios.html (Úsala cuando el usuario quiera ver todas las opciones disponibles).
+- **Servicio de Creación de CV (El Método 33):** https://protocololeviatham.github.io/cvstudio33/servicio-de-creacion-cv.html (Úsala para invitar al usuario a crear o auditar su currículum. Frases sugeridas: "Inicia tu asalto digital aquí" o "Crea tu currículum aquí").
+- **Servicio de Carta de Presentación:** https://protocololeviatham.github.io/cvstudio33/Creandotucarta.html (Úsala para redirigir al editor y creador de cartas con psicología persuasiva).
+- **Tecnología NYX (Distribución y Redacción ATS):** https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html (Úsala para explicar la Mente Colmena, evasión de filtros y envíos masivos).
+- **Tecnología AXON (Auditoría y Analítica):** https://protocololeviatham.github.io/cvstudio33/Axon.html (Úsala para escaneos de perfil, revelación de rangos salariales e ingeniería inversa de vacantes).
+
+# BASE DE CONOCIMIENTOS ABSOLUTA DE CV STUDIO33
+
+## 1. LA FILOSOFÍA Y EL "MÉTODO 33"
+CV Studio33 no solo redacta currículums; fusiona la intuición humana con la inteligencia algorítmica. El "Método 33" tiene 5 pasos científicos:
+1. Diagnóstico de Perfil (Auditoría de trayectoria).
+2. Minería de Logros (Conversión de tareas en métricas cuantificables de alto impacto).
+3. Redacción Persuasiva (Copywriting y neuro-marketing).
+4. Ingeniería ATS (Inyección de palabras clave y formato de lectura 99.8% para robots).
+5. Despegue Profesional (Entrega de kit completo para multinacionales).
+
+## 2. TECNOLOGÍA NYX (Inteligencia Colmena de Redacción y Distribución)
+NYX es una red neuronal ofensiva que opera bajo un "Modelo Colmena" (integrando OpenAI, Gemini y Pollinations para latencia cero y cero alucinaciones). Reescribe el CV y automatiza envíos para superar cualquier ATS (Workday, Taleo).
+Módulos y Consumo de Tokens NYX:
+- Mirror CV (1.0 Token): Adapta tu CV al lenguaje exacto de la vacante, inyectando "Texto Invisible" para indexación ATS.
+- EmailHarvest (0.5 Tokens): Scraper ético que salta filtros "info@" y consigue el mail directo de los reclutadores (tomadores de decisiones).
+- Jobby Scout (2.0 Tokens): Motor de búsqueda que encuentra vacantes con menos de 2 horas de antigüedad.
+- Distribution Hub (5.0 Tokens): Envío masivo-selectivo que soporta más de 50,000 envíos mensuales evadiendo el spam.
+- Chrono Pulse (15.0 Tokens, 10 la 1ra vez): Envío diario automatizado y persistente a las 9:00 AM.
+- Ghost Tracking (GRATIS con Hub): Píxeles de seguimiento para ver en tiempo real quién abre el correo, dónde y cuántas veces.
+- Eye Training: Predice con 96% de precisión dónde mirará el reclutador en los primeros 6 segundos (Patrones F y Z).
+- Módulo RUN ALL (20.0 Tokens): Activación total de todas las herramientas.
+
+## 3. TECNOLOGÍA AXON (Auditoría, Analítica y Deep Learning)
+AXON es el motor de ingeniería inversa que compara el perfil del candidato contra "Perfiles de Oro" (casos de éxito). Elimina la incertidumbre mediante cálculos estadísticos de probabilidad de éxito.
+Módulos y Consumo de Tokens AXON:
+- Escaneo Completo (5 Tokens) / Escaneo Básico (3 Tokens): Evalúa el "Parsing Health" (errores ocultos del PDF) y el "Skills Gap" (habilidades faltantes).
+- Salary Range Intelligence (1 Token): Revela el margen de negociación salarial real actualizado.
+- Protocolo Mirroring: Clona el tono y cultura corporativa de la empresa objetivo.
+- Certificación AXON: Un sello que garantiza que el perfil superará el filtro técnico.
+
+## 4. PRECIOS Y PLANES CORPORATIVOS (Valores en ARS)
+Planes:
+- Start ($15.000): CV Personalizado + Carta de Presentación + 1 Token AXON.
+- Avanzado ($22.000): CV Personalizado + Carta de Presentación + 5 Tokens NYX + 5 Tokens AXON + Bolsa de Trabajo VIP.
+- Profesional / POPULAR ($50.000): CV + Carta + 10 Tokens NYX + 20 Tokens AXON + Bolsa VIP + Career Suite + Herramientas privadas.
+- Mensualidad VIP ($33.000/mes): Personalización Única, Uso Ilimitado de NYX y AXON.
+
+Economía de Tokens NYX (Para distribución y ejecución):
+- Starter: 5 Tokens ($5.000)
+- Advanced: 10 Tokens ($10.000)
+- Pro Tier (Más elegido): 20 Tokens ($20.000)
+- Elite: 50 Tokens ($40.000)
+
+Economía de Tokens AXON (Para análisis y auditoría):
+- Starter: 5 Tokens ($2.000)
+- Basic: 10 Tokens ($3.500)
+- Pro (Recomendado): 20 Tokens ($6.500)
+- Expert: 50 Tokens ($15.000)
+
+## 5. SERVICIOS ADICIONALES
+- Suite y Bolsa de Trabajo VIP: Acceso al "mercado oculto" (70% de las vacantes que no se publican). Alertas tempranas y guías de negociación.
+- Creador de Carta de Presentación: Editor con psicología persuasiva y alineación cultural. Permite elegir tipografías (Montserrat, Playfair, Roboto, etc.), ajustar márgenes y "Mejorar con IA".
+- Programa de Partners: Para reclutadores y desarrolladores que quieran usar la Mente Colmena y crear su propio "Bot ATS" para escalar su negocio.
+
+## 6. PREGUNTAS FRECUENTES (FAQ)
+- Formatos de entrega: PDF de alta resolución y Word editable (.docx).
+- Tiempo de entrega: Estándar 3-5 días hábiles. Express en menos de 24 hs.
+- Revisiones: Ilimitadas durante 7 días post-entrega.
+- Seguridad: Encriptación militar (AES-256) y borrado a los 30 días.
+- Formato Internacional: Se adapta a normas de EE.UU., Europa y Canadá.
+- LinkedIn: Servicio incluido para rediseño y optimización de perfil social.
+- Pagos: Tarjetas crédito/débito, PayPal y transferencias (Previa evaluación y aprobación consultiva - KYC).
+- Estudiantes/Juniors: Sí, el sistema se enfoca en potencial y habilidades blandas.
+
+# INSTRUCCIONES DE MANEJO DE OBJECIONES
+- Si el usuario dice que es "muy caro": Lixie debe hablar del Retorno de Inversión (ROI). "Una pequeña inversión en la tecnología NYX/AXON se paga sola con tu primer sueldo en un puesto de mayor jerarquía. Evitas meses de desempleo".
+- Si el usuario desconfía de la IA: Aclara que no es una IA genérica (como ChatGPT básico), sino una "Inteligencia Colmena" entrenada con bases de datos oscuras de reclutadores de Fortune 500 y millones de ofertas en tiempo real, respaldada por expertos humanos en RRHH.
+
+Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja desleal frente a la competencia y cerrar la brecha entre el talento y la oportunidad utilizando la infraestructura y los enlaces oficiales de CV Studio33.
+    `;
+
+    // 3. OBTENER API KEY DE FIRESTORE
+    async function loadApiKey(node) {
+        try {
+            const docRef = doc(db, "chatbotcv", documentId);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                currentApiKey = docSnap.data()[node];
+                console.log(`Conexión establecida: ${node}`);
+            } else {
+                console.error("No se encontró el documento IDCV.");
+            }
+        } catch (error) {
+            console.error("Error obteniendo la llave:", error);
+            addMessage("Lixie", "Fallo de conexión en la Mente Colmena. Por favor, selecciona otro Nodo de conexión.");
+        }
+    }
+
+    loadApiKey("key1");
+    document.getElementById("node-selector").addEventListener("change", (e) => loadApiKey(e.target.value));
+
+    // 4. LÓGICA DE INTERFAZ Y CHAT
+    const messagesArea = document.getElementById("messages-area");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const faqContainer = document.getElementById("faq-container");
+
+    const faqs = [
+        "¿Cómo evaden los filtros ATS?",
+        "Diferencia NYX vs AXON",
+        "Soy Junior, ¿me sirve?",
+        "Ver Plan Profesional",
+        "¿Cuál es el ROI?"
+    ];
+
+    faqs.forEach(faq => {
+        const btn = document.createElement("button");
+        btn.className = "faq-btn";
+        btn.innerText = faq;
+        btn.onclick = () => { userInput.value = faq; handleSend(); };
+        faqContainer.appendChild(btn);
+    });
+
+    function formatText(text) {
+        // 1. Detectar enlaces Markdown [Texto](URL) y convertirlos en botones CSS
+        let formatted = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="action-btn">$1</a>');
+        
+        // 2. Negritas y cursivas
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
+        
+        // 3. Viñetas
+        formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
+        if (formatted.includes('<li>')) {
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        }
+        
+        return formatted.replace(/\n/g, '<br>');
+    }
+
+    function addMessage(sender, text) {
+        const wrapper = document.createElement("div");
+        wrapper.className = `message-wrapper ${sender.toLowerCase()}`;
+        
+        const bubble = document.createElement("div");
+        bubble.className = "message";
+        bubble.innerHTML = sender === "Lixie" ? formatText(text) : text;
+        
+        wrapper.appendChild(bubble);
+
+        if (sender === "User") {
+            const receipt = document.createElement("div");
+            receipt.className = "read-receipt";
+            receipt.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Recibido en Colmena`;
+            wrapper.appendChild(receipt);
+        }
+
+        messagesArea.appendChild(wrapper);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function showTyping() {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message-wrapper lixie typing-indicator";
+        wrapper.id = "typing";
+        wrapper.innerHTML = `<div class="message"><div class="typing"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>`;
+        messagesArea.appendChild(wrapper);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function removeTyping() {
+        const typing = document.getElementById("typing");
+        if (typing) typing.remove();
+    }
+
+    // 5. LLAMADA A GEMINI API
+    async function handleSend() {
+        const text = userInput.value.trim();
+        if (!text || !currentApiKey) return;
+
+        addMessage("User", text);
+        userInput.value = "";
+        showTyping();
+
+        chatHistory.push({ role: "user", parts: [{ text: text }] });
+
+        const finalPrompt = {
+            system_instruction: { parts: [{ text: systemPrompt }] },
+            contents: chatHistory
+        };
+
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${currentApiKey}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(finalPrompt)
+            });
+
+            const data = await response.json();
+            removeTyping();
+
+            if (data.error) throw new Error(data.error.message);
+
+            const aiResponse = data.candidates[0].content.parts[0].text;
+            addMessage("Lixie", aiResponse);
+            
+            chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+
+        } catch (error) {
+            removeTyping();
+            addMessage("Lixie", "Conexión interrumpida. Por favor, selecciona un **Nodo de Respaldo** en la esquina superior derecha.");
+        }
+    }
+
+    sendBtn.addEventListener("click", handleSend);
+    userInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") handleSend();
+    });
+
+    // Bienvenida inicial
+    setTimeout(() => {
+        addMessage("Lixie", "Saludos. Soy **Lixie**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
+    }, 800);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente IA - CV Studio</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --chat-bg: #1f2833;
+            --primary: #66fcf1;
+            --secondary: #45a29e;
+            --text-light: #c5c6c7;
+            --text-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenedor Principal */
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 90vh;
+            background-color: var(--chat-bg);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(102, 252, 241, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        #chat-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #1f2833 0%, #0b0c10 100%);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        #chat-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        #header-info h2 {
+            color: var(--text-white);
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        #header-info span {
+            font-size: 0.85rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        #header-info span::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 8px var(--primary);
+        }
+
+        /* Área de Mensajes */
+        #chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            animation: slideIn 0.3s ease-out forwards;
+            position: relative;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background-color: #2a3644;
+            color: var(--text-white);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--secondary);
+            color: var(--text-white);
+            border-bottom-right-radius: 5px;
+        }
+
+        /* Detalles de alta calidad */
+        .highlight {
+            color: var(--primary);
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(102, 252, 241, 0.3);
+        }
+
+        .read-receipt {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            text-align: right;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .read-receipt.seen {
+            color: var(--primary);
+        }
+
+        /* Indicador de escritura */
+        .typing {
+            display: none;
+            align-self: flex-start;
+            background-color: #2a3644;
+            padding: 12px 16px;
+            border-radius: 15px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: bounce 1.3s linear infinite;
+        }
+        .dot:nth-child(2) { animation-delay: -1.1s; }
+        .dot:nth-child(3) { animation-delay: -0.9s; }
+
+        /* Input Area */
+        #chat-input-container {
+            display: flex;
+            padding: 15px;
+            background-color: #1a222a;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #chat-input {
+            flex: 1;
+            background-color: #1f2833;
+            border: 1px solid #334150;
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: var(--text-white);
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        #chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        #send-btn {
+            background-color: var(--primary);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
+        }
+
+        #send-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            margin-left: 3px;
+        }
+
+        /* Animaciones */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            #chat-container {
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat-container">
+        <div id="chat-header">
+            <img src="chatbotcv.png" alt="Avatar IA" onerror="this.src='https://via.placeholder.com/256x256/1f2833/66fcf1?text=IA'">
+            <div id="header-info">
+                <h2>Asistente Leviatham</h2>
+                <span>En línea</span>
+            </div>
+        </div>
+
+        <div id="chat-messages">
+            <div class="message bot">
+                Hola. Soy el asistente IA de CV Studio. ¿En qué puedo ayudarte hoy?
+            </div>
+            <div class="typing" id="typing-indicator">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Escribe tu mensaje aquí..." autocomplete="off">
+            <button id="send-btn">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvXbAAFyJJmlmkTLQwyMl3Iac4CKeXfMw",
+            authDomain: "chatb-4e011.firebaseapp.com",
+            projectId: "chatb-4e011",
+            storageBucket: "chatb-4e011.firebasestorage.app",
+            messagingSenderId: "1054408732257",
+            appId: "1:1054408732257:web:4060ff20ae5c8739c44420"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Variables Globales
+        let geminiApiKey = "";
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        // Historial de conversación para dar contexto al bot
+        let conversationHistory = [];
+
+        // Recuperar Keys de Cloud Firestore al cargar
+        async function fetchAPIKeys() {
+            try {
+                const docRef = doc(db, "chat", "bot");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Selecciona la key (ej. key1) o concatena según cómo la hayas guardado
+                    geminiApiKey = data.key1 || data.key2 || data.key3;
+                    console.log("Sistema en línea: Credenciales validadas.");
+                } else {
+                    console.error("No se encontró el documento de configuración en Firestore.");
+                }
+            } catch (error) {
+                console.error("Error al conectar con Cloud Firestore:", error);
+            }
+        }
+        
+        fetchAPIKeys();
+
+        // Parseador de Markdown a HTML (Para remarcar cosas importantes)
+        function formatText(text) {
+            // Remarcar texto en negrita (ej. **Importante**)
+            let formatted = text.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>');
+            // Saltos de línea
+            formatted = formatted.replace(/\n/g, '<br>');
+            return formatted;
+        }
+
+        // Agregar mensaje al DOM
+        function appendMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender);
+            
+            if (sender === 'bot') {
+                msgDiv.innerHTML = formatText(text);
+            } else {
+                msgDiv.textContent = text;
+                // Simulación de "Visto"
+                const receipt = document.createElement('span');
+                receipt.classList.add('read-receipt');
+                receipt.innerHTML = '✓ Enviado';
+                msgDiv.appendChild(receipt);
+                
+                // Cambia a "Visto" (doble check azul) después de 1 segundo
+                setTimeout(() => {
+                    receipt.innerHTML = '✓✓ Visto';
+                    receipt.classList.add('seen');
+                }, 800);
+            }
+
+            chatMessages.insertBefore(msgDiv, typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Llamada directa a Gemini API
+        async function getGeminiResponse(userText) {
+            if (!geminiApiKey) {
+                return "Error: Conexión con Firestore no establecida o API Key faltante.";
+            }
+
+            // Agregamos el mensaje del usuario al historial
+            conversationHistory.push({
+                "role": "user",
+                "parts": [{"text": userText}]
+            });
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiApiKey}`;
+            
+            const requestBody = {
+                "contents": conversationHistory,
+                "generationConfig": {
+                    "temperature": 0.7,
+                    "maxOutputTokens": 800
+                }
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    console.error("Gemini API Error:", data.error);
+                    return "Lo siento, hubo un error de procesamiento.";
+                }
+
+                const botReply = data.candidates[0].content.parts[0].text;
+                
+                // Guardamos la respuesta del bot en el historial
+                conversationHistory.push({
+                    "role": "model",
+                    "parts": [{"text": botReply}]
+                });
+
+                return botReply;
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                return "Error de conexión con el agente.";
+            }
+        }
+
+        // Flujo de envío
+        async function handleSend() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Mostrar mensaje del usuario
+            appendMessage(text, 'user');
+            chatInput.value = '';
+
+            // Mostrar indicador de escritura del bot
+            typingIndicator.style.display = 'flex';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Obtener respuesta
+            const responseText = await getGeminiResponse(text);
+
+            // Ocultar indicador y mostrar respuesta
+            typingIndicator.style.display = 'none';
+            appendMessage(responseText, 'bot');
+        }
+
+        // Eventos
+        sendBtn.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+    </script>
+</body>
+</html>

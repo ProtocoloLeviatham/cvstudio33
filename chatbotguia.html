@@ -33,15 +33,14 @@
             height: 100vh;
             height: 100dvh; /* Soporte dinámico para móviles */
             
-            /* Fondo cibernético/corporativo ANIMADO */
+            /* Fondo cibernético/corporativo ANIMADO (Optimizado: sin animación constante) */
             background: linear-gradient(135deg, #050508 0%, #0a0a0f 50%, #050508 100%);
             background-size: 200% 200%;
-            animation: gradientBG 15s ease infinite;
             overflow: hidden;
             position: relative;
         }
 
-        /* Luces de fondo dinámicas */
+        /* Luces de fondo dinámicas (Optimizado: fijas para evitar lag de pintado) */
         body::after {
             content: '';
             position: absolute;
@@ -50,7 +49,6 @@
                         radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
-            animation: floatingLights 10s infinite alternate;
         }
 
         /* Efecto de líneas de escaneo (Scanlines) sutil */
@@ -77,11 +75,12 @@
             border-radius: 24px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.08);
+            /* Optimizado: Sombra fija pero vibrante para evitar caída de FPS */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(112, 0, 255, 0.1);
             overflow: hidden;
             position: relative;
             z-index: 2;
-            animation: containerGlow 4s ease-in-out infinite alternate, slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         /* Línea superior brillante */
@@ -158,7 +157,7 @@
             background-color: var(--accent-cyan);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--accent-cyan);
-            animation: pulse 1.5s infinite;
+            animation: pulse 2s infinite ease-in-out;
         }
 
         /* Selector de Servidores y Tooltip */
@@ -555,17 +554,15 @@
         #send-btn svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.3s; }
         #send-btn:hover:not(:disabled) svg { transform: translateX(3px) translateY(-3px); }
 
-        /* Animaciones Mejoradas */
+        /* Animaciones Optimizadas (Eliminadas las que causaban lag masivo de renderizado) */
         @keyframes slideIn { from { opacity: 0; transform: scale(0.92) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
         @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 70% { transform: scale(1.02) translateY(-2px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
+        /* Optimizada: Solo anima la opacidad, la sombra ya la hereda la clase base, ahorrando carga de GPU */
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        @keyframes containerGlow { from { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(112, 0, 255, 0.15); } }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes borderFlow { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
-        @keyframes floatingLights { 0% { transform: translate(0, 0); } 100% { transform: translate(3%, 3%); } }
 
         /* Typing indicator tech */
         .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }

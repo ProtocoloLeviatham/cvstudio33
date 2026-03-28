@@ -38,7 +38,6 @@
                 radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
                 linear-gradient(180deg, #0a0a0f 0%, #050508 100%);
             overflow: hidden;
-            perspective: 1000px; /* Añadido para efectos 3D */
         }
 
         /* Efecto de líneas de escaneo (Scanlines) sutil */
@@ -65,12 +64,11 @@
             border-radius: 24px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.05), inset 0 1px 0 rgba(255,255,255,0.1); /* Sombra 3D mejorada */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.05);
             overflow: hidden;
             position: relative;
             z-index: 2;
             animation: containerGlow 4s ease-in-out infinite alternate, slideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d;
         }
 
         /* Línea superior brillante */
@@ -92,8 +90,6 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Profundidad 3D */
-            z-index: 5;
         }
 
         .header-profile {
@@ -105,17 +101,17 @@
         .avatar {
             width: 52px;
             height: 52px;
-            border-radius: 12px;
+            border-radius: 12px; /* Corte más tecnológico que redondo */
             border: 1px solid var(--accent-cyan);
-            box-shadow: 0 0 15px var(--accent-cyan-glow), inset 0 0 10px rgba(0,240,255,0.2);
+            box-shadow: 0 0 15px var(--accent-cyan-glow);
             object-fit: cover;
             padding: 2px;
             background: var(--bg-dark);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease;
         }
         
         .avatar:hover {
-            transform: scale(1.08) rotate(-3deg);
+            transform: scale(1.05);
         }
 
         .header-info h2 {
@@ -128,7 +124,6 @@
             background: linear-gradient(90deg, #fff, var(--accent-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0px 2px 4px rgba(0,0,0,0.5);
         }
 
         .status {
@@ -181,8 +176,8 @@
             background: rgba(0, 240, 255, 0.15);
             border-color: var(--accent-cyan);
             color: #fff;
-            box-shadow: 0 0 10px var(--accent-cyan-glow), 0 4px 8px rgba(0,0,0,0.4);
-            transform: translateY(-2px);
+            box-shadow: 0 0 10px var(--accent-cyan-glow);
+            transform: translateY(-1px);
         }
         
         .node-header-wrap {
@@ -234,16 +229,16 @@
             right: 0;
             font-size: 0.7rem;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
             transition: opacity 0.3s, transform 0.3s;
-            transform: translateY(10px) translateZ(20px);
+            transform: translateY(5px);
             line-height: 1.4;
         }
         .node-header-wrap:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
-            transform: translateY(0) translateZ(0);
+            transform: translateY(0);
         }
 
         #node-selector {
@@ -257,12 +252,10 @@
             cursor: pointer;
             transition: all 0.3s;
             font-family: var(--font-main);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         }
         #node-selector:hover {
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 8px var(--accent-cyan-glow), inset 0 2px 4px rgba(0,0,0,0.3);
-            transform: translateZ(5px);
+            box-shadow: 0 0 8px var(--accent-cyan-glow);
         }
 
         /* ================= ÁREA DE MENSAJES ================= */
@@ -274,10 +267,10 @@
             flex-direction: column;
             gap: 20px;
             scroll-behavior: smooth;
-            perspective: 800px;
+            perspective: 1000px; /* Para efecto 3D en mensajes */
         }
 
-        /* Scrollbar personalizada */
+        /* Scrollbar personalizada para el área de chat */
         #messages-area::-webkit-scrollbar { width: 6px; }
         #messages-area::-webkit-scrollbar-track { background: transparent; }
         #messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
@@ -287,9 +280,9 @@
             display: flex;
             flex-direction: column;
             max-width: 88%;
-            animation: slideUpFade 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
-            transform: translateY(20px) translateZ(-20px);
+            transform: translateY(15px);
             transform-style: preserve-3d;
         }
 
@@ -303,32 +296,34 @@
             line-height: 1.6;
             position: relative;
             word-wrap: break-word;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translateZ(0); /* Base para el 3D */
         }
 
+        /* Efecto 3D al pasar el mouse sobre el mensaje */
         .message:hover {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transform: translateY(-2px) translateZ(10px);
+            transform: translateZ(15px) translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 15px rgba(0, 240, 255, 0.1);
         }
 
         .lixie .message {
-            background: rgba(30, 30, 45, 0.7);
+            background: rgba(30, 30, 45, 0.6);
             color: #eaeaea;
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(112, 0, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 1px 1px 0 rgba(255,255,255,0.05);
+            border: 1px solid rgba(112, 0, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .user .message {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(0, 240, 255, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 240, 255, 0.05) 100%);
             color: #fff;
             border-bottom-right-radius: 4px;
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1), inset 1px 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.05);
         }
 
         /* Estilos de texto interno */
-        .message b { color: var(--accent-cyan); font-weight: 600; text-shadow: 0 0 5px rgba(0,240,255,0.3); }
+        .message b { color: var(--accent-cyan); font-weight: 600; }
         .message ul { padding-left: 20px; margin: 8px 0; }
         .message li { margin-bottom: 6px; }
         .message li::marker { color: var(--accent-purple); }
@@ -349,25 +344,12 @@
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .action-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
-            transform: rotate(45deg) translateY(-100%);
-            transition: transform 0.6s ease;
-        }
-        .action-btn:hover::after {
-            transform: rotate(45deg) translateY(100%);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
         }
         .action-btn:hover {
             background: linear-gradient(90deg, rgba(112, 0, 255, 0.4), rgba(0, 240, 255, 0.3));
-            box-shadow: 0 8px 20px var(--accent-cyan-glow);
-            transform: translateY(-3px) translateZ(10px);
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+            transform: translateY(-2px);
             color: #fff;
         }
 
@@ -390,17 +372,11 @@
             gap: 12px;
             overflow-x: auto;
             border-top: 1px solid var(--glass-border);
+            scrollbar-width: none;
             background: rgba(10, 10, 15, 0.4);
-            /* Slidebar personalizado en PC */
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 240, 255, 0.4) transparent;
-            box-shadow: inset 0 5px 10px -5px rgba(0,0,0,0.5);
+            scroll-behavior: smooth;
         }
-        
-        #faq-container::-webkit-scrollbar { height: 6px; display: block; }
-        #faq-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
-        #faq-container::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan)); border-radius: 10px; }
-        #faq-container::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+        #faq-container::-webkit-scrollbar { display: none; }
 
         .faq-btn {
             background: rgba(255, 255, 255, 0.03);
@@ -411,34 +387,56 @@
             font-size: 0.8rem;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             font-family: var(--font-main);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sutil efecto 3D base */
         }
         .faq-btn:hover {
             background: rgba(112, 0, 255, 0.25);
             border-color: var(--accent-cyan);
             color: #fff;
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 15px rgba(112, 0, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            transform: translateY(-2px) scale(1.05); /* Efecto elevación 3D */
+            box-shadow: 0 5px 15px rgba(112, 0, 255, 0.4);
+        }
+
+        /* Scrollbar en PC para FAQs */
+        @media (min-width: 481px) {
+            #faq-container {
+                scrollbar-width: thin;
+                scrollbar-color: var(--accent-cyan) rgba(255,255,255,0.05);
+                padding-bottom: 16px; /* Espacio para la scrollbar */
+            }
+            #faq-container::-webkit-scrollbar {
+                display: block;
+                height: 6px;
+            }
+            #faq-container::-webkit-scrollbar-track {
+                background: rgba(255,255,255,0.05);
+                border-radius: 10px;
+            }
+            #faq-container::-webkit-scrollbar-thumb {
+                background: var(--accent-cyan);
+                border-radius: 10px;
+            }
+            #faq-container::-webkit-scrollbar-thumb:hover {
+                background: var(--accent-purple);
+            }
         }
 
         /* ================= INPUT ================= */
         #input-area {
             padding: 18px 24px;
-            padding-bottom: max(18px, env(safe-area-inset-bottom));
+            padding-bottom: max(18px, env(safe-area-inset-bottom)); /* Levanta el input en iOS/Android nativos */
             background: rgba(10, 10, 15, 0.8);
             display: flex;
             gap: 12px;
             border-top: 1px solid var(--glass-border);
             align-items: center;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
-            z-index: 5;
         }
 
         #user-input {
             flex: 1;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255,255,255,0.15);
             color: #fff;
             padding: 14px 18px;
@@ -447,20 +445,20 @@
             outline: none;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             font-family: var(--font-main);
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.6);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
         #user-input:focus { 
             border-color: var(--accent-cyan); 
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.5);
-            background: rgba(0, 0, 0, 0.8);
-            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-1px);
         }
         #user-input::placeholder { color: #555; transition: color 0.3s; }
         #user-input:focus::placeholder { color: #888; }
-        #user-input:disabled { opacity: 0.6; cursor: not-allowed; }
+        #user-input:disabled { opacity: 0.5; cursor: not-allowed; }
 
         #send-btn {
-            background: linear-gradient(135deg, var(--accent-cyan), #0099ff);
+            background: var(--accent-cyan);
             border: none;
             width: 48px;
             height: 48px;
@@ -470,60 +468,62 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 10px rgba(0,240,255,0.3), inset 1px 1px 2px rgba(255,255,255,0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Efecto 3D en botón de envío */
+            box-shadow: 0 4px 0 rgba(0, 160, 180, 1), 0 5px 10px rgba(0,0,0,0.3);
+            transform: translateY(0);
         }
         #send-btn:hover:not(:disabled) {
-            transform: translateY(-4px) scale(1.05) translateZ(10px);
-            box-shadow: 0 10px 25px var(--accent-cyan-glow), inset 1px 1px 2px rgba(255,255,255,0.6);
-            background: linear-gradient(135deg, #fff, var(--accent-cyan));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 160, 180, 1), 0 8px 20px var(--accent-cyan-glow);
+            background: #fff;
         }
         #send-btn:active:not(:disabled) {
-            transform: translateY(0) scale(0.95);
-            box-shadow: 0 2px 5px rgba(0,240,255,0.3);
+            transform: translateY(4px);
+            box-shadow: 0 0 0 rgba(0, 160, 180, 1), 0 2px 5px rgba(0,0,0,0.3);
         }
         #send-btn:disabled {
-            background: #333;
-            color: #666;
+            background: #444;
+            color: #888;
+            box-shadow: 0 4px 0 #222;
             cursor: not-allowed;
-            box-shadow: none;
             transform: none;
         }
         #send-btn svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.3s; }
-        #send-btn:hover:not(:disabled) svg { transform: translateX(3px) translateY(-3px) scale(1.1); }
+        #send-btn:hover:not(:disabled) svg { transform: translateX(2px) translateY(-2px); }
 
         /* Animaciones */
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.92) translateY(40px) rotateX(10deg); } to { opacity: 1; transform: scale(1) translateY(0) rotateX(0); } }
-        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0) translateZ(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.95) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
-        @keyframes containerGlow { from { box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(112, 0, 255, 0.15); } }
+        @keyframes containerGlow { from { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(112, 0, 255, 0.15); } }
 
-        /* Typing indicator tech 3D */
-        .typing { display: flex; gap: 6px; padding: 12px 5px; align-items: center; }
-        .typing .bar { width: 5px; height: 14px; background: var(--accent-cyan); border-radius: 3px; animation: wave 1.2s infinite ease-in-out; box-shadow: 0 0 8px var(--accent-cyan); }
+        /* Typing indicator tech (Animación mejorada) */
+        .typing { display: flex; gap: 6px; padding: 12px 8px; align-items: center; justify-content: center; }
+        .typing .bar { width: 5px; height: 16px; background: var(--accent-cyan); border-radius: 3px; animation: cyberWave 1.2s infinite ease-in-out; box-shadow: 0 0 5px var(--accent-cyan-glow); }
         .typing .bar:nth-child(1) { animation-delay: -0.4s; }
-        .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple); }
+        .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); box-shadow: 0 0 5px rgba(112, 0, 255, 0.5); }
         .typing .bar:nth-child(3) { animation-delay: 0s; }
-        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4) translateZ(0); opacity: 0.5; } 20% { transform: scaleY(1.2) translateZ(5px); opacity: 1; } }
+        @keyframes cyberWave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.3; } 20% { transform: scaleY(1.2); opacity: 1; } }
 
         /* Responsividad Mejorada */
         @media (max-width: 480px) {
             #chat-container { 
-                height: 100dvh; 
+                height: 100dvh; /* dvh maneja mucho mejor la barra del navegador y el teclado en móviles */
                 max-width: 100%; 
                 border-radius: 0; 
                 border: none; 
-                animation: none; 
+                animation: none; /* Desactivar scale de entrada en móviles para evitar parpadeos */
             }
             .header-info h2 { font-size: 1rem; }
             .message { font-size: 0.9rem; padding: 12px 14px; }
             #input-area { 
                 padding: 12px 16px;
+                /* El teclado subirá esto automáticamente al enfocar si se usa dvh */
                 padding-bottom: max(12px, env(safe-area-inset-bottom));
             }
-            #user-input { padding: 12px 16px; font-size: 16px; }
-            #faq-container::-webkit-scrollbar { display: none; } /* Ocultar en móvil para swipe natural */
+            #user-input { padding: 12px 16px; font-size: 16px; /* 16px evita el zoom automático en iOS */ }
         }
     </style>
 </head>
@@ -553,9 +553,9 @@
                 </div>
             </div>
             <select id="node-selector">
-                <option value="key1">Servidor 1 (Principal)</option>
-                <option value="key2">Servidor 2 (Respaldo)</option>
-                <option value="key3">Servidor 3 (Emergencia)</option>
+                <option value="servidor1">Principal (Servidor 1)</option>
+                <option value="servidor2">Respaldo (Servidor 2)</option>
+                <option value="servidor3">Emergencia (Servidor 3)</option>
             </select>
         </div>
     </div>
@@ -593,8 +593,9 @@
 
     // 2. VARIABLES DE ESTADO Y PROMPT COMPLETO
     let currentApiKey = "";
-    // HISTORIAL DE CONVERSACIÓN: Guarda el contexto en memoria volátil
+    // HISTORIAL DE CONVERSACIÓN: Guarda el contexto en memoria volátil (se borra al salir)
     let chatHistory = [];
+    const documentId = "IDCV"; 
 
     const systemPrompt = `
 # ROL Y PERSONALIDAD
@@ -690,18 +691,17 @@ Economía de Tokens AXON (Para análisis y auditoría):
 Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja desleal frente a la competencia y cerrar la brecha entre el talento y la oportunidad utilizando la infraestructura y los enlaces oficiales de CV Studio33.
     `;
 
-    // 3. OBTENER API KEY DE FIRESTORE (Corrección de Ruta)
+    // 3. OBTENER API KEY DE FIRESTORE (CORRECCIÓN DE BUG AL CAMBIAR NODO)
     async function loadApiKey(node) {
         try {
-            // Ruta corregida según instrucciones
-            const docRef = doc(db, "chat", "bot"); 
+            const docRef = doc(db, "chatbotcv", documentId);
             const docSnap = await getDoc(docRef);
             
             if (docSnap.exists()) {
-                currentApiKey = docSnap.data()[node];
-                console.log(`Conexión establecida en el servidor: ${node}`);
+                currentApiKey = docSnap.data()[node] || currentApiKey; // Mantiene la key anterior si la nueva falla en DB
+                console.log(`Conexión establecida: ${node}`);
             } else {
-                console.error("No se encontró el documento de configuración.");
+                console.error("No se encontró el documento IDCV.");
             }
         } catch (error) {
             console.error("Error obteniendo la llave:", error);
@@ -709,26 +709,9 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
         }
     }
 
-    // Inicialización y persistencia ante límites de cuota
-    window.addEventListener("DOMContentLoaded", () => {
-        const savedNode = sessionStorage.getItem('apiKeyNode') || "key1";
-        document.getElementById("node-selector").value = savedNode;
-        loadApiKey(savedNode);
-
-        // Verificamos si hay un mensaje pendiente de autoguardado tras recarga de 33 seg
-        const pending = sessionStorage.getItem('pendingMessage');
-        if (pending) {
-            setTimeout(() => {
-                handleSend(pending);
-                sessionStorage.removeItem('pendingMessage');
-                sessionStorage.removeItem('apiKeyNode');
-            }, 2500); 
-        }
-    });
-
-    document.getElementById("node-selector").addEventListener("change", (e) => {
-        loadApiKey(e.target.value);
-    });
+    // Inicializamos con el nuevo nombre
+    loadApiKey("servidor1");
+    document.getElementById("node-selector").addEventListener("change", (e) => loadApiKey(e.target.value));
 
     // 4. LÓGICA DE INTERFAZ Y CHAT
     const messagesArea = document.getElementById("messages-area");
@@ -736,41 +719,42 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
     const sendBtn = document.getElementById("send-btn");
     const faqContainer = document.getElementById("faq-container");
 
-    // 10 Preguntas Frecuentes
+    // AÑADIDAS 5 FAQS NUEVAS (TOTAL 10)
     const faqs = [
         "¿Cómo evaden los filtros ATS?",
         "Diferencia NYX vs AXON",
         "Soy Junior, ¿me sirve?",
         "Ver Plan Profesional",
         "¿Cuál es el ROI?",
-        "¿Qué es Mente Colmena?",
-        "Precios y Planes",
-        "Tiempo de entrega",
-        "Garantías de éxito",
-        "Optimización de LinkedIn"
+        "¿Tienen servicio para LinkedIn?",
+        "¿Cuáles son los medios de pago?",
+        "¿Qué es la tecnología NYX?",
+        "¿Cuánto tardan en entregar?",
+        "Quiero auditar mi CV actual"
     ];
 
     faqs.forEach(faq => {
         const btn = document.createElement("button");
         btn.className = "faq-btn";
         btn.innerText = faq;
-        btn.onclick = () => { 
-            if(!sendBtn.disabled) {
-                userInput.value = faq; 
-                handleSend(); 
-            }
-        };
+        btn.onclick = () => { userInput.value = faq; handleSend(); };
         faqContainer.appendChild(btn);
     });
 
     function formatText(text) {
+        // 1. Detectar enlaces Markdown [Texto](URL) y convertirlos en botones CSS
         let formatted = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="action-btn">$1</a>');
+        
+        // 2. Negritas y cursivas
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
         formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
+        
+        // 3. Viñetas
         formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
         if (formatted.includes('<li>')) {
             formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
         }
+        
         return formatted.replace(/\n/g, '<br>');
     }
 
@@ -809,97 +793,100 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
         if (typing) typing.remove();
     }
 
-    function toggleInputState(disabled) {
-        userInput.disabled = disabled;
-        sendBtn.disabled = disabled;
-    }
-
-    // 5. LLAMADA A GEMINI API Y MANEJO DE ERRORES/LIMITES
-    async function handleSend(autoText = null) {
-        const text = autoText || userInput.value.trim();
+    // 5. LLAMADA A GEMINI API (CON OPTIMIZACIONES Y BLOQUEOS)
+    async function handleSend() {
+        const text = userInput.value.trim();
         if (!text || !currentApiKey) return;
 
-        if (!autoText) addMessage("User", text);
+        // Bloqueo de UI para evitar spam y colapso
+        sendBtn.disabled = true;
+        userInput.disabled = true;
+
+        addMessage("User", text);
         userInput.value = "";
-        
-        // Bloquear UI mientras la IA piensa
-        toggleInputState(true);
         showTyping();
 
+        // ALMACENANDO EN MEMORIA HISTÓRICA COMPLETA
         chatHistory.push({ role: "user", parts: [{ text: text }] });
 
-        let finalPrompt = {
-            system_instruction: { parts: [{ text: systemPrompt }] },
-            contents: [...chatHistory]
-        };
+        // Clonamos el historial para enviar solo la versión recortada a la API
+        let promptContents = [...chatHistory];
 
-        // 1. Recortar la memoria: se acuerda solo de los últimos 2 mensajes
-        if (finalPrompt.contents && finalPrompt.contents.length > 2) {
-            finalPrompt.contents = finalPrompt.contents.slice(-2);
+        // 1. Recortar la memoria del bot: se acuerda solo de los últimos 2 mensajes
+        if (promptContents.length > 2) {
+            promptContents = promptContents.slice(-2);
         }
 
-        // 2. Limitar la respuesta de Lixie para no gastar tokens innecesarios
-        finalPrompt.generationConfig = {
-            maxOutputTokens: 250,
-            temperature: 0.7
+        const finalPrompt = {
+            system_instruction: { parts: [{ text: systemPrompt }] },
+            contents: promptContents,
+            // 2. Limitar la respuesta de Lixie para no gastar tokens innecesarios
+            generationConfig: {
+                maxOutputTokens: 250,
+                temperature: 0.7
+            }
         };
 
         try {
-            // 3. Llamada directa a la API, optimizada para volumen
+            // 3. Llamada directa a la API (Modelo modificado y optimizado)
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${currentApiKey}`, {
-                method: "POST", 
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(finalPrompt)
             });
 
-            // Manejo silencioso de Error por Límite (Rate Limit 429)
+            // MANEJO DE ERROR 429: RECARGA SILENCIOSA SIN QUE EL USUARIO SE DÉ CUENTA
             if (response.status === 429) {
-                sessionStorage.setItem('pendingMessage', text);
-                sessionStorage.setItem('apiKeyNode', document.getElementById("node-selector").value);
                 setTimeout(() => {
                     window.location.reload();
-                }, 33000); 
-                return; // Pausamos ejecución aquí, el loader sigue activo
+                }, 33000); // Espera 33 segundos
+                return; // Corta la ejecución aquí, la UI se queda "escribiendo"
             }
 
             const data = await response.json();
-            
-            if (!response.ok) {
-                if(data.error) throw new Error("API_ERROR");
-                throw new Error("NETWORK_ERROR");
-            }
-
             removeTyping();
-            toggleInputState(false);
-            userInput.focus();
+
+            // MANEJO DE ERRORES GENERALES
+            if (!response.ok || data.error) {
+                const errorMsg = data.error ? data.error.message.toLowerCase() : "";
+                if (response.status >= 500 || errorMsg.includes("quota") || response.status === 403) {
+                    throw new Error("API_ERROR");
+                } else {
+                    throw new Error("WEB_ERROR");
+                }
+            }
 
             const aiResponse = data.candidates[0].content.parts[0].text;
             addMessage("Lixie", aiResponse);
             
+            // GUARDANDO RESPUESTA EN MEMORIA GLOBAL
             chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
 
         } catch (error) {
             removeTyping();
-            toggleInputState(false);
             
+            // MENSAJES DE ERROR PERSONALIZADOS
             if (error.message === "API_ERROR") {
-                addMessage("Lixie", "Servidores de cvstudio33 en mantenimiento, Regrese en 5 minutos");
+                addMessage("Lixie", "Servidores de cvstudio33 en mantenimiento, Regrese en 5 minutos.");
             } else {
-                addMessage("Lixie", "Nuestra web se encuentra con dificultades en estos momentos, Inténtelo más tarde");
+                addMessage("Lixie", "Nuestra web se encuentra con dificultades en estos momentos, Inténtelo más tarde.");
             }
+        } finally {
+            // Desbloquear UI solo si no estamos en recarga silenciosa (429)
+            sendBtn.disabled = false;
+            userInput.disabled = false;
+            userInput.focus();
         }
     }
 
-    sendBtn.addEventListener("click", () => handleSend());
+    sendBtn.addEventListener("click", handleSend);
     userInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && !sendBtn.disabled) handleSend();
+        if (e.key === "Enter") handleSend();
     });
 
     // Bienvenida inicial
     setTimeout(() => {
-        if (messagesArea.children.length === 0) {
-            addMessage("Lixie", "Saludos. Soy **Lixie**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
-        }
+        addMessage("Lixie", "Saludos. Soy **Lixie**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
     }, 800);
 
 </script>

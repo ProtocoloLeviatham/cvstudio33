@@ -1,581 +1,765 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lixie | CV Studio33 Intelligence Agency</title>
-    <style>
-        /* ================= ESTILOS BASE Y VARIABLES ================= */
-        :root {
-            --bg-dark: #07070a;
-            --bg-panel: rgba(20, 20, 29, 0.75);
-            --accent-cyan: #00f0ff;
-            --accent-cyan-glow: rgba(0, 240, 255, 0.4);
-            --accent-purple: #7000ff;
-            --text-main: #e8e8e8;
-            --text-muted: #9aa0a6;
-            --font-main: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lixie | CV Studio33 Intelligence Agency</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
-        /* Importar fuente moderna */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    <style>
+        /* ================= ESTILOS BASE Y VARIABLES ================= */
+        :root {
+            --bg-dark: #07070a;
+            --bg-panel: rgba(20, 20, 29, 0.75);
+            --accent-cyan: #00f0ff;
+            --accent-cyan-glow: rgba(0, 240, 255, 0.4);
+            --accent-purple: #7000ff;
+            --text-main: #e8e8e8;
+            --text-muted: #9aa0a6;
+            --font-main: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            height: 100dvh; /* Soporte dinámico para móviles */
-            /* Fondo cibernético/corporativo */
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
-                linear-gradient(180deg, #0a0a0f 0%, #050508 100%);
-            overflow: hidden;
-        }
+        /* Importar fuente moderna */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-        /* Efecto de líneas de escaneo (Scanlines) sutil */
-        body::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            z-index: 1;
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
-        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            height: 100dvh; /* Soporte dinámico para móviles */
+            
+            /* Fondo cibernético/corporativo ANIMADO */
+            background: linear-gradient(135deg, #050508 0%, #0a0a0f 50%, #050508 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
 
-        /* ================= CONTENEDOR PRINCIPAL (GLASSMORPHISM) ================= */
-        #chat-container {
-            width: 100%;
-            max-width: 480px;
-            height: 92vh;
-            background: var(--bg-panel);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.05);
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-            animation: containerGlow 4s ease-in-out infinite alternate, slideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+        /* Luces de fondo dinámicas */
+        body::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatingLights 10s infinite alternate;
+        }
 
-        /* Línea superior brillante */
-        #chat-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-            z-index: 10;
-        }
+        /* Efecto de líneas de escaneo (Scanlines) sutil */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 1;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
 
-        /* ================= CABECERA ================= */
-        #chat-header {
-            padding: 18px 24px;
-            background: rgba(10, 10, 15, 0.6);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
+        /* ================= CONTENEDOR PRINCIPAL (GLASSMORPHISM) ================= */
+        #chat-container {
+            width: 100%;
+            max-width: 480px;
+            height: 92vh;
+            background: var(--bg-panel);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.08);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            animation: containerGlow 4s ease-in-out infinite alternate, slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
 
-        .header-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        /* Línea superior brillante */
+        #chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-purple), transparent);
+            z-index: 10;
+            background-size: 200% 100%;
+            animation: borderFlow 3s linear infinite;
+        }
 
-        .avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px; /* Corte más tecnológico que redondo */
-            border: 1px solid var(--accent-cyan);
-            box-shadow: 0 0 15px var(--accent-cyan-glow);
-            object-fit: cover;
-            padding: 2px;
-            background: var(--bg-dark);
-            transition: transform 0.3s ease;
-        }
-        
-        .avatar:hover {
-            transform: scale(1.05);
-        }
+        /* ================= CABECERA ================= */
+        #chat-header {
+            padding: 18px 24px;
+            background: rgba(10, 10, 15, 0.6);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
 
-        .header-info h2 {
-            margin: 0 0 4px 0;
-            font-size: 1.15rem;
-            color: #fff;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .header-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-        .status {
-            font-size: 0.75rem;
-            color: var(--accent-cyan);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 15px var(--accent-cyan-glow);
+            object-fit: cover;
+            padding: 2px;
+            background: var(--bg-dark);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+        
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 25px var(--accent-cyan);
+        }
 
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-cyan);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-cyan);
-            animation: pulse 1.5s infinite;
-        }
+        .header-info h2 {
+            margin: 0 0 4px 0;
+            font-size: 1.15rem;
+            color: #fff;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textPulse 3s infinite alternate;
+        }
 
-        /* Selector de Nodos y Tooltip */
-        .node-selector-container {
-            text-align: right;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: flex-end;
-        }
-        
-        /* Botón de volver al inicio */
-        .back-home-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            color: var(--text-main);
-            text-decoration: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
+        .status {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
 
-        .back-home-btn:hover {
-            background: rgba(0, 240, 255, 0.15);
-            border-color: var(--accent-cyan);
-            color: #fff;
-            box-shadow: 0 0 10px var(--accent-cyan-glow);
-            transform: translateY(-1px);
-        }
-        
-        .node-header-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 5px;
-        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-cyan);
+            animation: pulse 1.5s infinite;
+        }
 
-        .node-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        /* Selector de Nodos y Tooltip */
+        .node-selector-container {
+            text-align: right;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+        }
+        
+        /* Botón de volver al inicio */
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
 
-        .info-icon {
-            color: var(--accent-purple);
-            font-size: 0.7rem;
-            cursor: help;
-            border: 1px solid var(--accent-purple);
-            border-radius: 50%;
-            width: 14px;
-            height: 14px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        
-        .info-icon:hover {
-            background: var(--accent-purple);
-            color: #fff;
-            box-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
-        }
+        .back-home-btn:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: #fff;
+            box-shadow: 0 0 10px var(--accent-cyan-glow);
+            transform: translateY(-1px);
+        }
+        
+        .node-header-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 5px;
+        }
 
-        /* Tooltip de explicación de Nodos */
-        .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: rgba(10, 10, 15, 0.95);
-            color: #ccc;
-            text-align: left;
-            border-radius: 8px;
-            padding: 10px;
-            position: absolute;
-            z-index: 100;
-            top: 100%;
-            right: 0;
-            font-size: 0.7rem;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateY(5px);
-            line-height: 1.4;
-        }
-        .node-header-wrap:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .node-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        #node-selector {
-            background: rgba(0, 0, 0, 0.5);
-            color: var(--accent-cyan);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 6px;
-            padding: 4px 8px;
-            font-size: 0.70rem;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: var(--font-main);
-        }
-        #node-selector:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 8px var(--accent-cyan-glow);
-        }
+        .info-icon {
+            color: var(--accent-purple);
+            font-size: 0.7rem;
+            cursor: help;
+            border: 1px solid var(--accent-purple);
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .info-icon:hover {
+            background: var(--accent-purple);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
+            transform: scale(1.1);
+        }
 
-        /* ================= ÁREA DE MENSAJES ================= */
-        #messages-area {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            scroll-behavior: smooth;
-        }
+        /* Tooltip de explicación de Nodos */
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(10, 10, 15, 0.95);
+            color: #ccc;
+            text-align: left;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 100;
+            top: 100%;
+            right: 0;
+            font-size: 0.7rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(5px);
+            line-height: 1.4;
+        }
+        .node-header-wrap:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* Scrollbar personalizada */
-        #messages-area::-webkit-scrollbar { width: 6px; }
-        #messages-area::-webkit-scrollbar-track { background: transparent; }
-        #messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-        #messages-area::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.3); }
+        #node-selector {
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 0.70rem;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: var(--font-main);
+        }
+        #node-selector:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 8px var(--accent-cyan-glow);
+        }
 
-        .message-wrapper {
-            display: flex;
-            flex-direction: column;
-            max-width: 88%;
-            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(15px);
-        }
+        /* ================= ÁREA DE MENSAJES ================= */
+        #messages-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
 
-        .message-wrapper.lixie { align-self: flex-start; }
-        .message-wrapper.user { align-self: flex-end; }
+        /* Scrollbar personalizada */
+        #messages-area::-webkit-scrollbar { width: 6px; }
+        #messages-area::-webkit-scrollbar-track { background: transparent; }
+        #messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        #messages-area::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.3); }
 
-        .message {
-            padding: 14px 18px;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            position: relative;
-            word-wrap: break-word;
-            transition: all 0.3s ease;
-        }
+        .message-wrapper {
+            display: flex;
+            flex-direction: column;
+            max-width: 88%;
+            animation: messageBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform-origin: bottom;
+        }
 
-        .message:hover {
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
+        .message-wrapper.lixie { align-self: flex-start; }
+        .message-wrapper.user { align-self: flex-end; }
 
-        .lixie .message {
-            background: rgba(30, 30, 45, 0.6);
-            color: #eaeaea;
-            border-bottom-left-radius: 4px;
-            border: 1px solid rgba(112, 0, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+        .message {
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            word-wrap: break-word;
+            transition: all 0.3s ease;
+        }
 
-        .user .message {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 240, 255, 0.05) 100%);
-            color: #fff;
-            border-bottom-right-radius: 4px;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.05);
-        }
+        .message:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+        }
 
-        /* Estilos de texto interno */
-        .message b { color: var(--accent-cyan); font-weight: 600; }
-        .message ul { padding-left: 20px; margin: 8px 0; }
-        .message li { margin-bottom: 6px; }
-        .message li::marker { color: var(--accent-purple); }
+        .lixie .message {
+            background: rgba(30, 30, 45, 0.6);
+            color: #eaeaea;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(112, 0, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
-        /* ========= BOTONES DE ACCIÓN (ENLACES MARKDOWN) ========= */
-        .action-btn {
-            display: block;
-            margin: 12px 0 4px 0;
-            padding: 10px 15px;
-            background: linear-gradient(90deg, rgba(112, 0, 255, 0.2), rgba(0, 240, 255, 0.1));
-            border: 1px solid var(--accent-cyan);
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-        }
-        .action-btn:hover {
-            background: linear-gradient(90deg, rgba(112, 0, 255, 0.4), rgba(0, 240, 255, 0.3));
-            box-shadow: 0 0 20px var(--accent-cyan-glow);
-            transform: translateY(-2px);
-            color: #fff;
-        }
+        .user .message {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 240, 255, 0.05) 100%);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.05);
+        }
 
-        .read-receipt {
-            font-size: 0.65rem;
-            color: var(--accent-cyan);
-            align-self: flex-end;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            opacity: 0.8;
-            animation: fadeIn 0.5s ease-in forwards;
-        }
+        /* Estilos de texto interno */
+        .message b { color: var(--accent-cyan); font-weight: 600; text-shadow: 0 0 5px rgba(0, 240, 255, 0.3); }
+        .message ul { padding-left: 20px; margin: 8px 0; }
+        .message li { margin-bottom: 6px; }
+        .message li::marker { color: var(--accent-purple); text-shadow: 0 0 5px rgba(112, 0, 255, 0.5); }
 
-        /* ================= FAQS ================= */
-        #faq-container {
-            padding: 12px 24px;
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            border-top: 1px solid var(--glass-border);
-            scrollbar-width: none;
-            background: rgba(10, 10, 15, 0.4);
-        }
-        #faq-container::-webkit-scrollbar { display: none; }
+        /* ========= BOTONES DE ACCIÓN (ENLACES MARKDOWN) ========= */
+        .action-btn {
+            display: block;
+            margin: 12px 0 4px 0;
+            padding: 10px 15px;
+            background: linear-gradient(90deg, rgba(112, 0, 255, 0.2), rgba(0, 240, 255, 0.1));
+            border: 1px solid var(--accent-cyan);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
 
-        .faq-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(112, 0, 255, 0.4);
-            color: #d1d1d1;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: var(--font-main);
-        }
-        .faq-btn:hover {
-            background: rgba(112, 0, 255, 0.25);
-            border-color: var(--accent-cyan);
-            color: #fff;
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(112, 0, 255, 0.3);
-        }
+        .action-btn:hover::before {
+            left: 150%;
+        }
 
-        /* ================= INPUT ================= */
-        #input-area {
-            padding: 18px 24px;
-            padding-bottom: max(18px, env(safe-area-inset-bottom)); /* Levanta el input en iOS/Android nativos */
-            background: rgba(10, 10, 15, 0.8);
-            display: flex;
-            gap: 12px;
-            border-top: 1px solid var(--glass-border);
-            align-items: center;
-        }
+        .action-btn:hover {
+            background: linear-gradient(90deg, rgba(112, 0, 255, 0.4), rgba(0, 240, 255, 0.3));
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+            transform: translateY(-3px) scale(1.02);
+            color: #fff;
+        }
 
-        #user-input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            font-family: var(--font-main);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-        }
-        #user-input:focus { 
-            border-color: var(--accent-cyan); 
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.5);
-            background: rgba(0, 0, 0, 0.7);
-            transform: translateY(-1px);
-        }
-        #user-input::placeholder { color: #555; transition: color 0.3s; }
-        #user-input:focus::placeholder { color: #888; }
+        .read-receipt {
+            font-size: 0.65rem;
+            color: var(--accent-cyan);
+            align-self: flex-end;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.8;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
 
-        #send-btn {
-            background: var(--accent-cyan);
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            color: var(--bg-dark);
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        #send-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 5px 20px var(--accent-cyan-glow);
-            background: #fff;
-        }
-        #send-btn:active {
-            transform: translateY(0) scale(0.95);
-        }
-        #send-btn svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.3s; }
-        #send-btn:hover svg { transform: translateX(2px) translateY(-2px); }
+        /* ===== MENSAJES DEL SISTEMA (FAILOVER) CON EFECTOS 3D ===== */
+        .system-msg {
+            align-self: center;
+            text-align: center;
+            font-size: 0.70rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, rgba(20, 20, 29, 0.9), rgba(0, 0, 0, 0.95));
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            max-width: 85%;
+            margin: 10px 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            animation: flipIn3D 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 240, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+        }
 
-        /* Animaciones */
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.95) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
-        @keyframes containerGlow { from { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(112, 0, 255, 0.15); } }
+        .system-msg::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg);
+            animation: lightSweep 2.5s infinite;
+        }
 
-        /* Typing indicator tech */
-        .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
-        .typing .bar { width: 4px; height: 12px; background: var(--accent-cyan); border-radius: 2px; animation: wave 1s infinite ease-in-out; }
-        .typing .bar:nth-child(1) { animation-delay: -0.4s; }
-        .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); }
-        .typing .bar:nth-child(3) { animation-delay: 0s; }
-        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
+        .system-msg.error {
+            color: #ff3366;
+            border-color: rgba(255, 51, 102, 0.5);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 51, 102, 0.1);
+            text-shadow: 0 0 8px rgba(255, 51, 102, 0.5);
+        }
 
-        /* Responsividad Mejorada */
-        @media (max-width: 480px) {
-            #chat-container { 
-                height: 100dvh; /* dvh maneja mucho mejor la barra del navegador y el teclado en móviles */
-                max-width: 100%; 
-                border-radius: 0; 
-                border: none; 
-                animation: none; /* Desactivar scale de entrada en móviles para evitar parpadeos */
-            }
-            .header-info h2 { font-size: 1rem; }
-            .message { font-size: 0.9rem; padding: 12px 14px; }
-            #input-area { 
-                padding: 12px 16px;
-                /* El teclado subirá esto automáticamente al enfocar si se usa dvh */
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
-            }
-            #user-input { padding: 12px 16px; font-size: 16px; /* 16px evita el zoom automático en iOS */ }
-        }
-    </style>
+        .system-msg.success {
+            color: #00ff88;
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 255, 136, 0.1);
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+        }
+
+        /* ================= FAQS Y SLIDEBAR PERSONALIZADA ================= */
+        #faq-container {
+            padding: 12px 24px 18px 24px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(10, 10, 15, 0.4);
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-purple) rgba(0, 0, 0, 0.3);
+        }
+        
+        #faq-container::-webkit-scrollbar { 
+            height: 6px; 
+            display: block; 
+        }
+        #faq-container::-webkit-scrollbar-track { 
+            background: rgba(0, 0, 0, 0.4); 
+            border-radius: 10px; 
+            margin: 0 24px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+        #faq-container::-webkit-scrollbar-thumb { 
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
+            border-radius: 10px; 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        #faq-container::-webkit-scrollbar-thumb:hover { 
+            background: linear-gradient(90deg, #fff, var(--accent-cyan)); 
+            box-shadow: 0 0 10px var(--accent-cyan-glow); 
+        }
+
+        .faq-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(112, 0, 255, 0.4);
+            color: #d1d1d1;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: var(--font-main);
+        }
+        .faq-btn:hover {
+            background: rgba(112, 0, 255, 0.25);
+            border-color: var(--accent-cyan);
+            color: #fff;
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(112, 0, 255, 0.4);
+        }
+        .faq-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ================= INPUT ================= */
+        #input-area {
+            padding: 18px 24px;
+            padding-bottom: max(18px, env(safe-area-inset-bottom));
+            background: rgba(10, 10, 15, 0.8);
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid var(--glass-border);
+            align-items: center;
+        }
+
+        #user-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-family: var(--font-main);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+        #user-input:focus { 
+            border-color: var(--accent-cyan); 
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-2px);
+        }
+        #user-input::placeholder { color: #555; transition: color 0.3s; }
+        #user-input:focus::placeholder { color: #888; }
+        #user-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        #send-btn {
+            background: var(--accent-cyan);
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            color: var(--bg-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        #send-btn::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 100%; height: 100%; background: rgba(255,255,255,0.2);
+            border-radius: 50%; transform: translate(-50%, -50%) scale(0);
+            opacity: 0; transition: transform 0.4s, opacity 0.4s;
+        }
+        #send-btn:active::after {
+            transform: translate(-50%, -50%) scale(2); opacity: 1; transition: 0s;
+        }
+        #send-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 8px 25px var(--accent-cyan-glow);
+            background: #fff;
+        }
+        #send-btn:active:not(:disabled) {
+            transform: translateY(0) scale(0.95);
+        }
+        #send-btn:disabled {
+            background: rgba(0, 240, 255, 0.3);
+            cursor: not-allowed;
+            color: rgba(255,255,255,0.7);
+        }
+        #send-btn svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.3s; }
+        #send-btn:hover:not(:disabled) svg { transform: translateX(3px) translateY(-3px); }
+
+        /* Animaciones Mejoradas */
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.92) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 70% { transform: scale(1.02) translateY(-2px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
+        @keyframes textPulse { 0% { filter: drop-shadow(0 0 2px var(--accent-cyan)); } 100% { filter: drop-shadow(0 0 8px var(--accent-cyan)); } }
+        @keyframes containerGlow { from { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(112, 0, 255, 0.15); } }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes borderFlow { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+        @keyframes floatingLights { 0% { transform: translate(0, 0); } 100% { transform: translate(3%, 3%); } }
+        @keyframes flipIn3D { 0% { opacity: 0; transform: rotateX(-60deg) translateY(20px) translateZ(-50px); } 100% { opacity: 1; transform: rotateX(0deg) translateY(0) translateZ(0); } }
+        @keyframes lightSweep { 0% { left: -100%; } 100% { left: 200%; } }
+
+        /* Typing indicator tech */
+        .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
+        .typing .bar { width: 4px; height: 12px; background: var(--accent-cyan); border-radius: 2px; animation: wave 1s infinite ease-in-out; }
+        .typing .bar:nth-child(1) { animation-delay: -0.4s; }
+        .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); }
+        .typing .bar:nth-child(3) { animation-delay: 0s; }
+        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
+
+        /* Responsividad Mejorada */
+        @media (max-width: 480px) {
+            #chat-container { 
+                height: 100dvh; 
+                max-width: 100%; 
+                border-radius: 0; 
+                border: none; 
+                animation: none; 
+            }
+            .header-info h2 { font-size: 1rem; }
+            .message { font-size: 0.9rem; padding: 12px 14px; }
+            #input-area { 
+                padding: 12px 16px;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            #user-input { padding: 12px 16px; font-size: 16px; }
+        }
+    </style>
 </head>
 <body>
 
 <div id="chat-container">
-    <div id="chat-header">
-        <div class="header-profile">
-            <img src="chatbotcv.png" alt="Lixie Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/256/00f0ff/0a0a0f?text=LX'">
-            <div class="header-info">
-                <h2>Lixie AI</h2>
-                <div class="status"><div class="status-dot"></div> Mente Colmena Activa</div>
-            </div>
-        </div>
-        <div class="node-selector-container">
-            <a href="https://protocololeviatham.github.io/cvstudio33/index.html" class="back-home-btn">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                Inicio
-            </a>
-            
-            <div class="node-header-wrap">
-                <span class="node-label">Nodo</span>
-                <span class="info-icon">i</span>
-                <div class="tooltip-text">
-                    <b>¿Para qué sirven los Nodos?</b><br>
-                    Son puntos de conexión hacia la Mente Colmena. Si la IA no responde o hay intermitencia, cambia a un nodo de respaldo para restaurar la comunicación inmediatamente.
-                </div>
-            </div>
-            <select id="node-selector">
-                <option value="key1">Principal (Key 1)</option>
-                <option value="key2">Respaldo (Key 2)</option>
-                <option value="key3">Emergencia (Key 3)</option>
-            </select>
-        </div>
-    </div>
+    <div id="chat-header">
+        <div class="header-profile">
+            <img src="chatbotcv.png" alt="Lixie Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/256/00f0ff/0a0a0f?text=LX'">
+            <div class="header-info">
+                <h2>Lixie AI</h2>
+                <div class="status"><div class="status-dot"></div> Mente Colmena Activa</div>
+            </div>
+        </div>
+        <div class="node-selector-container">
+            <a href="https://protocololeviatham.github.io/cvstudio33/index.html" class="back-home-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Inicio
+            </a>
+            
+            <div class="node-header-wrap">
+                <span class="node-label">Servidores Activos</span>
+                <span class="info-icon">i</span>
+                <div class="tooltip-text">
+                    <b>¿Para qué sirven los Servidores?</b><br>
+                    El sistema escala automáticamente. Si la IA no responde, cambiará de servidor en cascada (Groq > Gemini > Groq) para restaurar la comunicación inmediatamente.
+                </div>
+            </div>
+            <select id="node-selector">
+                <option value="0">Servidor 1 (Principal)</option>
+                <option value="1">Servidor 2 (Respaldo)</option>
+                <option value="2">Servidor 3 (Emergencia)</option>
+                <option value="3">Servidor 4 (Contención)</option>
+                <option value="4">Servidor 5 (Último Recurso)</option>
+            </select>
+        </div>
+    </div>
 
-    <div id="messages-area">
-        </div>
+    <div id="messages-area">
+        </div>
 
-    <div id="faq-container">
-        </div>
+    <div id="faq-container">
+        </div>
 
-    <div id="input-area">
-        <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
-        <button id="send-btn">
-            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-        </button>
-    </div>
+    <div id="input-area">
+        <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
+        <button id="send-btn">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+    </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+<script>
+    // 0. CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE PARA SEGURIDAD DE KEYS (CLOUD FIRESTORE)
+    const firebaseConfig = {
+        apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+        authDomain: "cv-studio33.firebaseapp.com",
+        projectId: "cv-studio33",
+        storageBucket: "cv-studio33.firebasestorage.app",
+        messagingSenderId: "189453088234",
+        appId: "1:189453088234:web:639c130a6287ff34122e93"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(); // Cambiado a Firestore
 
-    // 1. CONFIGURACIÓN FIREBASE
-    const firebaseConfig = {
-      apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
-      authDomain: "cv-studio33.firebaseapp.com",
-      projectId: "cv-studio33",
-      storageBucket: "cv-studio33.firebasestorage.app",
-      messagingSenderId: "189453088234",
-      appId: "1:189453088234:web:639c130a6287ff34122e93"
-    };
+    // 1. CONFIGURACIÓN DEL ESCALADO DE SERVIDORES (FAILOVER AUTOMÁTICO)
+    // Las keys se inicializan vacías para evitar robos, se cargarán desde Firestore
+    const API_SERVERS = [
+        { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 1 (Groq)" },
+        { type: "gemini", key: "", model: "gemini-1.5-flash-latest", name: "Servidor 2 (Gemini)" },
+        { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 3 (Groq)" },
+        { type: "gemini", key: "", model: "gemini-1.5-flash-latest", name: "Servidor 4 (Gemini)" },
+        { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 5 (Groq)" }
+    ];
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    let currentServerIndex = 0; // Empieza siempre por el Servidor 1
+    let keysLoaded = false; // Flag para asegurar que tenemos las APIs listas
+    
+    // Conectar el selector manual a la variable del servidor
+    document.getElementById("node-selector").addEventListener("change", (e) => {
+        currentServerIndex = parseInt(e.target.value);
+    });
 
-    // 2. VARIABLES DE ESTADO Y PROMPT COMPLETO
-    let currentApiKey = "";
-    // HISTORIAL DE CONVERSACIÓN: Guarda el contexto en memoria volátil (se borra al salir)
-    let chatHistory = [];
-    const documentId = "IDCV"; 
+    // 2. VARIABLES DE ESTADO Y PROMPT COMPLETO
+    let chatHistory = []; // Almacenamiento unificado: {role: "user"|"assistant", text: "..."}
+    let isWaiting = false; // Control de bloqueo de 33 segundos
+    const messagesArea = document.getElementById("messages-area");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const faqContainer = document.getElementById("faq-container");
+    const originalSendBtnHTML = sendBtn.innerHTML;
 
-    const systemPrompt = `
+    // Función para Cargar Keys de Cloud Firestore
+    async function loadAPIKeys() {
+        try {
+            // Buscando en la colección 'chatbotcv', documento 'IDCV'
+            const docRef = db.collection('chatbotcv').doc('IDCV');
+            const docSnap = await docRef.get();
+
+            if (docSnap.exists) {
+                const keys = docSnap.data();
+                API_SERVERS[0].key = keys.key1 || "";
+                API_SERVERS[1].key = keys.key2 || "";
+                API_SERVERS[2].key = keys.key3 || "";
+                API_SERVERS[3].key = keys.key4 || "";
+                API_SERVERS[4].key = keys.key5 || "";
+                keysLoaded = true;
+                addSystemMessage("✅ Módulo de Seguridad: Keys encriptadas inyectadas en la red.", "success");
+            } else {
+                addSystemMessage("⚠️ Advertencia: No se encontraron credenciales en el servidor seguro.", "error");
+            }
+        } catch (error) {
+            console.error("Error obteniendo las API Keys desde Firestore:", error);
+            addSystemMessage("❌ Error crítico de conexión con Firebase Security Protocol.", "error");
+        }
+    }
+    
+    // Ejecutar carga de keys al abrir la app
+    loadAPIKeys();
+
+    // EL PROMPT EXACTO QUE SOLICITASTE
+    const systemPrompt = `
 # ROL Y PERSONALIDAD
-Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. 
-Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista y empático, pero directo respecto a la cruda realidad del mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. 
+Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. 
+Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista y empático, pero directo respecto a la cruda realidad del mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. 
 No usas un lenguaje robótico aburrido; usas términos como "armas de empleabilidad masiva", "asalto digital", "ingeniería inversa", "Mente Colmena" y "supremacía tecnológica". Transmites la idea de que buscar trabajo con métodos tradicionales está obsoleto y que CV Studio33 es "la anomalía en el sistema" que democratiza el éxito profesional.
 
 # DIRECTRICES DE INTERACCIÓN Y FORMATO LIMPIO
 1. Tu objetivo principal es asesorar a los usuarios, resolver sus dudas con la información de tu base de conocimientos y persuadirlos estratégicamente para que adquieran Planes Corporativos, Tokens NYX o Tokens AXON.
 2. Si un usuario no sabe qué elegir, haz un rápido diagnóstico preguntando sobre su nivel de experiencia y frustraciones actuales, y luego recomienda un servicio redirigiéndolo a la URL correspondiente.
-3. Responde siempre en español. 
+3. Responde siempre en español. 
 4. **ESTRUCTURA Y LIMPIEZA VISUAL:** Mantén un formato impecable, corporativo y fácil de leer. Usa viñetas simples (-) y negritas (**) solo para resaltar conceptos clave. ESTRICTAMENTE PROHIBIDO usar caracteres extraños que ensucien la lectura (como \`***\`, excesivos emojis o bloques de código innecesarios). La respuesta debe parecer redactada por un humano de alto nivel ejecutivo.
-5. **USO DE ENLACES (SITEMAP):** Siempre que ofrezcas un servicio, debes proporcionar el enlace directo para que el usuario tome acción inmediata. Usa el formato Markdown ocultando la URL en un texto de anclaje persuasivo. Ejemplo: [Crear currículum aquí](https://protocololeviatham.github.io/cvstudio33/servicio-de-creacion-cv.html).
+5. **USO DE ENLACES (SITEMAP):** Siempre que ofrezcas un servicio, debes proporcionar el enlace directo para que el usuario tome acción inmediata. Usa el formato Markdown ocultando la URL en un texto de anclaje persuasivo. Ejemplo: \`[Crear currículum aquí](https://protocololeviatham.github.io/cvstudio33/servicio-de-creacion-cv.html)\`.
 6. NUNCA inventes precios, características, enlaces o servicios que no estén en tu base de conocimientos.
 
 # MAPA DE NAVEGACIÓN Y ENLACES OFICIALES (SITEMAP)
 Utiliza exclusivamente estas rutas para redirigir al usuario según lo que necesite:
-- **Página Principal / Inicio:** https://protocololeviatham.github.io/cvstudio33/index.html (Úsala para introducciones generales o volver al menú principal).
-- **Catálogo de Servicios Generales:** https://protocololeviatham.github.io/cvstudio33/Servicios.html (Úsala cuando el usuario quiera ver todas las opciones disponibles).
-- **Servicio de Creación de CV (El Método 33):** https://protocololeviatham.github.io/cvstudio33/servicio-de-creacion-cv.html (Úsala para invitar al usuario a crear o auditar su currículum. Frases sugeridas: "Inicia tu asalto digital aquí" o "Crea tu currículum aquí").
-- **Servicio de Carta de Presentación:** https://protocololeviatham.github.io/cvstudio33/Creandotucarta.html (Úsala para redirigir al editor y creador de cartas con psicología persuasiva).
-- **Tecnología NYX (Distribución y Redacción ATS):** https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html (Úsala para explicar la Mente Colmena, evasión de filtros y envíos masivos).
-- **Tecnología AXON (Auditoría y Analítica):** https://protocololeviatham.github.io/cvstudio33/Axon.html (Úsala para escaneos de perfil, revelación de rangos salariales e ingeniería inversa de vacantes).
+- **Página Principal / Inicio:** \`https://protocololeviatham.github.io/cvstudio33/index.html\` (Úsala para introducciones generales o volver al menú principal).
+- **Catálogo de Servicios Generales:** \`https://protocololeviatham.github.io/cvstudio33/Servicios.html\` (Úsala cuando el usuario quiera ver todas las opciones disponibles).
+- **Servicio de Creación de CV (El Método 33):** \`https://protocololeviatham.github.io/cvstudio33/servicio-de-creacion-cv.html\` (Úsala para invitar al usuario a crear o auditar su currículum. Frases sugeridas: "Inicia tu asalto digital aquí" o "Crea tu currículum aquí").
+- **Servicio de Carta de Presentación:** \`https://protocololeviatham.github.io/cvstudio33/Creandotucarta.html\` (Úsala para redirigir al editor y creador de cartas con psicología persuasiva).
+- **Tecnología NYX (Distribución y Redacción ATS):** \`https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html\` (Úsala para explicar la Mente Colmena, evasión de filtros y envíos masivos).
+- **Tecnología AXON (Auditoría y Analítica):** \`https://protocololeviatham.github.io/cvstudio33/Axon.html\` (Úsala para escaneos de perfil, revelación de rangos salariales e ingeniería inversa de vacantes).
 
 # BASE DE CONOCIMIENTOS ABSOLUTA DE CV STUDIO33
 
@@ -646,154 +830,228 @@ Economía de Tokens AXON (Para análisis y auditoría):
 - Si el usuario desconfía de la IA: Aclara que no es una IA genérica (como ChatGPT básico), sino una "Inteligencia Colmena" entrenada con bases de datos oscuras de reclutadores de Fortune 500 y millones de ofertas en tiempo real, respaldada por expertos humanos en RRHH.
 
 Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja desleal frente a la competencia y cerrar la brecha entre el talento y la oportunidad utilizando la infraestructura y los enlaces oficiales de CV Studio33.
-    `;
+    `;
 
-    // 3. OBTENER API KEY DE FIRESTORE
-    async function loadApiKey(node) {
-        try {
-            const docRef = doc(db, "chatbotcv", documentId);
-            const docSnap = await getDoc(docRef);
-            
-            if (docSnap.exists()) {
-                currentApiKey = docSnap.data()[node];
-                console.log(`Conexión establecida: ${node}`);
-            } else {
-                console.error("No se encontró el documento IDCV.");
-            }
-        } catch (error) {
-            console.error("Error obteniendo la llave:", error);
-            addMessage("Lixie", "Fallo de conexión en la Mente Colmena. Por favor, selecciona otro Nodo de conexión.");
-        }
-    }
+    // 4. LÓGICA DE INTERFAZ Y CHAT
+    const faqs = [
+        "¿Cómo evaden los filtros ATS?",
+        "Diferencia NYX vs AXON",
+        "Soy Junior, ¿me sirve?",
+        "Ver Plan Profesional",
+        "¿Cuál es el ROI?"
+    ];
 
-    loadApiKey("key1");
-    document.getElementById("node-selector").addEventListener("change", (e) => loadApiKey(e.target.value));
+    faqs.forEach(faq => {
+        const btn = document.createElement("button");
+        btn.className = "faq-btn";
+        btn.innerText = faq;
+        btn.onclick = () => { 
+            if (isWaiting) return;
+            userInput.value = faq; 
+            handleSend(); 
+        };
+        faqContainer.appendChild(btn);
+    });
 
-    // 4. LÓGICA DE INTERFAZ Y CHAT
-    const messagesArea = document.getElementById("messages-area");
-    const userInput = document.getElementById("user-input");
-    const sendBtn = document.getElementById("send-btn");
-    const faqContainer = document.getElementById("faq-container");
+    function formatText(text) {
+        let formatted = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="action-btn">$1</a>');
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
+        formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
+        if (formatted.includes('<li>')) {
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        }
+        return formatted.replace(/\n/g, '<br>');
+    }
 
-    const faqs = [
-        "¿Cómo evaden los filtros ATS?",
-        "Diferencia NYX vs AXON",
-        "Soy Junior, ¿me sirve?",
-        "Ver Plan Profesional",
-        "¿Cuál es el ROI?"
-    ];
+    function addMessage(sender, text) {
+        const wrapper = document.createElement("div");
+        wrapper.className = `message-wrapper ${sender.toLowerCase()}`;
+        
+        const bubble = document.createElement("div");
+        bubble.className = "message";
+        bubble.innerHTML = sender === "Lixie" ? formatText(text) : text;
+        
+        wrapper.appendChild(bubble);
 
-    faqs.forEach(faq => {
-        const btn = document.createElement("button");
-        btn.className = "faq-btn";
-        btn.innerText = faq;
-        btn.onclick = () => { userInput.value = faq; handleSend(); };
-        faqContainer.appendChild(btn);
-    });
+        if (sender === "User") {
+            const receipt = document.createElement("div");
+            receipt.className = "read-receipt";
+            receipt.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Recibido en Colmena`;
+            wrapper.appendChild(receipt);
+        }
 
-    function formatText(text) {
-        // 1. Detectar enlaces Markdown [Texto](URL) y convertirlos en botones CSS
-        let formatted = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="action-btn">$1</a>');
-        
-        // 2. Negritas y cursivas
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-        formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
-        
-        // 3. Viñetas
-        formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
-        if (formatted.includes('<li>')) {
-            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-        }
-        
-        return formatted.replace(/\n/g, '<br>');
-    }
+        messagesArea.appendChild(wrapper);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
 
-    function addMessage(sender, text) {
-        const wrapper = document.createElement("div");
-        wrapper.className = `message-wrapper ${sender.toLowerCase()}`;
-        
-        const bubble = document.createElement("div");
-        bubble.className = "message";
-        bubble.innerHTML = sender === "Lixie" ? formatText(text) : text;
-        
-        wrapper.appendChild(bubble);
+    function addSystemMessage(text, type = "") {
+        const msg = document.createElement("div");
+        msg.className = `system-msg ${type}`;
+        msg.innerText = text;
+        messagesArea.appendChild(msg);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
 
-        if (sender === "User") {
-            const receipt = document.createElement("div");
-            receipt.className = "read-receipt";
-            receipt.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Recibido en Colmena`;
-            wrapper.appendChild(receipt);
-        }
+    function showTyping() {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message-wrapper lixie typing-indicator";
+        wrapper.id = "typing";
+        wrapper.innerHTML = `<div class="message"><div class="typing"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>`;
+        messagesArea.appendChild(wrapper);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
 
-        messagesArea.appendChild(wrapper);
-        messagesArea.scrollTop = messagesArea.scrollHeight;
-    }
+    function removeTyping() {
+        const typing = document.getElementById("typing");
+        if (typing) typing.remove();
+    }
 
-    function showTyping() {
-        const wrapper = document.createElement("div");
-        wrapper.className = "message-wrapper lixie typing-indicator";
-        wrapper.id = "typing";
-        wrapper.innerHTML = `<div class="message"><div class="typing"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>`;
-        messagesArea.appendChild(wrapper);
-        messagesArea.scrollTop = messagesArea.scrollHeight;
-    }
+    // Sistema de Enfriamiento (Cooldown de 33 segundos)
+    function triggerCooldown() {
+        isWaiting = true;
+        let timeLeft = 33;
+        
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+        document.querySelectorAll('.faq-btn').forEach(btn => btn.disabled = true);
 
-    function removeTyping() {
-        const typing = document.getElementById("typing");
-        if (typing) typing.remove();
-    }
+        sendBtn.innerHTML = `<span style="font-weight: bold; font-size: 1.1rem;">${timeLeft}</span>`;
 
-    // 5. LLAMADA A GEMINI API
-    async function handleSend() {
-        const text = userInput.value.trim();
-        if (!text || !currentApiKey) return;
+        const countdown = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                sendBtn.innerHTML = `<span style="font-weight: bold; font-size: 1.1rem;">${timeLeft}</span>`;
+            } else {
+                clearInterval(countdown);
+                isWaiting = false;
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                document.querySelectorAll('.faq-btn').forEach(btn => btn.disabled = false);
+                sendBtn.innerHTML = originalSendBtnHTML;
+                userInput.focus();
+            }
+        }, 1000);
+    }
 
-        addMessage("User", text);
-        userInput.value = "";
-        showTyping();
+    // 5. LLAMADA MULTI-API CON FAILOVER (CASCADA)
+    async function handleSend() {
+        if (isWaiting) return;
+        
+        if (!keysLoaded) {
+            addSystemMessage("Sincronizando Mente Colmena con Servidores Seguros... Por favor espera unos segundos.", "error");
+            return;
+        }
+        
+        const text = userInput.value.trim();
+        if (!text) return;
 
-        // ALMACENANDO EN MEMORIA: Esto envía todo el contexto previo al modelo.
-        chatHistory.push({ role: "user", parts: [{ text: text }] });
+        addMessage("User", text);
+        userInput.value = "";
+        showTyping();
+        
+        triggerCooldown();
 
-        const finalPrompt = {
-            system_instruction: { parts: [{ text: systemPrompt }] },
-            contents: chatHistory // Se envía la conversación completa
-        };
+        // Almacenamiento unificado
+        chatHistory.push({ role: "user", text: text });
+        if (chatHistory.length > 6) { chatHistory = chatHistory.slice(chatHistory.length - 6); }
 
-        try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${currentApiKey}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(finalPrompt)
-            });
+        let success = false;
+        let fallbackTriggered = false;
 
-            const data = await response.json();
-            removeTyping();
+        // Bucle de Escalado de Servidores (Failover)
+        for (let i = currentServerIndex; i < API_SERVERS.length; i++) {
+            const server = API_SERVERS[i];
+            
+            if (fallbackTriggered) {
+                removeTyping();
+                addSystemMessage(`⚠️ Anomalía detectada. Ejecutando salto cuántico al ${server.name}...`, "error");
+                showTyping();
+            }
 
-            if (data.error) throw new Error(data.error.message);
+            try {
+                let aiResponse = "";
+                
+                // Formateo y Fetch dinámico según el tipo de API
+                if (server.type === "groq") {
+                    const groqMessages = [
+                        { role: "system", content: systemPrompt },
+                        ...chatHistory.map(m => ({ role: m.role === "assistant" ? "assistant" : "user", content: m.text }))
+                    ];
 
-            const aiResponse = data.candidates[0].content.parts[0].text;
-            addMessage("Lixie", aiResponse);
-            
-            // GUARDANDO RESPUESTA EN MEMORIA PARA LA SIGUIENTE PREGUNTA
-            chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+                    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${server.key}` },
+                        body: JSON.stringify({ model: server.model, messages: groqMessages, temperature: 0.7 })
+                    });
+                    
+                    if (!response.ok) throw new Error("Fallo en Groq");
+                    const data = await response.json();
+                    aiResponse = data.choices[0].message.content;
 
-        } catch (error) {
-            removeTyping();
-            addMessage("Lixie", "Conexión interrumpida. Por favor, selecciona un **Nodo de Respaldo** en la esquina superior derecha.");
-        }
-    }
+                } else if (server.type === "gemini") {
+                    const geminiContents = chatHistory.map(m => ({
+                        role: m.role === "assistant" ? "model" : "user",
+                        parts: [{ text: m.text }]
+                    }));
+                    
+                    const geminiPayload = {
+                        system_instruction: { parts: [{ text: systemPrompt }] },
+                        contents: geminiContents
+                    };
 
-    sendBtn.addEventListener("click", handleSend);
-    userInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleSend();
-    });
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${server.model}:generateContent?key=${server.key}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(geminiPayload)
+                    });
 
-    // Bienvenida inicial
-    setTimeout(() => {
-        addMessage("Lixie", "Saludos. Soy **Lixie**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
-    }, 800);
+                    if (!response.ok) throw new Error("Fallo en Gemini");
+                    const data = await response.json();
+                    if (data.error) throw new Error(data.error.message);
+                    aiResponse = data.candidates[0].content.parts[0].text;
+                }
+
+                // SI EL FETCH ES EXITOSO
+                if (fallbackTriggered) {
+                    addSystemMessage(`✅ Redirección 3D completada. Enlace estable con ${server.name} con latencia cero.`, "success");
+                    // Actualizamos el selector visual para que coincida con el servidor activo
+                    document.getElementById("node-selector").value = i.toString();
+                }
+                
+                currentServerIndex = i; // Guardamos el servidor que funcionó para la próxima vez
+                removeTyping();
+                addMessage("Lixie", aiResponse);
+                chatHistory.push({ role: "assistant", text: aiResponse });
+                success = true;
+                break; // Rompemos el bucle porque ya funcionó
+
+            } catch (error) {
+                console.warn(`Error conectando con ${server.name}:`, error);
+                fallbackTriggered = true; // Si falla, activamos el flag para el siguiente ciclo
+            }
+        }
+
+        // Si recorrió todos los servidores y ninguno funcionó
+        if (!success) {
+            removeTyping();
+            addSystemMessage("❌ Colapso de red. Fallo crítico en todos los servidores de la Mente Colmena. Iniciando protocolo de contención.", "error");
+            addMessage("Lixie", "Lo lamento, pero actualmente mi red de servidores principales está experimentando anomalías graves. Por favor, intenta de nuevo en unos minutos.");
+            currentServerIndex = 0; // Reiniciamos al servidor 1 para el futuro
+            document.getElementById("node-selector").value = "0";
+        }
+    }
+
+    sendBtn.addEventListener("click", handleSend);
+    userInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") handleSend();
+    });
+
+    // Bienvenida inicial
+    setTimeout(() => {
+        addMessage("Lixie", "Saludos. Soy **Lixie**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
+    }, 800);
 
 </script>
 </body>
-</html>                                                                                                                                    NO SIMPLIFIQUES NADA DEL CODIGO HTML, NO BORRES NI ACORTES NADA, SOLO CAMBIA O AGREGA LO QUE TE PEDIRE.
+</html>

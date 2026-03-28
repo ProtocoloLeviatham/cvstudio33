@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lixie | CV Studio33 Intelligence Agency</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-
     <style>
         /* ================= ESTILOS BASE Y VARIABLES ================= */
         :root {
@@ -120,7 +116,7 @@
         .avatar {
             width: 52px;
             height: 52px;
-            border-radius: 12px;
+            border-radius: 12px; /* Corte más tecnológico que redondo */
             border: 1px solid var(--accent-cyan);
             box-shadow: 0 0 15px var(--accent-cyan-glow);
             object-fit: cover;
@@ -144,7 +140,6 @@
             background: linear-gradient(90deg, #fff, var(--accent-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: textPulse 3s infinite alternate;
         }
 
         .status {
@@ -166,7 +161,7 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Selector de Nodos y Tooltip */
+        /* Selector de Servidores y Tooltip */
         .node-selector-container {
             text-align: right;
             position: relative;
@@ -236,7 +231,7 @@
             transform: scale(1.1);
         }
 
-        /* Tooltip de explicación de Nodos */
+        /* Tooltip de explicación de Servidores */
         .tooltip-text {
             visibility: hidden;
             width: 200px;
@@ -399,7 +394,7 @@
             animation: fadeIn 0.5s ease-in forwards;
         }
 
-        /* ===== MENSAJES DEL SISTEMA (FAILOVER) CON EFECTOS 3D ===== */
+        /* ===== MENSAJES DEL SISTEMA (FAILOVER) ===== */
         .system-msg {
             align-self: center;
             text-align: center;
@@ -408,74 +403,56 @@
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, rgba(20, 20, 29, 0.9), rgba(0, 0, 0, 0.95));
-            padding: 10px 20px;
+            background: rgba(0, 240, 255, 0.05);
+            padding: 8px 16px;
             border-radius: 12px;
-            border: 1px solid rgba(0, 240, 255, 0.4);
+            border: 1px dashed var(--accent-cyan);
             max-width: 85%;
-            margin: 10px 0;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            animation: flipIn3D 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 240, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+            margin: 5px 0;
+            animation: fadeInScale 0.4s ease;
         }
-
-        .system-msg::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: skewX(-20deg);
-            animation: lightSweep 2.5s infinite;
-        }
-
         .system-msg.error {
             color: #ff3366;
-            border-color: rgba(255, 51, 102, 0.5);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 51, 102, 0.1);
-            text-shadow: 0 0 8px rgba(255, 51, 102, 0.5);
+            border-color: #ff3366;
+            background: rgba(255, 51, 102, 0.05);
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.2);
         }
-
         .system-msg.success {
             color: #00ff88;
-            border-color: rgba(0, 255, 136, 0.5);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 255, 136, 0.1);
-            text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
         }
 
-        /* ================= FAQS Y SLIDEBAR PERSONALIZADA ================= */
+        /* ================= FAQS ================= */
         #faq-container {
-            padding: 12px 24px 18px 24px;
+            padding: 12px 24px;
             display: flex;
             gap: 12px;
             overflow-x: auto;
             border-top: 1px solid var(--glass-border);
             background: rgba(10, 10, 15, 0.4);
+            /* Firefox soporte */
             scrollbar-width: thin;
-            scrollbar-color: var(--accent-purple) rgba(0, 0, 0, 0.3);
+            scrollbar-color: rgba(112, 0, 255, 0.5) transparent;
         }
-        
-        #faq-container::-webkit-scrollbar { 
+
+        /* Scrollbar personalizada a detalle para Webkit */
+        #faq-container::-webkit-scrollbar {
             height: 6px; 
-            display: block; 
         }
         #faq-container::-webkit-scrollbar-track { 
-            background: rgba(0, 0, 0, 0.4); 
+            background: rgba(0, 0, 0, 0.2); 
             border-radius: 10px; 
-            margin: 0 24px;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
         #faq-container::-webkit-scrollbar-thumb { 
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan)); 
             border-radius: 10px; 
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
         }
         #faq-container::-webkit-scrollbar-thumb:hover { 
-            background: linear-gradient(90deg, #fff, var(--accent-cyan)); 
-            box-shadow: 0 0 10px var(--accent-cyan-glow); 
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
+            box-shadow: 0 0 8px var(--accent-cyan-glow);
         }
 
         .faq-btn {
@@ -507,7 +484,7 @@
         /* ================= INPUT ================= */
         #input-area {
             padding: 18px 24px;
-            padding-bottom: max(18px, env(safe-area-inset-bottom));
+            padding-bottom: max(18px, env(safe-area-inset-bottom)); /* Levanta el input en iOS/Android nativos */
             background: rgba(10, 10, 15, 0.8);
             display: flex;
             gap: 12px;
@@ -584,13 +561,11 @@
         @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 70% { transform: scale(1.02) translateY(-2px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes pulse { 0% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } 50% { opacity: 1; box-shadow: 0 0 15px var(--accent-cyan); } 100% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
-        @keyframes textPulse { 0% { filter: drop-shadow(0 0 2px var(--accent-cyan)); } 100% { filter: drop-shadow(0 0 8px var(--accent-cyan)); } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         @keyframes containerGlow { from { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.05); } to { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(112, 0, 255, 0.15); } }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes borderFlow { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
         @keyframes floatingLights { 0% { transform: translate(0, 0); } 100% { transform: translate(3%, 3%); } }
-        @keyframes flipIn3D { 0% { opacity: 0; transform: rotateX(-60deg) translateY(20px) translateZ(-50px); } 100% { opacity: 1; transform: rotateX(0deg) translateY(0) translateZ(0); } }
-        @keyframes lightSweep { 0% { left: -100%; } 100% { left: 200%; } }
 
         /* Typing indicator tech */
         .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
@@ -668,22 +643,26 @@
     </div>
 </div>
 
-<script>
-    // 0. CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE PARA SEGURIDAD DE KEYS (CLOUD FIRESTORE)
+<script type="module">
+    // IMPORTACIÓN DE FIREBASE (Seguridad de Mente Colmena)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // Configuración de Firebase Cloud
     const firebaseConfig = {
-        apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
-        authDomain: "cv-studio33.firebaseapp.com",
-        projectId: "cv-studio33",
-        storageBucket: "cv-studio33.firebasestorage.app",
-        messagingSenderId: "189453088234",
-        appId: "1:189453088234:web:639c130a6287ff34122e93"
+      apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+      authDomain: "cv-studio33.firebaseapp.com",
+      projectId: "cv-studio33",
+      storageBucket: "cv-studio33.firebasestorage.app",
+      messagingSenderId: "189453088234",
+      appId: "1:189453088234:web:639c130a6287ff34122e93"
     };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore(); // Cambiado a Firestore
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
     // 1. CONFIGURACIÓN DEL ESCALADO DE SERVIDORES (FAILOVER AUTOMÁTICO)
-    // Las keys se inicializan vacías para evitar robos, se cargarán desde Firestore
+    // Las keys ahora inician vacías y se rellenan desde Firestore
     const API_SERVERS = [
         { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 1 (Groq)" },
         { type: "gemini", key: "", model: "gemini-1.5-flash-latest", name: "Servidor 2 (Gemini)" },
@@ -692,8 +671,32 @@
         { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 5 (Groq)" }
     ];
 
+    // Función para obtener las claves desde Cloud Firestore
+    async function loadSecureKeys() {
+        try {
+            const docRef = doc(db, "chatbotcv", "IDCV");
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                API_SERVERS[0].key = data.key1;
+                API_SERVERS[1].key = data.key2;
+                API_SERVERS[2].key = data.key3;
+                API_SERVERS[3].key = data.key4;
+                API_SERVERS[4].key = data.key5;
+                console.log("🔒 Protocolo de Seguridad: Claves de la Colmena sincronizadas correctamente.");
+            } else {
+                console.error("⚠️ Error de Colmena: Documento IDCV no encontrado en la base de datos.");
+            }
+        } catch (error) {
+            console.error("⚠️ Error de Colmena al intentar recuperar las credenciales:", error);
+        }
+    }
+
+    // Inicializamos la búsqueda de claves al arrancar
+    loadSecureKeys();
+
     let currentServerIndex = 0; // Empieza siempre por el Servidor 1
-    let keysLoaded = false; // Flag para asegurar que tenemos las APIs listas
     
     // Conectar el selector manual a la variable del servidor
     document.getElementById("node-selector").addEventListener("change", (e) => {
@@ -708,34 +711,6 @@
     const sendBtn = document.getElementById("send-btn");
     const faqContainer = document.getElementById("faq-container");
     const originalSendBtnHTML = sendBtn.innerHTML;
-
-    // Función para Cargar Keys de Cloud Firestore
-    async function loadAPIKeys() {
-        try {
-            // Buscando en la colección 'chatbotcv', documento 'IDCV'
-            const docRef = db.collection('chatbotcv').doc('IDCV');
-            const docSnap = await docRef.get();
-
-            if (docSnap.exists) {
-                const keys = docSnap.data();
-                API_SERVERS[0].key = keys.key1 || "";
-                API_SERVERS[1].key = keys.key2 || "";
-                API_SERVERS[2].key = keys.key3 || "";
-                API_SERVERS[3].key = keys.key4 || "";
-                API_SERVERS[4].key = keys.key5 || "";
-                keysLoaded = true;
-                addSystemMessage("✅ Módulo de Seguridad: Keys encriptadas inyectadas en la red.", "success");
-            } else {
-                addSystemMessage("⚠️ Advertencia: No se encontraron credenciales en el servidor seguro.", "error");
-            }
-        } catch (error) {
-            console.error("Error obteniendo las API Keys desde Firestore:", error);
-            addSystemMessage("❌ Error crítico de conexión con Firebase Security Protocol.", "error");
-        }
-    }
-    
-    // Ejecutar carga de keys al abrir la app
-    loadAPIKeys();
 
     // EL PROMPT EXACTO QUE SOLICITASTE
     const systemPrompt = `
@@ -938,11 +913,6 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
     async function handleSend() {
         if (isWaiting) return;
         
-        if (!keysLoaded) {
-            addSystemMessage("Sincronizando Mente Colmena con Servidores Seguros... Por favor espera unos segundos.", "error");
-            return;
-        }
-        
         const text = userInput.value.trim();
         if (!text) return;
 
@@ -965,11 +935,16 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
             
             if (fallbackTriggered) {
                 removeTyping();
-                addSystemMessage(`⚠️ Anomalía detectada. Ejecutando salto cuántico al ${server.name}...`, "error");
+                addSystemMessage(`⚠️ Intermitencia detectada. Cambiando de servidor a ${server.name}...`, "error");
                 showTyping();
             }
 
             try {
+                // Verificar que la llave existe antes de disparar a la API
+                if (!server.key || server.key === "") {
+                    throw new Error("Key no cargada desde Firestore aún.");
+                }
+
                 let aiResponse = "";
                 
                 // Formateo y Fetch dinámico según el tipo de API
@@ -1014,7 +989,7 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
 
                 // SI EL FETCH ES EXITOSO
                 if (fallbackTriggered) {
-                    addSystemMessage(`✅ Redirección 3D completada. Enlace estable con ${server.name} con latencia cero.`, "success");
+                    addSystemMessage(`✅ Cambio exitoso. Conexión restaurada en ${server.name}.`, "success");
                     // Actualizamos el selector visual para que coincida con el servidor activo
                     document.getElementById("node-selector").value = i.toString();
                 }
@@ -1035,9 +1010,9 @@ Recuerda: Eres Lixie. Tu misión es empoderar al candidato, otorgarle ventaja de
         // Si recorrió todos los servidores y ninguno funcionó
         if (!success) {
             removeTyping();
-            addSystemMessage("❌ Colapso de red. Fallo crítico en todos los servidores de la Mente Colmena. Iniciando protocolo de contención.", "error");
-            addMessage("Lixie", "Lo lamento, pero actualmente mi red de servidores principales está experimentando anomalías graves. Por favor, intenta de nuevo en unos minutos.");
-            currentServerIndex = 0; // Reiniciamos al servidor 1 para el futuro
+            addSystemMessage("❌ Fallo crítico en todos los servidores de la Mente Colmena. Los sistemas están saturados.", "error");
+            addMessage("Lixie", "Lo lamento, pero actualmente mis conexiones principales están experimentando anomalías graves. Por favor, intenta de nuevo en unos minutos.");
+            currentServerIndex = 0; // Reiniciamos al nodo 1 para el futuro
             document.getElementById("node-selector").value = "0";
         }
     }

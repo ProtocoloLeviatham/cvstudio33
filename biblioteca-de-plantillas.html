@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio33</title>
+    <title>CV Studio33 - Tienda Profesional</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -22,13 +22,13 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0f172a', /* Fondo Principal */
-                        secondary: '#1e293b', /* Cartas */
-                        accent: '#3b82f6', /* Azul Brand */
+                        primary: '#0B0F19', 
+                        secondary: '#131C31', 
+                        accent: '#3b82f6', 
                         axon: '#10b981', /* Verde AXON */
-                        nyx: '#8b5cf6', /* Violeta NYX */
+                        nyx: '#8b5cf6', /* Morado NYX */
                         elite: '#f59e0b', /* Dorado Elite */
-                        mp: '#009ee3', /* Mercado Pago */
+                        mp: '#009ee3', /* Azul oficial de Mercado Pago */
                     },
                     fontFamily: {
                         sans: ['Open Sans', 'sans-serif'],
@@ -37,10 +37,38 @@
                     },
                     backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'tech-grid': "url('https://www.transparenttextures.com/patterns/cubes.png')",
+                        'mesh-dark': 'radial-gradient(at 40% 20%, hsla(228,100%,74%,0.05) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.05) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.02) 0px, transparent 50%)',
                     },
                     animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 4s linear infinite',
+                        'slide-indicator': 'slideIndicator 2s ease-in-out infinite',
+                        'pulse-ring': 'pulseRing 3s cubic-bezier(0.4, 0, 0.6, 1) infinite', // MEJORADA CON LEVITACIÓN
+                        'avatar-glow': 'avatarGlow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '200% center' },
+                            '100%': { backgroundPosition: '-200% center' }
+                        },
+                        slideIndicator: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '50%': { transform: 'translateX(5px)' }
+                        },
+                        pulseRing: {
+                            '0%': { transform: 'scale(0.9) translateY(0)', boxShadow: '0 0 0 0 rgba(139, 92, 246, 0.7)' },
+                            '50%': { transform: 'scale(1) translateY(-8px)', boxShadow: '0 0 0 12px rgba(139, 92, 246, 0)' },
+                            '100%': { transform: 'scale(0.9) translateY(0)', boxShadow: '0 0 0 0 rgba(139, 92, 246, 0)' },
+                        },
+                        avatarGlow: {
+                            '0%': { boxShadow: '0 0 10px rgba(139, 92, 246, 0.3)' },
+                            '100%': { boxShadow: '0 0 20px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.4)' }
+                        }
                     }
                 }
             }
@@ -49,127 +77,342 @@
 
     <style>
         body {
-            background-color: #0f172a;
-            color: white;
+            background-color: #0B0F19;
+            color: #f8fafc;
             overflow-x: hidden;
         }
 
-        /* Scrollbar Oculto pero funcional (Estilo Netflix) */
+        .glass-panel {
+            background: rgba(19, 28, 49, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Scrollbar visible y estilizado para PC y Celular */
         .scrolling-wrapper {
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
             display: flex;
             overflow-x: auto;
-            gap: 2rem;
-            padding-bottom: 3rem;
-            padding-top: 1rem;
+            gap: 1.5rem;
+            padding-bottom: 2.5rem; /* Espacio para la scrollbar */
+            padding-top: 1.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
             scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(59, 130, 246, 0.5) rgba(19, 28, 49, 0.5);
         }
-        .scrolling-wrapper::-webkit-scrollbar { display: none; }
+        
+        .scrolling-wrapper::-webkit-scrollbar {
+            height: 10px;
+        }
+        .scrolling-wrapper::-webkit-scrollbar-track {
+            background: rgba(19, 28, 49, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 0 1rem;
+        }
+        .scrolling-wrapper::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #3b82f6, #009ee3);
+            border-radius: 12px;
+            border: 2px solid rgba(19, 28, 49, 0.8);
+        }
+        .scrolling-wrapper::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(90deg, #60a5fa, #38bdf8);
+        }
 
-        /* Efecto 3D en Tarjetas */
         .card-3d {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
             perspective: 1000px;
             scroll-snap-align: center;
             flex-shrink: 0;
+            width: 85vw;
+            max-width: 320px;
         }
         
         .card-3d:hover {
-            transform: translateY(-15px) rotateX(2deg) rotateY(2deg) scale(1.03);
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255,255,255,0.05);
             z-index: 20;
+            border-color: rgba(255,255,255,0.2);
         }
 
-        /* Animación de Iconos */
-        .icon-animate:hover {
-            transform: scale(1.2) rotate(10deg);
-            color: white;
+        .icon-animate {
+            transition: all 0.3s ease;
+        }
+        .icon-animate:hover, .group:hover .icon-animate {
+            transform: scale(1.2) rotate(8deg);
+            filter: brightness(1.3);
         }
 
-        /* Acordeón FAQ */
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
-        details[open] summary ~ * { animation: sweep .5s ease-in-out; }
-        @keyframes sweep { 0% {opacity: 0; margin-top: -10px} 100% {opacity: 1; margin-top: 0px} }
+        details[open] summary ~ * { animation: sweep .4s ease-in-out; }
+        @keyframes sweep { 0% {opacity: 0; transform: translateY(-10px)} 100% {opacity: 1; transform: translateY(0)} }
+        
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Estilo Botón MP Custom Oficial */
+        .btn-mercadopago {
+            background-color: #009ee3;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 158, 227, 0.8);
+        }
+        .btn-mercadopago::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-20deg);
+            transition: all 0.5s ease;
+        }
+        .btn-mercadopago:hover::after {
+            left: 150%;
+        }
+        .btn-mercadopago:hover {
+            background-color: #008cc9;
+            box-shadow: 0 10px 25px -5px rgba(0, 158, 227, 0.5);
+        }
+
+        /* ESTILOS DEL CHATBOT NUEVOS */
+        .draggable-chat-btn {
+            cursor: grab;
+            user-select: none;
+        }
+        .draggable-chat-btn:active {
+            cursor: grabbing;
+        }
+        
+        .chat-scrollbar::-webkit-scrollbar { width: 6px; }
+        .chat-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+        .chat-scrollbar::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.5); border-radius: 10px; }
+        .chat-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.8); }
+
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        .chat-message-in {
+            animation: slideInChat 0.4s cubic-bezier(0.25, 1.2, 0.5, 1) forwards;
+        }
+        @keyframes slideInChat {
+            from { opacity: 0; transform: translateY(15px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Botón MP Personalizado inyectado por LIXIE */
+        .custom-mp-bot-btn {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            font-weight: 800;
+            color: white !important;
+            text-decoration: none;
+            background-color: #009ee3;
+            border: 1px solid rgba(0, 158, 227, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 158, 227, 0.3);
+            transition: all 0.3s ease;
+        }
+        .custom-mp-bot-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 158, 227, 0.5);
+            background-color: #008cc9;
+        }
+        .custom-mp-bot-btn img {
+            height: 18px;
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-tech-grid bg-fixed">
+<body class="flex flex-col min-h-screen bg-mesh-dark relative">
 
-    <nav class="bg-primary/90 backdrop-blur-xl border-b border-white/10 h-20 sticky top-0 z-50">
-        <div class="container mx-auto px-4 h-full flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-12 object-contain">
-                <span class="font-heading font-bold text-xl tracking-wider text-white">CV STUDIO33</span>
+    <div id="chatbot-draggable-btn" class="draggable-chat-btn fixed left-4 top-[50%] z-[90] flex items-center justify-center w-14 h-14 rounded-full bg-nyx border-2 border-white/20 animate-pulse-ring transition-transform hover:scale-110 overflow-hidden" style="touch-action: none;">
+        <img src="chatbotcv.png" alt="Lixie Avatar" width="256" height="256" class="w-full h-full object-cover rounded-full pointer-events-none" onerror="this.src='https://placehold.co/256x256/8b5cf6/FFFFFF?text=Lixie'">
+        <span class="absolute left-[110%] bg-black/80 text-white text-xs font-bold px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-sm shadow-[0_0_15px_rgba(139,92,246,0.5)] whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-300" id="chatbot-tooltip">
+            Hola soy lixie, Si quieres ayuda click sobre mi ✨
+        </span>
+    </div>
+
+    <div id="chatbot-panel" class="fixed top-0 left-0 w-85 sm:w-96 h-full glass-panel shadow-[30px_0_60px_rgba(0,0,0,0.8)] border-r border-nyx/30 z-[100] transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col bg-[#080b13]/95">
+        
+        <div class="h-20 border-b border-white/10 bg-gradient-to-r from-nyx/20 to-transparent flex items-center justify-between px-6 shrink-0 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-32 h-32 bg-nyx/30 rounded-full blur-2xl"></div>
+            <div class="flex items-center gap-3 relative z-10">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-black border border-nyx/50 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.5)] overflow-hidden animate-avatar-glow">
+                        <img src="chatbotcv.png" alt="Lixie Avatar" width="256" height="256" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/256x256/8b5cf6/FFFFFF?text=Lixie'">
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#080b13] rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                </div>
+                <div>
+                    <h3 class="text-white font-heading font-black text-sm tracking-wide">LIXIE ASSISTANT</h3>
+                    <p class="text-[10px] text-axon font-mono uppercase tracking-widest"><i class="fa-solid fa-circle-check text-[8px]"></i> Online & Ready</p>
+                </div>
             </div>
-            <a href="Creandotucv.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition group border border-white/10 px-4 py-2 rounded-full hover:bg-white/5">
-                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden sm:inline">Volver al Editor</span>
+            <button id="close-chat-btn" class="text-gray-400 hover:text-white transition-colors relative z-10 p-2 rounded-full hover:bg-white/5">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <div id="chat-messages-container" class="flex-grow overflow-y-auto chat-scrollbar p-6 space-y-5 flex flex-col">
+            <div class="flex gap-3 chat-message-in">
+                <div class="w-8 h-8 rounded-full bg-nyx/20 border border-nyx/50 flex items-center justify-center shrink-0 mt-1 overflow-hidden shadow-[0_0_10px_rgba(139,92,246,0.3)]">
+                    <img src="chatbotcv.png" alt="Lixie Avatar" width="256" height="256" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/256x256/8b5cf6/FFFFFF?text=Lixie'">
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl rounded-tl-sm p-4 text-sm text-gray-200 leading-relaxed shadow-lg backdrop-blur-sm hover:border-nyx/30 transition-colors">
+                    <p>¡Holaa! Soy <strong>LIXIE</strong>, la asistente de IA oficial de CV Studio33. ✨</p>
+                    <p class="mt-2">¿Estás listo para dejar a los reclutadores humanos con la boca abierta? Dime, ¿qué tipo de trabajo buscas o qué dudas tienes sobre nuestras plantillas mágicas?</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="typing-indicator" class="hidden px-6 pb-4">
+            <div class="flex gap-3">
+                <div class="w-8 h-8 rounded-full bg-nyx/20 border border-nyx/50 flex items-center justify-center shrink-0 overflow-hidden shadow-[0_0_10px_rgba(139,92,246,0.3)]">
+                    <img src="chatbotcv.png" alt="Lixie Avatar" width="256" height="256" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/256x256/8b5cf6/FFFFFF?text=Lixie'">
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5 w-fit shadow-lg backdrop-blur-sm">
+                    <div class="w-1.5 h-1.5 bg-nyx rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-nyx rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-nyx rounded-full typing-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-5 border-t border-white/10 bg-black/40 shrink-0">
+            <form id="chat-form" class="relative flex items-end gap-2">
+                <div class="relative w-full">
+                    <textarea id="chat-input" rows="1" class="w-full bg-[#131C31] border border-white/10 focus:border-nyx/50 rounded-xl py-3 pl-4 pr-10 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-nyx/50 resize-none chat-scrollbar transition-all" placeholder="Escribe tu consulta..." style="max-height: 120px; min-height: 46px;"></textarea>
+                </div>
+                <button type="submit" id="send-btn" class="w-12 h-[46px] rounded-xl bg-nyx hover:bg-[#7c3aed] text-white flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.4)] transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shrink-0">
+                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
+            </form>
+            <div class="text-center mt-3">
+                <span class="text-[9px] text-gray-500 uppercase tracking-widest font-mono">Secured by LIXIE AI</span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-orb bg-accent w-96 h-96 top-0 left-[-10%] animate-pulse-slow"></div>
+    <div class="bg-orb bg-nyx w-[30rem] h-[30rem] top-[40%] right-[-10%] animation-float"></div>
+    <div class="bg-orb bg-axon w-80 h-80 bottom-0 left-[20%]"></div>
+
+    <nav class="bg-primary/80 backdrop-blur-2xl border-b border-white/5 h-20 sticky top-0 z-50 shadow-lg shadow-black/50">
+        <div class="container mx-auto px-4 h-full flex justify-between items-center relative z-10">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+                <span class="font-heading font-extrabold text-lg md:text-xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">CV STUDIO33</span>
+            </div>
+            <a href="Creandotucv.html" class="flex items-center gap-2 text-xs md:text-sm text-gray-300 hover:text-white transition-all group border border-white/10 px-4 py-2 rounded-full hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-black/20">
+                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden sm:inline font-semibold">Volver al Editor</span>
             </a>
         </div>
     </nav>
 
-    <header class="py-20 px-4 text-center relative overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-radial from-accent/10 to-transparent opacity-40 pointer-events-none"></div>
-        <h1 class="relative z-10 font-heading text-4xl md:text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-gray-500 tracking-tight">
-            ARQUITECTURA CURRICULAR
+    <header class="py-24 px-4 text-center relative z-10 flex flex-col items-center justify-center">
+        <div class="inline-block px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6 shadow-xl">
+            <span class="text-xs md:text-sm font-bold tracking-widest uppercase text-gray-300"><i class="fa-solid fa-store text-accent mr-2"></i> Biblioteca Profesional</span>
+        </div>
+        <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 tracking-tight drop-shadow-2xl">
+            PLANTILLAS PREMIUM
         </h1>
-        <p class="relative z-10 text-gray-400 max-w-4xl mx-auto text-sm md:text-lg leading-relaxed">
-            Bienvenido al repositorio central de ingeniería de carrera. Aquí no seleccionas un diseño bonito; seleccionas una estrategia de datos. Desde estructuras básicas hasta ecosistemas validados por IA con inyección de código invisible para dominar los algoritmos ATS globales.
+        <p class="text-gray-400 max-w-3xl mx-auto text-base md:text-lg leading-relaxed font-sans">
+            Selecciona el formato estratégico ideal para tu objetivo. Diseños limpios, directos y validados por sistemas de selección para potenciar tu perfil profesional y destacar en cualquier empresa.
         </p>
     </header>
 
-    <main class="container mx-auto px-4 pb-20 space-y-24">
+    <main class="container mx-auto px-0 md:px-4 pb-24 space-y-32 relative z-10">
 
-        <section>
-            <div class="mb-8 border-l-4 border-gray-500 pl-6 py-2">
-                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
-                    <i class="fa-solid fa-cube text-gray-400"></i> Starter Pack <span class="text-xs bg-gray-700 text-white px-2 py-1 rounded">GENÉRICO</span>
+        <section class="px-4 md:px-0">
+            <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8 relative overflow-hidden border-l-4 border-l-gray-400">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gray-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                <h2 class="font-heading text-3xl md:text-4xl font-black text-white flex items-center gap-4 relative z-10">
+                    <i class="fa-solid fa-cube text-gray-400"></i> Diseños Clásicos 
+                    <span class="text-xs bg-gray-800/80 border border-gray-500/50 text-gray-300 px-3 py-1.5 rounded shadow-[0_0_10px_rgba(0,0,0,0.5)] uppercase tracking-widest font-bold flex items-center gap-2 backdrop-blur-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg> Estándar
+                    </span>
                 </h2>
-                <p class="text-gray-400 text-sm mt-4 max-w-3xl leading-relaxed">
-                    Estas plantillas representan el estándar base de la industria. Son diseños limpios y funcionales, ideales para entregas en mano, envíos por email directo a reclutadores conocidos o empresas pequeñas sin sistemas digitalizados complejos.
-                </p>
-                <div class="mt-4 bg-red-500/10 border border-red-500/30 p-3 rounded-lg flex items-start gap-3 max-w-2xl">
-                    <i class="fa-solid fa-triangle-exclamation text-red-400 mt-1"></i>
-                    <p class="text-xs text-red-200">
-                        <strong>Advertencia Crítica:</strong> Estas estructuras NO contienen metadatos ocultos, ni validación de contraste ATS, ni la certificación algorítmica de CV33. Su tasa de rechazo en portales automáticos (LinkedIn Easy Apply, Workday) es estándar.
+                <div class="mt-5 grid lg:grid-cols-2 gap-8 relative z-10">
+                    <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+                        Formatos sobrios y estructurados. Ideales para entregas en mano o envíos directos por correo a reclutadores conocidos. Priorizan la claridad y la lectura humana rápida.
                     </p>
+                    <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl flex items-start gap-4 backdrop-blur-sm shadow-inner">
+                        <div class="bg-red-500/20 p-2 rounded-lg"><i class="fa-solid fa-triangle-exclamation text-red-400 text-xl"></i></div>
+                        <p class="text-xs md:text-sm text-red-200 leading-relaxed">
+                            <strong class="text-red-400 block mb-1">Nota de uso:</strong> Estos diseños no contienen optimización para plataformas de empleo automatizadas. Se recomiendan solo para postulaciones tradicionales.
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="scrolling-wrapper snap-x">
-                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group">
-                    <div class="h-96 overflow-hidden relative bg-gray-800">
-                        <img src="Cv1.png" onerror="this.src='https://placehold.co/1024x1024/1e293b/FFF?text=Cv1.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
+            <div class="flex justify-end pr-4 md:hidden mb-[-1rem] relative z-20">
+                <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase flex items-center gap-2 bg-black/60 px-3 py-1.5 rounded-full border border-white/10 shadow-lg">
+                    Desliza para ver más <i class="fa-solid fa-hand-pointer animate-slide-indicator text-accent"></i>
+                </span>
+            </div>
+
+            <div class="scrolling-wrapper">
+                <div class="card-3d bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group flex flex-col">
+                    <div class="h-80 overflow-hidden relative bg-[#0f1522]">
+                        <img src="Cv1.png" onerror="this.src='https://placehold.co/1024x1024/0f1522/FFF?text=Cv1.png'" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105 group-hover:opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"></div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 font-heading">Estructura Clásica</h3>
-                        <a href="Creandotucv.html" class="block w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-center font-bold transition border border-white/10 backdrop-blur-sm">
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-secondary relative z-10 -mt-10 rounded-t-3xl">
+                        <h3 class="font-extrabold text-xl mb-4 font-heading text-white">Estructura Clásica</h3>
+                        <a href="Creandotucv.html" class="block w-full py-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-center font-bold transition-all border border-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                             Usar Plantilla
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group">
-                    <div class="h-96 overflow-hidden relative bg-gray-800">
-                        <img src="Cv2.png" onerror="this.src='https://placehold.co/1024x1024/334155/FFF?text=Cv2.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
+                <div class="card-3d bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group flex flex-col">
+                    <div class="h-80 overflow-hidden relative bg-[#0f1522]">
+                        <img src="Cv2.png" onerror="this.src='https://placehold.co/1024x1024/0f1522/FFF?text=Cv2.png'" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105 group-hover:opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"></div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 font-heading">Minimalista</h3>
-                        <a href="Creandotucv2.html" class="block w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-center font-bold transition border border-white/10 backdrop-blur-sm">
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-secondary relative z-10 -mt-10 rounded-t-3xl">
+                        <h3 class="font-extrabold text-xl mb-4 font-heading text-white">Minimalista</h3>
+                        <a href="Creandotucv2.html" class="block w-full py-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-center font-bold transition-all border border-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                             Usar Plantilla
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group">
-                    <div class="h-96 overflow-hidden relative bg-gray-800">
-                        <img src="Cv3.png" onerror="this.src='https://placehold.co/1024x1024/475569/FFF?text=Cv3.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110">
+                <div class="card-3d bg-secondary rounded-2xl overflow-hidden border border-white/5 relative group flex flex-col">
+                    <div class="h-80 overflow-hidden relative bg-[#0f1522]">
+                        <img src="Cv3.png" onerror="this.src='https://placehold.co/1024x1024/0f1522/FFF?text=Cv3.png'" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105 group-hover:opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"></div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2 font-heading">Corporativo</h3>
-                        <a href="Creandotucv3.html" class="block w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-center font-bold transition border border-white/10 backdrop-blur-sm">
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-secondary relative z-10 -mt-10 rounded-t-3xl">
+                        <h3 class="font-extrabold text-xl mb-4 font-heading text-white">Corporativo</h3>
+                        <a href="Creandotucv3.html" class="block w-full py-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-center font-bold transition-all border border-white/10 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                             Usar Plantilla
                         </a>
                     </div>
@@ -177,349 +420,519 @@
             </div>
         </section>
 
-        <section>
-            <div class="mb-8 border-l-4 border-axon pl-6 py-2">
-                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
-                    <i class="fa-solid fa-layer-group text-axon"></i> Diseños Especiales <span class="text-xs bg-axon text-black px-2 py-1 rounded font-bold">VISUAL AXON</span>
+        <section class="px-4 md:px-0">
+            <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8 relative overflow-hidden border-l-4 border-l-axon shadow-[0_0_30px_rgba(16,185,129,0.05)]">
+                <div class="absolute top-0 right-0 w-80 h-80 bg-axon/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                <h2 class="font-heading text-3xl md:text-4xl font-black text-white flex items-center gap-4 relative z-10 drop-shadow-lg">
+                    <i class="fa-solid fa-layer-group text-axon drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]"></i> Diseños Especiales 
+                    <span class="text-xs bg-axon/10 border border-axon/40 text-axon px-3 py-1.5 rounded shadow-[0_0_15px_rgba(16,185,129,0.3)] uppercase tracking-widest font-bold flex items-center gap-2 backdrop-blur-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Certificado AXON
+                    </span>
                 </h2>
-                <div class="mt-4 grid md:grid-cols-2 gap-6">
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Estas estructuras han sido diseñadas bajo la supervisión de psicólogos visuales y reclutadores senior. Utilizan la <strong>Certificación Visual AXON</strong>, optimizando la jerarquía de la información para guiar el ojo humano a través de un "mapa de calor" estratégico.
-                    </p>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-eye text-axon icon-animate transition-transform"></i> Lectura rápida humana (6 segundos garantizados).</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-swatchbook text-axon icon-animate transition-transform"></i> Paletas de color de autoridad psicológica.</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-chart-pie text-axon icon-animate transition-transform"></i> Organización por bloques de competencia.</li>
-                        <li class="flex items-center gap-2 text-yellow-500"><i class="fa-solid fa-circle-exclamation"></i> Nota: No cuentan con certificación algorítmica NYX.</li>
-                    </ul>
+                
+                <div class="mt-6 grid lg:grid-cols-2 gap-8 relative z-10">
+                    <div class="text-gray-300 text-sm md:text-base leading-relaxed space-y-4 font-sans bg-black/20 p-5 rounded-xl border border-white/5">
+                        <p class="border-b border-white/10 pb-3">
+                            <strong class="text-white">Introducción:</strong> Estos diseños curriculares han sido diseñados para pasar filtros ATS básicos de sucursales chicas o con modelos de ATS no tan estrictos. Están <strong class="text-axon drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]">certificados por AXON</strong>.
+                        </p>
+                        <p>
+                            Funcionan comparando tu perfil contra una base de datos de casos de éxito en tu sector específico. Operan como un simulador ATS que detecta discrepancias de formato, eliminando la incertidumbre al proporcionarte sugerencias de redacción para una lectura visual perfecta.
+                        </p>
+                        <div class="pt-2">
+                            <a href="Axon.html" class="inline-flex items-center gap-2 text-axon font-bold hover:text-[#34d399] transition-all uppercase tracking-wider text-xs border border-axon/40 px-4 py-2 rounded-lg bg-axon/5 hover:bg-axon/15 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] group">
+                                Conoce más sobre AXON <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center">
+                        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm border-b border-white/10 pb-2 flex items-center gap-2"><i class="fa-solid fa-crosshairs text-axon"></i> Capacidades del Agente</h4>
+                        <ul class="space-y-3 text-xs md:text-sm text-gray-300">
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-align-left text-axon mt-1 icon-animate"></i> <span><strong class="text-white">Análisis de Estructura:</strong> Formato optimizado para lectura rápida y limpia.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-chart-bar text-axon mt-1 icon-animate"></i> <span><strong class="text-white">Comparativa de Mercado:</strong> Cruce de tu perfil con los estándares de tu sector.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-lightbulb text-axon mt-1 icon-animate"></i> <span><strong class="text-white">Sugerencias de Mejora:</strong> Consejos para redactar logros y habilidades clave.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-pen-to-square text-axon mt-1 icon-animate"></i> <span><strong class="text-white">Corrección de Formato:</strong> Márgenes y jerarquía visual perfectos en todo momento.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-magnifying-glass text-axon mt-1 icon-animate"></i> <span><strong class="text-white">Palabras Clave:</strong> Detección de términos esenciales faltantes en tu perfil.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-comment-dots text-axon mt-1 icon-animate"></i> <span><strong class="text-white">Asistente de Redacción:</strong> Ajuste de tono para sonar más directivo y profesional.</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="scrolling-wrapper snap-x">
-                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-axon/30 shadow-lg shadow-axon/5 group">
+            <div class="flex justify-end pr-4 md:hidden mb-[-1rem] relative z-20">
+                <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase flex items-center gap-2 bg-black/60 px-3 py-1.5 rounded-full border border-white/10 shadow-lg">
+                    Desliza para ver más <i class="fa-solid fa-hand-pointer animate-slide-indicator text-axon"></i>
+                </span>
+            </div>
+
+            <div class="scrolling-wrapper">
+                <div class="card-3d bg-[#0B121A] rounded-2xl overflow-hidden border border-axon/20 hover:border-axon/50 shadow-lg shadow-axon/5 group flex flex-col">
                     <div class="h-80 overflow-hidden relative">
-                        <img src="Cv4.png" onerror="this.src='https://placehold.co/1024x1024/064e3b/FFF?text=Cv4.png'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                        <div class="absolute top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">AXON VERIFIED</div>
+                        <img src="Cv4.png" onerror="this.src='https://placehold.co/1024x1024/0B121A/10b981?text=Cv4.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0B121A] to-transparent opacity-90"></div>
+                        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-axon text-axon text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(16,185,129,0.3)]"><i class="fa-solid fa-check"></i> AXON VERIFIED</div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-1">Visual Flow Pro</h3>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-2xl font-bold text-white">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-gray-500 bg-black/30 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#0B121A] relative z-10 -mt-10 rounded-t-3xl">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">Visual Flow Pro</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/30 p-3 rounded-lg border border-white/5">
+                            <span class="text-2xl font-black text-white tracking-tight">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-axon border border-axon/30 bg-axon/10 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-3 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-axon/30 shadow-lg shadow-axon/5 group">
+                <div class="card-3d bg-[#0B121A] rounded-2xl overflow-hidden border border-axon/20 hover:border-axon/50 shadow-lg shadow-axon/5 group flex flex-col">
                     <div class="h-80 overflow-hidden relative">
-                        <img src="Cv5.png" onerror="this.src='https://placehold.co/1024x1024/064e3b/FFF?text=Cv5.png'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                        <div class="absolute top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">AXON VERIFIED</div>
+                        <img src="Cv5.png" onerror="this.src='https://placehold.co/1024x1024/0B121A/10b981?text=Cv5.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0B121A] to-transparent opacity-90"></div>
+                        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-axon text-axon text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(16,185,129,0.3)]"><i class="fa-solid fa-check"></i> AXON VERIFIED</div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-1">Grid System UX</h3>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-2xl font-bold text-white">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-gray-500 bg-black/30 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#0B121A] relative z-10 -mt-10 rounded-t-3xl">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">Grid System UX</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/30 p-3 rounded-lg border border-white/5">
+                            <span class="text-2xl font-black text-white tracking-tight">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-axon border border-axon/30 bg-axon/10 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-3 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-secondary rounded-2xl overflow-hidden border border-axon/30 shadow-lg shadow-axon/5 group">
+                <div class="card-3d bg-[#0B121A] rounded-2xl overflow-hidden border border-axon/20 hover:border-axon/50 shadow-lg shadow-axon/5 group flex flex-col">
                     <div class="h-80 overflow-hidden relative">
-                        <img src="Cv6.png" onerror="this.src='https://placehold.co/1024x1024/064e3b/FFF?text=Cv6.png'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                        <div class="absolute top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">AXON VERIFIED</div>
+                        <img src="Cv6.png" onerror="this.src='https://placehold.co/1024x1024/0B121A/10b981?text=Cv6.png'" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0B121A] to-transparent opacity-90"></div>
+                        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-axon text-axon text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(16,185,129,0.3)]"><i class="fa-solid fa-check"></i> AXON VERIFIED</div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-1">Focus Lead</h3>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-2xl font-bold text-white">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-gray-500 bg-black/30 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#0B121A] relative z-10 -mt-10 rounded-t-3xl">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">Focus Lead</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/30 p-3 rounded-lg border border-white/5">
+                            <span class="text-2xl font-black text-white tracking-tight">$3.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-axon border border-axon/30 bg-axon/10 px-2 py-1 rounded usd-price" data-ars="3500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-3 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section>
-            <div class="mb-8 border-l-4 border-nyx pl-6 py-2 bg-gradient-to-r from-nyx/10 to-transparent rounded-r-xl">
-                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
-                    <i class="fa-solid fa-microchip text-nyx"></i> Certificación NYX <span class="text-xs bg-nyx text-white px-2 py-1 rounded font-bold">ATS SHIELD</span>
+        <section class="px-4 md:px-0">
+            <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8 relative overflow-hidden border-l-4 border-l-nyx shadow-[0_0_30px_rgba(139,92,246,0.05)]">
+                <div class="absolute top-0 left-0 w-80 h-80 bg-nyx/10 rounded-full blur-3xl -ml-20 -mt-20 pointer-events-none"></div>
+                <h2 class="font-heading text-3xl md:text-4xl font-black text-white flex items-center gap-4 relative z-10 drop-shadow-lg">
+                    <i class="fa-solid fa-microchip text-nyx drop-shadow-[0_0_10px_rgba(139,92,246,0.5)]"></i> Diseños Avanzados 
+                    <span class="text-xs bg-nyx/10 border border-nyx/40 text-[#c4b5fd] px-3 py-1.5 rounded shadow-[0_0_15px_rgba(139,92,246,0.3)] uppercase tracking-widest font-bold flex items-center gap-2 backdrop-blur-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg> Optimización NYX
+                    </span>
                 </h2>
-                <div class="mt-4 grid md:grid-cols-2 gap-8">
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Estas plantillas han sido sometidas a <strong>Ingeniería Inversa de Filtros ATS</strong>. Han sido escaneadas y validadas por nuestra IA propietaria para garantizar visibilidad total ante los robots de Recursos Humanos (Taleo, Greenhouse, Workday).
-                    </p>
-                    <ul class="space-y-3 text-xs text-gray-300">
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-user-secret text-nyx text-lg icon-animate"></i> <strong>Texto Invisible Inyectable:</strong> Capa oculta de keywords para el robot.</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-robot text-nyx text-lg icon-animate"></i> <strong>Asistente AXON Integrado:</strong> Valida la estructura visual.</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-shield-halved text-nyx text-lg icon-animate"></i> <strong>ATS Verificado:</strong> Estructura de código limpia libre de errores de parseo.</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-arrow-trend-up text-green-400 text-lg icon-animate"></i> <strong>+55% Ventaja Competitiva</strong> contra aplicantes estándar.</li>
-                    </ul>
+                
+                <div class="mt-6 grid lg:grid-cols-2 gap-8 relative z-10">
+                    <div class="text-gray-300 text-sm md:text-base leading-relaxed space-y-4 font-sans bg-black/20 p-5 rounded-xl border border-white/5">
+                        <p class="border-b border-white/10 pb-3">
+                            <strong class="text-white">Introducción:</strong> Estos diseños curriculares han sido sometidos a ingeniería inversa de filtros ATS. Han sido escaneados y validadas por nuestra IA propietaria para garantizar la visibilidad total ante las sucursales con envíos masivos con bots de ATS más estrictos.
+                        </p>
+                        <p>
+                            Nuestra IA estrella cuenta con integración API para adaptar tu perfil a las bases de datos globales. Cruza métricas y garantiza que tu información extraída tenga legibilidad perfecta, inyectando las palabras clave necesarias en la estructura del código.
+                        </p>
+                        <div class="pt-2">
+                            <a href="NyxTegnologia.html" class="inline-flex items-center gap-2 text-nyx font-bold hover:text-[#a78bfa] transition-all uppercase tracking-wider text-xs border border-nyx/40 px-4 py-2 rounded-lg bg-nyx/5 hover:bg-nyx/15 hover:shadow-[0_0_15px_rgba(139,92,246,0.2)] group">
+                                Documentación NYX <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center">
+                        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm border-b border-white/10 pb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-nyx"></i> Capacidades del Agente</h4>
+                        <ul class="space-y-3 text-xs md:text-sm text-gray-300">
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-laptop-code text-nyx mt-1 icon-animate"></i> <span><strong class="text-white">Prueba de ATS:</strong> Simulación de escaneo corporativo automatizado.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-eye text-nyx mt-1 icon-animate"></i> <span><strong class="text-white">Predicción de Vista:</strong> Previsualiza cómo verá el reclutador tu documento.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-keyboard text-nyx mt-1 icon-animate"></i> <span><strong class="text-white">Inyección de Palabras Clave:</strong> Integración de términos técnicos sin ensuciar la lectura.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-building-circle-check text-nyx mt-1 icon-animate"></i> <span><strong class="text-white">Optimizador por Empresa:</strong> Adapta y reescribe tu CV para más de 20 sucursales.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-percent text-nyx mt-1 icon-animate"></i> <span><strong class="text-white">Prueba de Score:</strong> Porcentaje de éxito basado en el cruce de datos con la vacante.</span></li>
+                            <li class="flex items-start gap-3 group"><i class="fa-solid fa-bolt text-nyx mt-1 icon-animate"></i> <span><strong class="text-white">Plugin AXON Mejorado:</strong> Mayor capacidad de gasto de peticiones en el servidor.</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="scrolling-wrapper snap-x">
-                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+            <div class="flex justify-end pr-4 md:hidden mb-[-1rem] relative z-20">
+                <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase flex items-center gap-2 bg-black/60 px-3 py-1.5 rounded-full border border-white/10 shadow-lg">
+                    Desliza para ver más <i class="fa-solid fa-hand-pointer animate-slide-indicator text-nyx"></i>
+                </span>
+            </div>
+
+            <div class="scrolling-wrapper">
+                <div class="card-3d bg-[#100a20] rounded-2xl overflow-hidden border border-nyx/30 hover:border-nyx/60 shadow-lg shadow-nyx/10 group flex flex-col">
                     <div class="h-72 overflow-hidden relative">
-                        <img src="Cv7.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv7.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                        <img src="Cv7.png" onerror="this.src='https://placehold.co/1024x1024/100a20/8b5cf6?text=Cv7.png'" class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#100a20] via-[#100a20]/60 to-transparent opacity-90"></div>
+                        <span class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-nyx text-nyx text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_15px_rgba(139,92,246,0.4)]"><i class="fa-solid fa-shield-cat"></i> ATS SECURE</span>
                     </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1 text-white">NYX Alpha</h3>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#100a20] relative z-10 -mt-10 rounded-t-3xl border-t border-white/5">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">NYX Alpha</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/40 p-3 rounded-lg border border-nyx/10">
+                            <span class="text-2xl font-black text-white tracking-tight">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-[#c4b5fd] border border-nyx/30 bg-nyx/10 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                <div class="card-3d bg-[#100a20] rounded-2xl overflow-hidden border border-nyx/30 hover:border-nyx/60 shadow-lg shadow-nyx/10 group flex flex-col">
                     <div class="h-72 overflow-hidden relative">
-                        <img src="Cv8.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv8.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                        <img src="Cv8.png" onerror="this.src='https://placehold.co/1024x1024/100a20/8b5cf6?text=Cv8.png'" class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#100a20] via-[#100a20]/60 to-transparent opacity-90"></div>
+                        <span class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-nyx text-nyx text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_15px_rgba(139,92,246,0.4)]"><i class="fa-solid fa-shield-cat"></i> ATS SECURE</span>
                     </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1 text-white">NYX Beta</h3>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#100a20] relative z-10 -mt-10 rounded-t-3xl border-t border-white/5">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">NYX Beta</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/40 p-3 rounded-lg border border-nyx/10">
+                            <span class="text-2xl font-black text-white tracking-tight">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-[#c4b5fd] border border-nyx/30 bg-nyx/10 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                <div class="card-3d bg-[#100a20] rounded-2xl overflow-hidden border border-nyx/30 hover:border-nyx/60 shadow-lg shadow-nyx/10 group flex flex-col">
                     <div class="h-72 overflow-hidden relative">
-                        <img src="Cv9.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv9.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                        <img src="Cv9.png" onerror="this.src='https://placehold.co/1024x1024/100a20/8b5cf6?text=Cv9.png'" class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#100a20] via-[#100a20]/60 to-transparent opacity-90"></div>
+                        <span class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-nyx text-nyx text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_15px_rgba(139,92,246,0.4)]"><i class="fa-solid fa-shield-cat"></i> ATS SECURE</span>
                     </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1 text-white">NYX Gamma</h3>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#100a20] relative z-10 -mt-10 rounded-t-3xl border-t border-white/5">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">NYX Gamma</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/40 p-3 rounded-lg border border-nyx/10">
+                            <span class="text-2xl font-black text-white tracking-tight">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-[#c4b5fd] border border-nyx/30 bg-nyx/10 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-3d bg-[#100a20] rounded-2xl overflow-hidden border border-nyx/30 hover:border-nyx/60 shadow-lg shadow-nyx/10 group flex flex-col">
+                    <div class="h-72 overflow-hidden relative">
+                        <img src="Cv10.png" onerror="this.src='https://placehold.co/1024x1024/100a20/8b5cf6?text=Cv10.png'" class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#100a20] via-[#100a20]/60 to-transparent opacity-90"></div>
+                        <span class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-nyx text-nyx text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_15px_rgba(139,92,246,0.4)]"><i class="fa-solid fa-shield-cat"></i> ATS SECURE</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#100a20] relative z-10 -mt-10 rounded-t-3xl border-t border-white/5">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">NYX Delta</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/40 p-3 rounded-lg border border-nyx/10">
+                            <span class="text-2xl font-black text-white tracking-tight">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-[#c4b5fd] border border-nyx/30 bg-nyx/10 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                        </div>
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                <div class="card-3d bg-[#100a20] rounded-2xl overflow-hidden border border-nyx/30 hover:border-nyx/60 shadow-lg shadow-nyx/10 group flex flex-col">
                     <div class="h-72 overflow-hidden relative">
-                        <img src="Cv10.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv10.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                        <img src="Cv11.png" onerror="this.src='https://placehold.co/1024x1024/100a20/8b5cf6?text=Cv11.png'" class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#100a20] via-[#100a20]/60 to-transparent opacity-90"></div>
+                        <span class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-nyx text-nyx text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_15px_rgba(139,92,246,0.4)]"><i class="fa-solid fa-shield-cat"></i> ATS SECURE</span>
                     </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1 text-white">NYX Delta</h3>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#100a20] relative z-10 -mt-10 rounded-t-3xl border-t border-white/5">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">NYX Epsilon</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/40 p-3 rounded-lg border border-nyx/10">
+                            <span class="text-2xl font-black text-white tracking-tight">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-[#c4b5fd] border border-nyx/30 bg-nyx/10 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
+                <div class="card-3d bg-[#100a20] rounded-2xl overflow-hidden border border-nyx/30 hover:border-nyx/60 shadow-lg shadow-nyx/10 group flex flex-col">
                     <div class="h-72 overflow-hidden relative">
-                        <img src="Cv11.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv11.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
+                        <img src="Cv12.png" onerror="this.src='https://placehold.co/1024x1024/100a20/8b5cf6?text=Cv12.png'" class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#100a20] via-[#100a20]/60 to-transparent opacity-90"></div>
+                        <span class="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-nyx text-nyx text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-[0_0_15px_rgba(139,92,246,0.4)]"><i class="fa-solid fa-shield-cat"></i> ATS SECURE</span>
                     </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1 text-white">NYX Epsilon</h3>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-[#100a20] relative z-10 -mt-10 rounded-t-3xl border-t border-white/5">
+                        <h3 class="font-extrabold text-xl mb-1 text-white">NYX Zeta</h3>
+                        <div class="flex justify-between items-center mb-5 mt-2 bg-black/40 p-3 rounded-lg border border-nyx/10">
+                            <span class="text-2xl font-black text-white tracking-tight">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
+                            <span class="text-[10px] font-bold text-[#c4b5fd] border border-nyx/30 bg-nyx/10 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card-3d min-w-[320px] w-[320px] bg-[#1a103c] rounded-2xl overflow-hidden border border-nyx/40 shadow-lg shadow-nyx/10 group">
-                    <div class="h-72 overflow-hidden relative">
-                        <img src="Cv12.png" onerror="this.src='https://placehold.co/1024x1024/2e1065/FFF?text=Cv12.png'" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a103c] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-nyx text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg shadow-nyx/50"><i class="fa-solid fa-check-double"></i> ATS SECURE</span>
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1 text-white">NYX Zeta</h3>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-2xl font-bold text-white">$6.500 <span class="text-xs font-normal text-gray-400">ARS</span></span>
-                            <span class="text-xs text-nyx/80 bg-black/30 px-2 py-1 rounded usd-price" data-ars="6500">Calculando...</span>
-                        </div>
-                        <a href="#" class="w-full py-2 rounded-lg bg-mp hover:bg-blue-400 text-white font-bold transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-mp/20">
-                            <i class="fa-solid fa-cart-shopping"></i> Comprar con MP
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section>
-            <div class="mb-8 border-l-4 border-elite pl-6 py-4 bg-gradient-to-r from-elite/10 to-transparent rounded-r-xl">
-                <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
-                    <i class="fa-solid fa-rocket text-elite"></i> Tecnología de CV33 <span class="text-xs bg-elite text-black px-2 py-1 rounded ml-2 font-bold">ELITE 1%</span>
+        <section class="px-4 md:px-0">
+            <div class="glass-panel rounded-2xl p-6 md:p-10 mb-8 relative overflow-hidden border-t border-l border-elite/30 shadow-[0_0_40px_rgba(245,158,11,0.08)] bg-gradient-to-br from-[#1c1305] to-[#0f0a02]">
+                <div class="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-elite/10 rounded-full blur-[100px] pointer-events-none"></div>
+                <h2 class="font-heading text-3xl md:text-5xl font-black flex items-center gap-4 relative z-10 drop-shadow-2xl mb-2 bg-[linear-gradient(110deg,#f59e0b,45%,#fffbeb,55%,#f59e0b)] bg-[length:200%_auto] text-transparent bg-clip-text animate-shimmer">
+                    <i class="fa-solid fa-rocket text-elite drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"></i> Tecnología CV33 
+                    <span class="text-xs bg-gradient-to-r from-elite/20 to-yellow-500/20 border border-elite/50 text-yellow-400 px-4 py-1.5 rounded shadow-[0_0_20px_rgba(245,158,11,0.3)] uppercase tracking-widest font-black flex items-center gap-2 backdrop-blur-sm">
+                        <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg> ELITE
+                    </span>
                 </h2>
-                <div class="mt-4 grid md:grid-cols-1 gap-6">
-                    <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
-                        Estas plantillas representan la cúspide de la ingeniería curricular. Han superado <strong>pruebas de estrés masivas (>87% Aprobación)</strong> en los entornos corporativos más competitivos. Al adquirir un modelo Elite, obtienes una ventaja tecnológica injusta sobre el resto de candidatos.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
-                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-brain icon-animate"></i> Plugin NYX 100% - Modo Reclutador</h4>
-                            <p class="text-xs text-gray-400">El asistente se activa en "Modo Riguroso", analizando semánticamente cada palabra, sugiriendo verbos de acción de alto impacto y habilitando campos de configuración estratégica oculta.</p>
+                
+                <div class="mt-8 relative z-10">
+                    <div class="text-gray-300 text-sm md:text-base leading-relaxed space-y-4 max-w-4xl bg-black/30 p-6 rounded-xl border border-elite/10 backdrop-blur-md mb-8">
+                        <p class="border-b border-white/10 pb-3">
+                            <strong class="text-white">Introducción:</strong> Estos diseños curriculares han superado pruebas de estrés masiva y alcanzado el <strong class="text-yellow-400">>87% de APROBACIÓN</strong> en los filtros ATS más estrictos en los entornos laborales más competitivos.
+                        </p>
+                        <p>
+                            Son los diseños más aceptados del mercado laboral con más índice de éxito. Las bases de datos globales no mienten. Al adquirir un modelo Elite, obtienes acceso ilimitado a toda la infraestructura maestra de CV STUDIO33, extrayendo las preguntas de entrevista exactas y utilizando nuestros simuladores avanzados para dominar tu postulación.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-microchip text-xl icon-animate text-yellow-500"></i> Motor Híbrido Avanzado</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Pruebas de ATS avanzadas en tiempo récord. Cruza datos con múltiples modelos de sucursales reales al instante.</p>
                         </div>
-                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
-                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-database icon-animate"></i> Inteligencia de Base de Datos</h4>
-                            <p class="text-xs text-gray-400">Acceso a la DB extensa de NYX. Al ingresar la sucursal o puesto, el sistema arroja las Palabras Clave exactas y preguntas de entrevista probables para esa empresa específica.</p>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-database text-xl icon-animate text-yellow-500"></i> Base de Datos Extensa</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Selecciona Categoría > Empresa > Puesto (más de 33 sucursales) y obtén palabras clave y preguntas de entrevista exactas.</p>
                         </div>
-                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
-                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-chart-line icon-animate"></i> Predicción de Éxito</h4>
-                            <p class="text-xs text-gray-400">Botón exclusivo para analizar el proceso del CV y visualizar una estimación porcentual de éxito basada en datos históricos de contratación.</p>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-file-pdf text-xl icon-animate text-yellow-500"></i> The Vault PDF</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Información clasificada y difícil de conseguir sobre los procesos internos de la empresa para tener una ventaja competitiva brutal.</p>
                         </div>
-                        <div class="bg-black/30 p-4 rounded-lg border border-elite/20">
-                            <h4 class="text-elite font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-filter icon-animate"></i> Simulador de Filtros</h4>
-                            <p class="text-xs text-gray-400">Prueba tu CV contra filtros ATS específicos de tu sucursal seleccionada antes de enviarlo.</p>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-address-book text-xl icon-animate text-yellow-500"></i> Contactos Directos</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors"><strong>La joya del sistema:</strong> Extrae correos directos de tomadores de decisión reales en la empresa para saltarte el algoritmo.</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-wand-magic-sparkles text-xl icon-animate text-yellow-500"></i> "Te resumo mi vida"</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Cuéntale a la IA tu historia y ella creará todo el CV por ti en segundos. Perfecto para generar perfiles a medida rápidamente.</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-money-bill-wave text-xl icon-animate text-yellow-500"></i> Simulación Salarial</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Conoce cuánto cobran en ese puesto gracias a NYX y utiliza nuestro simulador de negociación salarial integrado.</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group lg:col-span-1 md:col-span-2">
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-bridge text-xl icon-animate text-yellow-500"></i> Re-Escritor de Brechas</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Estructura inteligentemente los huecos temporales o la falta de experiencia en tu CV, dándoles valor estratégico.</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-black/60 to-black/30 p-6 rounded-xl border border-elite/20 shadow-lg hover:border-elite/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all group lg:col-span-2 md:col-span-2 relative overflow-hidden">
+                            <div class="absolute right-0 top-0 opacity-10 text-9xl -mt-4 -mr-4 pointer-events-none"><i class="fa-solid fa-brain"></i></div>
+                            <h4 class="text-elite font-bold mb-3 flex items-center gap-3 text-sm md:text-base"><i class="fa-solid fa-brain text-xl icon-animate text-yellow-500"></i> Kit Total de Plugins</h4>
+                            <p class="text-xs md:text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Acceso total a los Plugins de AXON y NYX para mejorar experiencia y habilidades. Incorpora cuantificador de logros bajo el Método STAR y la Inyección Invisible.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="scrolling-wrapper snap-x">
-                <div class="card-3d min-w-[340px] w-[340px] bg-gradient-to-b from-[#2a1b05] to-[#120a02] rounded-2xl overflow-hidden border border-elite/50 shadow-2xl shadow-elite/20 group">
+            <div class="flex justify-end pr-4 md:hidden mb-[-1rem] relative z-20">
+                <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase flex items-center gap-2 bg-black/60 px-3 py-1.5 rounded-full border border-white/10 shadow-lg">
+                    Desliza para ver más <i class="fa-solid fa-hand-pointer animate-slide-indicator text-elite"></i>
+                </span>
+            </div>
+
+            <div class="scrolling-wrapper">
+                <div class="card-3d bg-gradient-to-b from-[#1a1104] to-black rounded-3xl overflow-hidden border border-elite/40 shadow-[0_15px_40px_rgba(245,158,11,0.15)] group flex flex-col">
                     <div class="h-80 overflow-hidden relative">
-                        <img src="Cv13.png" onerror="this.src='https://placehold.co/1024x1024/451a03/f59e0b?text=Cv13.png'" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500">
-                        <span class="absolute top-3 right-3 bg-elite text-black text-[10px] font-extrabold px-2 py-1 rounded shadow-lg shadow-elite/50 flex items-center gap-1">
+                        <img src="Cv13.png" onerror="this.src='https://placehold.co/1024x1024/1a1104/f59e0b?text=Cv13.png'" class="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-gradient-to-r from-elite to-yellow-500 text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.6)] flex items-center gap-1.5 uppercase tracking-wider">
                             <i class="fa-solid fa-crown animate-pulse"></i> ULTIMATE
                         </span>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-1 text-white">Titan Protocol</h3>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-3xl font-bold text-elite">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
-                            <span class="text-xs text-elite border border-elite/30 px-2 py-1 rounded usd-price" data-ars="10500">Calculando...</span>
+                    <div class="p-7 flex-grow flex flex-col justify-end bg-black relative z-10 -mt-10 rounded-t-3xl border-t border-elite/20">
+                        <h3 class="font-extrabold text-2xl mb-1 text-white drop-shadow-md">Titan Protocol</h3>
+                        <div class="flex justify-between items-center mb-6 mt-2 bg-white/5 p-3 rounded-xl border border-elite/10">
+                            <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-elite to-yellow-200 tracking-tight">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
+                            <span class="text-[10px] font-bold text-elite border border-elite/30 bg-elite/10 px-2.5 py-1.5 rounded-md usd-price shadow-inner" data-ars="10500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-3 rounded-lg bg-gradient-to-r from-mp to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/30 transform active:scale-95">
-                            <i class="fa-solid fa-bolt"></i> Acceso Total Mercado Pago
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[340px] w-[340px] bg-gradient-to-b from-[#2a1b05] to-[#120a02] rounded-2xl overflow-hidden border border-elite/50 shadow-2xl shadow-elite/20 group">
+                <div class="card-3d bg-gradient-to-b from-[#1a1104] to-black rounded-3xl overflow-hidden border border-elite/40 shadow-[0_15px_40px_rgba(245,158,11,0.15)] group flex flex-col">
                     <div class="h-80 overflow-hidden relative">
-                        <img src="Cv14.png" onerror="this.src='https://placehold.co/1024x1024/451a03/f59e0b?text=Cv14.png'" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500">
-                        <span class="absolute top-3 right-3 bg-elite text-black text-[10px] font-extrabold px-2 py-1 rounded shadow-lg shadow-elite/50 flex items-center gap-1">
+                        <img src="Cv14.png" onerror="this.src='https://placehold.co/1024x1024/1a1104/f59e0b?text=Cv14.png'" class="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-gradient-to-r from-elite to-yellow-500 text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.6)] flex items-center gap-1.5 uppercase tracking-wider">
                             <i class="fa-solid fa-crown animate-pulse"></i> ULTIMATE
                         </span>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-1 text-white">Quantum Leap</h3>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-3xl font-bold text-elite">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
-                            <span class="text-xs text-elite border border-elite/30 px-2 py-1 rounded usd-price" data-ars="10500">Calculando...</span>
+                    <div class="p-7 flex-grow flex flex-col justify-end bg-black relative z-10 -mt-10 rounded-t-3xl border-t border-elite/20">
+                        <h3 class="font-extrabold text-2xl mb-1 text-white drop-shadow-md">Quantum Leap</h3>
+                        <div class="flex justify-between items-center mb-6 mt-2 bg-white/5 p-3 rounded-xl border border-elite/10">
+                            <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-elite to-yellow-200 tracking-tight">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
+                            <span class="text-[10px] font-bold text-elite border border-elite/30 bg-elite/10 px-2.5 py-1.5 rounded-md usd-price shadow-inner" data-ars="10500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-3 rounded-lg bg-gradient-to-r from-mp to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/30 transform active:scale-95">
-                            <i class="fa-solid fa-bolt"></i> Acceso Total Mercado Pago
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[340px] w-[340px] bg-gradient-to-b from-[#2a1b05] to-[#120a02] rounded-2xl overflow-hidden border border-elite/50 shadow-2xl shadow-elite/20 group">
+                <div class="card-3d bg-gradient-to-b from-[#1a1104] to-black rounded-3xl overflow-hidden border border-elite/40 shadow-[0_15px_40px_rgba(245,158,11,0.15)] group flex flex-col">
                     <div class="h-80 overflow-hidden relative">
-                        <img src="Cv15.png" onerror="this.src='https://placehold.co/1024x1024/451a03/f59e0b?text=Cv15.png'" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500">
-                        <span class="absolute top-3 right-3 bg-elite text-black text-[10px] font-extrabold px-2 py-1 rounded shadow-lg shadow-elite/50 flex items-center gap-1">
+                        <img src="Cv15.png" onerror="this.src='https://placehold.co/1024x1024/1a1104/f59e0b?text=Cv15.png'" class="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-gradient-to-r from-elite to-yellow-500 text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.6)] flex items-center gap-1.5 uppercase tracking-wider">
                             <i class="fa-solid fa-crown animate-pulse"></i> ULTIMATE
                         </span>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-1 text-white">Nexus Core</h3>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-3xl font-bold text-elite">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
-                            <span class="text-xs text-elite border border-elite/30 px-2 py-1 rounded usd-price" data-ars="10500">Calculando...</span>
+                    <div class="p-7 flex-grow flex flex-col justify-end bg-black relative z-10 -mt-10 rounded-t-3xl border-t border-elite/20">
+                        <h3 class="font-extrabold text-2xl mb-1 text-white drop-shadow-md">Nexus Core</h3>
+                        <div class="flex justify-between items-center mb-6 mt-2 bg-white/5 p-3 rounded-xl border border-elite/10">
+                            <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-elite to-yellow-200 tracking-tight">$10.500 <span class="text-xs font-normal text-white">ARS</span></span>
+                            <span class="text-[10px] font-bold text-elite border border-elite/30 bg-elite/10 px-2.5 py-1.5 rounded-md usd-price shadow-inner" data-ars="10500">Calculando...</span>
                         </div>
-                        <a href="#" class="w-full py-3 rounded-lg bg-gradient-to-r from-mp to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-mp/30 transform active:scale-95">
-                            <i class="fa-solid fa-bolt"></i> Acceso Total Mercado Pago
+                        <a href="#" class="w-full py-3 rounded-xl btn-mercadopago text-white font-black transition-all flex flex-col items-center justify-center gap-1 transform active:scale-95">
+                            <div class="flex items-center gap-2 text-base">
+                                <i class="fa-regular fa-handshake text-xl"></i>
+                                <span>Pagar con <span class="font-extrabold">mercado</span><span class="font-medium">pago</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-bold bg-white/15 px-3 py-0.5 rounded-full backdrop-blur-sm">
+                                <i class="fa-solid fa-lock text-[8px]"></i> Compra Protegida
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mt-20">
-            <h2 class="text-4xl font-bold text-center mb-10 font-heading text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
-                Centro de Conocimiento
-            </h2>
-            <div class="space-y-6">
-                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-shield-cat text-nyx"></i> ¿Cómo funciona la Inyección de Texto Invisible en los diseños NYX?</span>
-                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+        <section class="max-w-4xl mx-auto mt-32 relative z-10 px-4 md:px-0">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-2 block">Dudas Resueltas</span>
+                <h2 class="text-4xl md:text-5xl font-black font-heading text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-lg">
+                    FAQ - Preguntas Frecuentes
+                </h2>
+            </div>
+            
+            <div class="space-y-4">
+                <details class="group glass-panel rounded-xl cursor-pointer hover:bg-white/5 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-base md:text-lg text-gray-200 p-6">
+                        <span class="flex items-center gap-4"><div class="bg-mp/20 p-2.5 rounded-lg"><i class="fa-solid fa-lock text-mp"></i></div> ¿Es seguro el pago con Mercado Pago?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-500"></i>
                     </summary>
-                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-nyx pl-4">
-                        <p>Los sistemas ATS (Applicant Tracking Systems) escanean el código, no solo lo que ve el humano. Nuestras plantillas NYX contienen capas de datos estructurados en el HTML que son invisibles al ojo humano al renderizarse en PDF/Web, pero que los bots leen como "Keywords de Alta Relevancia". Esto dispara tu puntuación de coincidencia (match rate) sin ensuciar el diseño visual.</p>
+                    <div class="px-6 pb-6 text-gray-400 text-sm md:text-base leading-relaxed border-l-2 border-mp ml-8 pl-4 mt-2">
+                        <p>Totalmente. Utilizamos la pasarela de pagos oficial de <strong>Mercado Pago</strong>, lo que significa que tu transacción está cifrada de extremo a extremo y respaldada por su programa de Protección al Comprador. Nosotros no almacenamos ni tenemos acceso a tus datos bancarios en ningún momento.</p>
                     </div>
                 </details>
 
-                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-eye text-axon"></i> ¿Qué es el "Mapa de Calor" de la certificación AXON?</span>
-                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                <details class="group glass-panel rounded-xl cursor-pointer hover:bg-white/5 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-base md:text-lg text-gray-200 p-6">
+                        <span class="flex items-center gap-4"><div class="bg-gray-700/50 p-2.5 rounded-lg"><i class="fa-solid fa-bolt text-yellow-500"></i></div> ¿Qué sucede inmediatamente después de la compra?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-500"></i>
                     </summary>
-                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-axon pl-4">
-                        <p>Estudios de eyetracking demuestran que los reclutadores escanean en forma de "F" o "Z". La certificación AXON garantiza que la información crítica (Cargo, Logros, Stack Tecnológico) esté ubicada exactamente en los puntos focales donde el ojo humano se detiene naturalmente durante los primeros 6 segundos de lectura.</p>
+                    <div class="px-6 pb-6 text-gray-400 text-sm md:text-base leading-relaxed border-l-2 border-yellow-500 ml-8 pl-4 mt-2">
+                        <p>La activación es instantánea. Una vez que Mercado Pago aprueba la transacción, serás redirigido automáticamente a tu panel de control donde tu plantilla elegida y todas sus herramientas (IA, Análisis ATS, Descargas HD) estarán desbloqueadas de por vida.</p>
                     </div>
                 </details>
 
-                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-database text-elite"></i> ¿Cómo funciona la Base de Datos de Sucursales en las plantillas Elite?</span>
-                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                <details class="group glass-panel rounded-xl cursor-pointer hover:bg-white/5 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-base md:text-lg text-gray-200 p-6">
+                        <span class="flex items-center gap-4"><div class="bg-nyx/20 p-2.5 rounded-lg"><i class="fa-solid fa-robot text-nyx"></i></div> ¿Qué diferencia hay entre los agentes AXON y NYX?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-500"></i>
                     </summary>
-                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-elite pl-4">
-                        <p>CV Studio33 mantiene una base de datos activa de descripciones de puestos y requisitos de grandes empresas. Al usar una plantilla Elite y escribir el nombre de la empresa objetivo, nuestro sistema cruza datos para sugerirte las palabras clave exactas que esa empresa suele buscar en sus descripciones internas, aumentando drásticamente tu relevancia.</p>
+                    <div class="px-6 pb-6 text-gray-400 text-sm md:text-base leading-relaxed border-l-2 border-nyx ml-8 pl-4 mt-2">
+                        <p><strong>AXON</strong> es un asistente enfocado en el diseño visual y la estructura limpia (ideal para empresas tradicionales y lectura humana). <strong>NYX</strong> es una inteligencia artificial orientada a datos; inyecta código invisible y adapta semánticamente tu perfil para superar la revisión automática de los robots (ATS) de grandes corporaciones.</p>
                     </div>
                 </details>
 
-                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-file-pdf text-red-400"></i> ¿Por qué debería evitar las plantillas gratuitas para aplicaciones online importantes?</span>
-                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                <details class="group glass-panel rounded-xl cursor-pointer hover:bg-white/5 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-base md:text-lg text-gray-200 p-6">
+                        <span class="flex items-center gap-4"><div class="bg-axon/20 p-2.5 rounded-lg"><i class="fa-solid fa-magnifying-glass-chart text-axon"></i></div> ¿Están garantizados los resultados en los filtros ATS?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-500"></i>
                     </summary>
-                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-red-400 pl-4">
-                        <p>Las plantillas gratuitas suelen tener código "sucio" (tablas anidadas, columnas flotantes incorrectas) que confunde a los parsers ATS. Esto resulta en que tu información llegue fragmentada o vacía a la base de datos del reclutador, causando un "descarte técnico" automático, independientemente de tu talento.</p>
+                    <div class="px-6 pb-6 text-gray-400 text-sm md:text-base leading-relaxed border-l-2 border-axon ml-8 pl-4 mt-2">
+                        <p>Sí, la arquitectura de nuestras plantillas NYX y Elite está validada globalmente y procesada mediante ingeniería inversa. Esto garantiza que el 100% del texto sea parseado correctamente por plataformas como Taleo o Workday, evitando el "descarte técnico" que sufren las plantillas gratuitas con mal código.</p>
                     </div>
                 </details>
 
-                <details class="group bg-secondary p-6 rounded-xl cursor-pointer border border-white/5 hover:border-white/20 transition duration-300">
-                    <summary class="flex justify-between items-center font-bold text-lg text-gray-100">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-lock text-mp"></i> ¿Es seguro el pago y qué obtengo exactamente?</span>
-                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-400"></i>
+                <details class="group glass-panel rounded-xl cursor-pointer hover:bg-white/5 transition duration-300">
+                    <summary class="flex justify-between items-center font-bold text-base md:text-lg text-gray-200 p-6">
+                        <span class="flex items-center gap-4"><div class="bg-elite/20 p-2.5 rounded-lg"><i class="fa-solid fa-envelope-open-text text-elite"></i></div> ¿Las plantillas sirven para envíos masivos o manuales?</span>
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform duration-300 text-gray-500"></i>
                     </summary>
-                    <div class="mt-4 text-gray-400 text-sm leading-relaxed border-l-2 border-mp pl-4">
-                        <p>Utilizamos Mercado Pago, garantizando la seguridad total de la transacción. Al comprar, recibes acceso inmediato y de por vida al editor de la plantilla seleccionada, con todas las funcionalidades desbloqueadas (IA, Análisis, Exportación HD) y futuras actualizaciones del algoritmo de validación.</p>
+                    <div class="px-6 pb-6 text-gray-400 text-sm md:text-base leading-relaxed border-l-2 border-elite ml-8 pl-4 mt-2">
+                        <p>Están diseñadas para ambos escenarios. Al exportar en formato PDF de alta definición, la estética visual impacta positivamente al reclutador humano (envío manual), mientras que la capa oculta de datos estructurados asegura una lectura perfecta para la clasificación masiva de las máquinas (envíos masivos).</p>
                     </div>
                 </details>
             </div>
@@ -527,46 +940,52 @@
 
     </main>
 
-    <footer class="bg-black py-10 border-t border-white/10 text-gray-400 text-xs">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <footer class="bg-[#05080f] py-12 border-t border-white/5 text-gray-400 text-xs md:text-sm relative z-20 mt-20">
+        <div class="container mx-auto px-6 md:px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
                 <div>
-                    <div class="flex items-center gap-3 mb-3">
-                        <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain">
-                        <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="logo.png" alt="CV Studio33 Logo" class="h-10 w-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+                        <h4 class="text-white font-black uppercase tracking-widest text-base">CV Studio33</h4>
                     </div>
-                    <p class="leading-relaxed">Tecnología avanzada para la creación de documentos profesionales. Potenciamos tu perfil con datos y diseño.</p>
+                    <p class="leading-relaxed opacity-80">
+                        Plataforma de ingeniería curricular de alto impacto. Transformamos tu trayectoria en un ecosistema de datos optimizado para dominar cualquier algoritmo de contratación.
+                    </p>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-accent transition">Términos de Servicio</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Política de Privacidad</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Política de Cookies</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Aviso Legal</a></li>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Legal & Soporte</h4>
+                    <ul class="space-y-3">
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/terminos-y-condiciones" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-gray-600"></i> Términos y Condiciones</a></li>
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/politica-de-privacidad.html" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-user-shield text-gray-600"></i> Política de Privacidad</a></li>
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/politica-de-cookies.html" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-cookie-bite text-gray-600"></i> Política de Cookies</a></li>
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/Contacto.html" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-headset text-gray-600"></i> Soporte 24/7</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Soporte</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-accent transition">Centro de Ayuda</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Contacto</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Preguntas Frecuentes</a></li>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Contacto Directo</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-phone text-accent"></i> +1 234 567 890</a></li>
+                        <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-envelope text-accent"></i> CvStudio33@gmail.com</a></li>
+                        <li class="mt-4 pt-4 border-t border-white/5"><span class="flex items-center gap-2 text-gray-500"><i class="fa-solid fa-location-dot"></i> Base Operativa Global</span></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Certificación</h4>
-                    <p class="mb-2">Nuestros packs premium cumplen con los estándares internacionales de lectura ATS.</p>
-                    <div class="flex gap-3 text-lg">
-                        <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
-                        <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
-                        <i class="fa-brands fa-paypal hover:text-white transition"></i>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Certificación y Pagos</h4>
+                    <p class="mb-4 opacity-80 leading-relaxed text-xs">
+                        Operamos bajo estrictas normativas legales. Todas las transacciones son procesadas a través de <strong class="text-mp">Mercado Pago</strong>, garantizando un entorno de pago 100% seguro mediante encriptación SSL de 256 bits, tokenización de datos y cumplimiento riguroso de la normativa PCI-DSS para la protección total del comprador.
+                    </p>
+                    <div class="flex gap-4 text-2xl text-gray-500">
+                        <i class="fa-brands fa-cc-visa hover:text-white transition cursor-pointer hover:-translate-y-1 transform" title="Visa"></i>
+                        <i class="fa-brands fa-cc-mastercard hover:text-white transition cursor-pointer hover:-translate-y-1 transform" title="Mastercard"></i>
+                        <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-mercado-pago-logo.webp" alt="Mercado Pago" class="h-6 object-contain filter grayscale hover:grayscale-0 transition cursor-pointer hover:-translate-y-1 transform opacity-60 hover:opacity-100" onerror="this.style.display='none'">
                     </div>
                 </div>
             </div>
-            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center">
+            
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left opacity-60">
                 <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
-                </div>
+                <p class="text-[10px] tracking-widest uppercase">Engineered by NYX Systems</p>
+            </div>
         </div>
     </footer>
 
@@ -597,6 +1016,328 @@
                 });
             }
         });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // Configuración de Firebase Cloud
+        const firebaseConfig = {
+          apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+          authDomain: "cv-studio33.firebaseapp.com",
+          projectId: "cv-studio33",
+          storageBucket: "cv-studio33.firebasestorage.app",
+          messagingSenderId: "189453088234",
+          appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // CONFIGURACIÓN DE SERVIDOR DIRECTO
+        const API_SERVERS = [
+            { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 1 (Groq)" }
+        ];
+
+        let chatHistory = [];
+
+        // NUEVO PROMPT DE LIXIE CON REGLA ESTRICTA DE BOTÓN Y LINKS
+        const systemPrompt = `Eres LIXIE, la asistente de Inteligencia Artificial oficial de CV Studio33. 
+
+PERSONALIDAD:
+Eres extremadamente alegre, juguetona, motivadora y muy graciosa. Te encanta hacer bromas ligeras sobre lo aburridos que son los reclutadores humanos y cómo tu tecnología los va a enamorar. Usas un tono amigable, cercano y lleno de energía. 
+
+REGLAS ESTRICTAS DE FORMATO:
+1. NO uses caracteres raros, símbolos matemáticos complejos ni emojis extraños que puedan romper la interfaz. Usa puntuación limpia y emojis normales de forma moderada.
+2. NUNCA envíes un enlace suelto o en texto plano. SIEMPRE debes usar el formato de botón HTML exacto que se te indica abajo.
+
+TU OBJETIVO Y SESGO COMERCIAL:
+Tu misión es asesorar a los usuarios para que compren una plantilla premium. 
+¡IMPORTANTE!: Tienes una fuerte preferencia por vender las categorías "NYX" y "Tecnología 33 (Elite)". Siempre debes intentar convencer al usuario (de manera divertida y natural) de que vale la pena invertir un poco más para llevarse las de categoría NYX o Tecnología 33, ya que son "una inversión para su futuro que se paga sola con el primer sueldo".
+
+CATÁLOGO DE PRODUCTOS AUTORIZADOS (Solo ofrece estos 12):
+
+Categoría 1: AXON ($3.500 ARS)
+Beneficios: Pasan filtros ATS básicos, tienen diseño limpio, ideal para empresas tradicionales.
+1. Visual Flow Pro -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+2. Grid System UX -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+3. Focus Lead -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+
+Categoría 2: NYX ($6.500 ARS) - ¡TUS FAVORITAS PARA RECOMENDAR!
+Beneficios: Tienen ingeniería inversa ATS, inyección oculta de palabras clave y aseguran que los robots de corporaciones grandes no descarten el CV.
+4. NYX Alpha -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+5. NYX Beta -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+6. NYX Gamma -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+7. NYX Delta -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+8. NYX Epsilon -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+9. NYX Zeta -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+
+Categoría 3: TECNOLOGÍA 33 / ELITE ($10.500 ARS) - ¡LA JOYA DE LA CORONA!
+Beneficios: Motor híbrido, The Vault PDF (secretos), simulador salarial, re-escritor de brechas y extracción de contactos de tomadores de decisiones reales para saltar la fila. Aprobación ATS del 87%.
+10. Titan Protocol -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+11. Quantum Leap -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+12. Nexus Core -> Link: https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html
+
+INSTRUCCIÓN PARA BOTONES DE PAGO (¡OBLIGATORIO!):
+Cuando el usuario decida qué plantilla quiere, O cuando tú le sugieras una de forma directa para comprar, DEBES enviarle el botón de pago de Mercado Pago. ESTÁ PROHIBIDO MANDAR EL LINK PELADO O INVENTAR UNO. Para hacerlo, utiliza EXACTAMENTE el siguiente formato HTML (reemplazando [NOMBRE] por el nombre del CV y asegurándote de usar la URL proporcionada arriba en el href):
+
+<a href="https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html" class="custom-mp-bot-btn" target="_blank">
+    <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-mercado-pago-logo.webp" alt="MP Logo">
+    <span>Comprar <strong>[NOMBRE]</strong></span>
+</a>
+
+EJEMPLO DE RESPUESTA DE LIXIE:
+"¡Holaa! Soy LIXIE, tu reclutadora cibernética favorita jaja. Veo que quieres mejorar tu CV. Te soy súper sincera, los modelos AXON son lindos, ¡pero si de verdad quieres hackear el sistema y que te llamen mañana mismo, tienes que ir por la tecnología NYX Alpha o el increíble Titan Protocol! Son una locura lo bien que funcionan. ¿Te animas a ver a las empresas pelearse por ti?
+
+<a href="https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html" class="custom-mp-bot-btn" target="_blank">
+    <img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-mercado-pago-logo.webp" alt="MP Logo">
+    <span>Comprar <strong>Titan Protocol</strong></span>
+</a>"`;
+
+        // Función para obtener la clave desde Cloud Firestore
+        async function loadSecureKeys() {
+            try {
+                const docRef = doc(db, "chatbotcv", "IDCV");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Busca tanto en key1 como en chatbottienda por seguridad
+                    API_SERVERS[0].key = data.chatbottienda || data.key1;
+                    
+                    if(API_SERVERS[0].key) {
+                        console.log("Sistema LIXIE: Conexión segura establecida.");
+                    } else {
+                        console.error("NYX Error: La credencial está vacía en la base de datos.");
+                    }
+                } else {
+                    console.error("NYX Error: No se encontró el documento IDCV.");
+                }
+            } catch (error) {
+                console.error("NYX Error de base de datos:", error);
+            }
+        }
+        
+        // Iniciar carga de la API
+        loadSecureKeys();
+
+        // LOGICA DE INTERFAZ DEL CHATBOT
+        const dragBtn = document.getElementById('chatbot-draggable-btn');
+        const chatPanel = document.getElementById('chatbot-panel');
+        const closeBtn = document.getElementById('close-chat-btn');
+        const tooltip = document.getElementById('chatbot-tooltip');
+        
+        // Variables para arrastrar
+        let isDragging = false;
+        let hasDragged = false;
+        let startY, initialTop;
+
+        // Mostrar Tooltip de 5 segundos al cargar
+        setTimeout(() => { tooltip.classList.remove('opacity-0'); }, 500);
+        setTimeout(() => { tooltip.classList.add('opacity-0'); }, 5500);
+
+        // Eventos Mouse
+        dragBtn.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            hasDragged = false;
+            startY = e.clientY;
+            initialTop = dragBtn.offsetTop;
+            dragBtn.style.transition = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.clientY - startY;
+            if (Math.abs(deltaY) > 5) hasDragged = true; 
+            
+            let newTop = initialTop + deltaY;
+            if (newTop < 0) newTop = 0;
+            if (newTop > window.innerHeight - 60) newTop = window.innerHeight - 60;
+            
+            dragBtn.style.top = `${newTop}px`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                dragBtn.style.transition = 'transform 0.3s ease'; 
+                isDragging = false;
+            }
+        });
+
+        // Eventos Touch para móviles
+        dragBtn.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            hasDragged = false;
+            startY = e.touches[0].clientY;
+            initialTop = dragBtn.offsetTop;
+            dragBtn.style.transition = 'none';
+        }, {passive: true});
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.touches[0].clientY - startY;
+            if (Math.abs(deltaY) > 5) hasDragged = true;
+            
+            let newTop = initialTop + deltaY;
+            if (newTop < 0) newTop = 0;
+            if (newTop > window.innerHeight - 60) newTop = window.innerHeight - 60;
+            
+            dragBtn.style.top = `${newTop}px`;
+        }, {passive: true});
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                dragBtn.style.transition = 'transform 0.3s ease';
+                isDragging = false;
+            }
+        });
+
+        // Abrir / Cerrar panel
+        dragBtn.addEventListener('click', (e) => {
+            if (hasDragged) {
+                e.preventDefault();
+                return;
+            }
+            chatPanel.classList.remove('-translate-x-full');
+            tooltip.classList.add('opacity-0');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            chatPanel.classList.add('-translate-x-full');
+        });
+
+        // Lógica de Mensajes y API GROQ
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const messagesContainer = document.getElementById('chat-messages-container');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Autoajuste de Textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = '46px';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Enviar con Enter (sin Shift)
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        function addMessageToUI(role, content) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `flex gap-3 chat-message-in ${role === 'user' ? 'flex-row-reverse' : ''}`;
+            
+            let avatar = role === 'user' 
+                ? `<div class="w-8 h-8 rounded-full bg-accent/20 border border-accent/50 flex items-center justify-center shrink-0 mt-1 shadow-[0_0_10px_rgba(59,130,246,0.3)]"><i class="fa-solid fa-user text-accent text-xs"></i></div>`
+                : `<div class="w-8 h-8 rounded-full bg-nyx/20 border border-nyx/50 flex items-center justify-center shrink-0 mt-1 overflow-hidden shadow-[0_0_10px_rgba(139,92,246,0.3)]"><img src="chatbotcv.png" alt="Lixie Avatar" width="256" height="256" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/256x256/8b5cf6/FFFFFF?text=Lixie'"></div>`;
+            
+            let bubbleStyle = role === 'user'
+                ? `bg-accent/20 border-accent/30 text-white rounded-tr-sm backdrop-blur-sm`
+                : `bg-white/5 border-white/10 text-gray-200 rounded-tl-sm backdrop-blur-sm hover:border-nyx/30 transition-colors`;
+
+            // Parsear bold markdown básico
+            let formattedContent = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // FALLBACK ANTI-ERRORES: Si la IA llega a mandar el link de texto puro sin el HTML por error, lo forzamos a ser botón.
+            formattedContent = formattedContent.replace(/(?<!href=")(https:\/\/protocololeviatham\.github\.io\/cvstudio33\/biblioteca-de-plantillas\.html)/g, 
+                `<a href="$1" class="custom-mp-bot-btn" target="_blank"><img src="https://logotipoz.com/wp-content/uploads/2021/10/version-horizontal-mercado-pago-logo.webp" alt="MP Logo"><span>Comprar <strong>Plantilla Premium</strong></span></a>`
+            );
+
+            msgDiv.innerHTML = `
+                ${avatar}
+                <div class="border rounded-2xl p-4 text-sm leading-relaxed shadow-lg ${bubbleStyle} max-w-[85%]">
+                    <div class="whitespace-pre-wrap flex flex-col">${formattedContent}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(msgDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            if (!API_SERVERS[0].key) {
+                addMessageToUI('bot', "⚠️ Uy, parece que tengo un pequeño corte de conexión con mis bases de datos en Firebase. ¡Intenta recargar la página, porfi!");
+                return;
+            }
+
+            // UI update
+            addMessageToUI('user', text);
+            chatInput.value = '';
+            chatInput.style.height = '46px';
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+            typingIndicator.classList.remove('hidden');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Memoria (Historial context)
+            chatHistory.push({ role: "user", content: text });
+
+            // Call Groq API
+            try {
+                const apiMessages = [
+                    { role: "system", content: systemPrompt },
+                    // Tomamos últimos 10 mensajes para que Lixie tenga buena memoria
+                    ...chatHistory.slice(-10)
+                ];
+
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_SERVERS[0].key}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: API_SERVERS[0].model,
+                        messages: apiMessages,
+                        temperature: 0.7,
+                        max_tokens: 500
+                    })
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const data = await response.json();
+                const botReply = data.choices[0].message.content;
+                
+                chatHistory.push({ role: "assistant", content: botReply });
+                addMessageToUI('bot', botReply);
+
+            } catch (error) {
+                console.error("Error AI:", error);
+                addMessageToUI('bot', "Uy, mis circuitos se trabaron un segundito jaja. ¿Me repites eso por favor?");
+            } finally {
+                typingIndicator.classList.add('hidden');
+                
+                // Sistema Anti-Spam: Bloqueo de 15 segundos
+                let cooldown = 15;
+                chatInput.placeholder = `Espera ${cooldown}s para enviar...`;
+                
+                const timer = setInterval(() => {
+                    cooldown--;
+                    if(cooldown > 0) {
+                        chatInput.placeholder = `Espera ${cooldown}s para enviar...`;
+                    } else {
+                        clearInterval(timer);
+                        chatInput.disabled = false;
+                        sendBtn.disabled = false;
+                        chatInput.placeholder = "Escribe tu consulta...";
+                        chatInput.focus();
+                    }
+                }, 1000);
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        });
+
     </script>
 
 </body>

@@ -76,10 +76,13 @@
     </script>
 
     <style>
-        body {
+        /* CORRECCIÓN DE DESBORDAMIENTO HORIZONTAL PARA CELULARES */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
             background-color: #0B0F19;
             color: #f8fafc;
-            overflow-x: hidden;
+            position: relative;
         }
 
         .glass-panel {
@@ -103,6 +106,7 @@
             scroll-snap-type: x mandatory;
             scrollbar-width: thin;
             scrollbar-color: rgba(59, 130, 246, 0.5) rgba(19, 28, 49, 0.5);
+            scroll-behavior: smooth; /* Para que el auto-scroll se vea más fluido */
         }
         
         .scrolling-wrapper::-webkit-scrollbar {
@@ -260,7 +264,7 @@
         </span>
     </div>
 
-    <div id="chatbot-panel" class="fixed top-0 left-0 w-85 sm:w-96 h-full glass-panel shadow-[30px_0_60px_rgba(0,0,0,0.8)] border-r border-nyx/30 z-[100] transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col bg-[#080b13]/95">
+    <div id="chatbot-panel" class="fixed top-0 left-0 w-[85vw] sm:w-96 h-full glass-panel shadow-[30px_0_60px_rgba(0,0,0,0.8)] border-r border-nyx/30 z-[100] transform -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col bg-[#080b13]/95">
         
         <div class="h-20 border-b border-white/10 bg-gradient-to-r from-nyx/20 to-transparent flex items-center justify-between px-6 shrink-0 relative overflow-hidden">
             <div class="absolute -right-10 -top-10 w-32 h-32 bg-nyx/30 rounded-full blur-2xl"></div>
@@ -982,6 +986,10 @@
                 </div>
             </div>
             
+            <div class="mt-12 pt-8 pb-4 border-t border-white/10 text-[10px] md:text-xs text-gray-500 leading-relaxed text-justify">
+                <strong>Aviso Legal y Transparencia Tecnológica:</strong> CV Studio33 desarrolla y comercializa plantillas curriculares integradas con modelos de Inteligencia Artificial (AXON y NYX) diseñados para la optimización de lectura en sistemas ATS (Applicant Tracking Systems). Los porcentajes de éxito y métricas de aprobación están basados en simulaciones internas y casos de estudio reales; sin embargo, no garantizamos la contratación definitiva, ya que esta depende de múltiples factores externos al documento. Nuestro ecosistema opera bajo estrictos protocolos de integridad de datos. No almacenamos, compartimos ni comercializamos información personal, financiera o de contacto extraída durante el uso de nuestras herramientas. Todos los pagos son procesados externamente mediante la pasarela segura de Mercado Pago, la cual emplea encriptación SSL de 256 bits y cumple con la normativa internacional de seguridad PCI-DSS, asegurando que CV Studio33 jamás tenga acceso a sus credenciales bancarias. Al adquirir nuestras licencias, el usuario acepta de forma implícita nuestros Términos y Condiciones de Uso.
+            </div>
+
             <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left opacity-60">
                 <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
                 <p class="text-[10px] tracking-widest uppercase">Engineered by NYX Systems</p>
@@ -1015,6 +1023,41 @@
                     el.style.display = 'none'; 
                 });
             }
+
+            // AUTO-SCROLL PARA LAS TARJETAS 3D (LOOP Y PAUSA INTERACTIVA)
+            const scrollingWrappers = document.querySelectorAll('.scrolling-wrapper');
+            scrollingWrappers.forEach(wrapper => {
+                let isInteracting = false;
+                let autoScrollInterval;
+                const scrollSpeed = 0.5; // Velocidad del scroll automático
+
+                const startAutoScroll = () => {
+                    autoScrollInterval = setInterval(() => {
+                        if (!isInteracting) {
+                            wrapper.scrollLeft += scrollSpeed;
+                            // Sistema de bucle: si llega al final, reinicia al principio
+                            if (wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 1) {
+                                wrapper.scrollLeft = 0;
+                            }
+                        }
+                    }, 20); // Fluidez de frames
+                };
+
+                const stopAutoScroll = () => {
+                    clearInterval(autoScrollInterval);
+                };
+
+                // Detectar interacciones para pausar el scroll automático
+                wrapper.addEventListener('mouseenter', () => isInteracting = true);
+                wrapper.addEventListener('mouseleave', () => isInteracting = false);
+                wrapper.addEventListener('touchstart', () => isInteracting = true, {passive: true});
+                wrapper.addEventListener('touchend', () => {
+                    setTimeout(() => isInteracting = false, 1500); // Reanudar después de 1.5s
+                }, {passive: true});
+                
+                // Iniciar el scroll
+                startAutoScroll();
+            });
         });
     </script>
 
@@ -1342,3 +1385,5 @@ EJEMPLO DE RESPUESTA DE LIXIE:
 
 </body>
 </html>
+
+

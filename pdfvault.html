@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CV Studio33 | Advanced PDF Vault</title>
+    
+    <link rel="icon" href="logo.png" sizes="500x500" type="image/png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;700;500&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <script>
+        // Configurar el worker de PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0B0F19',
+                        secondary: '#1A2235',
+                        accent: '#3b82f6', // Azul tech
+                        nyx: '#8b5cf6', // Violeta Leviatham
+                        vault: '#eab308', // Oro
+                        danger: '#ef4444'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Oswald', 'sans-serif'],
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 3s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8b5cf6; }
+        
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+
+        /* Efectos de Cristal y Neón */
+        .glass-panel {
+            background: rgba(26, 34, 53, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .border-neon-nyx { border: 1px solid rgba(139, 92, 246, 0.5); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+        .border-neon-vault { border: 1px solid rgba(234, 179, 8, 0.5); box-shadow: 0 0 20px rgba(234, 179, 8, 0.2); }
+        .border-neon-accent { border: 1px solid rgba(59, 130, 246, 0.5); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+
+        .text-gradient {
+            background: linear-gradient(to right, #8b5cf6, #3b82f6, #eab308);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradient-x 4s ease infinite;
+        }
+
+        .btn-tech {
+            background: linear-gradient(135deg, rgba(139,92,246,0.25) 0%, rgba(59,130,246,0.25) 100%);
+            border: 1px solid rgba(139,92,246,0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-tech:hover {
+            background: linear-gradient(135deg, rgba(139,92,246,0.5) 0%, rgba(59,130,246,0.5) 100%);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.9);
+        }
+
+        /* Drop Zone */
+        .drop-zone {
+            border: 2px dashed rgba(139, 92, 246, 0.4);
+            transition: all 0.4s ease;
+        }
+        .drop-zone.dragover {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* Page Cards & Hover Controls */
+        .page-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .page-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); border-color: rgba(139, 92, 246, 0.4); }
+        .page-card.is-deleted { opacity: 0.3; filter: grayscale(100%); transform: scale(0.92); border-color: #ef4444; }
+        
+        .page-hover-menu {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(8px);
+        }
+        .page-card:hover .page-hover-menu { opacity: 1; visibility: visible; }
+        
+        /* Drag handle cursor */
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+
+        /* SortableJS Ghosting */
+        .sortable-ghost { opacity: 0.2; border: 2px dashed #8b5cf6; background: rgba(139, 92, 246, 0.1); transform: scale(0.95); }
+
+        /* Animaciones */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        .scanner-line {
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(to right, transparent, #8b5cf6, #3b82f6, transparent);
+            box-shadow: 0 0 15px #8b5cf6, 0 0 30px #3b82f6;
+            animation: scanline 2.5s linear infinite;
+            z-width: 100%;
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: 9999;
+        }
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(234, 179, 8, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+        }
+        .pulse-gold { animation: pulse-ring 2s infinite; }
+
+        /* Signature Drag Container */
+        #sig-drag-container { position: absolute; cursor: move; border: 2px dashed rgba(234,179,8,0.9); background: rgba(234,179,8,0.15); box-shadow: 0 0 15px rgba(234,179,8,0.3); transition: border-color 0.2s; }
+        #sig-drag-container:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+        .resize-handle { position: absolute; width: 14px; height: 14px; background: #eab308; right: -7px; bottom: -7px; cursor: se-resize; border-radius: 50%; border: 2px solid #0B0F19; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+
+        /* Modales (Responsive fixes) */
+        .modal-active { display: flex !important; animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeInScale { 
+            from { opacity: 0; transform: scale(0.95) translateY(10px); } 
+            to { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+        
+        /* Modal Content Structure para que no se escondan los botones */
+        .modal-body-scroll {
+            overflow-y: auto;
+            max-height: calc(90vh - 140px); /* Restamos el header y footer para dejar espacio en mobile */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative">
+
+    <div class="scanner-line hidden" id="global-scanner"></div>
+
+    <nav class="h-16 glass-panel border-b border-white/5 sticky top-0 z-40 flex-shrink-0 shadow-lg">
+        <div class="container mx-auto px-4 h-full flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Logo CV Studio33" class="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(139,92,246,0.5)] animate-pulse">
+                <div class="w-8 h-8 rounded bg-gradient-to-br from-nyx to-accent flex items-center justify-center font-heading font-bold text-white shadow-[0_0_10px_rgba(139,92,246,0.5)]">
+                    33
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-bold text-lg tracking-wide leading-none text-white">CV STUDIO33</span>
+                    <span class="text-[9px] text-vault tracking-[0.2em] uppercase font-bold">Protocolo Leviatham - PDF</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="hidden md:inline-flex flex-col items-end text-xs text-nyx border border-nyx/30 bg-nyx/10 px-2 py-1 rounded font-mono shadow-inner">
+                    <span class="flex items-center"><i class="fa-solid fa-shield-check mr-1"></i> Entorno Local Seguro</span>
+                </span>
+                <button onclick="location.reload()" class="text-gray-400 hover:text-white transition text-sm flex items-center gap-1 bg-gray-800/50 hover:bg-red-500/20 hover:text-red-400 px-3 py-1.5 rounded" title="Borrar datos de memoria y reiniciar herramienta">
+                    <i class="fa-solid fa-power-off"></i> <span class="hidden sm:inline">Reiniciar</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-8 flex flex-col relative z-10">
+        
+        <div id="view-upload" class="flex-grow flex flex-col items-center justify-center transition-all duration-500 w-full max-w-4xl mx-auto text-center animate-float">
+            
+            <div class="inline-flex flex-col items-center gap-2 px-4 py-2 rounded-xl bg-nyx/10 border border-nyx/30 text-nyx text-xs font-bold tracking-wider mb-8 shadow-[0_0_20px_rgba(139,92,246,0.2)] backdrop-blur-sm">
+                <span class="uppercase flex items-center gap-2"><i class="fa-solid fa-microchip animate-pulse text-accent"></i> Motor Híbrido de Procesamiento Local</span>
+                <span class="text-[10px] text-gray-400 font-normal normal-case max-w-lg text-center leading-relaxed">
+                    Toda la manipulación del PDF (ordenar, rotar, firmar) se realiza directamente utilizando los recursos de su propio dispositivo (RAM/CPU). Sus archivos nunca abandonan su equipo, garantizando confidencialidad extrema para CVs u ofertas corporativas.
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-bold mb-6 uppercase tracking-tight text-white drop-shadow-lg">
+                Edición de Alta <span class="text-gradient">Seguridad</span>
+            </h1>
+            
+            <p class="text-gray-400 text-sm md:text-base mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                Elimina, reorganiza, firma y protege tus documentos sin depender de la nube. 
+                El Protocolo Leviatham procesa el archivo <strong>100% en la memoria de tu navegador</strong>, garantizando que tu información corporativa o currículum nunca sea interceptada ni almacenada por terceros.
+            </p>
+
+            <div class="w-full glass-panel p-2 rounded-2xl border-neon-nyx max-w-3xl mx-auto transition-transform hover:scale-[1.01] duration-300">
+                <div id="drop-zone" class="drop-zone rounded-xl p-10 md:p-16 cursor-pointer flex flex-col items-center justify-center bg-secondary/50 hover:bg-secondary/80 group">
+                    <input type="file" id="file-input" accept="application/pdf" class="hidden">
+                    <div class="w-20 h-20 rounded-full bg-nyx/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-nyx/20 transition-all duration-300 relative shadow-lg">
+                        <i class="fa-solid fa-file-shield text-4xl text-nyx group-hover:text-white transition-colors"></i>
+                        <span class="absolute -bottom-2 bg-nyx text-white text-[10px] px-3 py-0.5 rounded-full uppercase font-bold shadow-md">Drag & Drop</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-heading font-bold mb-2 text-white group-hover:text-accent transition-colors">Inyectar Documento PDF</h3>
+                    <p class="text-sm text-gray-500 font-mono mb-4">Haz clic o arrastra el archivo aquí para comenzar.</p>
+                    <div class="bg-black/30 p-3 rounded-lg border border-gray-700/50 w-full max-w-md">
+                        <p class="text-[11px] text-gray-400 leading-relaxed">
+                            <strong class="text-nyx"><i class="fa-solid fa-circle-question"></i> ¿Cómo funciona?:</strong> Al soltar su archivo, el sistema decodificará las páginas generando un lienzo visual (Canvas) para que usted pueda personalizar visualmente el orden de sus páginas arrastrándolas con el ratón.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-workspace" class="w-full hidden flex-col h-full opacity-0 transition-opacity duration-700">
+            
+            <div class="glass-panel border-neon-accent rounded-xl p-4 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <div class="w-12 h-12 rounded bg-accent/20 flex items-center justify-center text-accent text-xl border border-accent/30 shadow-inner">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <div class="overflow-hidden">
+                        <h2 class="font-bold text-white text-lg truncate max-w-[250px] sm:max-w-md" id="doc-title-display">doc.pdf</h2>
+                        <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs text-gray-400 font-mono mt-1">
+                            <span id="doc-size-display" class="bg-gray-800/50 px-2 py-0.5 rounded">0 MB</span>
+                            <span class="hidden sm:inline">•</span>
+                            <span id="doc-pages-display" class="bg-gray-800/50 px-2 py-0.5 rounded">0 Páginas</span>
+                            <span class="hidden sm:inline">•</span>
+                            <span class="text-emerald-400 bg-emerald-900/20 px-2 py-0.5 rounded border border-emerald-800/30" title="Ningún dato se envía a internet"><i class="fa-solid fa-lock text-[10px]"></i> Local Mode</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-end gap-1 w-full md:w-auto mt-4 md:mt-0">
+                    <button onclick="openExportModal()" class="btn-tech px-6 py-3 rounded-lg font-bold text-white flex items-center gap-2 pulse-gold border-vault/50 bg-gradient-to-r from-vault/20 to-orange-500/20 w-full md:w-auto justify-center shadow-lg transform transition active:scale-95">
+                        <i class="fa-solid fa-microchip"></i> COMPILAR Y EXPORTAR
+                    </button>
+                    <span class="text-[10px] text-gray-400 hidden md:block"><i class="fa-solid fa-download"></i> Guarda los cambios y ensambla el nuevo PDF</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-6 flex-grow items-start">
+                
+                <div class="w-full lg:w-1/4 space-y-4">
+                    
+                    <div class="glass-panel rounded-xl p-5 border-l-4 border-nyx relative group hover:bg-secondary/60 transition-colors">
+                        <h3 class="font-heading uppercase tracking-widest text-nyx text-sm font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-arrows-up-down-left-right"></i> Control de Estructura
+                        </h3>
+                        <p class="text-xs text-gray-300 mb-2 leading-relaxed font-semibold">
+                            Reorganización libre mediante Drag & Drop (Arrastrar y Soltar).
+                        </p>
+                        <p class="text-[11px] text-gray-400 leading-relaxed border-t border-gray-700/50 pt-2">
+                            <strong class="text-white">¿Para qué sirve?:</strong> Utilice el ícono <i class="fa-solid fa-grip-vertical text-gray-500 mx-1 bg-gray-800 p-1 rounded"></i> ubicado en la esquina de cada página para moverla. Esto es vital si desea cambiar el orden de su CV (por ejemplo, poner su experiencia antes de la educación) sin tener que reeditar el documento original en Word o Canva.
+                        </p>
+                    </div>
+
+                    <div class="glass-panel rounded-xl p-5 border-l-4 border-accent relative hover:bg-secondary/60 transition-colors">
+                        <h3 class="font-heading uppercase tracking-widest text-accent text-sm font-bold mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-fingerprint"></i> Sello Global (Opcional)
+                        </h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] uppercase font-bold text-gray-400 block mb-1">Texto de Seguridad / Marca de agua:</label>
+                                <input type="text" id="global-watermark" placeholder="Ej: CONFIDENCIAL - STUDIO33" class="w-full bg-primary border border-gray-700 rounded-lg p-2.5 text-xs text-white focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none transition shadow-inner">
+                            </div>
+                            <p class="text-[11px] text-gray-400 leading-relaxed border-t border-gray-700/50 pt-2">
+                                <strong class="text-white">¿Para qué sirve?:</strong> Escriba un texto aquí para que se imprima semitransparente como fondo en <em>todas</em> las páginas. Protege su propiedad intelectual, ideal para portfolios o CVs privados evitando que su diseño sea plagiado por reclutadores inescrupulosos.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-xl p-5 bg-gradient-to-br from-primary to-secondary border border-gray-800 shadow-xl">
+                        <h4 class="text-xs font-bold text-gray-300 mb-3 uppercase flex justify-between items-center">
+                            Status del Procesador 
+                            <span class="flex h-3 w-3 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                            </span>
+                        </h4>
+                        <div class="space-y-2 text-[10px] font-mono text-gray-400">
+                            <div class="flex justify-between border-b border-gray-800/50 pb-1.5"><span>Motor Interno:</span> <span class="text-emerald-400 font-bold">PDF-Lib v1.17</span></div>
+                            <div class="flex justify-between border-b border-gray-800/50 pb-1.5"><span>Renderizado Visual:</span> <span class="text-emerald-400 font-bold">PDF.js Canvas</span></div>
+                            <div class="flex justify-between pt-1"><span>Seguridad de Datos:</span> <span class="text-accent font-bold bg-accent/10 px-1 rounded">100% Offline</span></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="w-full lg:w-3/4 glass-panel rounded-xl p-4 border border-white/5 min-h-[500px] flex flex-col relative overflow-hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 px-2 gap-2 border-b border-gray-800 pb-3">
+                        <div>
+                            <h3 class="font-bold text-gray-300 uppercase text-sm tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group text-nyx"></i> Espacio de Trabajo Interactivo
+                            </h3>
+                            <p class="text-[10px] text-gray-400 mt-1">Pase el cursor (hover) sobre cualquier página para revelar las herramientas de edición individual (Rotar, Duplicar, Eliminar, Firmar).</p>
+                        </div>
+                        <span class="text-xs text-nyx font-mono bg-nyx/10 border border-nyx/30 px-3 py-1.5 rounded-lg whitespace-nowrap shadow-sm" id="pages-count-live">Calculando...</span>
+                    </div>
+                    
+                    <div id="pdf-pages-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-2 overflow-y-auto max-h-[65vh] custom-scrollbar pb-10">
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-signature" class="fixed inset-0 bg-primary/95 backdrop-blur-xl z-50 hidden flex-col items-center justify-center p-2 sm:p-4">
+        <div class="glass-panel border-neon-vault rounded-xl w-full max-w-4xl flex flex-col overflow-hidden shadow-[0_0_50px_rgba(234,179,8,0.2)] relative h-auto max-h-[95vh]">
+            
+            <div class="p-4 border-b border-gray-800 flex justify-between items-center bg-secondary/80 flex-shrink-0">
+                <h3 class="font-heading font-bold text-lg sm:text-xl text-vault uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-pen-clip"></i> Inyector Visual (Firmas/QR)
+                </h3>
+                <button onclick="closeSignatureModal()" class="text-gray-400 hover:text-white w-8 h-8 rounded-full bg-gray-800 hover:bg-danger transition flex items-center justify-center" title="Cerrar ventana">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex-grow flex flex-col overflow-y-auto custom-scrollbar bg-primary">
+                <div class="p-4 flex flex-col md:flex-row gap-4 border-b border-gray-800 items-start md:items-center bg-black/20">
+                    <input type="file" id="sig-upload" accept="image/png, image/jpeg" class="hidden" onchange="handleSignatureUpload(event)">
+                    <button onclick="document.getElementById('sig-upload').click()" class="btn-tech px-4 py-2.5 rounded-lg text-xs font-bold text-white border-nyx/50 whitespace-nowrap shadow-md w-full md:w-auto flex justify-center items-center">
+                        <i class="fa-solid fa-upload mr-2"></i> Subir PNG (Sin fondo)
+                    </button>
+                    <div class="text-[11px] text-gray-400 bg-gray-900/80 p-3 rounded-lg border border-gray-800 flex-grow shadow-inner">
+                        <strong class="text-white"><i class="fa-solid fa-circle-info text-accent"></i> ¿Cómo usar?:</strong> Sube una imagen (idealmente un PNG sin fondo con tu firma manuscrita digital o un código QR). Aparecerá un cuadro amarillo; <strong>arrástralo</strong> a la posición deseada en el documento y tira de la esquina inferior derecha para <strong>ajustar el tamaño</strong> exacto. 
+                    </div>
+                </div>
+
+                <div class="flex-grow relative bg-[#05080f] p-4 flex justify-center items-start overflow-auto custom-scrollbar min-h-[300px]" id="sig-workspace-container">
+                    <div id="canvas-wrapper" class="relative inline-block shadow-2xl ring-1 ring-white/10">
+                        <canvas id="sig-pdf-canvas" class="block bg-white rounded-sm max-w-full h-auto"></canvas>
+                        
+                        <div id="sig-drag-container" class="hidden group">
+                            <img id="sig-img" src="" alt="Firma" class="w-full h-full pointer-events-none object-contain">
+                            <div class="resize-handle group-hover:scale-125 transition-transform" id="sig-resize-handle" title="Arrastrar para redimensionar"></div>
+                            <button onclick="removeCurrentSignature()" class="absolute -top-3 -right-3 w-6 h-6 bg-red-600 rounded-full text-white text-[10px] flex items-center justify-center hover:bg-red-500 shadow-lg border border-red-800" title="Eliminar imagen">
+                                <i class="fa-solid fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-gray-800 bg-secondary/90 flex flex-col sm:flex-row justify-between items-center gap-3 flex-shrink-0 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
+                <span class="text-[10px] text-gray-400 hidden sm:block"><i class="fa-solid fa-lock text-emerald-500 mr-1"></i> La imagen se acoplará permanentemente en esa coordenada al exportar.</span>
+                <div class="flex gap-3 w-full sm:w-auto">
+                    <button onclick="closeSignatureModal()" class="w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-sm text-gray-300 hover:text-white transition bg-gray-800 hover:bg-gray-700 border border-gray-600 font-semibold">Cancelar</button>
+                    <button onclick="saveSignaturePosition()" class="w-1/2 sm:w-auto btn-tech !bg-vault/20 !border-vault/50 !text-vault px-8 py-2.5 rounded-lg font-bold shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:!bg-vault/40 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check"></i> Fijar Posición
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-export" class="fixed inset-0 bg-primary/95 backdrop-blur-xl z-50 hidden flex-col items-center justify-center p-2 sm:p-4">
+        <div class="glass-panel border-neon-accent rounded-xl w-full max-w-lg relative overflow-hidden flex flex-col max-h-[95vh] shadow-[0_0_40px_rgba(59,130,246,0.15)]">
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-nyx via-accent to-vault z-10"></div>
+            
+            <div class="p-5 sm:p-6 border-b border-gray-800 bg-secondary/50 flex-shrink-0">
+                <h2 class="text-xl sm:text-2xl font-heading font-bold text-white uppercase text-center flex flex-col items-center gap-2">
+                    <i class="fa-solid fa-vault text-accent text-3xl drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"></i>
+                    Terminal de Exportación
+                </h2>
+            </div>
+
+            <div class="p-5 sm:p-6 overflow-y-auto custom-scrollbar space-y-5 bg-primary/80">
+                <div>
+                    <label class="text-[11px] uppercase font-bold text-gray-400 block mb-1.5 ml-1">Nombre de Salida (El archivo que descargarás):</label>
+                    <div class="flex items-center bg-black/50 border border-gray-700 rounded-lg overflow-hidden focus-within:border-accent focus-within:ring-1 focus-within:ring-accent transition shadow-inner">
+                        <input type="text" id="export-filename" class="w-full bg-transparent p-3 text-sm text-white focus:outline-none" value="Documento_Procesado">
+                        <span class="px-4 text-gray-500 font-mono text-xs bg-gray-900 border-l border-gray-800 h-full flex items-center">.pdf</span>
+                    </div>
+                </div>
+
+                <div class="bg-red-950/20 p-4 rounded-xl border border-red-900/50 shadow-inner relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-danger text-white text-[9px] px-2 py-1 font-bold uppercase rounded-bl-lg tracking-widest shadow-md">Aviso Crítico</div>
+                    
+                    <label class="text-[11px] uppercase font-bold text-white block mb-2 flex items-center gap-2 ml-1">
+                        <i class="fa-solid fa-shield-halved text-danger text-lg"></i> Cifrado de Seguridad (ATS Lock)
+                    </label>
+                    
+                    <input type="password" id="export-password" placeholder="Ingrese contraseña para proteger metadatos..." class="w-full bg-black/60 border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-danger focus:ring-1 focus:ring-danger focus:outline-none transition mb-3 shadow-inner">
+                    
+                    <div class="text-[11px] text-gray-300 space-y-2.5 leading-relaxed bg-black/40 p-3 rounded-lg border border-gray-800/80">
+                        <p>
+                            <strong class="text-danger"><i class="fa-solid fa-microchip"></i> Limitación Local vs Servidor:</strong> Como esta herramienta procesa el archivo 100% en tu navegador (sin enviarlo a nuestros servidores para proteger tu privacidad), el motor local no puede cifrar nativamente los bytes del PDF con AES-256. 
+                            Al escribir una clave aquí, el sistema <strong>inyectará una etiqueta de seguridad en los metadatos</strong> simulando un bloqueo ante sistemas automáticos.
+                        </p>
+                        <p class="border-t border-red-900/30 pt-2">
+                            <strong class="text-vault"><i class="fa-solid fa-triangle-exclamation"></i> ADVERTENCIA PARA CVs:</strong> Si bloqueas o encriptas tu currículum vitae, los reclutadores humanos no podrán abrirlo fácilmente y los sistemas automáticos de RRHH (ATS - Applicant Tracking Systems) <strong>rechazarán tu CV automáticamente</strong> porque el robot no tiene tu clave para leer el texto. 
+                        </p>
+                        <p class="text-emerald-400 font-semibold border-t border-emerald-900/30 pt-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-check-circle"></i> Recomendación: Deje el campo vacío si va a enviar el CV a empresas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 sm:p-6 border-t border-gray-800 bg-secondary/90 flex gap-3 flex-shrink-0 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
+                <button onclick="closeExportModal()" class="w-1/3 py-3 rounded-lg text-sm text-gray-300 hover:text-white bg-gray-800 hover:bg-gray-700 transition font-bold border border-gray-600">Cancelar</button>
+                <button onclick="executeFinalCompilation()" class="w-2/3 btn-tech !border-accent !bg-accent/20 text-white font-bold py-3 rounded-lg shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:!bg-accent/40 flex items-center justify-center gap-2 transform transition active:scale-95">
+                    <i class="fa-solid fa-terminal"></i> EJECUTAR Y DESCARGAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-overlay" class="fixed inset-0 bg-primary/95 backdrop-blur-2xl z-[100] hidden flex-col items-center justify-center">
+        <div class="relative flex items-center justify-center mb-8">
+            <div class="w-32 h-32 border-4 border-gray-800 border-t-accent border-r-nyx rounded-full animate-spin shadow-[0_0_30px_rgba(59,130,246,0.3)]"></div>
+            <div class="w-24 h-24 border-4 border-transparent border-b-vault border-l-danger rounded-full animate-[spin_2s_linear_infinite_reverse] absolute"></div>
+            <i class="fa-solid fa-microchip text-4xl text-white absolute animate-pulse drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"></i>
+        </div>
+        <h2 id="loading-text" class="text-2xl font-heading tracking-widest text-white mb-3 uppercase">ANALIZANDO BYTES...</h2>
+        <div class="w-72 h-1.5 bg-gray-800 rounded-full overflow-hidden shadow-inner">
+            <div class="h-full bg-gradient-to-r from-nyx via-accent to-vault animate-pulse" style="width: 100%"></div>
+        </div>
+        <p id="loading-subtext" class="text-[11px] text-gray-400 mt-5 font-mono bg-black/50 px-4 py-2 rounded border border-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired text-emerald-500"></i> Ensamblando matriz estructural sin conexión a red.
+        </p>
+    </div>
+
+    <footer class="mt-auto border-t border-white/5 glass-panel py-8 text-center z-40 relative">
+        <div class="container mx-auto px-4">
+            <h4 class="text-vault font-heading font-bold uppercase tracking-widest mb-3 text-sm flex items-center justify-center gap-2 drop-shadow-md">
+                <i class="fa-solid fa-user-shield"></i> Cláusula de Privacidad y Seguridad Local
+            </h4>
+            <p class="text-xs text-gray-400 max-w-3xl mx-auto mb-6 leading-relaxed bg-black/30 p-5 rounded-xl border border-white/5 shadow-inner">
+                <strong class="text-gray-200">¿Por qué CV Studio33 es seguro?</strong> Esta herramienta (Advanced PDF Vault - Protocolo Leviatham) garantiza que el procesamiento de sus documentos es <strong>100% local</strong> (ejecutado directamente en la memoria RAM y procesador de su dispositivo). No almacenamos, leemos, interceptamos ni enviamos sus datos personales, información de su currículum, firmas o metadatos a ningún servidor externo. Su privacidad es absoluta y el control de su información permanece exclusivamente en sus manos.
+            </p>
+            <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-xs font-mono bg-gray-900/50 inline-flex px-6 py-3 rounded-full border border-gray-800">
+                <a href="https://protocololeviatham.github.io/cvstudio33/terminos-y-condiciones" target="_blank" class="text-nyx hover:text-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-scale-balanced"></i> Términos y Condiciones</a>
+                <span class="text-gray-700 hidden sm:inline">|</span>
+                <a href="https://protocololeviatham.github.io/cvstudio33/politica-de-privacidad.html" target="_blank" class="text-nyx hover:text-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-file-contract"></i> Política de Privacidad</a>
+                <span class="text-gray-700 hidden md:inline">|</span>
+                <a href="https://protocololeviatham.github.io/cvstudio33/politica-de-cookies.html" target="_blank" class="text-nyx hover:text-accent transition-colors flex items-center gap-1.5 w-full md:w-auto justify-center mt-2 md:mt-0"><i class="fa-solid fa-cookie-bite"></i> Política de Cookies</a>
+            </div>
+            <div class="mt-8 text-[10px] text-gray-600 font-medium">
+                &copy; 2026 CV Studio33. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * ==========================================
+         * CORE STATE MANAGEMENT & INITIALIZATION
+         * ==========================================
+         */
+        let originalPdfBytes = null;
+        let originalPdfDoc = null; // Instancia PDF.js para renderizar canvas
+        let originalPdfLibDoc = null; // Instancia PDF-Lib original por si la necesitamos
+        let originalFileName = "";
+        
+        // Estado maestro de las páginas. 
+        // Es un array que dictará el orden exacto del PDF final.
+        let pagesState = []; 
+        /* Estructura del objeto pageState:
+        {
+            id: 'page-12345', // ID único para dom/sortable
+            refIndex: 0, // Índice en el PDF original (0-based)
+            rotation: 0, // Grados: 0, 90, 180, 270
+            isDeleted: false,
+            signature: null // { dataUrl: base64, x, y, width, height }
+        }
+        */
+
+        const DOM = {
+            viewUpload: document.getElementById('view-upload'),
+            viewWorkspace: document.getElementById('view-workspace'),
+            fileInput: document.getElementById('file-input'),
+            dropZone: document.getElementById('drop-zone'),
+            grid: document.getElementById('pdf-pages-grid'),
+            loadingOverlay: document.getElementById('loading-overlay'),
+            loadingText: document.getElementById('loading-text'),
+            loadingSubtext: document.getElementById('loading-subtext'),
+            scanner: document.getElementById('global-scanner')
+        };
+
+        /**
+         * ==========================================
+         * EVENTOS DE CARGA DE ARCHIVO
+         * ==========================================
+         */
+        DOM.dropZone.addEventListener('click', () => DOM.fileInput.click());
+        DOM.dropZone.addEventListener('dragover', (e) => { e.preventDefault(); DOM.dropZone.classList.add('dragover'); });
+        DOM.dropZone.addEventListener('dragleave', () => DOM.dropZone.classList.remove('dragover'));
+        DOM.dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            DOM.dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) initFile(e.dataTransfer.files[0]);
+        });
+        DOM.fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) initFile(e.target.files[0]);
+        });
+
+        async function initFile(file) {
+            if (file.type !== 'application/pdf') {
+                alert('El protocolo de seguridad solo acepta archivos formato .pdf');
+                return;
+            }
+
+            showLoading("DECODIFICANDO MATRIZ LOCAL...");
+            DOM.loadingSubtext.innerHTML = '<i class="fa-solid fa-shield-check text-emerald-500"></i> Analizando estructura sin subir a servidores.';
+            originalFileName = file.name;
+            
+            // Actualizar UI info
+            document.getElementById('doc-title-display').innerText = file.name;
+            document.getElementById('export-filename').value = file.name.replace('.pdf', '') + '_Vault';
+            document.getElementById('doc-size-display').innerText = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+
+            try {
+                const buffer = await file.arrayBuffer();
+                // Guardamos los bytes en un Uint8Array para poder hacer copias seguras
+                originalPdfBytes = new Uint8Array(buffer);
+                
+                // Cargar documento con PDF.js para renderizar imágenes
+                // Usamos .slice() para enviar una copia al Worker y evitar que "desconecte" nuestro buffer original
+                const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes.slice()});
+                originalPdfDoc = await loadingTask.promise;
+                
+                const numPages = originalPdfDoc.numPages;
+                document.getElementById('doc-pages-display').innerText = numPages + (numPages === 1 ? ' Página' : ' Páginas');
+
+                // Inicializar estado
+                pagesState = [];
+                for(let i = 0; i < numPages; i++) {
+                    pagesState.push({
+                        id: 'page-' + generateId(),
+                        refIndex: i,
+                        rotation: 0,
+                        isDeleted: false,
+                        signature: null
+                    });
+                }
+
+                await renderGrid();
+                initSortable();
+
+                // Cambiar vistas
+                DOM.viewUpload.classList.add('hidden');
+                DOM.viewWorkspace.classList.remove('hidden');
+                setTimeout(() => DOM.viewWorkspace.classList.remove('opacity-0'), 50);
+
+                hideLoading();
+
+            } catch (error) {
+                hideLoading();
+                console.error("Error al cargar PDF:", error);
+                alert("Error de procesamiento. El archivo puede estar corrupto o ya se encuentra protegido con contraseña nativa que impide su lectura.");
+            }
+        }
+
+        /**
+         * ==========================================
+         * RENDERIZADO DEL GRID DE PÁGINAS Y PDF.JS
+         * ==========================================
+         */
+        async function renderGrid() {
+            DOM.grid.innerHTML = '';
+            let activeCount = 0;
+
+            for (let i = 0; i < pagesState.length; i++) {
+                const pageData = pagesState[i];
+                if (!pageData.isDeleted) activeCount++;
+
+                // Crear contenedor de tarjeta
+                const card = document.createElement('div');
+                card.className = `page-card relative bg-secondary rounded-xl border border-gray-700 flex flex-col overflow-hidden ${pageData.isDeleted ? 'is-deleted' : ''}`;
+                card.dataset.id = pageData.id;
+                
+                // Header de tarjeta (Drag Handle + Num)
+                const header = document.createElement('div');
+                header.className = "flex justify-between items-center bg-gray-900 px-3 py-2 border-b border-gray-700";
+                // EXPLICACIÓN AÑADIDA EN TOOLTIP (title) para el ícono de arrastre
+                header.innerHTML = `
+                    <span class="text-xs font-bold text-gray-400">Pág. #${i + 1} <span class="text-[9px] font-normal text-gray-600 ml-1">(Orig: ${pageData.refIndex + 1})</span></span>
+                    <i class="fa-solid fa-grip-vertical text-gray-500 hover:text-white drag-handle p-1.5 bg-gray-800 rounded shadow-inner" title="Mantenga presionado y arrastre para cambiar el orden de esta página en el documento final."></i>
+                `;
+
+                // Contenedor del Canvas
+                const canvasContainer = document.createElement('div');
+                canvasContainer.className = "relative flex-grow flex items-center justify-center p-2 bg-primary/60 overflow-hidden group/canvas min-h-[150px]";
+                
+                const canvasWrapper = document.createElement('div');
+                canvasWrapper.className = "relative shadow-lg border border-gray-800 bg-white";
+                canvasWrapper.style.transform = `rotate(${pageData.rotation}deg)`;
+                canvasWrapper.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
+
+                const canvas = document.createElement('canvas');
+                canvas.className = "block max-w-full h-auto max-h-[220px] object-contain";
+                
+                // Si tiene firma, mostrar un indicador visual pequeño
+                let sigBadge = '';
+                if(pageData.signature) {
+                    sigBadge = `<div class="absolute -top-2 -right-2 bg-vault text-gray-900 text-[9px] px-2 py-1 rounded-md font-bold shadow-lg border border-yellow-300 animate-pulse" title="Contiene una imagen/firma incrustada"><i class="fa-solid fa-pen-nib"></i> Firmado</div>`;
+                }
+
+                canvasWrapper.appendChild(canvas);
+                if(pageData.signature) canvasWrapper.insertAdjacentHTML('beforeend', sigBadge);
+                canvasContainer.appendChild(canvasWrapper);
+
+                // Menú Hover con explicaciones en las etiquetas title
+                const hoverMenu = document.createElement('div');
+                hoverMenu.className = "page-hover-menu absolute inset-0 flex flex-col items-center justify-center gap-3 z-10 p-2 text-center";
+                
+                if (pageData.isDeleted) {
+                    hoverMenu.innerHTML = `
+                        <button onclick="restorePage('${pageData.id}')" class="btn-tech px-4 py-2.5 rounded-lg text-xs font-bold text-emerald-400 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Restaurar Página
+                        </button>
+                        <span class="text-[9px] text-gray-400 bg-black/80 px-2.5 py-1.5 rounded-md border border-gray-700">La página volverá al flujo de lectura.</span>
+                    `;
+                } else {
+                    hoverMenu.innerHTML = `
+                        <div class="flex gap-2.5">
+                            <button onclick="rotatePage('${pageData.id}')" class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-600 text-white hover:bg-accent hover:border-accent hover:scale-110 transition-all flex items-center justify-center shadow-lg" title="Rotar la página 90 grados a la derecha. Útil para certificados escaneados torcidos."><i class="fa-solid fa-rotate-right"></i></button>
+                            <button onclick="duplicatePage('${pageData.id}')" class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-600 text-white hover:bg-nyx hover:border-nyx hover:scale-110 transition-all flex items-center justify-center shadow-lg" title="Crea un clon idéntico de esta página. Útil para mantener plantillas visuales."><i class="fa-solid fa-copy"></i></button>
+                            <button onclick="deletePage('${pageData.id}')" class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-600 text-white hover:bg-danger hover:border-danger hover:scale-110 transition-all flex items-center justify-center shadow-lg" title="Oculta esta página. No aparecerá en el PDF final. Ideal para quitar hojas en blanco."><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <button onclick="openSignatureModal('${pageData.id}')" class="mt-2 text-[10px] font-bold uppercase tracking-wider text-vault border border-vault/40 bg-vault/10 px-4 py-2 rounded-lg hover:bg-vault/30 hover:scale-105 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(234,179,8,0.15)]" title="Abre el inyector visual para colocar una firma o código QR en esta página">
+                            <i class="fa-solid fa-signature"></i> Inyectar Visual
+                        </button>
+                    `;
+                }
+
+                canvasContainer.appendChild(hoverMenu);
+                card.appendChild(header);
+                card.appendChild(canvasContainer);
+                DOM.grid.appendChild(card);
+
+                // Renderizar el PDF real en el canvas asíncronamente
+                renderPageToCanvas(pageData.refIndex + 1, canvas, 0.5); // Escala 0.5 para miniatura
+            }
+
+            document.getElementById('pages-count-live').innerText = `Activas: ${activeCount} / Total: ${pagesState.length}`;
+            
+            if(activeCount === 0 && pagesState.length > 0) {
+                 document.getElementById('pages-count-live').classList.replace('text-nyx', 'text-danger');
+                 document.getElementById('pages-count-live').classList.replace('bg-nyx/10', 'bg-danger/10');
+            } else {
+                 document.getElementById('pages-count-live').classList.replace('text-danger', 'text-nyx');
+                 document.getElementById('pages-count-live').classList.replace('bg-danger/10', 'bg-nyx/10');
+            }
+        }
+
+        async function renderPageToCanvas(pageNum, canvasElement, scaleToUse = 1.0) {
+            try {
+                const page = await originalPdfDoc.getPage(pageNum);
+                const viewport = page.getViewport({ scale: scaleToUse });
+                const context = canvasElement.getContext('2d');
+                canvasElement.height = viewport.height;
+                canvasElement.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                await page.render(renderContext).promise;
+            } catch(e) {
+                console.error("Error renderizando página", e);
+            }
+        }
+
+        function initSortable() {
+            new Sortable(DOM.grid, {
+                animation: 200,
+                ghostClass: 'sortable-ghost',
+                handle: '.drag-handle', // Solo se arrastra desde el iconito
+                easing: "cubic-bezier(1, 0, 0, 1)",
+                onEnd: function (evt) {
+                    // Actualizar el array pagesState basado en el nuevo orden del DOM
+                    const oldIndex = evt.oldIndex;
+                    const newIndex = evt.newIndex;
+                    
+                    // Mover elemento en el array
+                    const item = pagesState.splice(oldIndex, 1)[0];
+                    pagesState.splice(newIndex, 0, item);
+                    
+                    // Rerenderizar para arreglar la numeración (#1, #2...)
+                    renderGrid();
+                },
+            });
+        }
+
+        /**
+         * ==========================================
+         * ACCIONES POR PÁGINA (Botones del Hover)
+         * ==========================================
+         */
+        function findPageIdx(id) { return pagesState.findIndex(p => p.id === id); }
+
+        function deletePage(id) {
+            const idx = findPageIdx(id);
+            if(idx > -1) {
+                // Verificar que no eliminen todas
+                const activePages = pagesState.filter(p => !p.isDeleted).length;
+                if(activePages <= 1) { 
+                    alert("⚠️ Acción bloqueada: El documento debe mantener al menos una página visible para poder exportarse."); 
+                    return; 
+                }
+                pagesState[idx].isDeleted = true;
+                renderGrid();
+            }
+        }
+
+        function restorePage(id) {
+            const idx = findPageIdx(id);
+            if(idx > -1) { pagesState[idx].isDeleted = false; renderGrid(); }
+        }
+
+        function rotatePage(id) {
+            const idx = findPageIdx(id);
+            if(idx > -1) { 
+                pagesState[idx].rotation = (pagesState[idx].rotation + 90) % 360; 
+                renderGrid(); 
+            }
+        }
+
+        function duplicatePage(id) {
+            const idx = findPageIdx(id);
+            if(idx > -1) {
+                const original = pagesState[idx];
+                const clone = {
+                    id: 'page-' + generateId(),
+                    refIndex: original.refIndex,
+                    rotation: original.rotation,
+                    isDeleted: false,
+                    signature: original.signature ? {...original.signature} : null
+                };
+                // Insertar el clon justo después del original
+                pagesState.splice(idx + 1, 0, clone);
+                renderGrid();
+            }
+        }
+
+        /**
+         * ==========================================
+         * SISTEMA DE FIRMAS E IMÁGENES (DRAG & DROP SOBRE CANVAS)
+         * ==========================================
+         */
+        let currentSigPageId = null;
+        let isDraggingSig = false;
+        let isResizingSig = false;
+        let sigDataUrl = null;
+        
+        const modalSig = document.getElementById('modal-signature');
+        const sigCanvas = document.getElementById('sig-pdf-canvas');
+        const sigDragContainer = document.getElementById('sig-drag-container');
+        const sigImg = document.getElementById('sig-img');
+        const sigWrapper = document.getElementById('canvas-wrapper');
+        const sigResizeHandle = document.getElementById('sig-resize-handle');
+
+        async function openSignatureModal(pageId) {
+            currentSigPageId = pageId;
+            const pageData = pagesState.find(p => p.id === pageId);
+            if(!pageData) return;
+
+            modalSig.classList.add('modal-active');
+            
+            // Renderizar la página en grande (escala 1.5)
+            await renderPageToCanvas(pageData.refIndex + 1, sigCanvas, 1.5);
+            
+            // Si ya tenía firma, restaurarla en UI
+            if (pageData.signature) {
+                sigDataUrl = pageData.signature.dataUrl;
+                sigImg.src = sigDataUrl;
+                
+                // Reconstruir posición en pixels
+                const canvasW = sigCanvas.width;
+                const canvasH = sigCanvas.height;
+                
+                sigDragContainer.style.width = (pageData.signature.widthPct * canvasW) + 'px';
+                sigDragContainer.style.height = (pageData.signature.heightPct * canvasH) + 'px';
+                sigDragContainer.style.left = (pageData.signature.xPct * canvasW) + 'px';
+                sigDragContainer.style.top = (pageData.signature.yPct * canvasH) + 'px';
+                
+                sigDragContainer.classList.remove('hidden');
+            } else {
+                sigDragContainer.classList.add('hidden');
+                sigDataUrl = null;
+            }
+        }
+
+        function closeSignatureModal() { modalSig.classList.remove('modal-active'); }
+
+        function handleSignatureUpload(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                sigDataUrl = event.target.result;
+                sigImg.src = sigDataUrl;
+                
+                // Mostrar contenedor en el centro con tamaño default
+                sigDragContainer.classList.remove('hidden');
+                sigDragContainer.style.width = '180px';
+                sigDragContainer.style.height = '90px';
+                sigDragContainer.style.left = (sigCanvas.width / 2 - 90) + 'px';
+                sigDragContainer.style.top = (sigCanvas.height / 2 - 45) + 'px';
+            };
+            reader.readAsDataURL(file);
+            e.target.value = ''; // reset
+        }
+
+        function removeCurrentSignature() {
+            sigDragContainer.classList.add('hidden');
+            sigDataUrl = null;
+        }
+
+        function saveSignaturePosition() {
+            if(!currentSigPageId) return;
+            const idx = findPageIdx(currentSigPageId);
+            if(idx === -1) return;
+
+            if (sigDragContainer.classList.contains('hidden') || !sigDataUrl) {
+                pagesState[idx].signature = null;
+            } else {
+                // Calcular porcentajes relativos al tamaño del canvas actual
+                // Esto permite que al inyectarlo con PDF-Lib (que usa otras coordenadas), lo escalemos perfecto.
+                const cw = sigCanvas.width;
+                const ch = sigCanvas.height;
+                
+                // Posición relativa al wrapper
+                const relativeX = sigDragContainer.offsetLeft;
+                const relativeY = sigDragContainer.offsetTop;
+                const w = sigDragContainer.offsetWidth;
+                const h = sigDragContainer.offsetHeight;
+
+                pagesState[idx].signature = {
+                    dataUrl: sigDataUrl,
+                    xPct: relativeX / cw,
+                    yPct: relativeY / ch,
+                    widthPct: w / cw,
+                    heightPct: h / ch
+                };
+            }
+            closeSignatureModal();
+            renderGrid(); // para mostrar el badge
+        }
+
+        // Lógica de Drag & Resize para Touch y Mouse
+        let startX, startY, startW, startH, startLeft, startTop;
+
+        function getClientX(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
+        function getClientY(e) { return e.touches ? e.touches[0].clientY : e.clientY; }
+        
+        function dragStart(e) {
+            if(e.target === sigResizeHandle) return;
+            isDraggingSig = true;
+            startX = getClientX(e); startY = getClientY(e);
+            startLeft = sigDragContainer.offsetLeft; startTop = sigDragContainer.offsetTop;
+            if(!e.touches) e.preventDefault(); // Evita scroll en PC, permite en touch si es necesario
+        }
+
+        function resizeStart(e) {
+            isResizingSig = true;
+            startX = getClientX(e); startY = getClientY(e);
+            startW = sigDragContainer.offsetWidth; startH = sigDragContainer.offsetHeight;
+            e.stopPropagation(); 
+            if(!e.touches) e.preventDefault();
+        }
+
+        function handleMove(e) {
+            if(isDraggingSig) {
+                const dx = getClientX(e) - startX; const dy = getClientY(e) - startY;
+                sigDragContainer.style.left = (startLeft + dx) + 'px';
+                sigDragContainer.style.top = (startTop + dy) + 'px';
+                if(e.touches) e.preventDefault(); // Bloquear scroll de la página al arrastrar
+            } else if (isResizingSig) {
+                const dx = getClientX(e) - startX; const dy = getClientY(e) - startY;
+                sigDragContainer.style.width = Math.max(50, startW + dx) + 'px';
+                sigDragContainer.style.height = Math.max(20, startH + dy) + 'px';
+                if(e.touches) e.preventDefault();
+            }
+        }
+
+        function handleEnd() { isDraggingSig = false; isResizingSig = false; }
+
+        // Mouse events
+        sigDragContainer.addEventListener('mousedown', dragStart);
+        sigResizeHandle.addEventListener('mousedown', resizeStart);
+        document.addEventListener('mousemove', handleMove);
+        document.addEventListener('mouseup', handleEnd);
+
+        // Touch events para móviles
+        sigDragContainer.addEventListener('touchstart', dragStart, {passive: false});
+        sigResizeHandle.addEventListener('touchstart', resizeStart, {passive: false});
+        document.addEventListener('touchmove', handleMove, {passive: false});
+        document.addEventListener('touchend', handleEnd);
+
+        /**
+         * ==========================================
+         * EXPORTACIÓN Y COMPILACIÓN FINAL CON PDF-LIB
+         * ==========================================
+         */
+        const modalExport = document.getElementById('modal-export');
+        function openExportModal() { modalExport.classList.add('modal-active'); }
+        function closeExportModal() { modalExport.classList.remove('modal-active'); }
+
+        async function executeFinalCompilation() {
+            const password = document.getElementById('export-password').value;
+            closeExportModal();
+            
+            // Si hay contraseña, mostrar animación de encriptación
+            if(password) {
+                showLoading("APLICANDO PROTOCOLO ATS LOCK...");
+                DOM.loadingSubtext.innerHTML = '<i class="fa-solid fa-lock text-danger animate-pulse"></i> Inyectando flags de seguridad en metadatos...';
+                await new Promise(r => setTimeout(r, 1500)); // Animación falsa extra para feedback visual
+                DOM.loadingText.innerText = "COMPILANDO MATRIZ...";
+            } else {
+                showLoading("COMPILANDO ARQUITECTURA FINAL...");
+                DOM.loadingSubtext.innerHTML = '<i class="fa-solid fa-file-export text-accent"></i> Generando nuevo documento ensamblado...';
+            }
+            
+            DOM.scanner.classList.remove('hidden'); // Activar scanline visual
+
+            try {
+                // 1. Crear documento en blanco
+                const newPdf = await PDFLib.PDFDocument.create();
+                
+                // Configurar metadata corporativa y de simulación
+                newPdf.setTitle('Documento Procesado por CV Studio33 Vault');
+                newPdf.setAuthor('Protocolo Leviatham');
+                newPdf.setProducer('CV Studio33 Engine');
+
+                // 2. Cargar documento original en PDF-Lib para extraer páginas
+                const originalLibDoc = await PDFLib.PDFDocument.load(originalPdfBytes.slice());
+                
+                const globalWatermark = document.getElementById('global-watermark').value.trim();
+                let helveticaFont = null;
+                if(globalWatermark) helveticaFont = await newPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+                // 3. Iterar sobre nuestro estado maestro (pagesState)
+                for (const pageState of pagesState) {
+                    if (pageState.isDeleted) continue;
+
+                    // Copiar la página original al nuevo documento
+                    const [copiedPage] = await newPdf.copyPages(originalLibDoc, [pageState.refIndex]);
+                    
+                    // Aplicar rotación
+                    if (pageState.rotation !== 0) {
+                        const currentRotation = copiedPage.getRotation().angle;
+                        copiedPage.setRotation(PDFLib.degrees(currentRotation + pageState.rotation));
+                    }
+
+                    // Aplicar Firma si existe
+                    if (pageState.signature) {
+                        const imgBytes = await fetch(pageState.signature.dataUrl).then(res => res.arrayBuffer());
+                        let pdfImage;
+                        if(pageState.signature.dataUrl.includes('image/png')) {
+                            pdfImage = await newPdf.embedPng(imgBytes);
+                        } else {
+                            pdfImage = await newPdf.embedJpg(imgBytes);
+                        }
+
+                        // Dimensiones reales de la página en PDF-Lib
+                        const { width, height } = copiedPage.getSize();
+                        
+                        // Matemáticas para convertir porcentajes del top-down a bottom-up:
+                        const finalWidth = width * pageState.signature.widthPct;
+                        const finalHeight = height * pageState.signature.heightPct;
+                        const finalX = width * pageState.signature.xPct;
+                        const finalY = height - (height * pageState.signature.yPct) - finalHeight;
+
+                        copiedPage.drawImage(pdfImage, {
+                            x: finalX, y: finalY,
+                            width: finalWidth, height: finalHeight
+                        });
+                    }
+
+                    // Aplicar Marca de agua Global si existe
+                    if (globalWatermark) {
+                        const { width, height } = copiedPage.getSize();
+                        copiedPage.drawText(globalWatermark, {
+                            x: 30, y: 30,
+                            size: 14,
+                            font: helveticaFont,
+                            color: PDFLib.rgb(0.5, 0.5, 0.5),
+                            opacity: 0.4,
+                        });
+                    }
+
+                    newPdf.addPage(copiedPage);
+                }
+
+                // 4. Protección / Password (Mock UI y Metadata Flag)
+                if (password) {
+                    console.warn("[Studio33 Security] Advertencia: Ejecución Local. Añadiendo ATS Lock Metadata en lugar de AES-256 binario.");
+                    newPdf.setSubject(`ENCRYPTED_VAULT_FLAG_${password.substring(0,3)}***_ATS_LOCK`);
+                    newPdf.setKeywords(['LOCKED', 'CONFIDENTIAL', 'NO_ATS_PARSE']);
+                }
+
+                // 5. Guardar Archivo
+                const pdfBytesFinal = await newPdf.save();
+                
+                // 6. Descargar
+                const blob = new Blob([pdfBytesFinal], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                
+                let fileName = document.getElementById('export-filename').value.trim() || 'Documento_Protegido';
+                if(!fileName.toLowerCase().endsWith('.pdf')) fileName += '.pdf';
+                a.download = fileName;
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                setTimeout(() => {
+                    hideLoading();
+                    DOM.scanner.classList.add('hidden');
+                    if(password) {
+                        alert("¡Descarga completada!\n\nSe ha inyectado el ATS Lock al archivo. Recuerda que los sistemas automáticos de RRHH podrían tener problemas para leer un documento modificado con flags de seguridad.");
+                    }
+                }, 1000);
+
+            } catch (error) {
+                hideLoading();
+                DOM.scanner.classList.add('hidden');
+                console.error("Error crítico compilando PDF:", error);
+                alert("Error crítico en la compilación The Vault. Revisa la consola o intenta recargar la página.");
+            }
+        }
+
+        // Utils
+        function showLoading(msg) { DOM.loadingText.innerText = msg; DOM.loadingOverlay.classList.remove('hidden'); DOM.loadingOverlay.classList.add('flex'); }
+        function hideLoading() { DOM.loadingOverlay.classList.add('hidden'); DOM.loadingOverlay.classList.remove('flex'); }
+        function generateId() { return Math.random().toString(36).substr(2, 9); }
+    </script>
+</body>
+</html>

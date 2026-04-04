@@ -185,6 +185,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: none; /* Previene comportamientos extraños en algunos móviles */
         }
         .asset-container:hover { border-color: #fff; z-index: 50; }
         .asset-container.type-image { background: rgba(234,179,8,0.15); }
@@ -424,7 +425,7 @@
 
                 <div class="hidden md:flex flex-grow relative bg-[#05080f] p-4 justify-center items-start overflow-auto custom-scrollbar min-h-[400px]" id="sig-workspace-container">
                     <div id="canvas-wrapper" class="relative inline-block shadow-2xl ring-1 ring-white/10">
-                        <canvas id="sig-pdf-canvas" class="block bg-white rounded-sm max-w-full h-auto"></canvas>
+                        <canvas id="sig-pdf-canvas" class="block bg-white rounded-sm"></canvas>
                         <div id="assets-layer" class="absolute inset-0 pointer-events-none"></div>
                     </div>
                 </div>
@@ -805,10 +806,10 @@
             // Render grande
             await renderPageToCanvas(pageData.refIndex + 1, sigCanvas, 1.5);
             
-            // Restaurar assets guardados
+            // Restaurar assets guardados. FIX: Usamos offsetWidth para que no se achique
             if (pageData.assets && pageData.assets.length > 0) {
-                const cw = sigCanvas.width;
-                const ch = sigCanvas.height;
+                const cw = sigCanvas.offsetWidth;
+                const ch = sigCanvas.offsetHeight;
                 
                 pageData.assets.forEach(asset => {
                     const DOMAsset = createDOMAsset(asset.type, asset.content, asset.color, asset.size, asset.src);
@@ -827,7 +828,7 @@
 
         function closeSignatureModal() { modalSig.classList.remove('modal-active'); }
 
-        // Función para cambiar pestañas en móviles (AGREGADA)
+        // Función para cambiar pestañas en móviles
         function switchMobileTab(tab) {
             const tools = document.getElementById('mobile-tools-panel');
             const canvas = document.getElementById('sig-workspace-container');
@@ -861,6 +862,13 @@
             }
         }
 
+        // FIX: Cambia al PDF automáticamente después de inyectar un elemento (en celulares)
+        function forceCanvasTab() {
+            if (window.innerWidth < 768) {
+                switchMobileTab('canvas');
+            }
+        }
+
         function createDOMAsset(type, textStr = '', color = '#000', size = 14, src = '') {
             const container = document.createElement('div');
             container.className = `asset-container type-${type} pointer-events-auto`;
@@ -872,15 +880,13 @@
                 contentHTML = `<img src="${src}" class="w-full h-full pointer-events-none object-contain">`;
                 container.dataset.src = src;
             } else if (type === 'text') {
-                // Estimación de altura/ancho inicial.
                 contentHTML = `<span style="color: ${color}; font-size: ${size}px; font-family: Helvetica, Arial, sans-serif; white-space: nowrap; pointer-events:none;">${textStr}</span>`;
                 container.dataset.content = textStr;
                 container.dataset.color = color;
                 container.dataset.size = size;
-                container.style.border = "none"; // El texto no muestra borde permanente al imprimir
+                container.style.border = "none"; 
                 container.style.background = "transparent";
             } else if (type === 'eraser') {
-                // Borrador es solo una caja blanca
                 container.title = "Caja censora blanca";
             }
 
@@ -895,19 +901,32 @@
             return container;
         }
 
-        // Agregar Borrador (Whiteout)
+        // Agregar Borrador (Whiteout) - FIX Coordenadas visuales
         function addEraserAsset() {
             const asset = createDOMAsset('eraser');
-            asset.style.width = '100px';
-            asset.style.height = '30px';
-            asset.style.left = (sigCanvas.width / 2 - 50) + 'px';
-            asset.style.top = (sigCanvas.height / 2 - 15) + 'px';
+            const container = document.getElementById('sig-workspace-container');
+            
+            // Calculamos centro de la vista del usuario
+            const scrollLeft = container.scrollLeft;
+            const scrollTop = container.scrollTop;
+            const viewW = container.clientWidth || sigCanvas.offsetWidth;
+            const viewH = container.clientHeight || sigCanvas.offsetHeight;
+            
+            let w = 100;
+            let h = 30;
+
+            asset.style.width = w + 'px';
+            asset.style.height = h + 'px';
+            asset.style.left = (scrollLeft + (viewW / 2) - (w / 2)) + 'px';
+            asset.style.top = (scrollTop + (viewH / 2) - (h / 2)) + 'px';
+            
             assetsLayer.appendChild(asset);
             activeAssets.push(asset);
             makeDraggable(asset);
+            forceCanvasTab();
         }
 
-        // Agregar Texto
+        // Agregar Texto - FIX Coordenadas visuales
         function addTextAsset() {
             const textStr = document.getElementById('tool-text-input').value.trim();
             if(!textStr) { alert("Escribe un texto primero."); return; }
@@ -916,37 +935,59 @@
             const size = document.getElementById('tool-text-size').value;
 
             const asset = createDOMAsset('text', textStr, color, size);
-            asset.style.width = '150px';
-            asset.style.height = (parseInt(size) + 10) + 'px';
-            asset.style.left = (sigCanvas.width / 2 - 75) + 'px';
-            asset.style.top = (sigCanvas.height / 2 - 15) + 'px';
             
-            // Efecto visual editable falso para el div text
+            const container = document.getElementById('sig-workspace-container');
+            const scrollLeft = container.scrollLeft;
+            const scrollTop = container.scrollTop;
+            const viewW = container.clientWidth || sigCanvas.offsetWidth;
+            const viewH = container.clientHeight || sigCanvas.offsetHeight;
+            
+            let w = 150;
+            let h = parseInt(size) + 10;
+
+            asset.style.width = w + 'px';
+            asset.style.height = h + 'px';
+            asset.style.left = (scrollLeft + (viewW / 2) - (w / 2)) + 'px';
+            asset.style.top = (scrollTop + (viewH / 2) - (h / 2)) + 'px';
+            
             asset.classList.add('border-blue-500', 'border-dashed', 'border-2', 'bg-blue-500/10');
             
             assetsLayer.appendChild(asset);
             activeAssets.push(asset);
             makeDraggable(asset);
-            document.getElementById('tool-text-input').value = ''; // clean
+            document.getElementById('tool-text-input').value = ''; 
+            forceCanvasTab();
         }
 
-        // Agregar Imagen
+        // Agregar Imagen - FIX Coordenadas visuales
         function handleSignatureUpload(e) {
             const file = e.target.files[0];
             if(!file) return;
             const reader = new FileReader();
             reader.onload = function(event) {
                 const asset = createDOMAsset('image', '', '', '', event.target.result);
-                asset.style.width = '150px';
-                asset.style.height = '75px';
-                asset.style.left = (sigCanvas.width / 2 - 75) + 'px';
-                asset.style.top = (sigCanvas.height / 2 - 37) + 'px';
+                
+                const container = document.getElementById('sig-workspace-container');
+                const scrollLeft = container.scrollLeft;
+                const scrollTop = container.scrollTop;
+                const viewW = container.clientWidth || sigCanvas.offsetWidth;
+                const viewH = container.clientHeight || sigCanvas.offsetHeight;
+
+                let w = 150;
+                let h = 75;
+
+                asset.style.width = w + 'px';
+                asset.style.height = h + 'px';
+                asset.style.left = (scrollLeft + (viewW / 2) - (w / 2)) + 'px';
+                asset.style.top = (scrollTop + (viewH / 2) - (h / 2)) + 'px';
+                
                 assetsLayer.appendChild(asset);
                 activeAssets.push(asset);
                 makeDraggable(asset);
+                forceCanvasTab();
             };
             reader.readAsDataURL(file);
-            e.target.value = ''; // reset
+            e.target.value = ''; 
         }
 
         function removeAsset(id) {
@@ -962,8 +1003,9 @@
             const idx = findPageIdx(currentSigPageId);
             if(idx === -1) return;
 
-            const cw = sigCanvas.width;
-            const ch = sigCanvas.height;
+            // FIX: Usamos offsetWidth en lugar de .width porque en algunos navegadores el canvas escala
+            const cw = sigCanvas.offsetWidth;
+            const ch = sigCanvas.offsetHeight;
             
             pagesState[idx].assets = [];
 
@@ -1015,7 +1057,8 @@
             isDragging = true;
             startX = getClientX(e); startY = getClientY(e);
             startLeft = dragTarget.offsetLeft; startTop = dragTarget.offsetTop;
-            if(!e.touches) e.preventDefault();
+            // FIX TOUCH: Prevenir que la pantalla haga scroll al intentar mover el recuadro
+            if(e.cancelable) e.preventDefault(); 
         }
 
         function startResize(e, element) {
@@ -1024,7 +1067,8 @@
             startX = getClientX(e); startY = getClientY(e);
             startW = dragTarget.offsetWidth; startH = dragTarget.offsetHeight;
             e.stopPropagation(); 
-            if(!e.touches) e.preventDefault();
+            // FIX TOUCH: Prevenir scroll al redimensionar
+            if(e.cancelable) e.preventDefault(); 
         }
 
         document.addEventListener('mousemove', handleAssetMove);
@@ -1038,12 +1082,12 @@
                 const dx = getClientX(e) - startX; const dy = getClientY(e) - startY;
                 dragTarget.style.left = (startLeft + dx) + 'px';
                 dragTarget.style.top = (startTop + dy) + 'px';
-                if(e.touches) e.preventDefault();
+                if(e.cancelable) e.preventDefault();
             } else if (isResizing) {
                 const dx = getClientX(e) - startX; const dy = getClientY(e) - startY;
                 dragTarget.style.width = Math.max(20, startW + dx) + 'px';
                 dragTarget.style.height = Math.max(10, startH + dy) + 'px';
-                if(e.touches) e.preventDefault();
+                if(e.cancelable) e.preventDefault();
             }
         }
 

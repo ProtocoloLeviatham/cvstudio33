@@ -116,7 +116,7 @@
 
         .a4-page {
             width: 210mm;
-            min-height: 297mm;
+            height: 297mm; /* Modificado de min-height a height fijo para forzar 1 sola hoja */
             background: white;
             padding: 18mm 20mm;
             box-shadow: 0 0 50px rgba(0,0,0,0.5);
@@ -673,7 +673,36 @@
     </div>
 
     <div id="vault-pdf-template" style="position: fixed; top: 0; left: 0; z-index: -1000; opacity: 0; pointer-events: none; width: 210mm; min-height: 297mm; padding: 20mm; background: #f8fafc; color: #0f172a; font-family: 'Inter', sans-serif;">
+        <h1 style="font-size: 24px; color: #1e293b; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-bottom: 20px;">INFORME CONFIDENCIAL THE VAULT: <span id="vault-company-title"></span></h1>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Tipo de ATS:</h3>
+            <p id="vault-ats-type" style="font-size: 14px; color: #475569;"></p>
         </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Rango Salarial:</h3>
+            <p id="vault-salary" style="font-size: 14px; color: #475569;"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Horarios y Modalidad:</h3>
+            <p id="vault-schedule" style="font-size: 14px; color: #475569;"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Palabras Clave Críticas:</h3>
+            <p id="vault-keywords" style="font-size: 14px; color: #475569;"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Habilidades Primordiales:</h3>
+            <p id="vault-skills" style="font-size: 14px; color: #475569;"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Información Privilegiada:</h3>
+            <p id="vault-privilege-info" style="font-size: 14px; color: #475569;"></p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; color: #dc2626; margin-bottom: 5px;">Simulación de Prueba:</h3>
+            <p id="vault-simulation" style="font-size: 14px; color: #475569; white-space: pre-wrap;"></p>
+        </div>
+    </div>
 
     <script>
         // --- BASE DE DATOS EXTENSA PARA SUCURSALES (INTACTA) ---
@@ -1036,7 +1065,8 @@
                 filename: 'cv-analistafinanciero.pdf', 
                 image: { type: 'jpeg', quality: 0.98 }, 
                 html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, 
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all'] } // Fix aplicado para evitar página extra
             };
             html2pdf().set(opt).from(element).save();
         }

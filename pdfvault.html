@@ -379,9 +379,14 @@
                 </button>
             </div>
 
+            <div class="md:hidden flex bg-gray-900 border-b border-gray-800 p-2 gap-2 flex-shrink-0 z-20">
+                <button id="tab-tools" onclick="switchMobileTab('tools')" class="flex-1 bg-accent/20 border border-accent text-white text-xs font-bold py-2.5 rounded shadow-[0_0_10px_rgba(59,130,246,0.2)] transition-colors"><i class="fa-solid fa-wrench"></i> Herramientas</button>
+                <button id="tab-canvas" onclick="switchMobileTab('canvas')" class="flex-1 bg-gray-800 border border-gray-700 text-gray-400 hover:text-white text-xs font-bold py-2.5 rounded transition-colors"><i class="fa-solid fa-eye"></i> Ver PDF</button>
+            </div>
+
             <div class="flex-grow flex flex-col md:flex-row overflow-hidden bg-primary">
                 
-                <div class="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-800 bg-secondary/30 p-4 overflow-y-auto custom-scrollbar flex-shrink-0 space-y-6">
+                <div id="mobile-tools-panel" class="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-800 bg-secondary/30 p-4 overflow-y-auto custom-scrollbar flex-shrink-0 space-y-6 block">
                     
                     <div class="text-[10px] text-gray-400 bg-black/40 p-3 rounded border border-gray-800 leading-relaxed">
                         <strong><i class="fa-solid fa-circle-info text-accent"></i> Tip Técnico:</strong> Los PDFs son vectores, no textos corridos. Para "modificar" una palabra existente, usa la herramienta de <strong class="text-danger">Borrar/Censurar</strong> para taparla de blanco, y luego la herramienta de <strong class="text-accent">Escribir Texto</strong> para sobreescribirla arriba.
@@ -417,7 +422,7 @@
 
                 </div>
 
-                <div class="flex-grow relative bg-[#05080f] p-4 flex justify-center items-start overflow-auto custom-scrollbar min-h-[400px]" id="sig-workspace-container">
+                <div class="hidden md:flex flex-grow relative bg-[#05080f] p-4 justify-center items-start overflow-auto custom-scrollbar min-h-[400px]" id="sig-workspace-container">
                     <div id="canvas-wrapper" class="relative inline-block shadow-2xl ring-1 ring-white/10">
                         <canvas id="sig-pdf-canvas" class="block bg-white rounded-sm max-w-full h-auto"></canvas>
                         <div id="assets-layer" class="absolute inset-0 pointer-events-none"></div>
@@ -790,6 +795,9 @@
 
             modalSig.classList.add('modal-active');
             
+            // Restablecer la vista móvil a 'herramientas' por defecto al abrir
+            if(typeof switchMobileTab === 'function') switchMobileTab('tools');
+            
             // Limpiar capa
             assetsLayer.innerHTML = '';
             activeAssets = [];
@@ -818,6 +826,40 @@
         }
 
         function closeSignatureModal() { modalSig.classList.remove('modal-active'); }
+
+        // Función para cambiar pestañas en móviles (AGREGADA)
+        function switchMobileTab(tab) {
+            const tools = document.getElementById('mobile-tools-panel');
+            const canvas = document.getElementById('sig-workspace-container');
+            const btnTools = document.getElementById('tab-tools');
+            const btnCanvas = document.getElementById('tab-canvas');
+
+            if (tab === 'tools') {
+                tools.classList.remove('hidden');
+                tools.classList.add('block');
+                
+                canvas.classList.remove('flex');
+                canvas.classList.add('hidden', 'md:flex'); // Siempre flex en PC
+
+                btnTools.className = "flex-1 bg-accent/20 border border-accent text-white text-xs font-bold py-2.5 rounded shadow-[0_0_10px_rgba(59,130,246,0.2)] transition-colors";
+                btnTools.innerHTML = '<i class="fa-solid fa-wrench"></i> Herramientas';
+                
+                btnCanvas.className = "flex-1 bg-gray-800 border border-gray-700 text-gray-400 hover:text-white text-xs font-bold py-2.5 rounded transition-colors";
+                btnCanvas.innerHTML = '<i class="fa-solid fa-eye"></i> Ver PDF';
+            } else {
+                tools.classList.remove('block');
+                tools.classList.add('hidden', 'md:block'); // Siempre block en PC
+                
+                canvas.classList.remove('hidden');
+                canvas.classList.add('flex');
+
+                btnCanvas.className = "flex-1 bg-accent/20 border border-accent text-white text-xs font-bold py-2.5 rounded shadow-[0_0_10px_rgba(59,130,246,0.2)] transition-colors";
+                btnCanvas.innerHTML = '<i class="fa-solid fa-eye"></i> Ver PDF';
+                
+                btnTools.className = "flex-1 bg-gray-800 border border-gray-700 text-gray-400 hover:text-white text-xs font-bold py-2.5 rounded transition-colors";
+                btnTools.innerHTML = '<i class="fa-solid fa-wrench"></i> Herramientas';
+            }
+        }
 
         function createDOMAsset(type, textStr = '', color = '#000', size = 14, src = '') {
             const container = document.createElement('div');

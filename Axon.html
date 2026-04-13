@@ -5,19 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AXON | Ingeniería de Contratación</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     
-    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
 
     <style>
         body {
@@ -34,6 +40,19 @@
         .mono-font {
             font-family: 'JetBrains Mono', monospace;
         }
+
+        /* ----- SCROLL REVEAL ANIMATIONS ----- */
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .reveal.active {
+            opacity: 1; transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
 
         /* Canvas Background */
         #canvas-container {
@@ -187,12 +206,9 @@
 </head>
 <body class="antialiased selection:bg-green-500 selection:text-black">
 
-    <!-- 3D Background -->
     <div id="canvas-container"></div>
 
-    <!-- Intro Text Sequence -->
     <div id="intro-overlay">
-        <!-- Slide 1 -->
         <div id="intro-text-1" class="intro-text-slide active">
             <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
                 Bienvenido, Estás a punto de ver lo que la tecnología de <span class="text-green-400">AXON</span><br>puede hacer por vos.
@@ -200,7 +216,6 @@
             <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
         </div>
         
-        <!-- Slide 2 -->
         <div id="intro-text-2" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
                 Un sistema de inteligencia alimentado por múltiples bases de datos,<br>
@@ -209,7 +224,6 @@
             <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
         </div>
 
-        <!-- Slide 3 -->
         <div id="intro-text-3" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
                 Deja de perder el tiempo enviando CVs básicos<br>
@@ -218,7 +232,6 @@
             <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
         </div>
 
-        <!-- Slide 4 -->
         <div id="intro-text-4" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
                 Nuestro agente <span class="text-green-400">AXON</span> cuenta con múltiples PLUGINs<br>
@@ -227,7 +240,6 @@
             <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
         </div>
 
-        <!-- Slide 5 -->
         <div id="intro-text-5" class="intro-text-slide">
             <h2 class="text-4xl md:text-6xl font-bold text-white mb-6">
                 ¿Qué estás esperando para probar a nuestro<br>
@@ -237,37 +249,43 @@
         </div>
     </div>
 
-    <!-- Scroll Spacer -->
+    <div id="skip-container" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end transition-all duration-500">
+        <span class="text-xs text-green-300/80 font-mono mb-2 bg-black/60 px-3 py-1.5 rounded-md backdrop-blur-md border border-green-500/30">
+            ¿Ya conoces el potencial de AXON?
+        </span>
+        <button id="skip-btn" class="group relative px-6 py-3 bg-green-900/30 hover:bg-green-600/50 border border-green-500/50 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all overflow-hidden backdrop-blur-md shadow-[0_0_15px_rgba(34,197,94,0.2)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] cursor-pointer pointer-events-auto">
+            <span class="relative z-10 flex items-center gap-2">
+                Omitir Presentación <i class="ph-bold ph-fast-forward text-lg"></i>
+            </span>
+            <div class="absolute inset-0 bg-green-500/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+        </button>
+    </div>
+
     <div id="intro-spacer"></div>
 
-    <!-- Main Content -->
     <div id="main-content">
         
-        <!-- Navbar -->
-        <nav class="fixed w-full z-50 top-0 pt-6 px-6 pointer-events-none">
+        <nav class="fixed w-full z-50 top-0 pt-6 px-6 pointer-events-none reveal">
             <div class="max-w-7xl mx-auto flex justify-end items-center">
-                <!-- Removed Left Logo/Button as requested -->
-                
-                <a href="Servicios.html" class="pointer-events-auto bg-green-900/20 hover:bg-green-600/20 border border-green-500/50 text-green-200 px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(34,197,94,0.2)] backdrop-blur-md flex items-center gap-2">
+                <a href="Servicios.html" class="pointer-events-auto bg-green-900/20 hover:bg-green-600/20 border border-green-500/50 text-green-200 px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(34,197,94,0.2)] backdrop-blur-md flex items-center gap-2 hover:scale-105">
                     <i class="ph-bold ph-arrow-left"></i> Volver a Servicios
                 </a>
             </div>
         </nav>
 
-        <!-- Bio Section -->
         <section class="relative min-h-screen flex items-center justify-center pt-32 px-4">
             <div class="max-w-6xl mx-auto text-center z-10">
-                <div class="inline-flex items-center gap-2 mb-8 px-4 py-2 border border-green-500/30 rounded-full bg-black/60 backdrop-blur-md">
+                <div class="reveal inline-flex items-center gap-2 mb-8 px-4 py-2 border border-green-500/30 rounded-full bg-black/60 backdrop-blur-md">
                     <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     <span class="text-green-300 text-xs font-bold tracking-[0.2em] uppercase">Módulo de Ingeniería Inversa</span>
                 </div>
                 
-                <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">
+                <h1 class="reveal reveal-delay-1 text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">
                     <span class="block text-white">Ingeniería Inversa de</span>
                     <span class="gradient-text tech-glow">Algoritmos de Contratación</span>
                 </h1>
                 
-                <div class="glass-card p-10 md:p-14 rounded-3xl max-w-5xl mx-auto mb-12 border-l-4 border-l-green-500 text-left md:text-center transform hover:scale-[1.01] transition-transform shadow-2xl bg-gradient-to-b from-green-900/10 to-transparent">
+                <div class="reveal reveal-delay-2 glass-card p-10 md:p-14 rounded-3xl max-w-5xl mx-auto mb-12 border-l-4 border-l-green-500 text-left md:text-center transform hover:scale-[1.01] transition-transform shadow-2xl bg-gradient-to-b from-green-900/10 to-transparent">
                     <p class="text-xl text-gray-200 leading-relaxed font-light mb-6">
                         <strong class="text-green-400 font-bold">AXON</strong> no es un lector de texto; es un motor de ingeniería inversa de algoritmos de contratación. Mientras que los ATS tradicionales buscan palabras clave, AXON utiliza <strong>Deep Learning</strong> para entender la intención, el impacto y la jerarquía de la información.
                     </p>
@@ -276,23 +294,23 @@
                     </p>
                 </div>
 
-                <a href="protocoloaxon.html" class="inline-block group relative px-12 py-6 bg-black border border-green-500 text-green-400 font-bold text-lg rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-                    <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
-                        <i class="ph-bold ph-cpu text-2xl"></i> INICIAR PROTOCOLO AXON
-                    </span>
-                    <div class="absolute inset-0 bg-green-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
-                </a>
+                <div class="reveal reveal-delay-3">
+                    <a href="protocoloaxon.html" class="inline-block group relative px-12 py-6 bg-black border border-green-500 text-green-400 font-bold text-lg rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+                        <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
+                            <i class="ph-bold ph-cpu text-2xl"></i> INICIAR PROTOCOLO AXON
+                        </span>
+                        <div class="absolute inset-0 bg-green-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                    </a>
+                </div>
             </div>
         </section>
 
-        <!-- Core Capabilities (Enhanced & Complete) -->
         <section class="py-24 px-4 relative">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center text-white">Capacidades del <span class="text-green-500 tech-glow">Núcleo</span></h2>
+                <h2 class="reveal text-4xl md:text-5xl font-bold mb-16 text-center text-white">Capacidades del <span class="text-green-500 tech-glow">Núcleo</span></h2>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Parsing Engine -->
-                    <div class="glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
+                    <div class="reveal glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
                         <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
                             <i class="ph-fill ph-file-code text-3xl"></i>
                         </div>
@@ -310,8 +328,7 @@
                         </div>
                     </div>
 
-                    <!-- ATS DBs -->
-                    <div class="glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
+                    <div class="reveal reveal-delay-1 glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
                         <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
                             <i class="ph-fill ph-database text-3xl"></i>
                         </div>
@@ -329,8 +346,7 @@
                         </div>
                     </div>
 
-                    <!-- Heatmap / Eye Tracking -->
-                    <div class="glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
+                    <div class="reveal reveal-delay-2 glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
                         <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
                             <i class="ph-fill ph-eye text-3xl"></i>
                         </div>
@@ -348,8 +364,7 @@
                         </div>
                     </div>
 
-                    <!-- Salary Range -->
-                    <div class="glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
+                    <div class="reveal glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
                         <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
                             <i class="ph-fill ph-currency-dollar text-3xl"></i>
                         </div>
@@ -367,8 +382,7 @@
                         </div>
                     </div>
 
-                    <!-- Mirroring -->
-                    <div class="glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
+                    <div class="reveal reveal-delay-1 glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
                         <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
                             <i class="ph-fill ph-users-three text-3xl"></i>
                         </div>
@@ -389,14 +403,12 @@
             </div>
         </section>
 
-        <!-- Metrics Section (Enhanced & Complete) -->
         <section class="py-24 px-4 bg-green-900/5 border-y border-green-900/20">
             <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl font-bold mb-12 text-center">Métricas de Decisión <span class="text-green-400">AXON</span></h2>
+                <h2 class="reveal text-3xl font-bold mb-12 text-center">Métricas de Decisión <span class="text-green-400">AXON</span></h2>
                 
                 <div class="grid md:grid-cols-2 gap-10">
-                    <!-- Metric 1 -->
-                    <div class="glass-card p-6 rounded-xl flex flex-col gap-4">
+                    <div class="reveal glass-card p-6 rounded-xl flex flex-col gap-4">
                         <div class="flex items-center gap-4 border-b border-white/10 pb-4">
                             <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-chart-bar"></i></div>
                             <h4 class="text-white font-bold text-xl">Score de Compatibilidad</h4>
@@ -414,8 +426,7 @@
                         </ul>
                     </div>
 
-                    <!-- Metric 2 -->
-                    <div class="glass-card p-6 rounded-xl flex flex-col gap-4">
+                    <div class="reveal reveal-delay-1 glass-card p-6 rounded-xl flex flex-col gap-4">
                         <div class="flex items-center gap-4 border-b border-white/10 pb-4">
                             <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-first-aid"></i></div>
                             <h4 class="text-white font-bold text-xl">Parsing Health</h4>
@@ -433,8 +444,7 @@
                         </ul>
                     </div>
 
-                    <!-- Metric 3 -->
-                    <div class="glass-card p-6 rounded-xl flex flex-col gap-4">
+                    <div class="reveal glass-card p-6 rounded-xl flex flex-col gap-4">
                         <div class="flex items-center gap-4 border-b border-white/10 pb-4">
                             <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-target"></i></div>
                             <h4 class="text-white font-bold text-xl">Skills Gap</h4>
@@ -452,8 +462,7 @@
                         </ul>
                     </div>
 
-                    <!-- Metric 4 -->
-                    <div class="glass-card p-6 rounded-xl flex flex-col gap-4">
+                    <div class="reveal reveal-delay-1 glass-card p-6 rounded-xl flex flex-col gap-4">
                         <div class="flex items-center gap-4 border-b border-white/10 pb-4">
                             <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-seal-check"></i></div>
                             <h4 class="text-white font-bold text-xl">Certificación AXON</h4>
@@ -474,20 +483,17 @@
             </div>
         </section>
 
-        <!-- AXON Token Economics (UPDATED WHATSAPP & LEFT-TO-RIGHT) -->
         <section class="py-24 px-4 bg-black">
             <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16">
+                <div class="reveal text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white">Economía de <span class="text-green-500 tech-glow">Tokens AXON</span></h2>
                     <p class="text-gray-400 max-w-2xl mx-auto">
                         Inversión estratégica en potencia de cálculo.
                     </p>
                 </div>
 
-                <!-- Pricing Grid (Flows Left to Right naturally in Flex/Grid) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-20">
-                    <!-- 1 -->
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
+                    <div class="reveal token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
                             <div class="text-green-400 font-mono text-sm mb-2">STARTER</div>
                             <h3 class="text-3xl font-bold text-white mb-2">5 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
@@ -496,8 +502,7 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 border border-green-500/50 rounded hover:bg-green-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <!-- 2 -->
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
+                    <div class="reveal reveal-delay-1 token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
                             <div class="text-green-400 font-mono text-sm mb-2">BASIC</div>
                             <h3 class="text-3xl font-bold text-white mb-2">10 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
@@ -506,8 +511,7 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Basic%20de%2010%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 border border-green-500/50 rounded hover:bg-green-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <!-- 3 -->
-                    <div class="token-card best-value p-6 rounded-xl text-center flex flex-col justify-between group relative transform md:-translate-y-4 bg-green-900/10">
+                    <div class="reveal reveal-delay-2 token-card best-value p-6 rounded-xl text-center flex flex-col justify-between group relative transform md:-translate-y-4 bg-green-900/10">
                         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Recomendado</div>
                         <div>
                             <div class="text-green-300 font-mono text-sm mb-2">PRO</div>
@@ -517,8 +521,7 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20de%2020%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 bg-green-600 hover:bg-green-500 rounded transition-all text-sm font-bold text-white shadow-[0_0_15px_rgba(34,197,94,0.4)]">ADQUIRIR</a>
                     </div>
-                    <!-- 4 -->
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
+                    <div class="reveal reveal-delay-3 token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
                             <div class="text-green-400 font-mono text-sm mb-2">EXPERT</div>
                             <h3 class="text-3xl font-bold text-white mb-2">50 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
@@ -527,8 +530,7 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Expert%20de%2050%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 border border-green-500/50 rounded hover:bg-green-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <!-- 5 -->
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group border-white/20">
+                    <div class="reveal reveal-delay-3 token-card p-6 rounded-xl text-center flex flex-col justify-between group border-white/20">
                         <div>
                             <div class="text-white font-mono text-sm mb-2">UNLIMITED</div>
                             <h3 class="text-2xl font-bold text-white mb-2">PLAN <br>MENSUAL</h3>
@@ -539,8 +541,7 @@
                     </div>
                 </div>
 
-                <!-- Spend Guide (UPDATED TEXT) -->
-                <div class="glass-card p-8 rounded-2xl max-w-3xl mx-auto border border-green-500/30">
+                <div class="reveal glass-card p-8 rounded-2xl max-w-3xl mx-auto border border-green-500/30">
                     <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
                         <i class="ph-fill ph-coin-vertical text-yellow-400"></i> Guía de Gasto por Herramienta
                     </h3>
@@ -562,10 +563,8 @@
             </div>
         </section>
 
-        <!-- Footer (UPDATED LOGO & LEGAL) -->
-        <footer class="bg-[#010201] py-16 px-4 border-t border-green-900/30">
-            <div class="max-w-7xl mx-auto">
-                <!-- Footer Logo -->
+        <footer class="reveal bg-[#010201] py-16 px-4 border-t border-green-900/30 relative">
+            <div class="max-w-7xl mx-auto relative z-10">
                 <div class="flex justify-center mb-12">
                     <img src="logoaxon.png" alt="AXON Logo" class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-500">
                 </div>
@@ -592,7 +591,6 @@
 
     </div>
 
-    <!-- Three.js Implementation -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (!window.THREE) {
@@ -600,9 +598,39 @@
                 return;
             }
 
-            const container = document.getElementById('canvas-container');
+            // --- SCROLL REVEAL (Intersection Observer) ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            
+            const revealObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- SKIP BUTTON LOGIC FIX ---
             const spacer = document.getElementById('intro-spacer');
+            const skipBtn = document.getElementById('skip-btn');
+            
+            skipBtn.addEventListener('click', () => {
+                const targetScroll = spacer.offsetHeight; 
+                gsap.to(window, {
+                    scrollTo: targetScroll,
+                    duration: 1.5,
+                    ease: "power3.inOut"
+                });
+            });
+
+            const container = document.getElementById('canvas-container');
             const mainContent = document.getElementById('main-content');
+            const skipContainer = document.getElementById('skip-container');
             
             // Text Slides
             const slides = [
@@ -613,107 +641,185 @@
                 document.getElementById('intro-text-5')
             ];
 
-            // Scene Setup
+            // --- SCENE SETUP ---
             const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x020502, 0.003);
+            scene.fog = new THREE.FogExp2(0x020502, 0.02);
 
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 30;
+            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 20;
 
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(renderer.domElement);
 
-            // --- PARTICLE SYSTEM ---
-            const particleCount = 3500;
-            const posArray = new Float32Array(particleCount * 3);
-            for(let i=0; i<particleCount*3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 150;
-            }
+            // --- EFECTO BLOOM POST-PROCESSING (NEÓN AXON) ---
+            const renderScene = new THREE.RenderPass(scene, camera);
+            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+            bloomPass.threshold = 0.1;
+            bloomPass.strength = 1.5; 
+            bloomPass.radius = 0.8;
 
-            // --- TARGET SHAPES (PROFESSIONAL SCENES) ---
-            const targets = {
-                intro: new Float32Array(particleCount * 3), 
-                moon: new Float32Array(particleCount * 3),  
-                shield: new Float32Array(particleCount * 3), 
-                gears: new Float32Array(particleCount * 3), 
-                rocket: new Float32Array(particleCount * 3), 
-                explode: new Float32Array(particleCount * 3) 
-            };
+            const composer = new THREE.EffectComposer(renderer);
+            composer.addPass(renderScene);
+            composer.addPass(bloomPass);
 
-            // 1. INTRO
-            for(let i=0; i<particleCount; i++) {
-                const r = 10; const theta = Math.random() * Math.PI * 2; const phi = Math.acos(2 * Math.random() - 1);
-                targets.intro[i*3] = r * Math.sin(phi) * Math.cos(theta);
-                targets.intro[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-                targets.intro[i*3+2] = r * Math.cos(phi);
-                if(i%10===0) targets.intro[i*3+1] *= 1.5; 
-            }
+            // --- LUCES VERDES PROFESIONALES ---
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
 
-            // 2. MOON
-            for(let i=0; i<particleCount; i++) {
-                if (i < 400) { 
-                    const h = (i/400) * 4; const w = 0.8;
-                    targets.moon[i*3] = -3 + (Math.random()-0.5)*w; targets.moon[i*3+1] = h - 2; targets.moon[i*3+2] = 2;
-                } else if (i < 800) {
-                    const h = ((i-400)/400) * 4; const w = 0.8;
-                    targets.moon[i*3] = 3 + (Math.random()-0.5)*w; targets.moon[i*3+1] = h - 2; targets.moon[i*3+2] = 2;
-                } else {
-                    const x = (Math.random()-0.5) * 30; const z = (Math.random()-0.5) * 20; const y = -3 - (x*x + z*z) * 0.05;
-                    targets.moon[i*3] = x; targets.moon[i*3+1] = y; targets.moon[i*3+2] = z;
-                }
-            }
+            const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            mainLight.position.set(10, 20, 10);
+            mainLight.castShadow = true;
+            scene.add(mainLight);
 
-            // 3. SHIELD
-            for(let i=0; i<particleCount; i++) {
-                const r = 10; const theta = Math.random() * Math.PI; const phi = Math.random() * Math.PI; 
-                let x = r * Math.sin(phi) * Math.cos(theta); let y = r * Math.sin(phi) * Math.sin(theta); let z = r * Math.cos(phi) * 0.3;
-                if (Math.abs(x) < 2) { x += (Math.random()-0.5)*5; y += (Math.random()-0.5)*5; z += 5; }
-                targets.shield[i*3] = x; targets.shield[i*3+1] = y; targets.shield[i*3+2] = z;
-            }
+            const greenLight1 = new THREE.PointLight(0x4ade80, 3, 50);
+            greenLight1.position.set(-10, 0, 5);
+            scene.add(greenLight1);
 
-            // 4. GEARS
-            for(let i=0; i<particleCount; i++) {
-                const r = 8; const t = Math.random() * Math.PI * 2; const teeth = 8; const rMod = r + (Math.sin(t * teeth) > 0 ? 2 : 0);
-                targets.gears[i*3] = rMod * Math.cos(t); targets.gears[i*3+1] = rMod * Math.sin(t); targets.gears[i*3+2] = (Math.random()-0.5) * 2;
-                if(i % 3 === 0) { targets.gears[i*3] *= 0.5; targets.gears[i*3+1] *= 0.5; targets.gears[i*3+2] += 2; }
-            }
+            const greenLight2 = new THREE.PointLight(0x22c55e, 2, 50);
+            greenLight2.position.set(10, -5, 5);
+            scene.add(greenLight2);
 
-            // 5. ROCKET
-            for(let i=0; i<particleCount; i++) {
-                if (i < 1500) {
-                    const h = (i/1500) * 20 - 5; const w = 2 - (h > 10 ? (h-10)*0.4 : 0); const ang = Math.random() * Math.PI * 2;
-                    targets.rocket[i*3] = Math.cos(ang) * w; targets.rocket[i*3+1] = h; targets.rocket[i*3+2] = Math.sin(ang) * w;
-                } else {
-                    const h = -5 - Math.random() * 15; const spread = (Math.abs(h) - 5) * 0.8; const ang = Math.random() * Math.PI * 2;
-                    targets.rocket[i*3] = Math.cos(ang) * spread; targets.rocket[i*3+1] = h; targets.rocket[i*3+2] = Math.sin(ang) * spread;
-                }
-            }
-
-            // 6. EXPLODE
-            for(let i=0; i<particleCount; i++) {
-                targets.explode[i*3] = (Math.random() - 0.5) * 200;
-                targets.explode[i*3+1] = (Math.random() - 0.5) * 200;
-                targets.explode[i*3+2] = (Math.random() - 0.5) * 50;
-            }
-
-            // Geometry & Material
-            const geometry = new THREE.BufferGeometry();
-            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            
-            const material = new THREE.PointsMaterial({
-                size: 0.18, color: 0x4ade80, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending
+            // --- MATERIALES PREMIUM AXON GREEN ---
+            const glassMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x22c55e,
+                metalness: 0.3,
+                roughness: 0.05,
+                transmission: 0.95, 
+                thickness: 0.8,
+                ior: 1.5,
+                emissive: 0x022c22, 
+                emissiveIntensity: 0.2,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1,
+                side: THREE.DoubleSide
             });
 
-            const particlesMesh = new THREE.Points(geometry, material);
-            scene.add(particlesMesh);
+            const accentMaterial = new THREE.MeshStandardMaterial({
+                color: 0x4ade80,
+                emissive: 0x16a34a, 
+                emissiveIntensity: 1.5, 
+                roughness: 0.2,
+                metalness: 0.8
+            });
 
-            const light = new THREE.PointLight(0x22c55e, 2, 50);
-            scene.add(light);
+            const bgMaterial = new THREE.MeshStandardMaterial({
+                color: 0x15803d,
+                transparent: true,
+                opacity: 0.4,
+                roughness: 0.8
+            });
 
-            // --- ANIMATION & SCROLL LOGIC ---
+            // --- CONSTRUCCIÓN DE LAS 5 FORMAS 3D SÓLIDAS DE AXON ---
+            const shapesGroup = new THREE.Group();
+            scene.add(shapesGroup);
+
+            // 1. Átomo Neuronal (IA Core)
+            const atomGroup = new THREE.Group();
+            const atomCore = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 1), accentMaterial);
+            const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.1, 16, 100), glassMaterial);
+            const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.1, 16, 100), glassMaterial);
+            const ring3 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.1, 16, 100), glassMaterial);
+            ring1.rotation.x = Math.PI / 2;
+            ring2.rotation.y = Math.PI / 3;
+            ring2.rotation.x = Math.PI / 4;
+            ring3.rotation.y = -Math.PI / 3;
+            ring3.rotation.x = Math.PI / 4;
+            atomGroup.add(atomCore, ring1, ring2, ring3);
+
+            // 2. Torre de Datos (Bases de Datos)
+            const dbGroup = new THREE.Group();
+            const disc1 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.6, 32), glassMaterial);
+            disc1.position.y = 2;
+            const disc2 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.6, 32), accentMaterial);
+            disc2.position.y = 0;
+            const disc3 = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 0.6, 32), glassMaterial);
+            disc3.position.y = -2;
+            const dbCore = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 5, 16), glassMaterial); 
+            dbGroup.add(disc1, disc2, disc3, dbCore);
+
+            // 3. Escáner Radar (Bypass ATS)
+            const radarGroup = new THREE.Group();
+            const radarCore = new THREE.Mesh(new THREE.SphereGeometry(1.5, 32, 32), accentMaterial);
+            const scanRing1 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.05, 16, 100), glassMaterial);
+            scanRing1.rotation.x = Math.PI / 2;
+            const scanRing2 = new THREE.Mesh(new THREE.TorusGeometry(4.5, 0.05, 16, 100), glassMaterial);
+            scanRing2.rotation.x = Math.PI / 2;
+            radarGroup.add(radarCore, scanRing1, scanRing2);
+
+            // 4. Prisma Cuántico / Merkabah (Plugins)
+            const prismGroup = new THREE.Group();
+            const tet1 = new THREE.Mesh(new THREE.TetrahedronGeometry(3), glassMaterial);
+            const tet2 = new THREE.Mesh(new THREE.TetrahedronGeometry(3), accentMaterial);
+            tet2.rotation.x = Math.PI; 
+            const prismCore = new THREE.Mesh(new THREE.OctahedronGeometry(1), accentMaterial);
+            prismGroup.add(tet1, tet2, prismCore);
+
+            // 5. Monolito Gateway (Despegue / Lanzamiento)
+            const gatewayGroup = new THREE.Group();
+            const pillar1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 6, 1.5), glassMaterial);
+            pillar1.position.x = -2.5;
+            const pillar2 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 6, 1.5), glassMaterial);
+            pillar2.position.x = 2.5;
+            const gateCore = new THREE.Mesh(new THREE.OctahedronGeometry(1.5), accentMaterial);
+            gateCore.position.y = 0;
+            gatewayGroup.add(pillar1, pillar2, gateCore);
+
+            const allShapes = [atomGroup, dbGroup, radarGroup, prismGroup, gatewayGroup];
+            allShapes.forEach(shape => {
+                shape.scale.set(0, 0, 0);
+                shapesGroup.add(shape);
+            });
+
+            // --- ELEMENTOS FLOTANTES CON RED NEURONAL DE FONDO ---
+            const floatingBgGroup = new THREE.Group();
+            scene.add(floatingBgGroup);
+            
+            const floatingObjects = [];
+            const geometries = [
+                new THREE.TetrahedronGeometry(0.5),
+                new THREE.OctahedronGeometry(0.4),
+                new THREE.TorusGeometry(0.6, 0.2, 8, 16)
+            ];
+
+            for(let i=0; i<45; i++) {
+                const mesh = new THREE.Mesh(geometries[Math.floor(Math.random() * geometries.length)], bgMaterial);
+                mesh.position.set(
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 20 - 10
+                );
+                mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+                mesh.userData = {
+                    rx: (Math.random() - 0.5) * 0.02,
+                    ry: (Math.random() - 0.5) * 0.02,
+                    yOffset: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.02 + 0.01
+                };
+                floatingBgGroup.add(mesh);
+                floatingObjects.push(mesh);
+            }
+
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.25 });
+            const lineGeometry = new THREE.BufferGeometry();
+            const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+            floatingBgGroup.add(linesMesh);
+
+            // --- PARALLAX DE CÁMARA ---
+            let targetCameraX = 0;
+            let targetCameraY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                targetCameraX = (event.clientX / window.innerWidth) * 2 - 1;
+                targetCameraY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // --- LÓGICA DE SCROLL Y ANIMACIÓN ---
             let scrollProgress = 0;
+            let currentShapeIndex = 0;
             
             function updateScroll() {
                 const scrollY = window.scrollY;
@@ -722,21 +828,31 @@
 
                 slides.forEach(s => s.classList.remove('active'));
 
-                if(scrollProgress < 0.18) slides[0].classList.add('active');
-                else if(scrollProgress < 0.36) slides[1].classList.add('active');
-                else if(scrollProgress < 0.54) slides[2].classList.add('active');
-                else if(scrollProgress < 0.72) slides[3].classList.add('active');
-                else if(scrollProgress < 0.90) slides[4].classList.add('active');
+                if(scrollProgress < 0.15) { slides[0].classList.add('active'); currentShapeIndex = 0; } 
+                else if(scrollProgress < 0.35) { slides[1].classList.add('active'); currentShapeIndex = 1; } 
+                else if(scrollProgress < 0.55) { slides[2].classList.add('active'); currentShapeIndex = 2; } 
+                else if(scrollProgress < 0.75) { slides[3].classList.add('active'); currentShapeIndex = 3; } 
+                else if(scrollProgress < 0.90) { slides[4].classList.add('active'); currentShapeIndex = 4; }
 
                 if(scrollProgress > 0.92) {
                     mainContent.style.opacity = 1;
                     mainContent.classList.add('visible');
                     document.getElementById('intro-overlay').style.pointerEvents = 'none';
                     document.getElementById('intro-overlay').style.opacity = 0;
+                    
+                    skipContainer.style.opacity = '0';
+                    skipContainer.style.pointerEvents = 'none';
+                    skipContainer.style.transform = 'translateY(20px)';
+
+                    currentShapeIndex = -1; 
                 } else {
                     mainContent.style.opacity = 0;
                     mainContent.classList.remove('visible');
                     document.getElementById('intro-overlay').style.opacity = 1;
+
+                    skipContainer.style.opacity = '1';
+                    skipContainer.style.pointerEvents = 'auto';
+                    skipContainer.style.transform = 'translateY(0)';
                 }
             }
 
@@ -748,48 +864,86 @@
                 requestAnimationFrame(animate);
                 const time = clock.getElapsedTime();
 
-                let currentTarget;
-                let rotSpeed = 0.002;
+                camera.position.x += (targetCameraX * 3 - camera.position.x) * 0.05;
+                camera.position.y += (targetCameraY * 3 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
 
-                if (scrollProgress < 0.20) { currentTarget = targets.intro; rotSpeed = 0.003; } 
-                else if (scrollProgress < 0.40) { currentTarget = targets.moon; rotSpeed = 0.001; } 
-                else if (scrollProgress < 0.60) { currentTarget = targets.shield; rotSpeed = 0.01; } 
-                else if (scrollProgress < 0.80) { currentTarget = targets.gears; rotSpeed = 0.02; particlesMesh.rotation.z = time * 0.2; } 
-                else if (scrollProgress < 0.92) { currentTarget = targets.rocket; rotSpeed = 0.005; particlesMesh.rotation.z = 0; for(let i=1500; i<particleCount; i++) { currentTarget[i*3+1] -= 0.5; if(currentTarget[i*3+1] < -20) currentTarget[i*3+1] = -5; } } 
-                else { currentTarget = targets.explode; rotSpeed = 0.001; particlesMesh.rotation.z = 0; }
+                floatingObjects.forEach((obj) => {
+                    obj.rotation.x += obj.userData.rx;
+                    obj.rotation.y += obj.userData.ry;
+                    obj.position.y += Math.sin(time * obj.userData.speed + obj.userData.yOffset) * 0.02;
+                });
 
-                const positions = particlesMesh.geometry.attributes.position.array;
-                const lerpSpeed = 0.08;
-
-                for(let i=0; i<particleCount*3; i++) {
-                    positions[i] += (currentTarget[i] - positions[i]) * lerpSpeed;
-                }
-                
-                if (scrollProgress < 0.92) {
-                    for(let i=0; i<particleCount*3; i+=3) {
-                        positions[i+1] += Math.sin(time * 5 + i) * 0.02;
+                const positions = [];
+                for(let i=0; i<floatingObjects.length; i++) {
+                    for(let j=i+1; j<floatingObjects.length; j++) {
+                        const dist = floatingObjects[i].position.distanceTo(floatingObjects[j].position);
+                        if(dist < 8) { 
+                            positions.push(
+                                floatingObjects[i].position.x, floatingObjects[i].position.y, floatingObjects[i].position.z,
+                                floatingObjects[j].position.x, floatingObjects[j].position.y, floatingObjects[j].position.z
+                            );
+                        }
                     }
                 }
+                linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
 
-                particlesMesh.geometry.attributes.position.needsUpdate = true;
-                if (scrollProgress < 0.80) particlesMesh.rotation.y += rotSpeed;
+                // Animación específica de cada forma de AXON
+                allShapes.forEach((shape, index) => {
+                    const targetScale = (index === currentShapeIndex) ? 1 : 0;
+                    shape.scale.x += (targetScale - shape.scale.x) * 0.1;
+                    shape.scale.y += (targetScale - shape.scale.y) * 0.1;
+                    shape.scale.z += (targetScale - shape.scale.z) * 0.1;
 
-                light.position.x = (mouseX) * 20;
-                light.position.y = (mouseY) * 20;
+                    if(shape.scale.x > 0.01) {
+                        if(index === 0) { // Átomo Neuronal
+                            shape.children[0].rotation.y += 0.01; 
+                            shape.children[1].rotation.z += 0.02;
+                            shape.children[2].rotation.x += 0.02;
+                            shape.children[3].rotation.y += 0.02;
+                        } 
+                        if(index === 1) { // Torre de Datos
+                            shape.rotation.x = 0.2; 
+                            shape.children[0].rotation.y += 0.02;
+                            shape.children[1].rotation.y -= 0.02;
+                            shape.children[2].rotation.y += 0.02;
+                            shape.position.y = Math.sin(time * 1.5) * 0.3; 
+                        } 
+                        if(index === 2) { // Escáner Radar
+                            shape.rotation.x = 0.5; 
+                            shape.rotation.y += 0.005;
+                            const pulse1 = 1 + (time * 2 % 3);
+                            shape.children[1].scale.set(pulse1, pulse1, pulse1);
+                            shape.children[1].material.opacity = Math.max(0, 1 - (pulse1-1)/3);
+                            const pulse2 = 1 + ((time * 2 + 1.5) % 3);
+                            shape.children[2].scale.set(pulse2, pulse2, pulse2);
+                            shape.children[2].material.opacity = Math.max(0, 1 - (pulse2-1)/3);
+                        } 
+                        if(index === 3) { // Prisma Cuántico
+                            shape.rotation.y += 0.01;
+                            shape.rotation.z += 0.005;
+                            shape.children[2].rotation.y -= 0.03; 
+                        } 
+                        if(index === 4) { // Monolito Gateway
+                            shape.rotation.y += 0.01;
+                            shape.children[2].position.y = Math.sin(time * 2) * 1.5;
+                            shape.children[2].rotation.y += 0.05;
+                            shape.children[2].rotation.x += 0.02;
+                        } 
+                    }
+                });
 
-                renderer.render(scene, camera);
+                greenLight1.position.x = Math.sin(time * 0.5) * 15;
+                greenLight2.position.z = Math.cos(time * 0.3) * 10;
+
+                composer.render();
             }
-
-            let mouseX = 0, mouseY = 0;
-            document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-            });
 
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
+                composer.setSize(window.innerWidth, window.innerHeight); 
             });
 
             updateScroll();

@@ -11,19 +11,25 @@
 <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
 
     <style>
         body {
@@ -199,40 +205,33 @@
 </head>
 <body class="antialiased selection:bg-violet-500 selection:text-white">
 
-    <!-- 3D Background Container -->
     <div id="canvas-container"></div>
 
-    <!-- INTRO OVERLAY TEXTS -->
     <div id="intro-overlay">
-        <!-- Slide 1 -->
         <div id="intro-text-1" class="intro-text-slide active">
             <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">Bienvenido a la era de contratación <br><span class="text-violet-400">automatizada por IA</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> DESLIZA PARA DESCUBRIR <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-        <!-- Slide 2 -->
         <div id="intro-text-2" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Con nuestra tecnología laboral de punta <br>obtendrás una <span class="text-cyan-400">ventaja enorme</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> SIGUE DESLIZANDO <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-        <!-- Slide 3 -->
         <div id="intro-text-3" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Un sistema de inteligencia creado para <br>obtener los <span class="text-violet-400">mayores resultados laborales</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> PROFUNDIZA MÁS <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-        <!-- Slide 4 -->
         <div id="intro-text-4" class="intro-text-slide">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">La última ventaja competitiva en un <br><span class="text-violet-500">mercado laboral saturado</span></h2>
             <div class="scroll-indicator">
                 <i class="ph-bold ph-caret-down"></i> YA CASI ESTÁS DENTRO <i class="ph-bold ph-caret-down"></i>
             </div>
         </div>
-        <!-- Slide 5 -->
         <div id="intro-text-5" class="intro-text-slide">
             <h2 class="text-3xl md:text-6xl font-bold text-white mb-6">¿Qué estás esperando para probar esta <br><span class="gradient-text">tecnología innovadora?</span></h2>
             <div class="scroll-indicator">
@@ -241,12 +240,21 @@
         </div>
     </div>
 
-    <!-- Scroll Spacer -->
+    <div id="skip-container" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end transition-all duration-500">
+        <span class="text-xs text-violet-300/80 font-mono mb-2 bg-black/60 px-3 py-1.5 rounded-md backdrop-blur-md border border-violet-500/30">
+            ¿Ya conoces el potencial de NYX?
+        </span>
+        <button id="skip-btn" class="group relative px-6 py-3 bg-violet-900/30 hover:bg-violet-600/50 border border-violet-500/50 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all overflow-hidden backdrop-blur-md shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] cursor-pointer pointer-events-auto">
+            <span class="relative z-10 flex items-center gap-2">
+                Omitir Presentación <i class="ph-bold ph-fast-forward text-lg"></i>
+            </span>
+            <div class="absolute inset-0 bg-violet-500/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+        </button>
+    </div>
+
     <div id="intro-spacer"></div>
 
-    <!-- Main Content -->
     <div id="main-content">
-        <!-- Navigation -->
         <nav class="fixed w-full z-50 top-0 pt-6 px-6 pointer-events-none">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
                 <a href="MateriaNyx.html" class="glass-card rounded-full px-8 py-3 pointer-events-auto flex items-center justify-center hover:bg-white/5 transition-all group border-violet-500/30 hover:border-violet-500">
@@ -258,7 +266,6 @@
             </div>
         </nav>
 
-        <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center pt-32 px-4">
             <div class="max-w-7xl mx-auto text-center z-10">
                 <div class="inline-flex items-center gap-2 mb-8 px-4 py-2 border border-violet-500/30 rounded-full bg-black/40 backdrop-blur-md">
@@ -288,7 +295,6 @@
                         <div class="absolute inset-0 bg-violet-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
                     </a>
 
-                    <!-- New AXON Button -->
                     <a href="Axon.html" class="inline-block group relative px-10 py-5 bg-black border border-green-500/50 text-green-400 font-bold text-sm rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.2)] hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]">
                         <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
                             <i class="ph-bold ph-brain text-lg"></i> PRUEBA NUESTRA TECNOLOGÍA AXON
@@ -299,7 +305,6 @@
             </div>
         </section>
 
-        <!-- Hive Mind Section -->
         <section class="py-32 px-4 relative">
             <div class="max-w-7xl mx-auto">
                 <div class="mb-20 border-l-4 border-violet-600 pl-8 py-2">
@@ -310,7 +315,6 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Cards 1, 2, 3 -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
                         <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
                             <i class="ph-fill ph-circuitry text-4xl text-violet-400"></i>
@@ -339,7 +343,6 @@
                         </p>
                     </div>
 
-                    <!-- RAM NYX Cards -->
                     <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-3 opacity-20">
                             <i class="ph-duotone ph-memory text-8xl text-violet-500"></i>
@@ -380,7 +383,6 @@
             </div>
         </section>
 
-        <!-- Training Data Section (RESTORED FULL CONTENT) -->
         <section class="py-20 px-4">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-4xl font-bold mb-10 text-center">Entrenamiento y <span class="gradient-text">Autoaprendizaje de Élite</span></h2>
@@ -390,7 +392,6 @@
                     </p>
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Training Block 1 -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -401,7 +402,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 2 -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -412,7 +412,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 3 -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -423,7 +422,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 4 (Restored) -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -434,7 +432,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 5 (Restored) -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -445,7 +442,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Training Block 6 (Restored) -->
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div class="relative p-8 glass-card rounded-xl h-full">
@@ -460,13 +456,11 @@
             </div>
         </section>
 
-        <!-- The Arsenal Section (Detailed & Expanded) -->
         <section class="py-24 px-4 bg-black/30">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-5xl md:text-6xl font-bold mb-20 text-center">El Arsenal de <span class="text-violet-500 tech-glow">Dominación</span></h2>
                 
                 <div class="space-y-16">
-                    <!-- Card 1: Mirror CV -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -492,7 +486,6 @@
                         </div>
                     </div>
 
-                    <!-- NEW TOOL 1: CHRONO PULSE -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 blur-[50px] rounded-full"></div>
                         <div class="flex flex-col lg:flex-row gap-10 relative z-10">
@@ -519,7 +512,6 @@
                         </div>
                     </div>
 
-                    <!-- NEW TOOL 2: JOBBY SCOUT -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -545,7 +537,6 @@
                         </div>
                     </div>
 
-                    <!-- Card 2 (Original): EmailHarvest -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -571,7 +562,6 @@
                         </div>
                     </div>
 
-                    <!-- Card 3 (Original): Distribution Hub -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -597,7 +587,6 @@
                         </div>
                     </div>
 
-                    <!-- Card 4 (Original): Ghost Tracking -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -623,7 +612,6 @@
                         </div>
                     </div>
 
-                    <!-- Card 5 (Original): Eye Training -->
                     <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
                         <div class="flex flex-col lg:flex-row gap-10">
                             <div class="lg:w-1/3">
@@ -649,7 +637,6 @@
                         </div>
                     </div>
 
-                    <!-- R&D Panel -->
                     <div class="rnd-card p-10 md:p-14 rounded-3xl mt-12 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
                         <div class="relative z-10 text-center mb-10">
@@ -659,7 +646,6 @@
                             </p>
                         </div>
                         <div class="grid md:grid-cols-3 gap-8">
-                            <!-- Module A -->
                             <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
                                 <div class="text-cyan-400 mb-3 text-2xl"><i class="ph-duotone ph-calendar-check"></i></div>
                                 <h4 class="text-lg font-bold text-white mb-2">Scheduler Pro</h4>
@@ -667,7 +653,6 @@
                                     Bots de análisis de zonas horarias y ubicación de sucursales. NYX detecta cuándo están activos los reclutadores en su web oficial y programa el envío del CV en el milisegundo exacto para aparecer primero.
                                 </p>
                             </div>
-                            <!-- Module B -->
                             <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
                                 <div class="text-cyan-400 mb-3 text-2xl"><i class="ph-duotone ph-video-camera"></i></div>
                                 <h4 class="text-lg font-bold text-white mb-2">Video Intro Generador</h4>
@@ -675,7 +660,6 @@
                                     Integración de APIs de video IA. Toma la foto de tu CV y genera una presentación en video hiperrealista con tu voz clonada y un guion estratégicamente diseñado con lo que la empresa quiere oír.
                                 </p>
                             </div>
-                            <!-- Module C -->
                             <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
                                 <div class="text-cyan-400 mb-3 text-2xl"><i class="ph-duotone ph-plugs-connected"></i></div>
                                 <h4 class="text-lg font-bold text-white mb-2">Leads Bridge</h4>
@@ -695,7 +679,6 @@
             </div>
         </section>
 
-        <!-- Token Economics Section (UPDATED) -->
         <section class="py-24 px-4 relative z-10">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16">
@@ -705,9 +688,7 @@
                     </p>
                 </div>
 
-                <!-- Pricing Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-20">
-                    <!-- Pack 1 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
                             <div class="text-violet-400 font-mono text-sm mb-2">STARTER</div>
@@ -717,7 +698,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <!-- Pack 2 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
                             <div class="text-violet-400 font-mono text-sm mb-2">ADVANCED</div>
@@ -727,7 +707,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Advanced%20de%2010%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <!-- Pack 3 -->
                     <div class="token-card best-value p-6 rounded-xl text-center flex flex-col justify-between group relative transform md:-translate-y-4 bg-violet-900/10">
                         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-violet-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Más Elegido</div>
                         <div>
@@ -738,7 +717,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20Tier%20de%2020%20Tokens" target="_blank" class="block w-full mt-6 py-2 bg-violet-600 hover:bg-violet-500 rounded transition-all text-sm font-bold text-white shadow-[0_0_15px_rgba(124,58,237,0.4)]">ADQUIRIR</a>
                     </div>
-                    <!-- Pack 4 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
                         <div>
                             <div class="text-violet-400 font-mono text-sm mb-2">ELITE</div>
@@ -748,7 +726,6 @@
                         </div>
                         <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Elite%20de%2050%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <!-- Pack 5 -->
                     <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group border-white/20">
                         <div>
                             <div class="text-white font-mono text-sm mb-2">SUBSCRIPCIÓN</div>
@@ -761,7 +738,6 @@
                     </div>
                 </div>
 
-                <!-- Updated Consumption Table -->
                 <div class="glass-card p-8 rounded-2xl max-w-3xl mx-auto">
                     <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
                         <i class="ph-fill ph-fire text-orange-500"></i> Protocolo de Quema (Burn Rate)
@@ -800,7 +776,6 @@
             </div>
         </section>
 
-        <!-- Future Section (Full Text Restored) -->
         <section class="py-24 px-4 relative overflow-hidden bg-gradient-to-t from-violet-900/10 to-transparent">
             <div class="max-w-5xl mx-auto relative z-10">
                 <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center text-white">El Futuro: <span class="text-violet-400">Ejecución mediante Bots Especializados</span></h2>
@@ -828,7 +803,6 @@
             </div>
         </section>
 
-        <!-- Footer (Full Content Restored) -->
         <footer class="border-t border-white/5 bg-[#020203] pt-20 pb-12 px-4 relative overflow-hidden">
             <div class="max-w-7xl mx-auto text-center relative z-10">
                 
@@ -870,7 +844,6 @@
         </footer>
     </div>
 
-    <!-- Three.js Implementation -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (!window.THREE) {
@@ -878,151 +851,254 @@
                 return;
             }
 
-            const container = document.getElementById('canvas-container');
             const spacer = document.getElementById('intro-spacer');
+            const skipBtn = document.getElementById('skip-btn');
+            
+            // GSAP Skip Button Logic (Millimetric Scroll FIX)
+            skipBtn.addEventListener('click', () => {
+                // Al scrollear exactamente al 'offsetHeight' del spacer, superamos el padding negativo
+                // y aterrizamos milimétricamente al principio del contenido, sin espacios negros.
+                const targetScroll = spacer.offsetHeight; 
+                gsap.to(window, {
+                    scrollTo: targetScroll,
+                    duration: 1.5,
+                    ease: "power3.inOut"
+                });
+            });
+
+            const container = document.getElementById('canvas-container');
             const mainContent = document.getElementById('main-content');
+            const skipContainer = document.getElementById('skip-container');
             
             // Text Slides
-            const textSlide1 = document.getElementById('intro-text-1');
-            const textSlide2 = document.getElementById('intro-text-2');
-            const textSlide3 = document.getElementById('intro-text-3');
-            const textSlide4 = document.getElementById('intro-text-4');
-            const textSlide5 = document.getElementById('intro-text-5');
-            const slides = [textSlide1, textSlide2, textSlide3, textSlide4, textSlide5];
+            const slides = [
+                document.getElementById('intro-text-1'),
+                document.getElementById('intro-text-2'),
+                document.getElementById('intro-text-3'),
+                document.getElementById('intro-text-4'),
+                document.getElementById('intro-text-5')
+            ];
 
             // --- SCENE SETUP ---
             const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x050508, 0.0035);
+            scene.fog = new THREE.FogExp2(0x050508, 0.02);
 
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 25;
+            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 20;
 
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(renderer.domElement);
 
-            // --- PARTICLE SYSTEM ---
-            const particleCount = 2800; 
-            const posArray = new Float32Array(particleCount * 3);
-            for(let i=0; i<particleCount*3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 100;
-            }
+            // --- EFECTO BLOOM POST-PROCESSING (NEÓN PROFESIONAL) ---
+            const renderScene = new THREE.RenderPass(scene, camera);
+            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+            bloomPass.threshold = 0.1;
+            bloomPass.strength = 1.8; // Intensidad del neón cyber
+            bloomPass.radius = 0.8;
 
-            // --- TARGET DEFINITIONS ---
-            const targets = {
-                earth: new Float32Array(particleCount * 3),
-                astronaut: new Float32Array(particleCount * 3),
-                server: new Float32Array(particleCount * 3),
-                matter: new Float32Array(particleCount * 3),
-                rocket: new Float32Array(particleCount * 3),
-                cloud: new Float32Array(particleCount * 3)
-            };
+            const composer = new THREE.EffectComposer(renderer);
+            composer.addPass(renderScene);
+            composer.addPass(bloomPass);
 
-            // 1. EARTH
-            for(let i=0; i<particleCount; i++) {
-                const r = 8;
-                const theta = Math.random() * 2 * Math.PI;
-                const phi = Math.acos(2 * Math.random() - 1);
-                targets.earth[i*3] = r * Math.sin(phi) * Math.cos(theta);
-                targets.earth[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-                targets.earth[i*3+2] = r * Math.cos(phi);
-            }
+            // --- LUCES PROFESIONALES ---
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
 
-            // 2. ASTRONAUT
-            for(let i=0; i<particleCount; i++) {
-                let x, y, z;
-                const part = Math.random();
-                if (part < 0.2) { 
-                    const r = 2.5; const theta = Math.random() * Math.PI * 2; const phi = Math.acos(2 * Math.random() - 1);
-                    x = r * Math.sin(phi) * Math.cos(theta); y = r * Math.sin(phi) * Math.sin(theta) + 7; z = r * Math.cos(phi);
-                } else if (part < 0.5) {
-                    const w = 4; const h = 7; x = (Math.random() - 0.5) * w; y = (Math.random() - 0.5) * h + 1; z = (Math.random() - 0.5) * 3;
-                } else if (part < 0.7) {
-                    const side = Math.random() > 0.5 ? 1 : -1; x = side * 1.5 + (Math.random()-0.5)*1.5; y = (Math.random() * -8) - 2; z = (Math.random()-0.5) * 2;
-                } else {
-                    const side = Math.random() > 0.5 ? 1 : -1; if (side === 1) { x = 3 + Math.random()*2; y = 3 + Math.random()*4; z = (Math.random()-0.5)*2; } else { x = -3 - Math.random()*1.5; y = 1 - Math.random()*5; z = (Math.random()-0.5)*2; }
-                }
-                targets.astronaut[i*3] = x; targets.astronaut[i*3+1] = y; targets.astronaut[i*3+2] = z;
-            }
+            const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            mainLight.position.set(10, 20, 10);
+            mainLight.castShadow = true;
+            scene.add(mainLight);
 
-            // 3. SERVER
-            for(let i=0; i<particleCount; i++) {
-                targets.server[i*3] = (Math.random() - 0.5) * 12;
-                targets.server[i*3+1] = (Math.random() - 0.5) * 16;
-                targets.server[i*3+2] = (Math.random() - 0.5) * 12;
-                if(i % 10 === 0) targets.server[i*3+1] = Math.round(targets.server[i*3+1]);
-            }
+            const violetLight = new THREE.PointLight(0x8b5cf6, 3, 50);
+            violetLight.position.set(-10, 0, 5);
+            scene.add(violetLight);
 
-            // 4. LIVING MATTER
-            for(let i=0; i<particleCount; i++) {
-                const r = 7; const theta = Math.random() * 2 * Math.PI; const phi = Math.acos(2 * Math.random() - 1);
-                targets.matter[i*3] = r * Math.sin(phi) * Math.cos(theta); targets.matter[i*3+1] = r * Math.sin(phi) * Math.sin(theta); targets.matter[i*3+2] = r * Math.cos(phi);
-            }
+            const cyanLight = new THREE.PointLight(0x22d3ee, 2, 50);
+            cyanLight.position.set(10, -5, 5);
+            scene.add(cyanLight);
 
-            // 5. ROCKET
-            for(let i=0; i<particleCount; i++) {
-                const h = Math.random() * 22 - 11; const angle = Math.random() * Math.PI * 2; let r = 2.5; 
-                if(h > 6) r = (11 - h) * 0.5; if(h < -6) { const finAngle = Math.floor(angle / (Math.PI*2/3)) * (Math.PI*2/3); if(Math.abs(angle - finAngle) < 0.6) r = 6 + h*0.4; }
-                targets.rocket[i*3] = Math.cos(angle) * r; targets.rocket[i*3+1] = h; targets.rocket[i*3+2] = Math.sin(angle) * r;
-            }
-
-            // 6. CLOUD
-            for(let i=0; i<particleCount; i++) {
-                const r = 45 * Math.cbrt(Math.random()); const theta = Math.random() * 2 * Math.PI; const phi = Math.acos(2 * Math.random() - 1);
-                targets.cloud[i*3] = r * Math.sin(phi) * Math.cos(theta); targets.cloud[i*3+1] = r * Math.sin(phi) * Math.sin(theta); targets.cloud[i*3+2] = r * Math.cos(phi);
-            }
-
-            const geometry = new THREE.BufferGeometry();
-            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            
-            const material = new THREE.PointsMaterial({
-                size: 0.15, color: 0x8b5cf6, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending
-            });
-
-            const particlesMesh = new THREE.Points(geometry, material);
-            scene.add(particlesMesh);
-
-            const coreGroup = new THREE.Group();
-            const coreGeometry = new THREE.IcosahedronGeometry(3.5, 1);
-            const coreMaterial = new THREE.MeshBasicMaterial({ color: 0x2e1065, wireframe: true, transparent: true, opacity: 0 }); 
-            const core = new THREE.Mesh(coreGeometry, coreMaterial);
-            coreGroup.add(core);
-            scene.add(coreGroup);
-
+            // Luz que sigue al mouse
             const mouseLight = new THREE.PointLight(0xa78bfa, 2, 30);
             scene.add(mouseLight);
 
-            // --- ANIMATION & SCROLL LOGIC ---
+            // --- MATERIALES PREMIUM MEJORADOS (Para reaccionar al Bloom) ---
+            const glassMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x8b5cf6,
+                metalness: 0.3,
+                roughness: 0.05,
+                transmission: 0.95, // Más transparente/Holográfico
+                thickness: 0.8,
+                ior: 1.5,
+                emissive: 0x2a0a5e, // Ligera emisión de luz
+                emissiveIntensity: 0.2,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1,
+                side: THREE.DoubleSide
+            });
+
+            const accentMaterial = new THREE.MeshStandardMaterial({
+                color: 0x22d3ee,
+                emissive: 0x06b6d4, // Cyan glow
+                emissiveIntensity: 1.5, // Emisión alta para activar el Bloom de neón
+                roughness: 0.2,
+                metalness: 0.8
+            });
+
+            const bgMaterial = new THREE.MeshStandardMaterial({
+                color: 0x4c1d95,
+                transparent: true,
+                opacity: 0.4,
+                roughness: 0.8
+            });
+
+            // --- CONSTRUCCIÓN DE LAS 5 FORMAS 3D SÓLIDAS ---
+            const shapesGroup = new THREE.Group();
+            scene.add(shapesGroup);
+
+            // 1. Esfera Global (Red de contactos)
+            const globeGroup = new THREE.Group();
+            const globeMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(4, 2), glassMaterial);
+            const wireframe = new THREE.Mesh(new THREE.IcosahedronGeometry(4.1, 2), new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.3 }));
+            // Añadir núcleo brillante
+            const innerGlow = new THREE.Mesh(new THREE.IcosahedronGeometry(2, 2), accentMaterial);
+            globeGroup.add(globeMesh, wireframe, innerGlow);
+
+            // 2. Torus Knot (ADN / Evolución)
+            const torusGroup = new THREE.Group();
+            const torusMesh = new THREE.Mesh(new THREE.TorusKnotGeometry(2.5, 0.8, 100, 16), glassMaterial);
+            torusGroup.add(torusMesh);
+
+            // 3. Matriz de Cubos (Sistema ATS / Servidores - Ahora Pulsa)
+            const matrixGroup = new THREE.Group();
+            for(let i=0; i<27; i++) {
+                const cube = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), (i%3===0) ? accentMaterial : glassMaterial);
+                cube.position.set(
+                    ((i % 3) - 1) * 1.8,
+                    ((Math.floor(i / 3) % 3) - 1) * 1.8,
+                    ((Math.floor(i / 9)) - 1) * 1.8
+                );
+                // Variables para pulsación individual
+                cube.userData = { phase: Math.random() * Math.PI * 2, speed: 1 + Math.random() };
+                matrixGroup.add(cube);
+            }
+
+            // 4. Mente Colmena (Cerebro IA Geométrico)
+            const hiveGroup = new THREE.Group();
+            const core = new THREE.Mesh(new THREE.IcosahedronGeometry(2, 0), accentMaterial);
+            const shell1 = new THREE.Mesh(new THREE.IcosahedronGeometry(3.5, 1), new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true }));
+            const shell2 = new THREE.Mesh(new THREE.SphereGeometry(4.5, 32, 32), new THREE.MeshPhysicalMaterial({ color: 0x000000, transmission: 0.9, opacity: 0.2, transparent: true }));
+            hiveGroup.add(core, shell1, shell2);
+
+            // 5. Cohete Geométrico (Despegue)
+            const rocketGroup = new THREE.Group();
+            const body = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 4, 16), glassMaterial);
+            const nose = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 16), accentMaterial);
+            nose.position.y = 3;
+            const fin1 = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.5, 1.5), accentMaterial);
+            fin1.position.set(1, -1.5, 0);
+            const fin2 = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.5, 1.5), accentMaterial);
+            fin2.position.set(-1, -1.5, 0);
+            rocketGroup.add(body, nose, fin1, fin2);
+
+            // Ocultamos todas inicialmente
+            const allShapes = [globeGroup, torusGroup, matrixGroup, hiveGroup, rocketGroup];
+            allShapes.forEach(shape => {
+                shape.scale.set(0, 0, 0);
+                shapesGroup.add(shape);
+            });
+
+            // --- ELEMENTOS FLOTANTES CON RED NEURONAL DE FONDO ---
+            const floatingBgGroup = new THREE.Group();
+            scene.add(floatingBgGroup);
+            
+            const floatingObjects = [];
+            const geometries = [
+                new THREE.TetrahedronGeometry(0.5),
+                new THREE.OctahedronGeometry(0.4),
+                new THREE.TorusGeometry(0.6, 0.2, 8, 16)
+            ];
+
+            for(let i=0; i<45; i++) {
+                const mesh = new THREE.Mesh(geometries[Math.floor(Math.random() * geometries.length)], bgMaterial);
+                mesh.position.set(
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 20 - 10
+                );
+                mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+                mesh.userData = {
+                    rx: (Math.random() - 0.5) * 0.02,
+                    ry: (Math.random() - 0.5) * 0.02,
+                    yOffset: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.02 + 0.01
+                };
+                floatingBgGroup.add(mesh);
+                floatingObjects.push(mesh);
+            }
+
+            // Material y geometría para las líneas de la Red Neuronal
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.25 });
+            const lineGeometry = new THREE.BufferGeometry();
+            const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+            floatingBgGroup.add(linesMesh);
+
+            // --- PARALLAX DE CÁMARA ---
+            let targetCameraX = 0;
+            let targetCameraY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseLight.position.x = (event.clientX / window.innerWidth - 0.5) * 40;
+                mouseLight.position.y = -(event.clientY / window.innerHeight - 0.5) * 40;
+                mouseLight.position.z = 15;
+
+                targetCameraX = (event.clientX / window.innerWidth) * 2 - 1;
+                targetCameraY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+
+            // --- LÓGICA DE SCROLL Y ANIMACIÓN ---
             let scrollProgress = 0;
+            let currentShapeIndex = 0;
             
             function updateScroll() {
                 const scrollY = window.scrollY;
                 const totalHeight = spacer.offsetHeight - window.innerHeight;
                 scrollProgress = Math.max(0, Math.min(scrollY / totalHeight, 1)); 
 
-                // Hide all slides first
                 slides.forEach(s => s.classList.remove('active'));
 
-                // Adjusted Phases for 450vh spacer
-                if(scrollProgress < 0.15) { textSlide1.classList.add('active'); } 
-                else if(scrollProgress < 0.35) { textSlide2.classList.add('active'); } 
-                else if(scrollProgress < 0.55) { textSlide3.classList.add('active'); } 
-                else if(scrollProgress < 0.75) { textSlide4.classList.add('active'); } 
-                else if(scrollProgress < 0.90) { textSlide5.classList.add('active'); }
+                // Fases de Texto
+                if(scrollProgress < 0.15) { slides[0].classList.add('active'); currentShapeIndex = 0; } 
+                else if(scrollProgress < 0.35) { slides[1].classList.add('active'); currentShapeIndex = 1; } 
+                else if(scrollProgress < 0.55) { slides[2].classList.add('active'); currentShapeIndex = 2; } 
+                else if(scrollProgress < 0.75) { slides[3].classList.add('active'); currentShapeIndex = 3; } 
+                else if(scrollProgress < 0.90) { slides[4].classList.add('active'); currentShapeIndex = 4; }
 
-                // Reveal Main Content immediately after rocket (approx 0.92)
+                // Reveal de Contenido Principal
                 if(scrollProgress > 0.92) {
                     mainContent.style.opacity = 1;
                     mainContent.classList.add('visible');
-                    core.material.opacity = 0.15;
                     document.getElementById('intro-overlay').style.pointerEvents = 'none';
                     document.getElementById('intro-overlay').style.opacity = 0;
+                    
+                    skipContainer.style.opacity = '0';
+                    skipContainer.style.pointerEvents = 'none';
+                    skipContainer.style.transform = 'translateY(20px)';
+
+                    // Ocultar la forma principal en el contenido
+                    currentShapeIndex = -1; 
                 } else {
                     mainContent.style.opacity = 0;
                     mainContent.classList.remove('visible');
-                    core.material.opacity = 0;
                     document.getElementById('intro-overlay').style.opacity = 1;
+
+                    skipContainer.style.opacity = '1';
+                    skipContainer.style.pointerEvents = 'auto';
+                    skipContainer.style.transform = 'translateY(0)';
                 }
             }
 
@@ -1034,60 +1110,78 @@
                 requestAnimationFrame(animate);
                 const time = clock.getElapsedTime();
 
-                let currentTarget;
-                let rotationSpeedY = 0;
-                let rotationSpeedZ = 0;
+                // Suavizado de Cámara (Parallax)
+                camera.position.x += (targetCameraX * 3 - camera.position.x) * 0.05;
+                camera.position.y += (targetCameraY * 3 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
 
-                if (scrollProgress < 0.20) { currentTarget = targets.earth; rotationSpeedY = 0.2; } 
-                else if (scrollProgress < 0.40) { currentTarget = targets.astronaut; rotationSpeedY = 0.1; particlesMesh.position.y = Math.sin(time) * 0.5; } 
-                else if (scrollProgress < 0.60) { currentTarget = targets.server; rotationSpeedY = 0.05; particlesMesh.position.y = 0; } 
-                else if (scrollProgress < 0.80) { currentTarget = targets.matter; rotationSpeedY = 0.3; } 
-                else if (scrollProgress < 0.92) { currentTarget = targets.rocket; rotationSpeedY = 2.0; rotationSpeedZ = 0.5; } 
-                else { currentTarget = targets.cloud; rotationSpeedY = 0.05; rotationSpeedZ = 0; particlesMesh.rotation.z = 0; }
+                // Animación de los objetos flotantes de fondo
+                floatingObjects.forEach((obj) => {
+                    obj.rotation.x += obj.userData.rx;
+                    obj.rotation.y += obj.userData.ry;
+                    obj.position.y += Math.sin(time * obj.userData.speed + obj.userData.yOffset) * 0.02;
+                });
 
-                const positions = particlesMesh.geometry.attributes.position.array;
-                const lerpSpeed = 0.08; 
-
-                for(let i=0; i<particleCount*3; i+=3) {
-                    let tx = currentTarget[i];
-                    let ty = currentTarget[i+1];
-                    let tz = currentTarget[i+2];
-
-                    if(scrollProgress >= 0.60 && scrollProgress < 0.80) {
-                        const noise = Math.sin(time * 2 + i) * 1.5; tx += noise; ty += noise; tz += noise;
+                // Generar conexiones de Red Neuronal Dinámica
+                const positions = [];
+                for(let i=0; i<floatingObjects.length; i++) {
+                    for(let j=i+1; j<floatingObjects.length; j++) {
+                        const dist = floatingObjects[i].position.distanceTo(floatingObjects[j].position);
+                        if(dist < 8) { // Si están cerca, trazar un láser entre ellos
+                            positions.push(
+                                floatingObjects[i].position.x, floatingObjects[i].position.y, floatingObjects[i].position.z,
+                                floatingObjects[j].position.x, floatingObjects[j].position.y, floatingObjects[j].position.z
+                            );
+                        }
                     }
-                    if(scrollProgress >= 0.80 && scrollProgress < 0.92) {
-                        ty += (Math.random()-0.5) * 0.5;
+                }
+                linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+                // Transición suave entre las Formas Sólidas Principales (LERP)
+                allShapes.forEach((shape, index) => {
+                    const targetScale = (index === currentShapeIndex) ? 1 : 0;
+                    // LERP para escalar arriba o abajo suavemente
+                    shape.scale.x += (targetScale - shape.scale.x) * 0.1;
+                    shape.scale.y += (targetScale - shape.scale.y) * 0.1;
+                    shape.scale.z += (targetScale - shape.scale.z) * 0.1;
+
+                    // Rotación continua si está activo
+                    if(shape.scale.x > 0.01) {
+                        if(index === 0) { shape.rotation.y += 0.005; shape.children[2].rotation.y -= 0.01; } // Globe
+                        if(index === 1) { shape.rotation.x += 0.01; shape.rotation.y += 0.01; } // Torus
+                        if(index === 2) { 
+                            shape.rotation.y += 0.01; shape.rotation.z += 0.005; 
+                            // Hacer que la matriz pulse orgánicamente
+                            shape.children.forEach(c => {
+                                const s = 1 + Math.sin(time * c.userData.speed + c.userData.phase) * 0.15;
+                                c.scale.set(s,s,s);
+                            });
+                        } // Matrix
+                        if(index === 3) { 
+                            shape.children[0].rotation.y -= 0.02; // Core
+                            shape.children[1].rotation.x += 0.01; // Shell
+                            shape.rotation.y += 0.005; 
+                        } // Hive
+                        if(index === 4) { 
+                            shape.rotation.y += 0.02; 
+                            shape.position.y = Math.sin(time * 2) * 0.5; // Cohete flotando
+                        } 
                     }
+                });
 
-                    positions[i] += (tx - positions[i]) * lerpSpeed;
-                    positions[i+1] += (ty - positions[i+1]) * lerpSpeed;
-                    positions[i+2] += (tz - positions[i+2]) * lerpSpeed;
-                }
+                // Mover luces ligeramente para dar vida a los materiales
+                violetLight.position.x = Math.sin(time * 0.5) * 15;
+                cyanLight.position.z = Math.cos(time * 0.3) * 10;
 
-                particlesMesh.geometry.attributes.position.needsUpdate = true;
-                particlesMesh.rotation.y += rotationSpeedY * 0.01;
-                if(rotationSpeedZ > 0) particlesMesh.rotation.z = rotationSpeedZ;
-                else particlesMesh.rotation.z *= 0.95;
-
-                if(scrollProgress > 0.92) {
-                    coreGroup.rotation.y += 0.002;
-                    coreGroup.rotation.x = Math.sin(time * 0.2) * 0.1;
-                }
-
-                renderer.render(scene, camera);
+                // Renderizamos con el Efecto Bloom (Composer en vez de Renderer normal)
+                composer.render();
             }
-
-            document.addEventListener('mousemove', (event) => {
-                mouseLight.position.x = (event.clientX / window.innerWidth - 0.5) * 40;
-                mouseLight.position.y = -(event.clientY / window.innerHeight - 0.5) * 40;
-                mouseLight.position.z = 15;
-            });
 
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
+                composer.setSize(window.innerWidth, window.innerHeight); // Actualizar Composer
             });
 
             updateScroll();
@@ -1096,3 +1190,5 @@
     </script>
 </body>
 </html>
+
+

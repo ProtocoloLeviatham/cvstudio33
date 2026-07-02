@@ -1,0 +1,48 @@
+name: Deploy CVStudio33 to GitHub Pages
+
+on:
+  # Se ejecuta cada vez que haces push a la rama main
+  push:
+    branches: ["main"]
+  # Permite ejecutar el despliegue manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+# Permisos estrictamente necesarios para que GitHub Pages funcione
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# ESTO ARREGLA EL BUG DE TIEMPO AGOTADO Y PROCESOS TRABADOS
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    # Cortafuegos: Si por algún motivo se traba, se aborta en 10 minutos (no espera horas)
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir artefactos de la web
+        # Usamos v3 para evitar warnings de compatibilidad con el nuevo Node.js
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Si tu código está en la raíz, déjalo en '.'. 
+          # Si usas un empaquetador y el código final va a una carpeta, cámbialo (ej: './dist' o './build')
+          path: '.'
+
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        # Usamos la versión más reciente del motor de despliegue
+        uses: actions/deploy-pages@v4

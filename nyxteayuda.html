@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYX CV Optimizer | Studio Orion 33</title>
+    
+    <link rel="icon" type="image/png" sizes="500x500" href="logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a', secondary: '#3b82f6', accent: '#6366f1',
+                        dark: '#020617', nyx: '#7c3aed', card: '#1e293b'
+                    },
+                    animation: {
+                        'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'nyx-pulse': 'nyxPulse 3s infinite',
+                        'slide-in-down': 'slideInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-out-up': 'slideOutUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float-up': 'floatUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float-down': 'floatDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'gradient-shift': 'gradientShift 4s ease infinite',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        nyxPulse: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(124, 58, 237, 0.2)' },
+                            '50%': { boxShadow: '0 0 35px rgba(124, 58, 237, 0.7)' },
+                        },
+                        slideInDown: {
+                            '0%': { transform: 'translate(-50%, -120%)', opacity: '0' },
+                            '100%': { transform: 'translate(-50%, 0)', opacity: '1' },
+                        },
+                        slideOutUp: {
+                            '0%': { transform: 'translate(-50%, 0)', opacity: '1' },
+                            '100%': { transform: 'translate(-50%, -120%)', opacity: '0' },
+                        },
+                        floatUp: {
+                            '0%': { transform: 'translate(-50%, 50px)', opacity: '0' },
+                            '100%': { transform: 'translate(-50%, 0)', opacity: '1' },
+                        },
+                        floatDown: {
+                            '0%': { transform: 'translate(-50%, 0)', opacity: '1' },
+                            '100%': { transform: 'translate(-50%, 50px)', opacity: '0' },
+                        },
+                        gradientShift: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --nyx-glow: rgba(59, 130, 246, 0.6);
+            /* Variables CV A4 Inicial (Clásico) */
+            --dynamic-font-body: 'Open Sans', sans-serif; 
+            --dynamic-font-header: 'Inter', sans-serif;
+            --dynamic-color: #3273c5;
+            --dynamic-scale: 1; /* Retornado al 100% estricto */
+            --text-dark: #222222;
+            --text-gray: #444444;
+            --border-style: 2px solid var(--dynamic-color);
+            --header-align: flex-start;
+            --name-size: 28px;
+            --section-title-border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        body { 
+            background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0; overflow-x: hidden;
+            background-image: radial-gradient(circle at top, #121826 0%, #050810 80%);
+        }
+
+        /* =========================================
+           UI DEL MOTOR NYX
+           ========================================= */
+        #nyx-wizard { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 3rem 1rem; }
+        
+        .nyx-header { text-align: center; margin-bottom: 2.5rem; }
+        .nyx-header h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(135deg, #60a5fa, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1.5px; margin-bottom: 0.2rem; }
+        
+        .nyx-container { width: 100%; max-width: 850px; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); border-radius: 16px; padding: 3rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease; }
+        
+        .upload-zone { border: 2px dashed rgba(124, 58, 237, 0.3); border-radius: 12px; padding: 4rem 2rem; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; background: rgba(0, 0, 0, 0.2); }
+        .upload-zone:hover { border-color: #a855f7; background: rgba(124, 58, 237, 0.05); transform: translateY(-5px); box-shadow: 0 15px 35px -10px rgba(124, 58, 237, 0.4); }
+        .upload-zone input[type="file"] { display: none; }
+        
+        /* Logo 500x500 central */
+        .upload-logo-img { width: 500px; height: 500px; max-width: 140px; max-height: 140px; object-fit: contain; margin: 0 auto 1.5rem; filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.4)); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .upload-zone:hover .upload-logo-img { transform: scale(1.15) translateY(-5px); filter: drop-shadow(0 0 25px rgba(124, 58, 237, 0.9)); }
+        
+        /* Animación Láser Profesional */
+        .scanner-beam { 
+            position: absolute; 
+            top: -100%; 
+            left: 0; 
+            right: 0; 
+            height: 60%; 
+            background: linear-gradient(to bottom, rgba(124,58,237,0) 0%, rgba(124,58,237,0.1) 60%, rgba(192,132,252,0.6) 100%); 
+            border-bottom: 3px solid #c084fc; 
+            box-shadow: 0 10px 40px 5px rgba(124,58,237,0.8); 
+            animation: scanner-sweep 2.5s infinite ease-in-out; 
+            display: none; 
+            z-index: 10; 
+            pointer-events: none; 
+        }
+        @keyframes scanner-sweep {
+            0% { top: -60%; opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .scanning-text { color: #d8b4fe; font-weight: 600; font-size: 1.1rem; margin-top: 1.5rem; display: none; animation: pulse 1.5s infinite; letter-spacing: 0.5px; }
+
+        /* Formulario Profesional */
+        .form-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; transition: border-color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+        .form-card:hover { border-color: rgba(124, 58, 237, 0.3); box-shadow: 0 5px 20px -5px rgba(124, 58, 237, 0.1); transform: translateY(-2px); }
+        .form-label { margin-bottom: 0.8rem; font-weight: 600; color: var(--text-main); font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
+        .form-label-icon { width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(124,58,237,0.5)); }
+        
+        .cv-text-input { width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0, 0, 0, 0.3); color: white; font-size: 1rem; transition: all 0.3s ease; }
+        .cv-text-input:focus { outline: none; border-color: #a855f7; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2); transform: translateY(-1px); background: rgba(15, 23, 42, 0.8); }
+        
+        .btn-group { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+        .btn-option { padding: 1rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); color: var(--text-muted); border-radius: 8px; cursor: pointer; transition: all 0.3s ease; flex: 1 1 calc(50% - 0.8rem); font-weight: 500; text-align: center; position: relative; overflow: hidden; }
+        .btn-option::before { content: ""; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(124, 58, 237, 0.1); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
+        .btn-option:hover::before { width: 300px; height: 300px; }
+        .btn-option:hover { border-color: rgba(124, 58, 237, 0.4); color: white; transform: translateY(-2px); }
+        .btn-option.active { background: rgba(124, 58, 237, 0.15); color: #e9d5ff; border-color: #a855f7; box-shadow: inset 0 0 0 1px #a855f7; transform: scale(1.02); font-weight: 600; }
+
+        .dynamic-q-box { border-left: 3px solid #a855f7; background: rgba(0, 0, 0, 0.2); padding: 1.2rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; animation: fadeUp 0.5s ease forwards; opacity: 0; transition: all 0.3s ease; }
+        .dynamic-q-box:hover { transform: translateX(5px); background: rgba(124, 58, 237, 0.05); border-left-color: #c084fc; }
+        .dynamic-q-box:nth-child(1) { animation-delay: 0.1s; }
+        .dynamic-q-box:nth-child(2) { animation-delay: 0.2s; }
+        .dynamic-q-box:nth-child(3) { animation-delay: 0.3s; }
+        .dynamic-q-box:nth-child(4) { animation-delay: 0.4s; }
+        .dynamic-q-box:nth-child(5) { animation-delay: 0.5s; }
+        .dynamic-q-box label { color: #e9d5ff; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.6rem; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+        .dynamic-q-box label img { width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; }
+        
+        /* Botón de Procesar NYX Premium */
+        .btn-tech33 { width: 100%; padding: 1.2rem; background: linear-gradient(90deg, #1e1b4b, #4c1d95, #1e1b4b); background-size: 200% 200%; color: white; border: 1px solid #8b5cf6; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 1.5px; display: flex; justify-content: center; align-items: center; gap: 12px; position: relative; overflow: hidden; box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
+        .btn-tech33:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 15px 35px -5px rgba(124, 58, 237, 0.8); border-color: #c084fc; }
+        .btn-tech33 img { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); transition: transform 0.5s ease; }
+        .btn-tech33:hover img { transform: rotate(360deg) scale(1.2); }
+
+        .ai-loading { text-align: center; padding: 5rem 0; }
+        
+        /* Animación NYX de Carga */
+        .spinner { 
+            width: 85px; height: 85px; margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: #60a5fa;
+            border-bottom-color: #a855f7;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            position: relative;
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+        }
+        .spinner::before {
+            content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border-radius: 50%; border: 4px solid transparent;
+            border-left-color: #3b82f6; border-right-color: #e9d5ff;
+            animation: spin-reverse 0.75s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+
+        /* Estilos Slider Control de Tamaño A4 */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #a855f7; cursor: pointer; box-shadow: 0 0 10px rgba(168, 85, 247, 0.8); margin-top: -6px; transition: transform 0.1s; }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); background: #d8b4fe; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: rgba(255,255,255,0.1); border-radius: 5px; border: 1px solid rgba(0,0,0,0.3); }
+
+        /* =========================================
+           UI DEL EDITOR Y VISTA PREVIA A4
+           ========================================= */
+        #editor-workspace { display: none; height: 100vh; overflow: hidden; background: var(--bg-color); }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050810; }
+        ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 3px; }
+
+        .editor-panel { background: rgba(15, 23, 42, 0.98); border-right: 1px solid rgba(255, 255, 255, 0.05); overflow-y: auto; height: calc(100vh - 64px); padding: 1.5rem; box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 10; }
+        
+        .accordion-header { cursor: pointer; transition: all 0.3s ease; background: rgba(255,255,255,0.02); padding: 1.2rem 1rem; border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.05); }
+        .accordion-header:hover { background: rgba(124, 58, 237, 0.1); border-color: rgba(124, 58, 237, 0.5); transform: translateX(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; margin-bottom: 1rem; padding: 0 0.5rem; }
+        .accordion-content.active { max-height: 2000px; padding: 1rem 0.5rem; }
+
+        .cv-label-sm { display: block; font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; margin-bottom: 5px; font-weight: 600; margin-top: 12px; letter-spacing: 0.5px; }
+        .cv-input-sm { width: 100%; padding: 0.7rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); color: white; font-size: 0.85rem; transition: all 0.3s ease; }
+        .cv-input-sm:focus { outline: none; border-color: #a855f7; box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2); background: rgba(15, 23, 42, 0.9); }
+
+        /* A4 Page Layout y Plantillas ATS */
+        .preview-panel { background: #cbd5e1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; height: calc(100vh - 64px); padding: 2rem; background-image: radial-gradient(#94a3b8 1px, transparent 1px); background-size: 20px 20px; transition: all 0.3s ease; }
+        
+        /* Contenedor que escala automáticamente en celular */
+        .a4-wrapper { display: flex; justify-content: center; width: 100%; transform-origin: top center; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        /* A4 EXACTO RESTAURADO - 210mm x 297mm con Paddings de 18mm y 20mm */
+        .a4-page { width: 210mm; min-height: 297mm; background: white; padding: 18mm 20mm; box-shadow: 0 15px 40px rgba(0,0,0,0.4); color: var(--text-dark); font-family: var(--dynamic-font-body); position: relative; margin: 0 auto; transition: all 0.5s ease; }
+        
+        /* Clases base manejadas por variables CSS para plantillas */
+        .cv-header { display: flex; flex-direction: column; justify-content: var(--header-align); align-items: var(--header-align); margin-bottom: 10px; border-bottom: var(--border-style); padding-bottom: 10px; transition: all 0.3s ease;}
+        .cv-name { color: var(--dynamic-color); font-family: var(--dynamic-font-header); font-size: calc(var(--name-size) * var(--dynamic-scale)); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; transition: all 0.3s ease;}
+        .cv-job-title { color: var(--text-dark); font-size: calc(16px * var(--dynamic-scale)); font-weight: 600; text-transform: uppercase; transition: all 0.3s ease;}
+        .cv-contact { font-size: calc(10.5px * var(--dynamic-scale)); color: var(--text-gray); margin-top: 3px; transition: all 0.3s ease;}
+        
+        .section-title { color: var(--dynamic-color); font-family: var(--dynamic-font-header); font-size: calc(14px * var(--dynamic-scale)); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 12px; margin-bottom: 6px; border-bottom: var(--section-title-border); padding-bottom: 3px; transition: all 0.3s ease; }
+        
+        .cv-summary { font-size: calc(11.5px * var(--dynamic-scale)); line-height: 1.5; color: var(--text-gray); text-align: justify; }
+        
+        .exp-item { margin-bottom: 10px; }
+        .exp-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
+        .exp-title { font-size: calc(12.5px * var(--dynamic-scale)); font-weight: 700; color: var(--text-dark); }
+        .exp-date { font-size: calc(11px * var(--dynamic-scale)); font-weight: 600; color: var(--dynamic-color); }
+        .exp-company { font-size: calc(11.5px * var(--dynamic-scale)); font-style: italic; color: var(--text-gray); margin-bottom: 4px; }
+        .exp-desc { list-style-type: disc; margin-left: 20px; font-size: calc(11px * var(--dynamic-scale)); line-height: 1.45; color: var(--text-gray); }
+        .exp-desc li { margin-bottom: 3px; }
+        
+        .skills-container { display: flex; flex-wrap: wrap; gap: 8px; font-size: calc(11px * var(--dynamic-scale)); }
+        .skill-badge { background: rgba(0, 0, 0, 0.05); color: var(--text-dark); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.1); font-weight: 600; }
+
+        /* ================= PLANTILLAS ATS CSS ================= */
+        .tpl-classic {
+            --dynamic-font-body: 'Open Sans', sans-serif; 
+            --dynamic-font-header: 'Inter', sans-serif;
+            --dynamic-color: #3273c5;
+            --border-style: 2px solid #3273c5;
+            --header-align: flex-start;
+            --name-size: 28px;
+            --section-title-border: 1px solid rgba(0,0,0,0.1);
+        }
+        .tpl-modern {
+            --dynamic-font-body: 'Open Sans', sans-serif; 
+            --dynamic-font-header: 'Montserrat', sans-serif;
+            --dynamic-color: #0f172a;
+            --border-style: none;
+            --header-align: center;
+            --name-size: 32px;
+            --section-title-border: 2px solid #0f172a;
+            border-top: 10px solid #0f172a;
+        }
+        .tpl-modern .cv-name { letter-spacing: 2px; }
+        .tpl-modern .cv-job-title { letter-spacing: 1.5px; font-weight: 400; color: #475569; }
+        .tpl-modern .skill-badge { background: #0f172a; color: white; border-radius: 20px; font-weight: 500;}
+        
+        .tpl-minimal {
+            --dynamic-font-body: 'Merriweather', serif; 
+            --dynamic-font-header: 'Arial', sans-serif;
+            --dynamic-color: #000000;
+            --border-style: 1px solid #000;
+            --header-align: flex-start;
+            --name-size: 26px;
+            --section-title-border: 1px solid #000;
+        }
+        .tpl-minimal .cv-name { letter-spacing: 3px; font-weight: 700; }
+        .tpl-minimal .skill-badge { background: transparent; border: none; padding: 0; margin-right: 15px; font-weight: 700; position: relative;}
+        .tpl-minimal .skill-badge::after { content: "•"; position: absolute; right: -12px; color: #ccc;}
+        .tpl-minimal .skill-badge:last-child::after { display: none; }
+        /* ======================================================= */
+
+        @media print { 
+            .no-print { display: none !important; } 
+            body, #editor-workspace { height: auto; overflow: visible; background: white;} 
+            .preview-panel { background: none; padding: 0; display: flex !important; }
+            .a4-wrapper { transform: scale(1) !important; margin: 0 !important; }
+            .a4-page { box-shadow: none; margin: 0; width: 100%; height: auto; } 
+        }
+
+        /* UTILIDADES PARA MÓVIL EXACTAS */
+        @media (max-width: 768px) {
+            .mobile-preview-active .editor-panel { display: none !important; }
+            .mobile-preview-active .preview-panel { display: flex !important; width: 100%; padding: 10px; overflow-x: hidden; align-items: flex-start; }
+            .a4-wrapper { transform: scale(0.42); transform-origin: top center; margin-bottom: -160mm; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .a4-wrapper { transform: scale(0.65); transform-origin: top center; margin-bottom: -90mm; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="promo-message" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-nyx to-blue-600 text-white px-6 py-3 rounded-full shadow-[0_0_20px_rgba(124,58,237,0.8)] z-[100] hidden font-bold text-center border border-purple-400 whitespace-nowrap">
+        <i class="fa-solid fa-gem mr-2 text-yellow-300"></i> Esta versión es gratuita, Es 1% de lo que nyx puede hacer.
+    </div>
+
+    <div id="mobile-warning" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-slate-900/95 backdrop-blur-md text-white p-5 rounded-2xl shadow-[0_0_30px_rgba(124,58,237,0.7)] z-[999] flex flex-col items-center gap-3 border border-purple-500 hidden text-center w-11/12 max-w-sm">
+        <img src="logo.png" alt="Logo NYX" class="w-12 h-12 animate-pulse filter drop-shadow-[0_0_10px_rgba(124,58,237,0.8)]">
+        <div class="text-sm font-semibold leading-relaxed">Para una experiencia perfecta, activa el<br><span class="text-purple-400 text-base font-bold tracking-wide">Modo Escritorio</span> en tu navegador.</div>
+        <div class="flex items-center gap-3 text-xs text-gray-300 bg-black/50 px-4 py-2.5 rounded-lg border border-gray-600 shadow-inner mt-1">
+            <span>Toca los 3 puntos</span>
+            <i class="fa-solid fa-ellipsis-vertical text-white"></i>
+            <i class="fa-solid fa-arrow-right text-purple-400"></i>
+            <i class="fa-solid fa-desktop text-white"></i>
+        </div>
+    </div>
+
+    <div id="nyx-wizard" class="w-full">
+        <div class="nyx-header animate-fade-up">
+            <h1>NYX Optimizer</h1>
+            <p>Motor de Inteligencia ATS by Studio Orion 33</p>
+        </div>
+
+        <div class="nyx-container animate-fade-up" style="animation-delay: 0.1s;" id="nyx-step1">
+            <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                <div class="scanner-beam" id="scanner"></div>
+                <div id="upload-content">
+                    <img src="logo.png" alt="Logo NYX" width="500" height="500" class="upload-logo-img">
+                    
+                    <h3 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Cargar Documento PDF</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Arrastra y suelta tu CV actual aquí para iniciar la lectura profunda y estructuración NYX</p>
+                </div>
+                <div class="scanning-text" id="scanning-text">Extrayendo matriz de datos e historial laboral...</div>
+                <input type="file" id="file-input" accept="application/pdf">
+            </div>
+        </div>
+
+        <div class="nyx-container hidden animate-fade-up" id="nyx-step2">
+            <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem; color: white; display: flex; align-items: center; gap: 10px;">
+                <img src="logo.png" class="w-8 h-8 filter drop-shadow-[0_0_8px_rgba(124,58,237,0.6)]"> Configuración del Motor NYX
+            </h2>
+            
+            <div class="form-card animate-nyx-pulse" style="border-color: rgba(139, 92, 246, 0.6); background: rgba(15, 23, 42, 0.5);">
+                <label class="form-label"><img src="logo.png" class="form-label-icon"> ¿Qué acción deseas realizar?</label>
+                <div class="btn-group" id="mode-group">
+                    <button class="btn-option active" data-value="audit">
+                        <i class="fa-solid fa-pen-to-square mb-2 block text-2xl"></i>
+                        Solo Mejorar mi CV Actual<br><span class="text-xs text-gray-400 font-normal mt-1 block">La IA lo mejorará completamente y te dará el texto para pegarlo en tu diseño propio.</span>
+                    </button>
+                    <button class="btn-option" data-value="ats">
+                        <i class="fa-solid fa-file-pdf mb-2 block text-2xl"></i>
+                        Generar Formato ATS<br><span class="text-xs text-gray-400 font-normal mt-1 block">Reestructura todo en la plantilla NYX optimizada para sistemas corporativos.</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <label class="form-label"><img src="logo.png" class="form-label-icon"> Objetivo Estratégico</label>
+                <div class="btn-group" id="goal-group">
+                    <button class="btn-option active" data-value="Mejorar CV General">Mejorar CV General</button>
+                    <button class="btn-option" data-value="Cambiar de industria/rubro">Cambio de Industria</button>
+                    <button class="btn-option" data-value="Conseguir un ascenso">Perfil Senior / Jefatura</button>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <label class="form-label"><img src="logo.png" class="form-label-icon"> Puesto Objetivo (Rol al que aplicas)</label>
+                <input type="text" class="cv-text-input" id="target-role" placeholder="Ej: Data Analyst, Gerente Comercial, Desarrollador..." required>
+            </div>
+
+            <div class="form-card hidden" id="basic-info-wrapper" style="transition: all 0.5s ease;">
+                <label class="form-label"><img src="logo.png" class="form-label-icon"> Datos Básicos (Obligatorio para formato ATS)</label>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Para inyectar correctamente en el PDF ATS, necesitamos garantizar tus datos primarios.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input type="text" class="cv-text-input" id="basic-name" placeholder="Nombre (Ej: Lautaro)">
+                    <input type="text" class="cv-text-input" id="basic-lastname" placeholder="Apellido (Ej: Guarniz)">
+                    <input type="text" class="cv-text-input" id="basic-phone" placeholder="Teléfono / Celular">
+                    <input type="text" class="cv-text-input" id="basic-location" placeholder="Localidad, Provincia, País">
+                </div>
+            </div>
+
+            <div class="form-card">
+                <label class="form-label"><img src="logo.png" class="form-label-icon"> Habilidades Clave (Ingresa hasta 3)</label>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="text" class="cv-text-input" id="skill-1" placeholder="Ej: React">
+                    <input type="text" class="cv-text-input" id="skill-2" placeholder="Ej: Liderazgo">
+                    <input type="text" class="cv-text-input" id="skill-3" placeholder="Ej: Python">
+                </div>
+            </div>
+
+            <div class="form-card" id="dynamic-questions-wrapper">
+                <label class="form-label text-purple-400"><img src="logo.png" class="form-label-icon"> Contexto Estratégico (5 Puntos Clave)</label>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Responde brevemente estas preguntas maestras para guiar a la IA y generar viñetas corporativas perfectas con el Método STAR.</p>
+                <div id="questions-container">
+                    </div>
+            </div>
+
+            <button class="btn-tech33 animate-gradient-shift" id="btn-generate">
+                <img src="logo.png" alt="NYX">
+                Procesar CV | Tecnología Studio 33
+            </button>
+        </div>
+
+        <div class="nyx-container hidden animate-fade-up" id="nyx-loader">
+            <div class="ai-loading">
+                <div class="spinner"></div>
+                <h3 style="font-size: 1.5rem; color: white; font-weight: 800; letter-spacing: 0.5px;">Renderizando Estructura...</h3>
+                <p style="color: #c084fc; margin-top: 0.5rem; font-weight: 500; font-size: 1.1rem;">Ejecutando algoritmos NYX y Método STAR</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="audit-workspace" class="w-full hidden flex-col min-h-screen p-4 sm:p-8 animate-fade-up" style="background-color: var(--bg-color);">
+        <div class="max-w-5xl mx-auto w-full">
+            <div class="flex items-center gap-4 mb-2">
+                <img src="logo.png" alt="NYX Logo" class="w-14 h-14 object-contain filter drop-shadow-[0_0_15px_rgba(124,58,237,0.7)] hover:scale-110 transition-transform">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Reporte NYX Estricto</h2>
+            </div>
+            <p class="text-gray-400 mb-8 border-b border-slate-700 pb-4 text-base">Tu CV ha sido completamente mejorado. Copia los textos optimizados aquí abajo y pégalos en tu archivo original (Canva/Word/Figma) para conservar tu propio diseño visual.</p>
+            
+            <div class="bg-slate-800/80 backdrop-blur-md p-6 rounded-xl border border-slate-600 shadow-lg mb-6 hover:border-blue-400 transition-colors duration-300">
+                <h3 class="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5 filter drop-shadow-[0_0_5px_rgba(59,130,246,0.6)]"> Análisis General IA</h3>
+                <p id="audit-summary" class="text-gray-300 text-[0.95rem] leading-relaxed"></p>
+            </div>
+
+            <div class="bg-[#0f172a] p-6 rounded-xl border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)] mb-6 hover:shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all">
+                <h3 class="text-lg font-bold text-blue-400 mb-2 flex items-center gap-2"><img src="logo.png" class="w-5 h-5 filter drop-shadow-[0_0_5px_rgba(59,130,246,0.6)]"> Rubros y Empresas Recomendadas</h3>
+                <p class="text-xs text-gray-400 mb-4">Basado en tu información, tu perfil tendría mayor porcentaje de éxito en estos sectores:</p>
+                <div id="audit-industries" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-slate-900 p-6 rounded-xl border border-green-500/40 shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:border-green-400 transition-colors">
+                    <h3 class="text-lg font-bold text-green-400 mb-4 flex items-center gap-2"><img src="logo.png" class="w-5 h-5 filter drop-shadow-[0_0_5px_rgba(34,197,94,0.6)]"> Puntos Fuertes</h3>
+                    <ul id="audit-strengths" class="list-disc pl-5 text-gray-300 space-y-2 text-sm leading-relaxed"></ul>
+                </div>
+                <div class="bg-slate-900 p-6 rounded-xl border border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:border-red-400 transition-colors">
+                    <h3 class="text-lg font-bold text-red-400 mb-4 flex items-center gap-2"><img src="logo.png" class="w-5 h-5 filter drop-shadow-[0_0_5px_rgba(239,68,68,0.6)]"> Errores y Formato a Corregir</h3>
+                    <ul id="audit-errors" class="list-disc pl-5 text-gray-300 space-y-2 text-sm leading-relaxed"></ul>
+                </div>
+            </div>
+
+            <div class="bg-[#0f172a] p-6 rounded-xl border border-purple-500/60 shadow-[0_0_25px_rgba(124,58,237,0.3)] hover:border-purple-400 transition-colors">
+                <h3 class="text-xl font-bold text-purple-400 mb-2 flex items-center gap-2"><img src="logo.png" class="w-6 h-6 filter drop-shadow-[0_0_8px_rgba(124,58,237,0.8)]"> Textos Optimizados (Para copiar y pegar)</h3>
+                <p class="text-xs text-gray-400 mb-5 border-b border-slate-700 pb-3">Reemplaza los textos viejos de tu diseño con esta redacción corporativa avanzada.</p>
+                <div id="audit-experiences" class="space-y-4"></div>
+            </div>
+            
+            <div class="mt-8 flex justify-center pb-10">
+                <button onclick="location.reload()" class="bg-gradient-to-r from-blue-600 to-nyx hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(59,130,246,0.5)] hover:shadow-[0_0_25px_rgba(124,58,237,0.7)] flex items-center gap-2 transform hover:scale-105 border border-purple-400/50">
+                    <img src="logo.png" class="w-5 h-5"> Procesar Otro Documento
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editor-workspace" class="w-full flex-col hidden animate-fade-up relative">
+        
+        <nav class="bg-[#0b1120] border-b border-slate-700 h-16 flex items-center justify-between px-4 sm:px-6 flex-shrink-0 no-print shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-20 relative">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <img src="logo.png" class="w-8 h-8 filter drop-shadow-[0_0_5px_rgba(124,58,237,0.8)]">
+                <span class="font-extrabold text-white tracking-widest uppercase text-sm sm:text-base">CV Studio 33 <span class="hidden sm:inline-block text-xs text-[#d8b4fe] bg-nyx/30 px-2 py-1 rounded ml-2 border border-nyx/50">NYX ATS Mode</span></span>
+            </div>
+            <button onclick="downloadPDF()" class="bg-gradient-to-r from-blue-600 to-nyx text-white px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all shadow-[0_0_15px_rgba(124,58,237,0.5)] hover:shadow-[0_0_25px_rgba(124,58,237,0.9)] hover:scale-105 flex items-center gap-2 border border-purple-400/50">
+                <img src="logo.png" class="w-4 h-4 hidden sm:inline"> <span class="hidden sm:inline">Descargar PDF ATS</span><span class="sm:hidden">Descargar</span>
+            </button>
+        </nav>
+
+        <div class="flex flex-1 overflow-hidden" id="workspace-container">
+            <div class="w-full md:w-5/12 lg:w-4/12 editor-panel no-print custom-scrollbar">
+                
+                <p class="text-[0.8rem] text-green-400 mb-4 font-semibold bg-green-900/20 p-3 rounded-lg border border-green-500/30 flex items-center gap-2">
+                    <img src="logo.png" class="w-4 h-4 filter drop-shadow-[0_0_3px_rgba(34,197,94,0.6)]"> Estructura ATS completada. Revisa y ajusta los detalles antes de descargar.
+                </p>
+
+                <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-600 mb-4 shadow-md">
+                    <label class="text-[0.75rem] text-blue-300 font-bold uppercase tracking-wider mb-2 flex items-center gap-2"><img src="logo.png" class="w-3 h-3"> Ajuste de Tamaño (Encajar en 1 Hoja)</label>
+                    <input type="range" id="font-scale-slider" min="0.75" max="1.1" step="0.01" value="1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" oninput="document.documentElement.style.setProperty('--dynamic-scale', this.value)">
+                </div>
+
+                <div class="accordion-header" onclick="toggleAccordion('acc-personal')">
+                    <span><img src="logo.png" class="inline w-4 h-4 mr-2"> Datos Personales</span>
+                    <i class="fa-solid fa-chevron-down text-gray-500"></i>
+                </div>
+                <div id="acc-personal" class="accordion-content active">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="cv-label-sm">Nombre</label><input type="text" class="cv-input-sm" id="inp-name" oninput="updateCVPreview()"></div>
+                        <div><label class="cv-label-sm">Apellido</label><input type="text" class="cv-input-sm" id="inp-lastname" oninput="updateCVPreview()"></div>
+                    </div>
+                    <label class="cv-label-sm">Título Profesional</label><input type="text" class="cv-input-sm mb-2" id="inp-title" oninput="updateCVPreview()">
+                    <label class="cv-label-sm">Contacto (Email, Tel, Ubicación)</label><input type="text" class="cv-input-sm" id="inp-contact" placeholder="ejemplo@mail.com | +54 11... | Buenos Aires" oninput="updateCVPreview()">
+                </div>
+
+                <div class="accordion-header" onclick="toggleAccordion('acc-profile')">
+                    <span><img src="logo.png" class="inline w-4 h-4 mr-2"> Resumen Profesional</span>
+                    <i class="fa-solid fa-chevron-down text-gray-500"></i>
+                </div>
+                <div id="acc-profile" class="accordion-content">
+                    <textarea class="cv-input-sm h-32" id="inp-profile" oninput="updateCVPreview()"></textarea>
+                </div>
+
+                <div class="accordion-header" onclick="toggleAccordion('acc-exp')">
+                    <span><img src="logo.png" class="inline w-4 h-4 mr-2"> Experiencia Optimizada</span>
+                    <i class="fa-solid fa-chevron-down text-gray-500"></i>
+                </div>
+                <div id="acc-exp" class="accordion-content" id="exp-editor-container">
+                    </div>
+
+                <div class="accordion-header" onclick="toggleAccordion('acc-skills')">
+                    <span><img src="logo.png" class="inline w-4 h-4 mr-2"> Habilidades ATS</span>
+                    <i class="fa-solid fa-chevron-down text-gray-500"></i>
+                </div>
+                <div id="acc-skills" class="accordion-content">
+                    <textarea class="cv-input-sm h-24" id="inp-skills" placeholder="Habilidad 1, Habilidad 2..." oninput="updateCVPreview()"></textarea>
+                    <p class="text-[10px] text-gray-500 mt-2">Separa las habilidades con comas.</p>
+                </div>
+            </div>
+
+            <div class="hidden md:flex flex-1 preview-panel relative" id="preview-panel-container">
+                <div class="flex flex-wrap gap-3 justify-center mb-6 no-print w-full bg-slate-900/80 backdrop-blur p-3 rounded-xl border border-slate-600 shadow-lg">
+                    <button class="tpl-btn bg-[#0f172a] hover:bg-nyx text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 border border-slate-600 hover:border-purple-400 hover:scale-105 shadow-md flex items-center gap-2 ring-2 ring-purple-500" data-tpl="classic"><img src="logo.png" class="w-4 h-4"> Clásico</button>
+                    <button class="tpl-btn bg-[#0f172a] hover:bg-nyx text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 border border-slate-600 hover:border-purple-400 hover:scale-105 shadow-md flex items-center gap-2" data-tpl="modern"><img src="logo.png" class="w-4 h-4"> Moderno</button>
+                    <button class="tpl-btn bg-[#0f172a] hover:bg-nyx text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 border border-slate-600 hover:border-purple-400 hover:scale-105 shadow-md flex items-center gap-2" data-tpl="minimal"><img src="logo.png" class="w-4 h-4"> Minimalista</button>
+                </div>
+
+                <div class="a4-wrapper">
+                    <div id="cv-a4-preview" class="a4-page tpl-classic">
+                        <div class="cv-header">
+                            <div style="width: 100%;">
+                                <div class="cv-name" id="view-name">CANDIDATO</div>
+                                <div class="cv-job-title" id="view-title">PUESTO OBJETIVO</div>
+                                <div class="cv-contact" id="view-contact">email@ejemplo.com | Ciudad, País</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Resumen Profesional</div>
+                        <div class="cv-summary" id="view-profile">
+                            Perfil generado por IA.
+                        </div>
+
+                        <div class="section-title">Experiencia Profesional</div>
+                        <div id="view-experience">
+                            </div>
+
+                        <div class="section-title">Habilidades Clave</div>
+                        <div class="skills-container" id="view-skills">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="mobile-preview-btn" class="md:hidden fixed bottom-6 right-6 bg-nyx hover:bg-purple-600 text-white w-14 h-14 rounded-full shadow-[0_0_20px_rgba(124,58,237,0.8)] z-50 flex items-center justify-center transition-transform transform hover:scale-110 border border-purple-300">
+            <i class="fa-solid fa-eye text-2xl" id="mobile-preview-icon"></i>
+        </button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // CONFIGURACIÓN FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // MODULO DE 5 KEYS ROTATIVO
+        let geminiKeys = [];
+        let currentKeyIndex = 0;
+        
+        let extractedCVText = "";
+        let selectedGoal = "Mejorar CV General";
+        let selectedMode = "audit"; 
+        
+        // 5 Preguntas Básicas Generales Fijas
+        const basicGeneralQuestions = [
+            "¿Cuál consideras que ha sido tu mayor logro profesional o proyecto más exitoso?",
+            "Menciona una situación difícil en tu trabajo y cómo la resolviste.",
+            "¿Qué herramientas, software o tecnologías dominas a la perfección?",
+            "¿Tienes experiencia liderando equipos o capacitando a otros? Da un breve ejemplo.",
+            "Si pudieras medir tu impacto en tu último empleo (porcentajes, métricas o tiempo ahorrado), ¿cuáles serían los números?"
+        ];
+
+        // OBTENER MULTIPLES API KEYS
+        async function fetchApiKey() {
+            try {
+                const docSnap = await getDoc(doc(db, "nyx", "nyxid"));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if(data.keynyx) geminiKeys.push(data.keynyx.trim());
+                    if(data.keynyx1) geminiKeys.push(data.keynyx1.trim());
+                    if(data.keynyx2) geminiKeys.push(data.keynyx2.trim());
+                    if(data.keynyx3) geminiKeys.push(data.keynyx3.trim());
+                    if(data.keynyx4) geminiKeys.push(data.keynyx4.trim());
+
+                    if(geminiKeys.length === 0) {
+                        console.error("NYX Error: No se encontraron llaves de API en la bóveda.");
+                    }
+                }
+            } catch (error) {
+                console.error("NYX Error de Conexión Bóveda:", error);
+            }
+        }
+        fetchApiKey();
+
+        // ALERTA MODO PC PARA CELULARES (Se ejecuta INMEDIATAMENTE AL CARGAR EL DOM)
+        window.addEventListener('DOMContentLoaded', () => {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            if (isMobile) {
+                const warn = document.getElementById('mobile-warning');
+                warn.classList.remove('hidden');
+                warn.classList.add('animate-slide-in-down');
+                
+                // La alerta dura 4 segundos visible
+                setTimeout(() => {
+                    warn.classList.remove('animate-slide-in-down');
+                    warn.classList.add('animate-slide-out-up');
+                    setTimeout(() => warn.classList.add('hidden'), 600);
+                }, 4000);
+            }
+        });
+
+        // LOGICA VISTA PREVIA EN CELULAR
+        const mobilePreviewBtn = document.getElementById('mobile-preview-btn');
+        const workspaceContainer = document.getElementById('workspace-container');
+        const mobilePreviewIcon = document.getElementById('mobile-preview-icon');
+
+        if(mobilePreviewBtn) {
+            mobilePreviewBtn.addEventListener('click', () => {
+                workspaceContainer.classList.toggle('mobile-preview-active');
+                if (workspaceContainer.classList.contains('mobile-preview-active')) {
+                    mobilePreviewIcon.classList.remove('fa-eye');
+                    mobilePreviewIcon.classList.add('fa-pen');
+                } else {
+                    mobilePreviewIcon.classList.remove('fa-pen');
+                    mobilePreviewIcon.classList.add('fa-eye');
+                }
+            });
+        }
+
+        // UI PASO 1 Y 2 (Eventos iniciales)
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const goalButtons = document.querySelectorAll('#goal-group .btn-option');
+        const modeButtons = document.querySelectorAll('#mode-group .btn-option');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = "#c084fc"; });
+        dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.style.borderColor = "rgba(124, 58, 237, 0.3)"; });
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+        fileInput.addEventListener('change', (e) => { if(e.target.files.length) handleFile(e.target.files[0]); });
+
+        goalButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                goalButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedGoal = btn.getAttribute('data-value');
+            });
+        });
+
+        // MANEJO DEL SELECTOR DE MODO (Coherencia Visual del Formulario)
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedMode = btn.getAttribute('data-value');
+                
+                const basicInfoWrapper = document.getElementById('basic-info-wrapper');
+                if(selectedMode === 'ats') {
+                    basicInfoWrapper.classList.remove('hidden');
+                    setTimeout(() => basicInfoWrapper.style.opacity = '1', 50);
+                } else {
+                    basicInfoWrapper.classList.add('hidden');
+                }
+            });
+        });
+
+        // LEER PDF Y CARGAR 5 PREGUNTAS AL INSTANTE
+        async function handleFile(file) {
+            if(file.type !== "application/pdf") return alert("Formato no soportado. Sube un PDF.");
+            
+            document.getElementById('upload-content').style.opacity = '0.05';
+            document.getElementById('scanner').style.display = 'block';
+            document.getElementById('scanning-text').style.display = 'block';
+
+            const reader = new FileReader();
+            reader.onload = async function() {
+                try {
+                    const typedarray = new Uint8Array(this.result);
+                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                    let text = "";
+                    for(let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(' ') + " ";
+                    }
+                    extractedCVText = text;
+                    
+                    // Simular escaneo volumétrico láser
+                    setTimeout(() => {
+                        loadBasicQuestionsUI();
+                    }, 2500);
+
+                } catch (err) {
+                    alert("Error al leer PDF. Asegúrate de que no tenga contraseña o esté corrupto.");
+                    document.getElementById('upload-content').style.opacity = '1';
+                    document.getElementById('scanner').style.display = 'none';
+                    document.getElementById('scanning-text').style.display = 'none';
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // CARGA RÁPIDA DE INTERFAZ DE PREGUNTAS
+        function loadBasicQuestionsUI() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            basicGeneralQuestions.forEach((q, index) => {
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="dynamic-q-box">
+                        <label><img src="logo.png" alt="NYX"> ${q}</label>
+                        <textarea id="dyn-ans-${index}" class="cv-text-input hover:scale-[1.01] transition-transform" rows="2" placeholder="Tu respuesta detallada aportará mucho valor..."></textarea>
+                    </div>
+                `);
+            });
+            
+            document.getElementById('dynamic-questions-wrapper').classList.remove('hidden');
+            document.getElementById('nyx-step1').classList.add('hidden');
+            document.getElementById('nyx-step2').classList.remove('hidden');
+        }
+
+        // FUNCIÓN INDESTRUCTIBLE PARA EXTRAER JSON
+        function parseAIResponse(responseText) {
+            let cleanText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+            
+            try {
+                return JSON.parse(cleanText);
+            } catch (e) {
+                console.warn("Parseo JSON directo falló. Activando Algoritmo Extractor de Rescate.");
+                
+                let start = cleanText.indexOf('{');
+                if (start === -1) throw new Error("No se encontró estructura JSON válida.");
+                
+                let count = 0;
+                let end = -1;
+                let inString = false;
+                let isEscaped = false;
+                
+                // Algoritmo matemático para encontrar llaves balanceadas y excluir basura conversacional
+                for (let i = start; i < cleanText.length; i++) {
+                    let char = cleanText[i];
+                    
+                    if (isEscaped) { isEscaped = false; continue; }
+                    if (char === '\\') { isEscaped = true; continue; }
+                    if (char === '"') { inString = !inString; continue; }
+                    
+                    if (!inString) {
+                        if (char === '{') count++;
+                        else if (char === '}') count--;
+                        
+                        if (count === 0) { 
+                            end = i; 
+                            break; 
+                        }
+                    }
+                }
+                
+                if (end !== -1) {
+                    let extracted = cleanText.substring(start, end + 1);
+                    // Elimina saltos de línea crudos dentro de las strings que la IA a veces olvida escapar
+                    extracted = extracted.replace(/[\u0000-\u001F]+/g, ' '); 
+                    return JSON.parse(extracted);
+                }
+                
+                throw new Error("Imposible procesar: La IA no devolvió un JSON balanceado.");
+            }
+        }
+
+        // PROCESAMIENTO FINAL (IA) - LÓGICA CORE
+        document.getElementById('btn-generate').addEventListener('click', async () => {
+            const role = document.getElementById('target-role').value;
+            if(!role) return alert("El Puesto Objetivo es obligatorio.");
+
+            // Recopilar Datos Básicos
+            const bName = document.getElementById('basic-name').value;
+            const bLast = document.getElementById('basic-lastname').value;
+            const bPhone = document.getElementById('basic-phone').value;
+            const bLoc = document.getElementById('basic-location').value;
+            const basicInfoCompiled = `Nombre: ${bName}, Apellido: ${bLast}, Teléfono: ${bPhone}, Localidad: ${bLoc}`;
+
+            const skill1 = document.getElementById('skill-1').value;
+            const skill2 = document.getElementById('skill-2').value;
+            const skill3 = document.getElementById('skill-3').value;
+            const userSkillsArray = [skill1, skill2, skill3].filter(s => s.trim() !== '');
+            const userSkillsText = userSkillsArray.length > 0 ? userSkillsArray.join(', ') : "Ninguna especificada explícitamente en el formulario";
+
+            let extraInfoCompiled = "";
+            for (let i = 0; i < basicGeneralQuestions.length; i++) {
+                const ans = document.getElementById(`dyn-ans-${i}`).value;
+                if (ans) extraInfoCompiled += `- Pregunta: ${basicGeneralQuestions[i]} | Respuesta del usuario: ${ans}\n`;
+            }
+
+            document.getElementById('nyx-step2').classList.add('hidden');
+            document.getElementById('nyx-loader').classList.remove('hidden');
+
+            if (selectedMode === "audit") {
+                // LÓGICA MODO AUDITORÍA CON RUBROS
+                const auditPrompt = `Actúa como un Reclutador Headhunter Senior y Corrector de Estilo. El candidato quiere MEJORAR COMPLETAMENTE SU CV ACTUAL SIN PERDER SU DISEÑO VISUAL.
+                Lee detenidamente el CV original (texto crudo) y las respuestas de valor proporcionadas.
+                
+                Objetivo del candidato: ${selectedGoal}
+                Aplica al puesto: ${role}
+                Habilidades a destacar: ${userSkillsText}
+                Contexto Adicional Extraído: ${extraInfoCompiled}
+
+                DEVUELVE ESTRICTAMENTE UN JSON VÁLIDO CON ESTA ESTRUCTURA EXACTA:
+                {
+                  "analisis_general": "Un párrafo profesional evaluando el estado crudo de su CV frente al puesto objetivo y cómo la nueva redacción lo potenciará.",
+                  "rubros_recomendados": ["Sector X", "Empresa tipo Y", "Rubro Z"],
+                  "puntos_fuertes": ["Fuerte 1", "Fuerte 2"],
+                  "errores_ortograficos_y_formato": ["Error 1 que debe borrar/corregir de su diseño original", "Error 2"],
+                  "textos_optimizados": [
+                    {
+                      "seccion": "Nombre de la experiencia, sección o perfil",
+                      "propuesta": "Texto reescrito COMPLETAMENTE con método STAR, verbos de acción y métricas. Listo para copiar y pegar."
+                    }
+                  ]
+                }
+
+                [CV ORIGINAL EXTRAÍDO]
+                ${extractedCVText}`;
+
+                try {
+                    if (geminiKeys.length === 0) await fetchApiKey();
+                    const finalResponse = await callGeminiAPI(auditPrompt, "application/json");
+                    
+                    // APLICACIÓN DEL PARSER INDESTRUCTIBLE
+                    const auditData = parseAIResponse(finalResponse);
+
+                    document.getElementById('audit-summary').innerText = auditData.analisis_general || "Revisión completada exitosamente.";
+
+                    // Rubros y Empresas Recomendadas
+                    const indList = document.getElementById('audit-industries');
+                    indList.innerHTML = (auditData.rubros_recomendados && auditData.rubros_recomendados.length > 0)
+                        ? auditData.rubros_recomendados.map(r => `<span class="bg-nyx/30 text-[#e9d5ff] px-4 py-1.5 rounded-full text-sm font-bold border border-nyx/50 shadow-[0_0_10px_rgba(124,58,237,0.3)]"><img src="logo.png" class="inline w-3 h-3 mr-1 mb-0.5"> ${r}</span>`).join('')
+                        : `<span class="text-gray-400">Generales Corporativos</span>`;
+
+                    const strList = document.getElementById('audit-strengths');
+                    strList.innerHTML = (auditData.puntos_fuertes && auditData.puntos_fuertes.length > 0)
+                        ? auditData.puntos_fuertes.map(s => `<li>${s}</li>`).join('')
+                        : `<li>Tienes una base sólida.</li>`;
+
+                    const errList = document.getElementById('audit-errors');
+                    errList.innerHTML = (auditData.errores_ortograficos_y_formato && auditData.errores_ortograficos_y_formato.length > 0) 
+                        ? auditData.errores_ortograficos_y_formato.map(e => `<li>${e}</li>`).join('') 
+                        : `<li class="text-green-400">No se detectaron errores graves en la estructura de información.</li>`;
+
+                    const expContainer = document.getElementById('audit-experiences');
+                    expContainer.innerHTML = '';
+                    if (auditData.textos_optimizados && auditData.textos_optimizados.length > 0) {
+                        auditData.textos_optimizados.forEach(item => {
+                            expContainer.insertAdjacentHTML('beforeend', `
+                                <div class="bg-[#050810]/50 p-6 rounded-xl border border-nyx/40 hover:border-[#d8b4fe] transition-all shadow-inner">
+                                    <h4 class="text-[#93c5fd] font-extrabold mb-3 text-[0.85rem] tracking-widest uppercase flex items-center gap-2"><img src="logo.png" class="w-4 h-4 filter drop-shadow-[0_0_3px_rgba(255,255,255,0.8)]"> ${item.seccion}</h4>
+                                    <p class="text-gray-200 text-sm whitespace-pre-line leading-relaxed border-l-2 border-nyx pl-4">${item.propuesta}</p>
+                                </div>
+                            `);
+                        });
+                    }
+
+                    document.getElementById('nyx-wizard').style.display = 'none';
+                    document.getElementById('audit-workspace').style.display = 'flex';
+
+                } catch (error) {
+                    alert("NYX Error: Fallo en la auditoría. Intenta nuevamente.");
+                    console.error(error);
+                    document.getElementById('nyx-loader').classList.add('hidden');
+                    document.getElementById('nyx-step2').classList.remove('hidden');
+                }
+
+            } else {
+                // LÓGICA MODO ATS (PLANTILLA A4)
+                const systemPrompt = `Actúa como Experto ATS. Reescribe este CV original para que el candidato aplique exitosamente al puesto de "${role}" con el objetivo de "${selectedGoal}".
+                
+                REGLA CRÍTICA Y ABSOLUTA: DEBES MANTENER EXACTAMENTE LA MISMA ESTRUCTURA, LOS MISMOS PUESTOS, EMPRESAS Y FECHAS QUE EL CV ORIGINAL. NO inventes experiencias laborales nuevas.
+                
+                IMPORTANTE: Usa los siguientes Datos Básicos proporcionados por el usuario para completar su información:
+                ${basicInfoCompiled}
+                
+                Integra y cuantifica estas respuestas adicionales dadas por el candidato a sus experiencias pasadas: \n${extraInfoCompiled}\n
+                El candidato quiere destacar obligatoriamente estas habilidades clave: ${userSkillsText}.
+                
+                DEVUELVE ESTRICTAMENTE UN JSON VÁLIDO CON ESTA ESTRUCTURA EXACTA:
+                {
+                  "nombre_completo": "Nombre y Apellido",
+                  "contacto": "Email | Teléfono | Localidad",
+                  "perfil": "Nuevo resumen ejecutivo impactante",
+                  "experiencias": [
+                    {
+                      "puesto": "Cargo (Mismo que el original)",
+                      "empresa": "Empresa (Misma que el original)",
+                      "fechas": "Año - Año (Mismo que el original)",
+                      "desc": "Logro 1 optimizado\\nLogro 2 optimizado\\nLogro 3 optimizado" 
+                    }
+                  ],
+                  "habilidades": ["Habilidad Dura 1", "Habilidad Blanda 2", "Software 3"]
+                }
+
+                [CV ORIGINAL EXTRAÍDO] 
+                ${extractedCVText}`;
+
+                try {
+                    if (geminiKeys.length === 0) await fetchApiKey();
+                    const finalResponse = await callGeminiAPI(systemPrompt, "application/json");
+                    
+                    // APLICACIÓN DEL PARSER INDESTRUCTIBLE
+                    const cvData = parseAIResponse(finalResponse);
+                    
+                    populateEditor(cvData, role);
+
+                    document.getElementById('nyx-wizard').style.display = 'none';
+                    document.getElementById('editor-workspace').style.display = 'flex';
+                    window.updateCVPreview();
+
+                } catch (error) {
+                    alert("NYX Error: Fallo en la reestructuración ATS. Intenta nuevamente.");
+                    console.error(error);
+                    document.getElementById('nyx-loader').classList.add('hidden');
+                    document.getElementById('nyx-step2').classList.remove('hidden');
+                }
+            }
+        });
+
+        // 🚨 ENDPOINT MULTI-KEY ROTATIVO 🚨
+        async function callGeminiAPI(promptText, mimeType, retryCount = 0) {
+            if (geminiKeys.length === 0) throw new Error("API Keys no inicializadas");
+            
+            const cleanKey = geminiKeys[currentKeyIndex];
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${cleanKey}`;
+            
+            const payload = { contents: [{ parts: [{ text: promptText }] }] };
+            if (mimeType === "application/json") payload.generationConfig = { responseMimeType: "application/json" };
+
+            try {
+                const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error ? data.error.message : "Error desconocido HTTP");
+                }
+                return data.candidates[0].content.parts[0].text;
+            } catch (err) {
+                console.warn(`NYX Fallo con la key índice ${currentKeyIndex}:`, err);
+                
+                currentKeyIndex++;
+                if (currentKeyIndex < geminiKeys.length && retryCount < geminiKeys.length) {
+                    console.log(`Rotando a la siguiente API Key (Índice: ${currentKeyIndex})...`);
+                    return await callGeminiAPI(promptText, mimeType, retryCount + 1);
+                } else {
+                    currentKeyIndex = 0; 
+                    const loader = document.getElementById('nyx-loader');
+                    const step2 = document.getElementById('nyx-step2');
+                    if (loader) loader.classList.add('hidden');
+                    if (step2) step2.classList.remove('hidden');
+                    
+                    alert("El servicio se encuentra saturado. Espera 1 hora y vuelve a intentar.");
+                    throw new Error("Todas las API keys rotativas han fallado.");
+                }
+            }
+        }
+
+        // ==========================================
+        // FUNCIONES DEL EDITOR VISUAL ATS Y PLANTILLAS
+        // ==========================================
+        
+        // Manejo de las 3 Plantillas ATS y Modal Promocional (3 Segs)
+        const templateBtns = document.querySelectorAll('.tpl-btn');
+        templateBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tpl = btn.getAttribute('data-tpl');
+                document.getElementById('cv-a4-preview').className = `a4-page tpl-${tpl}`;
+                
+                // Efecto Activo Visual
+                templateBtns.forEach(b => b.classList.remove('ring-2', 'ring-purple-500'));
+                btn.classList.add('ring-2', 'ring-purple-500');
+
+                // Mostrar Mensaje Flotante de Promoción (3s)
+                const promoMsg = document.getElementById('promo-message');
+                promoMsg.classList.remove('hidden', 'animate-float-down');
+                void promoMsg.offsetWidth; 
+                promoMsg.classList.add('animate-float-up');
+                
+                setTimeout(() => {
+                    promoMsg.classList.remove('animate-float-up');
+                    promoMsg.classList.add('animate-float-down');
+                    setTimeout(() => promoMsg.classList.add('hidden'), 500);
+                }, 3000);
+            });
+        });
+
+        let expCountGlobal = 0;
+
+        function populateEditor(data, role) {
+            let nameParts = (data.nombre_completo || "Candidato Profesional").split(" ");
+            document.getElementById('inp-name').value = nameParts[0] || "";
+            document.getElementById('inp-lastname').value = nameParts.slice(1).join(" ") || "";
+            document.getElementById('inp-title').value = role || "Profesional";
+            document.getElementById('inp-contact').value = data.contacto || "";
+            
+            document.getElementById('inp-profile').value = data.perfil || "";
+            document.getElementById('inp-skills').value = Array.isArray(data.habilidades) ? data.habilidades.join(", ") : data.habilidades;
+
+            const expContainer = document.getElementById('acc-exp');
+            expContainer.innerHTML = ''; 
+            expCountGlobal = 0;
+
+            if (data.experiencias && data.experiencias.length > 0) {
+                data.experiencias.forEach((exp, index) => {
+                    expCountGlobal++;
+                    expContainer.insertAdjacentHTML('beforeend', `
+                        <div class="bg-slate-800/60 p-4 rounded-lg mb-3 border border-slate-600 hover:border-purple-400 transition-colors shadow-md" id="exp-block-${expCountGlobal}">
+                            <input type="text" class="cv-input-sm mb-2 font-extrabold text-blue-300 bg-slate-900 border-none" id="inp-exp-role-${expCountGlobal}" value="${exp.puesto}" oninput="updateCVPreview()">
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <input type="text" class="cv-input-sm bg-slate-900 border-none" id="inp-exp-comp-${expCountGlobal}" value="${exp.empresa}" oninput="updateCVPreview()">
+                                <input type="text" class="cv-input-sm bg-slate-900 border-none" id="inp-exp-date-${expCountGlobal}" value="${exp.fechas}" oninput="updateCVPreview()">
+                            </div>
+                            <textarea class="cv-input-sm h-28 bg-slate-900 border-none leading-relaxed" id="inp-exp-desc-${expCountGlobal}" oninput="updateCVPreview()">${exp.desc}</textarea>
+                        </div>
+                    `);
+                });
+            }
+        }
+
+        window.toggleAccordion = function(id) { 
+            const content = document.getElementById(id);
+            const icon = content.previousElementSibling.querySelector('.fa-chevron-down');
+            
+            if(content) {
+                content.classList.toggle('active'); 
+                if(content.classList.contains('active')) {
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            }
+        };
+
+        window.updateCVPreview = function() {
+            const name = document.getElementById('inp-name').value || "Nombre";
+            const last = document.getElementById('inp-lastname').value || "Apellido";
+            document.getElementById('view-name').innerText = `${name} ${last}`;
+            document.getElementById('view-title').innerText = document.getElementById('inp-title').value || "Puesto Profesional";
+            document.getElementById('view-contact').innerText = document.getElementById('inp-contact').value || "Contacto";
+            document.getElementById('view-profile').innerText = document.getElementById('inp-profile').value || "Perfil profesional";
+
+            const skillsStr = document.getElementById('inp-skills').value;
+            const skillsArray = skillsStr.split(',').map(s => s.trim()).filter(s => s);
+            const skillsHtml = skillsArray.map(s => `<div class="skill-badge">${s}</div>`).join('');
+            document.getElementById('view-skills').innerHTML = skillsHtml;
+
+            let expHtml = '';
+            for (let i = 1; i <= expCountGlobal; i++) {
+                const elRole = document.getElementById(`inp-exp-role-${i}`);
+                if (!elRole) continue;
+                
+                const role = elRole.value;
+                const comp = document.getElementById(`inp-exp-comp-${i}`).value;
+                const date = document.getElementById(`inp-exp-date-${i}`).value;
+                
+                const descStr = document.getElementById(`inp-exp-desc-${i}`).value;
+                const bullets = descStr.split('\n').map(b => b.trim()).filter(b => b).map(b => `<li>${b}</li>`).join('');
+
+                expHtml += `
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <span class="exp-title">${role}</span>
+                            <span class="exp-date">${date}</span>
+                        </div>
+                        <div class="exp-company">${comp}</div>
+                        <ul class="exp-desc">${bullets}</ul>
+                    </div>
+                `;
+            }
+            document.getElementById('view-experience').innerHTML = expHtml;
+        };
+
+        window.downloadPDF = function() {
+            const element = document.getElementById('cv-a4-preview');
+            const opt = { 
+                margin: 0, 
+                filename: 'CV_Optimizado_NYX.pdf', 
+                image: { type: 'jpeg', quality: 1 }, 
+                html2canvas: { scale: 3, useCORS: true, scrollY: 0 }, 
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
+            };
+            html2pdf().set(opt).from(element).save();
+        };
+    </script>
+</body>
+</html>
+

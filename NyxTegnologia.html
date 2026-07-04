@@ -27,6 +27,8 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FilmShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/FilmPass.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
@@ -854,10 +856,8 @@
             const spacer = document.getElementById('intro-spacer');
             const skipBtn = document.getElementById('skip-btn');
             
-            // GSAP Skip Button Logic (Millimetric Scroll FIX)
+            // GSAP Skip Button Logic (Millimetric Scroll FIX intacto)
             skipBtn.addEventListener('click', () => {
-                // Al scrollear exactamente al 'offsetHeight' del spacer, superamos el padding negativo
-                // y aterrizamos milimétricamente al principio del contenido, sin espacios negros.
                 const targetScroll = spacer.offsetHeight; 
                 gsap.to(window, {
                     scrollTo: targetScroll,
@@ -879,184 +879,195 @@
                 document.getElementById('intro-text-5')
             ];
 
-            // --- SCENE SETUP ---
+            // --- SCENE SETUP AVANZADO ---
             const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x050508, 0.02);
+            // Niebla profunda cyber
+            scene.fog = new THREE.FogExp2(0x020204, 0.025);
 
             const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 20;
+            camera.position.z = 25;
 
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(renderer.domElement);
 
-            // --- EFECTO BLOOM POST-PROCESSING (NEÓN PROFESIONAL) ---
+            // --- COMPOSER: NEÓN + EFECTO CRT (SCANLINES) HACKING ---
             const renderScene = new THREE.RenderPass(scene, camera);
-            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-            bloomPass.threshold = 0.1;
-            bloomPass.strength = 1.8; // Intensidad del neón cyber
-            bloomPass.radius = 0.8;
-
             const composer = new THREE.EffectComposer(renderer);
             composer.addPass(renderScene);
+
+            // Neón extremo
+            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.2, 0.5, 0.7);
             composer.addPass(bloomPass);
 
-            // --- LUCES PROFESIONALES ---
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            // Filtro CRT (Monitor Hacking Antiguo)
+            if (THREE.FilmPass) {
+                // Parámetros: noiseIntensity, scanlinesIntensity, scanlinesCount, grayscale
+                const filmPass = new THREE.FilmPass(0.35, 0.25, 800, false);
+                filmPass.renderToScreen = true;
+                composer.addPass(filmPass);
+            }
+
+            // --- ILUMINACIÓN CIBERNÉTICA ---
+            const ambientLight = new THREE.AmbientLight(0x050510, 0.8);
             scene.add(ambientLight);
 
-            const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            mainLight.position.set(10, 20, 10);
-            mainLight.castShadow = true;
-            scene.add(mainLight);
-
-            const violetLight = new THREE.PointLight(0x8b5cf6, 3, 50);
-            violetLight.position.set(-10, 0, 5);
+            const violetLight = new THREE.PointLight(0x8b5cf6, 4, 60);
+            violetLight.position.set(-15, 5, 5);
             scene.add(violetLight);
 
-            const cyanLight = new THREE.PointLight(0x22d3ee, 2, 50);
-            cyanLight.position.set(10, -5, 5);
+            const cyanLight = new THREE.PointLight(0x22d3ee, 3, 60);
+            cyanLight.position.set(15, -10, 5);
             scene.add(cyanLight);
 
-            // Luz que sigue al mouse
-            const mouseLight = new THREE.PointLight(0xa78bfa, 2, 30);
+            // Luz dinámica del ratón
+            const mouseLight = new THREE.PointLight(0x00ffaa, 2.5, 40); // Luz verde interactiva
             scene.add(mouseLight);
 
-            // --- MATERIALES PREMIUM MEJORADOS (Para reaccionar al Bloom) ---
+            // --- MATERIALES PREMIUM HOLOGRÁFICOS ---
             const glassMaterial = new THREE.MeshPhysicalMaterial({
                 color: 0x8b5cf6,
-                metalness: 0.3,
-                roughness: 0.05,
-                transmission: 0.95, // Más transparente/Holográfico
-                thickness: 0.8,
-                ior: 1.5,
-                emissive: 0x2a0a5e, // Ligera emisión de luz
-                emissiveIntensity: 0.2,
+                metalness: 0.9,
+                roughness: 0.1,
+                transmission: 0.9,
+                thickness: 1.5,
+                ior: 2.0,
+                emissive: 0x2a0a5e,
+                emissiveIntensity: 0.4,
                 clearcoat: 1.0,
-                clearcoatRoughness: 0.1,
-                side: THREE.DoubleSide
+                wireframe: true // Estructura de wireframe para aspecto técnico
             });
 
-            const accentMaterial = new THREE.MeshStandardMaterial({
+            const cyberMaterial = new THREE.MeshStandardMaterial({
                 color: 0x22d3ee,
-                emissive: 0x06b6d4, // Cyan glow
-                emissiveIntensity: 1.5, // Emisión alta para activar el Bloom de neón
-                roughness: 0.2,
-                metalness: 0.8
-            });
-
-            const bgMaterial = new THREE.MeshStandardMaterial({
-                color: 0x4c1d95,
+                emissive: 0x22d3ee,
+                emissiveIntensity: 2.0,
+                wireframe: true,
                 transparent: true,
-                opacity: 0.4,
-                roughness: 0.8
+                opacity: 0.7
             });
 
-            // --- CONSTRUCCIÓN DE LAS 5 FORMAS 3D SÓLIDAS ---
+            // --- SISTEMA DE PARTÍCULAS: FIGURAS EVOLUCIONADAS ---
             const shapesGroup = new THREE.Group();
             scene.add(shapesGroup);
 
-            // 1. Esfera Global (Red de contactos)
+            // 1. Red Neuronal Esférica (Data Globe)
             const globeGroup = new THREE.Group();
-            const globeMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(4, 2), glassMaterial);
-            const wireframe = new THREE.Mesh(new THREE.IcosahedronGeometry(4.1, 2), new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.3 }));
-            // Añadir núcleo brillante
-            const innerGlow = new THREE.Mesh(new THREE.IcosahedronGeometry(2, 2), accentMaterial);
-            globeGroup.add(globeMesh, wireframe, innerGlow);
+            const globeGeo = new THREE.IcosahedronGeometry(4.5, 3);
+            const globePoints = new THREE.Points(globeGeo, new THREE.PointsMaterial({color: 0x22d3ee, size: 0.1, transparent: true, blending: THREE.AdditiveBlending}));
+            const globeWire = new THREE.Mesh(new THREE.IcosahedronGeometry(4.6, 1), glassMaterial);
+            globeGroup.add(globePoints, globeWire);
 
-            // 2. Torus Knot (ADN / Evolución)
+            // 2. ADN Cuántico (Torus Knot con Enjambre)
             const torusGroup = new THREE.Group();
-            const torusMesh = new THREE.Mesh(new THREE.TorusKnotGeometry(2.5, 0.8, 100, 16), glassMaterial);
-            torusGroup.add(torusMesh);
+            const torusGeo = new THREE.TorusKnotGeometry(3.5, 0.8, 150, 20);
+            const torusPoints = new THREE.Points(torusGeo, new THREE.PointsMaterial({color: 0x8b5cf6, size: 0.08, transparent: true, blending: THREE.AdditiveBlending}));
+            const torusCore = new THREE.Mesh(new THREE.TorusKnotGeometry(3.4, 0.5, 100, 16), cyberMaterial);
+            torusGroup.add(torusPoints, torusCore);
 
-            // 3. Matriz de Cubos (Sistema ATS / Servidores - Ahora Pulsa)
+            // 3. Estructura ATS (Cubo de Datos Holográficos)
             const matrixGroup = new THREE.Group();
-            for(let i=0; i<27; i++) {
-                const cube = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), (i%3===0) ? accentMaterial : glassMaterial);
-                cube.position.set(
-                    ((i % 3) - 1) * 1.8,
-                    ((Math.floor(i / 3) % 3) - 1) * 1.8,
-                    ((Math.floor(i / 9)) - 1) * 1.8
-                );
-                // Variables para pulsación individual
-                cube.userData = { phase: Math.random() * Math.PI * 2, speed: 1 + Math.random() };
-                matrixGroup.add(cube);
-            }
+            const matrixBox = new THREE.BoxGeometry(6, 6, 6, 4, 4, 4);
+            const matrixPoints = new THREE.Points(matrixBox, new THREE.PointsMaterial({color: 0x00ffaa, size: 0.15, blending: THREE.AdditiveBlending})); // Verde Hacking
+            const innerCube = new THREE.Mesh(new THREE.BoxGeometry(4,4,4), glassMaterial);
+            matrixGroup.add(matrixPoints, innerCube);
 
-            // 4. Mente Colmena (Cerebro IA Geométrico)
+            // 4. El Ojo de la Colmena (Hive Mind)
             const hiveGroup = new THREE.Group();
-            const core = new THREE.Mesh(new THREE.IcosahedronGeometry(2, 0), accentMaterial);
-            const shell1 = new THREE.Mesh(new THREE.IcosahedronGeometry(3.5, 1), new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true }));
-            const shell2 = new THREE.Mesh(new THREE.SphereGeometry(4.5, 32, 32), new THREE.MeshPhysicalMaterial({ color: 0x000000, transmission: 0.9, opacity: 0.2, transparent: true }));
-            hiveGroup.add(core, shell1, shell2);
+            const outerShell = new THREE.Mesh(new THREE.IcosahedronGeometry(5, 2), glassMaterial);
+            const innerEye = new THREE.Mesh(new THREE.OctahedronGeometry(2, 0), cyberMaterial);
+            const orbitRing = new THREE.Mesh(new THREE.TorusGeometry(6, 0.05, 16, 100), new THREE.MeshBasicMaterial({color: 0x00ffaa}));
+            orbitRing.rotation.x = Math.PI / 2;
+            hiveGroup.add(outerShell, innerEye, orbitRing);
 
-            // 5. Cohete Geométrico (Despegue)
+            // 5. Inyección de Código / Lanzamiento (Rocket Geométrico)
             const rocketGroup = new THREE.Group();
-            const body = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 4, 16), glassMaterial);
-            const nose = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 16), accentMaterial);
-            nose.position.y = 3;
-            const fin1 = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.5, 1.5), accentMaterial);
-            fin1.position.set(1, -1.5, 0);
-            const fin2 = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.5, 1.5), accentMaterial);
-            fin2.position.set(-1, -1.5, 0);
-            rocketGroup.add(body, nose, fin1, fin2);
+            const rocketBody = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 1.5, 6, 8), glassMaterial);
+            const rocketNose = new THREE.Mesh(new THREE.ConeGeometry(0.5, 2, 8), cyberMaterial);
+            rocketNose.position.y = 4;
+            // Partículas de "fuego" / propulsión
+            const fireGeo = new THREE.ConeGeometry(1.2, 4, 16);
+            const firePoints = new THREE.Points(fireGeo, new THREE.PointsMaterial({color: 0x8b5cf6, size: 0.1, blending: THREE.AdditiveBlending}));
+            firePoints.position.y = -4;
+            rocketGroup.add(rocketBody, rocketNose, firePoints);
 
-            // Ocultamos todas inicialmente
+            // Setup inicial de las figuras
             const allShapes = [globeGroup, torusGroup, matrixGroup, hiveGroup, rocketGroup];
             allShapes.forEach(shape => {
                 shape.scale.set(0, 0, 0);
                 shapesGroup.add(shape);
             });
 
-            // --- ELEMENTOS FLOTANTES CON RED NEURONAL DE FONDO ---
+            // --- RED NEURONAL DE FONDO (GREEN/VIOLET HACKING) ---
             const floatingBgGroup = new THREE.Group();
             scene.add(floatingBgGroup);
             
+            const particleCount = 200;
             const floatingObjects = [];
-            const geometries = [
-                new THREE.TetrahedronGeometry(0.5),
-                new THREE.OctahedronGeometry(0.4),
-                new THREE.TorusGeometry(0.6, 0.2, 8, 16)
-            ];
+            
+            // Materiales mezclando el verde Matrix/Hacking y el Violeta de NYX
+            const pointGeo = new THREE.OctahedronGeometry(0.2);
+            const pointMatGreen = new THREE.MeshBasicMaterial({ color: 0x00ffaa, wireframe: true });
+            const pointMatViolet = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true });
 
-            for(let i=0; i<45; i++) {
-                const mesh = new THREE.Mesh(geometries[Math.floor(Math.random() * geometries.length)], bgMaterial);
+            for(let i=0; i<particleCount; i++) {
+                const mat = Math.random() > 0.7 ? pointMatGreen : pointMatViolet;
+                const mesh = new THREE.Mesh(pointGeo, mat);
                 mesh.position.set(
-                    (Math.random() - 0.5) * 40,
-                    (Math.random() - 0.5) * 40,
-                    (Math.random() - 0.5) * 20 - 10
+                    (Math.random() - 0.5) * 60,
+                    (Math.random() - 0.5) * 60,
+                    (Math.random() - 0.5) * 30 - 10
                 );
                 mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
                 mesh.userData = {
                     rx: (Math.random() - 0.5) * 0.02,
                     ry: (Math.random() - 0.5) * 0.02,
                     yOffset: Math.random() * Math.PI * 2,
-                    speed: Math.random() * 0.02 + 0.01
+                    speed: Math.random() * 0.015 + 0.005
                 };
                 floatingBgGroup.add(mesh);
                 floatingObjects.push(mesh);
             }
 
-            // Material y geometría para las líneas de la Red Neuronal
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.25 });
+            // Conexiones de la red (Líneas láser dinámicas)
+            const lineMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x4c1d95, 
+                transparent: true, 
+                opacity: 0.15,
+                blending: THREE.AdditiveBlending
+            });
             const lineGeometry = new THREE.BufferGeometry();
             const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
             floatingBgGroup.add(linesMesh);
 
-            // --- PARALLAX DE CÁMARA ---
+            // --- PARALLAX Y RATÓN ---
             let targetCameraX = 0;
             let targetCameraY = 0;
 
             document.addEventListener('mousemove', (event) => {
-                mouseLight.position.x = (event.clientX / window.innerWidth - 0.5) * 40;
-                mouseLight.position.y = -(event.clientY / window.innerHeight - 0.5) * 40;
-                mouseLight.position.z = 15;
+                const mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+                const mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
 
-                targetCameraX = (event.clientX / window.innerWidth) * 2 - 1;
-                targetCameraY = -(event.clientY / window.innerHeight) * 2 + 1;
+                mouseLight.position.x = mouseX * 25;
+                mouseLight.position.y = mouseY * 25;
+                mouseLight.position.z = 10;
+
+                targetCameraX = mouseX * 4;
+                targetCameraY = mouseY * 4;
+                
+                // Repulsión de red neuronal
+                floatingObjects.forEach(obj => {
+                    const dx = obj.position.x - mouseLight.position.x;
+                    const dy = obj.position.y - mouseLight.position.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 5) {
+                        obj.position.x += dx * 0.02;
+                        obj.position.y += dy * 0.02;
+                    }
+                });
             });
 
 
@@ -1071,7 +1082,6 @@
 
                 slides.forEach(s => s.classList.remove('active'));
 
-                // Fases de Texto
                 if(scrollProgress < 0.15) { slides[0].classList.add('active'); currentShapeIndex = 0; } 
                 else if(scrollProgress < 0.35) { slides[1].classList.add('active'); currentShapeIndex = 1; } 
                 else if(scrollProgress < 0.55) { slides[2].classList.add('active'); currentShapeIndex = 2; } 
@@ -1089,7 +1099,6 @@
                     skipContainer.style.pointerEvents = 'none';
                     skipContainer.style.transform = 'translateY(20px)';
 
-                    // Ocultar la forma principal en el contenido
                     currentShapeIndex = -1; 
                 } else {
                     mainContent.style.opacity = 0;
@@ -1110,24 +1119,25 @@
                 requestAnimationFrame(animate);
                 const time = clock.getElapsedTime();
 
-                // Suavizado de Cámara (Parallax)
-                camera.position.x += (targetCameraX * 3 - camera.position.x) * 0.05;
-                camera.position.y += (targetCameraY * 3 - camera.position.y) * 0.05;
+                // Suavizado de Cámara
+                camera.position.x += (targetCameraX - camera.position.x) * 0.05;
+                camera.position.y += (targetCameraY - camera.position.y) * 0.05;
                 camera.lookAt(scene.position);
 
-                // Animación de los objetos flotantes de fondo
+                // Animación de la Red Neuronal Flotante
                 floatingObjects.forEach((obj) => {
                     obj.rotation.x += obj.userData.rx;
                     obj.rotation.y += obj.userData.ry;
-                    obj.position.y += Math.sin(time * obj.userData.speed + obj.userData.yOffset) * 0.02;
+                    // Flotación más orgánica
+                    obj.position.y += Math.sin(time * obj.userData.speed + obj.userData.yOffset) * 0.03;
                 });
 
-                // Generar conexiones de Red Neuronal Dinámica
+                // Regenerar conexiones Láser (Hacking Data flow)
                 const positions = [];
-                for(let i=0; i<floatingObjects.length; i++) {
-                    for(let j=i+1; j<floatingObjects.length; j++) {
+                for(let i=0; i<floatingObjects.length; i+=2) { // Optimizado (i+=2) para mejor rendimiento visual
+                    for(let j=i+1; j<floatingObjects.length; j+=2) {
                         const dist = floatingObjects[i].position.distanceTo(floatingObjects[j].position);
-                        if(dist < 8) { // Si están cerca, trazar un láser entre ellos
+                        if(dist < 10) { 
                             positions.push(
                                 floatingObjects[i].position.x, floatingObjects[i].position.y, floatingObjects[i].position.z,
                                 floatingObjects[j].position.x, floatingObjects[j].position.y, floatingObjects[j].position.z
@@ -1137,43 +1147,49 @@
                 }
                 linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
 
-                // Transición suave entre las Formas Sólidas Principales (LERP)
+                // Morphing Inteligente entre las 5 Figuras Sólidas
                 allShapes.forEach((shape, index) => {
                     const targetScale = (index === currentShapeIndex) ? 1 : 0;
-                    // LERP para escalar arriba o abajo suavemente
-                    shape.scale.x += (targetScale - shape.scale.x) * 0.1;
-                    shape.scale.y += (targetScale - shape.scale.y) * 0.1;
-                    shape.scale.z += (targetScale - shape.scale.z) * 0.1;
+                    
+                    // Escala elástica (Efecto tecnológico de despliegue)
+                    shape.scale.x += (targetScale - shape.scale.x) * 0.08;
+                    shape.scale.y += (targetScale - shape.scale.y) * 0.08;
+                    shape.scale.z += (targetScale - shape.scale.z) * 0.08;
 
-                    // Rotación continua si está activo
                     if(shape.scale.x > 0.01) {
-                        if(index === 0) { shape.rotation.y += 0.005; shape.children[2].rotation.y -= 0.01; } // Globe
-                        if(index === 1) { shape.rotation.x += 0.01; shape.rotation.y += 0.01; } // Torus
+                        if(index === 0) { 
+                            shape.rotation.y += 0.003; 
+                            shape.children[0].rotation.y -= 0.005; // Puntos girando en reversa
+                        } 
+                        if(index === 1) { 
+                            shape.rotation.x += 0.005; 
+                            shape.rotation.y += 0.01; 
+                            shape.children[0].material.size = (Math.sin(time * 2) * 0.05) + 0.1; // Pulso cuántico
+                        } 
                         if(index === 2) { 
-                            shape.rotation.y += 0.01; shape.rotation.z += 0.005; 
-                            // Hacer que la matriz pulse orgánicamente
-                            shape.children.forEach(c => {
-                                const s = 1 + Math.sin(time * c.userData.speed + c.userData.phase) * 0.15;
-                                c.scale.set(s,s,s);
-                            });
-                        } // Matrix
+                            shape.rotation.y = time * 0.2; 
+                            shape.rotation.z = Math.sin(time * 0.5) * 0.2; 
+                            shape.children[1].scale.setScalar(1 + Math.sin(time * 4)*0.05); // Latido interno
+                        } 
                         if(index === 3) { 
-                            shape.children[0].rotation.y -= 0.02; // Core
-                            shape.children[1].rotation.x += 0.01; // Shell
+                            shape.children[0].rotation.y -= 0.01; 
+                            shape.children[1].rotation.x += 0.05; 
+                            shape.children[2].rotation.z += 0.02; // Anillo orbital
                             shape.rotation.y += 0.005; 
-                        } // Hive
+                        } 
                         if(index === 4) { 
                             shape.rotation.y += 0.02; 
-                            shape.position.y = Math.sin(time * 2) * 0.5; // Cohete flotando
+                            shape.position.y = Math.sin(time * 3) * 0.5;
+                            shape.rotation.z = Math.sin(time * 2) * 0.1;
+                            shape.children[2].rotation.y -= 0.1; // Fuego rotando rápido
                         } 
                     }
                 });
 
-                // Mover luces ligeramente para dar vida a los materiales
-                violetLight.position.x = Math.sin(time * 0.5) * 15;
-                cyanLight.position.z = Math.cos(time * 0.3) * 10;
+                violetLight.position.x = Math.sin(time * 0.5) * 20;
+                cyanLight.position.z = Math.cos(time * 0.3) * 15;
 
-                // Renderizamos con el Efecto Bloom (Composer en vez de Renderer normal)
+                // Renderizamos con el Efecto Bloom y CRT
                 composer.render();
             }
 
@@ -1181,7 +1197,7 @@
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-                composer.setSize(window.innerWidth, window.innerHeight); // Actualizar Composer
+                composer.setSize(window.innerWidth, window.innerHeight); 
             });
 
             updateScroll();
@@ -1190,5 +1206,4 @@
     </script>
 </body>
 </html>
-
 

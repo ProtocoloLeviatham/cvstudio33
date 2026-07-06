@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros | CVStudio33 - Infraestructura Laboral SaaS</title>
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <style>
+        /* === VARIABLES & RESET === */
+        :root {
+            --bg-main: #0a0f1a; 
+            --bg-card: #131b2f;
+            --bg-hover: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.4);
+            --border-color: #1e293b;
+            --gold-accent: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === ANIMACIONES BÁSICAS === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === NAVEGACIÓN === */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(10, 15, 26, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        nav .logo-container img {
+            height: 40px;
+        }
+
+        nav .links a {
+            margin-left: 2rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        nav .links a:hover {
+            color: var(--text-main);
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            position: relative;
+            padding: 12rem 5% 8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(10,15,26,0.3) 0%, var(--bg-main) 100%), 
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop') center/cover no-repeat;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 15, 26, 0.75);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .tagline {
+            color: var(--gold-accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+            background: -webkit-linear-gradient(0deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* === SECCIONES GLOBALES === */
+        .section-container {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .image-box img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s ease;
+        }
+        
+        .image-box img:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .text-box p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* === FEATURES / SAAS CARDS === */
+        .saas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .saas-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .saas-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .saas-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+
+        .saas-card:hover::before {
+            opacity: 0.15;
+        }
+
+        .saas-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* === FAQ SECTION === */
+        .faq-section {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 0;
+        }
+
+        .faq-question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--accent);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+            color: var(--text-muted);
+            padding-right: 2rem;
+        }
+
+        .faq-answer p {
+            padding-top: 1rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+            color: var(--accent);
+        }
+
+        /* === MENSAJE DEL FUNDADOR === */
+        .founder-message {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .founder-message::before {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 8rem;
+            color: rgba(251, 191, 36, 0.1); /* Gold faint */
+            font-family: Georgia, serif;
+            z-index: -1;
+            line-height: 1;
+        }
+
+        .founder-message p {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .founder-signature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .founder-signature .name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 0.2rem;
+        }
+
+        .founder-signature .title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background-color: var(--bg-main);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-legal-text {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+            text-align: justify;
+        }
+
+        .footer-links h4 {
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul a {
+            transition: color 0.3s;
+        }
+        
+        .footer-links ul a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cookie-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 2rem auto 0;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .grid-2, .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            nav .links {
+                display: none;
+            }
+            .grid-2 > div:nth-child(2) {
+                grid-row: 1; 
+            }
+            .founder-message p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <a href="index.html" class="logo-container">
+            <img src="logo.png" alt="CVStudio33 Logo" onerror="this.src='https://placehold.co/100x100/131b2f/FFF?text=CV33'">
+            <span>CVSTUDIO33</span>
+        </a>
+        <div class="links">
+            <a href="Nosotros.html" style="color: var(--text-main);">La Infraestructura</a>
+            <a href="Servicios.html">SaaS & Servicios</a>
+            <a href="EmpleosCvstudio33.html">Mercado VIP</a>
+            <a href="LoginCvStudio33.html" style="background: var(--text-main); color: var(--bg-main); padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">Acceso Cliente</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content reveal">
+            <span class="tagline">Agencia Laboral SaaS de Nueva Generación</span>
+            <h1>La infraestructura definitiva para <span>combatir la automatización</span></h1>
+            <p>En una era donde la Inteligencia Artificial procesa el 80% de las postulaciones corporativas, enviar un currículum tradicional es invisible. CVStudio33 es tu arsenal tecnológico para dominar el mercado, destacar entre millones de datos y ser reclutado por las empresas más imponentes.</p>
+        </div>
+    </header>
+
+    <!-- SECCIÓN: EL PROBLEMA Y LA SOLUCIÓN -->
+    <section class="section-container grid-2">
+        <div class="text-box reveal">
+            <h2>Nivelando el campo de batalla corporativo</h2>
+            <p>El reclutamiento ha cambiado para siempre. Las grandes corporaciones utilizan Sistemas de Seguimiento de Candidatos (ATS) que funcionan como murallas implacables. Si tu perfil no tiene la estructura, el peso semántico y las palabras clave exactas que busca el algoritmo, eres descartado en milisegundos sin importar tu talento real.</p>
+            <p><strong>CVStudio33 no es un simple editor de currículums.</strong> Somos la agencia laboral SaaS más avanzada del mercado. Construimos una infraestructura de inteligencia artificial diseñada para auditar, reescribir y posicionar tu perfil con precisión matemática, asegurando que cruces los filtros corporativos y llegues directamente a la mesa de decisiones.</p>
+        </div>
+        <div class="image-box reveal">
+            <!-- Imagen 1: Servidores oscuros, procesamiento IA -->
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop" alt="Infraestructura y Procesamiento IA CVStudio33">
+        </div>
+    </section>
+
+    <!-- SECCIÓN: INFRAESTRUCTURA SAAS -->
+    <section class="section-container">
+        <div class="text-box text-center reveal" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <h2>El Ecosistema SaaS Absoluto</h2>
+            <p>Centralizamos todas las herramientas que necesitas para escalar tu carrera en una única plataforma en la nube, impulsada por los motores algorítmicos más potentes disponibles en la industria.</p>
+        </div>
+
+        <div class="saas-grid">
+            <div class="saas-card reveal">
+                <h3>Estudio de Creación y Edición</h3>
+                <p>Nuestra interfaz SaaS te permite construir perfiles desde cero o auditar documentos existentes. Con análisis en tiempo real, te indicamos qué secciones fortalecen tu peso frente a un algoritmo ATS y cuáles te penalizan.</p>
+            </div>
+            <div class="saas-card reveal">
+                <h3>Motores de IA Generativa</h3>
+                <p>Equipados con tecnología propietaria de procesamiento de lenguaje natural. Nuestro motor redacta descripciones de logros, perfil profesional y habilidades con una precisión persuasiva que engancha tanto a robots como a directivos humanos.</p>
+            </div>
+            <div class="saas-card reveal">
+                <h3>Portal de Empleos VIP (Radar B2B)</h3>
+                <p>No esperes a que publiquen la vacante. Nuestro scraper algorítmico rastrea el mercado oculto, cruzando tu perfil recién optimizado con posiciones corporativas de alta jerarquía antes de que se vuelvan públicas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: LA METODOLOGÍA 33 -->
+    <section class="section-container grid-2" style="background: var(--bg-card); border-radius: 20px; padding: 4rem;">
+        <div class="image-box reveal">
+            <!-- Imagen 2: Dashboard cibernético, alta tecnología -->
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" alt="Metodología y Algoritmos CVStudio33">
+        </div>
+        <div class="text-box reveal">
+            <h2>El rigor de la <span>Metodología 33</span></h2>
+            <p>El éxito no ocurre por accidente; ocurre por diseño. La Metodología 33 es nuestro protocolo estandarizado de agencia, un proceso blindado que garantiza tu visibilidad:</p>
+            <ul style="list-style: none; margin-top: 1.5rem; color: var(--text-muted);">
+                <li style="margin-bottom: 1rem;"><strong>1. Extracción Estratégica:</strong> Minería de datos sobre tu experiencia para convertir "tareas" en "hitos cuantificables".</li>
+                <li style="margin-bottom: 1rem;"><strong>2. Inyección Semántica:</strong> Análisis comparativo contra cientos de vacantes reales para incrustar las palabras clave (Keywords) con mayor peso en tu industria.</li>
+                <li style="margin-bottom: 1rem;"><strong>3. Estructuración ATS:</strong> Formato visual codificado específicamente para ser leído con un 100% de precisión por los sistemas de escaneo de Fortune 500.</li>
+                <li><strong>4. Apalancamiento Visual:</strong> Diseño de alta autoridad que transmite profesionalismo absoluto en el momento en que un ojo humano evalúa tu documento.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES -->
+    <section class="section-container faq-section">
+        <div class="faq-container reveal">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Autoridad y Transparencia (FAQ)</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    ¿Qué hace que CVStudio33 sea diferente a un editor tradicional?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Un editor tradicional solo te da estética. Nosotros somos una infraestructura SaaS. Evaluamos matemáticamente la viabilidad de tu perfil frente a los motores ATS del mercado corporativo. Te damos la tecnología para combatir los algoritmos de filtrado automático que usan las empresas.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    ¿Cómo funciona su Inteligencia Artificial para el CV?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Nuestra IA no inventa información; extrae tu experiencia real y la reescribe utilizando neurolingüística y posicionamiento SEO laboral. Sabe exactamente qué términos técnicos exige tu sector y los distribuye estratégicamente en tu perfil para que el software de recursos humanos te califique como un candidato Top 1%.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    ¿Tengo acceso a la base de empleos VIP al crear mi CV?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, nuestro ecosistema está interconectado. Al poseer un perfil optimizado en CVStudio33, puedes desplegarlo directamente a través de nuestro Radar B2B, aplicando a oportunidades corporativas de alta jerarquía centralizadas en nuestra plataforma, muchas de las cuales no son públicas en otros portales.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    ¿Mis datos están seguros en su infraestructura?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Operamos con protocolos de encriptación de nivel bancario. Tu perfil, historial laboral y datos personales residen en una bóveda segura, utilizada exclusivamente para conectarte con oportunidades de mercado bajo tu estricto consentimiento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENSAJE DEL FUNDADOR -->
+    <section class="founder-message reveal">
+        <p>
+            "Detrás de los algoritmos de IA, del scraping corporativo y del código complejo, hay un propósito mucho más simple y humano. CVStudio33 nació porque yo estuve en esa misma situación: sintiendo la frustración de enviar currículums y ser ignorado por un sistema frío y automatizado."
+        </p>
+        <p>
+            "Esta infraestructura no es solo software; es mi forma de asegurar que las personas con verdadero talento tengan su lugar en el mundo. Quiero que sientas la tranquilidad de saber que no estás solo contra las máquinas corporativas, que tienes las herramientas para destacar, conseguir el trabajo que mereces y construir un futuro asegurado para ti y tu familia."
+        </p>
+        <div class="founder-signature">
+            <span class="name">Buena Suerte Chico</span>
+            <span class="title">Fundador & Arquitecto Jefe, CVStudio33</span>
+        </div>
+    </section>
+
+    <!-- FOOTER LEGAL -->
+    <footer>
+        <div class="footer-grid reveal">
+            <div>
+                <img src="logo.png" alt="CVStudio33" style="height: 40px; margin-bottom: 1rem;" onerror="this.style.display='none'">
+                <h3 style="color: var(--text-main); margin-bottom: 0.5rem;">CVStudio33</h3>
+                <div class="footer-legal-text">
+                    <strong>Aviso Legal, Cláusula de Indemnidad y Exención Absoluta de Responsabilidad:</strong><br>
+                    CVStudio33 opera única y estrictamente como un motor de búsqueda tecnológico y agregador algorítmico de ofertas laborales y SaaS de creación de perfiles. 
+                    Toda la información es indexada de forma automatizada mediante APIs de terceros y tecnología de rastreo corporativo. 
+                    CVStudio33 y sus representantes legales declinan expresa y totalmente cualquier responsabilidad civil, penal, comercial o laboral sobre la veracidad, legitimidad o disponibilidad de las ofertas listadas. 
+                    No garantizamos contrataciones ni representamos a las empresas ofertantes. Al navegar por CVStudio33, usted renuncia irrevocablemente a iniciar cualquier tipo de acción legal, litigio, reclamo de daños o demanda colectiva contra la plataforma por pérdidas financieras, disputas laborales o daños derivados del uso del sitio. Todo el código, diseño y algoritmos de IA están protegidos por estrictas leyes de Propiedad Intelectual.
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Legal & Soporte</h4>
+                <ul>
+                    <li><a href="terminos-y-condiciones.html">Términos y Condiciones</a></li>
+                    <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+                    <li><a href="politica-de-cookies.html">Política de Cookies</a></li>
+                </ul>
+                <div style="margin-top: 2rem;">
+                    <p style="color: var(--text-main); font-weight: bold;">Soporte Corporativo 24/7</p>
+                    <p>+1 234 567 890</p>
+                    <p>CvStudio33@gmail.com</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cookie-banner reveal">
+            <div>
+                <img src="logo.png" alt="Icon" style="height:24px;" onerror="this.style.display='none'">
+            </div>
+            <div>
+                <strong>Consentimiento Legal, Privacidad y Cookies:</strong> 
+                Para garantizar la operatividad de nuestra infraestructura SaaS, el blindaje de sus datos bajo estándares internacionales de ciberseguridad y evitar responsabilidades legales, CVStudio33 utiliza cookies. Al utilizar la plataforma, usted emite un consentimiento legalmente vinculante aceptando nuestros Términos de Servicio y nuestra exención de responsabilidad absoluta. <a href="politica-de-cookies.html" style="color: var(--accent); text-decoration: underline;">Saber más</a>.
+            </div>
+        </div>
+        
+        <div class="footer-bottom reveal">
+            © 2026 CVStudio33 Agencia Laboral SaaS. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS PARA ANIMACIONES -->
+    <script>
+        // Animaciones de Scroll (Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Disparar al cargar
+
+        // Acordeón de Preguntas Frecuentes
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Cerrar otros abiertos
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                // Alternar el actual
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

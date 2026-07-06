@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Empleos | CVStudio33 Agencia Profesional</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --bg-global: #0b1120; /* Tono aún más profundo y elegante */
+            --bg-card: #1e293b;
+            --bg-nav: rgba(11, 17, 32, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --radius: 12px;
+            --accent: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-global);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR ULTRA PROFESIONAL --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: var(--bg-nav);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.03);
+        }
+
+        .nav-brand img {
+            height: 42px; 
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.1));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a.nav-item {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 6px;
+        }
+
+        /* Animación de subrayado premium */
+        .nav-links a.nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #60a5fa;
+            transition: width 0.3s ease-in-out;
+            border-radius: 2px;
+        }
+
+        .nav-links a.nav-item:hover { color: #60a5fa; }
+        .nav-links a.nav-item:hover::after { width: 100%; }
+
+        .btn-nav-vip {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: #fff !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(180, 83, 9, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-nav-vip:hover {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(180, 83, 9, 0.5);
+        }
+
+        /* --- BOTON GOOGLE AÑADIDO --- */
+        .btn-nav-google {
+            background: #ffffff;
+            color: #1f2937 !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-nav-google:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-nav-google.logged-in {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444 !important;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-nav-google.logged-in:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .menu-toggle:active { transform: scale(0.9); }
+
+        /* --- HEADER & HERO --- */
+        header {
+            text-align: center;
+            padding: 5rem 2rem 4rem;
+            background: radial-gradient(circle at top, rgba(37, 99, 235, 0.12) 0%, var(--bg-global) 60%);
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=');
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- BUSCADOR ESTILIZADO (GLASSMORPHISM) --- */
+        .search-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .search-container:hover {
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
+        .tab-btn.active { 
+            background: var(--primary); 
+            color: #fff; 
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); 
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr auto;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group { position: relative; }
+        .input-group i {
+            position: absolute;
+            left: 1.2rem; top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1.1rem 1.1rem 1.1rem 3.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            border-color: #60a5fa;
+            background: rgba(15, 23, 42, 1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        input:focus + i, .input-group:focus-within i { color: #60a5fa; }
+
+        .btn-search {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 2.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-search:hover { 
+            background: var(--primary-dark); 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5); 
+        }
+        .btn-search:active { transform: translateY(0); }
+        
+        .btn-ofertas {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            color: #94a3b8;
+            padding: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-ofertas:hover { 
+            background: rgba(59, 130, 246, 0.05); 
+            border-color: #60a5fa; 
+            color: #60a5fa; 
+        }
+
+        /* --- CONTENEDOR SCROLLEABLE DE RESULTADOS --- */
+        .results-section {
+            max-width: 1200px;
+            margin: 2rem auto 4rem;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scroll-container {
+            max-height: 650px; 
+            overflow-y: auto;  
+            padding-right: 15px; 
+            border-radius: 8px;
+            scroll-behavior: smooth;
+        }
+
+        .scroll-container::-webkit-scrollbar { width: 8px; }
+        .scroll-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px; }
+        .scroll-container::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .scroll-container::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+        }
+
+        /* --- TARJETAS DE TRABAJO --- */
+        .job-card {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .job-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+        .job-title { font-size: 1.15rem; color: #fff; font-weight: 700; line-height: 1.3; }
+        .job-date { font-size: 0.75rem; color: #64748b; white-space: nowrap; margin-left: 10px; font-weight: 500;}
+        .job-company { color: #93c5fd; font-weight: 500; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        .tags-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .job-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: background 0.3s;
+        }
+        .job-card:hover .job-badge { background: rgba(255, 255, 255, 0.08); }
+        .badge-salary { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
+        .badge-remote { background: rgba(37, 99, 235, 0.1); color: #60a5fa; border-color: rgba(37, 99, 235, 0.2); }
+
+        .job-snippet { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; flex-grow: 1; }
+
+        .btn-apply {
+            display: block; text-align: center; background: rgba(15, 23, 42, 0.8); color: #fff;
+            text-decoration: none; padding: 0.8rem; border-radius: 8px; font-weight: 600;
+            font-size: 0.95rem; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s;
+        }
+        .btn-apply:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
+
+        .loader, .error-msg { text-align: center; padding: 3rem; color: var(--text-muted); grid-column: 1/-1; }
+        .hidden { display: none !important; }
+
+        /* --- SECCIÓN VIP RENOVADA Y PULIDA --- */
+        .vip-section {
+            padding: 7rem 2rem;
+            background: linear-gradient(180deg, var(--bg-global) 0%, #080c17 100%);
+            border-top: 1px solid rgba(251, 191, 36, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Brillo de fondo */
+        .vip-section::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 600px; background: radial-gradient(circle, rgba(251,191,36,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .vip-container {
+            max-width: 1250px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vip-content h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fbbf24, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .vip-content > p {
+            color: #cbd5e1;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Grid de beneficios VIP (Claves de confianza) */
+        .vip-features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .vip-feature-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(255,255,255,0.02);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .vip-feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .vip-icon {
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+        }
+
+        .vip-feature-text h4 { color: #f8fafc; margin-bottom: 0.4rem; font-size: 1.05rem; font-weight: 700;}
+        .vip-feature-text p { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0; }
+
+        /* Animaciones Mockup VIP */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .vip-visual { position: relative; animation: float 6s ease-in-out infinite; }
+
+        .vip-card-mockup {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: relative;
+        }
+
+        /* Resplandor detrás de la tarjeta */
+        .vip-card-mockup::after {
+            content: ''; position: absolute; top: 10%; left: 10%; right: 10%; bottom: 10%;
+            background: #fbbf24; filter: blur(80px); opacity: 0.1; z-index: -1;
+        }
+
+        .radar-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; margin-bottom: 1.5rem;
+        }
+
+        .pulse-dot {
+            width: 12px; height: 12px; background: #10b981; border-radius: 50%;
+            display: inline-block; margin-right: 10px; animation: pulse-glow 2s infinite;
+        }
+
+        .mockup-alert {
+            background: rgba(255,255,255,0.02); padding: 1.2rem; border-radius: 10px; margin-bottom: 1rem;
+            transition: transform 0.3s ease, background 0.3s ease; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .mockup-alert:hover { transform: translateX(8px); background: rgba(255,255,255,0.05); }
+
+        /* Lista de Precios / Badge */
+        .pricing-info-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px dashed rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .btn-vip-action {
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            text-decoration: none; width: 100%; padding: 1.2rem; margin-top: 1rem; 
+            background: linear-gradient(135deg, #d97706, #b45309); border: none; border-radius: 10px; 
+            color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 10px 25px rgba(180, 83, 9, 0.4);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .btn-vip-action:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(180, 83, 9, 0.6);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        /* --- ESTILOS DEL FOOTER INTEGRADO --- */
+        .footer-site {
+            background-color: #060913;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 5rem 2rem 2rem;
+            margin-top: auto;
+        }
+
+        .footer-wrapper {
+            max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+        }
+
+        .footer-brand-section { display: flex; flex-direction: column; }
+        .footer-logo { height: 50px; width: auto; object-fit: contain; margin-bottom: 1.5rem; align-self: flex-start; opacity: 0.9; }
+
+        .footer-disclaimer { font-size: 0.85rem; color: #64748b; line-height: 1.7; text-align: justify; }
+        .footer-disclaimer strong { color: #ef4444; display: block; margin-bottom: 0.5rem; font-size: 0.95rem; }
+
+        .custom-footer-widget .widget-title {
+            color: #fff; font-weight: 700; font-size: 1.15rem; margin-bottom: 1.5rem;
+            border-bottom: 1px solid #1f2937; padding-bottom: 0.5rem; display: inline-block;
+        }
+        .custom-footer-widget ul { list-style: none; margin-bottom: 2rem; }
+        .custom-footer-widget ul li { margin-bottom: 0.85rem; }
+        .custom-footer-widget ul a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .custom-footer-widget ul a:hover { color: #60a5fa; }
+
+        .support-box {
+            padding: 1.5rem; background-color: rgba(30, 58, 138, 0.1);
+            border: 1px solid rgba(30, 58, 138, 0.3); border-radius: 12px;
+        }
+        .support-box .lbl { font-size: 0.75rem; color: #60a5fa; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; }
+        .support-box .phone { color: #fff; font-weight: 800; font-size: 1.25rem; display: flex; align-items: center; gap: 8px;}
+        .support-box .email { color: #9ca3af; font-size: 0.8rem; margin-top: 0.5rem; font-weight: 500;}
+
+        .footer-bottom {
+            max-width: 1200px; margin: 4rem auto 0; padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #475569; font-size: 0.85rem;
+        }
+
+        /* --- AVISO DE COOKIES ANIMADO MEJORADO CON LOGO --- */
+        .cookie-banner {
+            position: fixed; bottom: -150%; left: 0; width: 100%;
+            background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(37, 99, 235, 0.4); padding: 1.5rem 2.5rem;
+            display: flex; justify-content: space-between; align-items: center; gap: 2rem;
+            z-index: 9999; transition: bottom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.8);
+        }
+        .cookie-banner.show { bottom: 0; }
+        
+        .cookie-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 900px;
+        }
+        
+        .cookie-logo {
+            width: 65px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.4));
+            animation: pulse-glow 3s infinite;
+        }
+
+        .cookie-text { font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; text-align: left; }
+        
+        .btn-cookie {
+            background: var(--primary); color: #fff; border: none; padding: 1rem 2.5rem;
+            border-radius: 8px; cursor: pointer; font-weight: 800; transition: all 0.3s;
+            white-space: nowrap; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-cookie:hover { background: var(--primary-dark); transform: scale(1.05); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6); }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 1024px) {
+            .vip-container { grid-template-columns: 1fr; gap: 4rem; }
+            .vip-features-grid { grid-template-columns: repeat(2, 1fr); }
+            .vip-content h2 { font-size: 2.3rem; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem 1.5rem; }
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: absolute; top: 100%; left: 0; width: 100%;
+                background: var(--bg-nav); flex-direction: column; padding: 1.5rem 0; gap: 1.5rem;
+                border-bottom: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); transition: clip-path 0.4s ease-in-out;
+            }
+            .nav-links.active { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+            
+            .header { padding: 3rem 1.5rem; }
+            .hero-title { font-size: 2.5rem; }
+            .search-grid { grid-template-columns: 1fr; }
+            .btn-search { padding: 1.2rem; }
+            .filter-tabs { flex-wrap: wrap; }
+            .tab-btn { flex: 1 1 45%; justify-content: center; }
+
+            .vip-features-grid { grid-template-columns: 1fr; }
+            .footer-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+            .cookie-banner { flex-direction: column; text-align: center; padding: 1.5rem; gap: 1.5rem; }
+            .cookie-content-wrapper { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="nav-brand">
+            <img src="logo.png" alt="CVStudio33" onerror="this.style.display='none'">
+            CVStudio33
+        </a>
+        <button class="menu-toggle" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="nav-links">
+            <a href="Nosotros.html" class="nav-item"><i class="fas fa-info-circle" style="margin-right: 5px;"></i> Nosotros</a>
+            <a href="TrabajaConNosotros.html" class="nav-item"><i class="fas fa-handshake" style="margin-right: 5px;"></i> Trabaja con Nosotros</a>
+            <a href="PlanesMensuales.html" class="btn-nav-vip"><i class="fas fa-crown"></i> Acceso VIP</a>
+            
+            <a href="LoginCvStudio33.html" id="auth-btn" class="btn-nav-google">
+                <i class="fab fa-google"></i> Iniciar sesión con Google
+            </a>
+        </div>
+    </nav>
+
+    <header>
+        <h1 class="hero-title">Impulsamos tu Próximo Desafío</h1>
+        <p class="hero-desc">
+            Bienvenido a la red de vinculación profesional de <strong>CVStudio33</strong>. Centralizamos, auditamos y actualizamos constantemente la base de datos de contratación más robusta del mercado corporativo e internacional. Encuentra oportunidades locales de alta jerarquía o posiciones globales con modalidades flexibles.
+        </p>
+        
+        <div class="search-container">
+            <div class="filter-tabs">
+                <button class="tab-btn active" data-type="local" onclick="setSearchType('local')">
+                    <i class="fas fa-briefcase"></i> Mercado Local
+                </button>
+                <button class="tab-btn" data-type="remote" onclick="setSearchType('remote')">
+                    <i class="fas fa-globe"></i> 100% Remoto
+                </button>
+            </div>
+
+            <form id="search-form">
+                <div class="search-grid">
+                    <div class="input-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="keyword" placeholder="Puesto, empresa o palabra clave...">
+                    </div>
+                    <div class="input-group" id="location-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="location" placeholder="Ubicación (Ej: Buenos Aires)">
+                    </div>
+                    <button type="submit" class="btn-search">Buscar</button>
+                </div>
+                <button type="button" class="btn-ofertas" onclick="verOfertasRecientes()">
+                    <i class="fas fa-bolt"></i> Explorar Vacantes Recientes
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="results-section">
+        <div class="section-header">
+            <h2 class="section-title"><i class="fas fa-list-ul" style="color: var(--primary);"></i> Base de Datos de Vacantes</h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-shield-alt"></i> Auditado por CVStudio33
+            </span>
+        </div>
+        
+        <div class="scroll-container">
+            <div id="results" class="jobs-grid">
+                </div>
+        </div>
+    </main>
+
+    <section class="vip-section">
+        <div class="vip-container">
+            <div class="vip-content">
+                <h2><i class="fas fa-crown" style="font-size: 0.8em; margin-right: 5px;"></i> Elite Access: Mercado de Ofertas Ocultas</h2>
+                <p>
+                    En el sector corporativo, más del <strong>70% de las oportunidades de alta jerarquía</strong> o con salarios superiores al mercado jamás se publican en portales tradicionales. Nuestro ecosistema <strong>VIP</strong> te otorga la llave de acceso a este mercado exclusivo.
+                </p>
+                
+                <div class="vip-features-grid">
+                    <div class="vip-feature-item">
+                        <div class="vip-icon"><i class="fas fa-user-secret"></i></div>
+                        <div class="vip-feature-text">
+                            <h4>Base de Datos Oculta</h4>
+                            <p>Acceso exclusivo a postulaciones confidenciales y búsquedas ejecutivas que no salen en lugares públicos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vip-feature-item">
+                        <div class="vip-icon"><i class="fas fa-cogs"></i></div>
+                        <div class="vip-feature-text">
+                            <h4>Ingeniería CVStudio33</h4>
+                            <p>Match predictivo optimizado por nuestros especialistas para adaptar tu perfil y garantizar entrevistas.</p>
+                        </div>
+                    </div>
+
+                    <div class="vip-feature-item">
+                        <div class="vip-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="vip-feature-text">
+                            <h4>API NYX al Máximo</h4>
+                            <p>Procesamiento IA avanzado para un escaneo hiper-rápido de vacantes con notificaciones en milisegundos.</p>
+                        </div>
+                    </div>
+
+                    <div class="vip-feature-item">
+                        <div class="vip-icon"><i class="fas fa-handshake"></i></div>
+                        <div class="vip-feature-text">
+                            <h4>Contratos Privados B2B</h4>
+                            <p>Alianzas estratégicas directas con empresas Top y Headhunters que buscan reclutar talento de élite.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vip-visual">
+                <div class="vip-card-mockup">
+                    <div class="radar-header">
+                        <h3 style="color:#fff; font-size: 1.15rem; margin: 0; display: flex; align-items: center;">
+                            <span class="pulse-dot"></span> Radar Bot 24/7 Activo
+                        </h3>
+                        <i class="fas fa-satellite-dish" style="color: #fbbf24; font-size: 1.2rem;"></i>
+                    </div>
+                    
+                    <div class="mockup-alert" style="border-left: 3px solid #10b981;">
+                        <p style="color: #34d399; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 600;">
+                            <i class="fas fa-check-circle"></i> Match Encontrado: 94%
+                        </p>
+                        <h4 style="color: #fff; margin-bottom: 0.2rem; font-size: 1.1rem;">Desarrollador Full Stack / Remoto</h4>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin:0;">Empresa: FinTech Confidencial • Contrato B2B</p>
+                    </div>
+                    
+                    <div class="mockup-alert" style="border-left: 3px solid #3b82f6;">
+                        <p style="color: #60a5fa; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 600;">
+                            <i class="fas fa-bolt"></i> Alerta API NYX
+                        </p>
+                        <h4 style="color: #fff; margin-bottom: 0.2rem; font-size: 1.1rem;">Líder de Proyectos TI</h4>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin:0;">Detectado hace 2 seg vía Scraping Corporativo</p>
+                    </div>
+                    
+                    <div class="pricing-info-badge">
+                        <i class="fas fa-tags"></i> Planes escalables desde $5.000 hasta $33.000 ARS/mes
+                    </div>
+
+                    <a href="PlanesMensuales.html" class="btn-vip-action">
+                        Activar Radar VIP <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-site">
+        <div class="footer-wrapper">
+            <div class="footer-brand-section">
+                <img src="logo.png" alt="CVStudio33" class="footer-logo" onerror="this.style.display='none'">
+                <div class="footer-disclaimer">
+                    <strong>Aviso Legal, Cláusula de Indemnidad y Exención Absoluta de Responsabilidad:</strong>
+                    CVStudio33 opera única y estrictamente como un motor de búsqueda tecnológico y agregador algorítmico de ofertas laborales. 
+                    Toda la información (vacantes, salarios, contratos) es indexada de forma automatizada mediante APIs de terceros y tecnología de rastreo (scraping). 
+                    CVStudio33 y sus representantes legales declinan expresa y totalmente cualquier responsabilidad civil, penal, comercial o laboral sobre la veracidad, legitimidad o disponibilidad de las ofertas listadas. 
+                    No somos agencia de empleo, no garantizamos contrataciones ni representamos a las empresas ofertantes. Al navegar por CVStudio33, usted renuncia irrevocablemente a iniciar cualquier tipo de acción legal, litigio, reclamo de daños o demanda colectiva contra la plataforma por pérdidas financieras, disputas laborales o daños derivados del uso del sitio. Todo acuerdo generado es estricta responsabilidad entre el candidato y el empleador. Todo el código, diseño y algoritmos de IA están protegidos por estrictas leyes de Propiedad Intelectual.
+                </div>
+            </div>
+
+            <div class="custom-footer-widget">
+                <h4 class="widget-title">Legal & Soporte</h4>
+                <ul>
+                    <li><a href="terminos-y-condiciones.html">Términos y Condiciones</a></li>
+                    <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+                    <li><a href="politica-de-cookies.html">Política de Cookies</a></li>
+                </ul>
+                <div class="support-box">
+                    <p class="lbl">Soporte 24/7</p>
+                    <p class="phone"><i class="fa-solid fa-phone"></i> +1 234 567 890</p>
+                    <p class="email">CvStudio33@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; 2026 CVStudio33 Agencia Profesional. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-content-wrapper">
+            <img src="logo.png" alt="Logo CVStudio33" class="cookie-logo" onerror="this.style.display='none'">
+            <div class="cookie-text">
+                <strong><i class="fas fa-balance-scale" style="color: #60a5fa; margin-right: 5px;"></i> Consentimiento Legal, Privacidad y Cookies:</strong> 
+                Para garantizar la operatividad de nuestra API NYX, el blindaje de sus datos bajo estándares internacionales de ciberseguridad y evitar responsabilidades legales, CVStudio33 utiliza cookies propias y de terceros. Al hacer clic en "Aceptar y Entrar" o continuar navegando, usted emite un consentimiento legalmente vinculante aceptando nuestros <a href="terminos-y-condiciones.html" style="color: #60a5fa; text-decoration: underline;">Términos de Servicio</a> y nuestra exención de responsabilidad absoluta. <a href="politica-de-cookies.html" style="color: #60a5fa; text-decoration: underline;">Saber más sobre protección de datos</a>.
+            </div>
+        </div>
+        <button class="btn-cookie" onclick="acceptCookies()">Aceptar y Entrar</button>
+    </div>
+
+    <script type="module">
+        // --- 1. CONFIGURACIÓN DE FIREBASE E INICIO DE SESIÓN ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        const authBtn = document.getElementById('auth-btn');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Usuario Logeado
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Cerrar sesión';
+                authBtn.classList.add('logged-in');
+                authBtn.href = "#"; 
+                
+                authBtn.onclick = (e) => {
+                    e.preventDefault();
+                    signOut(auth).then(() => {
+                        localStorage.removeItem('cvstudio33_user');
+                        window.location.reload();
+                    }).catch((error) => {
+                        console.error('Error al cerrar sesión', error);
+                    });
+                };
+                
+                // GUARDANDO DATOS PARA Perfil.html
+                localStorage.setItem('cvstudio33_user', JSON.stringify({
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL
+                }));
+            } else {
+                // Usuario No Logeado
+                authBtn.innerHTML = '<i class="fab fa-google"></i> Iniciar sesión con Google';
+                authBtn.classList.remove('logged-in');
+                authBtn.href = "LoginCvStudio33.html";
+                authBtn.onclick = null; 
+                localStorage.removeItem('cvstudio33_user');
+            }
+        });
+    </script>
+
+    <script>
+        // --- 2. LÓGICA DEL BANNER DE COOKIES ---
+        window.addEventListener('DOMContentLoaded', () => {
+            if(!localStorage.getItem('cookiesAceptadas_cvstudio33')) {
+                setTimeout(() => {
+                    document.getElementById('cookie-banner').classList.add('show');
+                }, 1000);
+            }
+        });
+
+        function acceptCookies() {
+            localStorage.setItem('cookiesAceptadas_cvstudio33', 'true');
+            document.getElementById('cookie-banner').classList.remove('show');
+        }
+
+        // --- 3. ANIMACIÓN DEL MENÚ MOBILE ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const icon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // --- 4. LÓGICA DE BÚSQUEDA ---
+        const JOOBLE_API_KEY = '8afcaa11-7731-476c-be3e-48435285d092';
+        let currentSearchType = 'local'; 
+
+        function setSearchType(type) {
+            currentSearchType = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.dataset.type === type) btn.classList.add('active');
+            });
+            const locationGroup = document.getElementById('location-group');
+            if (type === 'remote') {
+                locationGroup.classList.add('hidden');
+                document.getElementById('location').value = ''; 
+            } else {
+                locationGroup.classList.remove('hidden');
+            }
+        }
+
+        function verOfertasRecientes() {
+            document.getElementById('keyword').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('search-form').dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+
+        document.getElementById('search-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const keyword = document.getElementById('keyword').value.trim();
+            const location = document.getElementById('location').value.trim();
+            const resultsDiv = document.getElementById('results');
+
+            resultsDiv.innerHTML = `
+                <div class="loader">
+                    <i class="fas fa-circle-notch fa-spin fa-3x" style="color: var(--primary);"></i>
+                    <p style="margin-top:1rem; font-weight:500;">Conectando con API NYX y analizando vacantes...</p>
+                </div>`;
+
+            try {
+                if (currentSearchType === 'local') {
+                    await fetchJooble(keyword, location);
+                } else {
+                    await fetchArbeitnow(keyword);
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="error-msg">
+                        <i class="fas fa-exclamation-triangle fa-2x" style="color: #ef4444; margin-bottom: 15px;"></i>
+                        <p>Error de conexión con la red corporativa. Por favor, intenta de nuevo más tarde.</p>
+                    </div>`;
+            }
+        });
+
+        async function fetchJooble(keyword, location) {
+            const body = { 
+                keywords: keyword === "" ? "profesional" : keyword, 
+                location: location === "" ? "Argentina" : location 
+            };
+            
+            const targetUrl = 'https://ar.jooble.org/api/' + JOOBLE_API_KEY;
+            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
+
+            try {
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                renderJobs(data.jobs || [], 'local');
+            } catch (err) {
+                const res = await fetch(targetUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                renderJobs(data.jobs || [], 'local');
+            }
+        }
+
+        async function fetchArbeitnow(keyword) {
+            const [res1, res2] = await Promise.all([
+                fetch('https://www.arbeitnow.com/api/job-board-api?page=1'),
+                fetch('https://www.arbeitnow.com/api/job-board-api?page=2')
+            ]);
+            
+            const data1 = await res1.json();
+            const data2 = await res2.json();
+            let allJobs = [...data1.data, ...data2.data];
+
+            if (keyword !== "") {
+                const term = keyword.toLowerCase();
+                allJobs = allJobs.filter(job => 
+                    job.title.toLowerCase().includes(term) || 
+                    job.company_name.toLowerCase().includes(term)
+                );
+            }
+            renderJobs(allJobs, 'remote');
+        }
+
+        function renderJobs(jobs, source) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (jobs.length === 0) {
+                resultsDiv.innerHTML = `<div class="loader"><i class="fas fa-search-minus fa-2x"></i><p>No hay coincidencias activas en este momento.</p></div>`;
+                return;
+            }
+
+            jobs.forEach(job => {
+                const isLocal = source === 'local';
+                const title = job.title;
+                const company = isLocal ? (job.company || 'Empresa Privada') : job.company_name;
+                const loc = isLocal ? job.location : (job.location || 'Internacional');
+                const link = isLocal ? job.link : job.url;
+                
+                const salary = isLocal ? job.salary : null; 
+                const datePosted = isLocal ? (job.updated ? new Date(job.updated).toLocaleDateString() : 'Reciente') : new Date(job.created_at * 1000).toLocaleDateString();
+                const typeTags = !isLocal && job.job_types ? job.job_types : [];
+
+                let snippet = isLocal ? job.snippet : 'Posición profesional remota. Consulta el portal corporativo para evaluar los requisitos técnicos y la cultura de la empresa.';
+                snippet = snippet.replace(/<[^>]*>?/gm, '').substring(0, 130) + '...';
+
+                let badgesHTML = `<span class="job-badge"><i class="fas fa-map-marker-alt"></i> ${loc}</span>`;
+                
+                if (salary) badgesHTML += `<span class="job-badge badge-salary"><i class="fas fa-money-bill-wave"></i> ${salary}</span>`;
+                if (!isLocal) badgesHTML += `<span class="job-badge badge-remote"><i class="fas fa-globe"></i> Remoto 100%</span>`;
+                
+                typeTags.forEach(tag => {
+                    badgesHTML += `<span class="job-badge"><i class="fas fa-tag"></i> ${tag}</span>`;
+                });
+
+                const card = document.createElement('div');
+                card.className = 'job-card';
+                card.innerHTML = `
+                    <div class="job-header">
+                        <h3 class="job-title">${title}</h3>
+                        <span class="job-date">${datePosted}</span>
+                    </div>
+                    <div class="job-company"><i class="fas fa-building"></i> ${company}</div>
+                    
+                    <div class="tags-container">
+                        ${badgesHTML}
+                    </div>
+
+                    <p class="job-snippet">${snippet}</p>
+                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn-apply">
+                        Ver Detalles y Postular
+                    </a>
+                `;
+                resultsDiv.appendChild(card);
+            });
+        }
+        
+        window.onload = () => verOfertasRecientes();
+    </script>
+</body>
+</html>
+
+

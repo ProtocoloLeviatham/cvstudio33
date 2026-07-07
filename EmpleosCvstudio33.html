@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de Empleos | CVStudio33 Agencia Profesional</title>
+    <title>CVStudio33</title>
     <link rel="icon" type="image/png" href="logo.png">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -157,16 +157,6 @@
             background: #f3f4f6;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-nav-google.logged-in {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444 !important;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-nav-google.logged-in:hover {
-            background: rgba(239, 68, 68, 0.2);
         }
 
         .menu-toggle {
@@ -916,9 +906,8 @@
     </div>
 
     <script type="module">
-        // --- 1. CONFIGURACIÓN DE FIREBASE E INICIO DE SESIÓN ---
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
@@ -936,22 +925,13 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Usuario Logeado
-                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Cerrar sesión';
-                authBtn.classList.add('logged-in');
-                authBtn.href = "#"; 
+                // Usuario Logeado - Cambia el botón para dirigirlo al Perfil VIP
+                authBtn.innerHTML = '<i class="fas fa-user-circle"></i> Mi Perfil VIP';
+                authBtn.classList.remove('logged-in'); // Mantenemos el estilo corporativo
+                authBtn.href = "LoginCvStudio33.html"; 
+                authBtn.onclick = null; // Permite la redirección natural
                 
-                authBtn.onclick = (e) => {
-                    e.preventDefault();
-                    signOut(auth).then(() => {
-                        localStorage.removeItem('cvstudio33_user');
-                        window.location.reload();
-                    }).catch((error) => {
-                        console.error('Error al cerrar sesión', error);
-                    });
-                };
-                
-                // GUARDANDO DATOS PARA Perfil.html
+                // GUARDANDO DATOS PARA EL PERFIL
                 localStorage.setItem('cvstudio33_user', JSON.stringify({
                     uid: user.uid,
                     email: user.email,
@@ -961,7 +941,6 @@
             } else {
                 // Usuario No Logeado
                 authBtn.innerHTML = '<i class="fab fa-google"></i> Iniciar sesión con Google';
-                authBtn.classList.remove('logged-in');
                 authBtn.href = "LoginCvStudio33.html";
                 authBtn.onclick = null; 
                 localStorage.removeItem('cvstudio33_user');
@@ -1148,11 +1127,33 @@
                     </div>
 
                     <p class="job-snippet">${snippet}</p>
-                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn-apply">
+                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn-apply btn-registrar-visita">
                         Ver Detalles y Postular
                     </a>
                 `;
                 resultsDiv.appendChild(card);
+
+                // --- CAPTURA DE INTERACCIÓN PARA EL PERFIL NYX ---
+                const btnApply = card.querySelector('.btn-registrar-visita');
+                btnApply.addEventListener('click', () => {
+                    // Lee el historial previo guardado o crea un array vacío
+                    let recientes = JSON.parse(localStorage.getItem('recientes')) || [];
+                    
+                    // Agrega la nueva vacante visitada al principio de la lista
+                    recientes.unshift({
+                        title: title,
+                        company: company,
+                        location: loc,
+                        date: datePosted,
+                        snippet: snippet
+                    });
+
+                    // Límite opcional para no saturar la memoria (mantiene las últimas 150)
+                    if(recientes.length > 150) recientes.pop();
+                    
+                    // Guarda el array actualizado en localStorage para que LoginCvStudio33.html lo recoja
+                    localStorage.setItem('recientes', JSON.stringify(recientes));
+                });
             });
         }
         
@@ -1160,5 +1161,4 @@
     </script>
 </body>
 </html>
-
 

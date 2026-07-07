@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
 
     <style>
         :root {
@@ -178,17 +183,31 @@
 
                 <div class="glass-panel rounded-2xl p-6">
                     <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-4 flex items-center gap-2">
-                        <i class="fas fa-file-invoice text-blue-400"></i> Bóveda de Currículum
+                        <i class="fas fa-file-pdf text-red-400"></i> Bóveda de Currículum
                     </h3>
-                    <div id="cv-dropzone" class="border-2 border-dashed border-slate-700 hover:border-blue-500/60 bg-slate-900/40 rounded-xl p-5 text-center transition-colors cursor-pointer relative">
-                        <input type="file" id="cv-file-input" accept=".txt,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden">
+                    <div id="cv-dropzone" class="border-2 border-dashed border-slate-700 hover:border-red-500/60 bg-slate-900/40 rounded-xl p-5 text-center transition-colors cursor-pointer relative">
+                        <input type="file" id="cv-file-input" accept="application/pdf" class="hidden">
                         <i class="fas fa-cloud-upload-alt text-2xl text-slate-500 mb-2" id="cv-icon"></i>
                         <p class="text-xs font-medium text-slate-300" id="cv-text-primary">Arrastra o selecciona tu CV</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Formatos admitidos: .txt (Recomendado) o Docs</p>
+                        <p class="text-[10px] text-slate-500 mt-1 font-bold text-red-500/80">Formatos admitidos: Únicamente PDF</p>
                     </div>
                     <div id="cv-status" class="mt-3 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-2.5 rounded-lg flex items-center gap-2 hidden">
                         <i class="fas fa-check-circle"></i>
                         <span class="truncate font-semibold" id="cv-name-display">Ninguno</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-4 flex items-center gap-2">
+                        <i class="fab fa-github text-white"></i> API Sincronización GitHub
+                    </h3>
+                    <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Conecta tu cuenta para extraer tu stack tecnológico y repositorios. Mejora la precisión de NYX AI drásticamente.</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="github-user-input" placeholder="Usuario (Ej: ProtocoloLeviatham)" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-blue-500 transition-colors">
+                        <button id="github-sync-btn" class="bg-slate-800 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold border border-slate-700 hover:border-blue-500 transition-colors shrink-0 shadow-lg">Vincular</button>
+                    </div>
+                    <div id="github-status" class="mt-3 text-[10px] text-emerald-400 hidden flex items-center gap-1.5 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                        <i class="fas fa-check-circle"></i> <span>Perfil sincronizado para el Match Vectorial</span>
                     </div>
                 </div>
             </div>
@@ -224,7 +243,7 @@
                             <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
                                 <i class="fas fa-brain text-blue-400"></i> Diagnóstico de Match Inteligente NYX
                             </h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Analiza tus vacantes visitadas contra la estructura técnica de tu CV.</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Analiza tus vacantes visitadas contra la estructura técnica de tu CV PDF y tu GitHub.</p>
                         </div>
                         <button id="trigger-nyx-btn" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs py-3 px-5 rounded-xl transition-all shadow-lg flex items-center gap-2 shrink-0">
                             <i class="fas fa-bolt"></i> Ejecutar Optimizador Gratis
@@ -233,15 +252,14 @@
 
                     <div id="nyx-loader" class="hidden flex flex-col items-center justify-center py-12 text-center">
                         <div class="w-12 h-12 border-4 border-t-blue-500 border-r-purple-500 border-b-slate-800 border-l-slate-800 rounded-full animate-spin mb-4"></div>
-                        <p class="text-sm font-semibold text-slate-200">Leyendo Estructura Semántica del CV...</p>
+                        <p class="text-sm font-semibold text-slate-200">Leyendo Estructura Semántica del CV y Perfil Técnico...</p>
                         <p class="text-xs text-slate-500 mt-1">Conectando con Google GenAI Studio Engine (gemini-flash-latest)</p>
                     </div>
 
                     <div id="nyx-results-box" class="hidden space-y-4">
-                        <div class="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4">
-                            <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-1"><i class="fas fa-comment-dots"></i> Dictamen de la Inteligencia Artificial:</h4>
-                            <p id="nyx-global-feedback" class="text-xs text-slate-300 leading-relaxed text-justify">...</p>
-                        </div>
+                        <div id="nyx-global-feedback"></div>
+
+                        <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-2 mt-4"><i class="fas fa-star text-amber-400"></i> Tus Top 5 Postulaciones Ideales:</h4>
                         <div class="space-y-2.5" id="nyx-cards-container">
                             </div>
                     </div>
@@ -267,7 +285,7 @@
             </div>
             <h3 class="text-lg font-black text-white mb-2">Métricas Insuficientes</h3>
             <p class="text-xs text-slate-400 leading-relaxed mb-4">
-                El ecosistema NYX requiere un registro mínimo de **33 postulaciones visitadas** para entrenar el modelo predictivo. Actualmente posees <strong id="modal-current-count" class="text-blue-400">0</strong>.
+                El ecosistema NYX requiere un registro mínimo de **33 postulaciones visitadas** para entrenar el modelo predictivo vectorial. Actualmente posees <strong id="modal-current-count" class="text-blue-400">0</strong>.
             </p>
             <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 mb-2">
                 <p class="text-[10px] font-semibold text-slate-500 animate-pulse">Redireccionando al panel de empleos en 4 segundos...</p>
@@ -326,6 +344,12 @@
         const warningModal = document.getElementById('warning-modal');
         const modalCurrentCount = document.getElementById('modal-current-count');
 
+        // GITHUB API ELEMENTS
+        const githubUserInput = document.getElementById('github-user-input');
+        const githubSyncBtn = document.getElementById('github-sync-btn');
+        const githubStatus = document.getElementById('github-status');
+        let githubDataContext = "El usuario no sincronizó su cuenta de GitHub.";
+
         // Memoria de simulación de postulaciones visitadas
         function initMockInteractions() {
             let recientes = JSON.parse(localStorage.getItem('recientes')) || [];
@@ -340,7 +364,8 @@
                         company: empresas[Math.floor(Math.random() * empresas.length)],
                         location: ubicaciones[Math.floor(Math.random() * ubicaciones.length)],
                         date: new Date(Date.now() - Math.random() * 1000000000).toLocaleDateString(),
-                        snippet: "Requerimientos avanzados de programación estructurada, control de bases de datos y desarrollo ágil en microservicios."
+                        snippet: "Requerimientos avanzados de programación estructurada, control de bases de datos y desarrollo ágil en microservicios.",
+                        link: "#"
                     });
                 }
                 localStorage.setItem('recientes', JSON.stringify(recientes));
@@ -349,6 +374,32 @@
         }
 
         let interaccionesUsuario = initMockInteractions();
+
+        // LÓGICA DE SINCRONIZACIÓN DE GITHUB
+        githubSyncBtn.addEventListener('click', async () => {
+            const username = githubUserInput.value.trim();
+            if(!username) return;
+            
+            githubSyncBtn.innerText = "Buscando...";
+            try {
+                const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
+                if(res.ok) {
+                    const repos = await res.json();
+                    if(repos.length > 0) {
+                        githubDataContext = repos.map(r => `Repo: ${r.name}, Desc: ${r.description || 'N/A'}, Lang: ${r.language || 'N/A'}`).join(" | ");
+                        githubStatus.classList.remove('hidden');
+                    } else {
+                        alert("La cuenta de GitHub existe, pero no tiene repositorios públicos.");
+                    }
+                } else {
+                    alert("Usuario de GitHub no encontrado. Verifica que esté bien escrito.");
+                }
+            } catch(e) {
+                console.error(e);
+                alert("Error de conexión al buscar en GitHub.");
+            }
+            githubSyncBtn.innerText = "Vincular";
+        });
 
         // Escucha de Estado de Autenticación Centralizada
         onAuthStateChanged(auth, (user) => {
@@ -391,14 +442,12 @@
             userName.innerText = user.displayName || "Usuario CVStudio33";
             userEmail.innerText = user.email;
 
-            // Manejo de la foto de perfil (Prioridad: Galería local -> Cuenta de Google)
+            // Manejo de la foto de perfil
             const savedAvatar = localStorage.getItem('custom_avatar_cv33');
             userAvatar.src = savedAvatar ? savedAvatar : (user.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png');
 
-            // Renderizar Métricas Reales
             metricViews.innerText = interaccionesUsuario.length;
 
-            // Renderizar Historial en Lista
             if(interaccionesUsuario.length > 0) {
                 historyListBox.innerHTML = '';
                 interaccionesUsuario.forEach((item, index) => {
@@ -416,111 +465,139 @@
             }
         }
 
-        // Interceptador para cambio de foto de perfil desde Galería
+        // Interceptador para cambio de foto de perfil
         avatarInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     userAvatar.src = reader.result;
-                    localStorage.setItem('custom_avatar_cv33', reader.result); // Guarda base64 localmente
+                    localStorage.setItem('custom_avatar_cv33', reader.result);
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // Controladores del Drag and Drop del Currículum Vitae
+        // LÓGICA DEL PDF Y DRAG & DROP
         cvDropzone.addEventListener('click', () => cvFileInput.click());
-        cvDropzone.addEventListener('dragover', (e) => { e.preventDefault(); cvDropzone.classList.add('border-blue-500'); });
-        cvDropzone.addEventListener('dragleave', () => cvDropzone.classList.remove('border-blue-500'));
+        cvDropzone.addEventListener('dragover', (e) => { e.preventDefault(); cvDropzone.classList.add('border-red-500'); });
+        cvDropzone.addEventListener('dragleave', () => cvDropzone.classList.remove('border-red-500'));
         cvDropzone.addEventListener('drop', (e) => {
             e.preventDefault();
-            cvDropzone.classList.remove('border-blue-500');
+            cvDropzone.classList.remove('border-red-500');
             if(e.dataTransfer.files.length) procesarArchivoCV(e.dataTransfer.files[0]);
         });
         cvFileInput.addEventListener('change', (e) => {
             if(e.target.files.length) procesarArchivoCV(e.target.files[0]);
         });
 
-        let contenidoTextoCV = "Programador experto, especialista en JavaScript, React, Node.js, ciberseguridad y arquitectura de software con IA."; // Fallback semántico por defecto
+        let contenidoTextoCV = "El usuario aún no ha subido su CV en formato PDF."; 
         
-        function procesarArchivoCV(file) {
+        async function procesarArchivoCV(file) {
+            if (file.type !== "application/pdf") {
+                alert("El sistema de IA NYX requiere estrictamente archivos en formato PDF para el escaneo de competencias.");
+                return;
+            }
+
             cvNameDisplay.innerText = file.name;
             cvStatus.classList.remove('hidden');
             
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                contenidoTextoCV = e.target.result; // Captura de la cadena de texto limpia del CV
-            };
-            reader.readAsText(file);
+            try {
+                // Lectura de Texto del PDF mediante PDF.JS
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                let textoExtraido = "";
+                
+                // Lee un máximo de 3 páginas para evitar saturación de la IA
+                const totalPages = pdf.numPages > 3 ? 3 : pdf.numPages; 
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    const stringPDF = content.items.map(item => item.str).join(" ");
+                    textoExtraido += stringPDF + " ";
+                }
+                
+                contenidoTextoCV = textoExtraido;
+                console.log("PDF Escaneado con éxito.");
+            } catch(error) {
+                console.error("Error al leer el PDF", error);
+                alert("Hubo un error de formato al intentar extraer el texto de tu PDF. Intenta con otro archivo.");
+            }
         }
 
         // ==========================================
         // INFRAESTRUCTURA DEL OPTIMIZADOR IA NYX    -->
         // ==========================================
         triggerNyxBtn.addEventListener('click', async () => {
-            // Regla mandatoria: Mínimo 33 postulaciones vistas
             if (interaccionesUsuario.length < 33) {
                 modalCurrentCount.innerText = interaccionesUsuario.length;
                 warningModal.classList.remove('hidden');
                 warningModal.classList.add('opacity-100', 'flex');
                 
                 setTimeout(() => {
-                    // Simulación de retorno a la página de empleos
                     window.location.href = "index.html"; 
                 }, 4000);
                 return;
             }
 
-            // Flujo de Ejecución de Inteligencia Artificial Autorizada
             triggerNyxBtn.classList.add('hidden');
             nyxResultsBox.classList.add('hidden');
             nyxLoader.classList.remove('hidden');
 
             try {
-                // Lectura de la Bóveda de Claves Privadas de Firestore (config/ID33)
                 const docRef = doc(db, "config", "ID33");
                 const docSnap = await getDoc(docRef);
                 
                 let geminiApiKey = "";
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    // Cascade de seguridad en llaves de cuotas (key8 -> key9 -> key10)
                     geminiApiKey = data.key8 || data.key9 || data.key10;
                 }
 
                 if(!geminiApiKey || geminiApiKey.trim() === "") {
-                    // Fallback clave nativa del ecosistema para resiliencia en testing local
                     geminiApiKey = "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728"; 
                 }
 
-                // Generación de payload estructurado para el listado de interacciones
-                const listaFormateadaParaIA = interaccionesUsuario.slice(0, 33).map(i => `Puesto: ${i.title}, Empresa: ${i.company}, Detalle: ${i.snippet}`).join("\n---\n");
+                // Generación de payload estructurado para la IA, ESTRICTO LIMITADO A 33
+                const listaFormateadaParaIA = interaccionesUsuario.slice(0, 33).map(i => `Puesto: ${i.title}, Empresa: ${i.company}, Enlace: ${i.link || '#'}`).join("\n---\n");
 
                 const promptEstructural = `
-                    Actúa como el bot optimizador de empleos corporativos "IA NYX" de la marca CVStudio33.
-                    Tengo el siguiente perfil técnico extraído del Currículum Vitae del usuario:
+                    Actúa como "IA NYX", un avanzado algoritmo de inferencia, reclutamiento corporativo y headhunting técnico de la marca CVStudio33.
+                    
+                    DATOS DE EVALUACIÓN:
+                    1. TEXTO DEL CV PDF DEL USUARIO:
                     "${contenidoTextoCV}"
                     
-                    Y este es el listado de las vacantes que el usuario ha visitado recientemente en nuestro buscador web:
+                    2. HISTORIAL DE GITHUB API (Tecnologías y repositorios en vivo):
+                    "${githubDataContext}"
+                    
+                    3. ÚLTIMAS 33 VACANTES VISITADAS (Para evitar el Token Overflow, limitamos la lista):
                     ${listaFormateadaParaIA}
                     
-                    Analiza semánticamente el CV contra las ofertas. Debes seleccionar obligatoriamente las 5 mejores opciones que mejor se adapten al usuario.
-                    Devuelve la respuesta ESTRICTAMENTE en formato JSON plano válido sin usar bloques de código Markdown (\`\`\`json), sin saltos de línea innecesarios dentro de los strings y que cumpla exactamente con esta estructura:
+                    INSTRUCCIONES DE OPERACIÓN OBLIGATORIAS:
+                    - Analiza semánticamente e identifica el Match vectorial entre las habilidades del CV/GitHub y las 33 vacantes.
+                    - Determina las cualidades fuertes (Fortalezas) y las áreas débiles/faltantes (Debilidades) del CV evaluado.
+                    - Aporta consejos "Extra" de gestión curricular profesionales.
+                    - Devuelve una estructura JSON estricta y limpia, SIN formateo Markdown, con el siguiente esquema exacto:
+                    
                     {
-                        "feedbackGlobal": "Mensaje breve, personalizado y motivador analizando las fortalezas del usuario frente al mercado actual.",
+                        "feedbackGlobal": "Dictamen analítico y motivacional...",
+                        "fortalezas": ["Fortaleza 1 detectada", "Fortaleza 2..."],
+                        "debilidades": ["Área a mejorar 1", "Habilidad faltante 2..."],
+                        "datosExtra": "Consejos tácticos de gestión de carrera y CV...",
                         "topMatches": [
                             {
-                                "puesto": "Nombre del puesto seleccionado",
-                                "empresa": "Nombre de la empresa correspondiente",
+                                "puesto": "Nombre puesto",
+                                "empresa": "Nombre empresa",
                                 "score": 95,
-                                "razon": "Explicación breve de una frase del por qué hace match."
+                                "razon": "Justificación técnica muy breve del match.",
+                                "link": "El enlace proporcionado en la lista"
                             }
                         ]
                     }
                 `;
 
-                // Llamada a la API Oficial de Google AI Studio con el Endpoint exacto solicitado
+                // Llamada nativa a la última versión de Gemini Flash
                 const apiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`;
                 
                 const response = await fetch(apiEndpoint, {
@@ -535,17 +612,60 @@
                 if(!response.ok) throw new Error("Error en respuesta del Gateway de Google GenAI.");
                 
                 const resData = await response.json();
-                const textoPlanoJson = resData.candidates[0].content.parts[0].text;
                 
-                // Mapeo e Inyección de datos en la interfaz UI
+                // Parseo del contenido limpio
+                const textoPlanoJson = resData.candidates[0].content.parts[0].text;
                 const parsedResult = JSON.parse(textoPlanoJson);
                 
-                nyxGlobalFeedback.innerText = parsedResult.feedbackGlobal;
-                nyxCardsContainer.innerHTML = '';
+                // INYECCIÓN DE LA INTERFAZ MEJORADA
+                nyxGlobalFeedback.innerHTML = `
+                    <div class="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4 mb-4 shadow-lg">
+                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2"><i class="fas fa-microchip"></i> Evaluación del Perfil:</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed text-justify">${parsedResult.feedbackGlobal}</p>
+                    </div>
 
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl shadow-inner">
+                            <h5 class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2"><i class="fas fa-shield-alt"></i> Cualidades Fuertes</h5>
+                            <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1.5">
+                                ${parsedResult.fortalezas.map(f => `<li>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl shadow-inner">
+                            <h5 class="text-[11px] font-bold text-red-400 uppercase tracking-wider mb-2"><i class="fas fa-exclamation-circle"></i> Áreas de Mejora (Débiles)</h5>
+                            <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1.5">
+                                ${parsedResult.debilidades.map(d => `<li>${d}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/50 border border-slate-700/50 p-4 rounded-xl mb-6">
+                        <h5 class="text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1"><i class="fas fa-chart-pie"></i> Estrategia y Gestión de CV</h5>
+                        <p class="text-xs text-slate-400 leading-relaxed">${parsedResult.datosExtra}</p>
+                    </div>
+
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3"><i class="fas fa-bolt text-yellow-400"></i> Recomendaciones Tecnológicas del Sistema:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <a href="https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html" target="_blank" class="block bg-purple-900/40 border-2 border-purple-500 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] p-4 rounded-xl transition-all relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 bg-purple-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg tracking-wider">TOP PREFERENCIA MUNDIAL</div>
+                            <h5 class="text-sm font-black text-purple-300 mb-1 flex items-center gap-2"><i class="fas fa-brain"></i> Ecosistema NYX</h5>
+                            <p class="text-[10px] text-purple-200/80 leading-relaxed">Máxima compatibilidad para tu perfil. Escanea, analiza y multiplica exponencialmente la efectividad de tu CV frente a los ATS corporativos.</p>
+                        </a>
+                        
+                        <a href="https://protocololeviatham.github.io/cvstudio33/Axon.html" target="_blank" class="block bg-emerald-900/20 border border-emerald-500/40 hover:border-emerald-400 p-4 rounded-xl transition-all">
+                            <h5 class="text-sm font-black text-emerald-400 mb-1 flex items-center gap-2"><i class="fas fa-network-wired"></i> Sistema Axon</h5>
+                            <p class="text-[10px] text-emerald-200/80 leading-relaxed">Arquitectura sináptica complementaria. Ideal para estructuras técnicas complejas y despliegues algorítmicos profesionales.</p>
+                        </a>
+                    </div>
+                `;
+
+                // Inyección del Top 5 Matches
+                nyxCardsContainer.innerHTML = '';
                 parsedResult.topMatches.slice(0, 5).forEach((match) => {
-                    const block = document.createElement('div');
-                    block.className = 'bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-all hover:border-purple-500/30';
+                    const block = document.createElement('a');
+                    block.href = match.link && match.link !== '#' && match.link !== 'N/A' ? match.link : 'index.html';
+                    block.target = match.link && match.link !== '#' && match.link !== 'N/A' ? '_blank' : '_self';
+                    block.className = 'bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-all hover:border-blue-500/30 hover:bg-slate-800 cursor-pointer block w-full';
                     block.innerHTML = `
                         <div>
                             <h5 class="text-xs font-bold text-white">${match.puesto}</h5>
@@ -553,7 +673,7 @@
                             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">${match.razon}</p>
                         </div>
                         <div class="shrink-0 flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
-                            <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Match</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Score</span>
                             <span class="text-xs font-black text-emerald-400">${match.score}%</span>
                         </div>
                     `;
@@ -568,10 +688,12 @@
                 console.error(err);
                 nyxLoader.classList.add('hidden');
                 triggerNyxBtn.classList.remove('hidden');
-                alert("Ocurrió un error en el procesamiento de IA NYX. Compruebe las cuotas de sus llaves en Firestore.");
+                alert("Ocurrió un error en el procesamiento algorítmico NYX. Compruebe la sintaxis de su PDF y las llaves en Firestore.");
             }
         });
     </script>
 
 </body>
 </html>
+
+

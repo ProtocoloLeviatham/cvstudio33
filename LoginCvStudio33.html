@@ -341,7 +341,7 @@
         </div>
     </div>
 
-    <div id="warning-modal" class="fixed inset-0 bg-slate-950/90 backdrop-filter blur-md flex items-center justify-center z-50 opacity-0 pointer-events:none transition-opacity duration-300 hidden">
+    <div id="warning-modal" class="fixed inset-0 bg-slate-950/90 backdrop-filter blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 hidden">
         <div class="glass-panel max-w-sm w-full mx-4 rounded-2xl p-6 text-center border border-red-500/20">
             <div class="w-14 h-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -353,6 +353,19 @@
             <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 mb-2">
                 <p class="text-[10px] font-semibold text-slate-500 animate-pulse">Redireccionando al panel de empleos en 4 segundos...</p>
             </div>
+        </div>
+    </div>
+
+    <div id="cv-warning-modal" class="fixed inset-0 bg-slate-950/90 backdrop-filter blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 hidden">
+        <div class="glass-panel max-w-sm w-full mx-4 rounded-2xl p-6 text-center border border-red-500/20">
+            <div class="w-14 h-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <h3 class="text-lg font-black text-white mb-2">CV No Detectado</h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                Es <strong>estrictamente obligatorio</strong> subir tu Currículum Vitae (PDF) en la Bóveda. La API NYX necesita escanear y leer tu documento real para procesar un diagnóstico verídico.
+            </p>
+            <button id="close-cv-warning-btn" class="bg-red-600/20 hover:bg-red-600/40 text-red-400 font-bold text-xs py-2.5 px-6 rounded-xl border border-red-500/30 transition-colors w-full">Entendido</button>
         </div>
     </div>
 
@@ -410,6 +423,9 @@
         const warningModal = document.getElementById('warning-modal');
         const modalCurrentCount = document.getElementById('modal-current-count');
 
+        const cvWarningModal = document.getElementById('cv-warning-modal');
+        const closeCvWarningBtn = document.getElementById('close-cv-warning-btn');
+
         // GITHUB API ELEMENTS
         const githubUserInput = document.getElementById('github-user-input');
         const githubSyncBtn = document.getElementById('github-sync-btn');
@@ -432,6 +448,10 @@
         const btnCalcHours = document.getElementById('btn-calc-hours');
         const hourResults = document.getElementById('hour-results');
         const hourValueDisplay = document.getElementById('hour-value-display');
+
+        // Variables Críticas
+        let isCvUploaded = false; // FLAG BLOQUEO IA SIN CV
+        let contenidoTextoCV = "";
 
         // Memoria de simulación de postulaciones visitadas
         function initMockInteractions() {
@@ -592,12 +612,18 @@
             cvTextPreviewBox.classList.toggle('hidden');
         });
 
+        // CERRAR MODAL DE ERROR CV
+        closeCvWarningBtn.addEventListener('click', () => {
+            cvWarningModal.classList.remove('opacity-100', 'pointer-events-auto');
+            setTimeout(() => cvWarningModal.classList.add('hidden'), 300);
+        });
+
         // PERSISTENCIA RECUPERACIÓN LOCAL DE CV AL CARGAR
-        let contenidoTextoCV = "El usuario aún no ha subido su CV en formato PDF.";
         function checkPersistedCV() {
             const savedName = localStorage.getItem('cv_name_cv33');
             const savedText = localStorage.getItem('cv_text_cv33');
             if (savedName && savedText) {
+                isCvUploaded = true;
                 cvNameDisplay.innerText = savedName;
                 contenidoTextoCV = savedText;
                 cvStatus.classList.remove('hidden');
@@ -624,7 +650,7 @@
                 return;
             }
 
-            cvNameDisplay.innerText = file.name;
+            cvNameDisplay.innerText = "Extrayendo Datos...";
             cvStatus.classList.remove('hidden');
             
             try {
@@ -640,14 +666,19 @@
                     textoExtraido += stringPDF + " ";
                 }
                 
+                isCvUploaded = true; // Habilita el acceso a la IA
                 contenidoTextoCV = textoExtraido;
+                cvNameDisplay.innerText = file.name;
+                
+                // Persistencia de los datos en caché
                 localStorage.setItem('cv_name_cv33', file.name);
                 localStorage.setItem('cv_text_cv33', textoExtraido);
                 cvTextPreviewBox.innerText = textoExtraido;
-                console.log("PDF Guardado localmente con éxito.");
+                console.log("PDF Escaneado y persistido localmente.");
             } catch(error) {
                 console.error("Error al leer el PDF", error);
                 alert("Hubo un error de formato al intentar extraer el texto de tu PDF. Intenta con otro archivo.");
+                cvStatus.classList.add('hidden');
             }
         }
 
@@ -681,7 +712,14 @@
         // INFRAESTRUCTURA DEL OPTIMIZADOR IA NYX    -->
         // ==========================================
         triggerNyxBtn.addEventListener('click', async () => {
-            // Regla mandatoria: Mínimo 33 postulaciones vistas
+            // REGLA CRÍTICA: BLOQUEAR ACCESO SI NO HAY CV
+            if (!isCvUploaded) {
+                cvWarningModal.classList.remove('hidden');
+                setTimeout(() => cvWarningModal.classList.add('opacity-100', 'pointer-events-auto'), 10);
+                return;
+            }
+
+            // REGLA CRÍTICA: Mínimo 33 postulaciones vistas
             if (interaccionesUsuario.length < 33) {
                 modalCurrentCount.innerText = interaccionesUsuario.length;
                 warningModal.classList.remove('hidden');
@@ -717,30 +755,35 @@
                 const loteReducidoPostulaciones = interaccionesUsuario.slice(0, 33);
                 const listaFormateadaParaIA = loteReducidoPostulaciones.map(i => `Puesto: ${i.title}, Empresa: ${i.company}, Detalle: ${i.snippet || 'N/A'}, Enlace: ${i.link || '#'}`).join("\n---\n");
 
-                // MEJORA DEL PROMPT SYSTEM DEL MATCH: MÁS TÉCNICO Y PROFESIONAL
+                const currentUserData = JSON.parse(localStorage.getItem('cvstudio33_user')) || {};
+                const userNameForAI = currentUserData.displayName || "Usuario";
+
+                // MEJORA DEL PROMPT SYSTEM: EXTRACTO OBLIGATORIO PERSONALIZADO
                 const promptEstructural = `
                     Actúa como el núcleo de inteligencia predictiva "API NYX", un avanzado motor algorítmico de inferencia semántica y headhunting de la marca CVStudio33.
-                    Tu objetivo es estructurar un análisis de compatibilidad técnica vectorial de alta fidelidad basado en los perfiles curriculares del usuario y un set acotado de postulaciones.
+                    Tu objetivo es estructurar un análisis de compatibilidad técnica vectorial de alta fidelidad basado ESTRICTAMENTE en los perfiles curriculares reales extraídos del PDF del usuario y un set acotado de postulaciones.
                     
-                    DATOS DE ENTRADA:
-                    - MATRIZ DE CURRÍCULUM VITAE PDF:
+                    DATOS DE ENTRADA REALES:
+                    - NOMBRE DEL USUARIO: "${userNameForAI}"
+                    - MATRIZ DE TEXTO EXTRAÍDO DEL CURRÍCULUM VITAE PDF (Dato principal a analizar):
                     "${contenidoTextoCV}"
                     
-                    - CONTEXTO DE DESPLIEGUE EN GITHUB (REPOSpúblicos):
+                    - CONTEXTO DE DESPLIEGUE EN GITHUB (REPOS públicos):
                     "${githubDataContext}"
                     
                     - LOTE DE LAS ÚLTIMAS 33 INTERACCIONES REGISTRADAS:
                     ${listaFormateadaParaIA}
                     
-                    REQUERIMIENTOS TÉCNICOS DE SALIDA:
-                    1. Realiza una evaluación semántica profunda cruzando los lenguajes, frameworks y entornos del CV/GitHub contra los requerimientos corporativos.
-                    2. Extrae las cualidades fuertes (Fortalezas) y las áreas vulnerables o habilidades técnicas faltantes (Debilidades) del perfil analizado.
-                    3. Genera datos extra tácticos para que el usuario gestione mejor su CV y optimice su inserción en el mercado técnico actual.
-                    4. Devuelve la respuesta ESTRICTAMENTE en formato JSON plano estructurado válido, SIN usar bloques de código Markdown ni backticks de ningún tipo, respetando exactamente este esquema:
+                    REQUERIMIENTOS TÉCNICOS OBLIGATORIOS:
+                    1. Tu "feedbackGlobal" DEBE INICIAR EXACTAMENTE con este saludo literal: "HOLA ${userNameForAI.toUpperCase()}," seguido de un análisis profundo y corporativo cruzando los datos reales de su CV y GitHub contra el mercado que visitó.
+                    2. Extrae las cualidades fuertes (Fortalezas) REALES encontradas en el texto de su CV.
+                    3. Extrae las áreas vulnerables o habilidades técnicas faltantes (Debilidades) del perfil que las empresas buscan.
+                    4. Genera consejos tácticos para gestionar mejor el CV.
+                    5. Devuelve la respuesta ESTRICTAMENTE en formato JSON plano estructurado válido, SIN usar bloques de código Markdown ni backticks de ningún tipo, respetando exactamente este esquema:
                     
                     {
-                        "feedbackGlobal": "Análisis corporativo de alta jerarquía...",
-                        "fortalezas": ["Cualidad fuerte 1", "Cualidad fuerte 2..."],
+                        "feedbackGlobal": "HOLA ${userNameForAI.toUpperCase()}, [Análisis corporativo de alta jerarquía basado en el PDF y el mercado visitado...]",
+                        "fortalezas": ["Cualidad fuerte detectada 1", "Cualidad fuerte 2..."],
                         "debilidades": ["Área débil técnica 1", "Área débil técnica 2..."],
                         "datosExtra": "Estrategia para gestionar mejor el posicionamiento curricular...",
                         "topMatches": [
@@ -748,8 +791,8 @@
                                 "puesto": "Nombre del puesto seleccionado",
                                 "empresa": "Nombre de la empresa correspondiente",
                                 "score": 98,
-                                "razon": "Justificación técnica objetiva del nivel de ajuste.",
-                                "link": "El enlace de redirección correspondiente provisto en la lista de interacciones"
+                                "razon": "Justificación técnica objetiva del nivel de ajuste basada en el CV.",
+                                "link": "El enlace de redirección correspondiente provisto en la lista"
                             }
                         ]
                     }
@@ -781,7 +824,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                         <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl shadow-inner">
-                            <h5 class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2"><i class="fas fa-shield-alt"></i> Cualidades Fuertes</h5>
+                            <h5 class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2"><i class="fas fa-shield-alt"></i> Cualidades Fuertes del Perfil</h5>
                             <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1.5">
                                 ${parsedResult.fortalezas.map(f => `<li>${f}</li>`).join('')}
                             </ul>
@@ -845,7 +888,7 @@
                 console.error(err);
                 nyxLoader.classList.add('hidden');
                 triggerNyxBtn.classList.remove('hidden');
-                // CAMBIO REQUERIDO: EN CASO DE FALLAS ACTIVA EL CONTENEDOR CON EL MENSAJE ANIMADO EXIGIDO
+                // MENSAJE ANIMADO EXIGIDO POR FALLA DE IA
                 nyxErrorBox.classList.remove('hidden');
             }
         });
@@ -853,8 +896,4 @@
 
 </body>
 </html>
-
-
-
-
 

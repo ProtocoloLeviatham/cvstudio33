@@ -113,6 +113,14 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
+
+        @keyframes pulseRetry {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.98); }
+        }
+        .animate-retry {
+            animation: pulseRetry 2s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="overflow-y-auto custom-scrollbar">
@@ -132,7 +140,7 @@
                 <img src="logo.png" alt="CVStudio33 Logo" class="brand-logo h-20 w-auto mx-auto mb-5" onerror="this.style.display='none'">
                 <h1 class="text-2xl font-extrabold tracking-tight text-white mb-2">Ecosistema CVStudio33</h1>
                 <p class="text-sm text-slate-400 max-w-xs mx-auto">
-                    Inicia sesión de forma segura para acceder a tus estadísticas, postulaciones y el optimizador de IA NYX.
+                    Inicia sesión de forma segura para acceder a tus estadísticas, postulaciones y el optimizador de API NYX.
                 </p>
             </div>
 
@@ -164,7 +172,7 @@
                 <div class="glass-panel rounded-2xl p-6 text-center relative group">
                     <div class="relative w-28 h-28 mx-auto mb-4">
                         <img id="user-avatar" src="" alt="Avatar" class="w-full h-full rounded-full object-cover border-4 border-slate-700/50">
-                        <label for="avatar-input" class="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer text-xs font-semibold text-white">
+                        <label for="avatar-input" class="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 cubic-bezier(0.4, 0, 0.2, 1) cursor-pointer text-xs font-semibold text-white">
                             <i class="fas fa-camera"></i> Cambiar
                         </label>
                         <input type="file" id="avatar-input" accept="image/*" class="hidden">
@@ -177,23 +185,26 @@
                     </span>
 
                     <button id="logout-btn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 border border-slate-700/40">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión Corporativa
+                        <i class="fas fa-power-off text-red-400"></i> Cerrar Sesión Corporativa
                     </button>
                 </div>
 
                 <div class="glass-panel rounded-2xl p-6">
                     <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-4 flex items-center gap-2">
-                        <i class="fas fa-file-pdf text-red-400"></i> Bóveda de Currículum
+                        <i class="fas fa-file-pdf text-red-500"></i> Bóveda de Currículum
                     </h3>
-                    <div id="cv-dropzone" class="border-2 border-dashed border-slate-700 hover:border-red-500/60 bg-slate-900/40 rounded-xl p-5 text-center transition-colors cursor-pointer relative">
+                    <div id="cv-dropzone" class="border-2 border-dashed border-slate-700 hover:border-blue-500/60 bg-slate-900/40 rounded-xl p-5 text-center transition-colors cursor-pointer relative">
                         <input type="file" id="cv-file-input" accept="application/pdf" class="hidden">
                         <i class="fas fa-cloud-upload-alt text-2xl text-slate-500 mb-2" id="cv-icon"></i>
                         <p class="text-xs font-medium text-slate-300" id="cv-text-primary">Arrastra o selecciona tu CV</p>
                         <p class="text-[10px] text-slate-500 mt-1 font-bold text-red-500/80">Formatos admitidos: Únicamente PDF</p>
                     </div>
-                    <div id="cv-status" class="mt-3 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-2.5 rounded-lg flex items-center gap-2 hidden">
-                        <i class="fas fa-check-circle"></i>
-                        <span class="truncate font-semibold" id="cv-name-display">Ninguno</span>
+                    <div id="cv-status" class="mt-3 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-2.5 rounded-lg flex flex-col gap-2 hidden">
+                        <div class="flex items-center justify-between w-full">
+                            <span class="truncate font-semibold flex items-center gap-1.5"><i class="fas fa-check-circle"></i> <span id="cv-name-display">Ninguno</span></span>
+                            <button id="btn-preview-cv" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded border border-slate-700">Vista Previa</button>
+                        </div>
+                        <div id="cv-text-preview-box" class="hidden text-[10px] bg-slate-950/80 p-2 rounded max-h-24 overflow-y-auto text-slate-400 custom-scrollbar"></div>
                     </div>
                 </div>
 
@@ -201,13 +212,17 @@
                     <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-4 flex items-center gap-2">
                         <i class="fab fa-github text-white"></i> API Sincronización GitHub
                     </h3>
-                    <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Conecta tu cuenta para extraer tu stack tecnológico y repositorios. Mejora la precisión de NYX AI drásticamente.</p>
+                    <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Conecta tu cuenta para extraer tu stack tecnológico y repositorios. Mejora la precisión de API NYX drásticamente.</p>
                     <div class="flex gap-2">
                         <input type="text" id="github-user-input" placeholder="Usuario (Ej: ProtocoloLeviatham)" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-blue-500 transition-colors">
                         <button id="github-sync-btn" class="bg-slate-800 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold border border-slate-700 hover:border-blue-500 transition-colors shrink-0 shadow-lg">Vincular</button>
                     </div>
-                    <div id="github-status" class="mt-3 text-[10px] text-emerald-400 hidden flex items-center gap-1.5 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
-                        <i class="fas fa-check-circle"></i> <span>Perfil sincronizado para el Match Vectorial</span>
+                    <div id="github-status" class="mt-3 text-[10px] text-emerald-400 hidden flex flex-col gap-2 bg-emerald-500/10 p-2.5 rounded-lg border border-emerald-500/20">
+                        <div class="flex items-center justify-between w-full">
+                            <span class="flex items-center gap-1.5"><i class="fas fa-check-circle"></i> Perfil sincronizado</span>
+                            <button id="btn-preview-github" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-emerald-400 px-1.5 py-0.5 rounded border border-slate-700">Ver Repos</button>
+                        </div>
+                        <div id="github-preview-box" class="hidden text-[9px] bg-slate-950/80 p-2 rounded max-h-20 overflow-y-auto text-slate-400 custom-scrollbar"></div>
                     </div>
                 </div>
             </div>
@@ -229,10 +244,10 @@
                         </div>
                     </div>
                     <div class="glass-panel rounded-xl p-4 col-span-2 sm:col-span-1 flex items-center gap-4">
-                        <div class="w-10 h-10 bg-purple-500/10 text-purple-400 rounded-lg flex items-center justify-center text-lg"><i class="fas fa-robot"></i></div>
+                        <div class="w-10 h-10 bg-purple-500/10 text-purple-400 rounded-lg flex items-center justify-center text-lg"><i class="fas fa-microchip"></i></div>
                         <div>
                             <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Estado de IA</p>
-                            <h4 class="text-xs font-bold text-emerald-400 mt-1 flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full inline-block animate-pulse"></span> NYX Online</h4>
+                            <h4 class="text-xs font-bold text-emerald-400 mt-1 flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full inline-block animate-pulse"></span> API NYX Online</h4>
                         </div>
                     </div>
                 </div>
@@ -241,27 +256,75 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                         <div>
                             <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                                <i class="fas fa-brain text-blue-400"></i> Diagnóstico de Match Inteligente NYX
+                                <i class="fas fa-brain text-purple-400"></i> Diagnóstico de Match Inteligente API NYX
                             </h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Analiza tus vacantes visitadas contra la estructura técnica de tu CV PDF y tu GitHub.</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Analiza tus últimas 33 vacantes visitadas contra la estructura técnica de tu CV PDF y tu GitHub.</p>
                         </div>
-                        <button id="trigger-nyx-btn" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs py-3 px-5 rounded-xl transition-all shadow-lg flex items-center gap-2 shrink-0">
+                        <button id="trigger-nyx-btn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs py-3 px-5 rounded-xl transition-all shadow-lg flex items-center gap-2 shrink-0">
                             <i class="fas fa-bolt"></i> Ejecutar Optimizador Gratis
                         </button>
                     </div>
 
                     <div id="nyx-loader" class="hidden flex flex-col items-center justify-center py-12 text-center">
-                        <div class="w-12 h-12 border-4 border-t-blue-500 border-r-purple-500 border-b-slate-800 border-l-slate-800 rounded-full animate-spin mb-4"></div>
+                        <div class="w-12 h-12 border-4 border-t-purple-500 border-r-blue-500 border-b-slate-800 border-l-slate-800 rounded-full animate-spin mb-4"></div>
                         <p class="text-sm font-semibold text-slate-200">Leyendo Estructura Semántica del CV y Perfil Técnico...</p>
-                        <p class="text-xs text-slate-500 mt-1">Conectando con Google GenAI Studio Engine (gemini-flash-latest)</p>
+                        <p class="text-xs text-slate-500 mt-1">Conectando con Motor Core de API NYX (Ultra-Flash-Latest)</p>
+                    </div>
+
+                    <div id="nyx-error-box" class="hidden flex flex-col items-center justify-center py-8 text-center bg-red-500/10 border border-red-500/20 rounded-xl p-4 animate-retry">
+                        <img src="logo.png" class="h-10 w-auto mb-2 opacity-40 grayscale" onerror="this.style.display='none'">
+                        <i class="fas fa-hourglass-half text-red-400 text-xl mb-2"></i>
+                        <h4 class="text-sm font-bold text-red-400 tracking-wide">Vuelve a intentarlo en 30segs</h4>
+                        <p class="text-[11px] text-slate-400 mt-0.5 max-w-xs">El canal de inferencia de la API NYX se encuentra saturado o experimentó un retraso de respuesta de red corporativa.</p>
                     </div>
 
                     <div id="nyx-results-box" class="hidden space-y-4">
                         <div id="nyx-global-feedback"></div>
+                        <div class="space-y-2.5" id="nyx-cards-container"></div>
+                    </div>
+                </div>
 
-                        <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-2 mt-4"><i class="fas fa-star text-amber-400"></i> Tus Top 5 Postulaciones Ideales:</h4>
-                        <div class="space-y-2.5" id="nyx-cards-container">
+                <div class="glass-panel rounded-2xl p-6 border border-slate-700/50">
+                    <h3 class="text-sm font-bold tracking-wider text-slate-300 uppercase mb-4 flex items-center gap-2">
+                        <i class="fas fa-calculator text-emerald-400"></i> Planificación Financiera y Herramientas Cotidianas
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fas fa-vault"></i> Plan de Ahorro Inteligente</h4>
+                                <p class="text-[11px] text-slate-400 mb-3">Escribe tu salario mensual estimado para calcular una división matemática óptima de finanzas personales.</p>
+                                <div class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="number" id="finance-salary-input" placeholder="Ingreso Mensual (ARS / USD)" class="w-full bg-slate-950/80 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-emerald-500 transition-colors">
+                                        <button id="btn-calc-finance" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg border border-emerald-500 shadow transition-colors shrink-0">Calcular</button>
+                                    </div>
+                                    <div id="finance-results" class="hidden space-y-1.5 pt-2 text-[11px] border-t border-slate-800">
+                                        <div class="flex justify-between text-slate-300"><span>Gastos Fijos (50%):</span> <span id="fin-fijos" class="font-bold text-white">$0</span></div>
+                                        <div class="flex justify-between text-slate-300"><span>Inversión/Futuro (20%):</span> <span id="fin-inversion" class="font-bold text-emerald-400">$0</span></div>
+                                        <div class="flex justify-between text-slate-300"><span>Gastos Libres (30%):</span> <span id="fin-libres" class="font-bold text-blue-400">$0</span></div>
+                                        <div class="flex justify-between text-slate-400 text-[10px] mt-1 italic"><span>Proyección Ahorro Anual:</span> <span id="fin-anual" class="font-bold text-yellow-400">$0</span></div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fas fa-business-time"></i> Calculadora de Valor Hora</h4>
+                                <p class="text-[11px] text-slate-400 mb-3">Calcula cuánto vale una hora de tu tiempo laboral para negociar contratos independientes o presenciales.</p>
+                                <div class="space-y-2">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <input type="number" id="hour-salary-input" placeholder="Sueldo deseado" class="bg-slate-950/80 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-blue-500 transition-colors">
+                                        <input type="number" id="hour-hours-input" placeholder="Horas por día (ej. 8)" class="bg-slate-950/80 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-blue-500 transition-colors">
+                                    </div>
+                                    <button id="btn-calc-hours" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-1.5 rounded-lg border border-blue-500 shadow transition-colors">Calcular Tarifa</button>
+                                    <div id="hour-results" class="hidden pt-2 text-center text-xs border-t border-slate-800">
+                                        <span class="text-slate-400">Tu valor estimado por hora es de:</span>
+                                        <h5 class="text-base font-black text-white mt-0.5" id="hour-value-display">$0 / hr</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -285,7 +348,7 @@
             </div>
             <h3 class="text-lg font-black text-white mb-2">Métricas Insuficientes</h3>
             <p class="text-xs text-slate-400 leading-relaxed mb-4">
-                El ecosistema NYX requiere un registro mínimo de **33 postulaciones visitadas** para entrenar el modelo predictivo vectorial. Actualmente posees <strong id="modal-current-count" class="text-blue-400">0</strong>.
+                El ecosistema de la API NYX requiere un registro mínimo de **33 postulaciones visitadas** para entrenar el modelo predictivo vectorial. Actualmente posees <strong id="modal-current-count" class="text-blue-400">0</strong>.
             </p>
             <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 mb-2">
                 <p class="text-[10px] font-semibold text-slate-500 animate-pulse">Redireccionando al panel de empleos en 4 segundos...</p>
@@ -332,11 +395,14 @@
         const cvFileInput = document.getElementById('cv-file-input');
         const cvStatus = document.getElementById('cv-status');
         const cvNameDisplay = document.getElementById('cv-name-display');
+        const btnPreviewCv = document.getElementById('btn-preview-cv');
+        const cvTextPreviewBox = document.getElementById('cv-text-preview-box');
 
         const metricViews = document.getElementById('metric-views');
         const historyListBox = document.getElementById('history-list-box');
         const triggerNyxBtn = document.getElementById('trigger-nyx-btn');
         const nyxLoader = document.getElementById('nyx-loader');
+        const nyxErrorBox = document.getElementById('nyx-error-box');
         const nyxResultsBox = document.getElementById('nyx-results-box');
         const nyxGlobalFeedback = document.getElementById('nyx-global-feedback');
         const nyxCardsContainer = document.getElementById('nyx-cards-container');
@@ -348,7 +414,24 @@
         const githubUserInput = document.getElementById('github-user-input');
         const githubSyncBtn = document.getElementById('github-sync-btn');
         const githubStatus = document.getElementById('github-status');
+        const btnPreviewGithub = document.getElementById('btn-preview-github');
+        const githubPreviewBox = document.getElementById('github-preview-box');
         let githubDataContext = "El usuario no sincronizó su cuenta de GitHub.";
+
+        // EXTRA FINANCIERA ELEMENTS
+        const financeSalaryInput = document.getElementById('finance-salary-input');
+        const btnCalcFinance = document.getElementById('btn-calc-finance');
+        const financeResults = document.getElementById('finance-results');
+        const finFijos = document.getElementById('fin-fijos');
+        const finInversion = document.getElementById('fin-inversion');
+        const finLibres = document.getElementById('fin-libres');
+        const finAnual = document.getElementById('fin-anual');
+
+        const hourSalaryInput = document.getElementById('hour-salary-input');
+        const hourHoursInput = document.getElementById('hour-hours-input');
+        const btnCalcHours = document.getElementById('btn-calc-hours');
+        const hourResults = document.getElementById('hour-results');
+        const hourValueDisplay = document.getElementById('hour-value-display');
 
         // Memoria de simulación de postulaciones visitadas
         function initMockInteractions() {
@@ -375,7 +458,24 @@
 
         let interaccionesUsuario = initMockInteractions();
 
-        // LÓGICA DE SINCRONIZACIÓN DE GITHUB
+        // PERSISTENCIA RECUPERACIÓN LOCAL DE GITHUB AL CARGAR
+        function checkPersistedGitHub() {
+            const savedUser = localStorage.getItem('github_user_cv33');
+            const savedData = localStorage.getItem('github_data_cv33');
+            if (savedUser && savedData) {
+                githubUserInput.value = savedUser;
+                githubDataContext = savedData;
+                githubStatus.classList.remove('hidden');
+                githubPreviewBox.innerText = savedData.split(" | ").join("\n");
+            }
+        }
+
+        // CONTROLADOR DE VISTA PREVIA GITHUB
+        btnPreviewGithub.addEventListener('click', () => {
+            githubPreviewBox.classList.toggle('hidden');
+        });
+
+        // LÓGICA DE SINCRONIZACIÓN DE GITHUB PERSISTENTE
         githubSyncBtn.addEventListener('click', async () => {
             const username = githubUserInput.value.trim();
             if(!username) return;
@@ -387,7 +487,11 @@
                     const repos = await res.json();
                     if(repos.length > 0) {
                         githubDataContext = repos.map(r => `Repo: ${r.name}, Desc: ${r.description || 'N/A'}, Lang: ${r.language || 'N/A'}`).join(" | ");
+                        localStorage.setItem('github_user_cv33', username);
+                        localStorage.setItem('github_data_cv33', githubDataContext);
+                        
                         githubStatus.classList.remove('hidden');
+                        githubPreviewBox.innerText = githubDataContext.split(" | ").join("\n");
                     } else {
                         alert("La cuenta de GitHub existe, pero no tiene repositorios públicos.");
                     }
@@ -405,6 +509,8 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 renderDashboard(user);
+                checkPersistedGitHub();
+                checkPersistedCV();
             } else {
                 loginContainer.classList.remove('hidden');
                 profileContainer.classList.add('hidden');
@@ -430,6 +536,10 @@
         logoutBtn.addEventListener('click', () => {
             signOut(auth).then(() => {
                 localStorage.removeItem('custom_avatar_cv33');
+                localStorage.removeItem('github_user_cv33');
+                localStorage.removeItem('github_data_cv33');
+                localStorage.removeItem('cv_text_cv33');
+                localStorage.removeItem('cv_name_cv33');
                 window.location.reload();
             });
         });
@@ -442,7 +552,6 @@
             userName.innerText = user.displayName || "Usuario CVStudio33";
             userEmail.innerText = user.email;
 
-            // Manejo de la foto de perfil
             const savedAvatar = localStorage.getItem('custom_avatar_cv33');
             userAvatar.src = savedAvatar ? savedAvatar : (user.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png');
 
@@ -465,7 +574,7 @@
             }
         }
 
-        // Interceptador para cambio de foto de perfil
+        // Interceptador para cambio de foto de perfil desde Galería
         avatarInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -478,24 +587,40 @@
             }
         });
 
-        // LÓGICA DEL PDF Y DRAG & DROP
+        // CONTROLADOR DE VISTA PREVIA CV
+        btnPreviewCv.addEventListener('click', () => {
+            cvTextPreviewBox.classList.toggle('hidden');
+        });
+
+        // PERSISTENCIA RECUPERACIÓN LOCAL DE CV AL CARGAR
+        let contenidoTextoCV = "El usuario aún no ha subido su CV en formato PDF.";
+        function checkPersistedCV() {
+            const savedName = localStorage.getItem('cv_name_cv33');
+            const savedText = localStorage.getItem('cv_text_cv33');
+            if (savedName && savedText) {
+                cvNameDisplay.innerText = savedName;
+                contenidoTextoCV = savedText;
+                cvStatus.classList.remove('hidden');
+                cvTextPreviewBox.innerText = savedText;
+            }
+        }
+
+        // Controladores del Drag and Drop del Currículum Vitae PDF
         cvDropzone.addEventListener('click', () => cvFileInput.click());
-        cvDropzone.addEventListener('dragover', (e) => { e.preventDefault(); cvDropzone.classList.add('border-red-500'); });
-        cvDropzone.addEventListener('dragleave', () => cvDropzone.classList.remove('border-red-500'));
+        cvDropzone.addEventListener('dragover', (e) => { e.preventDefault(); cvDropzone.classList.add('border-blue-500'); });
+        cvDropzone.addEventListener('dragleave', () => cvDropzone.classList.remove('border-blue-500'));
         cvDropzone.addEventListener('drop', (e) => {
             e.preventDefault();
-            cvDropzone.classList.remove('border-red-500');
+            cvDropzone.classList.remove('border-blue-500');
             if(e.dataTransfer.files.length) procesarArchivoCV(e.dataTransfer.files[0]);
         });
         cvFileInput.addEventListener('change', (e) => {
             if(e.target.files.length) procesarArchivoCV(e.target.files[0]);
         });
 
-        let contenidoTextoCV = "El usuario aún no ha subido su CV en formato PDF."; 
-        
         async function procesarArchivoCV(file) {
             if (file.type !== "application/pdf") {
-                alert("El sistema de IA NYX requiere estrictamente archivos en formato PDF para el escaneo de competencias.");
+                alert("El sistema de la API NYX requiere estrictamente archivos en formato PDF para el escaneo de competencias.");
                 return;
             }
 
@@ -503,12 +628,10 @@
             cvStatus.classList.remove('hidden');
             
             try {
-                // Lectura de Texto del PDF mediante PDF.JS
                 const arrayBuffer = await file.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
                 let textoExtraido = "";
                 
-                // Lee un máximo de 3 páginas para evitar saturación de la IA
                 const totalPages = pdf.numPages > 3 ? 3 : pdf.numPages; 
                 for (let i = 1; i <= totalPages; i++) {
                     const page = await pdf.getPage(i);
@@ -518,7 +641,10 @@
                 }
                 
                 contenidoTextoCV = textoExtraido;
-                console.log("PDF Escaneado con éxito.");
+                localStorage.setItem('cv_name_cv33', file.name);
+                localStorage.setItem('cv_text_cv33', textoExtraido);
+                cvTextPreviewBox.innerText = textoExtraido;
+                console.log("PDF Guardado localmente con éxito.");
             } catch(error) {
                 console.error("Error al leer el PDF", error);
                 alert("Hubo un error de formato al intentar extraer el texto de tu PDF. Intenta con otro archivo.");
@@ -526,9 +652,36 @@
         }
 
         // ==========================================
+        // INFRAESTRUCTURA DE UTILIDADES FINANCIERAS -->
+        // ==========================================
+        btnCalcFinance.addEventListener('click', () => {
+            const salario = parseFloat(financeSalaryInput.value);
+            if (!salario || salario <= 0) return;
+            
+            finFijos.innerText = `$${(salario * 0.50).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+            finInversion.innerText = `$${(salario * 0.20).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+            finLibres.innerText = `$${(salario * 0.30).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+            finAnual.innerText = `$${((salario * 0.20) * 12).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} de inversión proyectada`;
+            financeResults.classList.remove('hidden');
+        });
+
+        btnCalcHours.addEventListener('click', () => {
+            const sueldoDeseado = parseFloat(hourSalaryInput.value);
+            const horasDiarias = parseFloat(hourHoursInput.value);
+            if (!sueldoDeseado || !horasDiarias || horasDiarias <= 0) return;
+
+            // Suponiendo 22 días laborables al mes matemáticamente estándar
+            const valorHora = sueldoDeseado / (22 * horasDiarias);
+            hourValueDisplay.innerText = `$${valorHora.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / hr`;
+            hourResults.classList.remove('hidden');
+        });
+
+
+        // ==========================================
         // INFRAESTRUCTURA DEL OPTIMIZADOR IA NYX    -->
         // ==========================================
         triggerNyxBtn.addEventListener('click', async () => {
+            // Regla mandatoria: Mínimo 33 postulaciones vistas
             if (interaccionesUsuario.length < 33) {
                 modalCurrentCount.innerText = interaccionesUsuario.length;
                 warningModal.classList.remove('hidden');
@@ -542,9 +695,11 @@
 
             triggerNyxBtn.classList.add('hidden');
             nyxResultsBox.classList.add('hidden');
+            nyxErrorBox.classList.add('hidden');
             nyxLoader.classList.remove('hidden');
 
             try {
+                // Lectura de la Bóveda de Claves Privadas de Firestore (config/ID33)
                 const docRef = doc(db, "config", "ID33");
                 const docSnap = await getDoc(docRef);
                 
@@ -558,46 +713,48 @@
                     geminiApiKey = "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728"; 
                 }
 
-                // Generación de payload estructurado para la IA, ESTRICTO LIMITADO A 33
-                const listaFormateadaParaIA = interaccionesUsuario.slice(0, 33).map(i => `Puesto: ${i.title}, Empresa: ${i.company}, Enlace: ${i.link || '#'}`).join("\n---\n");
+                // REGLA: LA IA SÓLO DEBE LEER LAS ÚLTIMAS 33 POSTULACIONES PARA NO SATURAR EL SISTEMA
+                const loteReducidoPostulaciones = interaccionesUsuario.slice(0, 33);
+                const listaFormateadaParaIA = loteReducidoPostulaciones.map(i => `Puesto: ${i.title}, Empresa: ${i.company}, Detalle: ${i.snippet || 'N/A'}, Enlace: ${i.link || '#'}`).join("\n---\n");
 
+                // MEJORA DEL PROMPT SYSTEM DEL MATCH: MÁS TÉCNICO Y PROFESIONAL
                 const promptEstructural = `
-                    Actúa como "IA NYX", un avanzado algoritmo de inferencia, reclutamiento corporativo y headhunting técnico de la marca CVStudio33.
+                    Actúa como el núcleo de inteligencia predictiva "API NYX", un avanzado motor algorítmico de inferencia semántica y headhunting de la marca CVStudio33.
+                    Tu objetivo es estructurar un análisis de compatibilidad técnica vectorial de alta fidelidad basado en los perfiles curriculares del usuario y un set acotado de postulaciones.
                     
-                    DATOS DE EVALUACIÓN:
-                    1. TEXTO DEL CV PDF DEL USUARIO:
+                    DATOS DE ENTRADA:
+                    - MATRIZ DE CURRÍCULUM VITAE PDF:
                     "${contenidoTextoCV}"
                     
-                    2. HISTORIAL DE GITHUB API (Tecnologías y repositorios en vivo):
+                    - CONTEXTO DE DESPLIEGUE EN GITHUB (REPOSpúblicos):
                     "${githubDataContext}"
                     
-                    3. ÚLTIMAS 33 VACANTES VISITADAS (Para evitar el Token Overflow, limitamos la lista):
+                    - LOTE DE LAS ÚLTIMAS 33 INTERACCIONES REGISTRADAS:
                     ${listaFormateadaParaIA}
                     
-                    INSTRUCCIONES DE OPERACIÓN OBLIGATORIAS:
-                    - Analiza semánticamente e identifica el Match vectorial entre las habilidades del CV/GitHub y las 33 vacantes.
-                    - Determina las cualidades fuertes (Fortalezas) y las áreas débiles/faltantes (Debilidades) del CV evaluado.
-                    - Aporta consejos "Extra" de gestión curricular profesionales.
-                    - Devuelve una estructura JSON estricta y limpia, SIN formateo Markdown, con el siguiente esquema exacto:
+                    REQUERIMIENTOS TÉCNICOS DE SALIDA:
+                    1. Realiza una evaluación semántica profunda cruzando los lenguajes, frameworks y entornos del CV/GitHub contra los requerimientos corporativos.
+                    2. Extrae las cualidades fuertes (Fortalezas) y las áreas vulnerables o habilidades técnicas faltantes (Debilidades) del perfil analizado.
+                    3. Genera datos extra tácticos para que el usuario gestione mejor su CV y optimice su inserción en el mercado técnico actual.
+                    4. Devuelve la respuesta ESTRICTAMENTE en formato JSON plano estructurado válido, SIN usar bloques de código Markdown ni backticks de ningún tipo, respetando exactamente este esquema:
                     
                     {
-                        "feedbackGlobal": "Dictamen analítico y motivacional...",
-                        "fortalezas": ["Fortaleza 1 detectada", "Fortaleza 2..."],
-                        "debilidades": ["Área a mejorar 1", "Habilidad faltante 2..."],
-                        "datosExtra": "Consejos tácticos de gestión de carrera y CV...",
+                        "feedbackGlobal": "Análisis corporativo de alta jerarquía...",
+                        "fortalezas": ["Cualidad fuerte 1", "Cualidad fuerte 2..."],
+                        "debilidades": ["Área débil técnica 1", "Área débil técnica 2..."],
+                        "datosExtra": "Estrategia para gestionar mejor el posicionamiento curricular...",
                         "topMatches": [
                             {
-                                "puesto": "Nombre puesto",
-                                "empresa": "Nombre empresa",
-                                "score": 95,
-                                "razon": "Justificación técnica muy breve del match.",
-                                "link": "El enlace proporcionado en la lista"
+                                "puesto": "Nombre del puesto seleccionado",
+                                "empresa": "Nombre de la empresa correspondiente",
+                                "score": 98,
+                                "razon": "Justificación técnica objetiva del nivel de ajuste.",
+                                "link": "El enlace de redirección correspondiente provisto en la lista de interacciones"
                             }
                         ]
                     }
                 `;
 
-                // Llamada nativa a la última versión de Gemini Flash
                 const apiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`;
                 
                 const response = await fetch(apiEndpoint, {
@@ -609,18 +766,16 @@
                     })
                 });
 
-                if(!response.ok) throw new Error("Error en respuesta del Gateway de Google GenAI.");
+                if(!response.ok) throw new Error("Error de Gateway o canal saturado.");
                 
                 const resData = await response.json();
-                
-                // Parseo del contenido limpio
                 const textoPlanoJson = resData.candidates[0].content.parts[0].text;
                 const parsedResult = JSON.parse(textoPlanoJson);
                 
-                // INYECCIÓN DE LA INTERFAZ MEJORADA
+                // INYECCIÓN MÓDULOS DE ANÁLISIS MEJORADOS CON CAJAS DE RECOMENDACIÓN NYX / AXON
                 nyxGlobalFeedback.innerHTML = `
                     <div class="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4 mb-4 shadow-lg">
-                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2"><i class="fas fa-microchip"></i> Evaluación del Perfil:</h4>
+                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2"><i class="fas fa-microchip"></i> Dictamen de Inferencia API NYX:</h4>
                         <p class="text-xs text-slate-300 leading-relaxed text-justify">${parsedResult.feedbackGlobal}</p>
                     </div>
 
@@ -632,7 +787,7 @@
                             </ul>
                         </div>
                         <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl shadow-inner">
-                            <h5 class="text-[11px] font-bold text-red-400 uppercase tracking-wider mb-2"><i class="fas fa-exclamation-circle"></i> Áreas de Mejora (Débiles)</h5>
+                            <h5 class="text-[11px] font-bold text-red-400 uppercase tracking-wider mb-2"><i class="fas fa-exclamation-circle"></i> Áreas Débiles (Faltantes)</h5>
                             <ul class="text-xs text-slate-300 list-disc pl-4 space-y-1.5">
                                 ${parsedResult.debilidades.map(d => `<li>${d}</li>`).join('')}
                             </ul>
@@ -640,15 +795,15 @@
                     </div>
 
                     <div class="bg-slate-800/50 border border-slate-700/50 p-4 rounded-xl mb-6">
-                        <h5 class="text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1"><i class="fas fa-chart-pie"></i> Estrategia y Gestión de CV</h5>
+                        <h5 class="text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1"><i class="fas fa-chart-pie"></i> Gestión y Datos Extra del Currículum</h5>
                         <p class="text-xs text-slate-400 leading-relaxed">${parsedResult.datosExtra}</p>
                     </div>
 
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3"><i class="fas fa-bolt text-yellow-400"></i> Recomendaciones Tecnológicas del Sistema:</h4>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3"><i class="fas fa-bolt text-yellow-400"></i> Recomendaciones Tecnológicas del Ecosistema:</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                         <a href="https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html" target="_blank" class="block bg-purple-900/40 border-2 border-purple-500 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] p-4 rounded-xl transition-all relative overflow-hidden group">
                             <div class="absolute top-0 right-0 bg-purple-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg tracking-wider">TOP PREFERENCIA MUNDIAL</div>
-                            <h5 class="text-sm font-black text-purple-300 mb-1 flex items-center gap-2"><i class="fas fa-brain"></i> Ecosistema NYX</h5>
+                            <h5 class="text-sm font-black text-purple-300 mb-1 flex items-center gap-2"><img src="logo.png" class="h-4 w-auto inline-block" onerror="this.style.display='none'"> Ecosistema NYX</h5>
                             <p class="text-[10px] text-purple-200/80 leading-relaxed">Máxima compatibilidad para tu perfil. Escanea, analiza y multiplica exponencialmente la efectividad de tu CV frente a los ATS corporativos.</p>
                         </a>
                         
@@ -657,23 +812,25 @@
                             <p class="text-[10px] text-emerald-200/80 leading-relaxed">Arquitectura sináptica complementaria. Ideal para estructuras técnicas complejas y despliegues algorítmicos profesionales.</p>
                         </a>
                     </div>
+
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-2 mt-4"><i class="fas fa-star text-amber-400"></i> Tus Top 5 Postulaciones Ideales (Clic para redirigir):</h4>
                 `;
 
-                // Inyección del Top 5 Matches
+                // Inyección del Top 5 Matches habilitando la redirección al Link original guardado
                 nyxCardsContainer.innerHTML = '';
                 parsedResult.topMatches.slice(0, 5).forEach((match) => {
                     const block = document.createElement('a');
                     block.href = match.link && match.link !== '#' && match.link !== 'N/A' ? match.link : 'index.html';
                     block.target = match.link && match.link !== '#' && match.link !== 'N/A' ? '_blank' : '_self';
-                    block.className = 'bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-all hover:border-blue-500/30 hover:bg-slate-800 cursor-pointer block w-full';
+                    block.className = 'bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition-all hover:border-purple-500/30 hover:bg-slate-800 cursor-pointer block w-full shadow-md';
                     block.innerHTML = `
                         <div>
                             <h5 class="text-xs font-bold text-white">${match.puesto}</h5>
-                            <p class="text-[10px] text-blue-400 mt-0.5 font-semibold">${match.empresa}</p>
+                            <p class="text-[10px] text-purple-400 mt-0.5 font-semibold">${match.empresa}</p>
                             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">${match.razon}</p>
                         </div>
                         <div class="shrink-0 flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
-                            <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Score</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Match</span>
                             <span class="text-xs font-black text-emerald-400">${match.score}%</span>
                         </div>
                     `;
@@ -688,12 +845,15 @@
                 console.error(err);
                 nyxLoader.classList.add('hidden');
                 triggerNyxBtn.classList.remove('hidden');
-                alert("Ocurrió un error en el procesamiento algorítmico NYX. Compruebe la sintaxis de su PDF y las llaves en Firestore.");
+                // CAMBIO REQUERIDO: EN CASO DE FALLAS ACTIVA EL CONTENEDOR CON EL MENSAJE ANIMADO EXIGIDO
+                nyxErrorBox.classList.remove('hidden');
             }
         });
     </script>
 
 </body>
 </html>
+
+
 
 

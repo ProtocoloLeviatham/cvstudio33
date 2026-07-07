@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso VIP | CVStudio33</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #E2E8F0;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism for the card */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(90deg, #38bdf8, #818cf8);
+        }
+
+        /* Botón Único de Mercado Pago */
+        .btn-mercadopago {
+            background-color: #009EE3;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 158, 227, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            border-radius: 8px;
+            padding: 16px 24px;
+            text-decoration: none;
+        }
+        
+        .btn-mercadopago:hover {
+            background-color: #0087C1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 158, 227, 0.6);
+            color: white;
+        }
+
+        .mp-icon {
+            background-color: white;
+            color: #009EE3;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Animated Grid Background */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+        
+        .glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: #38bdf8;
+            border-radius: 50%;
+            filter: blur(200px);
+            opacity: 0.15;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            animation: pulse 4s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.15; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 0.25; }
+        }
+
+        /* Estilos exactos del footer requerido */
+        .footer-site {
+            background-color: #020617;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 4rem 2rem 2rem;
+            margin-top: 5rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        .footer-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        @media (max-width: 768px) {
+            .footer-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+        .footer-logo {
+            height: 40px;
+            margin-bottom: 1rem;
+        }
+        .footer-disclaimer {
+            line-height: 1.6;
+            text-align: justify;
+        }
+        .footer-disclaimer strong {
+            display: block;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .custom-footer-widget .widget-title {
+            color: #f1f5f9;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+        .custom-footer-widget ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        .custom-footer-widget ul li {
+            margin-bottom: 0.5rem;
+        }
+        .custom-footer-widget ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .custom-footer-widget ul li a:hover {
+            color: #38bdf8;
+        }
+        .support-box .lbl {
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 0.3rem;
+        }
+        .support-box p {
+            margin-bottom: 0.3rem;
+        }
+        .support-box i {
+            margin-right: 0.5rem;
+            color: #38bdf8;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="selection:bg-sky-500 selection:text-white">
+
+    <div class="bg-grid"></div>
+    <div class="glow"></div>
+
+    <!-- Navegación -->
+    <nav class="glass-card sticky top-0 z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- LOGO PURO COMO SOLICITADO -->
+                <div class="flex-shrink-0 flex items-center">
+                    <img src="logo.png" alt="CVStudio33" class="h-12 w-auto object-contain" onerror="this.src='https://placehold.co/150x50/0f172a/38bdf8?text=CVSTUDIO33'">
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-slate-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition">Inicio</a>
+                        <a href="EmpleosCvstudio33.html" class="text-slate-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition">Bolsa VIP</a>
+                        <a href="#" class="text-sky-400 border-b-2 border-sky-400 px-3 py-2 text-sm font-medium transition">Planes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-16 md:py-24 relative px-4">
+        <!-- Encabezado de Ventas Profesional -->
+        <div class="max-w-4xl mx-auto text-center mb-16" data-aos="fade-down">
+            <div class="inline-flex items-center px-4 py-2 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-xs font-bold mb-6 uppercase tracking-widest shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+                <i class="fa-solid fa-microchip mr-2"></i> Impulsado por Tecnología NYX
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-white leading-tight">
+                Domina el Mercado Corporativo con <br class="hidden md:block"/>
+                <span class="text-gradient">Inteligencia Artificial</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Más del <strong>70% de las oportunidades de alta jerarquía</strong> y salarios superiores nunca llegan a los portales públicos. Pasa al siguiente nivel profesional dejando que nuestra IA audite, filtre y monitoree el mercado oculto en piloto automático.
+            </p>
+        </div>
+
+        <!-- Tarjeta del Plan VIP (Ampliada a Grid) -->
+        <div class="max-w-4xl mx-auto" data-aos="zoom-in" data-aos-delay="200">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(2,132,199,0.15)] relative group border border-sky-500/30">
+                <!-- Highlight accent top -->
+                <div class="h-2 w-full bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600"></div>
+                
+                <div class="p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-10 border-b border-white/10 pb-8 gap-6">
+                        <div>
+                            <h2 class="text-3xl font-black text-white tracking-wide uppercase flex items-center gap-3">
+                                Elite Access 
+                                <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg shadow-indigo-500/10"><i class="fa-solid fa-star text-[10px] mr-1"></i> VIP</span>
+                            </h2>
+                            <p class="text-sky-400 font-semibold text-sm mt-2 tracking-wider">MERCADO OCULTO & AUTOMATIZACIÓN 360°</p>
+                        </div>
+                        
+                        <div class="text-left md:text-right">
+                            <div class="flex items-end gap-2 md:justify-end">
+                                <span class="text-5xl font-black text-white tracking-tighter">$10.000</span>
+                                <span class="text-slate-400 font-medium mb-1 text-lg">ARS / mes</span>
+                            </div>
+                            <p class="text-slate-400 mt-2 text-sm flex items-center md:justify-end gap-2">
+                                <i class="fa-solid fa-rotate text-sky-500/70"></i> Cancela en cualquier momento.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Grid de Beneficios -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                        
+                        <!-- Beneficio 1 -->
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition">
+                            <div class="mt-1 bg-sky-500/20 w-10 h-10 flex items-center justify-center rounded-xl text-sky-400 flex-shrink-0">
+                                <i class="fa-solid fa-radar text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Radar Bot NYX 24/7</h4>
+                                <p class="text-slate-400 text-sm leading-relaxed mt-1">Escaneo de mercado hiper-rápido en tiempo real. La IA procesa y rastrea la información por ti sin acciones manuales.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Beneficio 2 (NUEVO: LEXIE) -->
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition">
+                            <div class="mt-1 bg-green-500/20 w-10 h-10 flex items-center justify-center rounded-xl text-green-400 flex-shrink-0 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Asistente LEXIE</h4>
+                                <p class="text-slate-400 text-sm leading-relaxed mt-1">Tu bot privado en WhatsApp. Recibe notificaciones y avisos de oferta 1 a 1 al instante exacto en el que salen publicadas.</p>
+                            </div>
+                        </div>
+
+                        <!-- Beneficio 3 (NUEVO: CONTRATACIONES PRIVADAS) -->
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition">
+                            <div class="mt-1 bg-amber-500/20 w-10 h-10 flex items-center justify-center rounded-xl text-amber-400 flex-shrink-0 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                                <i class="fa-solid fa-handshake-angle text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Contrataciones Privadas</h4>
+                                <p class="text-slate-400 text-sm leading-relaxed mt-1">Empresas externas confían directamente en CVSTUDIO33 sus vacantes cerradas para que asignemos a los talentos más competentes.</p>
+                            </div>
+                        </div>
+
+                        <!-- Beneficio 4 -->
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition">
+                            <div class="mt-1 bg-sky-500/20 w-10 h-10 flex items-center justify-center rounded-xl text-sky-400 flex-shrink-0">
+                                <i class="fa-solid fa-eye-slash text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-lg">Base de Datos Oculta</h4>
+                                <p class="text-slate-400 text-sm leading-relaxed mt-1">Acceso directo a postulaciones confidenciales y búsquedas ejecutivas que jamás se publican en portales públicos de empleo.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Sección de Pago -->
+                    <div class="max-w-md mx-auto relative z-10">
+                        <a href="https://mpago.la/2x8FFAr" target="_blank" class="w-full btn-mercadopago group relative overflow-hidden">
+                            <div class="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] transform skew-x-12 z-0"></div>
+                            <span class="relative z-10 flex items-center gap-3">
+                                <div class="mp-icon">
+                                    <i class="fa-solid fa-handshake"></i>
+                                </div>
+                                Suscribirse con Mercado Pago
+                            </span>
+                        </a>
+                        
+                        <!-- Info Legal de Mercado Pago -->
+                        <div class="text-center mt-6 p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+                            <p class="text-sm text-slate-300 font-semibold flex justify-center items-center gap-2 mb-2">
+                                <i class="fa-solid fa-shield-check text-sky-500"></i> Facturación y Transacción 100% Segura
+                            </p>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                El pago mensual es procesado y encriptado directamente por los servidores de Mercado Pago. Conoce más sobre sus <a href="https://www.mercadopago.com.ar/ayuda/seguridad-en-tus-compras_323" target="_blank" class="text-sky-400 hover:text-sky-300 underline underline-offset-2 transition-colors">políticas de links de pago y checkout seguro aquí</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER EXACTO SOLICITADO -->
+    <footer class="footer-site">
+        <div class="footer-wrapper">
+            <div class="footer-brand-section">
+                <img src="logo.png" alt="CVStudio33" class="footer-logo" onerror="this.style.display='none'">
+                <div class="footer-disclaimer">
+                    <strong>Aviso Legal, Cláusula de Indemnidad y Exención Absoluta de Responsabilidad:</strong>
+                    CVStudio33 opera única y estrictamente como un motor de búsqueda tecnológico y agregador algorítmico de ofertas laborales. 
+                    Toda la información (vacantes, salarios, contratos) es indexada de forma automatizada mediante APIs de terceros y tecnología de rastreo (scraping). 
+                    CVStudio33 y sus representantes legales declinan expresa y totalmente cualquier responsabilidad civil, penal, comercial o laboral sobre la veracidad, legitimidad o disponibilidad de las ofertas listadas. 
+                    No somos agencia de empleo, no garantizamos contrataciones ni representamos a las empresas ofertantes. Al navegar por CVStudio33, usted renuncia irrevocablemente a iniciar cualquier tipo de acción legal, litigio, reclamo de daños o demanda colectiva contra la plataforma por pérdidas financieras, disputas laborales o daños derivados del uso del sitio. Todo acuerdo generado es estricta responsabilidad entre el candidato y el empleador. Todo el código, diseño y algoritmos de IA están protegidos por estrictas leyes de Propiedad Intelectual.
+                </div>
+            </div>
+            <div class="custom-footer-widget">
+                <h4 class="widget-title">Legal & Soporte</h4>
+                <ul>
+                    <li><a href="terminos-y-condiciones.html">Términos y Condiciones</a></li>
+                    <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+                    <li><a href="politica-de-cookies.html">Política de Cookies</a></li>
+                </ul>
+                <div class="support-box">
+                    <p class="lbl">Soporte 24/7</p>
+                    <p class="phone"><i class="fa-solid fa-phone"></i> +1 234 567 890</p>
+                    <p class="email">CvStudio33@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; 2026 CVStudio33 Agencia Profesional. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-cubic'
+        });
+        
+        // Agregar animación Tailwind personalizada para el botón
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        shimmer: {
+                            '100%': { transform: 'translateX(200%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

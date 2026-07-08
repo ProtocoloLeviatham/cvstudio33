@@ -114,10 +114,10 @@
             background: #475569;
         }
 
-        /* FIX: Removido el transform: scale que causaba el texto borroso en el error */
+        /* Se mantiene por si se necesita en otros lugares, pero fue removida del error-box para evitar el desenfoque */
         @keyframes pulseRetry {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.98); }
         }
         .animate-retry {
             animation: pulseRetry 2s infinite ease-in-out;
@@ -132,7 +132,7 @@
     <div id="login-container" class="w-full max-w-md px-4 z-10 relative hidden">
         <div class="glass-panel rounded-2xl p-8 text-center relative overflow-hidden">
             
-            <div id="loading-screen" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center z-50 hidden">
+            <div id="loading-screen" class="absolute inset-0 bg-slate-950/90 backdrop-filter blur-sm flex flex-col items-center justify-center z-50 hidden">
                 <i class="fas fa-circle-notch fa-spin fa-3x text-blue-500 mb-4"></i>
                 <p class="text-sm font-semibold tracking-wide text-slate-200">Autenticando credenciales...</p>
             </div>
@@ -261,9 +261,14 @@
                             </h3>
                             <p class="text-xs text-slate-400 mt-0.5">Analiza tus últimas 33 vacantes visitadas contra la estructura técnica de tu CV PDF y tu GitHub.</p>
                         </div>
-                        <button id="trigger-nyx-btn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs py-3 px-5 rounded-xl transition-all shadow-lg flex items-center gap-2 shrink-0">
-                            <i class="fas fa-bolt"></i> Ejecutar Optimizador Gratis
-                        </button>
+                        <div class="flex flex-col items-end gap-1 shrink-0">
+                            <button id="trigger-nyx-btn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs py-3 px-5 rounded-xl transition-all shadow-lg flex items-center gap-2 w-full justify-center">
+                                <i class="fas fa-bolt"></i> Ejecutar Optimizador Gratis
+                            </button>
+                            <p class="text-[10px] text-amber-500 font-bold flex items-center gap-1 mt-1">
+                                <i class="fas fa-clock"></i> Advertencia: Límite de 1 escaneo cada 30 min.
+                            </p>
+                        </div>
                     </div>
 
                     <div id="nyx-loader" class="hidden flex flex-col items-center justify-center py-12 text-center">
@@ -272,17 +277,34 @@
                         <p class="text-xs text-slate-500 mt-1">Conectando con Motor Core de API NYX (Ultra-Flash-Latest)</p>
                     </div>
 
-                    <div id="nyx-error-box" class="hidden flex flex-col items-center justify-center py-8 text-center bg-red-500/10 border border-red-500/20 rounded-xl p-4 animate-retry">
+                    <div id="nyx-error-box" class="hidden flex flex-col items-center justify-center py-8 text-center bg-red-500/10 border border-red-500/20 rounded-xl p-4">
                         <img src="logo.png" class="h-10 w-auto mb-2 opacity-40 grayscale" onerror="this.style.display='none'">
                         <i class="fas fa-hourglass-half text-red-400 text-xl mb-2"></i>
-                        <h4 class="text-sm font-bold text-red-400 tracking-wide">Vuelve a intentarlo en 30segs</h4>
+                        <h4 class="text-sm font-bold text-red-400 tracking-wide">Ve hacia atrás y vuelve a intentarlo</h4>
                         <p class="text-[11px] text-slate-400 mt-0.5 max-w-xs">El canal de inferencia de la API NYX se encuentra saturado o experimentó un retraso de respuesta de red corporativa.</p>
                     </div>
 
                     <div id="nyx-results-box" class="hidden space-y-4">
                         <div id="nyx-global-feedback"></div>
                         <div class="space-y-2.5" id="nyx-cards-container"></div>
-                        <div id="nyx-entrevista-container" class="mt-6 space-y-4 w-full"></div>
+                        
+                        <div id="interview-section" class="mt-8 bg-slate-900/60 border border-blue-500/30 rounded-xl p-5 shadow-lg hidden">
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fas fa-comments text-blue-400"></i> Simulación de Entrevista Técnica</h4>
+                            <p class="text-xs text-slate-400 mb-5">Responde estas 10 preguntas generadas en base a tus perfiles encontrados para que la IA realice un análisis de nivel:</p>
+                            <div id="interview-questions-container" class="space-y-4 mb-5"></div>
+                            
+                            <button id="submit-interview-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-lg border border-blue-500 transition-colors flex justify-center items-center gap-2">
+                                <i class="fas fa-robot"></i> Analizar Respuestas Estrictamente
+                            </button>
+                            
+                            <div id="interview-loader" class="hidden flex flex-col items-center justify-center py-6 text-center">
+                                <div class="w-8 h-8 border-2 border-t-blue-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin mb-3"></div>
+                                <p class="text-xs font-semibold text-slate-300">Evaluando respuestas con rigor técnico...</p>
+                            </div>
+                            
+                            <div id="interview-feedback-container" class="hidden mt-6 space-y-3"></div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -343,7 +365,7 @@
         </div>
     </div>
 
-    <div id="warning-modal" class="fixed inset-0 bg-slate-950/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 hidden">
+    <div id="warning-modal" class="fixed inset-0 bg-slate-950/90 backdrop-filter blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 hidden">
         <div class="glass-panel max-w-sm w-full mx-4 rounded-2xl p-6 text-center border border-red-500/20">
             <div class="w-14 h-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -358,7 +380,7 @@
         </div>
     </div>
 
-    <div id="cv-warning-modal" class="fixed inset-0 bg-slate-950/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 hidden">
+    <div id="cv-warning-modal" class="fixed inset-0 bg-slate-950/90 backdrop-filter blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 hidden">
         <div class="glass-panel max-w-sm w-full mx-4 rounded-2xl p-6 text-center border border-red-500/20">
             <div class="w-14 h-14 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
                 <i class="fas fa-file-pdf"></i>
@@ -422,7 +444,6 @@
         const nyxResultsBox = document.getElementById('nyx-results-box');
         const nyxGlobalFeedback = document.getElementById('nyx-global-feedback');
         const nyxCardsContainer = document.getElementById('nyx-cards-container');
-        const nyxEntrevistaContainer = document.getElementById('nyx-entrevista-container');
 
         const warningModal = document.getElementById('warning-modal');
         const modalCurrentCount = document.getElementById('modal-current-count');
@@ -453,31 +474,14 @@
         const hourResults = document.getElementById('hour-results');
         const hourValueDisplay = document.getElementById('hour-value-display');
 
-        // Variables Críticas (MODIFICACIÓN: Agregado de isCvProcessing para evitar bugs de inicio rápido)
+        // Variables Críticas
         let isCvUploaded = false; // FLAG BLOQUEO IA SIN CV
-        let isCvProcessing = false; // FLAG PARA EVITAR CRASH AL CLICAR ANTES DE EXTRAER
         let contenidoTextoCV = "";
+        let currentInterviewQuestions = []; // Almacenaje de las 10 preguntas
 
-        // Memoria de simulación de postulaciones visitadas
+        // Memoria de simulación de postulaciones visitadas (Ahora arranca vacío según petición)
         function initMockInteractions() {
             let recientes = JSON.parse(localStorage.getItem('recientes')) || [];
-            if(recientes.length < 35) {
-                const puestos = ['Desarrollador React', 'Backend Node.js', 'Analista Cloud', 'DevOps Engineer', 'Data Scientist', 'Soporte Técnico IT', 'Diseñador UI/UX Senior', 'Programador Fullstack'];
-                const empresas = ['Tech Global Solutions', 'Fintech CONFIDENCIAL', 'Mercado Libre', 'Globant', 'Crypto Core Lab', 'Studio Orion 33', 'CVStudio33 Corp'];
-                const ubicaciones = ['Buenos Aires, AR', 'Remoto 100%', 'Córdoba, AR', 'Rosario, AR'];
-                
-                while(recientes.length < 35) {
-                    recientes.push({
-                        title: puestos[Math.floor(Math.random() * puestos.length)],
-                        company: empresas[Math.floor(Math.random() * empresas.length)],
-                        location: ubicaciones[Math.floor(Math.random() * ubicaciones.length)],
-                        date: new Date(Date.now() - Math.random() * 1000000000).toLocaleDateString(),
-                        snippet: "Requerimientos avanzados de programación estructurada, control de bases de datos y desarrollo ágil en microservicios.",
-                        link: "#"
-                    });
-                }
-                localStorage.setItem('recientes', JSON.stringify(recientes));
-            }
             return recientes;
         }
 
@@ -521,11 +525,11 @@
                         alert("La cuenta de GitHub existe, pero no tiene repositorios públicos.");
                     }
                 } else {
-                    alert("Usuario de GitHub no encontrado. Verifica que esté bien escrito.");
+                    alert("Usuario de GitHub no encontrado. Ve hacia atrás y vuelve a intentarlo.");
                 }
             } catch(e) {
                 console.error(e);
-                alert("Error de conexión al buscar en GitHub.");
+                alert("Error de conexión al buscar en GitHub. Ve hacia atrás y vuelve a intentarlo.");
             }
             githubSyncBtn.innerText = "Vincular";
         });
@@ -654,13 +658,11 @@
         // =======================================================
         async function procesarArchivoCV(file) {
             if (file.type !== "application/pdf") {
-                alert("El sistema de la API NYX requiere estrictamente archivos en formato PDF para el escaneo de competencias.");
+                alert("El sistema de la API NYX requiere estrictamente archivos en formato PDF para el escaneo de competencias. Ve hacia atrás y vuelve a intentarlo.");
                 return;
             }
 
-            // FIX: Indicamos que está procesando
-            isCvProcessing = true;
-            cvNameDisplay.innerText = "Extrayendo datos de PDF... (Espera por favor)";
+            cvNameDisplay.innerText = "Procesando con API NYX...";
             cvStatus.classList.remove('hidden');
             cvTextPreviewBox.classList.add('hidden');
             
@@ -703,28 +705,21 @@
                         const textoExtraido = resData.candidates[0].content.parts[0].text;
 
                         isCvUploaded = true;
-                        isCvProcessing = false; // Liberamos el proceso
                         contenidoTextoCV = textoExtraido;
-                        cvNameDisplay.innerText = file.name + " (Escaneado Correctamente)";
+                        cvNameDisplay.innerText = file.name;
                         
-                        localStorage.setItem('cv_name_cv33', file.name + " (Escaneado Correctamente)");
+                        localStorage.setItem('cv_name_cv33', file.name);
                         localStorage.setItem('cv_text_cv33', textoExtraido);
                         cvTextPreviewBox.innerText = textoExtraido;
                         console.log("Llamado 1 completado: Texto de CV indexado mediante API NYX.");
                     } catch (err) {
-                        isCvProcessing = false;
                         console.error(err);
                         cvNameDisplay.innerText = "Error de Servidor";
-                        alert("La API NYX experimentó un retraso al extraer tu PDF. Vuelve a intentarlo en 30segs.");
+                        alert("La API NYX experimentó un retraso al extraer tu PDF. Ve hacia atrás y vuelve a intentarlo.");
                     }
-                };
-                reader.onerror = () => {
-                    isCvProcessing = false;
-                    cvNameDisplay.innerText = "Error local al leer archivo";
                 };
                 reader.readAsDataURL(file);
             } catch(error) {
-                isCvProcessing = false;
                 console.error("Error al procesar el archivo", error);
                 cvNameDisplay.innerText = "Error de Lectura";
             }
@@ -759,12 +754,20 @@
         // =======================================================
         // LLAMADO 2: PROCESAMIENTO SEMÁNTICO DE INFERENCIA FINAL
         // =======================================================
-        triggerNyxBtn.addEventListener('click', async () => {
+        
+        const LAST_SCAN_KEY = 'last_nyx_scan_time';
+        const SCAN_COOLDOWN = 30 * 60 * 1000; // 30 minutos
 
-            // FIX: Evita que el usuario llame a la IA si el PDF aún se está extrayendo (Llamado 1 en proceso)
-            if (isCvProcessing) {
-                alert("⏳ El motor NYX aún está leyendo tu PDF. Espera un momento a que termine la extracción de texto.");
-                return;
+        triggerNyxBtn.addEventListener('click', async () => {
+            // VERIFICACIÓN DEL CRONÓMETRO DE 30 MINUTOS
+            const lastScan = localStorage.getItem(LAST_SCAN_KEY);
+            if (lastScan) {
+                const timePassed = Date.now() - parseInt(lastScan);
+                if (timePassed < SCAN_COOLDOWN) {
+                    const timeLeft = Math.ceil((SCAN_COOLDOWN - timePassed) / 60000);
+                    alert(`Debes esperar ${timeLeft} minutos para realizar otro escaneo. Ve hacia atrás y vuelve a intentarlo luego.`);
+                    return;
+                }
             }
 
             // REGLA CRÍTICA: BLOQUEAR ACCESO SI NO HAY CV CARGADO U OBLIGATORIO
@@ -786,22 +789,9 @@
                 return;
             }
 
-            // FEATURE CRÍTICA: Control de uso masivo (Cooldown 30 minutos)
-            const lastScan = localStorage.getItem('last_nyx_scan_time');
-            if (lastScan) {
-                const now = Date.now();
-                const diff = now - parseInt(lastScan);
-                if (diff < 30 * 60 * 1000) {
-                    const minsLeft = Math.ceil((30 * 60 * 1000 - diff) / 60000);
-                    alert(`⚠️ ADVERTENCIA: Para evitar la saturación y el uso masivo, el escaneo de optimización está limitado a 1 vez cada 30 minutos. \n\nTiempo restante: ${minsLeft} minuto(s).`);
-                    return;
-                }
-            }
-
             triggerNyxBtn.classList.add('hidden');
             nyxResultsBox.classList.add('hidden');
             nyxErrorBox.classList.add('hidden');
-            nyxEntrevistaContainer.innerHTML = ''; // Limpiamos contenedor de preguntas
             nyxLoader.classList.remove('hidden');
 
             try {
@@ -826,7 +816,7 @@
                 const currentUserData = JSON.parse(localStorage.getItem('cvstudio33_user')) || {};
                 const userNameForAI = currentUserData.displayName || "Usuario";
 
-                // MEJORA DEL PROMPT SYSTEM: EXTRACTO OBLIGATORIO Y 10 PREGUNTAS DE ENTREVISTA AÑADIDAS
+                // MEJORA DEL PROMPT SYSTEM: SE AGREGA LA SOLICITUD DE LAS 10 PREGUNTAS
                 const promptEstructural = `
                     Actúa como el núcleo de inteligencia predictiva "API NYX", un avanzado motor algorítmico de inferencia semántica, matching y headhunting de la marca CVStudio33.
                     Tu objetivo es estructurar un análisis de compatibilidad técnica de alta fidelidad basado en los perfiles curriculares reales extraídos del PDF del usuario en el Llamado 1.
@@ -847,7 +837,7 @@
                     2. Extrae las cualidades fuertes (Fortalezas) REALES encontradas en el texto de su CV.
                     3. Extrae las áreas vulnerables o habilidades técnicas faltantes (Debilidades) del perfil que las empresas buscan.
                     4. Genera consejos tácticos para gestionar mejor el CV.
-                    5. IMPRESCINDIBLE: Genera exactamente 10 preguntas de entrevista técnica y/o de comportamiento corporativo que le harían a este candidato basándote específicamente en su match y fortalezas/debilidades.
+                    5. Genera exactamente 10 preguntas de entrevista técnica corporativa y de alto nivel que podrían hacerle al usuario basándote en los "topMatches" obtenidos. Devuélvelas en la clave "preguntasEntrevista" (array de strings).
                     6. Devuelve la respuesta ESTRICTAMENTE en formato JSON plano estructurado válido, SIN usar bloques de código Markdown ni backticks de ningún tipo, respetando exactamente este esquema:
                     
                     {
@@ -855,6 +845,7 @@
                         "fortalezas": ["Cualidad fuerte detectada 1", "Cualidad fuerte 2..."],
                         "debilidades": ["Área débil técnica 1", "Área débil técnica 2..."],
                         "datosExtra": "Estrategia para gestionar mejor el posicionamiento curricular...",
+                        "preguntasEntrevista": ["Pregunta 1", "Pregunta 2", "Pregunta 3", "Pregunta 4", "Pregunta 5", "Pregunta 6", "Pregunta 7", "Pregunta 8", "Pregunta 9", "Pregunta 10"],
                         "topMatches": [
                             {
                                 "puesto": "Nombre del puesto seleccionado",
@@ -863,10 +854,6 @@
                                 "razon": "Justificación técnica objetiva del nivel de ajuste basada en el CV.",
                                 "link": "El enlace de redirección correspondiente provisto en la lista"
                             }
-                        ],
-                        "preguntasEntrevista": [
-                            "Pregunta 1...", "Pregunta 2...", "Pregunta 3...", "Pregunta 4...", "Pregunta 5...", 
-                            "Pregunta 6...", "Pregunta 7...", "Pregunta 8...", "Pregunta 9...", "Pregunta 10..."
                         ]
                     }
                 `;
@@ -884,6 +871,9 @@
 
                 if(!response.ok) throw new Error("Error de Gateway o canal saturado.");
                 
+                // Actualizar registro de uso exitoso
+                localStorage.setItem(LAST_SCAN_KEY, Date.now());
+
                 const resData = await response.json();
                 const textoPlanoJson = resData.candidates[0].content.parts[0].text;
                 const parsedResult = JSON.parse(textoPlanoJson);
@@ -929,10 +919,10 @@
                         </a>
                     </div>
 
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-2 mt-4"><i class="fas fa-star text-amber-400"></i> Tus Top Matches (Clic para redirigir):</h4>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-2 mt-4"><i class="fas fa-star text-amber-400"></i> Tus Top 5 Postulaciones Ideales (Clic para redirigir):</h4>
                 `;
 
-                // Inyección del Top Matches
+                // Inyección del Top 5 Matches habilitando la redirección al Link original guardado
                 nyxCardsContainer.innerHTML = '';
                 parsedResult.topMatches.slice(0, 5).forEach((match) => {
                     const block = document.createElement('a');
@@ -953,125 +943,24 @@
                     nyxCardsContainer.appendChild(block);
                 });
 
-                // Inyección de Interfaz de Entrevista y Llamado 3 para Corrección Estricta
-                nyxEntrevistaContainer.innerHTML = `
-                    <div class="glass-panel rounded-2xl p-6 border border-blue-500/30">
-                        <h4 class="text-lg font-bold text-white uppercase tracking-wider mb-2"><i class="fas fa-microphone-alt text-blue-400"></i> Simulador de Entrevista API NYX (10 Preguntas)</h4>
-                        <p class="text-xs text-slate-400 mb-6">Responde estas 10 preguntas generadas específicamente para ti según tu CV y tus Matches. Al finalizar, el motor evaluará y corregirá <strong>estrictamente</strong> tus respuestas.</p>
-                        <div class="space-y-4">
-                            ${parsedResult.preguntasEntrevista.map((q, i) => `
-                                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700">
-                                    <p class="text-sm font-semibold text-blue-300 mb-3"><span class="text-blue-500 font-bold">Pregunta ${i+1}:</span> ${q}</p>
-                                    <textarea id="ans-${i}" class="w-full bg-slate-950/80 border border-slate-700 rounded-lg p-3 text-xs text-white outline-none focus:border-blue-500 transition-colors custom-scrollbar" rows="3" placeholder="Escribe tu respuesta técnica aquí..."></textarea>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <button id="btn-evaluar-entrevista" class="mt-6 w-full bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-500 hover:to-purple-500 text-white font-bold text-sm py-3 px-5 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
-                            <i class="fas fa-gavel"></i> Analizar y Corregir Respuestas (Modo Estricto)
-                        </button>
-                        <div id="evaluacion-loader" class="hidden mt-6 flex flex-col items-center justify-center">
-                            <div class="w-8 h-8 border-4 border-t-red-500 border-r-purple-500 border-b-slate-800 border-l-slate-800 rounded-full animate-spin mb-2"></div>
-                            <p class="text-xs font-semibold text-slate-300">El reclutador IA está aplicando análisis estricto...</p>
-                        </div>
-                        <div id="evaluacion-resultados" class="hidden mt-6 space-y-4"></div>
-                    </div>
-                `;
-
-                // Controlador para el Botón de Evaluar (Llamado 3)
-                document.getElementById('btn-evaluar-entrevista').addEventListener('click', async () => {
-                    const btnEval = document.getElementById('btn-evaluar-entrevista');
-                    const loaderEval = document.getElementById('evaluacion-loader');
-                    const resultadosEval = document.getElementById('evaluacion-resultados');
+                // Inyectar y mostrar preguntas de entrevista generadas
+                if (parsedResult.preguntasEntrevista && parsedResult.preguntasEntrevista.length > 0) {
+                    currentInterviewQuestions = parsedResult.preguntasEntrevista;
+                    const intContainer = document.getElementById('interview-questions-container');
+                    intContainer.innerHTML = '';
                     
-                    const respuestasEnviadas = [];
-                    let faltanRespuestas = false;
-                    for(let i = 0; i < 10; i++) {
-                        const ansText = document.getElementById(`ans-${i}`).value.trim();
-                        if(!ansText) faltanRespuestas = true;
-                        respuestasEnviadas.push({ 
-                            pregunta: parsedResult.preguntasEntrevista[i], 
-                            respuestaUsuario: ansText || "EL CANDIDATO SE QUEDÓ EN SILENCIO (NO RESPONDIÓ)" 
-                        });
-                    }
-
-                    if(faltanRespuestas) {
-                        if(!confirm("Hay preguntas sin responder. Las preguntas vacías serán evaluadas como una falta profesional grave. ¿Deseas enviar el examen de todos modos?")) {
-                            return;
-                        }
-                    }
-
-                    btnEval.classList.add('hidden');
-                    loaderEval.classList.remove('hidden');
-                    resultadosEval.classList.add('hidden');
-
-                    const promptEvaluacion = `
-                        Actúa como un Reclutador Técnico Senior y Evaluador de Talento EXTREMADAMENTE ESTRICTO y severo de CVStudio33.
-                        El usuario ha completado un simulacro de entrevista de 10 preguntas.
-                        Aquí están las preguntas que se le hicieron y sus respectivas respuestas:
-                        ${JSON.stringify(respuestasEnviadas)}
-
-                        Analiza cada respuesta con ojo muy crítico. Señala la falta de terminología técnica, respuestas vagas, falta de estructura y errores. Sé muy severo en tus críticas para preparar al usuario para lo peor.
-                        Devuelve ÚNICAMENTE un JSON con esta estructura exacta (sin markdown, sin backticks de código):
-                        {
-                            "evaluacionGlobal": "Tu comentario general, directo y estricto sobre el desempeño total de la entrevista...",
-                            "detalles": [
-                                {
-                                    "pregunta": "...",
-                                    "veredicto": "APROBADO / REGULAR / REPROBADO",
-                                    "criticaEstricta": "Tu corrección detallada, severa y profesional sobre qué hizo mal y cómo se debió responder..."
-                                }
-                            ]
-                        }
-                    `;
-
-                    try {
-                        const evalEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`;
-                        const evalResponse = await fetch(evalEndpoint, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                contents: [{ parts: [{ text: promptEvaluacion }] }],
-                                generationConfig: { responseMimeType: "application/json" }
-                            })
-                        });
-
-                        if(!evalResponse.ok) throw new Error("Error en la evaluación de la entrevista.");
-                        
-                        const evalResData = await evalResponse.json();
-                        const evalTextoJson = evalResData.candidates[0].content.parts[0].text;
-                        const evalJson = JSON.parse(evalTextoJson);
-
-                        resultadosEval.innerHTML = `
-                            <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5 mb-4">
-                                <h5 class="text-sm font-bold text-red-400 mb-2"><i class="fas fa-clipboard-check"></i> Veredicto Global del Reclutador:</h5>
-                                <p class="text-xs text-slate-300 leading-relaxed">${evalJson.evaluacionGlobal}</p>
-                            </div>
-                            <div class="space-y-4">
-                                ${evalJson.detalles.map((d, i) => `
-                                    <div class="bg-slate-900/80 border ${d.veredicto.toUpperCase().includes('APROBADO') ? 'border-emerald-500/30' : (d.veredicto.toUpperCase().includes('REGULAR') ? 'border-yellow-500/30' : 'border-red-500/30')} p-4 rounded-xl">
-                                        <p class="text-[11px] text-slate-400 mb-1"><strong>Pregunta ${i+1}:</strong> ${d.pregunta}</p>
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded ${d.veredicto.toUpperCase().includes('APROBADO') ? 'bg-emerald-500/20 text-emerald-400' : (d.veredicto.toUpperCase().includes('REGULAR') ? 'bg-yellow-500/20 text-yellow-400' : 'bg-red-500/20 text-red-400')}">${d.veredicto}</span>
-                                        </div>
-                                        <p class="text-xs text-slate-300"><strong class="text-white">Crítica del Reclutador:</strong> ${d.criticaEstricta}</p>
-                                    </div>
-                                `).join('')}
+                    currentInterviewQuestions.forEach((q, idx) => {
+                        intContainer.innerHTML += `
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold text-slate-300">Q${idx + 1}. ${q}</label>
+                                <textarea class="interview-answer w-full bg-slate-950/80 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-blue-500 transition-colors min-h-[60px]" placeholder="Escribe tu respuesta técnica aquí..."></textarea>
                             </div>
                         `;
+                    });
+                    
+                    document.getElementById('interview-section').classList.remove('hidden');
+                }
 
-                        loaderEval.classList.add('hidden');
-                        resultadosEval.classList.remove('hidden');
-
-                    } catch(e) {
-                        console.error(e);
-                        alert("Hubo un error al procesar el análisis estricto. Vuelve a intentarlo.");
-                        loaderEval.classList.add('hidden');
-                        btnEval.classList.remove('hidden');
-                    }
-                });
-
-                // FINALIZÓ CORRECTAMENTE NYX
-                localStorage.setItem('last_nyx_scan_time', Date.now()); // Registramos el tiempo para el cooldown de 30 mins
                 nyxLoader.classList.add('hidden');
                 nyxResultsBox.classList.remove('hidden');
                 triggerNyxBtn.classList.remove('hidden');
@@ -1080,10 +969,111 @@
                 console.error(err);
                 nyxLoader.classList.add('hidden');
                 triggerNyxBtn.classList.remove('hidden');
+                // MENSAJE ANIMADO EXIGIDO POR FALLA DE IA - TEXTO MODIFICADO
                 nyxErrorBox.classList.remove('hidden');
+            }
+        });
+
+        // =======================================================
+        // LLAMADO 3 (PLUS): ANÁLISIS ESTRICTO DE RESPUESTAS A ENTREVISTA
+        // =======================================================
+        document.getElementById('submit-interview-btn').addEventListener('click', async () => {
+            const answerNodes = document.querySelectorAll('.interview-answer');
+            const answers = Array.from(answerNodes).map(ta => ta.value.trim());
+
+            if(answers.some(a => a === "")) {
+                alert("Por favor, responde a todas las 10 preguntas antes de analizar. Ve hacia atrás y vuelve a intentarlo.");
+                return;
+            }
+
+            document.getElementById('submit-interview-btn').classList.add('hidden');
+            document.getElementById('interview-loader').classList.remove('hidden');
+            document.getElementById('interview-feedback-container').classList.add('hidden');
+
+            const qaText = currentInterviewQuestions.map((q, i) => `Pregunta: ${q}\nRespuesta del usuario: ${answers[i]}`).join('\n\n');
+
+            const promptEntrevista = `
+                Actúa como un reclutador técnico senior y arquitecto de software implacable. Analiza las siguientes respuestas que el candidato dio a 10 preguntas de entrevista.
+                Corrige estrictamente los errores, evalúa la precisión técnica, y sugiere mejoras obligatorias para cada una.
+                Devuelve la respuesta ESTRICTAMENTE en formato JSON plano estructurado válido, SIN usar bloques de código Markdown ni backticks, respetando este esquema exacto:
+                {
+                    "evaluaciones": [
+                        {
+                            "pregunta": "...",
+                            "correccion": "Corrección y análisis estricto de la respuesta",
+                            "puntaje": 8
+                        }
+                    ],
+                    "feedbackFinal": "Conclusión estricta del nivel técnico del candidato."
+                }
+
+                DATOS DE LA ENTREVISTA:
+                ${qaText}
+            `;
+
+            try {
+                // Obtención de Key (misma lógica que LLamado 2)
+                const docRef = doc(db, "config", "ID33");
+                const docSnap = await getDoc(docRef);
+                let geminiApiKey = "";
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    geminiApiKey = data.key8 || data.key9 || data.key10;
+                }
+                if(!geminiApiKey || geminiApiKey.trim() === "") {
+                    geminiApiKey = "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728"; 
+                }
+
+                const apiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`;
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptEntrevista }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if(!response.ok) throw new Error("Error al evaluar respuestas");
+
+                const resData = await response.json();
+                const evalJson = JSON.parse(resData.candidates[0].content.parts[0].text);
+
+                // Render del feedback en UI
+                const fbContainer = document.getElementById('interview-feedback-container');
+                fbContainer.innerHTML = `
+                    <div class="bg-blue-900/40 border border-blue-500/40 p-3 rounded-lg mb-4">
+                        <p class="text-xs text-white font-bold mb-1"><i class="fas fa-gavel"></i> Veredicto Final de IA:</p>
+                        <p class="text-[11px] text-slate-300 leading-relaxed">${evalJson.feedbackFinal}</p>
+                    </div>
+                `;
+
+                evalJson.evaluaciones.forEach((ev, i) => {
+                    fbContainer.innerHTML += `
+                        <div class="bg-slate-900/80 border border-slate-700 p-3 rounded-lg mt-2">
+                            <p class="text-[10px] font-bold text-slate-400 mb-1">Q${i+1}: ${ev.pregunta}</p>
+                            <p class="text-[11px] text-slate-300 mb-1"><span class="text-purple-400 font-bold">Corrección/Análisis:</span> ${ev.correccion}</p>
+                            <p class="text-[10px] font-bold ${ev.puntaje >= 7 ? 'text-emerald-400' : 'text-red-400'}">Puntaje: ${ev.puntaje}/10</p>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('interview-loader').classList.add('hidden');
+                fbContainer.classList.remove('hidden');
+                
+                const btnSubmit = document.getElementById('submit-interview-btn');
+                btnSubmit.classList.remove('hidden');
+                btnSubmit.innerHTML = `<i class="fas fa-redo"></i> Reevaluar Nuevas Respuestas`;
+
+            } catch(e) {
+                console.error(e);
+                alert("Hubo un error al procesar tu entrevista técnica. Ve hacia atrás y vuelve a intentarlo.");
+                document.getElementById('interview-loader').classList.add('hidden');
+                document.getElementById('submit-interview-btn').classList.remove('hidden');
             }
         });
     </script>
 
 </body>
 </html>
+

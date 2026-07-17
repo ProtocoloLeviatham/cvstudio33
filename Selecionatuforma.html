@@ -30,9 +30,11 @@
                         heading: ['Montserrat', 'sans-serif'],
                     },
                     animation: {
-                        'blob': 'blob 10s infinite', /* Más suave */
-                        'gradient-xy': 'gradient-xy 20s ease infinite', /* Más fluido */
+                        'blob': 'blob 10s infinite', 
+                        'gradient-xy': 'gradient-xy 20s ease infinite', 
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'spin-slow-reverse': 'spin 6s linear infinite reverse',
                     },
                     keyframes: {
                         blob: {
@@ -60,7 +62,7 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #0f172a; /* Fondo base oscuro */
+            background-color: #0f172a; 
             color: white;
             overflow-x: hidden;
         }
@@ -69,7 +71,6 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* Slidebar Personalizada (Igual a la página principal) */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -84,7 +85,6 @@
             background: #2563eb;
         }
 
-        /* Fondo Animado Mejorado con Textura */
         .bg-animated-mesh {
             background: linear-gradient(-45deg, #020617, #1e1b4b, #0f172a, #312e81, #000000);
             background-size: 400% 400%;
@@ -97,7 +97,6 @@
             z-index: -2;
         }
         
-        /* Capa de ruido para textura profesional */
         .bg-texture {
             position: fixed;
             top: 0;
@@ -109,7 +108,6 @@
             pointer-events: none;
         }
 
-        /* Glassmorphism Cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -121,29 +119,177 @@
 
         .glass-card:hover {
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.5); /* Borde azul al hover */
+            border: 1px solid rgba(59, 130, 246, 0.5); 
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
-        /* Efecto NYX especial */
         .nyx-card {
             background: linear-gradient(145deg, rgba(168, 85, 247, 0.05), rgba(0,0,0,0));
         }
         .nyx-card:hover {
-            border: 1px solid rgba(168, 85, 247, 0.8); /* Borde violeta IA más fuerte */
+            border: 1px solid rgba(168, 85, 247, 0.8); 
             box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
         }
 
-        /* Navbar Glass */
         .nav-glass {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+
+        /* =========================================
+           ANIMACIONES PREMIUM PARA EL MODAL
+           ========================================= */
+        @keyframes modalEnter {
+            0% { opacity: 0; transform: scale(0.95) translateY(30px) perspective(1000px) rotateX(5deg); }
+            100% { opacity: 1; transform: scale(1) translateY(0) perspective(1000px) rotateX(0deg); }
+        }
+        @keyframes itemFadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes progressLaser {
+            0% { width: 100%; box-shadow: 0 0 20px rgba(99,102,241,1); }
+            100% { width: 0%; box-shadow: 0 0 5px rgba(99,102,241,0.2); }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(200%); opacity: 0; }
+        }
+
+        .modal-animate-in {
+            animation: modalEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Sistema de retraso en cascada para contenido interno */
+        .stagger-1 { opacity: 0; animation: itemFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s; }
+        .stagger-2 { opacity: 0; animation: itemFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s; }
+        .stagger-3 { opacity: 0; animation: itemFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s; }
+        .stagger-4 { opacity: 0; animation: itemFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s; }
+
+        .timer-laser {
+            animation: progressLaser 10s linear forwards;
+        }
+        .modal-overlay {
+            transition: opacity 0.5s ease-out, backdrop-filter 0.5s ease-out;
+        }
+        
+        /* Efectos de escaneo en las tarjetas */
+        .card-scanner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.8), transparent);
+            animation: scanline 3s linear infinite;
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen text-gray-100">
+
+    <!-- =========================================
+         MODAL DE CALIBRACIÓN PREMIUM
+         ========================================= -->
+    <div id="tutorialModal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-xl px-4">
+        
+        <!-- Orbes de luz de fondo para dar profundidad 3D al modal -->
+        <div class="absolute w-[40vw] h-[40vw] bg-blue-600/10 rounded-full blur-[120px] animate-pulse pointer-events-none"></div>
+        <div class="absolute w-[30vw] h-[30vw] bg-purple-600/10 rounded-full blur-[100px] animate-pulse pointer-events-none right-10 bottom-10"></div>
+
+        <div class="modal-animate-in relative w-full max-w-4xl max-h-[95vh] overflow-y-auto rounded-2xl bg-[#0b1120]/95 border border-white/10 shadow-[0_0_80px_rgba(59,130,246,0.15)] overflow-hidden">
+            
+            <!-- Línea de luz dinámica superior -->
+            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-70 animate-pulse"></div>
+
+            <!-- Botón de Cerrar Manual -->
+            <button onclick="closeTutorialModal()" class="absolute top-5 right-5 text-gray-500 hover:text-white transition-all duration-500 z-20 w-10 h-10 flex items-center justify-center bg-white/5 rounded-full hover:bg-red-500/20 hover:rotate-90 hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] border border-transparent hover:border-red-500/50">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="p-8 md:p-12 relative z-10">
+                <!-- Encabezado del Modal -->
+                <div class="text-center mb-10 stagger-1">
+                    <!-- Icono animado corporativo -->
+                    <div class="relative w-24 h-24 mx-auto flex items-center justify-center mb-6">
+                        <div class="absolute inset-0 border border-blue-500/20 rounded-full animate-spin-slow border-t-blue-500/80 shadow-[0_0_15px_rgba(59,130,246,0.3)]"></div>
+                        <div class="absolute inset-2 border border-purple-500/20 rounded-full animate-spin-slow-reverse border-b-purple-500/80"></div>
+                        <div class="absolute inset-4 border border-indigo-500/20 rounded-full animate-pulse border-r-indigo-500/80"></div>
+                        <i class="fa-solid fa-microchip text-3xl text-transparent bg-clip-text bg-gradient-to-tr from-blue-400 to-purple-400"></i>
+                    </div>
+                    
+                    <span class="text-blue-400 font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs mb-3 block">Protocolo de Optimización</span>
+                    <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-white mb-4">Calibración de Entorno</h2>
+                    <p class="text-gray-400 text-sm md:text-base font-light max-w-2xl mx-auto leading-relaxed">
+                        Para garantizar una precisión milimétrica en el constructor y evitar distorsiones en el motor de renderizado, nuestro sistema requiere las siguientes especificaciones visuales:
+                    </p>
+                </div>
+
+                <!-- Pasos del Tutorial (Tarjetas Profesionales) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 stagger-2">
+                    
+                    <!-- Tarjeta Móvil Premium -->
+                    <div class="card-scanner bg-gradient-to-b from-gray-900/80 to-black/60 rounded-xl p-8 border border-gray-700/50 flex flex-col items-center text-center relative overflow-hidden group hover:border-purple-500/60 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(168,85,247,0.15)]">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-purple-600/20 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        
+                        <div class="relative z-10 mb-6 group-hover:-translate-y-2 transition-transform duration-500">
+                            <i class="fa-solid fa-mobile-screen text-5xl text-gray-600 group-hover:text-purple-400 transition-colors duration-500"></i>
+                            <div class="absolute -right-2 -bottom-2 bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(168,85,247,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">REQ</div>
+                        </div>
+                        
+                        <h3 class="text-white font-bold mb-3 font-heading text-lg">Dispositivos Móviles</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Accede al menú de tu navegador y activa rigurosamente el parámetro de escritorio.
+                        </p>
+                        <div class="mt-auto px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-lg text-purple-300 font-semibold text-sm w-full flex items-center justify-center gap-2 group-hover:bg-purple-500/20 transition-colors">
+                            <i class="fa-solid fa-toggle-on"></i> "Sitio de Escritorio"
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta PC Premium -->
+                    <div class="card-scanner bg-gradient-to-b from-gray-900/80 to-black/60 rounded-xl p-8 border border-gray-700/50 flex flex-col items-center text-center relative overflow-hidden group hover:border-blue-500/60 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(59,130,246,0.15)]">
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-600/20 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        
+                        <div class="relative z-10 mb-6 group-hover:-translate-y-2 transition-transform duration-500">
+                            <i class="fa-solid fa-display text-5xl text-gray-600 group-hover:text-blue-400 transition-colors duration-500"></i>
+                            <div class="absolute -right-2 -bottom-2 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(59,130,246,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">80%</div>
+                        </div>
+                        
+                        <h3 class="text-white font-bold mb-3 font-heading text-lg">Estaciones de Trabajo</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Aleja la escala de la pantalla para encuadrar la mesa de trabajo completa.
+                        </p>
+                        <div class="mt-auto px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-lg text-blue-300 font-semibold text-sm w-full flex items-center justify-center gap-2 group-hover:bg-blue-500/20 transition-colors">
+                            <i class="fa-solid fa-magnifying-glass-minus"></i> Reducir Zoom a 80%
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Botón y Contador de Tiempo -->
+                <div class="stagger-3 max-w-md mx-auto">
+                    <button onclick="closeTutorialModal()" class="w-full py-4 bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 rounded-xl text-white font-bold font-heading shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_40px_rgba(99,102,241,0.6)] transition-all transform hover:-translate-y-1 mb-6 flex items-center justify-center gap-3 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                        <span class="relative z-10">Confirmar Calibración</span>
+                        <i class="fa-solid fa-check-double relative z-10"></i>
+                    </button>
+
+                    <div class="flex items-center justify-center gap-3 text-gray-500 text-xs font-mono tracking-widest uppercase bg-black/40 py-2 px-4 rounded-full border border-white/5">
+                        <i class="fa-regular fa-clock animate-pulse"></i>
+                        <span>Auto-cierre del protocolo en: <span id="modalTimerCount" class="text-blue-400 font-bold ml-1 text-sm">10.0</span>s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra Láser de progreso inferior -->
+            <div class="absolute bottom-0 right-0 h-[3px] bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 timer-laser z-20"></div>
+        </div>
+    </div>
+    <!-- FIN DEL MODAL DE OPTIMIZACIÓN -->
 
     <!-- FONDO ANIMADO Y TEXTURA -->
     <div class="bg-animated-mesh"></div>
@@ -210,7 +356,7 @@
                 </a>
 
                 <!-- OPCIÓN 2: VER PLANTILLAS -->
-                <a href="información.html" class="block group h-full transform transition duration-500">
+                <a href="https://protocololeviatham.github.io/cvstudio33/biblioteca-de-plantillas.html" class="block group h-full transform transition duration-500">
                     <div class="glass-card rounded-2xl p-8 h-full flex flex-col items-center text-center relative overflow-hidden">
                         <div class="w-24 h-24 bg-gradient-to-br from-green-900/50 to-green-600/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition duration-500 border border-green-500/20">
                             <i class="fa-solid fa-layer-group text-4xl text-green-400"></i>
@@ -255,6 +401,44 @@
         </p>
     </footer>
 
-</body>
+    <!-- SCRIPT DEL MODAL TUTORIAL AVANZADO -->
+    <script>
+        const tutorialModal = document.getElementById('tutorialModal');
+        const timerCountSpan = document.getElementById('modalTimerCount');
+        let timeLeft = 10.0; // Cambiado a decimal para mayor percepción visual de precisión corporativa
+        let countdownInterval;
 
+        function closeTutorialModal() {
+            // Aplicar transición de desvanecimiento suave
+            tutorialModal.style.opacity = '0';
+            tutorialModal.style.backdropFilter = 'blur(0px)';
+            // Detener el temporizador
+            clearInterval(countdownInterval);
+            // Ocultar del DOM después de que termine la animación
+            setTimeout(() => {
+                tutorialModal.style.display = 'none';
+            }, 500); 
+        }
+
+        // Iniciar el temporizador al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            // Animación de texto de tiempo
+            countdownInterval = setInterval(() => {
+                timeLeft -= 0.1;
+                if(timerCountSpan) {
+                    // Formatear a 1 decimal
+                    timerCountSpan.textContent = Math.max(0, timeLeft).toFixed(1);
+                }
+                
+                // Cerrar automáticamente cuando llegue a 0
+                if (timeLeft <= 0.05) {
+                    closeTutorialModal();
+                }
+            }, 100); // Actualiza cada 100ms para efecto de sistema de alta precisión
+        });
+    </script>
+</body>
 </html>
+
+
+

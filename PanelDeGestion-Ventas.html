@@ -34,10 +34,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
-        .glass-panel-accent {
-            background: linear-gradient(145deg, rgba(14, 165, 233, 0.05) 0%, rgba(15, 15, 15, 0.8) 100%);
-            border: 1px solid rgba(14, 165, 233, 0.2);
-        }
         .btn-google {
             background: #ffffff; color: #3c4043; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
@@ -51,17 +47,9 @@
         /* Animaciones UI */
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Terminal Text */
-        .text-terminal { font-family: 'Courier New', Courier, monospace; }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-500 selection:text-white overflow-x-hidden">
-
-    <!-- BOTÓN FLOTANTE TELEGRAM -->
-    <a href="https://t.me/CvStudio33Operations" target="_blank" class="fixed bottom-6 right-6 bg-brand-600 hover:bg-brand-500 text-white w-14 h-14 rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(2,132,199,0.5)] transition-transform hover:scale-110 z-[90]">
-        <i class="fab fa-telegram-plane text-2xl ml-[-2px]"></i>
-    </a>
 
     <!-- SPLASH SCREEN OFICIAL -->
     <div id="splash-screen" class="fixed inset-0 bg-dark-950 z-[200] flex flex-col justify-center items-center transition-opacity duration-500">
@@ -71,7 +59,7 @@
         <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Sistema Central de Ventas</p>
     </div>
 
-    <!-- OVERLAY DE CARGA -->
+    <!-- OVERLAY DE CARGA (Para acciones internas) -->
     <div id="global-loader" class="fixed inset-0 bg-dark-950/90 backdrop-blur-md z-[100] hidden flex-col justify-center items-center">
         <div class="spinner mb-4 w-12 h-12"></div>
         <p id="loader-text" class="text-sm font-medium text-brand-400 tracking-widest uppercase">Procesando...</p>
@@ -178,7 +166,7 @@
                 <!-- Tarjeta Bono Dorado -->
                 <div id="dash-rate-card" class="glass-panel p-4 sm:p-5 rounded-2xl border border-white/5 relative overflow-hidden transition-all duration-500">
                     <p id="dash-rate-title" class="text-xs text-slate-400 mb-1 font-medium">Tasa de Comisión</p>
-                    <h3 id="dash-rate" class="text-xl sm:text-3xl font-bold text-brand-400">45%</h3>
+                    <h3 id="dash-rate" class="text-xl sm:text-3xl font-bold text-brand-400">25%</h3>
                     <div class="mt-2">
                         <div class="flex justify-between text-[10px] text-slate-400 mb-1">
                             <span id="bonus-title">Progreso Bono 80%</span>
@@ -191,8 +179,9 @@
                 </div>
             </div>
 
-            <!-- Gráfico Real y Top 5 -->
+            <!-- Gráfico Real y Top 5 (Responsive) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
                 <!-- Gráfico (Ocupa 2 col) -->
                 <div class="lg:col-span-2 glass-panel rounded-2xl border border-white/5 p-5">
                     <div class="flex items-center justify-between mb-4">
@@ -214,6 +203,7 @@
                             <i class="fas fa-trophy text-amber-400"></i>
                             <h3 class="text-sm font-bold text-white uppercase tracking-wider">Élite CVStudio33</h3>
                         </div>
+                        <!-- Botón para ocultar/mostrar tabla por privacidad -->
                         <button onclick="toggleLeaderboard()" class="text-slate-400 hover:text-white transition focus:outline-none">
                             <i id="eye-icon" class="fas fa-eye"></i>
                         </button>
@@ -227,6 +217,7 @@
 
             <!-- Arsenal y Finanzas -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
                 <!-- ARSENAL DE LINKS -->
                 <div class="glass-panel rounded-2xl border border-white/5 p-5 sm:p-7">
                     <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
@@ -251,11 +242,6 @@
                                     <i class="far fa-copy"></i>
                                 </button>
                             </div>
-                            
-                            <!-- Disclaimer de desconfianza -->
-                            <p class="text-[10.5px] text-slate-400 mt-4 border-t border-white/10 pt-3 leading-relaxed">
-                                <i class="fas fa-shield-alt text-brand-500 mr-1"></i> ¿El cliente desconfía del link? Pásale nuestro catálogo oficial web. Allí podrán ingresar tu ID <b class="text-brand-400 font-mono tracking-wide" id="disclaimer-id"></b> manualmente para una transacción 100% segura y verificada.
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -291,88 +277,8 @@
                         </button>
                     </div>
                 </div>
+
             </div>
-
-            <!-- DOSSIER COMERCIAL Y MÓDULO LIXIE -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
-                
-                <!-- Guía Comercial Avanzada -->
-                <div class="lg:col-span-2 glass-panel rounded-2xl border border-brand-500/20 p-5 sm:p-7 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10">
-                        <i class="fas fa-globe text-9xl"></i>
-                    </div>
-                    
-                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                        <i class="fas fa-book-journal-whills text-brand-500"></i> Manual Táctico & Escalabilidad
-                    </h3>
-                    <p class="text-sm text-slate-400 mb-6">El problema laboral y la IA son un problema para el mundo, pero una oportunidad para nosotros. Exprime el mercado al máximo.</p>
-
-                    <div class="space-y-6 relative z-10">
-                        <div class="bg-dark-900/60 p-5 rounded-xl border border-white/5">
-                            <h4 class="text-brand-400 font-bold mb-2 uppercase text-sm tracking-wide">
-                                <i class="fas fa-mobile-alt mr-2"></i> Nivel 1: Infiltración Orgánica <span class="text-green-400 ml-2">($500,000+ ARS/mes)</span>
-                            </h4>
-                            <p class="text-sm text-slate-300 leading-relaxed">
-                                Si eres nuevo o trabajas solo, tu mejor arma son las redes sociales. <b>Crea perfiles en TikTok e Instagram</b> mostrando cómo la IA de recursos humanos rechaza currículums genéricos. Educa al cliente sobre nuestro escáner ATS y ofréceles la solución. No vendas diseño, <b>vende seguridad laboral</b>. Con solo cerrar 2 a 3 ventas diarias constantes, superarás el medio millón de pesos mensuales con la comisión base.
-                            </p>
-                        </div>
-
-                        <div class="bg-dark-900/60 p-5 rounded-xl border border-white/5">
-                            <h4 class="text-brand-400 font-bold mb-2 uppercase text-sm tracking-wide">
-                                <i class="fas fa-users mr-2"></i> Nivel 2: Células de Expansión <span class="text-green-400 ml-2">($5M - $10M+ ARS/mes)</span>
-                            </h4>
-                            <p class="text-sm text-slate-300 leading-relaxed">
-                                Para alcanzar la riqueza, necesitas volumen. Forma tu propio <b>equipo de hasta 20 personas</b>. Conviértete en un líder: invierte en publicidad (Facebook/Instagram Ads) apuntando a nichos específicos (Ej: "Desarrolladores sin empleo" o "Ingenieros en transición"). Deriva esos prospectos (leads) a tu equipo por WhatsApp para que ellos cierren la venta usando tu código. La ganancia es asimétrica y exageradamente alta si dominas el tráfico pago.
-                            </p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="border border-brand-500/30 bg-brand-900/10 p-4 rounded-xl">
-                                <h5 class="text-white font-bold text-sm mb-1"><i class="fas fa-chart-pie text-brand-500 mr-1"></i> Ascenso de Comisiones</h5>
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    Todos inician con un <b>45% fijo</b>. Pero si eres influencer, traes volumen masivo o aportas ideas valiosas a la red, tu comisión será elevada permanentemente al <b>70% u 80%</b>. Aquí el mérito se paga.
-                                </p>
-                            </div>
-                            <div class="border border-brand-500/30 bg-brand-900/10 p-4 rounded-xl">
-                                <h5 class="text-white font-bold text-sm mb-1"><i class="fas fa-code text-brand-500 mr-1"></i> Soporte de Desarrollo (Core)</h5>
-                                <p class="text-xs text-slate-400 leading-relaxed">
-                                    Los vendedores élite que destaquen no están solos. Nuestro equipo de ingenieros te desarrollará <b>herramientas a medida</b>: Páginas web exclusivas, Bots de automatización, Infraestructuras enteras para facilitar tus cierres.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Módulo LIXIE -->
-                <div class="glass-panel-accent rounded-2xl p-5 sm:p-7 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-10 h-10 rounded-full bg-brand-500/20 border border-brand-500 flex items-center justify-center">
-                                <i class="fas fa-microchip text-brand-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-white tracking-tight text-terminal">SYS_CORE: LIXIE</h3>
-                                <p class="text-[10px] text-brand-400 uppercase tracking-widest font-bold">Inteligencia Autónoma</p>
-                            </div>
-                        </div>
-                        
-                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
-                            <b>LIXIE</b> es el cerebro algorítmico detrás de todas las transacciones de CVStudio33. No hay humanos calculando tus pagos; ella lo controla todo.
-                        </p>
-                        <ul class="text-xs text-slate-400 space-y-2 mb-6 text-terminal">
-                            <li><i class="fas fa-angle-right text-brand-500"></i> Conexión en vivo con MercadoPago.</li>
-                            <li><i class="fas fa-angle-right text-brand-500"></i> Sincronización Frontend/Backend.</li>
-                            <li><i class="fas fa-angle-right text-brand-500"></i> Liquidación de comisiones instantánea.</li>
-                            <li><i class="fas fa-angle-right text-brand-500"></i> Emisión de alertas al canal matriz.</li>
-                        </ul>
-                    </div>
-                    
-                    <a href="https://t.me/CvStudio33Operations" target="_blank" class="w-full bg-dark-900 border border-brand-500/50 hover:bg-brand-500/20 text-white text-center py-3 rounded-xl transition text-sm font-medium flex items-center justify-center gap-2">
-                        <i class="fab fa-telegram text-brand-400 text-lg"></i> Red de Telemetría Oficial
-                    </a>
-                </div>
-            </div>
-
         </main>
     </div>
 
@@ -400,8 +306,7 @@
         let currentUserData = null;
         let ranksData = {};
         let myChart = null;
-        let isInitializingProfile = false; 
-        
+        // Webhook que ahora actuará como Cerebro Multiuso
         const WEBHOOK_URL = "https://cvstudio33-webhook.lautybg22.workers.dev/";
 
         const vLogin = document.getElementById('login-view');
@@ -412,128 +317,61 @@
         function showLoader(text) { document.getElementById('loader-text').innerText = text; loader.style.display = 'flex'; }
         function hideLoader() { loader.style.display = 'none'; }
 
-        // LOGIN
+        // --- FLUJO DE AUTENTICACIÓN ---
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { showLoader("Autenticando..."); await signInWithPopup(auth, provider); } 
             catch (e) { hideLoader(); document.getElementById('login-error').innerText = `Error: ${e.message}`; document.getElementById('login-error').classList.remove('hidden'); }
         });
 
-        // LOGOUT
-        document.getElementById('btn-logout').addEventListener('click', async () => { 
-            showLoader("Saliendo..."); 
-            await signOut(auth); 
-            window.location.reload(); 
-        });
+        document.getElementById('btn-logout').addEventListener('click', () => { showLoader("Saliendo..."); signOut(auth); });
 
-        // CONTROL DE SESIÓN
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                if (isInitializingProfile) return;
-                isInitializingProfile = true;
-                
                 try {
                     await loadRanks();
                     await initializeOrLoadSeller(user);
                     await loadProducts();
                     updateUI(user);
-                    loadLeaderboard();
+                    loadLeaderboard(); // Carga el TOP 5
                     
-                    hideLoader();
                     vLogin.classList.add('hidden');
                     vDash.classList.remove('hidden');
                 } catch (error) {
-                    console.error(error); 
-                    alert("Error crítico leyendo Firestore."); 
-                    hideLoader(); 
-                    signOut(auth);
-                } finally {
-                    isInitializingProfile = false; 
+                    console.error(error); alert("Error crítico leyendo Firestore."); signOut(auth);
                 }
             } else {
-                hideLoader(); 
                 vDash.classList.add('hidden');
                 vLogin.classList.remove('hidden');
             }
             setTimeout(() => { splash.style.opacity = '0'; setTimeout(() => splash.classList.add('hidden'), 500); }, 500);
         });
 
+        // --- LECTURA BASE DE DATOS ---
         async function loadRanks() {
-            ranksData = { "novato": { commission_rate: 0.45 }, "intermedio": { commission_rate: 0.70 }, "senior": { commission_rate: 0.80 } };
+            ranksData = { "novato": { commission_rate: 0.25 }, "intermedio": { commission_rate: 0.35 }, "senior": { commission_rate: 0.5 } };
             const snap = await getDocs(collection(db, "ranks"));
             if (!snap.empty) snap.forEach(d => { ranksData[d.id] = d.data(); });
         }
 
-        // MOTOR DE CREACIÓN (SOLUCIÓN ID CV33-1 APLICADA)
         async function initializeOrLoadSeller(user) {
             const q = query(collection(db, "sellers"), where("name", "==", user.email));
             const snap = await getDocs(q);
 
             if (!snap.empty) {
-                // Escudo Inteligente: Identifica la cuenta con dinero real
-                let bestDoc = snap.docs[0];
-                let maxBalance = parseFloat(bestDoc.data().balance_ars || 0);
-                
-                snap.docs.forEach(docSnap => {
-                    const bal = parseFloat(docSnap.data().balance_ars || 0);
-                    if (bal > maxBalance) {
-                        maxBalance = bal;
-                        bestDoc = docSnap;
-                    }
-                });
-                
-                currentUserData = bestDoc.data();
-                
-                // ======== ARREGLO CRÍTICO ========
-                // Forzamos el ID real de Firestore para ignorar clones bugeados (ej. CV33-1)
-                currentUserData.id = bestDoc.id; 
-                // =================================
-
-                // Aviso de limpieza de clones
-                if (snap.docs.length > 1) {
-                    const clonesToKill = [];
-                    snap.docs.forEach(docSnap => {
-                        if (docSnap.id !== bestDoc.id) {
-                            clonesToKill.push(docSnap.id);
-                        }
-                    });
-                    
-                    if (clonesToKill.length > 0) {
-                        fetch(WEBHOOK_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ action: 'cleanup_clones', clones: clonesToKill })
-                        }).catch(e => console.log("Worker cleanup trigger failed", e));
-                    }
-                }
-
+                currentUserData = snap.docs[0].data();
             } else {
-                // ======== ADVERTENCIA DE ESCALABILIDAD ========
-                // Para determinar el próximo ID (ej. CV33-46), este código está leyendo TODA tu base de datos.
-                // Como Firestore ordena alfabéticamente (CV33-10 va antes que CV33-2), no podemos usar "limit(1)" fácilmente con este formato de ID.
-                // Si planeas pasar de los 100 vendedores, DEBES cambiar esto y usar un documento contador global en Firestore. 
-                // Por ahora, lo mantenemos así para que tu sistema siga funcionando sin romper nada.
-                
                 const all = await getDocs(collection(db, "sellers"));
                 let max = 0;
-                
-                all.forEach(d => {
-                    const idUpper = d.id.toUpperCase();
-                    if (idUpper.startsWith("CV33-")) {
-                        const n = parseInt(idUpper.replace("CV33-", ""));
-                        if (!isNaN(n) && n > max) max = n;
-                    }
-                });
+                all.forEach(d => { if (d.id.startsWith("CV33-")) { const n = parseInt(d.id.replace("CV33-", "")); if (!isNaN(n) && n > max) max = n; } });
 
-                const nextId = max + 1;
-                const newCode = `CV33-${nextId}`;
-                
+                // Documento con los nuevos campos de Alias y Retiros preparados
+                const newCode = `CV33-${max + 1}`;
                 currentUserData = { 
                     id: newCode, name: user.email, rank: "novato", 
-                    balance_ars: 0, commission_rate: (ranksData["novato"] ? ranksData["novato"].commission_rate : 0.45), sales_count: 0,
+                    balance_ars: 0, commission_rate: ranksData["novato"].commission_rate, sales_count: 0,
                     alias_pago: "", withdrawals_count: 0, last_withdrawal_month: new Date().getMonth(),
-                    daily_sales: {}
+                    daily_sales: {} // Aquí el Worker guardará las ventas por fecha
                 };
-                
                 await setDoc(doc(db, "sellers", newCode), currentUserData);
             }
         }
@@ -554,24 +392,27 @@
             });
         }
 
+        // --- UI Y GRÁFICA REAL ---
         function updateUI(user) {
             document.getElementById('nav-photo').src = user.photoURL || 'https://via.placeholder.com/150';
             document.getElementById('nav-email').innerText = user.email;
             document.getElementById('nav-code').innerText = currentUserData.id;
             document.getElementById('dash-code').innerText = currentUserData.id;
-            document.getElementById('disclaimer-id').innerText = currentUserData.id; 
             document.getElementById('dash-balance').innerText = `$${parseFloat(currentUserData.balance_ars || 0).toLocaleString('es-AR')}`;
             document.getElementById('dash-rank').innerText = currentUserData.rank || 'novato';
             
+            // Finanzas
             if(currentUserData.alias_pago) document.getElementById('input-alias').value = currentUserData.alias_pago;
             
+            // Reset de contador de retiros si cambió el mes
             const currentMonth = new Date().getMonth();
             let usedWithdrawals = currentUserData.withdrawals_count || 0;
             if(currentUserData.last_withdrawal_month !== currentMonth && currentUserData.last_withdrawal_month !== undefined) {
-                usedWithdrawals = 0; 
+                usedWithdrawals = 0; // Es un mes nuevo
             }
             document.getElementById('withdraw-count').innerText = `${usedWithdrawals} / 3 Usados`;
 
+            // Gamificación
             const sales = parseInt(currentUserData.sales_count) || 0;
             document.getElementById('dash-sales').innerText = sales;
             const towardsBonus = sales % 5;
@@ -587,9 +428,10 @@
                 document.getElementById('dash-rate-title').classList.replace('text-slate-400', 'text-yellow-400');
                 document.getElementById('bonus-progress-bar').classList.replace('bg-brand-500', 'bg-yellow-400');
             } else {
-                document.getElementById('dash-rate').innerText = `${((currentUserData.commission_rate||0.45) * 100).toFixed(0)}%`;
+                document.getElementById('dash-rate').innerText = `${((currentUserData.commission_rate||0.25) * 100).toFixed(0)}%`;
             }
 
+            // Gráfica Real (calcula los últimos 7 días exactos)
             initRealChart(currentUserData.daily_sales || {});
         }
 
@@ -600,17 +442,20 @@
             const labels = [];
             const dataPoints = [];
             
+            // Generar array de los últimos 7 días hasta HOY
             for (let i = 6; i >= 0; i--) {
                 const d = new Date();
                 d.setDate(d.getDate() - i);
                 
-                // ======== ARREGLO DE ZONA HORARIA ========
-                // Forzamos hora local de Argentina para emparejar con el backend y evitar datos desfasados
-                const dateStr = d.toLocaleDateString('en-CA', { timeZone: 'America/Argentina/Buenos_Aires' }); 
-                const dayName = d.toLocaleDateString('es-ES', { weekday: 'short', timeZone: 'America/Argentina/Buenos_Aires' }).toUpperCase();
-                // ==========================================
-
+                // Formato YYYY-MM-DD para buscar en el mapa (ajuste zona horaria local)
+                const dateStr = d.toLocaleDateString('en-CA'); 
+                
+                // Nombre del día para la UI (Lun, Mar...)
+                const dayName = d.toLocaleDateString('es-ES', { weekday: 'short' }).toUpperCase();
+                
                 labels.push(i === 0 ? 'HOY' : dayName);
+                
+                // Si hay ventas ese día, se pone el número, si no, 0.
                 dataPoints.push(dailySalesMap[dateStr] || 0);
             }
 
@@ -634,6 +479,7 @@
             });
         }
 
+        // --- TOP 5 VENDEDORES (Directo de Firebase) ---
         async function loadLeaderboard() {
             const container = document.getElementById('leaderboard-content');
             try {
@@ -675,6 +521,9 @@
             }
         }
 
+        // --- ACCIONES HACIA CLOUDFLARE WORKER ---
+        
+        // 1. Generar Link
         document.getElementById('btn-generate').addEventListener('click', async () => {
             const select = document.getElementById('product-select');
             if(!select.value) { alert("Selecciona un producto."); return; }
@@ -697,6 +546,7 @@
             finally { btn.innerHTML = orig; btn.disabled = false; }
         });
 
+        // 2. Guardar Alias
         document.getElementById('btn-save-alias').addEventListener('click', async () => {
             const alias = document.getElementById('input-alias').value.trim();
             if(!alias) return;
@@ -704,6 +554,7 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
             
             try {
+                // Cloudflare actualizará el campo en Firebase (evitamos problemas de permisos del front)
                 await fetch(WEBHOOK_URL, { 
                     method: 'POST', 
                     body: JSON.stringify({ action: 'update_alias', seller_id: currentUserData.id, alias: alias }) 
@@ -715,6 +566,7 @@
             finally { btn.innerHTML = 'Guardar'; btn.disabled = false; }
         });
 
+        // 3. Retiro de Emergencia
         document.getElementById('btn-withdraw').addEventListener('click', async () => {
             if(parseFloat(currentUserData.balance_ars || 0) <= 0) {
                 alert("No tienes fondos suficientes para retirar."); return;
@@ -739,7 +591,7 @@
                 
                 if(res.ok && responseData.success) {
                     alert("¡Retiro solicitado con éxito! Tu saldo se ha puesto a 0.");
-                    window.location.reload(); 
+                    window.location.reload(); // Recargar para actualizar UI desde DB
                 } else {
                     alert(responseData.message || "Error procesando el retiro.");
                 }
@@ -747,6 +599,7 @@
             finally { btn.innerHTML = orig; btn.disabled = false; }
         });
 
+        // Funciones UI Menores
         document.getElementById('user-menu-btn').addEventListener('click', () => document.getElementById('user-dropdown').classList.toggle('hidden'));
         document.getElementById('btn-copy-code').addEventListener('click', () => { navigator.clipboard.writeText(currentUserData.id); alert("Código copiado."); });
         document.getElementById('btn-copy-link').addEventListener('click', () => { const input = document.getElementById('generated-url'); input.select(); navigator.clipboard.writeText(input.value); alert("Copiado."); });
@@ -754,6 +607,7 @@
     </script>
     
     <script>
+        // Lógica visual para ocultar/mostrar Leaderboard
         function toggleLeaderboard() {
             const content = document.getElementById('leaderboard-content');
             const icon = document.getElementById('eye-icon');
@@ -770,5 +624,3 @@
     </script>
 </body>
 </html>
-
-

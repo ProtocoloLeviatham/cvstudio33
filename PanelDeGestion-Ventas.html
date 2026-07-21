@@ -215,7 +215,6 @@
                             <i class="fas fa-trophy text-amber-400"></i>
                             <h3 class="text-sm font-bold text-white uppercase tracking-wider">Élite CVStudio33</h3>
                         </div>
-                        <!-- Botón para ocultar/mostrar tabla por privacidad -->
                         <button onclick="toggleLeaderboard()" class="text-slate-400 hover:text-white transition focus:outline-none">
                             <i id="eye-icon" class="fas fa-eye"></i>
                         </button>
@@ -406,6 +405,8 @@
         let currentUserData = null;
         let ranksData = {};
         let myChart = null;
+        let isInitializingProfile = false; // <-- CERROJO ANTI-DOBLE DISPARO
+        
         const WEBHOOK_URL = "https://cvstudio33-webhook.lautybg22.workers.dev/";
 
         const vLogin = document.getElementById('login-view');
@@ -416,20 +417,25 @@
         function showLoader(text) { document.getElementById('loader-text').innerText = text; loader.style.display = 'flex'; }
         function hideLoader() { loader.style.display = 'none'; }
 
-        // --- FLUJO DE AUTENTICACIÓN CORREGIDO ---
+        // LOGIN
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { showLoader("Autenticando..."); await signInWithPopup(auth, provider); } 
             catch (e) { hideLoader(); document.getElementById('login-error').innerText = `Error: ${e.message}`; document.getElementById('login-error').classList.remove('hidden'); }
         });
 
+        // LOGOUT
         document.getElementById('btn-logout').addEventListener('click', async () => { 
             showLoader("Saliendo..."); 
             await signOut(auth); 
-            window.location.reload(); // Recarga la página para matar variables fantasma
+            window.location.reload(); 
         });
 
+        // ESTADO DE SESIÓN (AQUÍ ESTABA EL ERROR DEL CARGADOR INFINITO)
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                if (isInitializingProfile) return; // Bloquea los hilos duplicados
+                isInitializingProfile = true;
+                
                 try {
                     await loadRanks();
                     await initializeOrLoadSeller(user);
@@ -437,37 +443,50 @@
                     updateUI(user);
                     loadLeaderboard();
                     
+                    hideLoader(); // <-- ESTA LÍNEA APAGA EL CARTEL DE AUTENTICANDO
                     vLogin.classList.add('hidden');
                     vDash.classList.remove('hidden');
                 } catch (error) {
                     console.error(error); alert("Error crítico leyendo Firestore."); signOut(auth);
+                } finally {
+                    isInitializingProfile = false; 
                 }
             } else {
-                hideLoader(); // Apagar loader si venía de un cierre de sesión
+                hideLoader(); 
                 vDash.classList.add('hidden');
                 vLogin.classList.remove('hidden');
             }
             setTimeout(() => { splash.style.opacity = '0'; setTimeout(() => splash.classList.add('hidden'), 500); }, 500);
         });
 
-        // --- LECTURA BASE DE DATOS ---
         async function loadRanks() {
-            // Actualizado a 45% base (0.45)
             ranksData = { "novato": { commission_rate: 0.45 }, "intermedio": { commission_rate: 0.70 }, "senior": { commission_rate: 0.80 } };
             const snap = await getDocs(collection(db, "ranks"));
             if (!snap.empty) snap.forEach(d => { ranksData[d.id] = d.data(); });
         }
 
+        // LÓGICA DE CARGA INTELIGENTE (ELIMINACIÓN DEL CV33-1 FANTASMA)
         async function initializeOrLoadSeller(user) {
             const q = query(collection(db, "sellers"), where("name", "==", user.email));
             const snap = await getDocs(q);
 
             if (!snap.empty) {
-                currentUserData = snap.docs[0].data();
+                // ESCUDO INTELIGENTE: Si hay más de un documento, elige el de mayor balance
+                let bestData = snap.docs[0].data();
+                let maxBalance = parseFloat(bestData.balance_ars || 0);
+                
+                snap.docs.forEach(doc => {
+                    const dData = doc.data();
+                    const bal = parseFloat(dData.balance_ars || 0);
+                    if (bal > maxBalance) {
+                        maxBalance = bal;
+                        bestData = dData;
+                    }
+                });
+                currentUserData = bestData;
             } else {
                 const all = await getDocs(collection(db, "sellers"));
                 let max = 0;
-                // CORRECCIÓN BUG ID DUPLICADO: Pasamos a mayúsculas para evitar choques con 'cv33-1'
                 all.forEach(d => { 
                     const idUpper = d.id.toUpperCase();
                     if (idUpper.startsWith("CV33-")) { 
@@ -503,17 +522,15 @@
             });
         }
 
-        // --- UI Y GRÁFICA REAL ---
         function updateUI(user) {
             document.getElementById('nav-photo').src = user.photoURL || 'https://via.placeholder.com/150';
             document.getElementById('nav-email').innerText = user.email;
             document.getElementById('nav-code').innerText = currentUserData.id;
             document.getElementById('dash-code').innerText = currentUserData.id;
-            document.getElementById('disclaimer-id').innerText = currentUserData.id; // Para el texto de desconfianza
+            document.getElementById('disclaimer-id').innerText = currentUserData.id; 
             document.getElementById('dash-balance').innerText = `$${parseFloat(currentUserData.balance_ars || 0).toLocaleString('es-AR')}`;
             document.getElementById('dash-rank').innerText = currentUserData.rank || 'novato';
             
-            // Finanzas
             if(currentUserData.alias_pago) document.getElementById('input-alias').value = currentUserData.alias_pago;
             
             const currentMonth = new Date().getMonth();
@@ -523,7 +540,6 @@
             }
             document.getElementById('withdraw-count').innerText = `${usedWithdrawals} / 3 Usados`;
 
-            // Gamificación
             const sales = parseInt(currentUserData.sales_count) || 0;
             document.getElementById('dash-sales').innerText = sales;
             const towardsBonus = sales % 5;
@@ -623,7 +639,6 @@
             }
         }
 
-        // --- ACCIONES HACIA CLOUDFLARE WORKER ---
         document.getElementById('btn-generate').addEventListener('click', async () => {
             const select = document.getElementById('product-select');
             if(!select.value) { alert("Selecciona un producto."); return; }
@@ -696,7 +711,6 @@
             finally { btn.innerHTML = orig; btn.disabled = false; }
         });
 
-        // Funciones UI Menores
         document.getElementById('user-menu-btn').addEventListener('click', () => document.getElementById('user-dropdown').classList.toggle('hidden'));
         document.getElementById('btn-copy-code').addEventListener('click', () => { navigator.clipboard.writeText(currentUserData.id); alert("Código copiado."); });
         document.getElementById('btn-copy-link').addEventListener('click', () => { const input = document.getElementById('generated-url'); input.select(); navigator.clipboard.writeText(input.value); alert("Copiado."); });
@@ -720,5 +734,6 @@
     </script>
 </body>
 </html>
+
 
 

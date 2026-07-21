@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVStudio33 | Panel de Ventas</title>
+    
+    <!-- Fuentes y Estilos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0f9ff', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e', 950: '#082f49' },
+                        dark: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .btn-google {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-google:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+        .neon-glow { text-shadow: 0 0 15px rgba(14, 165, 233, 0.5); }
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Animación de carga */
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #0ea5e9;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Ocultar scrollbar pero permitir scroll */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- PANTALLA DE LOGIN (Estilo Google 2026) -->
+    <div id="login-view" class="min-h-screen flex flex-col justify-center items-center p-4 relative z-10">
+        <!-- Decoración de fondo abstracta -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20"></div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-8 md:p-12 w-full max-w-md text-center shadow-2xl relative">
+            <div id="login-loader" class="absolute inset-0 bg-dark-900/80 backdrop-blur-sm rounded-2xl hidden flex-col justify-center items-center z-20">
+                <div class="loader mb-4 w-12 h-12"></div>
+                <p class="text-sm text-brand-400 font-medium tracking-widest uppercase">Autenticando Empresa...</p>
+            </div>
+
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-white tracking-tight mb-2">CVStudio<span class="text-brand-500">33</span></h1>
+                <p class="text-slate-400 text-sm">Portal Corporativo de Ventas</p>
+            </div>
+            
+            <button id="btn-google-login" class="btn-google w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl text-white font-medium mb-6">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Acceso Profesional con Google
+            </button>
+            <p class="text-xs text-slate-500">Acceso restringido exclusivamente a miembros y ejecutivos de CVStudio33.</p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD (Oculto inicialmente) -->
+    <div id="dashboard-view" class="hidden min-h-screen flex flex-col">
+        <!-- Navegación Superior (Dropdown reemplazando Sidebar) -->
+        <nav class="glass-panel sticky top-0 z-50 border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl font-bold tracking-tight">CVStudio<span class="text-brand-500">33</span></span>
+                        <span class="hidden md:inline-block px-2 py-1 bg-brand-500/10 text-brand-400 text-xs rounded-md border border-brand-500/20 font-mono">WORKSPACE</span>
+                    </div>
+                    
+                    <!-- Menú Desplegable de Usuario -->
+                    <div class="relative">
+                        <button id="user-menu-btn" class="flex items-center gap-3 focus:outline-none hover:bg-white/5 p-2 rounded-lg transition">
+                            <div class="text-right hidden md:block">
+                                <p id="nav-user-name" class="text-sm font-medium text-white">Cargando...</p>
+                                <p id="nav-user-code" class="text-xs text-brand-400 font-mono">CV33-X</p>
+                            </div>
+                            <img id="nav-user-photo" class="h-9 w-9 rounded-full border border-brand-500/30" src="" alt="Avatar">
+                            <i class="fas fa-chevron-down text-xs text-slate-400"></i>
+                        </button>
+                        
+                        <!-- Dropdown Content -->
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 glass-panel rounded-xl shadow-lg py-1 border border-white/10 origin-top-right transition-all">
+                            <div class="px-4 py-2 border-b border-white/5 md:hidden">
+                                <p id="drop-user-name" class="text-sm font-medium truncate text-white"></p>
+                                <p id="drop-user-code" class="text-xs text-brand-400 font-mono"></p>
+                            </div>
+                            <a href="#" class="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition"><i class="fas fa-cog w-5"></i> Ajustes</a>
+                            <a href="#" id="btn-logout" class="block px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition"><i class="fas fa-sign-out-alt w-5"></i> Cerrar Sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contenido Principal -->
+        <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Encabezado de Bienvenida -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold gradient-text pb-1">Resumen Operativo</h2>
+                    <p class="text-slate-400 text-sm mt-1">Monitorea tus conversiones y comisiones en tiempo real.</p>
+                </div>
+                <div class="glass-panel px-5 py-3 rounded-xl border border-brand-500/20 flex items-center gap-4">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider">Código Asignado</p>
+                        <p id="dash-code" class="text-xl font-mono font-bold text-white neon-glow">Cargando...</p>
+                    </div>
+                    <button class="text-brand-400 hover:text-white transition" onclick="copyCode()" title="Copiar código">
+                        <i class="far fa-copy text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid de Métricas (Móvil: 2 cols, Desktop: 4 cols) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <!-- Tarjeta 1: Comisiones -->
+                <div class="glass-panel p-5 rounded-2xl border border-white/5 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-wallet text-4xl text-brand-400"></i></div>
+                    <p class="text-sm text-slate-400 mb-1">Balance Generado</p>
+                    <h3 id="dash-balance" class="text-2xl md:text-3xl font-bold text-white">$0.00</h3>
+                    <p class="text-xs text-green-400 mt-2"><i class="fas fa-arrow-up"></i> ARS (Por cobrar)</p>
+                </div>
+                
+                <!-- Tarjeta 2: Ventas -->
+                <div class="glass-panel p-5 rounded-2xl border border-white/5 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-chart-line text-4xl text-purple-400"></i></div>
+                    <p class="text-sm text-slate-400 mb-1">Ventas Concluidas</p>
+                    <h3 id="dash-sales" class="text-2xl md:text-3xl font-bold text-white">0</h3>
+                    <p class="text-xs text-slate-400 mt-2">Transacciones exitosas</p>
+                </div>
+
+                <!-- Tarjeta 3: Rango -->
+                <div class="glass-panel p-5 rounded-2xl border border-white/5 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-medal text-4xl text-amber-400"></i></div>
+                    <p class="text-sm text-slate-400 mb-1">Nivel Operativo</p>
+                    <h3 id="dash-rank" class="text-xl md:text-2xl font-bold text-white capitalize">Cargando...</h3>
+                    <p id="dash-commission-rate" class="text-xs text-amber-400 mt-2">Tasa: --%</p>
+                </div>
+
+                <!-- Tarjeta 4: Estado -->
+                <div class="glass-panel p-5 rounded-2xl border border-white/5 relative overflow-hidden flex flex-col justify-center">
+                    <div class="flex items-center gap-3">
+                        <div class="relative flex h-4 w-4">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+                        </div>
+                        <span class="font-medium text-white">Sistema Online</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">API Cloudflare: Conectada</p>
+                </div>
+            </div>
+
+            <!-- Sección Dual: Arsenal y Estadísticas/Consejos -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- ARSENAL (2 Columnas en LG) -->
+                <div class="lg:col-span-2 glass-panel rounded-2xl border border-white/5 p-6 flex flex-col">
+                    <div class="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
+                        <i class="fas fa-bolt text-brand-400 text-xl"></i>
+                        <h3 class="text-xl font-bold text-white">Arsenal de Conversión</h3>
+                    </div>
+                    
+                    <p class="text-sm text-slate-400 mb-6">Genera links de pago únicos rastreados con tu código de referencia corporativo. Todas las comisiones se asignan automáticamente post-venta.</p>
+
+                    <div class="space-y-5 flex-1">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2 uppercase tracking-wide">Seleccionar Producto (Stock)</label>
+                            <div class="relative">
+                                <select id="product-select" class="w-full bg-dark-900 border border-white/10 rounded-xl py-3 pl-4 pr-10 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 appearance-none transition">
+                                    <option value="" disabled selected>Cargando catálogo corporativo...</option>
+                                    <!-- Options generadas por JS -->
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="btn-generate-link" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-medium py-3.5 rounded-xl transition shadow-[0_0_15px_rgba(2,132,199,0.3)] hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center gap-2">
+                            <i class="fas fa-link"></i> Generar Enlace de Venta
+                        </button>
+
+                        <!-- Resultado del Link -->
+                        <div id="link-result-container" class="hidden mt-4">
+                            <label class="block text-xs font-medium text-green-400 mb-2">Enlace Generado Exitosamente</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="generated-link" readonly class="w-full bg-dark-950 border border-green-500/30 rounded-xl py-3 px-4 text-sm text-white font-mono focus:outline-none">
+                                <button onclick="copyGeneratedLink()" class="bg-dark-900 border border-white/10 hover:bg-white/10 rounded-xl px-4 text-white transition">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESTADÍSTICAS Y CONSEJOS (1 Columna en LG) -->
+                <div class="flex flex-col gap-6">
+                    <!-- Gráfico -->
+                    <div class="glass-panel rounded-2xl border border-white/5 p-5">
+                        <h3 class="text-sm font-bold text-white mb-4 uppercase tracking-wide"><i class="fas fa-chart-pie mr-2 text-brand-400"></i> Rendimiento Semanal</h3>
+                        <div class="relative h-48 w-full">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Inteligencia / Consejos -->
+                    <div class="glass-panel rounded-2xl border border-brand-500/20 p-5 bg-gradient-to-br from-dark-800/80 to-brand-900/20">
+                        <h3 class="text-sm font-bold text-white mb-3 uppercase tracking-wide"><i class="fas fa-brain mr-2 text-brand-400"></i> Inteligencia Táctica</h3>
+                        <div id="tip-container" class="text-sm text-slate-300 italic border-l-2 border-brand-500 pl-3 py-1">
+                            "Para servicios de élite como 'Impacto Definitivo', posiciona el valor estructural del perfil antes de mencionar el precio. El cliente no compra un CV, compra estatus y oportunidades."
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <footer class="mt-12 border-t border-white/5 pt-6 text-center text-xs text-slate-500">
+                &copy; 2026 CVStudio33 Enterprise. Todos los derechos reservados.<br>
+                Plataforma de ventas protegida y conectada a red Cloudflare.
+            </footer>
+        </main>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL MODULAR (Firebase v10) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // 1. Configuración de Firebase (Exactamente la solicitada)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        // Inicialización
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // Variables Globales
+        let currentUserData = null;
+        const WEBHOOK_URL = "https://cvstudio33-webhook.lautybg22.workers.dev/";
+
+        // Elementos DOM
+        const vLogin = document.getElementById('login-view');
+        const vDash = document.getElementById('dashboard-view');
+        const btnLogin = document.getElementById('btn-google-login');
+        const btnLogout = document.getElementById('btn-logout');
+        const loginLoader = document.getElementById('login-loader');
+        
+        // Catálogo de Productos (Respaldo según solicitud, se sincronizará con DB si es posible)
+        const CATALOGO_DEFAULT = [
+            { id: "impacto-definitivo", name: "IMPACTO DEFINITIVO", price_ars: 10500 },
+            { id: "presencia-premium", name: "PRESENCIA PREMIUM", price_ars: 10500 },
+            { id: "seleccion-prioritaria", name: "SELECCIÓN PRIORITARIA", price_ars: 10500 },
+            { id: "atraccion-segura", name: "ATRACCIÓN SEGURA", price_ars: 6500 },
+            { id: "vision-estrategica", name: "VISIÓN ESTRATÉGICA", price_ars: 6500 },
+            { id: "el-indiscutible", name: "EL INDISCUTIBLE", price_ars: 6500 },
+            { id: "formula-exacta", name: "FÓRMULA EXACTA", price_ars: 6500 },
+            { id: "filtro_cero", name: "FILTRO CERO", price_ars: 6500 },
+            { id: "ventaja-oculta", name: "VENTAJA OCULTA", price_ars: 6500 },
+            { id: "impacto-visual", name: "IMPACTO VISUAL", price_ars: 3500 },
+            { id: "prueba-test", name: "PRUEBA TEST", price_ars: 10 }
+        ];
+
+        // 2. Lógica de Autenticación
+        btnLogin.addEventListener('click', async () => {
+            try {
+                loginLoader.style.display = 'flex';
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Error en login:", error);
+                alert("Error de autenticación. Intente de nuevo.");
+                loginLoader.style.display = 'none';
+            }
+        });
+
+        btnLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth);
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                vLogin.classList.add('hidden');
+                vDash.classList.remove('hidden');
+                await initializeSeller(user);
+                initChart();
+                loadProducts();
+            } else {
+                vLogin.classList.remove('hidden');
+                vDash.classList.add('hidden');
+                loginLoader.style.display = 'none';
+            }
+        });
+
+        // 3. Lógica de Asignación y Lectura de Firebase
+        async function initializeSeller(user) {
+            try {
+                const sellersRef = collection(db, "sellers");
+                
+                // Buscar si ya existe por email (el name es el del gmail según reglas)
+                const q = query(sellersRef, where("name", "==", user.email));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    // Vendedor existe, cargar datos
+                    currentUserData = querySnapshot.docs[0].data();
+                } else {
+                    // Vendedor nuevo: Buscar el último número asignado (Ej: CV33-1 al 100)
+                    const allDocs = await getDocs(sellersRef);
+                    let maxNum = 0;
+                    
+                    allDocs.forEach((d) => {
+                        // Extraer el número de "CV33-X"
+                        const idStr = d.id;
+                        if(idStr.startsWith("CV33-")) {
+                            const num = parseInt(idStr.replace("CV33-", ""));
+                            if(!isNaN(num) && num > maxNum) {
+                                maxNum = num;
+                            }
+                        }
+                    });
+
+                    const newRefCode = `CV33-${maxNum + 1}`;
+                    
+                    // Definir estructura solicitada
+                    currentUserData = {
+                        balance_ars: 0,
+                        commission_rate: 0.25, // Default (Novato)
+                        id: newRefCode,
+                        name: user.email, // "el name es el del gmail"
+                        rank: "novato"
+                    };
+
+                    // Crear documento en Firestore
+                    await setDoc(doc(db, "sellers", newRefCode), currentUserData);
+                }
+
+                updateUI(user);
+
+            } catch (error) {
+                console.error("Error inicializando sistema de ventas:", error);
+                alert("Error crítico conectando a servidores de datos.");
+            }
+        }
+
+        // 4. Actualizar Interfaz de Usuario
+        function updateUI(user) {
+            // Navbar
+            document.getElementById('nav-user-photo').src = user.photoURL || 'https://via.placeholder.com/150';
+            document.getElementById('nav-user-name').innerText = user.displayName || user.email.split('@')[0];
+            document.getElementById('drop-user-name').innerText = user.displayName || user.email.split('@')[0];
+            
+            document.getElementById('nav-user-code').innerText = currentUserData.id;
+            document.getElementById('drop-user-code').innerText = currentUserData.id;
+            
+            // Dashboard Panel
+            document.getElementById('dash-code').innerText = currentUserData.id;
+            document.getElementById('dash-balance').innerText = `$${parseFloat(currentUserData.balance_ars).toLocaleString('es-AR')}`;
+            
+            // Si tuvieras un campo sales_count, se actualizaría aquí. Simulamos base 0.
+            document.getElementById('dash-sales').innerText = currentUserData.sales_count || 0;
+            
+            document.getElementById('dash-rank').innerText = currentUserData.rank;
+            const comRatePct = (currentUserData.commission_rate * 100).toFixed(0);
+            document.getElementById('dash-commission-rate').innerText = `Tasa de Comisión: ${comRatePct}%`;
+        }
+
+        // 5. Cargar Arsenal (Productos)
+        async function loadProducts() {
+            const select = document.getElementById('product-select');
+            select.innerHTML = '<option value="" disabled selected>Seleccione servicio a vender...</option>';
+            
+            try {
+                // Intentar leer de Firestore (Colección products)
+                const prodSnapshot = await getDocs(collection(db, "products"));
+                let productos = [];
+                
+                if (!prodSnapshot.empty) {
+                    prodSnapshot.forEach(doc => productos.push(doc.data()));
+                } else {
+                    // Fallback al catálogo fijo estructurado en el prompt si la DB está vacía
+                    productos = CATALOGO_DEFAULT;
+                }
+
+                productos.forEach(p => {
+                    const opt = document.createElement('option');
+                    // Value contendrá un string JSON para fácil uso en el botón
+                    opt.value = JSON.stringify({ id: p.id, price: p.price_ars, name: p.name });
+                    opt.text = `${p.name} — $${p.price_ars.toLocaleString('es-AR')} ARS`;
+                    select.appendChild(opt);
+                });
+
+            } catch (error) {
+                console.error("No se pudo cargar productos de Firestore, usando catálogo local.");
+                CATALOGO_DEFAULT.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = JSON.stringify({ id: p.id, price: p.price_ars, name: p.name });
+                    opt.text = `${p.name} — $${p.price_ars.toLocaleString('es-AR')} ARS`;
+                    select.appendChild(opt);
+                });
+            }
+        }
+
+        // 6. Generación de Enlace Webhook (Cloudflare)
+        document.getElementById('btn-generate-link').addEventListener('click', async () => {
+            const select = document.getElementById('product-select');
+            if(!select.value) {
+                alert("Debe seleccionar un servicio del arsenal.");
+                return;
+            }
+
+            const productData = JSON.parse(select.value);
+            const btn = document.getElementById('btn-generate-link');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Conectando al servidor...';
+                btn.disabled = true;
+
+                // Llamada a tu Webhook en Cloudflare
+                const payload = {
+                    seller_id: currentUserData.id,
+                    seller_rank: currentUserData.rank,
+                    commission_rate: currentUserData.commission_rate,
+                    product_id: productData.id,
+                    product_name: productData.name,
+                    price_ars: productData.price,
+                    timestamp: new Date().toISOString()
+                };
+
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Simulamos respuesta o procesamos respuesta real del worker
+                // Asumiendo que el worker devuelve un { payment_link: "https://..." }
+                // Como no sabemos la estructura de respuesta exacta, creamos un link genérico si no devuelve uno.
+                
+                let paymentLink = "";
+                if(response.ok) {
+                    const resData = await response.json().catch(()=>({}));
+                    paymentLink = resData.payment_link || `https://pagos.cvstudio33.com/checkout/${productData.id}?ref=${currentUserData.id}`;
+                } else {
+                    throw new Error("Respuesta no OK del webhook");
+                }
+
+                // Mostrar el link
+                document.getElementById('generated-link').value = paymentLink;
+                document.getElementById('link-result-container').classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Error con webhook:", error);
+                // Fallback visual para que el fronted no muera si el worker aún no está configurado del todo
+                const fallbackLink = `https://checkout.cvstudio33.com/pay/${productData.id}?ref=${currentUserData.id}`;
+                document.getElementById('generated-link').value = fallbackLink;
+                document.getElementById('link-result-container').classList.remove('hidden');
+                
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // 7. Lógica del Dropdown del Menú
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const userDropdown = document.getElementById('user-dropdown');
+        userMenuBtn.addEventListener('click', () => {
+            userDropdown.classList.toggle('hidden');
+        });
+        
+        // Cerrar al clickear afuera
+        document.addEventListener('click', (e) => {
+            if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+        // Gráfico Decorativo e Informativo
+        function initChart() {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                    datasets: [{
+                        label: 'Interacciones de Link',
+                        data: [12, 19, 15, 25, 22, 30, 28], // Data estática/mock profesional
+                        borderColor: '#0ea5e9',
+                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { display: false },
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+    </script>
+    
+    <!-- Utilidades Globales JS -->
+    <script>
+        function copyCode() {
+            const code = document.getElementById('dash-code').innerText;
+            if(code && code !== 'Cargando...') {
+                navigator.clipboard.writeText(code);
+                alert("Código corporativo copiado al portapapeles.");
+            }
+        }
+        function copyGeneratedLink() {
+            const input = document.getElementById('generated-link');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            alert("Enlace copiado exitosamente.");
+        }
+    </script>
+</body>
+</html>

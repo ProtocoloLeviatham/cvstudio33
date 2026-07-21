@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVStudio33 | Panel de Gestión y Ventas</title>
     
-    <!-- Fuentes, Tailwind y Chart.js -->
+    <!-- Fuentes y Tailwind -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         tailwind.config = {
@@ -180,17 +179,6 @@
                 </div>
             </div>
 
-            <!-- Gráfico de Rendimiento -->
-            <div class="glass-panel rounded-2xl border border-white/5 p-5">
-                <div class="flex items-center gap-2 mb-4">
-                    <i class="fas fa-chart-line text-brand-400"></i>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Rendimiento Operativo (Picos de Venta)</h3>
-                </div>
-                <div class="h-48 w-full">
-                    <canvas id="salesChart"></canvas>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- ARSENAL DE LINKS -->
                 <div class="lg:col-span-2 glass-panel rounded-2xl border border-white/5 p-5 sm:p-7">
@@ -336,7 +324,6 @@
 
         let currentUserData = null;
         let ranksData = {};
-        let myChart = null;
         const WEBHOOK_URL = "https://cvstudio33-webhook.lautybg22.workers.dev/";
 
         const vLogin = document.getElementById('login-view');
@@ -504,30 +491,6 @@
                 bar.classList.replace('bg-yellow-400', 'bg-brand-500');
                 titleProgress.classList.replace('text-yellow-400', 'text-slate-400');
             }
-            initChart(sales);
-        }
-
-        function initChart(salesCount) {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            if(myChart) myChart.destroy();
-            let dataPoints = [0, 0, 0, 0, 0, 0, salesCount];
-            if (salesCount > 0) {
-               dataPoints = [Math.floor(salesCount*0.2), Math.floor(salesCount*0.5), Math.floor(salesCount*0.3), Math.floor(salesCount*0.8), Math.floor(salesCount*0.6), Math.floor(salesCount*0.9), salesCount];
-            }
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Hoy'],
-                    datasets: [{
-                        label: 'Ventas', data: dataPoints, borderColor: '#0ea5e9', backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                        borderWidth: 2, pointBackgroundColor: '#fff', pointBorderColor: '#0ea5e9', fill: true, tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-                    scales: { y: { display: false, beginAtZero: true }, x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } } }
-                }
-            });
         }
 
         document.getElementById('btn-generate').addEventListener('click', async () => {
@@ -572,3 +535,5 @@
     </script>
 </body>
 </html>
+
+

@@ -425,7 +425,7 @@
             window.location.reload(); 
         });
 
-        // CONTROL DE SESIÓN (SOLUCIÓN DEL BUG DE CARGA INFINITA)
+        // CONTROL DE SESIÓN
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if (isInitializingProfile) return;
@@ -438,13 +438,13 @@
                     updateUI(user);
                     loadLeaderboard();
                     
-                    hideLoader(); // APAGA EL CARTEL DE AUTENTICANDO CON SEGURIDAD
+                    hideLoader();
                     vLogin.classList.add('hidden');
                     vDash.classList.remove('hidden');
                 } catch (error) {
                     console.error(error); 
                     alert("Error crítico leyendo Firestore."); 
-                    hideLoader(); // APAGA EL CARTEL INCLUSO SI HAY ERROR
+                    hideLoader(); 
                     signOut(auth);
                 } finally {
                     isInitializingProfile = false; 
@@ -463,13 +463,13 @@
             if (!snap.empty) snap.forEach(d => { ranksData[d.id] = d.data(); });
         }
 
-        // MOTOR DE CREACIÓN (SOLO LECTURA DE CLONES, DELEGA EL BORRADO AL WORKER)
+        // MOTOR DE CREACIÓN (SOLUCIÓN ID CV33-1 APLICADA)
         async function initializeOrLoadSeller(user) {
             const q = query(collection(db, "sellers"), where("name", "==", user.email));
             const snap = await getDocs(q);
 
             if (!snap.empty) {
-                // 1. Escudo Inteligente: Identifica la cuenta con dinero real
+                // Escudo Inteligente: Identifica la cuenta con dinero real
                 let bestDoc = snap.docs[0];
                 let maxBalance = parseFloat(bestDoc.data().balance_ars || 0);
                 
@@ -482,8 +482,13 @@
                 });
                 
                 currentUserData = bestDoc.data();
+                
+                // ======== ARREGLO CRÍTICO ========
+                // Forzamos el ID real de Firestore para ignorar clones bugeados (ej. CV33-1)
+                currentUserData.id = bestDoc.id; 
+                // =================================
 
-                // 2. SI HAY CLONES: LE AVISA AL WORKER PARA QUE LOS MATE (Firebase Rules Safe)
+                // Aviso de limpieza de clones
                 if (snap.docs.length > 1) {
                     const clonesToKill = [];
                     snap.docs.forEach(docSnap => {
@@ -492,21 +497,22 @@
                         }
                     });
                     
-                    // Dispara la orden al Worker en segundo plano
                     if (clonesToKill.length > 0) {
                         fetch(WEBHOOK_URL, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ 
-                                action: 'cleanup_clones', 
-                                clones: clonesToKill 
-                            })
+                            body: JSON.stringify({ action: 'cleanup_clones', clones: clonesToKill })
                         }).catch(e => console.log("Worker cleanup trigger failed", e));
                     }
                 }
 
             } else {
-                // CREACIÓN SECUENCIAL ORDENADA (CV33-1, CV33-2... hasta el infinito)
+                // ======== ADVERTENCIA DE ESCALABILIDAD ========
+                // Para determinar el próximo ID (ej. CV33-46), este código está leyendo TODA tu base de datos.
+                // Como Firestore ordena alfabéticamente (CV33-10 va antes que CV33-2), no podemos usar "limit(1)" fácilmente con este formato de ID.
+                // Si planeas pasar de los 100 vendedores, DEBES cambiar esto y usar un documento contador global en Firestore. 
+                // Por ahora, lo mantenemos así para que tu sistema siga funcionando sin romper nada.
+                
                 const all = await getDocs(collection(db, "sellers"));
                 let max = 0;
                 
@@ -528,7 +534,6 @@
                     daily_sales: {}
                 };
                 
-                // NOTA FUTURA: Si cierras las reglas de escritura en Firebase, esta línea de creación también deberá delegarse al Worker.
                 await setDoc(doc(db, "sellers", newCode), currentUserData);
             }
         }
@@ -598,9 +603,13 @@
             for (let i = 6; i >= 0; i--) {
                 const d = new Date();
                 d.setDate(d.getDate() - i);
-                const dateStr = d.toLocaleDateString('en-CA'); 
-                const dayName = d.toLocaleDateString('es-ES', { weekday: 'short' }).toUpperCase();
                 
+                // ======== ARREGLO DE ZONA HORARIA ========
+                // Forzamos hora local de Argentina para emparejar con el backend y evitar datos desfasados
+                const dateStr = d.toLocaleDateString('en-CA', { timeZone: 'America/Argentina/Buenos_Aires' }); 
+                const dayName = d.toLocaleDateString('es-ES', { weekday: 'short', timeZone: 'America/Argentina/Buenos_Aires' }).toUpperCase();
+                // ==========================================
+
                 labels.push(i === 0 ? 'HOY' : dayName);
                 dataPoints.push(dailySalesMap[dateStr] || 0);
             }
@@ -761,4 +770,5 @@
     </script>
 </body>
 </html>
+
 

@@ -191,9 +191,8 @@
                 </div>
             </div>
 
-            <!-- Gráfico Real y Top 5 (Responsive) -->
+            <!-- Gráfico Real y Top 5 -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
                 <!-- Gráfico (Ocupa 2 col) -->
                 <div class="lg:col-span-2 glass-panel rounded-2xl border border-white/5 p-5">
                     <div class="flex items-center justify-between mb-4">
@@ -228,7 +227,6 @@
 
             <!-- Arsenal y Finanzas -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
                 <!-- ARSENAL DE LINKS -->
                 <div class="glass-panel rounded-2xl border border-white/5 p-5 sm:p-7">
                     <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
@@ -254,7 +252,7 @@
                                 </button>
                             </div>
                             
-                            <!-- NUEVO: Disclaimer de desconfianza -->
+                            <!-- Disclaimer de desconfianza -->
                             <p class="text-[10.5px] text-slate-400 mt-4 border-t border-white/10 pt-3 leading-relaxed">
                                 <i class="fas fa-shield-alt text-brand-500 mr-1"></i> ¿El cliente desconfía del link? Pásale nuestro catálogo oficial web. Allí podrán ingresar tu ID <b class="text-brand-400 font-mono tracking-wide" id="disclaimer-id"></b> manualmente para una transacción 100% segura y verificada.
                             </p>
@@ -298,7 +296,7 @@
             <!-- DOSSIER COMERCIAL Y MÓDULO LIXIE -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
                 
-                <!-- Guía Comercial Avanzada (Ocupa 2 Col) -->
+                <!-- Guía Comercial Avanzada -->
                 <div class="lg:col-span-2 glass-panel rounded-2xl border border-brand-500/20 p-5 sm:p-7 relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-4 opacity-10">
                         <i class="fas fa-globe text-9xl"></i>
@@ -310,7 +308,6 @@
                     <p class="text-sm text-slate-400 mb-6">El problema laboral y la IA son un problema para el mundo, pero una oportunidad para nosotros. Exprime el mercado al máximo.</p>
 
                     <div class="space-y-6 relative z-10">
-                        <!-- Nivel 1 -->
                         <div class="bg-dark-900/60 p-5 rounded-xl border border-white/5">
                             <h4 class="text-brand-400 font-bold mb-2 uppercase text-sm tracking-wide">
                                 <i class="fas fa-mobile-alt mr-2"></i> Nivel 1: Infiltración Orgánica <span class="text-green-400 ml-2">($500,000+ ARS/mes)</span>
@@ -320,7 +317,6 @@
                             </p>
                         </div>
 
-                        <!-- Nivel 2 -->
                         <div class="bg-dark-900/60 p-5 rounded-xl border border-white/5">
                             <h4 class="text-brand-400 font-bold mb-2 uppercase text-sm tracking-wide">
                                 <i class="fas fa-users mr-2"></i> Nivel 2: Células de Expansión <span class="text-green-400 ml-2">($5M - $10M+ ARS/mes)</span>
@@ -330,7 +326,6 @@
                             </p>
                         </div>
 
-                        <!-- Comisiones e Infraestructura -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="border border-brand-500/30 bg-brand-900/10 p-4 rounded-xl">
                                 <h5 class="text-white font-bold text-sm mb-1"><i class="fas fa-chart-pie text-brand-500 mr-1"></i> Ascenso de Comisiones</h5>
@@ -348,7 +343,7 @@
                     </div>
                 </div>
 
-                <!-- Módulo LIXIE (Ocupa 1 Col) -->
+                <!-- Módulo LIXIE -->
                 <div class="glass-panel-accent rounded-2xl p-5 sm:p-7 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-3 mb-4">
@@ -405,7 +400,7 @@
         let currentUserData = null;
         let ranksData = {};
         let myChart = null;
-        let isInitializingProfile = false; // Cerrojo anti-clones
+        let isInitializingProfile = false; 
         
         const WEBHOOK_URL = "https://cvstudio33-webhook.lautybg22.workers.dev/";
 
@@ -430,7 +425,7 @@
             window.location.reload(); 
         });
 
-        // CONTROL DE SESIÓN
+        // CONTROL DE SESIÓN (SOLUCIÓN DEL BUG DE CARGA INFINITA)
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if (isInitializingProfile) return;
@@ -443,11 +438,14 @@
                     updateUI(user);
                     loadLeaderboard();
                     
-                    hideLoader();
+                    hideLoader(); // APAGA EL CARTEL DE AUTENTICANDO CON SEGURIDAD
                     vLogin.classList.add('hidden');
                     vDash.classList.remove('hidden');
                 } catch (error) {
-                    console.error(error); alert("Error crítico leyendo Firestore."); signOut(auth);
+                    console.error(error); 
+                    alert("Error crítico leyendo Firestore."); 
+                    hideLoader(); // APAGA EL CARTEL INCLUSO SI HAY ERROR
+                    signOut(auth);
                 } finally {
                     isInitializingProfile = false; 
                 }
@@ -465,29 +463,63 @@
             if (!snap.empty) snap.forEach(d => { ranksData[d.id] = d.data(); });
         }
 
-        // MOTOR DE CREACIÓN DE IDs BLINDADO
+        // MOTOR DE CREACIÓN (SOLO LECTURA DE CLONES, DELEGA EL BORRADO AL WORKER)
         async function initializeOrLoadSeller(user) {
             const q = query(collection(db, "sellers"), where("name", "==", user.email));
             const snap = await getDocs(q);
 
             if (!snap.empty) {
-                // Escudo: Si hay clones fantasma, agarra el del dinero
-                let bestData = snap.docs[0].data();
-                let maxBalance = parseFloat(bestData.balance_ars || 0);
+                // 1. Escudo Inteligente: Identifica la cuenta con dinero real
+                let bestDoc = snap.docs[0];
+                let maxBalance = parseFloat(bestDoc.data().balance_ars || 0);
                 
-                snap.docs.forEach(doc => {
-                    const dData = doc.data();
-                    const bal = parseFloat(dData.balance_ars || 0);
+                snap.docs.forEach(docSnap => {
+                    const bal = parseFloat(docSnap.data().balance_ars || 0);
                     if (bal > maxBalance) {
                         maxBalance = bal;
-                        bestData = dData;
+                        bestDoc = docSnap;
                     }
                 });
-                currentUserData = bestData;
+                
+                currentUserData = bestDoc.data();
+
+                // 2. SI HAY CLONES: LE AVISA AL WORKER PARA QUE LOS MATE (Firebase Rules Safe)
+                if (snap.docs.length > 1) {
+                    const clonesToKill = [];
+                    snap.docs.forEach(docSnap => {
+                        if (docSnap.id !== bestDoc.id) {
+                            clonesToKill.push(docSnap.id);
+                        }
+                    });
+                    
+                    // Dispara la orden al Worker en segundo plano
+                    if (clonesToKill.length > 0) {
+                        fetch(WEBHOOK_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ 
+                                action: 'cleanup_clones', 
+                                clones: clonesToKill 
+                            })
+                        }).catch(e => console.log("Worker cleanup trigger failed", e));
+                    }
+                }
+
             } else {
-                // Generador Criptográfico de ID de Agente (Ej: CV33-8492)
-                const randomId = Math.floor(1000 + Math.random() * 9000); 
-                const newCode = `CV33-${randomId}`;
+                // CREACIÓN SECUENCIAL ORDENADA (CV33-1, CV33-2... hasta el infinito)
+                const all = await getDocs(collection(db, "sellers"));
+                let max = 0;
+                
+                all.forEach(d => {
+                    const idUpper = d.id.toUpperCase();
+                    if (idUpper.startsWith("CV33-")) {
+                        const n = parseInt(idUpper.replace("CV33-", ""));
+                        if (!isNaN(n) && n > max) max = n;
+                    }
+                });
+
+                const nextId = max + 1;
+                const newCode = `CV33-${nextId}`;
                 
                 currentUserData = { 
                     id: newCode, name: user.email, rank: "novato", 
@@ -495,6 +527,8 @@
                     alias_pago: "", withdrawals_count: 0, last_withdrawal_month: new Date().getMonth(),
                     daily_sales: {}
                 };
+                
+                // NOTA FUTURA: Si cierras las reglas de escritura en Firebase, esta línea de creación también deberá delegarse al Worker.
                 await setDoc(doc(db, "sellers", newCode), currentUserData);
             }
         }
@@ -727,3 +761,4 @@
     </script>
 </body>
 </html>
+

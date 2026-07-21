@@ -71,7 +71,7 @@
         <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Sistema Central de Ventas</p>
     </div>
 
-    <!-- OVERLAY DE CARGA (Para acciones internas) -->
+    <!-- OVERLAY DE CARGA -->
     <div id="global-loader" class="fixed inset-0 bg-dark-950/90 backdrop-blur-md z-[100] hidden flex-col justify-center items-center">
         <div class="spinner mb-4 w-12 h-12"></div>
         <p id="loader-text" class="text-sm font-medium text-brand-400 tracking-widest uppercase">Procesando...</p>
@@ -405,7 +405,7 @@
         let currentUserData = null;
         let ranksData = {};
         let myChart = null;
-        let isInitializingProfile = false; // <-- CERROJO ANTI-DOBLE DISPARO
+        let isInitializingProfile = false; // Cerrojo anti-clones
         
         const WEBHOOK_URL = "https://cvstudio33-webhook.lautybg22.workers.dev/";
 
@@ -430,10 +430,10 @@
             window.location.reload(); 
         });
 
-        // ESTADO DE SESIÓN (AQUÍ ESTABA EL ERROR DEL CARGADOR INFINITO)
+        // CONTROL DE SESIÓN
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                if (isInitializingProfile) return; // Bloquea los hilos duplicados
+                if (isInitializingProfile) return;
                 isInitializingProfile = true;
                 
                 try {
@@ -443,7 +443,7 @@
                     updateUI(user);
                     loadLeaderboard();
                     
-                    hideLoader(); // <-- ESTA LÍNEA APAGA EL CARTEL DE AUTENTICANDO
+                    hideLoader();
                     vLogin.classList.add('hidden');
                     vDash.classList.remove('hidden');
                 } catch (error) {
@@ -465,13 +465,13 @@
             if (!snap.empty) snap.forEach(d => { ranksData[d.id] = d.data(); });
         }
 
-        // LÓGICA DE CARGA INTELIGENTE (ELIMINACIÓN DEL CV33-1 FANTASMA)
+        // MOTOR DE CREACIÓN DE IDs BLINDADO
         async function initializeOrLoadSeller(user) {
             const q = query(collection(db, "sellers"), where("name", "==", user.email));
             const snap = await getDocs(q);
 
             if (!snap.empty) {
-                // ESCUDO INTELIGENTE: Si hay más de un documento, elige el de mayor balance
+                // Escudo: Si hay clones fantasma, agarra el del dinero
                 let bestData = snap.docs[0].data();
                 let maxBalance = parseFloat(bestData.balance_ars || 0);
                 
@@ -485,20 +485,13 @@
                 });
                 currentUserData = bestData;
             } else {
-                const all = await getDocs(collection(db, "sellers"));
-                let max = 0;
-                all.forEach(d => { 
-                    const idUpper = d.id.toUpperCase();
-                    if (idUpper.startsWith("CV33-")) { 
-                        const n = parseInt(idUpper.replace("CV33-", "")); 
-                        if (!isNaN(n) && n > max) max = n; 
-                    } 
-                });
-
-                const newCode = `CV33-${max + 1}`;
+                // Generador Criptográfico de ID de Agente (Ej: CV33-8492)
+                const randomId = Math.floor(1000 + Math.random() * 9000); 
+                const newCode = `CV33-${randomId}`;
+                
                 currentUserData = { 
                     id: newCode, name: user.email, rank: "novato", 
-                    balance_ars: 0, commission_rate: ranksData["novato"].commission_rate, sales_count: 0,
+                    balance_ars: 0, commission_rate: (ranksData["novato"] ? ranksData["novato"].commission_rate : 0.45), sales_count: 0,
                     alias_pago: "", withdrawals_count: 0, last_withdrawal_month: new Date().getMonth(),
                     daily_sales: {}
                 };
@@ -734,6 +727,3 @@
     </script>
 </body>
 </html>
-
-
-

@@ -203,9 +203,17 @@
                             <option value="" disabled selected>Cargando stock desde Firebase...</option>
                         </select>
                     </div>
+                    
+                    <!-- Botón Generar Link -->
                     <button id="btn-generate" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold tracking-wide py-3.5 rounded-xl transition shadow-[0_0_15px_rgba(14,165,233,0.3)] flex items-center justify-center gap-2">
                         <i class="fas fa-bolt"></i> GENERAR ENLACE COMERCIAL
                     </button>
+
+                    <!-- NUEVO: Botón Guía de Marketing -->
+                    <a href="gestion-de-marketing.html" class="w-full bg-dark-900 border border-white/10 hover:bg-white/10 hover:border-brand-500/50 text-slate-300 hover:text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 mt-2">
+                        <i class="fas fa-book-open text-brand-400"></i> ARSENAL Y GUÍA DE MARKETING
+                    </a>
+
                     <div id="link-result" class="hidden pt-2">
                         <p class="text-xs text-green-400 mb-1 font-medium">Enlace encriptado y generado correctamente:</p>
                         <div class="flex flex-col sm:flex-row gap-2">
@@ -219,6 +227,92 @@
             </div>
 
             <!-- ======================================================= -->
+            <!-- NUEVA SECCIÓN: TESORERÍA Y RETIROS SEGURIZADOS          -->
+            <!-- ======================================================= -->
+            <div class="glass-panel rounded-2xl border border-white/5 p-5 sm:p-7 relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-5 pointer-events-none">
+                    <i class="fas fa-vault text-9xl"></i>
+                </div>
+                
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-wallet text-brand-500"></i> Tesorería y Retiros
+                    </h3>
+                </div>
+                
+                <div class="text-sm text-slate-300 mb-6 leading-relaxed relative z-10">
+                    <p class="mb-3">El ecosistema garantiza la liquidez inmediata de tus operaciones, pero bajo un estricto protocolo de seguridad. Toda extracción es auditada por nuestro departamento financiero y procesada en un marco de <strong class="text-white">24 a 48 horas hábiles</strong> dependiendo del volumen de flujo de la red.</p>
+                    <div class="bg-yellow-500/10 border border-yellow-500/30 p-3 rounded-xl text-yellow-200 text-xs">
+                        <i class="fas fa-exclamation-triangle text-yellow-400 mr-1"></i> <strong class="text-yellow-400 font-bold">Directriz Operativa:</strong> Para evitar fricciones o desconfianza por demoras de enrutamiento bancario, gestioná tu retiro hasta <strong>3 días antes</strong> de cuando requieras los fondos físicamente en tu cuenta personal. No aceptamos reclamos por falta de planificación.
+                    </div>
+                </div>
+
+                <button id="btn-open-withdraw" class="bg-dark-900 hover:bg-dark-800 border border-brand-500/30 hover:border-brand-500 text-white font-bold py-3 px-6 rounded-xl transition w-full sm:w-auto flex items-center justify-center gap-2 relative z-10">
+                    <i class="fas fa-money-bill-transfer text-brand-400"></i> SOLICITAR LIQUIDACIÓN DE FONDOS
+                </button>
+
+                <!-- Panel Formulario Retiro Oculto -->
+                <div id="withdraw-form-container" class="hidden mt-6 bg-dark-950/80 border border-white/10 rounded-xl p-5 relative z-10 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-600 to-brand-400"></div>
+                    <h4 class="text-lg font-bold text-white mb-4">Interfaz de Extracción Segura</h4>
+                    
+                    <div id="withdraw-alert" class="hidden mb-4 p-3 rounded-lg text-xs font-mono border"></div>
+
+                    <form id="withdraw-form" class="space-y-5">
+                        <!-- Nombre Completo -->
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1 uppercase tracking-wider font-semibold">Titular de la cuenta</label>
+                            <input type="text" id="w-name" required placeholder="Debe coincidir con tu DNI..." class="w-full bg-dark-900 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        
+                        <!-- Plataforma Grid Radio Cards -->
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-semibold">Plataforma de Destino</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="w-platform" value="Mercado Pago" class="peer sr-only" required>
+                                    <div class="rounded-xl border border-white/10 bg-dark-900 p-3 hover:bg-white/5 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 transition flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-[#009EE3] rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-handshake text-white text-xs"></i></div>
+                                        <span class="text-sm text-slate-200 font-medium">Mercado Pago</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="w-platform" value="Naranja X" class="peer sr-only">
+                                    <div class="rounded-xl border border-white/10 bg-dark-900 p-3 hover:bg-white/5 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 transition flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-[#FF5A00] rounded-full flex items-center justify-center shadow-lg"><span class="text-white font-black text-xs">NX</span></div>
+                                        <span class="text-sm text-slate-200 font-medium">Naranja X</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="w-platform" value="Entidad Bancaria" class="peer sr-only">
+                                    <div class="rounded-xl border border-white/10 bg-dark-900 p-3 hover:bg-white/5 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 transition flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-building-columns text-white text-xs"></i></div>
+                                        <span class="text-sm text-slate-200 font-medium">CBU Bancario</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- CBU/CVU -->
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1 uppercase tracking-wider font-semibold">CVU / CBU / Alias</label>
+                            <input type="text" id="w-cbu" required placeholder="Ingresá los 22 dígitos o el Alias exacto" class="w-full bg-dark-900 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:border-brand-500 font-mono transition">
+                        </div>
+
+                        <!-- Medio de Contacto -->
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1 uppercase tracking-wider font-semibold">Canal de Emergencia (WhatsApp / Email)</label>
+                            <input type="text" id="w-contact" required placeholder="Vía de contacto si el Cerebro detecta anomalías" class="w-full bg-dark-900 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+
+                        <button type="submit" id="btn-submit-withdraw" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold tracking-wide py-4 rounded-xl transition flex items-center justify-center gap-2 mt-4 shadow-[0_0_15px_rgba(14,165,233,0.3)]">
+                            <i class="fas fa-shield-halved"></i> AUTORIZAR Y ENVIAR AL CEREBRO 2
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ======================================================= -->
             <!-- NUEVA SECCIÓN: CENTRO DE FORMACIÓN Y ECOSISTEMA         -->
             <!-- ======================================================= -->
             <section class="mt-16 space-y-8">
@@ -228,7 +322,7 @@
                     </div>
                     <div>
                         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Academia Ejecutiva</h2>
-                        <p class="text-xs sm:text-sm text-slate-400">Directrices operativas, infraestructura y expansión.</p>
+                        <p class="text-xs sm:text-sm text-slate-400">Directrices operativas, infraestructura y expansión de la red.</p>
                     </div>
                 </div>
 
@@ -240,36 +334,36 @@
                             <div class="bg-brand-500/10 w-12 h-12 rounded-xl flex items-center justify-center border border-brand-500/20">
                                 <i class="fas fa-rocket text-brand-400 text-xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-white">Módulo 1: El Arte del Reselling</h3>
+                            <h3 class="text-xl font-bold text-white">Módulo 1: Arquitectura de Tráfico y Dominio</h3>
                         </div>
                         <p class="text-sm text-slate-300 mb-6 leading-relaxed">
-                            Como <span class="text-brand-400 font-semibold">Reseller de CvStudio33</span>, tu trabajo no es "vender servicios sueltos", es conectar una demanda masiva del mercado con nuestra infraestructura de alta gama. Nosotros ponemos los ingenieros, la IA y los servidores; vos pones el tráfico y los cierres. 
+                            Como <span class="text-brand-400 font-semibold">Operador de Élite de CvStudio33</span>, tu trabajo no es "vender servicios". Tu misión es construir puentes tácticos entre la desesperación masiva del mercado laboral y nuestra infraestructura tecnológica letal. Nosotros inyectamos el capital, la IA y los servidores en la sombra; vos dominás el tráfico y ejecutas los cierres.
                         </p>
                         
                         <div class="space-y-4 text-sm text-slate-300">
-                            <div class="border-l-2 border-slate-700 pl-4">
-                                <strong class="text-white block mb-1">Optimizando el Embudo (TikTok/IG)</strong>
-                                Tus cuentas sociales deben operar como máquinas de conversión, apuntando al dolor del cliente corporativo o del profesional que busca destacar. No creamos perfiles estéticos, creamos redes de arrastre.
+                            <div class="border-l-2 border-brand-500 pl-4">
+                                <strong class="text-white block mb-1">Redes de Arrastre (TikTok/IG)</strong>
+                                Tus cuentas sociales deben operar como máquinas extractoras de liquidez, apuntando directo al dolor del cliente que no logra ser contratado. No creamos contenido lindo ni estético; programamos embudos psicológicos de conversión absoluta.
                             </div>
                             
-                            <div class="bg-dark-900/80 p-5 rounded-xl border border-white/5 mt-4">
+                            <div class="bg-dark-900/80 p-5 rounded-xl border border-white/5 mt-4 shadow-inner">
                                 <h4 class="text-brand-400 font-bold mb-3 flex items-center gap-2">
                                     <i class="fas fa-chart-pie"></i> PROYECCIÓN MATEMÁTICA REAL
                                 </h4>
                                 <div class="space-y-4">
                                     <div class="border-b border-white/5 pb-3">
                                         <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Operador Solitario (Día Normal)</p>
-                                        <p class="text-white font-medium">Cerrar 2 ventas diarias (Ej: $6.500) a 45%.</p>
+                                        <p class="text-white font-medium">Cerrar 2 ventas diarias (Ej: $6.500) al 45%.</p>
                                         <p class="text-brand-300 font-bold text-lg">+$5.850 ARS/día <span class="text-slate-500 font-normal text-sm">➔ +$175.500 ARS/mes</span></p>
                                     </div>
                                     <div class="border-b border-white/5 pb-3">
-                                        <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Operador Solitario (Día Bueno / Escalado)</p>
-                                        <p class="text-white font-medium">Cerrar 8 ventas diarias (Impulsadas por contenido viral).</p>
+                                        <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Operador Solitario (Escalado Viral)</p>
+                                        <p class="text-white font-medium">Cerrar 8 ventas diarias impulsadas por el algoritmo.</p>
                                         <p class="text-brand-300 font-bold text-lg">+$23.400 ARS/día <span class="text-slate-500 font-normal text-sm">➔ +$702.000 ARS/mes</span></p>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-yellow-500 uppercase tracking-wider mb-1 font-bold">Empresa / Equipo (20 Operadores + Inversión Ads)</p>
-                                        <p class="text-white font-medium">Generando un volumen de 150 ventas al día en todo el ecosistema.</p>
+                                        <p class="text-xs text-yellow-500 uppercase tracking-wider mb-1 font-bold">Arquitecto de Red (Inversión Ads + Tráfico Masivo)</p>
+                                        <p class="text-white font-medium">Generando un volumen de 150 ventas diarias en tu propio ecosistema.</p>
                                         <p class="text-yellow-400 font-bold text-xl">+$438.750 ARS/día <span class="text-slate-500 font-normal text-sm">➔ +$13.162.500 ARS/mes</span></p>
                                     </div>
                                 </div>
@@ -283,12 +377,12 @@
                             <div class="bg-brand-500/10 w-12 h-12 rounded-xl flex items-center justify-center border border-brand-500/20">
                                 <i class="fas fa-gem text-brand-400 text-xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-white">Módulo 2: Ecosistema</h3>
+                            <h3 class="text-xl font-bold text-white">Módulo 2: Escalabilidad Financiera</h3>
                         </div>
                         <div class="space-y-4 text-sm text-slate-300">
-                            <p><b>• Base de Alto Impacto:</b> Iniciás con una comisión pura y dura del <span class="text-brand-400 font-bold">45%</span> por transacción. Sin descuentos absurdos.</p>
-                            <p><b>• Gamificación (El Bono):</b> Cada 5 ventas demostrás consistencia. La venta número 5 siempre detonará tu código, inyectando un <span class="text-yellow-400 font-bold">80% directo</span> a tu balance.</p>
-                            <p><b>• Escalabilidad Absoluta:</b> Si manejás volúmenes de audiencia masivos o sos un influencer consolidado, tu rango base se ancla al <span class="text-green-400 font-bold">70% FIJO</span>.</p>
+                            <p><b>• Base de Impacto Puro:</b> Iniciás con una regalía fría y dura del <span class="text-brand-400 font-bold">45%</span> por transacción. Cero vueltas. Cero descuentos fantasmas.</p>
+                            <p><b>• Gamificación Automática:</b> El sistema recompensa a los mercenarios persistentes. Cada 5 cierres demostrás lealtad a la red, y la venta número 5 detona un <span class="text-yellow-400 font-bold">80% directo</span> a tu balance.</p>
+                            <p><b>• Ascenso al Olimpo:</b> Si tu capacidad de arrastre demuestra volumen masivo o poseés una audiencia consolidada, tu base se encripta al <span class="text-green-400 font-bold">70% FIJO</span>. Sin preguntas.</p>
                         </div>
                     </div>
 
@@ -298,22 +392,22 @@
                             <div class="bg-brand-500/10 w-12 h-12 rounded-xl flex items-center justify-center border border-brand-500/20">
                                 <i class="fas fa-server text-brand-400 text-xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-white">Módulo 3: El Poder de la Ingeniería</h3>
+                            <h3 class="text-xl font-bold text-white">Módulo 3: El Brazo Armado Tecnológico</h3>
                         </div>
                         <p class="text-sm text-slate-300 leading-relaxed mb-4">
-                            En CvStudio33 no existen los techos técnicos. Nosotros no compramos software de terceros, <span class="text-white font-bold">nosotros construimos el software.</span>
+                            En CvStudio33 no existen las limitaciones de software. Nosotros no alquilamos tecnología barata de terceros. <span class="text-white font-bold">Nosotros forjamos el código desde las sombras.</span>
                         </p>
-                        <div class="bg-dark-900 border border-white/5 p-4 rounded-xl text-sm text-slate-300 italic">
-                            "Si demostrás potencial en ventas, tenés un margen de retención impecable, o simplemente se te cruza una idea brillante para dominar tu nicho, <b>el equipo de ingenieros de CvStudio33Operations está a tu entera disposición.</b>"
+                        <div class="bg-dark-900 border border-brand-500/20 p-4 rounded-xl text-sm text-slate-300 italic border-l-4 border-l-brand-500">
+                            "Si demostrás hambre por dominar tu nicho y los números te avalan, <b>todo el escuadrón de ingenieros de Leviatham Core y CvStudio33Operations está a tu disposición para escalar tu imperio.</b>"
                         </div>
                         <p class="text-sm text-slate-300 leading-relaxed mt-4">
-                            ¿Necesitás un bot de Telegram que automatice tus cierres? ¿Una Landing Page exclusiva con tu marca para filtrar tráfico? ¿Una Inteligencia Artificial que responda a tus prospectos en Instagram? <b>Si podés imaginarlo, nosotros podemos codearlo y financiarlo para vos.</b>
+                            ¿Necesitás un bot encriptado de Telegram para automatizar la caída de clientes? ¿Una landing page clonada con tu branding para filtrar curiosos? ¿Un Agente IA rastreando cuentas en Instagram? <b>Si la idea trae dinero, nosotros la programamos y financiamos los servidores. Tu imaginación es nuestro backlog.</b>
                         </p>
                     </div>
 
                     <!-- Módulo 5: LIXIE -->
                     <div class="glass-panel-accent p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between shadow-[0_0_30px_rgba(14,165,233,0.1)] lg:col-span-1 lg:row-span-2">
-                        <div class="absolute top-0 right-0 p-4 opacity-5">
+                        <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                             <i class="fas fa-network-wired text-9xl text-brand-400"></i>
                         </div>
                         
@@ -322,32 +416,33 @@
                                 <i class="fas fa-microchip text-white text-2xl"></i>
                             </div>
                             <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Módulo 5: LIXIE</h3>
-                            <p class="text-xs uppercase tracking-widest text-brand-300 font-bold mb-6 border-b border-brand-500/30 pb-4">Inteligencia y Control Contable</p>
+                            <p class="text-xs uppercase tracking-widest text-brand-300 font-bold mb-6 border-b border-brand-500/30 pb-4">Núcleo Analítico y Control</p>
                             
                             <div class="space-y-4 text-sm text-slate-200">
-                                <p>Lixie no es un simple script. Es la Agente IA Contable oficial y el cerebro en la sombra de <span class="font-bold text-white">CvStudio33</span>.</p>
-                                <p>Silenciosa, rápida y letal. Lixie vive dentro de los servidores de Cloudflare, auditando en tiempo real las conexiones encriptadas de Mercado Pago y la base de datos de Firebase.</p>
-                                <div class="bg-dark-950/50 p-4 rounded-lg border border-brand-500/20 font-mono text-xs text-brand-400">
-                                    > DETECTANDO PAGO...<br>
-                                    > FRACCIONANDO COMISIÓN...<br>
-                                    > INYECTANDO BALANCE... [OK]
+                                <p>Lixie no es un bot genérico. Es el ente de Inteligencia Artificial que opera como el sistema nervioso central y auditor financiero de <span class="font-bold text-white">CvStudio33</span>.</p>
+                                <p>Fría, omnipresente e inquebrantable. Lixie reside en los nodos Edge de Cloudflare, escaneando las comunicaciones encriptadas de Mercado Pago y los sockets de Firebase en microsegundos.</p>
+                                <div class="bg-dark-950/80 p-4 rounded-lg border border-brand-500/30 font-mono text-xs text-brand-400 shadow-inner">
+                                    > DETECTANDO IMPACTO DE PAGO...<br>
+                                    > AISLANDO COMISIÓN DEL OPERADOR...<br>
+                                    > FIRMA VERIFICADA.<br>
+                                    > INYECTANDO BALANCE_ARS... [OK]
                                 </div>
-                                <p>Cero error humano. Vos cerrás la venta, Lixie asegura tu capital.</p>
+                                <p>Cero error humano. Vos hackeás la mente del cliente, Lixie asegura tus fondos antes de que parpadees.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Módulo 4: Cierre Épico -->
                     <div class="glass-panel p-8 sm:p-10 rounded-2xl border-l-4 border-l-brand-500 relative overflow-hidden bg-gradient-to-br from-dark-950 to-dark-900 md:col-span-2 lg:col-span-2">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4 uppercase tracking-tighter">Módulo 4: El Cierre Épico</h3>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4 uppercase tracking-tighter">Módulo 4: El Paradigma Final</h3>
                         <p class="text-base sm:text-lg text-slate-300 leading-relaxed mb-6 font-medium">
-                            No somos una agencia más que contrata y descarta. <b>CvStudio33</b> nació de la élite de la programación con un objetivo agresivo: monopolizar y digitalizar el ecosistema laboral en un mundo donde la IA está destruyendo los empleos tradicionales.
+                            No somos una "empresita" jugando a vender servicios. <b>CvStudio33</b> fue gestada por la élite del desarrollo de software con un objetivo terminal: digitalizar y monopolizar el mercado laboral mientras la inteligencia artificial destruye sistemáticamente el trabajo tradicional.
                         </p>
                         <p class="text-sm text-slate-400 leading-relaxed mb-6">
-                            Quiero que sepas algo muy claro: el talento real <b>se queda en la mesa grande</b>. A medida que desarrollemos nuevas plataformas, nuevas IAs y proyectos gigantescos, la gente que empuje este ecosistema hoy, será la mesa directiva de mañana.
+                            Grabate esto en el código fuente de tu cabeza: el talento real <b>no se descarta, se sienta en la mesa grande</b>. A medida que lancemos plataformas más complejas y saturemos nuevos mercados, la infantería que demuestre lealtad comercial hoy, conformará el directorio ejecutivo de mañana.
                         </p>
-                        <p class="text-lg text-brand-400 font-bold italic">
-                            "Estamos acá para hacer historia. Bienvenidos a la red."
+                        <p class="text-xl text-brand-400 font-bold italic border-t border-brand-500/20 pt-6">
+                            "La IA es el meteorito. Nosotros somos el arca. Bienvenidos a la red."
                         </p>
                     </div>
 
@@ -576,6 +671,73 @@
             }
         });
 
+        // ==========================================
+        // NUEVA LÓGICA: CEREBRO 2 (RETIROS CBU)
+        // ==========================================
+        const btnOpenWithdraw = document.getElementById('btn-open-withdraw');
+        const withdrawContainer = document.getElementById('withdraw-form-container');
+        const withdrawForm = document.getElementById('withdraw-form');
+        const withdrawAlert = document.getElementById('withdraw-alert');
+        const btnSubmitWithdraw = document.getElementById('btn-submit-withdraw');
+
+        if(btnOpenWithdraw) {
+            btnOpenWithdraw.addEventListener('click', () => {
+                withdrawContainer.classList.toggle('hidden');
+            });
+        }
+
+        if(withdrawForm) {
+            withdrawForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const platformSelected = document.querySelector('input[name="w-platform"]:checked');
+                if(!platformSelected) { alert("Selecciona la plataforma destino."); return; }
+
+                const originalBtnText = btnSubmitWithdraw.innerHTML;
+                btnSubmitWithdraw.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> FIRMANDO TOKEN JWT...';
+                btnSubmitWithdraw.disabled = true;
+                withdrawAlert.classList.add('hidden');
+
+                try {
+                    // Obtención del Token Seguro de Firebase para validación backend
+                    const idToken = await auth.currentUser.getIdToken(true);
+                    
+                    const payload = {
+                        token: idToken,
+                        seller_id: currentUserData.id,
+                        full_name: document.getElementById('w-name').value,
+                        platform: platformSelected.value,
+                        cbu_cvu: document.getElementById('w-cbu').value,
+                        contact: document.getElementById('w-contact').value
+                    };
+
+                    const res = await fetch("https://retiradascbu.lautybg22.workers.dev/", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (res.ok) {
+                        withdrawAlert.className = "mb-4 p-3 rounded-lg text-xs font-mono border bg-green-500/10 border-green-500/30 text-green-400 block";
+                        withdrawAlert.innerHTML = "> [STATUS: OK] Retiro encolado con éxito en Cerebro 2. Liquidación en 24/48h hábiles.";
+                        withdrawForm.reset();
+                    } else {
+                        // Si falla la validación del Worker (Token trucho o ID robado)
+                        withdrawAlert.className = "mb-4 p-3 rounded-lg text-xs font-mono border bg-red-500/10 border-red-500/30 text-red-400 block";
+                        withdrawAlert.innerHTML = `> [ALERTA DE SEGURIDAD] Solicitud denegada. Inconsistencia detectada entre la Firma JWT y el ID de Operador (${currentUserData.id}). El incidente ha sido reportado.`;
+                    }
+                } catch (error) {
+                    console.error("Error C2:", error);
+                    withdrawAlert.className = "mb-4 p-3 rounded-lg text-xs font-mono border bg-yellow-500/10 border-yellow-500/30 text-yellow-400 block";
+                    withdrawAlert.innerHTML = "> [ERROR DE ENRUTAMIENTO] Falla de conexión con Cloudflare. Reintente en unos minutos.";
+                } finally {
+                    btnSubmitWithdraw.innerHTML = originalBtnText;
+                    btnSubmitWithdraw.disabled = false;
+                }
+            });
+        }
+        // ==========================================
+
         const menuBtn = document.getElementById('user-menu-btn');
         const dropdown = document.getElementById('user-dropdown');
         menuBtn.addEventListener('click', () => dropdown.classList.toggle('hidden'));
@@ -586,4 +748,3 @@
     </script>
 </body>
 </html>
-

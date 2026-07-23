@@ -547,17 +547,20 @@
             if (!snapshot.empty) {
                 currentUserData = snapshot.docs[0].data();
             } else {
-                const allDocs = await getDocs(sellersRef);
-                let maxIdNumber = 0;
-                allDocs.forEach(d => {
-                    const idString = d.id;
-                    if (idString.startsWith("CV33-")) {
-                        const num = parseInt(idString.replace("CV33-", ""));
-                        if (!isNaN(num) && num > maxIdNumber) maxIdNumber = num;
-                    }
-                });
-                const newRefCode = `CV33-${maxIdNumber + 1}`;
-                currentUserData = { balance_ars: 0, commission_rate: ranksData["novato"].commission_rate, sales_count: 0, id: newRefCode, name: user.email, rank: "novato" };
+                // Genera un sufijo único garantizado usando el UID de Firebase Auth
+                // Extraemos los primeros 6 caracteres y los pasamos a mayúsculas.
+                const uniqueSuffix = user.uid.substring(0, 6).toUpperCase();
+                const newRefCode = `CV33-${uniqueSuffix}`;
+                
+                currentUserData = { 
+                    balance_ars: 0, 
+                    commission_rate: ranksData["novato"].commission_rate, 
+                    sales_count: 0, 
+                    id: newRefCode, 
+                    name: user.email, 
+                    rank: "novato" 
+                };
+                
                 await setDoc(doc(db, "sellers", newRefCode), currentUserData);
             }
         }
@@ -748,3 +751,4 @@
     </script>
 </body>
 </html>
+

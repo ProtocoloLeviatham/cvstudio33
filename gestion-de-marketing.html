@@ -10,6 +10,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Librería para la Generación del PDF Profesional -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -95,6 +98,24 @@
     </style>
 </head>
 <body class="antialiased selection:bg-brand-500 selection:text-white relative">
+
+    <!-- CONTENEDOR OCULTO PARA GENERACIÓN DE PDF PROFESIONAL -->
+    <div id="pdf-container" class="hidden bg-white text-black font-sans w-[800px] p-10">
+        <div class="flex items-center justify-between border-b-[3px] border-blue-600 pb-5 mb-8">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" style="width: 60px; height: 60px; object-fit: contain;">
+                <div>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight leading-none mb-1">CVSTUDIO33</h1>
+                    <p class="text-xs text-slate-500 tracking-widest uppercase font-bold">Agencia de Empleabilidad & IA</p>
+                </div>
+            </div>
+            <img src="logonyx.png" style="width: 50px; height: 50px; object-fit: contain;">
+        </div>
+        <div id="pdf-content" class="text-sm text-slate-800 space-y-6 leading-relaxed"></div>
+        <div class="mt-12 pt-5 border-t-2 border-slate-200 text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+            Documento Sintetizado por NYX Core Engine - Uso Operativo Exclusivo
+        </div>
+    </div>
 
     <!-- OVERLAY DE CARGA Y SEGURIDAD -->
     <div id="auth-loader" class="fixed inset-0 bg-dark-950 z-[200] flex flex-col justify-center items-center transition-opacity duration-500">
@@ -187,11 +208,13 @@
                         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 relative z-10 border-b border-white/5 pb-6">
                             <div class="flex items-center gap-4">
                                 <div class="bg-gradient-to-br from-brand-600 to-purple-600 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-brain text-white text-xl"></i>
+                                    <!-- Icono modificado según solicitud -->
+                                    <img src="logonyx.png" alt="NYX Logo" class="w-8 h-8 object-contain">
                                 </div>
                                 <div>
                                     <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Forja de Contenido IA</h2>
-                                    <p class="text-[10px] sm:text-xs text-brand-400 mt-1 uppercase tracking-widest font-mono">Enlazado a Cerebro 4 (Google Cloud AI)</p>
+                                    <!-- Nombre modificado según solicitud -->
+                                    <p class="text-[10px] sm:text-xs text-brand-400 mt-1 uppercase tracking-widest font-mono">Enlazado a NYX Core Engine & Gemini Advanced API</p>
                                 </div>
                             </div>
                         </div>
@@ -281,18 +304,28 @@
                                             </select>
                                         </div>
 
-                                        <!-- Selector 4: Herramientas a Usar -->
+                                        <!-- NUEVO SELECTOR SOLICITADO: Formato de Aparición Visual -->
+                                        <div>
+                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">4. Formato de Aparición Visual</label>
+                                            <select id="ia-appearance" class="w-full neo-select border-green-500/30 text-green-300 rounded-xl py-2.5 px-4 text-sm font-medium">
+                                                <option value="Cámara y Microfono">Me grabaré hablando a cámara (Formato Personal)</option>
+                                                <option value="Avatar IA">Haré un video 100% con IA (Avatar Inteligente/Voz Clonada)</option>
+                                                <option value="Editor CapCut">Usaré un editor (Ej: CapCut) con voz en off y clips de fondo</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Selector 5: Herramientas a Usar -->
                                         <div>
                                             <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
-                                                4. Herramientas de Edición/Voz (Contexto IA)
+                                                5. Herramientas de Edición/Voz (Contexto IA)
                                             </label>
                                             <textarea id="ia-tools" rows="2" class="w-full neo-input rounded-xl py-2 px-3 text-xs font-medium placeholder-slate-600 resize-none" placeholder="Explique a la IA qué programas usará. Ej: Usaré CapCut, hablaré a cámara con micrófono de solapa, y pondré imágenes de fondo..."></textarea>
                                         </div>
 
-                                        <!-- Selector 5: Idea Personalizada -->
+                                        <!-- Selector 6: Idea Personalizada -->
                                         <div>
                                             <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
-                                                5. Idea Principal (Su toque personal)
+                                                6. Idea Principal (Su toque personal)
                                             </label>
                                             <textarea id="ia-idea" rows="3" class="w-full neo-input rounded-xl py-2 px-3 text-xs font-medium placeholder-slate-600 resize-none" placeholder="Escriba de qué quiere que trate el contenido. Ej: Quiero contar la historia de un cliente que no pasaba filtros y le vendí el paquete Tier 1..."></textarea>
                                         </div>
@@ -311,7 +344,7 @@
                                 </div>
                             </div>
 
-                            <!-- SALIDA DE LA IA (OUTPUT CONSOLA PROFESIONAL) -->
+                            <!-- SALIDA DE LA IA (OUTPUT CONSOLA PROFESIONAL MEJORADA) -->
                             <div class="lg:col-span-7 flex flex-col">
                                 <!-- Estado Inicial / Carga -->
                                 <div id="ai-waiting" class="flex-1 min-h-[450px] flex flex-col items-center justify-center border border-dashed border-white/10 rounded-2xl bg-dark-900/30 text-center p-6 transition-all duration-300">
@@ -323,13 +356,13 @@
                                 </div>
 
                                 <!-- Panel de Resultados -->
-                                <div id="ai-results" class="hidden flex-1 flex flex-col bg-[#0a0a0a] border border-brand-500/30 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(14,165,233,0.15)]">
-                                    <div class="bg-dark-950 px-4 py-2.5 border-b border-white/5 flex items-center justify-between">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                            <span class="text-[10px] text-slate-400 font-mono tracking-widest uppercase">Output.json / Síntesis Exitosa</span>
+                                <div id="ai-results" class="hidden flex-1 flex flex-col bg-[#0a0a0a] border border-brand-500/50 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(14,165,233,0.2)]">
+                                    <div class="bg-gradient-to-r from-dark-950 to-dark-900 px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]"></div>
+                                            <span class="text-[11px] text-slate-300 font-mono tracking-widest uppercase font-bold">Output.json / Síntesis Exitosa</span>
                                         </div>
-                                        <span class="text-[10px] text-brand-500 font-mono"><i class="fas fa-check"></i> 200 OK</span>
+                                        <span class="text-[11px] text-brand-400 font-mono bg-brand-500/10 px-2 py-0.5 rounded border border-brand-500/20"><i class="fas fa-check"></i> 200 OK</span>
                                     </div>
                                     
                                     <div class="p-5 overflow-y-auto custom-scrollbar flex-1 max-h-[500px]">
@@ -338,51 +371,56 @@
                                         <div id="result-single" class="space-y-5">
                                             <!-- Sección Gancho -->
                                             <div>
-                                                <span class="text-[10px] text-brand-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-fish"></i> Gancho (Segundos 0-3)</span>
-                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-brand-500 shadow-inner">
-                                                    <p id="out-hook" class="text-white text-sm font-medium leading-relaxed"></p>
+                                                <span class="text-[11px] text-brand-400 font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-fish"></i> Gancho (Segundos 0-3)</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-[3px] border-l-brand-500 shadow-inner relative">
+                                                    <p id="out-hook" class="text-white text-[15px] font-bold leading-relaxed relative z-10"></p>
+                                                    <div class="absolute right-2 top-2 text-brand-500/10 text-4xl"><i class="fas fa-quote-right"></i></div>
                                                 </div>
                                             </div>
 
                                             <!-- Sección Visual -->
                                             <div>
-                                                <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-video"></i> Directriz Visual y Herramientas</span>
-                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-purple-500 shadow-inner">
-                                                    <p id="out-visual" class="text-slate-300 text-xs font-mono leading-relaxed"></p>
+                                                <span class="text-[11px] text-purple-400 font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-video"></i> Directriz Visual y Herramientas</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-[3px] border-l-purple-500 shadow-inner">
+                                                    <p id="out-visual" class="text-slate-300 text-[13px] font-mono leading-relaxed"></p>
                                                 </div>
                                             </div>
 
                                             <!-- Sección Guion -->
                                             <div>
-                                                <span class="text-[10px] text-green-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-comment-dots"></i> Guion Oral (Locución)</span>
-                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-green-500 shadow-inner">
-                                                    <p id="out-script" class="text-white text-sm leading-relaxed whitespace-pre-wrap"></p>
+                                                <span class="text-[11px] text-green-400 font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-comment-dots"></i> Guion Oral (Locución)</span>
+                                                <div class="bg-dark-950 p-5 rounded-xl border border-white/5 border-l-[3px] border-l-green-500 shadow-inner bg-gradient-to-b from-dark-950 to-[#0a0f0c]">
+                                                    <p id="out-script" class="text-white text-[15px] leading-relaxed whitespace-pre-wrap font-medium"></p>
                                                 </div>
                                             </div>
 
                                             <!-- Sección Copy / Hashtags -->
                                             <div>
-                                                <span class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-align-left"></i> Descripción y #Hashtags</span>
-                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-yellow-500 shadow-inner">
-                                                    <p id="out-copy" class="text-slate-400 text-xs leading-relaxed whitespace-pre-wrap"></p>
+                                                <span class="text-[11px] text-yellow-400 font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-align-left"></i> Descripción y #Hashtags</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-[3px] border-l-yellow-500 shadow-inner">
+                                                    <p id="out-copy" class="text-slate-400 text-[13px] leading-relaxed whitespace-pre-wrap"></p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- CONTENEDOR PARA RESULTADO SEMANAL (Oculto por defecto) -->
                                         <div id="result-weekly" class="hidden">
-                                            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5"><i class="fas fa-calendar-alt"></i> Portafolio de Planificación Semanal</span>
-                                            <div class="bg-dark-950 p-5 rounded-xl border border-white/5 border-l-2 border-l-purple-500 shadow-inner">
-                                                <p id="out-weekly-content" class="text-white text-sm leading-relaxed whitespace-pre-wrap font-mono"></p>
+                                            <span class="text-[11px] text-purple-400 font-black uppercase tracking-widest mb-3 flex items-center gap-2"><i class="fas fa-calendar-alt"></i> Portafolio de Planificación Semanal (1-7)</span>
+                                            <div class="bg-dark-950 p-6 rounded-xl border border-white/10 border-l-[4px] border-l-purple-500 shadow-[inset_0_2px_15px_rgba(0,0,0,0.5)]">
+                                                <!-- Usamos innerHTML en JS para dar estilos pro a los días -->
+                                                <div id="out-weekly-content" class="text-white text-sm leading-relaxed font-sans"></div>
                                             </div>
                                         </div>
 
                                     </div>
                                     
-                                    <!-- Botón Copiar -->
-                                    <div class="p-3 border-t border-white/5 bg-dark-950">
-                                        <button id="btn-copy-all" class="w-full bg-brand-600/10 hover:bg-brand-600/20 text-brand-400 hover:text-brand-300 text-xs font-bold tracking-wide py-3 rounded-lg transition border border-brand-500/20 flex items-center justify-center gap-2">
-                                            <i class="far fa-copy"></i> EXTRAER DATA AL PORTAPAPELES
+                                    <!-- Botones Copiar / PDF -->
+                                    <div class="flex flex-col sm:flex-row gap-3 p-4 border-t border-white/10 bg-dark-900">
+                                        <button id="btn-copy-all" class="flex-1 bg-brand-600/10 hover:bg-brand-600/20 text-brand-400 hover:text-brand-300 text-xs font-bold tracking-wider py-3 rounded-lg transition border border-brand-500/30 flex items-center justify-center gap-2">
+                                            <i class="far fa-copy"></i> EXTRAER AL PORTAPAPELES
+                                        </button>
+                                        <button id="btn-download-pdf" class="flex-1 bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 hover:text-purple-300 text-xs font-bold tracking-wider py-3 rounded-lg transition border border-purple-500/30 flex items-center justify-center gap-2">
+                                            <i class="fas fa-file-pdf"></i> DESCARGAR PDF NYX
                                         </button>
                                     </div>
                                 </div>
@@ -425,7 +463,7 @@
                             </div>
                         </div>
 
-                        <!-- AXON CARD -->
+                        <!-- AXON CARD MEJORADA -->
                         <div class="bg-gradient-to-b from-dark-950 to-[#0f2e18] border border-green-500/30 p-6 rounded-2xl relative overflow-hidden group">
                             <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-[40px] group-hover:bg-green-500/20 transition-all"></div>
                             <div class="flex items-center gap-4 mb-4 relative z-10">
@@ -436,9 +474,32 @@
                                 </div>
                             </div>
                             <div class="space-y-3 text-xs text-slate-300 relative z-10">
-                                <p>Mientras NYX piensa, AXON ejecuta. AXON es la red neuronal de procesamiento táctico acelerado. Ideal para perfiles técnicos, ejecutivos rápidos y profesionales que necesitan resolver problemas en tiempo real.</p>
+                                <p>Mientras NYX piensa, AXON ejecuta. AXON es un <b>plugin IA de NYX que actúa con bases de datos globales de empleos y configuraciones.</b> Simula ser un bot ATS de cada empresa; con esto sabrás si pasas o no pasas para tu rubro deseado.</p>
                                 <p>Venda los Tokens de AXON a profesionales que ya tienen empleo pero necesitan una ventaja desleal corporativa en su día a día, o para aquellos que necesitan redactar cartas de presentación de impacto crítico en segundos.</p>
                                 <a href="https://protocololeviatham.github.io/cvstudio33/Axon.html" target="_blank" class="inline-block mt-2 text-green-400 hover:text-green-300 font-bold border-b border-green-500/50 pb-0.5">Explorar Arquitectura AXON &rarr;</a>
+                            </div>
+                        </div>
+                        
+                        <!-- NUEVO: DISTRIBUTION HUB CARD -->
+                        <div class="bg-gradient-to-b from-dark-950 to-[#0d1b2a] border border-blue-500/30 p-6 rounded-2xl relative overflow-hidden group col-span-1 lg:col-span-2 mt-2">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-[40px] group-hover:bg-blue-500/20 transition-all"></div>
+                            <div class="flex items-center gap-4 mb-4 relative z-10">
+                                <i class="fas fa-satellite-dish text-blue-500 text-3xl drop-shadow-[0_0_10px_rgba(59,130,246,0.4)]"></i>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white tracking-wide">Distribution Hub</h3>
+                                    <p class="text-[10px] text-blue-400 uppercase tracking-widest font-mono">Músculo de Envío Masivo-Selectivo</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 text-sm text-slate-300 relative z-10">
+                                <p>Mediante la integración estratégica con infraestructuras de alto nivel como Resend y Mailrelay, NYX es capaz de gestionar más de 50,000 envíos mensuales. Esta tecnología asegura una tasa de entrega superior al 98%, utilizando protocolos anti-spam avanzados, rotación de IPs dedicadas y "envíos inteligentes" con pausas aleatorias que imitan a la perfección el comportamiento humano para evitar bloqueos por volumen excesivo.</p>
+                                <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 font-medium text-blue-200/90 text-xs">
+                                    <li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Infraestructura Enterprise dedicada.</li>
+                                    <li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Tasa de entrega en Bandeja Principal >98%.</li>
+                                    <li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Simulación algorítmica humana.</li>
+                                    <li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Rotación inteligente de IPs.</li>
+                                    <li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Capacidad de carga escalable +50k.</li>
+                                    <li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Optimización horaria por zona.</li>
+                                </ul>
                             </div>
                         </div>
 
@@ -464,13 +525,33 @@
                     
                     <div class="bg-brand-900/10 border border-brand-500/20 p-5 rounded-xl mb-4">
                         <h4 class="text-brand-400 font-bold mb-2 text-base">Proyección Realista de Ingresos:</h4>
-                        <p class="mb-3">El mercado laboral está quebrado. Hay miles enviando CVs a la basura diariamente. Si dedica <b>1 a 2 horas al día</b> subiendo contenido a TikTok/Reels usando nuestro Motor IA y responde de forma profesional por WhatsApp, un flujo estándar orgánico es de <b>1 a 2 ventas diarias</b>.</p>
-                        <ul class="space-y-1 text-white font-medium">
-                            <li><i class="fas fa-angle-right text-brand-500 mr-2"></i> 10 Ventas Semanales del Paquete Corporativo ($10.500 ARS).</li>
-                            <li><i class="fas fa-angle-right text-brand-500 mr-2"></i> Comisión limpia en Panel (45% + Bonos del 80%): Aprox. $55.000 ARS Semanales.</li>
-                            <li><i class="fas fa-bullseye text-brand-500 mr-2"></i> <b>Proyección Mensual Conservadora: $220.000 a $300.000 ARS.</b></li>
-                        </ul>
-                        <p class="mt-3 text-xs text-slate-400"><i>Nota: Los operadores que logran viralidad o invierten en pauta superan los $600.000 ARS al mes fácilmente.</i></p>
+                        
+                        <!-- Bloque Original -->
+                        <div class="mb-5">
+                            <p class="mb-3">El mercado laboral está quebrado. Hay miles enviando CVs a la basura diariamente. Si dedica <b>1 a 2 horas al día</b> subiendo contenido a TikTok/Reels usando nuestro Motor IA y responde de forma profesional por WhatsApp, un flujo estándar orgánico es de <b>1 a 2 ventas diarias</b>.</p>
+                            <ul class="space-y-1 text-white font-medium">
+                                <li><i class="fas fa-angle-right text-brand-500 mr-2"></i> 10 Ventas Semanales del Paquete Corporativo ($10.500 ARS).</li>
+                                <li><i class="fas fa-angle-right text-brand-500 mr-2"></i> Comisión limpia en Panel (45% + Bonos del 80%): Aprox. $55.000 ARS Semanales.</li>
+                                <li><i class="fas fa-bullseye text-brand-500 mr-2"></i> <b>Proyección Mensual Conservadora: $220.000 a $300.000 ARS.</b></li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Nuevos Bloques Agregados -->
+                        <div class="mt-5 space-y-4 pt-4 border-t border-brand-500/20">
+                            <div class="border-l-[3px] border-blue-500 pl-4">
+                                <h5 class="text-white font-bold text-sm">Escala Media (4 a 6 horas diarias)</h5>
+                                <p class="text-slate-400 text-xs mt-1">Implementando contenido estructurado diario, seguimiento activo de leads y networking en grupos. <b class="text-blue-400 block mt-1">Proyección Mensual: $600.000 a $900.000 ARS reales.</b></p>
+                            </div>
+                            <div class="border-l-[3px] border-purple-500 pl-4">
+                                <h5 class="text-white font-bold text-sm">Jornada Entera (Dedicación Exclusiva 8hs)</h5>
+                                <p class="text-slate-400 text-xs mt-1">Operando automatizaciones con NYX, explotando LinkedIn Premium y aplicando pauta mínima en Meta Ads. <b class="text-purple-400 block mt-1">Proyección Mensual: $1.500.000 a $2.500.000 ARS reales.</b></p>
+                            </div>
+                            <div class="border-l-[3px] border-green-500 pl-4">
+                                <h5 class="text-white font-bold text-sm">Infraestructura de Equipo (Nivel Agencia)</h5>
+                                <p class="text-slate-400 text-xs mt-1">Contratando 1 o 2 setters para responder DMs básicos mientras usted se encarga de los cierres ejecutivos de alto valor (Tier 1 + NYX anual). <b class="text-green-400 block mt-1">Proyección Mensual: Cifras superiores a $4.000.000 ARS reales.</b></p>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="bg-dark-900 border border-brand-500/20 p-6 rounded-2xl shadow-inner mt-6">
@@ -826,14 +907,80 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="w-full text-center border-t border-white/5 py-8 mt-12 bg-dark-950 relative z-10">
+    <!-- FOOTER VIEJO (OCULTO EN PC/REDUCIDO) PARA NO BORRAR -->
+    <footer class="w-full text-center border-t border-white/5 py-4 bg-dark-950 relative z-10 hidden">
         <div class="max-w-7xl mx-auto px-4">
             <img src="logo.png" alt="CVStudio33" class="w-10 h-10 mx-auto opacity-30 mb-4 grayscale">
             <p class="text-[10px] text-slate-600 font-bold tracking-widest uppercase">
                 &copy; 2026 CVStudio33 | Agencia de Empleabilidad Tecnológica
             </p>
             <p class="text-[9px] text-slate-700 font-mono mt-1">SISTEMA CLASIFICADO: NIVEL 1</p>
+        </div>
+    </footer>
+
+    <!-- NUEVO FOOTER SOLICITADO -->
+    <footer class="bg-[#050911] text-gray-300 py-20 mt-12 border-t border-white/10 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-6 text-white">
+                        <img src="logo.png" alt="CV Studio33 Logo" class="h-10 w-auto object-contain">
+                        <span class="font-heading font-bold text-xl tracking-tight">CV STUDIO<span class="text-brand-500">33</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-7 mb-6 text-justify">
+                        En CV Studios33, nuestra misión es democratizar el éxito profesional. Entendemos que el mercado laboral moderno es un campo de batalla dominado por algoritmos. Por eso, no solo escribimos currículums; diseñamos armas de empleabilidad masiva. Fusionamos la psicología de reclutamiento humana con nuestra avanzada IA propietaria, NYX, para garantizar que cada candidato, sin importar su origen, tenga las herramientas para destacar, impactar y conseguir el trabajo de sus sueños.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center hover:bg-green-500 transition text-white"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-400 transition text-white"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 flex items-center justify-center hover:opacity-80 transition text-white"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700 transition text-white"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-black transition text-white"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6 border-b border-gray-800 pb-2 inline-block">Navegación</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="index.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-angle-right mr-2 text-blue-600"></i> Inicio</a></li>
+                        <li><a href="Servicios.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-angle-right mr-2 text-blue-600"></i> Servicios Premium</a></li>
+                        <li><a href="Creandotucv.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-angle-right mr-2 text-blue-600"></i> Creador de CV</a></li>
+                        <li><a href="Centro-de-ayuda.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-angle-right mr-2 text-blue-600"></i> Centro de Ayuda</a></li>
+                        <li><a href="Contacto.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-angle-right mr-2 text-blue-600"></i> Contacto Directo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6 border-b border-gray-800 pb-2 inline-block">Recursos Gratuitos</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="biblioteca-de-plantillas.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-file-arrow-down mr-2 text-gray-500"></i> Plantillas CV</a></li>
+                        <li><a href="EjemplosCV.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-eye mr-2 text-gray-500"></i> Ver Ejemplos Reales</a></li>
+                        <li><a href="GuiasCV.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-book mr-2 text-gray-500"></i> Guía Definitiva 2026</a></li>
+                        <li><a href="blog.html" class="hover:text-blue-400 transition flex items-center"><i class="fa-solid fa-rss mr-2 text-gray-500"></i> Blog de Carrera</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6 border-b border-gray-800 pb-2 inline-block">Legal & Soporte</h4>
+                    <ul class="space-y-3 text-sm mb-6">
+                        <li><a href="terminos-y-condiciones" class="hover:text-blue-400 transition">Términos y Condiciones</a></li>
+                        <li><a href="politica-de-privacidad.html" class="hover:text-blue-400 transition">Política de Privacidad</a></li>
+                        <li><a href="politica-de-cookies.html" class="hover:text-blue-400 transition">Política de Cookies</a></li>
+                    </ul>
+                    <div class="p-5 bg-blue-900/10 border border-blue-900/30 rounded-xl">
+                        <p class="text-xs text-blue-400 mb-2 uppercase font-bold tracking-wider">Soporte 24/7</p>
+                        <p class="text-white font-bold text-lg"><i class="fa-solid fa-phone mr-2"></i> +1 234 567 890</p>
+                        <p class="text-gray-400 text-xs mt-2">CvStudio33@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 CV Studios33 Intelligence Agency. Todos los derechos reservados.</p>
+                <div class="mt-4 md:mt-0">
+                    <span class="flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> System Status: Online</span>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -929,6 +1076,7 @@
             const platformEl = document.getElementById('ia-platform');
             const hookEl = document.getElementById('ia-hook');
             const toneEl = document.getElementById('ia-tone');
+            const appearanceEl = document.getElementById('ia-appearance');
             const toolsEl = document.getElementById('ia-tools');
             const ideaEl = document.getElementById('ia-idea');
 
@@ -937,8 +1085,10 @@
                 platform: platformEl ? platformEl.value : "TikTok",
                 predefinedHook: hookEl ? hookEl.value : "Auto",
                 tone: toneEl ? toneEl.value : "Empático y Cercano",
+                appearanceStyle: appearanceEl ? appearanceEl.value : "No especificado",
                 tools: toolsEl ? toolsEl.value : "",
-                userIdea: ideaEl ? ideaEl.value : ""
+                userIdea: ideaEl ? ideaEl.value : "",
+                systemPrompt: "Actúa como un experto en neuroventas y copywriting de élite para la Agencia CVStudio33. Usa métricas persuasivas, calidad profesional extrema y un estilo contundente. Estructura el JSON de salida respetando las directivas visuales y el gancho perfecto para los primeros 3 segundos."
             };
             
             const data = await fetchToCerebro(payload, btnGenerate, "Sintetizando guion individual...");
@@ -957,6 +1107,7 @@
         btnGenerateWeekly.addEventListener('click', async () => {
             const platformEl = document.getElementById('ia-platform');
             const toneEl = document.getElementById('ia-tone');
+            const appearanceEl = document.getElementById('ia-appearance');
             const toolsEl = document.getElementById('ia-tools');
             const ideaEl = document.getElementById('ia-idea');
 
@@ -964,8 +1115,10 @@
                 action: "generate_weekly",
                 platform: platformEl ? platformEl.value : "TikTok",
                 tone: toneEl ? toneEl.value : "Empático y Cercano",
+                appearanceStyle: appearanceEl ? appearanceEl.value : "No especificado",
                 tools: toolsEl ? toolsEl.value : "",
-                userIdea: ideaEl ? ideaEl.value : ""
+                userIdea: ideaEl ? ideaEl.value : "",
+                systemPrompt: "Actúa como un Planner de Marketing Corporativo Nivel Director. Diseña una estrategia semanal de élite para CVStudio33. Estructura el plan en formato de días (Día 1, Día 2... Día 7). Cada día debe tener un objetivo claro, una táctica algorítmica y un llamado a la acción potente."
             };
             
             const data = await fetchToCerebro(payload, btnGenerateWeekly, "Calculando portafolio de 7 días...");
@@ -973,7 +1126,11 @@
                 resultSingle.classList.add('hidden');
                 resultWeekly.classList.remove('hidden');
                 
-                document.getElementById('out-weekly-content').innerText = data.weekly_plan || "Error extrayendo portafolio semanal.";
+                let weeklyText = data.weekly_plan || "Error extrayendo portafolio semanal.";
+                // Mejorando el formato visual del Portafolio Semanal
+                weeklyText = weeklyText.replace(/(Día \d:?|Dia \d:?)/gi, '<br><span style="color: #a855f7; font-weight: 800; font-size: 1.25rem; border-bottom: 2px solid rgba(168,85,247,0.3); display: inline-block; padding-bottom: 3px; margin-top: 15px; margin-bottom: 5px; text-transform: uppercase;">$1</span><br>');
+                
+                document.getElementById('out-weekly-content').innerHTML = weeklyText;
             }
         });
 
@@ -998,17 +1155,85 @@
                 btn.classList.replace('bg-brand-600/10', 'bg-green-600/20');
                 btn.classList.replace('hover:bg-brand-600/20', 'hover:bg-green-600/30');
                 btn.classList.replace('text-brand-400', 'text-green-400');
-                btn.classList.replace('border-brand-500/20', 'border-green-500/30');
+                btn.classList.replace('border-brand-500/30', 'border-green-500/30');
                 
                 setTimeout(() => {
                     btn.innerHTML = orig;
                     btn.classList.replace('bg-green-600/20', 'bg-brand-600/10');
                     btn.classList.replace('hover:bg-green-600/30', 'hover:bg-brand-600/20');
                     btn.classList.replace('text-green-400', 'text-brand-400');
-                    btn.classList.replace('border-green-500/30', 'border-brand-500/20');
+                    btn.classList.replace('border-green-500/30', 'border-brand-500/30');
                 }, 3000);
+            });
+        });
+
+        // 4. LÓGICA DE GENERACIÓN PDF PROFESIONAL NYX
+        document.getElementById('btn-download-pdf').addEventListener('click', () => {
+            const pdfContainer = document.getElementById('pdf-container');
+            const pdfContent = document.getElementById('pdf-content');
+            const btn = document.getElementById('btn-download-pdf');
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO DOCUMENTO...';
+            
+            // Llenar datos en el contenedor
+            if (!resultSingle.classList.contains('hidden')) {
+                pdfContent.innerHTML = `
+                    <div style="background-color: #f8fafc; padding: 15px; border-left: 4px solid #0284c7; margin-bottom: 20px;">
+                        <h2 style="color: #0284c7; font-weight: 800; font-size: 16px; margin-bottom: 8px; text-transform: uppercase;">[GANCHO PRINCIPAL]</h2>
+                        <p style="font-size: 14px; font-weight: 600;">"${document.getElementById('out-hook').innerText}"</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="color: #9333ea; font-weight: 800; font-size: 14px; margin-bottom: 8px; text-transform: uppercase;">[DIRECTRIZ VISUAL & HERRAMIENTAS]</h2>
+                        <p style="font-family: monospace; font-size: 13px; color: #475569;">${document.getElementById('out-visual').innerText}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="color: #16a34a; font-weight: 800; font-size: 14px; margin-bottom: 8px; text-transform: uppercase;">[GUION ORAL]</h2>
+                        <p style="white-space: pre-wrap; font-size: 14px; color: #1e293b;">${document.getElementById('out-script').innerText}</p>
+                    </div>
+                    
+                    <div style="background-color: #fffbeb; padding: 15px; border: 1px solid #fef08a; border-radius: 8px;">
+                        <h2 style="color: #ca8a04; font-weight: 800; font-size: 14px; margin-bottom: 8px; text-transform: uppercase;">[COPY DE PUBLICACIÓN & HASHTAGS]</h2>
+                        <p style="white-space: pre-wrap; font-size: 13px; color: #713f12;">${document.getElementById('out-copy').innerText}</p>
+                    </div>
+                `;
+            } else {
+                let weeklyText = document.getElementById('out-weekly-content').innerText;
+                weeklyText = weeklyText.replace(/(Día \d:?|Dia \d:?)/gi, '\n\n$1\n');
+                
+                pdfContent.innerHTML = `
+                    <h2 style="color: #9333ea; font-weight: 800; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #e9d5ff; padding-bottom: 5px;">PORTAFOLIO ESTRATÉGICO SEMANAL</h2>
+                    <p style="white-space: pre-wrap; font-size: 14px; color: #334155;">${weeklyText}</p>
+                `;
+            }
+            
+            // Mostrar temporalmente para capturar (fuera de la vista)
+            pdfContainer.style.display = 'block';
+            pdfContainer.style.position = 'absolute';
+            pdfContainer.style.left = '-9999px';
+            pdfContainer.style.top = '0';
+            
+            const opt = {
+                margin:       15,
+                filename:     'Documento_Estrategico_CVStudio33.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(pdfContainer).save().then(() => {
+                pdfContainer.style.display = 'none';
+                btn.innerHTML = '<i class="fas fa-check text-green-400"></i> PDF DESCARGADO';
+                setTimeout(() => btn.innerHTML = originalText, 3000);
+            }).catch(err => {
+                console.error("Error al generar PDF:", err);
+                btn.innerHTML = originalText;
+                alert("Ocurrió un error al generar el PDF.");
             });
         });
     </script>
 </body>
 </html>
+

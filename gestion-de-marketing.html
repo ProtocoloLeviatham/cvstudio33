@@ -45,19 +45,21 @@
         .glass-card:hover { border-color: rgba(14, 165, 233, 0.3); transform: translateY(-2px); }
 
         /* Inputs & Selects Corporativos */
-        .neo-select {
+        .neo-select, .neo-input {
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.1);
             color: white;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
+        }
+        .neo-select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2338bdf8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 1.2em;
         }
-        .neo-select:focus { border-color: #0ea5e9; box-shadow: 0 0 0 2px rgba(14,165,233,0.2), inset 0 2px 4px rgba(0,0,0,0.5); outline: none; }
+        .neo-select:focus, .neo-input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 2px rgba(14,165,233,0.2), inset 0 2px 4px rgba(0,0,0,0.5); outline: none; }
         .neo-select option { background: #0a0a0a; color: white; }
 
         /* Scrollbars Customizados */
@@ -87,6 +89,9 @@
             animation: pulse-glow 3s linear infinite;
         }
         @keyframes pulse-glow { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+        
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-500 selection:text-white relative">
@@ -118,6 +123,7 @@
     <!-- NAVEGACIÓN MÓVIL (PÍLDORAS) - Solo visible en celular -->
     <div class="lg:hidden sticky top-16 z-40 bg-dark-950/90 backdrop-blur-md border-b border-white/5 py-3 px-4 overflow-x-auto hide-scrollbar flex gap-2 shadow-lg">
         <a href="#motor-ia" class="text-[10px] whitespace-nowrap bg-brand-500/10 border border-brand-500/30 text-brand-400 px-4 py-1.5 rounded-full font-bold uppercase tracking-wider">Motor IA</a>
+        <a href="#ecosistema-agencia" class="text-[10px] whitespace-nowrap bg-purple-500/10 border border-purple-500/30 text-purple-400 px-4 py-1.5 rounded-full font-bold uppercase tracking-wider">La Agencia & NYX</a>
         <a href="#modulo-1" class="text-[10px] whitespace-nowrap bg-dark-800 border border-white/10 text-slate-300 px-4 py-1.5 rounded-full font-bold uppercase tracking-wider">1. Panel</a>
         <a href="#modulo-2" class="text-[10px] whitespace-nowrap bg-dark-800 border border-white/10 text-slate-300 px-4 py-1.5 rounded-full font-bold uppercase tracking-wider">2. Cliente</a>
         <a href="#modulo-3" class="text-[10px] whitespace-nowrap bg-dark-800 border border-white/10 text-slate-300 px-4 py-1.5 rounded-full font-bold uppercase tracking-wider">3. Precios</a>
@@ -154,6 +160,7 @@
                 </h3>
                 <ul class="space-y-1.5 text-xs text-slate-400 font-medium">
                     <li><a href="#motor-ia" class="flex items-center gap-2 p-2 hover:bg-white/5 rounded-lg hover:text-brand-400 transition-all"><i class="fas fa-microchip w-4"></i> Motor IA (Generador)</a></li>
+                    <li><a href="#ecosistema-agencia" class="flex items-center gap-2 p-2 hover:bg-white/5 rounded-lg hover:text-purple-400 transition-all"><i class="fas fa-network-wired w-4"></i> Agencia & NYX/AXON</a></li>
                     <li class="pt-2 pb-1 text-[10px] text-slate-600 uppercase tracking-widest font-bold">Playbook (Guía Técnica)</li>
                     <li><a href="#modulo-1" class="flex items-center gap-2 p-2 hover:bg-white/5 rounded-lg hover:text-white transition-all"><span class="w-4 text-brand-500 font-bold">1</span> Dominio del Panel</a></li>
                     <li><a href="#modulo-2" class="flex items-center gap-2 p-2 hover:bg-white/5 rounded-lg hover:text-white transition-all"><span class="w-4 text-brand-500 font-bold">2</span> Perfil de Cliente</a></li>
@@ -184,109 +191,202 @@
                                 </div>
                                 <div>
                                     <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Forja de Contenido IA</h2>
-                                    <p class="text-[10px] sm:text-xs text-brand-400 mt-1 uppercase tracking-widest font-mono">Enlazado a Cerebro 4 (Modelo Algorítmico)</p>
+                                    <p class="text-[10px] sm:text-xs text-brand-400 mt-1 uppercase tracking-widest font-mono">Enlazado a Cerebro 4 (Google Cloud AI)</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
-                            <!-- FORMULARIO DE ENTRADA -->
+                            <!-- FORMULARIO DE ENTRADA AVANZADO -->
                             <div class="lg:col-span-5 space-y-4">
                                 <div class="glass-card p-5 rounded-2xl">
                                     <h4 class="text-xs font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-sliders-h text-slate-400"></i> Parámetros de Síntesis</h4>
                                     
                                     <div class="space-y-4">
+                                        <!-- Selector 1: Plataforma -->
                                         <div>
                                             <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">1. Plataforma de Despliegue</label>
-                                            <select id="ia-platform" class="w-full neo-select rounded-xl py-3 px-4 text-sm font-medium">
-                                                <option value="Instagram Reels">Instagram Reels (Formato Vertical)</option>
+                                            <select id="ia-platform" class="w-full neo-select rounded-xl py-2.5 px-4 text-sm font-medium">
                                                 <option value="TikTok">TikTok (Formato Viral Rápido)</option>
+                                                <option value="Instagram Reels">Instagram Reels (Vertical)</option>
+                                                <option value="YouTube Shorts">YouTube Shorts (Retención Alta)</option>
+                                                <option value="Instagram Carrusel">Carrusel Educativo (Imágenes IG)</option>
                                                 <option value="LinkedIn Post">LinkedIn (Formato Texto Corporativo)</option>
                                                 <option value="Instagram Stories">Instagram Stories (Conversión Rápida)</option>
                                             </select>
                                         </div>
 
-                                        <div>
-                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">2. Perfil del Blanco (Target)</label>
-                                            <select id="ia-target" class="w-full neo-select rounded-xl py-3 px-4 text-sm font-medium">
-                                                <option value="Desempleado Desesperado">Desempleado frustrado por filtros automáticos</option>
-                                                <option value="Profesional Estancado">Profesional estancado buscando sueldo USD</option>
-                                                <option value="Ejecutivo C-Level">Ejecutivo/Gerente buscando máxima autoridad</option>
+                                        <!-- Selector 2: Target (Original) -->
+                                        <div class="hidden">
+                                            <select id="ia-target" class="w-full neo-select rounded-xl py-2.5 px-4 text-sm font-medium">
+                                                <option value="Desempleado Desesperado">Desempleado frustrado por filtros</option>
                                             </select>
                                         </div>
 
-                                        <div>
-                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">3. Activo a Vender</label>
-                                            <select id="ia-product" class="w-full neo-select border-brand-500/30 text-brand-300 rounded-xl py-3 px-4 text-sm font-medium">
-                                                <option value="Optimización de CV Premium">Estructuración de CV (Evasión de filtros ATS)</option>
-                                                <option value="Tokens Inteligencia NYX">Tokens IA NYX (Procesamiento Cognitivo)</option>
-                                                <option value="Tokens Inteligencia AXON">Tokens IA AXON (Procesamiento Táctico)</option>
+                                        <!-- Selector 3: Producto (Original) -->
+                                        <div class="hidden">
+                                            <select id="ia-product" class="w-full neo-select rounded-xl py-2.5 px-4 text-sm font-medium">
+                                                <option value="Optimización de CV">Estructuración ATS</option>
                                             </select>
+                                        </div>
+
+                                        <!-- NUEVO Selector: Los 33 Ganchos Virales -->
+                                        <div>
+                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">2. Selector de Gancho (33 Opciones)</label>
+                                            <select id="ia-hook" class="w-full neo-select border-brand-500/30 text-brand-300 rounded-xl py-2.5 px-4 text-sm font-medium">
+                                                <option value="Auto">Dejar que la IA invente el gancho ideal...</option>
+                                                <optgroup label="Tácticas de Miedo & ATS">
+                                                    <option value="El 75% de los currículums hoy los lee un robot, y el tuyo está siendo descartado...">1. Miedo ATS Básico</option>
+                                                    <option value="Si hiciste tu CV con esas plantillas lindas de Canva, tengo malas noticias para vos...">2. Error Canva</option>
+                                                    <option value="El truco definitivo para saber si tu CV pasa los filtros corporativos o va a la basura...">3. ATS Check</option>
+                                                    <option value="Si tu CV tiene columnas o gráficos, pausá este video. Estás perdiendo el tiempo.">4. Formato Prohibido</option>
+                                                    <option value="Lo que Recursos Humanos hace con tu CV en los primeros 6 segundos.">5. Secreto RRHH</option>
+                                                </optgroup>
+                                                <optgroup label="Autoridad & Aspiracional">
+                                                    <option value="Así se ve exactamente el CV de una persona que trabaja remoto y cobra en dólares.">6. Autoridad USD</option>
+                                                    <option value="El CV de un gerente corporativo no se ve como creés. Mirá la diferencia.">7. C-Level Manager</option>
+                                                    <option value="No pidas aumento en tu trabajo; cambiá de empresa cobrando el doble con este perfil.">8. Salto Salarial</option>
+                                                    <option value="Cómo armar un CV diseñado exclusivamente para emigrar a España o Miami.">9. Extranjero / Emigrar</option>
+                                                    <option value="(Mostrar foto) Este CV gana $300.000, y este otro CV gana $1.500.000.">10. Comparativa Visual</option>
+                                                </optgroup>
+                                                <optgroup label="Casos Específicos (Sin Exp / Edad)">
+                                                    <option value="Cómo conseguir trabajo rápido aunque no tengas absolutamente NADA de experiencia.">11. Junior sin Experiencia</option>
+                                                    <option value="Si tenés más de 40 años, no es tu edad lo que te frena, es el formato de tu perfil.">12. Mayores de 45</option>
+                                                    <option value="Cómo explicar en tu currículum que no trabajaste por 2 años sin quedar descartado.">13. Hueco Laboral / Madres</option>
+                                                    <option value="De contador a programador: el CV perfecto para cambiar de rubro sin empezar de cero.">14. Cambio de Rubro</option>
+                                                    <option value="Por qué tener muchos títulos o maestrías te está dejando sin empleo (Sobrecalificado).">15. Sobrecalificado</option>
+                                                </optgroup>
+                                                <optgroup label="LinkedIn & Networking">
+                                                    <option value="El error silencioso en tu perfil de LinkedIn que espanta a todos los reclutadores.">16. Error LinkedIn</option>
+                                                    <option value="El mensaje exacto, palabra por palabra, para mandarle a un reclutador y que te lea.">17. Mensaje Networking</option>
+                                                    <option value="Si sos diseñador o programador, tu CV no importa tanto como este detalle...">18. Portafolio Tech</option>
+                                                    <option value="Enviar 100 CVs manuales ya no sirve en 2026. Mirá lo que usan las Agencias hoy.">19. Fin del Envío Manual</option>
+                                                    <option value="El asunto perfecto para enviar tu CV por correo y asegurarte de que lo abran.">20. Asunto Mail</option>
+                                                </optgroup>
+                                                <optgroup label="Venta de Activos IA (NYX & AXON)">
+                                                    <option value="Automatizá el envío de 50.000 CVs a empresas con esta herramienta de Inteligencia Artificial.">21. NYX Distribution Hub</option>
+                                                    <option value="La IA que simula ser el robot de la empresa que querés, para decirte si te van a contratar.">22. AXON Simulador ATS</option>
+                                                    <option value="Cómo saber exactamente qué te van a preguntar en la entrevista antes de ir.">23. Predicción IA</option>
+                                                    <option value="¿Te ponés nervioso en las entrevistas? Dejá que esta IA te dicte al oído qué responder.">24. NYX Entrevistas</option>
+                                                    <option value="Transpiras y tartamudeas frente a RRHH. Necesitas este entrenamiento tecnológico urgente.">25. Pánico Escénico AXON</option>
+                                                </optgroup>
+                                                <optgroup label="Entrevistas (Oratoria)">
+                                                    <option value="La peor respuesta que podés dar a la pregunta '¿Cuáles son tus debilidades?'.">26. Pregunta Debilidades</option>
+                                                    <option value="Cómo responder a la pregunta trampa de 'remuneración pretendida' sin perder plata.">27. Sueldo Esperado</option>
+                                                    <option value="Cómo controlar los nervios y la ansiedad extrema en una entrevista técnica.">28. Ansiedad Entrevista</option>
+                                                    <option value="¿Se ponen las referencias en el CV? No cometas este error que arruina contrataciones.">29. Referencias</option>
+                                                    <option value="Si ponés 'Inglés Intermedio' en tu currículum, te están descartando automáticamente.">30. Inglés Intermedio</option>
+                                                </optgroup>
+                                                <optgroup label="Frontal y Urgencia">
+                                                    <option value="Dejá de rogar por trabajo. Si tu perfil no es corporativo, nadie lo va a leer. Comentá 'CV'.">31. Agresivo / Despierta</option>
+                                                    <option value="¿Te acaban de despedir? El paso a paso exacto que tenés que hacer hoy para trabajar mañana.">32. Despido Reciente</option>
+                                                    <option value="Esta chica llevaba 8 meses desempleada. Cambiamos este pequeño detalle y la llamaron en 3 días.">33. Validación Social</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+
+                                        <!-- NUEVO: Herramientas a Usar -->
+                                        <div>
+                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
+                                                3. Herramientas de Edición/Voz (Contexto IA)
+                                            </label>
+                                            <textarea id="ia-tools" rows="2" class="w-full neo-input rounded-xl py-2 px-3 text-xs font-medium placeholder-slate-600 resize-none" placeholder="Explique a la IA qué programas usará. Ej: Usaré CapCut, hablaré a cámara con micrófono de solapa, y pondré imágenes de fondo..."></textarea>
+                                        </div>
+
+                                        <!-- NUEVO: Idea Personalizada -->
+                                        <div>
+                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
+                                                4. Idea Principal (Su toque personal)
+                                            </label>
+                                            <textarea id="ia-idea" rows="3" class="w-full neo-input rounded-xl py-2 px-3 text-xs font-medium placeholder-slate-600 resize-none" placeholder="Escriba de qué quiere que trate el contenido. Ej: Quiero contar la historia de un cliente que no pasaba filtros y le vendí el paquete Tier 1..."></textarea>
                                         </div>
                                     </div>
 
-                                    <button id="btn-generate-content" class="w-full bg-white text-dark-950 hover:bg-slate-200 font-bold tracking-wide py-3.5 rounded-xl transition shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center justify-center gap-2 mt-6">
-                                        <i class="fas fa-bolt text-brand-600"></i> INICIAR SÍNTESIS
-                                    </button>
+                                    <div class="pt-2 border-t border-white/5 mt-4 space-y-3">
+                                        <button id="btn-generate-content" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold tracking-wide py-3 rounded-xl transition shadow-[0_0_20px_rgba(14,165,233,0.3)] flex items-center justify-center gap-2">
+                                            <i class="fas fa-bolt text-white"></i> GENERAR GUION INDIVIDUAL
+                                        </button>
+                                        
+                                        <!-- NUEVO BOTÓN: PORTAFOLIO SEMANAL -->
+                                        <button id="btn-generate-weekly" class="w-full bg-purple-600/20 border border-purple-500/50 hover:bg-purple-600 hover:border-purple-500 text-purple-100 font-bold tracking-wide py-3 rounded-xl transition shadow-[0_0_15px_rgba(168,85,247,0.2)] flex items-center justify-center gap-2">
+                                            <i class="fas fa-calendar-alt"></i> GENERAR PORTAFOLIO DE IDEAS (SEMANAL)
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- SALIDA DE LA IA (OUTPUT) -->
+                            <!-- SALIDA DE LA IA (OUTPUT CONSOLA PROFESIONAL) -->
                             <div class="lg:col-span-7 flex flex-col">
                                 <!-- Estado Inicial / Carga -->
-                                <div id="ai-waiting" class="flex-1 min-h-[350px] flex flex-col items-center justify-center border border-dashed border-white/10 rounded-2xl bg-dark-900/30 text-center p-6">
+                                <div id="ai-waiting" class="flex-1 min-h-[450px] flex flex-col items-center justify-center border border-dashed border-white/10 rounded-2xl bg-dark-900/30 text-center p-6 transition-all duration-300">
                                     <div class="w-16 h-16 bg-dark-800 rounded-full flex items-center justify-center mb-4 border border-white/5 shadow-inner">
                                         <i class="fas fa-radar text-2xl text-slate-600"></i>
                                     </div>
-                                    <p class="text-sm text-slate-400 font-medium">Terminal en reposo.</p>
-                                    <p class="text-xs text-slate-500 mt-1">Configure los parámetros y ejecute la síntesis para obtener el guion.</p>
+                                    <p class="text-sm text-slate-400 font-medium">Consola Neuronal en Reposo.</p>
+                                    <p class="text-[11px] text-slate-500 mt-1 max-w-sm mx-auto">Seleccione sus variables y ejecute el procesamiento para obtener estrategias blindadas y listas para publicar.</p>
                                 </div>
 
                                 <!-- Panel de Resultados -->
-                                <div id="ai-results" class="hidden flex-1 flex flex-col bg-dark-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-                                    <div class="bg-dark-950 px-4 py-2 border-b border-white/5 flex items-center gap-2">
-                                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                        <span class="text-[10px] text-slate-400 font-mono tracking-widest uppercase">Output.json generada</span>
+                                <div id="ai-results" class="hidden flex-1 flex flex-col bg-[#0a0a0a] border border-brand-500/30 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(14,165,233,0.15)]">
+                                    <div class="bg-dark-950 px-4 py-2.5 border-b border-white/5 flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                            <span class="text-[10px] text-slate-400 font-mono tracking-widest uppercase">Output.json / Síntesis Exitosa</span>
+                                        </div>
+                                        <span class="text-[10px] text-brand-500 font-mono"><i class="fas fa-check"></i> 200 OK</span>
                                     </div>
                                     
-                                    <div class="p-5 overflow-y-auto custom-scrollbar flex-1 max-h-[400px]">
-                                        <!-- Sección Gancho -->
-                                        <div class="mb-5">
-                                            <span class="text-[10px] text-brand-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-fish"></i> Gancho (Segundos 0-3)</span>
-                                            <div class="bg-dark-950 p-3.5 rounded-xl border border-white/5 border-l-2 border-l-brand-500">
-                                                <p id="out-hook" class="text-white text-sm font-medium leading-relaxed"></p>
+                                    <div class="p-5 overflow-y-auto custom-scrollbar flex-1 max-h-[500px]">
+                                        
+                                        <!-- CONTENEDOR PARA RESULTADO INDIVIDUAL -->
+                                        <div id="result-single" class="space-y-5">
+                                            <!-- Sección Gancho -->
+                                            <div>
+                                                <span class="text-[10px] text-brand-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-fish"></i> Gancho (Segundos 0-3)</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-brand-500 shadow-inner">
+                                                    <p id="out-hook" class="text-white text-sm font-medium leading-relaxed"></p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Sección Visual -->
+                                            <div>
+                                                <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-video"></i> Directriz Visual y Herramientas</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-purple-500 shadow-inner">
+                                                    <p id="out-visual" class="text-slate-300 text-xs font-mono leading-relaxed"></p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Sección Guion -->
+                                            <div>
+                                                <span class="text-[10px] text-green-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-comment-dots"></i> Guion Oral (Locución)</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-green-500 shadow-inner">
+                                                    <p id="out-script" class="text-white text-sm leading-relaxed whitespace-pre-wrap"></p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Sección Copy / Hashtags -->
+                                            <div>
+                                                <span class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-align-left"></i> Descripción y #Hashtags</span>
+                                                <div class="bg-dark-950 p-4 rounded-xl border border-white/5 border-l-2 border-l-yellow-500 shadow-inner">
+                                                    <p id="out-copy" class="text-slate-400 text-xs leading-relaxed whitespace-pre-wrap"></p>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Sección Visual -->
-                                        <div class="mb-5">
-                                            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-video"></i> Directriz Visual</span>
-                                            <div class="bg-dark-950 p-3.5 rounded-xl border border-white/5 border-l-2 border-l-purple-500">
-                                                <p id="out-visual" class="text-slate-300 text-xs font-mono leading-relaxed"></p>
+                                        <!-- CONTENEDOR PARA RESULTADO SEMANAL (Oculto por defecto) -->
+                                        <div id="result-weekly" class="hidden">
+                                            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5"><i class="fas fa-calendar-alt"></i> Portafolio de Planificación Semanal</span>
+                                            <div class="bg-dark-950 p-5 rounded-xl border border-white/5 border-l-2 border-l-purple-500 shadow-inner">
+                                                <p id="out-weekly-content" class="text-white text-sm leading-relaxed whitespace-pre-wrap font-mono"></p>
                                             </div>
                                         </div>
 
-                                        <!-- Sección Guion -->
-                                        <div class="mb-5">
-                                            <span class="text-[10px] text-green-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-comment-dots"></i> Guion Oral (Locución)</span>
-                                            <div class="bg-dark-950 p-3.5 rounded-xl border border-white/5 border-l-2 border-l-green-500">
-                                                <p id="out-script" class="text-white text-sm leading-relaxed whitespace-pre-wrap"></p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Sección Copy / Hashtags -->
-                                        <div>
-                                            <span class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fas fa-align-left"></i> Descripción y Hashtags</span>
-                                            <div class="bg-dark-950 p-3.5 rounded-xl border border-white/5 border-l-2 border-l-yellow-500">
-                                                <p id="out-copy" class="text-slate-400 text-xs leading-relaxed whitespace-pre-wrap"></p>
-                                            </div>
-                                        </div>
                                     </div>
                                     
                                     <!-- Botón Copiar -->
                                     <div class="p-3 border-t border-white/5 bg-dark-950">
-                                        <button id="btn-copy-all" class="w-full bg-white/5 hover:bg-white/10 text-white text-xs font-bold tracking-wide py-3 rounded-lg transition border border-white/10 flex items-center justify-center gap-2">
-                                            <i class="far fa-copy"></i> COPIAR AL PORTAPAPELES
+                                        <button id="btn-copy-all" class="w-full bg-brand-600/10 hover:bg-brand-600/20 text-brand-400 hover:text-brand-300 text-xs font-bold tracking-wide py-3 rounded-lg transition border border-brand-500/20 flex items-center justify-center gap-2">
+                                            <i class="far fa-copy"></i> EXTRAER DATA AL PORTAPAPELES
                                         </button>
                                     </div>
                                 </div>
@@ -297,13 +397,87 @@
             </section>
 
             <!-- ================================================================= -->
-            <!-- HEMISFERIO 2: EL PLAYBOOK ESTÁTICO (DOCTRINA DE VENTAS)           -->
+            <!-- ECOSISTEMA DE AGENCIA: NYX & AXON                                 -->
             <!-- ================================================================= -->
-            
+            <section id="ecosistema-agencia" class="scroll-mt-32">
+                <div class="mb-6">
+                    <span class="text-brand-500 font-black text-xs tracking-widest uppercase block mb-1">Directriz de Venta</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white relative z-10">Venda la Agencia de Empleo, no el papel.</h2>
+                </div>
+                
+                <div class="glass-card p-6 sm:p-8 rounded-2xl border-t-4 border-t-brand-500">
+                    <p class="text-sm text-slate-300 mb-8 leading-relaxed">
+                        El secreto de un cierre <b>High-Ticket</b> (de alto valor) es la percepción. <b>Usted no vende "diseños bonitos de currículums"</b>. Usted representa a CVStudio33, la Agencia de Empleabilidad Tecnológica definitiva. En la crisis laboral actual, sin invertir en infraestructura corporativa, el candidato no existe. El gancho letal que ninguna otra agencia del mercado posee es nuestra <b>integración con Inteligencias Artificiales propias: NYX y AXON.</b>
+                    </p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        
+                        <!-- NYX CARD -->
+                        <div class="bg-gradient-to-br from-dark-950 to-[#1a0f2e] border border-purple-500/30 p-6 rounded-2xl relative overflow-hidden group hover:border-purple-500/60 transition-colors shadow-[0_5px_20px_rgba(168,85,247,0.05)]">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-purple-500/10 rounded-full blur-[50px] group-hover:bg-purple-500/20 transition-all"></div>
+                            
+                            <div class="flex items-start gap-4 mb-5 relative z-10">
+                                <img src="logonyx.png" alt="NYX Logo" class="w-14 h-14 object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white tracking-wide">NYX <span class="text-purple-400">| Distribution Hub</span></h3>
+                                    <p class="text-[9px] text-purple-300 uppercase tracking-widest font-mono mt-0.5 border border-purple-500/20 bg-purple-500/10 px-2 py-0.5 rounded inline-block">Músculo de Envío Masivo-Selectivo</p>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4 text-xs text-slate-300 relative z-10">
+                                <p>NYX es el propósito principal de CVStudio33 y lo que más venderá. Es la IA que revolucionará la contratación por empleo. Opera mediante integraciones estratégicas de alto nivel corporativo (Resend y Mailrelay).</p>
+                                
+                                <ul class="space-y-2 border-l-2 border-purple-500/50 pl-3 py-1">
+                                    <li><i class="fas fa-check text-purple-400 mr-1.5"></i> <b>Infraestructura Enterprise:</b> Gestiona +50.000 envíos mensuales.</li>
+                                    <li><i class="fas fa-check text-purple-400 mr-1.5"></i> <b>Inbox >98%:</b> Tasa de entrega en Bandeja Principal garantizada.</li>
+                                    <li><i class="fas fa-check text-purple-400 mr-1.5"></i> <b>Simulación Humana:</b> Pausas aleatorias y rotación de IPs dedicadas.</li>
+                                </ul>
+                                
+                                <p>Véndalo como el sistema que envía el perfil del candidato directamente a las manos de los gerentes sin caer en Spam. Se comercializa mediante suscripción mensual o tokens.</p>
+                                
+                                <a href="https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html" target="_blank" class="inline-flex items-center gap-2 mt-2 text-purple-400 hover:text-purple-300 font-bold uppercase text-[10px] tracking-widest bg-purple-500/10 px-3 py-1.5 rounded-lg border border-purple-500/20 transition-colors">
+                                    Conocer NYX a fondo <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- AXON CARD -->
+                        <div class="bg-gradient-to-br from-dark-950 to-[#0f2e18] border border-green-500/30 p-6 rounded-2xl relative overflow-hidden group hover:border-green-500/60 transition-colors shadow-[0_5px_20px_rgba(34,197,94,0.05)]">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-green-500/10 rounded-full blur-[50px] group-hover:bg-green-500/20 transition-all"></div>
+                            
+                            <div class="flex items-start gap-4 mb-5 relative z-10">
+                                <img src="logoaxon.png" alt="AXON Logo" class="w-14 h-14 object-contain drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white tracking-wide">AXON <span class="text-green-400">| Plugin de Filtro</span></h3>
+                                    <p class="text-[9px] text-green-300 uppercase tracking-widest font-mono mt-0.5 border border-green-500/20 bg-green-500/10 px-2 py-0.5 rounded inline-block">Simulador ATS Global</p>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4 text-xs text-slate-300 relative z-10">
+                                <p>AXON funciona como un plugin de inteligencia avanzada anclado a NYX. Mientras NYX envía los perfiles, AXON actúa conectándose con bases de datos globales de empleos corporativos.</p>
+                                
+                                <ul class="space-y-2 border-l-2 border-green-500/50 pl-3 py-1">
+                                    <li><i class="fas fa-robot text-green-400 mr-1.5"></i> <b>Simulador Robótico:</b> Actúa exactamente como el bot ATS de cada empresa.</li>
+                                    <li><i class="fas fa-percentage text-green-400 mr-1.5"></i> <b>Predicción de Éxito:</b> Le dice al candidato si pasará o no pasará el filtro.</li>
+                                    <li><i class="fas fa-bullseye text-green-400 mr-1.5"></i> <b>Ajuste por Rubro:</b> Configuración exacta para el puesto deseado.</li>
+                                </ul>
+                                
+                                <p>Ofrezca AXON como el "seguro de vida" del candidato: la herramienta que le permite saber que su perfil es perfecto antes de enviarlo.</p>
+                                
+                                <a href="https://protocololeviatham.github.io/cvstudio33/Axon.html" target="_blank" class="inline-flex items-center gap-2 mt-2 text-green-400 hover:text-green-300 font-bold uppercase text-[10px] tracking-widest bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20 transition-colors">
+                                    Conocer AXON a fondo <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
             <!-- Separador Visual -->
-            <div class="flex items-center gap-4 py-4">
+            <div class="flex items-center gap-4 py-8">
                 <div class="h-px bg-white/10 flex-1"></div>
-                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Inicia Manual Operativo</span>
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 border border-white/5 py-1 rounded-full bg-dark-900">Inicia Manual Operativo</span>
                 <div class="h-px bg-white/10 flex-1"></div>
             </div>
 
@@ -335,7 +509,7 @@
                             </label>
                             <label class="flex items-start gap-3 cursor-pointer group">
                                 <input type="checkbox" class="mt-0.5 accent-brand-500 w-3.5 h-3.5 bg-dark-900 border-white/20 rounded">
-                                <span class="group-hover:text-white transition-colors">¿La biografía indica claramente que ayuda a vulnerar filtros ATS?</span>
+                                <span class="group-hover:text-white transition-colors">¿La biografía indica claramente que representa a CVStudio33?</span>
                             </label>
                             <label class="flex items-start gap-3 cursor-pointer group">
                                 <input type="checkbox" class="mt-0.5 accent-brand-500 w-3.5 h-3.5 bg-dark-900 border-white/20 rounded">
@@ -354,7 +528,7 @@
                 </div>
                 
                 <div class="glass-card p-6 sm:p-8 rounded-2xl">
-                    <p class="text-sm text-slate-300 mb-6">No venda características; venda la solución a un dolor profundo. El mercado está saturado de sistemas ATS que bloquean postulantes. Existen 3 perfiles a los que apuntar:</p>
+                    <p class="text-sm text-slate-300 mb-6">No venda características; venda la solución a un dolor profundo. El mercado está saturado de sistemas ATS que bloquean postulantes. Existen perfiles clave a los que apuntar:</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-dark-950 border-t-2 border-t-red-500 p-5 rounded-xl">
@@ -369,8 +543,8 @@
                         </div>
                         <div class="bg-dark-950 border-t-2 border-t-purple-500 p-5 rounded-xl">
                             <h4 class="text-white text-sm font-bold mb-1">El Estratega</h4>
-                            <p class="text-[11px] text-slate-400 mb-3">Ejecutivos o profesionales buscando herramientas y simuladores IA.</p>
-                            <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-1 rounded block">Enfoque: "Tokens NYX/AXON"</span>
+                            <p class="text-[11px] text-slate-400 mb-3">Ejecutivos o profesionales buscando automatizar con NYX/AXON.</p>
+                            <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-1 rounded block">Enfoque: "Tokens y Hub de Envío"</span>
                         </div>
                     </div>
                 </div>
@@ -412,15 +586,15 @@
                             <h4 class="text-sm font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fas fa-network-wired text-purple-400 mr-2"></i>Activos IA (Tokens NYX/AXON)</h4>
                             <div class="space-y-3">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-xs text-slate-300">Packs NYX (Cognitivos)</span>
+                                    <span class="text-xs text-slate-300">Packs NYX (Cognitivos/Envío)</span>
                                     <span class="text-[10px] font-bold text-purple-400 bg-purple-500/10 px-2 py-1 rounded">$5k a $40k ARS</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-xs text-slate-300">Packs AXON (Tácticos)</span>
+                                    <span class="text-xs text-slate-300">Packs AXON (Tácticos/ATS)</span>
                                     <span class="text-[10px] font-bold text-green-400 bg-green-500/10 px-2 py-1 rounded">$2k a $15k ARS</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-xs text-slate-300">Suscripciones Mensuales</span>
+                                    <span class="text-xs text-slate-300">Suscripciones Mensuales Hub</span>
                                     <span class="text-[10px] font-bold text-yellow-400 bg-yellow-500/10 px-2 py-1 rounded">$20k a $33k ARS</span>
                                 </div>
                             </div>
@@ -437,7 +611,7 @@
                     <h2 class="text-xl sm:text-2xl font-bold text-white relative z-10 pl-2">Ganchos Estructurales (Redes)</h2>
                 </div>
                 <div class="glass-card p-6 sm:p-8 rounded-2xl">
-                    <p class="text-sm text-slate-300 mb-6">Ejemplos de frases de apertura (0-3 segundos) diseñadas para detener el scroll en plataformas de video corto.</p>
+                    <p class="text-sm text-slate-300 mb-6">Ejemplos de frases de apertura (0-3 segundos) diseñadas para detener el scroll en plataformas de video corto. Use la Consola IA superior para acceder a los 33 ganchos totales.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-dark-900 border border-white/5 p-4 rounded-xl">
@@ -547,7 +721,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // 1. VERIFICACIÓN DE SEGURIDAD (Solo operadores registrados)
+        // 1. VERIFICACIÓN DE SEGURIDAD
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
             authDomain: "cv-studio33.firebaseapp.com",
@@ -563,7 +737,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                window.location.href = 'PanelDeGestion-Ventas.html'; // Expulsión si no está logueado
+                window.location.href = 'PanelDeGestion-Ventas.html';
             } else {
                 authLoader.style.opacity = '0';
                 setTimeout(() => authLoader.classList.add('hidden'), 500);
@@ -573,78 +747,128 @@
         // 2. LÓGICA DEL MOTOR IA (Conexión al Cerebro 4)
         const CEREBRO_4_URL = "https://gestiondemarketing.lautybg22.workers.dev/";
         const btnGenerate = document.getElementById('btn-generate-content');
+        const btnGenerateWeekly = document.getElementById('btn-generate-weekly');
         const aiWaiting = document.getElementById('ai-waiting');
         const aiResults = document.getElementById('ai-results');
+        const resultSingle = document.getElementById('result-single');
+        const resultWeekly = document.getElementById('result-weekly');
         
-        btnGenerate.addEventListener('click', async () => {
-            const platform = document.getElementById('ia-platform').value;
-            const target = document.getElementById('ia-target').value;
-            const product = document.getElementById('ia-product').value;
-            
-            const originalText = btnGenerate.innerHTML;
+        // Función general de llamada al servidor
+        async function fetchToCerebro(payload, btnElement, loadingText) {
+            const originalText = btnElement.innerHTML;
             
             try {
-                // Estado de carga
-                btnGenerate.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SINTETIZANDO...';
-                btnGenerate.disabled = true;
+                btnElement.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> PROCESANDO...`;
+                btnElement.disabled = true;
+                if(btnElement.id === 'btn-generate-content') btnGenerateWeekly.disabled = true;
+                if(btnElement.id === 'btn-generate-weekly') btnGenerate.disabled = true;
+                
                 aiResults.classList.add('hidden');
                 aiWaiting.classList.remove('hidden');
-                aiWaiting.innerHTML = '<div class="spinner w-8 h-8 mb-4 border-t-brand-500"></div><p class="text-sm text-brand-400 font-mono uppercase tracking-widest">Enlazando Red Gemini...</p>';
+                aiWaiting.innerHTML = `<div class="spinner w-8 h-8 mb-4 border-t-brand-500"></div><p class="text-xs text-brand-400 font-mono uppercase tracking-widest">${loadingText}</p>`;
 
-                // Llamada al Cerebro 4
                 const res = await fetch(CEREBRO_4_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: "generate_marketing", platform, target, product })
+                    body: JSON.stringify(payload)
                 });
 
                 if (!res.ok) throw new Error("Fallo de conexión con Cerebro 4");
                 const data = await res.json();
-
-                // Rellenar Output
-                document.getElementById('out-hook').innerText = data.hook || "Error extrayendo gancho.";
-                document.getElementById('out-visual').innerText = data.visual || "Sin directriz visual.";
-                document.getElementById('out-script').innerText = data.script || "Error extrayendo guion.";
-                document.getElementById('out-copy').innerText = data.copy || "Error extrayendo copy.";
-
-                // Mostrar Resultados
+                
                 aiWaiting.classList.add('hidden');
                 aiResults.classList.remove('hidden');
+                
+                return data;
 
             } catch (error) {
                 console.error(error);
                 aiWaiting.innerHTML = '<i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i><p class="text-sm text-red-400">Error de conexión con el Cerebro 4. Reintente.</p>';
+                return null;
             } finally {
-                btnGenerate.innerHTML = originalText;
+                btnElement.innerHTML = originalText;
+                btnElement.disabled = false;
                 btnGenerate.disabled = false;
+                btnGenerateWeekly.disabled = false;
+            }
+        }
+
+        // Evento: Generar Individual
+        btnGenerate.addEventListener('click', async () => {
+            const payload = {
+                action: "generate_organic",
+                platform: document.getElementById('ia-platform').value,
+                tone: document.getElementById('ia-tone').value,
+                predefinedHook: document.getElementById('ia-hook').value,
+                tools: document.getElementById('ia-tools').value,
+                userIdea: document.getElementById('ia-idea').value
+            };
+            
+            const data = await fetchToCerebro(payload, btnGenerate, "Sintetizando guion individual...");
+            if (data) {
+                resultSingle.classList.remove('hidden');
+                resultWeekly.classList.add('hidden');
+                
+                document.getElementById('out-hook').innerText = data.hook || "Error extrayendo gancho.";
+                document.getElementById('out-visual').innerText = data.visual || "Sin directriz visual.";
+                document.getElementById('out-script').innerText = data.script || "Error extrayendo guion.";
+                document.getElementById('out-copy').innerText = data.copy || "Error extrayendo copy.";
+            }
+        });
+
+        // Evento: Generar Semanal
+        btnGenerateWeekly.addEventListener('click', async () => {
+            const payload = {
+                action: "generate_weekly",
+                platform: document.getElementById('ia-platform').value,
+                tone: document.getElementById('ia-tone').value,
+                tools: document.getElementById('ia-tools').value,
+                userIdea: document.getElementById('ia-idea').value
+            };
+            
+            const data = await fetchToCerebro(payload, btnGenerateWeekly, "Calculando portafolio de 7 días...");
+            if (data) {
+                resultSingle.classList.add('hidden');
+                resultWeekly.classList.remove('hidden');
+                
+                document.getElementById('out-weekly-content').innerText = data.weekly_plan || "Error extrayendo portafolio semanal.";
             }
         });
 
         // 3. LÓGICA DE COPIADO AL PORTAPAPELES
         document.getElementById('btn-copy-all').addEventListener('click', () => {
-            const hook = document.getElementById('out-hook').innerText;
-            const visual = document.getElementById('out-visual').innerText;
-            const script = document.getElementById('out-script').innerText;
-            const copy = document.getElementById('out-copy').innerText;
-
-            const fullText = `[GANCHO]\n${hook}\n\n[ACCIÓN VISUAL]\n${visual}\n\n[GUION ORAL]\n${script}\n\n[TEXTO PARA DESCRIPCIÓN]\n${copy}`;
+            let fullText = "";
+            
+            if (!resultSingle.classList.contains('hidden')) {
+                const hook = document.getElementById('out-hook').innerText;
+                const visual = document.getElementById('out-visual').innerText;
+                const script = document.getElementById('out-script').innerText;
+                const copy = document.getElementById('out-copy').innerText;
+                fullText = `[GANCHO]\n${hook}\n\n[ACCIÓN VISUAL / HERRAMIENTAS]\n${visual}\n\n[GUION ORAL]\n${script}\n\n[TEXTO PARA DESCRIPCIÓN]\n${copy}`;
+            } else {
+                fullText = document.getElementById('out-weekly-content').innerText;
+            }
             
             navigator.clipboard.writeText(fullText).then(() => {
                 const btn = document.getElementById('btn-copy-all');
                 const orig = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> ESTRATEGIA COPIADA AL PORTAPAPELES';
-                btn.classList.replace('bg-white/5', 'bg-green-600');
-                btn.classList.replace('hover:bg-white/10', 'hover:bg-green-500');
-                btn.classList.replace('border-white/10', 'border-transparent');
+                btn.innerHTML = '<i class="fas fa-check"></i> DATA COPIADA AL PORTAPAPELES';
+                btn.classList.replace('bg-brand-600/10', 'bg-green-600/20');
+                btn.classList.replace('hover:bg-brand-600/20', 'hover:bg-green-600/30');
+                btn.classList.replace('text-brand-400', 'text-green-400');
+                btn.classList.replace('border-brand-500/20', 'border-green-500/30');
                 
                 setTimeout(() => {
                     btn.innerHTML = orig;
-                    btn.classList.replace('bg-green-600', 'bg-white/5');
-                    btn.classList.replace('hover:bg-green-500', 'hover:bg-white/10');
-                    btn.classList.replace('border-transparent', 'border-white/10');
+                    btn.classList.replace('bg-green-600/20', 'bg-brand-600/10');
+                    btn.classList.replace('hover:bg-green-600/30', 'hover:bg-brand-600/20');
+                    btn.classList.replace('text-green-400', 'text-brand-400');
+                    btn.classList.replace('border-green-500/30', 'border-brand-500/20');
                 }, 3000);
             });
         });
     </script>
 </body>
 </html>
+
+

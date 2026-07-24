@@ -765,11 +765,19 @@
 
                 const res = await fetch(CEREBRO_4_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                    headers: { 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
                     body: JSON.stringify(payload)
                 });
 
-                if (!res.ok) throw new Error("Fallo de conexión con Cerebro 4");
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error || "Falla desconocida en Cerebro 4");
+                }
+                
                 const data = await res.json();
                 
                 aiWaiting.classList.add('hidden');
@@ -778,8 +786,10 @@
                 return data;
 
             } catch (error) {
-                console.error(error);
-                aiWaiting.innerHTML = '<i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i><p class="text-sm text-red-400">Error de conexión con el Cerebro 4. Reintente.</p>';
+                console.error("Detalle del Error:", error);
+                aiWaiting.innerHTML = `<i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                                       <p class="text-sm text-red-400 font-bold uppercase">Alerta en Cerebro 4:</p>
+                                       <p class="text-xs text-slate-400 mt-2 max-w-sm mx-auto">${error.message}</p>`;
                 return null;
             } finally {
                 btnElement.innerHTML = originalText;

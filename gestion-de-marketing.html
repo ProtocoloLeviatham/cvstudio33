@@ -216,20 +216,6 @@
                                             </select>
                                         </div>
 
-                                        <!-- Selector 2: Target (Original) -->
-                                        <div class="hidden">
-                                            <select id="ia-target" class="w-full neo-select rounded-xl py-2.5 px-4 text-sm font-medium">
-                                                <option value="Desempleado Desesperado">Desempleado frustrado por filtros</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Selector 3: Producto (Original) -->
-                                        <div class="hidden">
-                                            <select id="ia-product" class="w-full neo-select rounded-xl py-2.5 px-4 text-sm font-medium">
-                                                <option value="Optimización de CV">Estructuración ATS</option>
-                                            </select>
-                                        </div>
-
                                         <!-- NUEVO Selector: Los 33 Ganchos Virales -->
                                         <div>
                                             <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">2. Selector de Gancho (33 Opciones)</label>
@@ -285,10 +271,20 @@
                                             </select>
                                         </div>
 
+                                        <!-- Selector 4: Tono -->
+                                        <div>
+                                            <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">3. Tono de Comunicación</label>
+                                            <select id="ia-tone" class="w-full neo-select rounded-xl py-2.5 px-4 text-sm font-medium">
+                                                <option value="Empático y Cercano">Empático y Orgánico (Hablando de tú a tú, sincero)</option>
+                                                <option value="Autoridad Corporativa">Autoridad Corporativa (Elegante, directo y experto)</option>
+                                                <option value="Urgencia y Miedo">Urgencia (Enfocado en la crisis de desempleo y exclusión)</option>
+                                            </select>
+                                        </div>
+
                                         <!-- NUEVO: Herramientas a Usar -->
                                         <div>
                                             <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
-                                                3. Herramientas de Edición/Voz (Contexto IA)
+                                                4. Herramientas de Edición/Voz (Contexto IA)
                                             </label>
                                             <textarea id="ia-tools" rows="2" class="w-full neo-input rounded-xl py-2 px-3 text-xs font-medium placeholder-slate-600 resize-none" placeholder="Explique a la IA qué programas usará. Ej: Usaré CapCut, hablaré a cámara con micrófono de solapa, y pondré imágenes de fondo..."></textarea>
                                         </div>
@@ -296,7 +292,7 @@
                                         <!-- NUEVO: Idea Personalizada -->
                                         <div>
                                             <label class="block text-[10px] text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
-                                                4. Idea Principal (Su toque personal)
+                                                5. Idea Principal (Su toque personal)
                                             </label>
                                             <textarea id="ia-idea" rows="3" class="w-full neo-input rounded-xl py-2 px-3 text-xs font-medium placeholder-slate-600 resize-none" placeholder="Escriba de qué quiere que trate el contenido. Ej: Quiero contar la historia de un cliente que no pasaba filtros y le vendí el paquete Tier 1..."></textarea>
                                         </div>
@@ -309,7 +305,7 @@
                                         
                                         <!-- NUEVO BOTÓN: PORTAFOLIO SEMANAL -->
                                         <button id="btn-generate-weekly" class="w-full bg-purple-600/20 border border-purple-500/50 hover:bg-purple-600 hover:border-purple-500 text-purple-100 font-bold tracking-wide py-3 rounded-xl transition shadow-[0_0_15px_rgba(168,85,247,0.2)] flex items-center justify-center gap-2">
-                                            <i class="fas fa-calendar-alt"></i> GENERAR PORTAFOLIO DE IDEAS (SEMANAL)
+                                            <i class="fas fa-calendar-alt"></i> GENERAR PORTAFOLIO SEMANAL
                                         </button>
                                     </div>
                                 </div>
@@ -795,13 +791,19 @@
 
         // Evento: Generar Individual
         btnGenerate.addEventListener('click', async () => {
+            const platformEl = document.getElementById('ia-platform');
+            const hookEl = document.getElementById('ia-hook');
+            const toneEl = document.getElementById('ia-tone');
+            const toolsEl = document.getElementById('ia-tools');
+            const ideaEl = document.getElementById('ia-idea');
+
             const payload = {
                 action: "generate_organic",
-                platform: document.getElementById('ia-platform').value,
-                tone: document.getElementById('ia-tone').value,
-                predefinedHook: document.getElementById('ia-hook').value,
-                tools: document.getElementById('ia-tools').value,
-                userIdea: document.getElementById('ia-idea').value
+                platform: platformEl ? platformEl.value : "TikTok",
+                predefinedHook: hookEl ? hookEl.value : "Auto",
+                tone: toneEl ? toneEl.value : "Empático y Cercano",
+                tools: toolsEl ? toolsEl.value : "",
+                userIdea: ideaEl ? ideaEl.value : ""
             };
             
             const data = await fetchToCerebro(payload, btnGenerate, "Sintetizando guion individual...");
@@ -818,12 +820,17 @@
 
         // Evento: Generar Semanal
         btnGenerateWeekly.addEventListener('click', async () => {
+            const platformEl = document.getElementById('ia-platform');
+            const toneEl = document.getElementById('ia-tone');
+            const toolsEl = document.getElementById('ia-tools');
+            const ideaEl = document.getElementById('ia-idea');
+
             const payload = {
                 action: "generate_weekly",
-                platform: document.getElementById('ia-platform').value,
-                tone: document.getElementById('ia-tone').value,
-                tools: document.getElementById('ia-tools').value,
-                userIdea: document.getElementById('ia-idea').value
+                platform: platformEl ? platformEl.value : "TikTok",
+                tone: toneEl ? toneEl.value : "Empático y Cercano",
+                tools: toolsEl ? toolsEl.value : "",
+                userIdea: ideaEl ? ideaEl.value : ""
             };
             
             const data = await fetchToCerebro(payload, btnGenerateWeekly, "Calculando portafolio de 7 días...");
@@ -870,5 +877,3 @@
     </script>
 </body>
 </html>
-
-

@@ -556,7 +556,7 @@
                 <span class="info-icon">i</span>
                 <div class="tooltip-text">
                     <b>¿Para qué sirven los Servidores?</b><br>
-                    El sistema escala automáticamente. Si la IA no responde, cambiará de servidor en cascada (Groq > Gemini > Groq) para restaurar la comunicación inmediatamente.
+                    El sistema escala automáticamente. Si la IA no responde, cambiará de servidor en cascada (Groq) para restaurar la comunicación inmediatamente.
                 </div>
             </div>
             <!-- SE CONFIGURÓ PARA 3 NODOS -->
@@ -571,8 +571,6 @@
     <div id="messages-area">
         <!-- Los mensajes se renderizan aquí -->
     </div>
-
-    <!-- EL DIV DE FAQS FUE ELIMINADO COMO SE SOLICITÓ PARA EVITAR ERRORES -->
 
     <div id="input-area">
         <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
@@ -601,11 +599,11 @@
     const db = getFirestore(app);
 
     // 1. CONFIGURACIÓN DEL ESCALADO DE SERVIDORES (FAILOVER AUTOMÁTICO A 3 NODOS)
-    // Modelos Groq actualizados según la documentación solicitada
+    // Modelos Groq conversacionales actualizados y testeados. TODOS apuntan a Groq como solicitaste.
     const API_SERVERS = [
-        { type: "groq", key: "", model: "meta-llama/llama-prompt-guard-2-22m", name: "Servidor 1 (Groq Principal)" },
-        { type: "gemini", key: "", model: "gemini-1.5-flash-latest", name: "Servidor 2 (Gemini Respaldo)" },
-        { type: "groq", key: "", model: "meta-llama/llama-prompt-guard-2-22m", name: "Servidor 3 (Groq Emergencia)" }
+        { type: "groq", key: "", model: "llama-3.1-8b-instant", name: "Servidor 1 (Groq Principal)" },
+        { type: "groq", key: "", model: "llama-3.1-70b-versatile", name: "Servidor 2 (Groq Respaldo)" },
+        { type: "groq", key: "", model: "mixtral-8x7b-32768", name: "Servidor 3 (Groq Emergencia)" }
     ];
 
     // Función para obtener las claves desde Cloud Firestore (Mapeo a key1, key2 y key3)
@@ -715,8 +713,6 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
 
     // 4. LÓGICA DE INTERFAZ Y CHAT
     
-    // (SE ELIMINARON LOS BOTONES FAQ PARA EVITAR ERRORES DE RENDERIZADO Y CONFLICTOS)
-
     function formatText(text) {
         // Se mantiene la función de formateo limpia, por si quedan rezagos, pero la IA está instruida a no mandar Markdown
         let formatted = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="action-btn">$1</a>');
@@ -779,7 +775,6 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
         
         userInput.disabled = true;
         sendBtn.disabled = true;
-        // Los FAQ se eliminaron, así que no necesitamos deshabilitarlos aquí
 
         sendBtn.innerHTML = `<span style="font-weight: bold; font-size: 1.1rem;">${timeLeft}</span>`;
 
@@ -855,6 +850,7 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
                     aiResponse = data.choices[0].message.content;
 
                 } else if (server.type === "gemini") {
+                    // BLOQUE MANTENIDO POR REGLA ESTRICTA DE NO BORRAR CÓDIGO - AUNQUE ACTUALMENTE NO SE USA.
                     const geminiContents = chatHistory.map(m => ({
                         role: m.role === "assistant" ? "model" : "user",
                         parts: [{ text: m.text }]
@@ -920,3 +916,4 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
 </script>
 </body>
 </html>
+

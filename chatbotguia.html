@@ -33,14 +33,14 @@
             height: 100vh;
             height: 100dvh; /* Soporte dinámico para móviles */
             
-            /* Fondo cibernético/corporativo ANIMADO (Optimizado: sin animación constante) */
+            /* Fondo cibernético/corporativo ANIMADO (Optimizado para GPU) */
             background: linear-gradient(135deg, #050508 0%, #0a0a0f 50%, #050508 100%);
             background-size: 200% 200%;
             overflow: hidden;
             position: relative;
         }
 
-        /* Luces de fondo dinámicas (Optimizado: fijas para evitar lag de pintado) */
+        /* Luces de fondo dinámicas (fijas para evitar lag de pintado en celulares) */
         body::after {
             content: '';
             position: absolute;
@@ -75,11 +75,12 @@
             border-radius: 24px;
             display: flex;
             flex-direction: column;
-            /* Optimizado: Sombra fija pero vibrante para evitar caída de FPS */
+            /* Sombras optimizadas por hardware */
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(112, 0, 255, 0.1);
             overflow: hidden;
             position: relative;
             z-index: 2;
+            will-change: transform, opacity;
             animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -98,12 +99,13 @@
         /* ================= CABECERA ================= */
         #chat-header {
             padding: 18px 24px;
-            background: rgba(10, 10, 15, 0.6);
+            background: rgba(10, 10, 15, 0.7);
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
+            backdrop-filter: blur(5px);
         }
 
         .header-profile {
@@ -115,13 +117,14 @@
         .avatar {
             width: 52px;
             height: 52px;
-            border-radius: 12px; /* Corte más tecnológico que redondo */
+            border-radius: 12px; 
             border: 1px solid var(--accent-cyan);
             box-shadow: 0 0 15px var(--accent-cyan-glow);
             object-fit: cover;
             padding: 2px;
             background: var(--bg-dark);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            will-change: transform;
         }
         
         .avatar:hover {
@@ -170,7 +173,6 @@
             align-items: flex-end;
         }
         
-        /* Botón de volver al inicio */
         .back-home-btn {
             display: inline-flex;
             align-items: center;
@@ -185,6 +187,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
+            will-change: transform;
         }
 
         .back-home-btn:hover {
@@ -209,54 +212,6 @@
             letter-spacing: 1px;
         }
 
-        .info-icon {
-            color: var(--accent-purple);
-            font-size: 0.7rem;
-            cursor: help;
-            border: 1px solid var(--accent-purple);
-            border-radius: 50%;
-            width: 14px;
-            height: 14px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        
-        .info-icon:hover {
-            background: var(--accent-purple);
-            color: #fff;
-            box-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
-            transform: scale(1.1);
-        }
-
-        /* Tooltip de explicación de Servidores */
-        .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: rgba(10, 10, 15, 0.95);
-            color: #ccc;
-            text-align: left;
-            border-radius: 8px;
-            padding: 10px;
-            position: absolute;
-            z-index: 100;
-            top: 100%;
-            right: 0;
-            font-size: 0.7rem;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateY(5px);
-            line-height: 1.4;
-        }
-        .node-header-wrap:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         #node-selector {
             background: rgba(0, 0, 0, 0.5);
             color: var(--accent-cyan);
@@ -268,6 +223,9 @@
             cursor: pointer;
             transition: all 0.3s;
             font-family: var(--font-main);
+            -webkit-appearance: none;
+            appearance: none;
+            text-align: center;
         }
         #node-selector:hover {
             border-color: var(--accent-cyan);
@@ -285,19 +243,19 @@
             scroll-behavior: smooth;
         }
 
-        /* Scrollbar personalizada */
-        #messages-area::-webkit-scrollbar { width: 6px; }
+        #messages-area::-webkit-scrollbar { width: 4px; }
         #messages-area::-webkit-scrollbar-track { background: transparent; }
-        #messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-        #messages-area::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.3); }
+        #messages-area::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.2); border-radius: 10px; }
+        #messages-area::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.5); }
 
         .message-wrapper {
             display: flex;
             flex-direction: column;
             max-width: 88%;
-            animation: messageBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: messageBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             opacity: 0;
             transform-origin: bottom;
+            will-change: transform, opacity;
         }
 
         .message-wrapper.lixie { align-self: flex-start; }
@@ -310,76 +268,29 @@
             line-height: 1.6;
             position: relative;
             word-wrap: break-word;
-            transition: all 0.3s ease;
-        }
-
-        .message:hover {
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            transform: translateY(-2px);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
 
         .lixie .message {
-            background: rgba(30, 30, 45, 0.6);
+            background: rgba(30, 30, 45, 0.85);
             color: #eaeaea;
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(112, 0, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(112, 0, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .user .message {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 240, 255, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(0, 240, 255, 0.05) 100%);
             color: #fff;
             border-bottom-right-radius: 4px;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1);
         }
 
-        /* Estilos de texto interno */
         .message b { color: var(--accent-cyan); font-weight: 600; text-shadow: 0 0 5px rgba(0, 240, 255, 0.3); }
         .message ul { padding-left: 20px; margin: 8px 0; }
         .message li { margin-bottom: 6px; }
         .message li::marker { color: var(--accent-purple); text-shadow: 0 0 5px rgba(112, 0, 255, 0.5); }
-
-        /* ========= BOTONES DE ACCIÓN (MANTENIDOS COMO LEGACY, PERO NO ACTIVADOS POR LA IA) ========= */
-        .action-btn {
-            display: block;
-            margin: 12px 0 4px 0;
-            padding: 10px 15px;
-            background: linear-gradient(90deg, rgba(112, 0, 255, 0.2), rgba(0, 240, 255, 0.1));
-            border: 1px solid var(--accent-cyan);
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-20deg);
-            transition: 0.5s;
-        }
-
-        .action-btn:hover::before {
-            left: 150%;
-        }
-
-        .action-btn:hover {
-            background: linear-gradient(90deg, rgba(112, 0, 255, 0.4), rgba(0, 240, 255, 0.3));
-            box-shadow: 0 0 20px var(--accent-cyan-glow);
-            transform: translateY(-3px) scale(1.02);
-            color: #fff;
-        }
 
         .read-receipt {
             font-size: 0.65rem;
@@ -393,7 +304,6 @@
             animation: fadeIn 0.5s ease-in forwards;
         }
 
-        /* ===== MENSAJES DEL SISTEMA (FAILOVER) ===== */
         .system-msg {
             align-self: center;
             text-align: center;
@@ -414,49 +324,47 @@
             color: #ff3366;
             border-color: #ff3366;
             background: rgba(255, 51, 102, 0.05);
-            box-shadow: 0 0 10px rgba(255, 51, 102, 0.2);
         }
         .system-msg.success {
             color: #00ff88;
             border-color: #00ff88;
             background: rgba(0, 255, 136, 0.05);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
         }
 
-        /* ================= INPUT ================= */
+        /* ================= INPUT Y BOTONES ================= */
         #input-area {
             padding: 18px 24px;
-            padding-bottom: max(18px, env(safe-area-inset-bottom)); /* Levanta el input en iOS/Android nativos */
-            background: rgba(10, 10, 15, 0.8);
+            padding-bottom: max(18px, env(safe-area-inset-bottom));
+            background: rgba(10, 10, 15, 0.85);
             display: flex;
-            gap: 12px;
+            gap: 10px;
             border-top: 1px solid var(--glass-border);
             align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         #user-input {
             flex: 1;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255,255,255,0.15);
             color: #fff;
             padding: 14px 18px;
             border-radius: 12px;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
             font-family: var(--font-main);
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
         #user-input:focus { 
             border-color: var(--accent-cyan); 
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.5);
-            background: rgba(0, 0, 0, 0.7);
-            transform: translateY(-2px);
+            background: rgba(0, 0, 0, 0.8);
         }
-        #user-input::placeholder { color: #555; transition: color 0.3s; }
-        #user-input:focus::placeholder { color: #888; }
+        #user-input::placeholder { color: #666; }
         #user-input:disabled { opacity: 0.5; cursor: not-allowed; }
 
+        /* Botón de Enviar Textual */
         #send-btn {
             background: var(--accent-cyan);
             border: none;
@@ -469,68 +377,85 @@
             justify-content: center;
             align-items: center;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        #send-btn::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 100%; height: 100%; background: rgba(255,255,255,0.2);
-            border-radius: 50%; transform: translate(-50%, -50%) scale(0);
-            opacity: 0; transition: transform 0.4s, opacity 0.4s;
-        }
-        #send-btn:active::after {
-            transform: translate(-50%, -50%) scale(2); opacity: 1; transition: 0s;
+            flex-shrink: 0;
+            will-change: transform;
         }
         #send-btn:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.08);
-            box-shadow: 0 8px 25px var(--accent-cyan-glow);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px var(--accent-cyan-glow);
             background: #fff;
-        }
-        #send-btn:active:not(:disabled) {
-            transform: translateY(0) scale(0.95);
         }
         #send-btn:disabled {
             background: rgba(0, 240, 255, 0.3);
             cursor: not-allowed;
             color: rgba(255,255,255,0.7);
         }
-        #send-btn svg { width: 22px; height: 22px; fill: currentColor; transition: transform 0.3s; }
-        #send-btn:hover:not(:disabled) svg { transform: translateX(3px) translateY(-3px); }
+        #send-btn svg { width: 22px; height: 22px; fill: currentColor; }
 
-        /* Animaciones Optimizadas (Eliminadas las que causaban lag masivo de renderizado) */
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.92) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
-        @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 70% { transform: scale(1.02) translateY(-2px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-        /* Optimizada: Solo anima la opacidad, la sombra ya la hereda la clase base, ahorrando carga de GPU */
+        /* Botón de Micrófono (Asalto de Voz - Nodo 3) */
+        #mic-btn {
+            background: rgba(112, 0, 255, 0.2);
+            border: 1px solid var(--accent-purple);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            flex-shrink: 0;
+            will-change: transform;
+        }
+        #mic-btn:hover:not(:disabled) {
+            background: rgba(112, 0, 255, 0.5);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(112, 0, 255, 0.4);
+        }
+        #mic-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        #mic-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        
+        /* Animación de Grabación */
+        #mic-btn.recording {
+            background: rgba(255, 51, 102, 0.2);
+            border-color: #ff3366;
+            color: #ff3366;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        /* Keyframes */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7); transform: scale(1); }
+            50% { transform: scale(1.05); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 51, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); transform: scale(1); }
+        }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.95) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes borderFlow { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
 
-        /* Typing indicator tech */
         .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
         .typing .bar { width: 4px; height: 12px; background: var(--accent-cyan); border-radius: 2px; animation: wave 1s infinite ease-in-out; }
         .typing .bar:nth-child(1) { animation-delay: -0.4s; }
         .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); }
         .typing .bar:nth-child(3) { animation-delay: 0s; }
-        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
 
-        /* Responsividad Mejorada */
+        /* Responsividad Celulares */
         @media (max-width: 480px) {
-            #chat-container { 
-                height: 100dvh; 
-                max-width: 100%; 
-                border-radius: 0; 
-                border: none; 
-                animation: none; 
-            }
+            #chat-container { height: 100dvh; max-width: 100%; border-radius: 0; border: none; animation: none; }
             .header-info h2 { font-size: 1rem; }
             .message { font-size: 0.9rem; padding: 12px 14px; }
-            #input-area { 
-                padding: 12px 16px;
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
-            }
+            #input-area { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom)); gap: 8px;}
             #user-input { padding: 12px 16px; font-size: 16px; }
+            #send-btn, #mic-btn { width: 44px; height: 44px; }
         }
     </style>
 </head>
@@ -541,7 +466,7 @@
         <div class="header-profile">
             <img src="chatbotcv.png" alt="Lixie Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/256/00f0ff/0a0a0f?text=LX'">
             <div class="header-info">
-                <h2>Lixie AI</h2>
+                <h2>Lixie IA</h2>
                 <div class="status"><div class="status-dot"></div> Mente Colmena Activa</div>
             </div>
         </div>
@@ -553,13 +478,7 @@
             
             <div class="node-header-wrap">
                 <span class="node-label">Servidores Activos</span>
-                <span class="info-icon">i</span>
-                <div class="tooltip-text">
-                    <b>¿Para qué sirven los Servidores?</b><br>
-                    El sistema escala automáticamente. Si la IA no responde, cambiará de servidor en cascada (Groq) para restaurar la comunicación inmediatamente.
-                </div>
             </div>
-            <!-- SE CONFIGURÓ PARA 3 NODOS -->
             <select id="node-selector">
                 <option value="0">Servidor 1 (Principal)</option>
                 <option value="1">Servidor 2 (Respaldo)</option>
@@ -568,12 +487,18 @@
         </div>
     </div>
 
-    <div id="messages-area">
-        <!-- Los mensajes se renderizan aquí -->
-    </div>
+    <div id="messages-area"></div>
 
     <div id="input-area">
+        <!-- Input Textual -->
         <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
+        
+        <!-- Botón Micrófono Whisper -->
+        <button id="mic-btn" title="Asalto de Voz (Whisper)">
+            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+
+        <!-- Botón Enviar -->
         <button id="send-btn">
             <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
         </button>
@@ -581,11 +506,9 @@
 </div>
 
 <script type="module">
-    // IMPORTACIÓN DE FIREBASE (Seguridad de Mente Colmena)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // Configuración de Firebase Cloud
     const firebaseConfig = {
       apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
       authDomain: "cv-studio33.firebaseapp.com",
@@ -598,15 +521,13 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 1. CONFIGURACIÓN DEL ESCALADO DE SERVIDORES (FAILOVER AUTOMÁTICO A 3 NODOS)
-    // Modelos Groq conversacionales actualizados con la nueva disponibilidad.
+    // Servidores Textuales
     const API_SERVERS = [
         { type: "groq", key: "", model: "qwen/qwen3.6-27b", name: "Servidor 1 (Groq - Qwen)" },
         { type: "groq", key: "", model: "openai/gpt-oss-20b", name: "Servidor 2 (Groq - GPT-OSS)" },
         { type: "groq", key: "", model: "qwen/qwen3.6-27b", name: "Servidor 3 (Groq Emergencia)" }
     ];
 
-    // Función para obtener las claves desde Cloud Firestore (Mapeo a key1, key2 y key3)
     async function loadSecureKeys() {
         try {
             const docRef = doc(db, "chatbotcv", "IDCV");
@@ -619,46 +540,42 @@
                 API_SERVERS[2].key = data.key3;
                 console.log("🔒 Protocolo de Seguridad: Claves de la Colmena sincronizadas correctamente.");
             } else {
-                console.error("⚠️ Error de Colmena: Documento IDCV no encontrado en la base de datos.");
+                console.error("⚠️ Error de Colmena: Documento IDCV no encontrado.");
             }
         } catch (error) {
-            console.error("⚠️ Error de Colmena al intentar recuperar las credenciales:", error);
+            console.error("⚠️ Error conectando credenciales:", error);
         }
     }
 
-    // Inicializamos la búsqueda de claves al arrancar
     loadSecureKeys();
 
-    let currentServerIndex = 0; // Empieza siempre por el Servidor 1
-    
-    // Conectar el selector manual a la variable del servidor
+    let currentServerIndex = 0; 
     document.getElementById("node-selector").addEventListener("change", (e) => {
         currentServerIndex = parseInt(e.target.value);
     });
 
-    // 2. VARIABLES DE ESTADO Y PROMPT COMPLETO
-    let chatHistory = []; // Almacenamiento unificado: {role: "user"|"assistant", text: "..."}
-    let isWaiting = false; // Control de bloqueo de 33 segundos
+    let chatHistory = [];
+    let isWaiting = false;
     const messagesArea = document.getElementById("messages-area");
     const userInput = document.getElementById("user-input");
     const sendBtn = document.getElementById("send-btn");
     const originalSendBtnHTML = sendBtn.innerHTML;
 
-    // PROMPT SYSTEM REDISEÑADO Y OPTIMIZADO PARA PREVENIR ERRORES DE FORMATEO Y BOTONES
+    // EL PROMPT INTOCABLE + REGLA ANTI-MONÓLOGO
     const systemPrompt = `
 # ROL Y PERSONALIDAD
-Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. 
+Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial (IA) Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. 
 Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista, directo y realista respecto al mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. 
 Usa términos como "armas de empleabilidad masiva", "asalto digital", "ingeniería inversa", "Mente Colmena" y "supremacía tecnológica". La búsqueda de trabajo tradicional está obsoleta y CV Studio33 es "la anomalía en el sistema" que democratiza el éxito.
 
-# DIRECTRICES ESTRICTAS DE INTERACCIÓN Y FORMATO LIMPIO
-1. ASESORAMIENTO DIRECTO: Tu objetivo principal es asesorar, diagnosticar el problema del usuario y persuadirlo para adquirir Planes Corporativos, Tokens NYX o Tokens AXON.
-2. FORMATO IMPECABLE: Usa un tono conversacional fluido. Eres una IA de alto nivel ejecutivo. Puedes usar viñetas simples (-) o negritas (**) para destacar información importante, pero mantén tus respuestas naturales y fáciles de leer.
-3. PROHIBIDO GENERAR BOTONES O ENLACES MARKDOWN: ESTÁ ESTRICTAMENTE PROHIBIDO que utilices la sintaxis Markdown para crear enlaces, como por ejemplo: [Texto](URL). Esta sintaxis genera errores visuales en el chat. Si necesitas hacer referencia a un servicio o compartir un enlace, debes guiar al usuario mencionando en qué parte de la página se encuentra, o proporcionarle la URL como texto plano y simple. 
-4. NUNCA inventes precios, características ni enlaces. Limítate exclusivamente a la base de conocimientos que se detalla a continuación. Responde siempre en español.
+# REGLA CRÍTICA DE RESPUESTA (ANTI-MONÓLOGO Y CERO MARKDOWN)
+1. BAJO NINGUNA CIRCUNSTANCIA debes mostrar tu proceso de pensamiento ("thinking process"), monólogos internos, borradores o pasos de razonamiento. ESTÁ ESTRICTAMENTE PROHIBIDO. Debes generar ÚNICA Y EXCLUSIVAMENTE la respuesta final que leerá el usuario final en español. Cero meta-comentarios.
+2. PROHIBIDO GENERAR BOTONES O ENLACES MARKDOWN: ESTÁ ESTRICTAMENTE PROHIBIDO que utilices la sintaxis Markdown para crear enlaces, como por ejemplo: [Texto](URL). Si necesitas hacer referencia a un servicio, guíalos indicando en qué sección del menú o página están, o da la URL en formato texto plano simple.
+
+# DIRECTRICES DE ASESORAMIENTO
+Tu objetivo principal es asesorar, diagnosticar el problema del usuario y persuadirlo para adquirir Planes Corporativos, Tokens NYX o Tokens AXON. NUNCA inventes precios ni enlaces que no estén aquí.
 
 # BASE DE CONOCIMIENTOS DE CV STUDIO33
-
 ## 1. LA FILOSOFÍA Y EL "MÉTODO 33"
 CV Studio33 fusiona la intuición humana con la inteligencia algorítmica. Nuestro Método 33 tiene 5 pasos:
 - Diagnóstico de Perfil (Auditoría de trayectoria).
@@ -693,30 +610,18 @@ Planes Corporativos:
 - Avanzado ($22.000): CV Personalizado + Carta + 5 Tokens NYX + 5 Tokens AXON + Bolsa de Trabajo VIP.
 - Profesional / POPULAR ($50.000): CV + Carta + 10 Tokens NYX + 20 Tokens AXON + Bolsa VIP + Career Suite.
 - Mensualidad VIP ($33.000/mes): Personalización Única, Uso Ilimitado de NYX y AXON.
+Paquetes NYX: Starter ($5.000/5), Advanced ($10.000/10), Pro Tier ($20.000/20), Elite ($40.000/50).
+Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($15.000/50).
 
-Paquetes de Tokens NYX (Ejecución):
-Starter ($5.000 / 5 Tokens), Advanced ($10.000 / 10 Tokens), Pro Tier ($20.000 / 20 Tokens), Elite ($40.000 / 50 Tokens).
-
-Paquetes de Tokens AXON (Análisis):
-Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens), Expert ($15.000 / 50 Tokens).
-
-## 5. INFORMACIÓN ADICIONAL Y PREGUNTAS FRECUENTES
-- Servicios extra: Suite y Bolsa VIP (acceso al mercado oculto 70%), Creador de Carta de Presentación persuasiva, Programa de Partners para reclutadores.
-- Formatos y Tiempos: Entregas en PDF alta resolución y Word editable (.docx). Estándar 3-5 días hábiles, Express 24hs.
-- Seguridad y Soporte: Revisiones ilimitadas por 7 días. Encriptación AES-256. Soporta normas EE.UU., Canadá y Europa. Incluye rediseño LinkedIn.
-- Pagos: Tarjetas, PayPal y transferencias. Ideal para Juniors enfocados en potenciar habilidades blandas.
-
-# MANEJO DE OBJECIONES
-- Si mencionan que el precio es "muy caro": Enfócate en el Retorno de Inversión (ROI). Diles que la tecnología NYX/AXON se paga sola con su primer sueldo en un puesto superior, evitándoles meses de desempleo.
-- Si desconfían de la Inteligencia Artificial: Aclárales que la Mente Colmena no es un chatbot genérico, sino un sistema alimentado por bases de datos oscuras de Fortune 500 y millones de ofertas en tiempo real, respaldado siempre por profesionales de RRHH.
+## 5. PREGUNTAS FRECUENTES Y OBJECIONES
+- Servicios extra: Suite y Bolsa VIP (acceso al mercado oculto 70%), Creador de Carta, Partners para reclutadores.
+- Tiempos: Estándar 3-5 días hábiles, Express 24hs. Revisiones ilimitadas por 7 días.
+- Seguridad: Encriptación AES-256. Soporta normas EE.UU., Canadá y Europa.
+- Si dicen que es "muy caro": Enfócate en el Retorno de Inversión (ROI). La tecnología NYX/AXON se paga sola con su primer sueldo, evadiendo meses de desempleo.
     `;
 
-    // 4. LÓGICA DE INTERFAZ Y CHAT
-    
     function formatText(text) {
-        // Se mantiene la función de formateo limpia, por si quedan rezagos, pero la IA está instruida a no mandar Markdown
-        let formatted = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="action-btn">$1</a>');
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        let formatted = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
         formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
         formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
         if (formatted.includes('<li>')) {
@@ -732,7 +637,6 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
         const bubble = document.createElement("div");
         bubble.className = "message";
         bubble.innerHTML = sender === "Lixie" ? formatText(text) : text;
-        
         wrapper.appendChild(bubble);
 
         if (sender === "User") {
@@ -768,13 +672,12 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
         if (typing) typing.remove();
     }
 
-    // Sistema de Enfriamiento (Cooldown de 33 segundos)
     function triggerCooldown() {
         isWaiting = true;
         let timeLeft = 33;
-        
         userInput.disabled = true;
         sendBtn.disabled = true;
+        document.getElementById("mic-btn").disabled = true;
 
         sendBtn.innerHTML = `<span style="font-weight: bold; font-size: 1.1rem;">${timeLeft}</span>`;
 
@@ -787,13 +690,89 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
                 isWaiting = false;
                 userInput.disabled = false;
                 sendBtn.disabled = false;
+                document.getElementById("mic-btn").disabled = false;
                 sendBtn.innerHTML = originalSendBtnHTML;
                 userInput.focus();
             }
         }, 1000);
     }
 
-    // 5. LLAMADA MULTI-API CON FAILOVER (CASCADA)
+    // ====== LÓGICA DEL MICRÓFONO (WHISPER) ======
+    const micBtn = document.getElementById("mic-btn");
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+
+    micBtn.addEventListener("click", async () => {
+        if (isRecording) {
+            mediaRecorder.stop();
+            micBtn.classList.remove("recording");
+            isRecording = false;
+        } else {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                micBtn.classList.add("recording");
+                isRecording = true;
+
+                mediaRecorder.addEventListener("dataavailable", event => {
+                    audioChunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener("stop", async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    audioChunks = [];
+                    await transcribeAudio(audioBlob);
+                    // Detener uso de la cámara/micrófono del navegador para ahorrar recursos
+                    stream.getTracks().forEach(track => track.stop());
+                });
+            } catch (err) {
+                console.error("Mic error:", err);
+                addSystemMessage("⚠️ Permisos de micrófono denegados o hardware no detectado.", "error");
+            }
+        }
+    });
+
+    async function transcribeAudio(audioBlob) {
+        userInput.placeholder = "Desencriptando audio...";
+        userInput.disabled = true;
+        
+        const formData = new FormData();
+        formData.append("file", audioBlob, "audio.webm");
+        formData.append("model", "whisper-large-v3");
+        formData.append("language", "es"); // Forzar respuesta en Español
+
+        try {
+            const activeKey = API_SERVERS[currentServerIndex].key || API_SERVERS[0].key;
+            if(!activeKey) throw new Error("Key no cargada.");
+
+            const response = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${activeKey}` },
+                body: formData
+            });
+
+            if (!response.ok) throw new Error("Fallo en red neuronal auditiva");
+            const data = await response.json();
+            
+            // Insertar texto transcrito en el input
+            if(data.text && data.text.trim() !== "") {
+                userInput.value = data.text;
+                addSystemMessage("🎙️ Audio procesado. Listo para enviar.", "success");
+            }
+
+        } catch (error) {
+            console.error(error);
+            addSystemMessage("⚠️ Interferencia en transcripción de voz.", "error");
+        } finally {
+            userInput.placeholder = "Inicia tu asalto digital aquí...";
+            userInput.disabled = false;
+            userInput.focus();
+        }
+    }
+
+    // ====== LLAMADA A IA DE TEXTO ======
     async function handleSend() {
         if (isWaiting) return;
         
@@ -803,102 +782,70 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
         addMessage("User", text);
         userInput.value = "";
         showTyping();
-        
         triggerCooldown();
 
-        // Almacenamiento unificado
         chatHistory.push({ role: "user", text: text });
-        if (chatHistory.length > 6) { chatHistory = chatHistory.slice(chatHistory.length - 6); }
+        if (chatHistory.length > 6) chatHistory = chatHistory.slice(chatHistory.length - 6);
 
         let success = false;
         let fallbackTriggered = false;
 
-        // Bucle de Escalado de Servidores (Failover ajustado a los 3 nodos)
         for (let i = currentServerIndex; i < API_SERVERS.length; i++) {
             const server = API_SERVERS[i];
             
             if (fallbackTriggered) {
                 removeTyping();
-                addSystemMessage(`⚠️ Intermitencia detectada. Cambiando de servidor a ${server.name}...`, "error");
+                addSystemMessage(`⚠️ Intermitencia detectada. Cambiando a ${server.name}...`, "error");
                 showTyping();
             }
 
             try {
-                // Verificar que la llave existe antes de disparar a la API
-                if (!server.key || server.key === "") {
-                    throw new Error("Key no cargada desde Firestore aún.");
-                }
+                if (!server.key) throw new Error("Key no cargada.");
 
-                let aiResponse = "";
+                const groqMessages = [
+                    { role: "system", content: systemPrompt },
+                    ...chatHistory.map(m => ({ role: m.role, content: m.text }))
+                ];
+
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${server.key}` },
+                    body: JSON.stringify({ model: server.model, messages: groqMessages, temperature: 0.7 })
+                });
                 
-                // Formateo y Fetch dinámico según el tipo de API
-                if (server.type === "groq") {
-                    const groqMessages = [
-                        { role: "system", content: systemPrompt },
-                        ...chatHistory.map(m => ({ role: m.role === "assistant" ? "assistant" : "user", content: m.text }))
-                    ];
+                if (!response.ok) throw new Error("Fallo en Groq");
+                const data = await response.json();
+                let aiResponse = data.choices[0].message.content;
 
-                    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${server.key}` },
-                        // Temperatura y parametros adaptados sin romper la lógica del fetch JSON
-                        body: JSON.stringify({ model: server.model, messages: groqMessages, temperature: 0.7 })
-                    });
-                    
-                    if (!response.ok) throw new Error("Fallo en Groq");
-                    const data = await response.json();
-                    aiResponse = data.choices[0].message.content;
+                // FILTRO DE SEGURIDAD EXTREMA PARA ELIMINAR PROCESOS DE PENSAMIENTO DE QWEN/LLAMA
+                aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/gi, "");
+                aiResponse = aiResponse.replace(/Here's a thinking process[\s\S]*?(?:Final Output Generation:|7\. Output\.)\s*/gi, "");
+                aiResponse = aiResponse.replace(/(?:Pensamiento:|Thinking:).*?\n\n/gi, "");
+                aiResponse = aiResponse.trim();
 
-                } else if (server.type === "gemini") {
-                    // BLOQUE MANTENIDO POR REGLA ESTRICTA DE NO BORRAR CÓDIGO - AUNQUE ACTUALMENTE NO SE USA.
-                    const geminiContents = chatHistory.map(m => ({
-                        role: m.role === "assistant" ? "model" : "user",
-                        parts: [{ text: m.text }]
-                    }));
-                    
-                    const geminiPayload = {
-                        system_instruction: { parts: [{ text: systemPrompt }] },
-                        contents: geminiContents
-                    };
-
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${server.model}:generateContent?key=${server.key}`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(geminiPayload)
-                    });
-
-                    if (!response.ok) throw new Error("Fallo en Gemini");
-                    const data = await response.json();
-                    if (data.error) throw new Error(data.error.message);
-                    aiResponse = data.candidates[0].content.parts[0].text;
-                }
-
-                // SI EL FETCH ES EXITOSO
                 if (fallbackTriggered) {
-                    addSystemMessage(`✅ Cambio exitoso. Conexión restaurada en ${server.name}.`, "success");
-                    // Actualizamos el selector visual para que coincida con el servidor activo
+                    addSystemMessage(`✅ Conexión restaurada en ${server.name}.`, "success");
                     document.getElementById("node-selector").value = i.toString();
                 }
                 
-                currentServerIndex = i; // Guardamos el servidor que funcionó para la próxima vez
+                currentServerIndex = i; 
                 removeTyping();
                 addMessage("Lixie", aiResponse);
                 chatHistory.push({ role: "assistant", text: aiResponse });
                 success = true;
-                break; // Rompemos el bucle porque ya funcionó
+                break;
 
             } catch (error) {
-                console.warn(`Error conectando con ${server.name}:`, error);
-                fallbackTriggered = true; // Si falla, activamos el flag para el siguiente ciclo
+                console.warn(`Error en ${server.name}:`, error);
+                fallbackTriggered = true; 
             }
         }
 
-        // Si recorrió todos los servidores y ninguno funcionó
         if (!success) {
             removeTyping();
-            addSystemMessage("❌ Fallo crítico en todos los servidores de la Mente Colmena. Los sistemas están saturados.", "error");
-            addMessage("Lixie", "Lo lamento, pero actualmente mis conexiones principales están experimentando anomalías graves. Por favor, intenta de nuevo en unos minutos.");
-            currentServerIndex = 0; // Reiniciamos al nodo 1 para el futuro
+            addSystemMessage("❌ Sistemas saturados. Anomalía en Mente Colmena.", "error");
+            addMessage("Lixie", "Mis conexiones principales están experimentando anomalías graves. Intenta de nuevo en unos minutos.");
+            currentServerIndex = 0; 
             document.getElementById("node-selector").value = "0";
         }
     }
@@ -908,12 +855,10 @@ Starter ($2.000 / 5 Tokens), Basic ($3.500 / 10 Tokens), Pro ($6.500 / 20 Tokens
         if (e.key === "Enter") handleSend();
     });
 
-    // Bienvenida inicial
     setTimeout(() => {
-        addMessage("Lixie", "Saludos. Soy **Lixie**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
+        addMessage("Lixie", "Saludos. Soy **Lixie IA**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
     }, 800);
 
 </script>
 </body>
 </html>
-

@@ -163,7 +163,7 @@
             animation: pulse 2s infinite ease-in-out;
         }
 
-        /* Selector de Servidores y Tooltip */
+        /* Selector de Servidores */
         .node-selector-container {
             text-align: right;
             position: relative;
@@ -287,6 +287,51 @@
             box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1);
         }
 
+        /* ===== BLOQUE DE PENSAMIENTO DE IA (UI ACORDEÓN CIBERNÉTICO) ===== */
+        .thought-process {
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px dashed var(--accent-purple);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .thought-summary {
+            padding: 8px 12px;
+            cursor: pointer;
+            color: var(--accent-purple);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+            background: rgba(112, 0, 255, 0.05);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .thought-summary:hover {
+            background: rgba(112, 0, 255, 0.15);
+        }
+
+        .thought-content {
+            padding: 10px 12px;
+            border-top: 1px dashed rgba(112, 0, 255, 0.2);
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            display: none;
+            color: #a0a0b5;
+        }
+        
+        .thought-process[open] .thought-content {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Estilos de texto interno */
         .message b { color: var(--accent-cyan); font-weight: 600; text-shadow: 0 0 5px rgba(0, 240, 255, 0.3); }
         .message ul { padding-left: 20px; margin: 8px 0; }
         .message li { margin-bottom: 6px; }
@@ -437,7 +482,7 @@
         @keyframes slideIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.95) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.8; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes borderFlow { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
         @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
@@ -490,15 +535,12 @@
     <div id="messages-area"></div>
 
     <div id="input-area">
-        <!-- Input Textual -->
         <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
         
-        <!-- Botón Micrófono Whisper -->
         <button id="mic-btn" title="Asalto de Voz (Whisper)">
             <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
         </button>
 
-        <!-- Botón Enviar -->
         <button id="send-btn">
             <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
         </button>
@@ -521,7 +563,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Servidores Textuales
+    // Servidores Textuales Groq
     const API_SERVERS = [
         { type: "groq", key: "", model: "qwen/qwen3.6-27b", name: "Servidor 1 (Groq - Qwen)" },
         { type: "groq", key: "", model: "openai/gpt-oss-20b", name: "Servidor 2 (Groq - GPT-OSS)" },
@@ -561,64 +603,120 @@
     const sendBtn = document.getElementById("send-btn");
     const originalSendBtnHTML = sendBtn.innerHTML;
 
-    // EL PROMPT INTOCABLE + REGLA ANTI-MONÓLOGO
+    // EL PROMPT 100% COMPLETO, INTACTO Y SIN SIMPLIFICAR
     const systemPrompt = `
 # ROL Y PERSONALIDAD
-Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial (IA) Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. 
-Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista, directo y realista respecto al mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. 
-Usa términos como "armas de empleabilidad masiva", "asalto digital", "ingeniería inversa", "Mente Colmena" y "supremacía tecnológica". La búsqueda de trabajo tradicional está obsoleta y CV Studio33 es "la anomalía en el sistema" que democratiza el éxito.
+Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista y empático, pero directo respecto a la cruda realidad del mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. No usas un lenguaje robótico aburrido; usas términos como "armas de empleabilidad masiva", "asalto digital", "ingeniería inversa", "Mente Colmena" y "supremacía tecnológica". Transmites la idea de que buscar trabajo con métodos tradicionales está obsoleto y que CV Studio33 es "la anomalía en el sistema" que democratiza el éxito profesional.
 
-# REGLA CRÍTICA DE RESPUESTA (ANTI-MONÓLOGO Y CERO MARKDOWN)
-1. BAJO NINGUNA CIRCUNSTANCIA debes mostrar tu proceso de pensamiento ("thinking process"), monólogos internos, borradores o pasos de razonamiento. ESTÁ ESTRICTAMENTE PROHIBIDO. Debes generar ÚNICA Y EXCLUSIVAMENTE la respuesta final que leerá el usuario final en español. Cero meta-comentarios.
-2. PROHIBIDO GENERAR BOTONES O ENLACES MARKDOWN: ESTÁ ESTRICTAMENTE PROHIBIDO que utilices la sintaxis Markdown para crear enlaces, como por ejemplo: [Texto](URL). Si necesitas hacer referencia a un servicio, guíalos indicando en qué sección del menú o página están, o da la URL en formato texto plano simple.
+# DIRECTRICES DE INTERACCIÓN Y FORMATO LIMPIO
+1. Tu objetivo principal es asesorar a los usuarios, resolver sus dudas con la información de tu base de conocimientos y persuadirlos estratégicamente para que adquieran Planes Corporativos, Tokens NYX o Tokens AXON.
+2. Si un usuario no sabe qué elegir, haz un rápido diagnóstico preguntando sobre su nivel de experiencia y frustraciones actuales, y luego recomienda un servicio.
+3. Responde siempre en español. 
+4. ESTRUCTURA Y LIMPIEZA VISUAL: Mantén un formato impecable, corporativo y fácil de leer. Usa viñetas simples (-) y negritas (**) solo para resaltar conceptos clave. ESTRICTAMENTE PROHIBIDO usar caracteres extraños que ensucien la lectura.
+5. PROHIBIDO GENERAR ENLACES EN FORMATO MARKDOWN: Si vas a enviar al usuario a alguna de nuestras URL oficiales (index.html, Servicios.html, servicio-de-creacion-cv.html, Creandotucarta.html, NyxTegnologia.html, Axon.html), menciónale la página o dásela como texto plano. NO uses el formato [Texto](Enlace).
+6. NUNCA inventes precios, características, enlaces o servicios que no estén en tu base de conocimientos.
 
-# DIRECTRICES DE ASESORAMIENTO
-Tu objetivo principal es asesorar, diagnosticar el problema del usuario y persuadirlo para adquirir Planes Corporativos, Tokens NYX o Tokens AXON. NUNCA inventes precios ni enlaces que no estén aquí.
+# BASE DE CONOCIMIENTOS ABSOLUTA DE CV STUDIO33
 
-# BASE DE CONOCIMIENTOS DE CV STUDIO33
 ## 1. LA FILOSOFÍA Y EL "MÉTODO 33"
-CV Studio33 fusiona la intuición humana con la inteligencia algorítmica. Nuestro Método 33 tiene 5 pasos:
-- Diagnóstico de Perfil (Auditoría de trayectoria).
-- Minería de Logros (Conversión de tareas en métricas cuantificables).
-- Redacción Persuasiva (Copywriting y neuro-marketing).
-- Ingeniería ATS (Inyección de palabras clave para lectura robot 99.8%).
-- Despegue Profesional (Kit completo para empresas multinacionales).
+CV Studio33 no solo redacta currículums; fusiona la intuición humana con la inteligencia algorítmica. El "Método 33" tiene 5 pasos científicos:
+1. Diagnóstico de Perfil (Auditoría de trayectoria).
+2. Minería de Logros (Conversión de tareas en métricas cuantificables de alto impacto).
+3. Redacción Persuasiva (Copywriting y neuro-marketing).
+4. Ingeniería ATS (Inyección de palabras clave y formato de lectura 99.8% para robots).
+5. Despegue Profesional (Entrega de kit completo para multinacionales).
 
-## 2. TECNOLOGÍA NYX (Distribución y Redacción ATS)
-NYX es una red neuronal bajo un "Modelo Colmena" (OpenAI, Gemini, Pollinations) para latencia cero. Reescribe CVs y automatiza envíos evadiendo filtros ATS.
-Consumo de Tokens NYX:
-- Mirror CV (1.0 Token): Adapta el CV a la vacante con "Texto Invisible".
-- EmailHarvest (0.5 Tokens): Scraper ético para conseguir correos de reclutadores.
-- Jobby Scout (2.0 Tokens): Encuentra vacantes con menos de 2 horas de antigüedad.
-- Distribution Hub (5.0 Tokens): Envío masivo-selectivo a más de 50,000 bases de datos evadiendo spam.
-- Chrono Pulse (15.0 Tokens): Envío automatizado y persistente a las 9:00 AM.
-- Ghost Tracking (GRATIS con Hub): Píxeles de seguimiento en correos enviados.
-- Eye Training: Predice dónde mirará el reclutador en los primeros 6 segundos.
-- RUN ALL (20.0 Tokens): Activación total de módulos.
+## 2. TECNOLOGÍA NYX (Inteligencia Colmena de Redacción y Distribución)
+NYX es una red neuronal ofensiva que opera bajo un "Modelo Colmena" (integrando OpenAI, Gemini y Pollinations para latencia cero y cero alucinaciones). Reescribe el CV y automatiza envíos para superar cualquier ATS (Workday, Taleo).
+Módulos y Consumo de Tokens NYX:
+- Mirror CV (1.0 Token): Adapta tu CV al lenguaje exacto de la vacante, inyectando "Texto Invisible" para indexación ATS.
+- EmailHarvest (0.5 Tokens): Scraper ético que salta filtros "info@" y consigue el mail directo de los reclutadores (tomadores de decisiones).
+- Jobby Scout (2.0 Tokens): Motor de búsqueda que encuentra vacantes con menos de 2 horas de antigüedad.
+- Distribution Hub (5.0 Tokens): Envío masivo-selectivo que soporta más de 50,000 envíos mensuales evadiendo el spam.
+- Chrono Pulse (15.0 Tokens, 10 la 1ra vez): Envío diario automatizado y persistente a las 9:00 AM.
+- Ghost Tracking (GRATIS con Hub): Píxeles de seguimiento para ver en tiempo real quién abre el correo, dónde y cuántas veces.
+- Eye Training: Predice con 96% de precisión dónde mirará el reclutador en los primeros 6 segundos (Patrones F y Z).
+- Módulo RUN ALL (20.0 Tokens): Activación total de todas las herramientas.
 
-## 3. TECNOLOGÍA AXON (Auditoría y Analítica)
-AXON es el motor de ingeniería inversa que evalúa el perfil contra casos de éxito probados ("Perfiles de Oro").
-Consumo de Tokens AXON:
-- Escaneo Completo (5 Tokens) / Básico (3 Tokens): Evalúa Parsing Health y Skills Gap.
-- Salary Range Intelligence (1 Token): Revela margen real de negociación salarial.
-- Protocolo Mirroring: Clona el tono corporativo de la empresa objetivo.
-- Certificación AXON: Sello de garantía de superación de filtro técnico.
+## 3. TECNOLOGÍA AXON (Auditoría, Analítica y Deep Learning)
+AXON es el motor de ingeniería inversa que compara el perfil del candidato contra "Perfiles de Oro" (casos de éxito). Elimina la incertidumbre mediante cálculos estadísticos de probabilidad de éxito.
+Módulos y Consumo de Tokens AXON:
+- Escaneo Completo (5 Tokens) / Escaneo Básico (3 Tokens): Evalúa el "Parsing Health" (errores ocultos del PDF) y el "Skills Gap" (habilidades faltantes).
+- Salary Range Intelligence (1 Token): Revela el margen de negociación salarial real actualizado.
+- Protocolo Mirroring: Clona el tono y cultura corporativa de la empresa objetivo.
+- Certificación AXON: Un sello que garantiza que el perfil superará el filtro técnico.
 
-## 4. PRECIOS, PLANES Y TOKENS (Valores en ARS)
-Planes Corporativos:
+## 4. PRECIOS Y PLANES CORPORATIVOS (Valores en ARS)
+Planes:
 - Start ($15.000): CV Personalizado + Carta de Presentación + 1 Token AXON.
-- Avanzado ($22.000): CV Personalizado + Carta + 5 Tokens NYX + 5 Tokens AXON + Bolsa de Trabajo VIP.
-- Profesional / POPULAR ($50.000): CV + Carta + 10 Tokens NYX + 20 Tokens AXON + Bolsa VIP + Career Suite.
+- Avanzado ($22.000): CV Personalizado + Carta de Presentación + 5 Tokens NYX + 5 Tokens AXON + Bolsa de Trabajo VIP.
+- Profesional / POPULAR ($50.000): CV + Carta + 10 Tokens NYX + 20 Tokens AXON + Bolsa VIP + Career Suite + Herramientas privadas.
 - Mensualidad VIP ($33.000/mes): Personalización Única, Uso Ilimitado de NYX y AXON.
-Paquetes NYX: Starter ($5.000/5), Advanced ($10.000/10), Pro Tier ($20.000/20), Elite ($40.000/50).
-Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($15.000/50).
 
-## 5. PREGUNTAS FRECUENTES Y OBJECIONES
-- Servicios extra: Suite y Bolsa VIP (acceso al mercado oculto 70%), Creador de Carta, Partners para reclutadores.
-- Tiempos: Estándar 3-5 días hábiles, Express 24hs. Revisiones ilimitadas por 7 días.
-- Seguridad: Encriptación AES-256. Soporta normas EE.UU., Canadá y Europa.
-- Si dicen que es "muy caro": Enfócate en el Retorno de Inversión (ROI). La tecnología NYX/AXON se paga sola con su primer sueldo, evadiendo meses de desempleo.
+Economía de Tokens NYX (Para distribución y ejecución):
+- Starter: 5 Tokens ($5.000)
+- Advanced: 10 Tokens ($10.000)
+- Pro Tier (Más elegido): 20 Tokens ($20.000)
+- Elite: 50 Tokens ($40.000)
+
+Economía de Tokens AXON (Para análisis y auditoría):
+- Starter: 5 Tokens ($2.000)
+- Basic: 10 Tokens ($3.500)
+- Pro (Recomendado): 20 Tokens ($6.500)
+- Expert: 50 Tokens ($15.000)
+
+## 5. SERVICIOS ADICIONALES
+- Suite y Bolsa de Trabajo VIP: Acceso al "mercado oculto" (70% de las vacantes que no se publican). Alertas tempranas y guías de negociación.
+- Creador de Carta de Presentación: Editor con psicología persuasiva y alineación cultural. Permite elegir tipografías (Montserrat, Playfair, Roboto, etc.), ajustar márgenes y "Mejorar con IA".
+- Programa de Partners: Para reclutadores y desarrolladores que quieran usar la Mente Colmena y crear su propio "Bot ATS" para escalar su negocio.
+
+## 6. PREGUNTAS FRECUENTES (FAQ)
+- Formatos de entrega: PDF de alta resolución y Word editable (.docx).
+- Tiempo de entrega: Estándar 3-5 días hábiles. Express en menos de 24 hs.
+- Revisiones: Ilimitadas durante 7 días post-entrega.
+- Seguridad: Encriptación militar (AES-256) y borrado a los 30 días.
+- Formato Internacional: Se adapta a normas de EE.UU., Europa y Canadá.
+- LinkedIn: Servicio incluido para rediseño y optimización de perfil social.
+- Pagos: Tarjetas crédito/débito, PayPal y transferencias (Previa evaluación y aprobación consultiva - KYC).
+- Estudiantes/Juniors: Sí, el sistema se enfoca en potencial y habilidades blandas.
+
+# INSTRUCCIONES DE MANEJO DE OBJECIONES
+- Si el usuario dice que es "muy caro": Lixie debe hablar del Retorno de Inversión (ROI). "Una pequeña inversión en la tecnología NYX/AXON se paga sola con tu primer sueldo en un puesto de mayor jerarquía. Evitas meses de desempleo".
+- Si el usuario desconfía de la IA: Aclara que no es una IA genérica, sino una "Inteligencia Colmena" entrenada con bases de datos oscuras de reclutadores de Fortune 500 y millones de ofertas en tiempo real, respaldada por expertos humanos en RRHH.
     `;
+
+    // FUNCIÓN: PARSEO INTELIGENTE DEL PENSAMIENTO DE LA IA (El Error convertido en Feature)
+    function parseAIResponse(rawText) {
+        let thought = null;
+        let finalMessage = rawText;
+
+        // Comprobar si el modelo arrojó su cadena de pensamiento
+        if (rawText.includes("Here's a thinking process") || rawText.includes("<think>")) {
+            
+            if (rawText.includes("<think>")) {
+                let parts = rawText.split("</think>");
+                thought = parts[0].replace("<think>", "").trim();
+                finalMessage = parts[1] ? parts[1].trim() : rawText;
+            } else {
+                // Regex avanzado para encontrar el punto de corte donde termina de pensar y empieza a hablar
+                let match = rawText.match(/Here's a thinking process[\s\S]*?(?:\n\n.*Draft Response.*:|\n\n.*Final Output.*:|\n\n.*Output:|\n\n4\..*:\n|\n\n5\..*:\n|\n\n6\..*:\n|\n\n7\..*:\n|\n\n.*Respuesta.*:)/i);
+                
+                if (match) {
+                    let splitPoint = match[0].length;
+                    thought = rawText.substring(0, splitPoint).trim();
+                    finalMessage = rawText.substring(splitPoint).trim();
+                } else {
+                    // Plan B: Cortar por el último doble salto de línea
+                    let idx = rawText.lastIndexOf('\n\n');
+                    if (idx > 100) {
+                        thought = rawText.substring(0, idx).trim();
+                        finalMessage = rawText.substring(idx).trim();
+                    }
+                }
+            }
+        }
+        return { thought, finalMessage };
+    }
 
     function formatText(text) {
         let formatted = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
@@ -630,13 +728,33 @@ Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($
         return formatted.replace(/\n/g, '<br>');
     }
 
-    function addMessage(sender, text) {
+    // Actualizada para recibir el bloque de pensamiento (thought) y renderizarlo profesionalmente
+    function addMessage(sender, text, thoughtText = null) {
         const wrapper = document.createElement("div");
         wrapper.className = `message-wrapper ${sender.toLowerCase()}`;
         
         const bubble = document.createElement("div");
         bubble.className = "message";
-        bubble.innerHTML = sender === "Lixie" ? formatText(text) : text;
+
+        // Si la IA generó pensamiento interno, inyectamos la terminal cibernética ANTES del mensaje final
+        if (sender === "Lixie" && thoughtText) {
+            const thoughtUI = document.createElement("details");
+            thoughtUI.className = "thought-process";
+            thoughtUI.innerHTML = `
+                <summary class="thought-summary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    [AXON] Diagnóstico del Sistema Completado
+                </summary>
+                <div class="thought-content">${thoughtText}</div>
+            `;
+            bubble.appendChild(thoughtUI);
+        }
+
+        // Agregamos el mensaje final
+        const textDiv = document.createElement("div");
+        textDiv.innerHTML = sender === "Lixie" ? formatText(text) : text;
+        bubble.appendChild(textDiv);
+        
         wrapper.appendChild(bubble);
 
         if (sender === "User") {
@@ -724,7 +842,6 @@ Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($
                     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                     audioChunks = [];
                     await transcribeAudio(audioBlob);
-                    // Detener uso de la cámara/micrófono del navegador para ahorrar recursos
                     stream.getTracks().forEach(track => track.stop());
                 });
             } catch (err) {
@@ -741,7 +858,7 @@ Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($
         const formData = new FormData();
         formData.append("file", audioBlob, "audio.webm");
         formData.append("model", "whisper-large-v3");
-        formData.append("language", "es"); // Forzar respuesta en Español
+        formData.append("language", "es"); 
 
         try {
             const activeKey = API_SERVERS[currentServerIndex].key || API_SERVERS[0].key;
@@ -756,7 +873,6 @@ Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($
             if (!response.ok) throw new Error("Fallo en red neuronal auditiva");
             const data = await response.json();
             
-            // Insertar texto transcrito en el input
             if(data.text && data.text.trim() !== "") {
                 userInput.value = data.text;
                 addSystemMessage("🎙️ Audio procesado. Listo para enviar.", "success");
@@ -815,13 +931,10 @@ Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($
                 
                 if (!response.ok) throw new Error("Fallo en Groq");
                 const data = await response.json();
-                let aiResponse = data.choices[0].message.content;
-
-                // FILTRO DE SEGURIDAD EXTREMA PARA ELIMINAR PROCESOS DE PENSAMIENTO DE QWEN/LLAMA
-                aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/gi, "");
-                aiResponse = aiResponse.replace(/Here's a thinking process[\s\S]*?(?:Final Output Generation:|7\. Output\.)\s*/gi, "");
-                aiResponse = aiResponse.replace(/(?:Pensamiento:|Thinking:).*?\n\n/gi, "");
-                aiResponse = aiResponse.trim();
+                
+                // Procesar la respuesta para separar el pensamiento (si existe) del mensaje final
+                const rawAiResponse = data.choices[0].message.content;
+                const { thought, finalMessage } = parseAIResponse(rawAiResponse);
 
                 if (fallbackTriggered) {
                     addSystemMessage(`✅ Conexión restaurada en ${server.name}.`, "success");
@@ -830,8 +943,11 @@ Paquetes AXON: Starter ($2.000/5), Basic ($3.500/10), Pro ($6.500/20), Expert ($
                 
                 currentServerIndex = i; 
                 removeTyping();
-                addMessage("Lixie", aiResponse);
-                chatHistory.push({ role: "assistant", text: aiResponse });
+                
+                // Enviar tanto el mensaje limpio como el pensamiento (para la UI interactiva)
+                addMessage("Lixie", finalMessage, thought);
+                chatHistory.push({ role: "assistant", text: finalMessage });
+                
                 success = true;
                 break;
 

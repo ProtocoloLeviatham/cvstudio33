@@ -403,7 +403,7 @@
     <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // CONFIGURACIÓN FIREBASE
@@ -421,6 +421,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // VISTAS
         const viewLoading = document.getElementById('view-loading');
         const viewLogin = document.getElementById('view-login');
         const viewPaywall = document.getElementById('view-paywall');
@@ -442,66 +443,61 @@
             }
         }
 
-        async function evaluateUserSubscription(user) {
+        async function procesarUsuario(user) {
             try {
-                // Generamos el ID corto para la interfaz
+                // Generamos tu formato favorito: cliente-xxxx
                 const shortUid = user.uid.slice(-4).toLowerCase();
-                const displayId = `cliente-${shortUid}`;
+                const clientId = `cliente-${shortUid}`;
                 
-                // Usamos el UID largo de Google para cumplir con la regla de Firebase
-                const userRef = doc(db, 'users2', user.uid);
+                // Apuntamos EXACTAMENTE a ese nombre corto
+                const userRef = doc(db, 'users2', clientId);
                 
+                // Paso 1: Aseguramos que el usuario exista (Técnica Merge, no sobreescribe si ya existe)
+                await setDoc(userRef, {
+                    cliente_id: clientId,
+                    auth_signature: user.uid, // Firma secreta para evitar hackers
+                    plan_type: 'standard',
+                    plan_expires_at: null
+                }, { merge: true }); 
+
+                // Paso 2: Leemos el estado
                 const docSnap = await getDoc(userRef);
+                let userData = docSnap.data();
+                let isExpired = false;
 
-                if (docSnap.exists()) {
-                    let userData = docSnap.data();
-                    let isExpired = false;
+                // Paso 3: Lazy Evaluation (Cancelación automática)
+                if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
+                    const expireDate = new Date(userData.plan_expires_at);
+                    const currentDate = new Date();
 
-                    // INTERCEPTACIÓN LAZY
-                    if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
-                        const expireDate = new Date(userData.plan_expires_at);
-                        const currentDate = new Date();
-
-                        if (currentDate > expireDate) {
-                            isExpired = true;
-                            await updateDoc(userRef, {
-                                plan_type: 'standard',
-                                plan_expires_at: null
-                            });
-                            userData.plan_type = 'standard';
-                        }
+                    if (currentDate > expireDate) {
+                        isExpired = true;
+                        await updateDoc(userRef, {
+                            plan_type: 'standard',
+                            plan_expires_at: null
+                        });
+                        userData.plan_type = 'standard'; 
                     }
+                }
 
-                    if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                        document.getElementById('display-client-id').innerText = displayId.toUpperCase();
-                        document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/35/d4af37/ffffff?text=VIP';
-                        
-                        showView(viewDashboard);
-                    } else {
-                        showView(viewPaywall);
-                    }
-
+                // Paso 4: ¿Lo dejamos entrar o le cobramos?
+                if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
+                    document.getElementById('display-client-id').innerText = clientId.toUpperCase();
+                    document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/35/d4af37/ffffff?text=VIP';
+                    showView(viewDashboard);
                 } else {
-                    // CREACIÓN SEGURA: Firebase permite esto porque user.uid coincide con el ID de la URL
-                    await setDoc(userRef, {
-                        cliente_id: displayId, // Guardamos el nombre bonito adentro para Lixie/Worker
-                        plan_type: 'standard',
-                        plan_expires_at: null
-                    });
                     showView(viewPaywall);
                 }
+
             } catch (error) {
-                console.error("Fallo durante la evaluación o creación:", error);
-                // Si vuelve al login, revisa la consola para ver este error
+                console.error("Fallo:", error);
                 showView(viewLogin);
             }
         }
 
-        getRedirectResult(auth).catch((err) => console.error(err));
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                evaluateUserSubscription(user);
+                procesarUsuario(user);
             } else {
                 showView(viewLogin);
             }
@@ -509,13 +505,14 @@
 
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithRedirect(auth, provider);
+            signInWithPopup(auth, provider).catch(() => {});
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
             signOut(auth);
         });
 
+        // BOTON DE PAGO
         document.getElementById('btn-subscribe').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -525,22 +522,10 @@
             btn.disabled = true;
 
             const shortUid = user.uid.slice(-4).toLowerCase();
-            const displayId = `cliente-${shortUid}`;
-
-            try {
-                // ==========================================
-                // PREPARACIÓN PARA EL CEREBRO
-                // Enviaremos el dbUid para inyectar y el displayId para Telegram/MP
-                const cargaUtilParaElWorker = {
-                    dbUid: user.uid,
-                    displayId: displayId
-                };
-                console.log("Carga preparada para el Cerebro:", cargaUtilParaElWorker);
-                // ==========================================
-            } catch (error) {
-                btn.innerHTML = 'Error. Reintentar';
-                btn.disabled = false;
-            }
+            const clientId = `cliente-${shortUid}`;
+            
+            // Listo para el Cerebro 3
+            console.log("Enviaremos al cerebro el ID:", clientId);
         });
 
     </script>

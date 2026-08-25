@@ -3,92 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bolsa de Trabajo VIP | CVSTUDIO33</title>
+    <title>Bóveda VIP | CVSTUDIO33</title>
     <style>
         /* ================= VARIABLES Y RESET ================= */
         :root {
-            --bg-dark: #0f1115;
-            --panel-bg: #1a1d24;
-            --text-main: #f0f0f0;
-            --text-muted: #8892b0;
+            --bg-deep: #05070a;
+            --panel-glass: rgba(18, 22, 31, 0.65);
+            --panel-border: rgba(212, 175, 55, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #8b95a5;
             --accent-gold: #d4af37;
-            --accent-hover: #f1c40f;
-            --google-blue: #4285F4;
-            --danger: #e74c3c;
-            --success: #2ecc71;
-            --border: #2a2e39;
+            --accent-glow: rgba(212, 175, 55, 0.4);
+            --success: #00ff88;
+            --danger: #ff3366;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* EFECTO DE FONDO PREMIUM (Orbes de luz) */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(100px);
+            animation: float 12s infinite alternate ease-in-out;
+        }
+
+        body::before {
+            top: -20%; left: -10%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+        }
+
+        body::after {
+            bottom: -20%; right: -10%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 60%);
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
         }
 
         /* ================= HEADER ================= */
         header {
             width: 100%;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
-            border-bottom: 1px solid var(--border);
-            background-color: var(--panel-bg);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            background: rgba(5, 7, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--panel-border);
+            z-index: 10;
         }
 
         header img {
-            height: 50px;
+            height: 45px;
             max-width: 100%;
             object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
         }
 
         /* ================= CONTENEDOR PRINCIPAL ================= */
         main {
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             padding: 40px 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            z-index: 2;
         }
 
         .view-section {
-            display: none; /* Oculto por defecto, JS lo controla */
-            background: var(--panel-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
+            display: none;
+            background: var(--panel-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 40px 35px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            animation: fadeIn 0.5s ease-out;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            animation: fadeScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeScale {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         /* ================= ESTILOS LOGIN ================= */
         .login-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 600;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .login-subtitle {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 30px;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+            line-height: 1.4;
         }
 
         .btn-google {
@@ -96,112 +135,179 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            background-color: #fff;
-            color: #757575;
-            border: none;
-            border-radius: 4px;
-            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 14px 16px;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
-            transition: background-color 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
         }
 
         .btn-google:hover {
-            box-shadow: 0 0 3px 3px rgba(66,133,244,.3);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
         }
 
         .btn-google svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             margin-right: 12px;
         }
 
         .legal-text {
-            margin-top: 25px;
+            margin-top: 30px;
             font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.5;
+            color: #5a6270;
+            line-height: 1.6;
         }
 
         .legal-text a {
-            color: var(--accent-gold);
-            text-decoration: underline;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-gold);
+            padding-bottom: 1px;
             transition: color 0.3s;
         }
 
         .legal-text a:hover {
-            color: var(--accent-hover);
+            color: var(--accent-gold);
         }
 
         /* ================= ESTILOS PAYWALL (Suscripción) ================= */
         .premium-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             background: rgba(212, 175, 55, 0.1);
             color: var(--accent-gold);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            border: 1px solid var(--accent-gold);
-            margin-bottom: 20px;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+            text-transform: uppercase;
         }
 
         .price-tag {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 20px 0;
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 25px 0;
             color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .price-currency {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            font-weight: 600;
         }
 
         .btn-premium {
+            position: relative;
             width: 100%;
-            background: linear-gradient(45deg, var(--accent-gold), #b39222);
+            background: linear-gradient(135deg, #e6c245 0%, #b39222 100%);
             color: #000;
             border: none;
-            padding: 15px;
+            padding: 16px;
             border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1.05rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.5s ease;
+        }
+
+        .btn-premium:hover::after {
+            left: 150%;
         }
 
         .btn-premium:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+        
+        .btn-premium:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* ================= ESTILOS DASHBOARD VIP ================= */
-        .vip-welcome {
-            border-left: 4px solid var(--success);
-            padding-left: 15px;
-            text-align: left;
+        .vip-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        .vip-title {
-            color: var(--success);
-            font-size: 1.4rem;
-            margin-bottom: 5px;
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--success);
         }
 
-        /* ================= LOADER ================= */
-        .loader {
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--accent-gold);
+        .user-id-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px dashed rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--accent-gold);
+            margin: 15px 0 25px 0;
+            letter-spacing: 1px;
+        }
+
+        /* ================= LOADERS ================= */
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 3px solid rgba(212, 175, 55, 0.1);
+            border-left-color: var(--accent-gold);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px auto;
+        }
+
+        .spinner-small {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0,0,0, 0.2);
+            border-left-color: #000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
     </style>
@@ -214,15 +320,17 @@
 
     <main>
         <!-- PANTALLA 1: CARGA -->
-        <div id="view-loading" class="view-section" style="display: block;">
-            <div class="loader"></div>
-            <p>Conectando con servidores seguros...</p>
+        <div id="view-loading" class="view-section" style="display: block; box-shadow: none; border: none; background: transparent;">
+            <div class="loader-container">
+                <div class="spinner"></div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px;">INICIALIZANDO PROTOCOLO VIP...</p>
+            </div>
         </div>
 
         <!-- PANTALLA 2: LOGIN -->
         <div id="view-login" class="view-section">
-            <h1 class="login-title">Acceso Restringido</h1>
-            <p class="login-subtitle">Identifícate para acceder a la red exclusiva.</p>
+            <h1 class="login-title">Autenticación Requerida</h1>
+            <p class="login-subtitle">Conecta tus credenciales para acceder a la infraestructura exclusiva de CVSTUDIO33.</p>
             
             <button id="btn-login" class="btn-google">
                 <svg viewBox="0 0 24 24">
@@ -231,46 +339,51 @@
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                 </svg>
-                Continuar con Google
+                Acceso encriptado con Google
             </button>
 
             <p class="legal-text">
-                Protocolo de seguridad activo. Al continuar, aceptas que tus datos de identidad están encriptados y protegidos bajo la infraestructura oficial de Google Cloud Auth. 
-                <br><br>
-                <a href="https://firebase.google.com/terms" target="_blank" rel="noopener noreferrer">Consultar Políticas de Privacidad y Seguridad de Firebase Auth</a>
+                Operación protegida bajo arquitectura Cloud. Identidad resguardada. 
+                <br>
+                <a href="https://firebase.google.com/terms" target="_blank" rel="noopener noreferrer">Ver Políticas de Seguridad Firebase Auth</a>
             </p>
         </div>
 
         <!-- PANTALLA 3: PAYWALL (Suscripción) -->
         <div id="view-paywall" class="view-section">
-            <span class="premium-badge">ACCESO VIP REQUERIDO</span>
-            <h2 style="margin-bottom: 15px;">Membresía Mensual</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">
-                Tu cuenta actualmente no posee acceso a la Bolsa de Trabajo VIP o tu periodo ha expirado. Suscríbete para desbloquear todas las herramientas exclusivas.
+            <div class="premium-badge">◆ Acceso Restringido</div>
+            <h2 style="margin-bottom: 10px; font-weight: 600;">Pase Mensual VIP</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">
+                La infraestructura detecta que no posees una membresía activa o tu ciclo ha finalizado. Habilita tu pase para desplegar las herramientas.
             </p>
             
-            <div class="price-tag">$10.000 <span style="font-size: 1rem; color: var(--text-muted);">ARS / mes</span></div>
+            <div class="price-tag">$10.000 <span class="price-currency">ARS</span></div>
             
             <button id="btn-subscribe" class="btn-premium">
-                Adquirir Pase VIP via MercadoPago
+                Habilitar Pase via MercadoPago
             </button>
-            <p style="font-size: 0.8rem; margin-top: 15px; color: var(--text-muted);">
-                Operación gestionada y securizada por el Cerebro de CVSTUDIO33.
+            <p style="font-size: 0.75rem; margin-top: 15px; color: #5a6270;">
+                Transacción procesada y asegurada por el Cerebro de CVSTUDIO33.
             </p>
         </div>
 
         <!-- PANTALLA 4: DASHBOARD VIP -->
         <div id="view-dashboard" class="view-section">
-            <div class="vip-welcome">
-                <h2 class="vip-title">✅ Acceso Concedido</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;" id="user-display">Operador conectado.</p>
+            <div class="vip-status">
+                <div class="status-dot"></div>
+                <h2 style="color: #fff; font-weight: 600;">Conexión Establecida</h2>
             </div>
             
-            <p style="margin-top: 20px;">
-                Bienvenido a la infraestructura VIP de CVSTUDIO33. Aquí se inyectarán las herramientas premium en el futuro.
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Identificador de Operador:</p>
+            <div class="user-id-box" id="user-display">CLIENTE-XXXX</div>
+            
+            <p style="margin-bottom: 30px; font-size: 0.95rem; line-height: 1.5;">
+                Bienvenido a la Bóveda VIP. El sistema está listo para desplegar el arsenal de trabajo exclusivo.
             </p>
-            <br>
-            <button id="btn-logout" style="background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">Cerrar Sesión Segura</button>
+            
+            <button id="btn-logout" style="background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); color: var(--danger); padding: 10px 20px; border-radius: 6px; cursor: pointer; width: 100%; transition: all 0.3s; font-weight: 600;">
+                Desconectar Terminal
+            </button>
         </div>
 
     </main>
@@ -283,7 +396,7 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 1. CONFIGURACIÓN FIREBASE (Tus credenciales)
+        // CONFIGURACIÓN FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
             authDomain: "cv-studio33.firebaseapp.com",
@@ -298,26 +411,24 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Referencias a la UI
+        // UI Refs
         const viewLoading = document.getElementById('view-loading');
         const viewLogin = document.getElementById('view-login');
         const viewPaywall = document.getElementById('view-paywall');
         const viewDashboard = document.getElementById('view-dashboard');
         
-        // Función para cambiar pantallas
         function showView(viewElement) {
-            viewLoading.style.display = 'none';
-            viewLogin.style.display = 'none';
-            viewPaywall.style.display = 'none';
-            viewDashboard.style.display = 'none';
+            [viewLoading, viewLogin, viewPaywall, viewDashboard].forEach(el => el.style.display = 'none');
             viewElement.style.display = 'block';
         }
 
-        // 2. SISTEMA DE EVALUACIÓN LAZY (INTERCEPTACIÓN)
+        // SISTEMA DE EVALUACIÓN LAZY
         async function evaluateUserSubscription(user) {
             try {
-                // Seguridad: Forzamos la estructura cliente-xxxx con el UID real del Auth
-                const clientId = `cliente-${user.uid}`;
+                // EXTRACCIÓN SILENCIOSA DE LOS ÚLTIMOS 4 DÍGITOS
+                const shortUid = user.uid.slice(-4).toLowerCase();
+                const clientId = `cliente-${shortUid}`;
+                
                 const userRef = doc(db, 'users2', clientId);
                 const docSnap = await getDoc(userRef);
 
@@ -325,17 +436,13 @@
                     let userData = docSnap.data();
                     let isExpired = false;
 
-                    // INTERCEPTACIÓN LAZY EVALUATION
                     if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                         const expireDate = new Date(userData.plan_expires_at);
                         const currentDate = new Date();
 
-                        // Si la fecha actual superó a la de expiración...
                         if (currentDate > expireDate) {
                             isExpired = true;
-                            console.warn("Interceptación: Plan Vencido. Degradando cuenta.");
-                            
-                            // Disparamos la orden silenciosa a la base de datos para degradar
+                            // Ejecución silenciosa de degradación
                             await updateDoc(userRef, {
                                 plan_type: 'standard',
                                 plan_expires_at: null
@@ -344,16 +451,15 @@
                         }
                     }
 
-                    // Resolución Visual
                     if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                        document.getElementById('user-display').innerText = `ID Operador: ${clientId}`;
+                        document.getElementById('user-display').innerText = clientId.toUpperCase();
                         showView(viewDashboard);
                     } else {
                         showView(viewPaywall);
                     }
 
                 } else {
-                    // Si no existe, es usuario nuevo. Lo creamos en users2.
+                    // Creación silenciosa del nuevo usuario
                     await setDoc(userRef, {
                         user: clientId,
                         plan_type: 'standard',
@@ -362,63 +468,65 @@
                     showView(viewPaywall);
                 }
             } catch (error) {
-                console.error("Error validando bóveda de usuario:", error);
-                alert("Error de conexión segura. Revisa tu internet.");
+                console.error("Error validando bóveda:", error);
                 showView(viewLogin);
             }
         }
 
-        // 3. LISTENERS Y EVENTOS
-        
-        // Escucha de estado de sesión
+        // LISTENERS
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Usuario logueado, iniciamos la interceptación / validación
                 evaluateUserSubscription(user);
             } else {
-                // No hay sesión
                 showView(viewLogin);
             }
         });
 
-        // Botón Login Google
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch((error) => {
-                console.error("Error en login:", error);
+            signInWithPopup(auth, provider).catch(() => {
+                // Silencioso, si el usuario cierra el popup no pasa nada visualmente
             });
         });
 
-        // Botón Cerrar Sesión
         document.getElementById('btn-logout').addEventListener('click', () => {
             signOut(auth);
         });
 
-        // Botón Suscribirse (Conexión futura al Cerebro)
+        // BOTÓN DE PAGO (SIN ALERTAS, LISTO PARA EL CEREBRO)
         document.getElementById('btn-subscribe').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
             
-            const clientId = `cliente-${user.uid}`;
             const btn = document.getElementById('btn-subscribe');
-            btn.innerText = "Conectando al Cerebro...";
+            // Micro-animación de carga en el botón
+            btn.innerHTML = '<div class="spinner-small"></div> Procesando Enlace...';
             btn.disabled = true;
 
-            // ==========================================
-            // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
-            // ==========================================
-            console.log(`Solicitud de compra: ${clientId} solicita Plan_VIP`);
-            
-            // Simulación temporal para el front:
-            setTimeout(() => {
-                alert("El cerebro interceptará esta petición para generar el link de MercadoPago.\n\nDatos enviados al Cerebro:\nUsuario: " + clientId + "\nProducto: Plan_VIP");
-                btn.innerText = "Adquirir Pase VIP via MercadoPago";
+            const shortUid = user.uid.slice(-4).toLowerCase();
+            const clientId = `cliente-${shortUid}`;
+
+            try {
+                // ==========================================
+                // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
+                // Ej: const response = await fetch('URL_DEL_WORKER', { body: JSON.stringify({id: clientId}) });
+                // const url_pago = await response.json();
+                // window.location.href = url_pago;
+                // ==========================================
+                
+                // Mantenemos el botón cargando hasta que hagamos el worker
+                console.log(`Petición silenciada preparada para Worker. ID: ${clientId}`);
+            } catch (error) {
+                btn.innerHTML = 'Error. Reintentar';
                 btn.disabled = false;
-            }, 2000);
+            }
         });
 
     </script>
 </body>
 </html>
+
+
+
 
 

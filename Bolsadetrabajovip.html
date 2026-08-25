@@ -16,6 +16,7 @@
             --accent-glow: rgba(212, 175, 55, 0.4);
             --success: #00ff88;
             --danger: #ff3366;
+            --nav-bg: rgba(10, 13, 18, 0.9);
         }
 
         * {
@@ -30,13 +31,12 @@
             color: var(--text-main);
             display: flex;
             flex-direction: column;
-            align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* EFECTO DE FONDO PREMIUM (Orbes de luz) */
+        /* EFECTO DE FONDO PREMIUM */
         body::before, body::after {
             content: '';
             position: absolute;
@@ -45,7 +45,7 @@
             border-radius: 50%;
             z-index: -1;
             filter: blur(100px);
-            animation: float 12s infinite alternate ease-in-out;
+            animation: float 15s infinite alternate ease-in-out;
         }
 
         body::before {
@@ -56,7 +56,7 @@
         body::after {
             bottom: -20%; right: -10%;
             background: radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 60%);
-            animation-delay: -5s;
+            animation-delay: -7s;
         }
 
         @keyframes float {
@@ -64,38 +64,82 @@
             100% { transform: translate(30px, 50px) scale(1.1); }
         }
 
-        /* ================= HEADER ================= */
+        /* ================= HEADER GENERAL ================= */
         header {
             width: 100%;
-            padding: 25px;
-            text-align: center;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: rgba(5, 7, 10, 0.8);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--panel-border);
             z-index: 10;
         }
 
-        header img {
-            height: 45px;
-            max-width: 100%;
-            object-fit: contain;
+        .header-logo img {
+            height: 40px;
             filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
         }
 
-        /* ================= CONTENEDOR PRINCIPAL ================= */
-        main {
-            width: 100%;
-            max-width: 480px;
-            padding: 40px 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            z-index: 2;
+        /* Perfil Mini (Arriba derecha) */
+        .header-profile {
+            display: none; /* Oculto hasta login */
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 5px 15px 5px 5px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .view-section {
+        .header-profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            object-fit: cover;
+        }
+
+        .header-profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-profile-id {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        .header-profile-status {
+            font-size: 0.7rem;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .header-profile-status::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 5px var(--success);
+        }
+
+        /* ================= VISTAS CENTRADAS (Login, Paywall, Loading) ================= */
+        .centered-view {
+            width: 100%;
+            max-width: 480px;
+            margin: 60px auto;
+            padding: 0 20px;
             display: none;
+            flex-grow: 1;
+        }
+
+        .view-box {
             background: var(--panel-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -112,202 +156,142 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* ================= ESTILOS LOGIN ================= */
-        .login-title {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #fff, #d4af37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        /* Botones y Textos Login/Paywall (Igual que antes) */
+        .login-title { font-size: 1.6rem; margin-bottom: 8px; font-weight: 700; background: linear-gradient(to right, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 35px; }
+        .btn-google { display: flex; align-items: center; justify-content: center; width: 100%; background-color: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 14px 16px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
+        .btn-google:hover { background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        .btn-google svg { width: 22px; height: 22px; margin-right: 12px; }
+        .legal-text { margin-top: 30px; font-size: 0.75rem; color: #5a6270; }
+        .legal-text a { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--accent-gold); transition: color 0.3s; }
+        .premium-badge { display: inline-flex; background: rgba(212, 175, 55, 0.1); color: var(--accent-gold); padding: 6px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 25px; text-transform: uppercase; }
+        .price-tag { font-size: 3rem; font-weight: 800; margin: 25px 0; color: #fff; }
+        .price-currency { font-size: 1.2rem; color: var(--accent-gold); }
+        .btn-premium { width: 100%; background: linear-gradient(135deg, #e6c245 0%, #b39222 100%); color: #000; border: none; padding: 16px; border-radius: 8px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
+        .loader-container { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .spinner { width: 45px; height: 45px; border: 3px solid rgba(212, 175, 55, 0.1); border-left-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner-small { width: 20px; height: 20px; border: 2px solid rgba(0,0,0, 0.2); border-left-color: #000; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .login-subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 35px;
-            line-height: 1.4;
-        }
-
-        .btn-google {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ================= DASHBOARD VIP ================= */
+        .dashboard-container {
+            display: none;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            flex-grow: 1;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        /* Nav Lateral */
+        .dash-sidebar {
+            background: var(--nav-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: fit-content;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
             border-radius: 8px;
-            padding: 14px 16px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-google:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-
-        .btn-google svg {
-            width: 22px;
-            height: 22px;
-            margin-right: 12px;
-        }
-
-        .legal-text {
-            margin-top: 30px;
-            font-size: 0.75rem;
-            color: #5a6270;
-            line-height: 1.6;
-        }
-
-        .legal-text a {
             color: var(--text-muted);
             text-decoration: none;
-            border-bottom: 1px solid var(--accent-gold);
-            padding-bottom: 1px;
-            transition: color 0.3s;
-        }
-
-        .legal-text a:hover {
-            color: var(--accent-gold);
-        }
-
-        /* ================= ESTILOS PAYWALL (Suscripción) ================= */
-        .premium-badge {
-            display: inline-flex;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
             align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
             background: rgba(212, 175, 55, 0.1);
             color: var(--accent-gold);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            margin-bottom: 25px;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-            text-transform: uppercase;
         }
 
-        .price-tag {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 25px 0;
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .price-currency {
-            font-size: 1.2rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-        }
-
-        .btn-premium {
-            position: relative;
-            width: 100%;
-            background: linear-gradient(135deg, #e6c245 0%, #b39222 100%);
-            color: #000;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-premium::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            transition: all 0.5s ease;
-        }
-
-        .btn-premium:hover::after {
-            left: 150%;
-        }
-
-        .btn-premium:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--accent-glow);
+        .nav-item.logout {
+            margin-top: auto;
+            color: var(--danger);
+            border: 1px solid rgba(255, 51, 102, 0.2);
         }
         
-        .btn-premium:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
+        .nav-item.logout:hover {
+            background: rgba(255, 51, 102, 0.1);
         }
 
-        /* ================= ESTILOS DASHBOARD VIP ================= */
-        .vip-status {
+        /* Area Principal Herramientas */
+        .dash-main {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            gap: 25px;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--success);
+        .dash-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .dash-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
-        .user-id-box {
-            background: rgba(0,0,0,0.3);
+        /* Grid Herramientas Vacia (Por ahora) */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card-placeholder {
+            background: rgba(255,255,255,0.02);
             border: 1px dashed rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 6px;
-            font-family: monospace;
-            color: var(--accent-gold);
-            margin: 15px 0 25px 0;
-            letter-spacing: 1px;
-        }
-
-        /* ================= LOADERS ================= */
-        .loader-container {
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
-        .spinner {
-            width: 45px;
-            height: 45px;
-            border: 3px solid rgba(212, 175, 55, 0.1);
-            border-left-color: var(--accent-gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        /* ================= FOOTER ================= */
+        footer {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.3);
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #5a6270;
         }
 
-        .spinner-small {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(0,0,0, 0.2);
-            border-left-color: #000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* Responsividad Dashboard */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .dash-sidebar {
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 10px;
+            }
+            .nav-item {
+                white-space: nowrap;
+            }
+            .nav-item.logout {
+                margin-top: 0;
+                margin-left: auto;
+            }
         }
 
     </style>
@@ -315,83 +299,105 @@
 <body>
 
     <header>
-        <img src="logo.png" alt="CVSTUDIO33 - Bolsa de Trabajo VIP">
+        <div class="header-logo">
+            <img src="logo.png" alt="CVSTUDIO33">
+        </div>
+        
+        <!-- Perfil inyectado por JS -->
+        <div class="header-profile" id="user-profile-badge">
+            <div class="header-profile-info">
+                <span class="header-profile-id" id="display-client-id">CLIENTE-XXXX</span>
+                <span class="header-profile-status">VIP Activo</span>
+            </div>
+            <img src="" alt="Perfil" id="display-client-photo">
+        </div>
     </header>
 
     <main>
         <!-- PANTALLA 1: CARGA -->
-        <div id="view-loading" class="view-section" style="display: block; box-shadow: none; border: none; background: transparent;">
-            <div class="loader-container">
-                <div class="spinner"></div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px;">INICIALIZANDO PROTOCOLO VIP...</p>
+        <div id="view-loading" class="centered-view" style="display: flex;">
+            <div class="view-box" style="box-shadow: none; border: none; background: transparent; width: 100%;">
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px;">INICIALIZANDO BÓVEDA...</p>
+                </div>
             </div>
         </div>
 
         <!-- PANTALLA 2: LOGIN -->
-        <div id="view-login" class="view-section">
-            <h1 class="login-title">Autenticación Requerida</h1>
-            <p class="login-subtitle">Conecta tus credenciales para acceder a la infraestructura exclusiva de CVSTUDIO33.</p>
-            
-            <button id="btn-login" class="btn-google">
-                <svg viewBox="0 0 24 24">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Acceso encriptado con Google
-            </button>
+        <div id="view-login" class="centered-view">
+            <div class="view-box">
+                <h1 class="login-title">Autenticación VIP</h1>
+                <p class="login-subtitle">Conecta tus credenciales para acceder a la infraestructura exclusiva de CVSTUDIO33.</p>
+                
+                <button id="btn-login" class="btn-google">
+                    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    Acceso encriptado con Google
+                </button>
 
-            <p class="legal-text">
-                Operación protegida bajo arquitectura Cloud. Identidad resguardada. 
-                <br>
-                <a href="https://firebase.google.com/terms" target="_blank" rel="noopener noreferrer">Ver Políticas de Seguridad Firebase Auth</a>
-            </p>
+                <p class="legal-text">
+                    Operación protegida bajo arquitectura Cloud. <br>
+                    <a href="https://firebase.google.com/terms" target="_blank">Políticas de Seguridad Firebase Auth</a>
+                </p>
+            </div>
         </div>
 
-        <!-- PANTALLA 3: PAYWALL (Suscripción) -->
-        <div id="view-paywall" class="view-section">
-            <div class="premium-badge">◆ Acceso Restringido</div>
-            <h2 style="margin-bottom: 10px; font-weight: 600;">Pase Mensual VIP</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">
-                La infraestructura detecta que no posees una membresía activa o tu ciclo ha finalizado. Habilita tu pase para desplegar las herramientas.
-            </p>
-            
-            <div class="price-tag">$10.000 <span class="price-currency">ARS</span></div>
-            
-            <button id="btn-subscribe" class="btn-premium">
-                Habilitar Pase via MercadoPago
-            </button>
-            <p style="font-size: 0.75rem; margin-top: 15px; color: #5a6270;">
-                Transacción procesada y asegurada por el Cerebro de CVSTUDIO33.
-            </p>
+        <!-- PANTALLA 3: PAYWALL -->
+        <div id="view-paywall" class="centered-view">
+            <div class="view-box">
+                <div class="premium-badge">◆ Acceso Restringido</div>
+                <h2 style="margin-bottom: 10px; font-weight: 600;">Pase Mensual VIP</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">
+                    La infraestructura detecta que no posees una membresía activa. Habilita tu pase para desplegar las herramientas.
+                </p>
+                
+                <div class="price-tag">$10.000 <span class="price-currency">ARS</span></div>
+                
+                <button id="btn-subscribe" class="btn-premium">
+                    Habilitar Pase via MercadoPago
+                </button>
+            </div>
         </div>
 
         <!-- PANTALLA 4: DASHBOARD VIP -->
-        <div id="view-dashboard" class="view-section">
-            <div class="vip-status">
-                <div class="status-dot"></div>
-                <h2 style="color: #fff; font-weight: 600;">Conexión Establecida</h2>
-            </div>
+        <div id="view-dashboard" class="dashboard-container">
             
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Identificador de Operador:</p>
-            <div class="user-id-box" id="user-display">CLIENTE-XXXX</div>
-            
-            <p style="margin-bottom: 30px; font-size: 0.95rem; line-height: 1.5;">
-                Bienvenido a la Bóveda VIP. El sistema está listo para desplegar el arsenal de trabajo exclusivo.
-            </p>
-            
-            <button id="btn-logout" style="background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); color: var(--danger); padding: 10px 20px; border-radius: 6px; cursor: pointer; width: 100%; transition: all 0.3s; font-weight: 600;">
-                Desconectar Terminal
-            </button>
+            <!-- Sidebar -->
+            <aside class="dash-sidebar">
+                <div class="nav-item active">🚀 Arsenal Principal</div>
+                <div class="nav-item">📊 Mis Analíticas</div>
+                <div class="nav-item">⚙️ Configuración</div>
+                <div class="nav-item logout" id="btn-logout">Desconectar</div>
+            </aside>
+
+            <!-- Main Content -->
+            <section class="dash-main">
+                <div class="dash-header">
+                    <h2>Terminal de Operaciones</h2>
+                    <p>Bienvenido al núcleo. Las herramientas están listas para su despliegue.</p>
+                </div>
+                
+                <div class="tools-grid">
+                    <!-- Espacios reservados para las futuras herramientas -->
+                    <div class="tool-card-placeholder">
+                        <span style="font-size: 2rem; opacity: 0.5;">🔒</span>
+                        <span>Módulo en Construcción</span>
+                    </div>
+                    <div class="tool-card-placeholder">
+                        <span style="font-size: 2rem; opacity: 0.5;">🔒</span>
+                        <span>Módulo en Construcción</span>
+                    </div>
+                </div>
+            </section>
         </div>
 
     </main>
 
+    <footer>
+        &copy; 2026 CVSTUDIO33. Todos los derechos reservados. Infraestructura segura.
+    </footer>
+
     <!-- ========================================== -->
-    <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
-    <!-- ========================================== -->
-   <!-- ========================================== -->
     <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
     <!-- ========================================== -->
     <script type="module">
@@ -419,36 +425,44 @@
         const viewLogin = document.getElementById('view-login');
         const viewPaywall = document.getElementById('view-paywall');
         const viewDashboard = document.getElementById('view-dashboard');
+        const profileBadge = document.getElementById('user-profile-badge');
         
         function showView(viewElement) {
-            [viewLoading, viewLogin, viewPaywall, viewDashboard].forEach(el => el.style.display = 'none');
-            viewElement.style.display = 'block';
+            viewLoading.style.display = 'none';
+            viewLogin.style.display = 'none';
+            viewPaywall.style.display = 'none';
+            viewDashboard.style.display = 'none';
+            
+            if(viewElement === viewDashboard) {
+                viewDashboard.style.display = 'grid'; // Grid para el dashboard
+                profileBadge.style.display = 'flex'; // Mostrar perfil en header
+            } else {
+                viewElement.style.display = 'flex';
+                profileBadge.style.display = 'none';
+            }
         }
 
-        // SISTEMA DE EVALUACIÓN LAZY
+        // SISTEMA DE EVALUACIÓN LAZY CON ID CORTO UNIFICADO
         async function evaluateUserSubscription(user) {
             try {
-                // 1. EL ID MAESTRO: Para la Base de Datos (Pasa la seguridad estricta de Firebase)
-                const dbClientId = `cliente-${user.uid}`;
-                
-                // 2. EL ID VISUAL: De 4 dígitos para la pantalla (Estético)
+                // EL ÚNICO ID: Usamos los 4 dígitos para TODO (Firebase y Visual)
                 const shortUid = user.uid.slice(-4).toLowerCase();
-                const displayId = `cliente-${shortUid}`;
+                const clientId = `cliente-${shortUid}`;
                 
-                const userRef = doc(db, 'users2', dbClientId);
+                const userRef = doc(db, 'users2', clientId);
                 const docSnap = await getDoc(userRef);
 
                 if (docSnap.exists()) {
                     let userData = docSnap.data();
                     let isExpired = false;
 
+                    // INTERCEPTACIÓN LAZY
                     if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                         const expireDate = new Date(userData.plan_expires_at);
                         const currentDate = new Date();
 
                         if (currentDate > expireDate) {
                             isExpired = true;
-                            // Ejecución silenciosa de degradación
                             await updateDoc(userRef, {
                                 plan_type: 'standard',
                                 plan_expires_at: null
@@ -458,24 +472,28 @@
                     }
 
                     if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                        // AQUÍ MOSTRAMOS SOLO LOS 4 DÍGITOS
-                        document.getElementById('user-display').innerText = displayId.toUpperCase();
+                        // Inyectar datos de Google en el Header
+                        document.getElementById('display-client-id').innerText = clientId.toUpperCase();
+                        // Google Auth provee la foto de perfil en user.photoURL
+                        document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/35/d4af37/ffffff?text=VIP';
+                        
                         showView(viewDashboard);
                     } else {
                         showView(viewPaywall);
                     }
 
                 } else {
-                    // Creación silenciosa del nuevo usuario usando el ID Maestro permitido por las reglas
+                    // CREACIÓN: Usamos el ID corto, pero guardamos la firma (auth_signature) por seguridad
                     await setDoc(userRef, {
-                        user: dbClientId,
+                        user: clientId,
+                        auth_signature: user.uid, // <--- La llave que permite que las reglas funcionen
                         plan_type: 'standard',
                         plan_expires_at: null
                     });
                     showView(viewPaywall);
                 }
             } catch (error) {
-                console.error("Error validando bóveda:", error);
+                console.error("Fallo de acceso:", error);
                 showView(viewLogin);
             }
         }
@@ -491,16 +509,14 @@
 
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch(() => {
-                // Silencioso
-            });
+            signInWithPopup(auth, provider).catch(() => {});
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
             signOut(auth);
         });
 
-        // BOTÓN DE PAGO (LISTO PARA EL CEREBRO)
+        // BOTÓN DE PAGO LISTO PARA EL WORKER
         document.getElementById('btn-subscribe').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -509,24 +525,20 @@
             btn.innerHTML = '<div class="spinner-small"></div> Procesando Enlace...';
             btn.disabled = true;
 
-            // Enviamos el ID Maestro al cerebro para que sepa exactamente en qué documento inyectar
-            const dbClientId = `cliente-${user.uid}`;
+            const shortUid = user.uid.slice(-4).toLowerCase();
+            const clientId = `cliente-${shortUid}`;
 
             try {
                 // ==========================================
-                // AQUÍ CONECTAREMOS EL CEREBRO 
+                // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
                 // ==========================================
-                console.log(`Petición lista para Worker. Destino Firestore: ${dbClientId}`);
+                console.log(`Operación de compra silenciada, lista para Worker. ID: ${clientId}`);
             } catch (error) {
                 btn.innerHTML = 'Error. Reintentar';
                 btn.disabled = false;
             }
         });
+
     </script>
 </body>
 </html>
-
-
-
-
-

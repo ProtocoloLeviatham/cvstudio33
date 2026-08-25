@@ -391,6 +391,9 @@
     <!-- ========================================== -->
     <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
     <!-- ========================================== -->
+   <!-- ========================================== -->
+    <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
+    <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -425,11 +428,14 @@
         // SISTEMA DE EVALUACIÓN LAZY
         async function evaluateUserSubscription(user) {
             try {
-                // EXTRACCIÓN SILENCIOSA DE LOS ÚLTIMOS 4 DÍGITOS
-                const shortUid = user.uid.slice(-4).toLowerCase();
-                const clientId = `cliente-${shortUid}`;
+                // 1. EL ID MAESTRO: Para la Base de Datos (Pasa la seguridad estricta de Firebase)
+                const dbClientId = `cliente-${user.uid}`;
                 
-                const userRef = doc(db, 'users2', clientId);
+                // 2. EL ID VISUAL: De 4 dígitos para la pantalla (Estético)
+                const shortUid = user.uid.slice(-4).toLowerCase();
+                const displayId = `cliente-${shortUid}`;
+                
+                const userRef = doc(db, 'users2', dbClientId);
                 const docSnap = await getDoc(userRef);
 
                 if (docSnap.exists()) {
@@ -452,16 +458,17 @@
                     }
 
                     if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                        document.getElementById('user-display').innerText = clientId.toUpperCase();
+                        // AQUÍ MOSTRAMOS SOLO LOS 4 DÍGITOS
+                        document.getElementById('user-display').innerText = displayId.toUpperCase();
                         showView(viewDashboard);
                     } else {
                         showView(viewPaywall);
                     }
 
                 } else {
-                    // Creación silenciosa del nuevo usuario
+                    // Creación silenciosa del nuevo usuario usando el ID Maestro permitido por las reglas
                     await setDoc(userRef, {
-                        user: clientId,
+                        user: dbClientId,
                         plan_type: 'standard',
                         plan_expires_at: null
                     });
@@ -485,7 +492,7 @@
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider).catch(() => {
-                // Silencioso, si el usuario cierra el popup no pasa nada visualmente
+                // Silencioso
             });
         });
 
@@ -493,35 +500,28 @@
             signOut(auth);
         });
 
-        // BOTÓN DE PAGO (SIN ALERTAS, LISTO PARA EL CEREBRO)
+        // BOTÓN DE PAGO (LISTO PARA EL CEREBRO)
         document.getElementById('btn-subscribe').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
             
             const btn = document.getElementById('btn-subscribe');
-            // Micro-animación de carga en el botón
             btn.innerHTML = '<div class="spinner-small"></div> Procesando Enlace...';
             btn.disabled = true;
 
-            const shortUid = user.uid.slice(-4).toLowerCase();
-            const clientId = `cliente-${shortUid}`;
+            // Enviamos el ID Maestro al cerebro para que sepa exactamente en qué documento inyectar
+            const dbClientId = `cliente-${user.uid}`;
 
             try {
                 // ==========================================
-                // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
-                // Ej: const response = await fetch('URL_DEL_WORKER', { body: JSON.stringify({id: clientId}) });
-                // const url_pago = await response.json();
-                // window.location.href = url_pago;
+                // AQUÍ CONECTAREMOS EL CEREBRO 
                 // ==========================================
-                
-                // Mantenemos el botón cargando hasta que hagamos el worker
-                console.log(`Petición silenciada preparada para Worker. ID: ${clientId}`);
+                console.log(`Petición lista para Worker. Destino Firestore: ${dbClientId}`);
             } catch (error) {
                 btn.innerHTML = 'Error. Reintentar';
                 btn.disabled = false;
             }
         });
-
     </script>
 </body>
 </html>

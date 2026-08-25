@@ -398,11 +398,11 @@
     </footer>
 
 <!-- ========================================== -->
+  <!-- ========================================== -->
     <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
     <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        // CAMBIO IMPORTANTE: Importamos getRedirectResult y signInWithRedirect
         import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -446,11 +446,12 @@
         // SISTEMA DE EVALUACIÓN LAZY
         async function evaluateUserSubscription(user) {
             try {
+                // EL ID MAESTRO: cliente-xxxx (Fácil para MercadoPago y el Cerebro)
                 const shortUid = user.uid.slice(-4).toLowerCase();
-                const displayId = `cliente-${shortUid}`;
+                const clientId = `cliente-${shortUid}`;
                 
-                // Usamos el UID largo (user.uid) para la base de datos
-                const userRef = doc(db, 'users2', user.uid);
+                // Apuntamos al documento cliente-xxxx en Firestore
+                const userRef = doc(db, 'users2', clientId);
                 
                 const docSnap = await getDoc(userRef);
 
@@ -458,6 +459,7 @@
                     let userData = docSnap.data();
                     let isExpired = false;
 
+                    // INTERCEPTACIÓN LAZY
                     if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                         const expireDate = new Date(userData.plan_expires_at);
                         const currentDate = new Date();
@@ -473,7 +475,7 @@
                     }
 
                     if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                        document.getElementById('display-client-id').innerText = displayId.toUpperCase();
+                        document.getElementById('display-client-id').innerText = clientId.toUpperCase();
                         document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/35/d4af37/ffffff?text=VIP';
                         
                         showView(viewDashboard);
@@ -482,37 +484,24 @@
                     }
 
                 } else {
-                    // Creación usando el UID largo
+                    // CREACIÓN: Guardamos cliente-xxxx pero inyectamos la auth_signature por seguridad
                     await setDoc(userRef, {
-                        user: displayId, 
+                        user: clientId, 
+                        auth_signature: user.uid, // LA LLAVE MAESTRA
                         plan_type: 'standard',
                         plan_expires_at: null
                     });
                     showView(viewPaywall);
                 }
             } catch (error) {
-                console.error("Fallo de acceso a Firestore:", error);
+                console.error("Fallo silencioso:", error);
                 showView(viewLogin);
             }
         }
 
-        // ==========================================
-        // NUEVA LÓGICA DE LOGIN (Sin Popup)
-        // ==========================================
-        
-        // 1. Verificamos si acabamos de regresar de un login de Google
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result) {
-                    // Si hay resultado, Google nos acaba de devolver exitosamente.
-                    console.log("Login por redirección exitoso.");
-                }
-            }).catch((error) => {
-                console.error("Error en la redirección:", error);
-                showView(viewLogin);
-            });
+        // LOGIN Y REDIRECCIÓN
+        getRedirectResult(auth).catch(() => {});
 
-        // 2. Escuchador de estado normal (Se ejecuta después de verificar la redirección)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 evaluateUserSubscription(user);
@@ -521,10 +510,8 @@
             }
         });
 
-        // 3. Botón de Login modificado
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            // Cambiamos el popup problemático por una redirección limpia
             signInWithRedirect(auth, provider);
         });
 
@@ -532,6 +519,7 @@
             signOut(auth);
         });
 
+        // BOTÓN DE PAGO LISTO PARA EL WORKER
         document.getElementById('btn-subscribe').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -541,10 +529,14 @@
             btn.disabled = true;
 
             const shortUid = user.uid.slice(-4).toLowerCase();
-            const displayId = `cliente-${shortUid}`;
+            const clientId = `cliente-${shortUid}`;
 
             try {
-                console.log(`Operación lista para Worker. ID Visual: ${displayId}, ID DB: ${user.uid}`);
+                // ==========================================
+                // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
+                // Enviaremos 'clientId' al Worker.
+                // ==========================================
+                console.log(`Operación lista para Worker. ID enviado: ${clientId}`);
             } catch (error) {
                 btn.innerHTML = 'Error. Reintentar';
                 btn.disabled = false;

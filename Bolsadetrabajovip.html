@@ -3,408 +3,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Suite VIP | CV Studio33</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        vipBlack: '#050505',
-                        vipDark: '#0a0a0a',
-                        vipGold: '#d4af37',
-                        vipGoldLight: '#f3e5ab',
-                        vipGray: '#262626',
-                    },
-                    fontFamily: {
-                        serif: ['Playfair Display', 'serif'],
-                        sans: ['Lato', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-
+    <title>Bolsa de Trabajo VIP | CVSTUDIO33</title>
     <style>
-        body { font-family: 'Lato', sans-serif; background-color: #050505; color: #e5e5e5; overflow-x: hidden; }
-        .bg-luxury {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 40%),
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        /* ================= VARIABLES Y RESET ================= */
+        :root {
+            --bg-dark: #0f1115;
+            --panel-bg: #1a1d24;
+            --text-main: #f0f0f0;
+            --text-muted: #8892b0;
+            --accent-gold: #d4af37;
+            --accent-hover: #f1c40f;
+            --google-blue: #4285F4;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --border: #2a2e39;
         }
-        .vip-heading { font-family: 'Playfair Display', serif; color: #d4af37; text-transform: uppercase; letter-spacing: 2px; }
-        .vip-card { background: rgba(20, 20, 20, 0.6); border: 1px solid rgba(212, 175, 55, 0.1); backdrop-filter: blur(10px); transition: all 0.5s ease; position: relative; overflow: hidden; }
-        .vip-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-5px); box-shadow: 0 10px 40px -10px rgba(212, 175, 55, 0.15); }
-        .vip-image-container { position: relative; overflow: hidden; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); }
-        .vip-image { transition: transform 0.7s ease; width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) contrast(1.1); }
-        .vip-card:hover .vip-image { transform: scale(1.05); }
-        .btn-gold { background: linear-gradient(135deg, #d4af37 0%, #a08221 100%); color: #000; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding: 12px 30px; border-radius: 4px; transition: all 0.3s; display: inline-block; cursor: pointer; }
-        .btn-locked { background: #1a1a1a; border: 1px solid #333; color: #666; cursor: not-allowed; width: 100%; padding: 10px; font-size: 0.7rem; border-radius: 4px; margin-top: 15px; transition: all 0.3s; }
-        .btn-locked:hover { border-color: #d4af37; color: #d4af37; background: #000; }
-        .gold-divider { height: 1px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 4rem 0; opacity: 0.3; }
-        .lock-notice { font-size: 0.65rem; color: #d4af37; margin-top: 10px; font-style: italic; }
 
-        /* MODAL CUSTOM STYLES */
-        #lockedModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
-        #lockedModal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        #lockedModal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+        header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--panel-bg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        header img {
+            height: 50px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        /* ================= CONTENEDOR PRINCIPAL ================= */
+        main {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .view-section {
+            display: none; /* Oculto por defecto, JS lo controla */
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= ESTILOS LOGIN ================= */
+        .login-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #fff;
+            color: #757575;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-google:hover {
+            box-shadow: 0 0 3px 3px rgba(66,133,244,.3);
+        }
+
+        .btn-google svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+
+        .legal-text {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .legal-text a {
+            color: var(--accent-gold);
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .legal-text a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* ================= ESTILOS PAYWALL (Suscripción) ================= */
+        .premium-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 1px solid var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        .btn-premium {
+            width: 100%;
+            background: linear-gradient(45deg, var(--accent-gold), #b39222);
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* ================= ESTILOS DASHBOARD VIP ================= */
+        .vip-welcome {
+            border-left: 4px solid var(--success);
+            padding-left: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .vip-title {
+            color: var(--success);
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* ================= LOADER ================= */
+        .loader {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--accent-gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="bg-luxury"></div>
-
-    <div id="lockedModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
-        <div class="bg-vipBlack border border-vipGold rounded-lg max-w-md w-full p-8 text-center relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-vipGold"><i class="fa-solid fa-xmark text-xl"></i></button>
-            
-            <div class="text-vipGold text-4xl mb-4"><i class="fa-solid fa-lock"></i></div>
-            <h3 class="text-2xl font-serif text-white mb-2">Acceso Restringido</h3>
-            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
-                Esta herramienta es exclusiva para miembros con Licencia Activa. Su cuenta actual no posee las credenciales (KEY) necesarias para ejecutar esta función en tiempo real.
-            </p>
-            
-            <div class="flex flex-col gap-3">
-                <a href="Servicios.html" class="btn-gold text-xs py-3">Adquirir Licencia (KEY)</a>
-                <a href="Centro-de-ayuda.html" class="text-gray-500 text-xs hover:text-vipGold underline decoration-vipGold/30">Contactar Soporte si es un error</a>
-            </div>
-        </div>
-    </div>
-
-    <nav class="h-24 flex items-center border-b border-vipGold/10 sticky top-0 z-50 bg-vipBlack/90 backdrop-blur-md">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="Servicios.html" class="text-xs font-bold tracking-widest text-gray-400 hover:text-vipGold transition uppercase group">
-                <i class="fa-solid fa-chevron-left group-hover:-translate-x-1 transition-transform"></i> Volver a Servicios
-            </a>
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="CV Studio33" class="h-12 w-auto object-contain">
-                <div class="h-8 w-px bg-vipGold/30"></div>
-                <span class="font-serif text-vipGold text-lg tracking-widest">CAREER SUITE ELITE</span>
-            </div>
-        </div>
-    </nav>
-
-    <header class="py-32 relative text-center">
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="inline-block border border-vipGold/50 px-6 py-2 rounded-full mb-8" data-aos="fade-down">
-                <span class="text-vipGold text-xs font-bold tracking-[0.3em] uppercase">Ecosistema de Alta Dirección Argentina & LATAM</span>
-            </div>
-            <h1 class="text-5xl md:text-7xl vip-heading mb-8 leading-tight" data-aos="zoom-in">
-                Ingeniería de <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-vipGold to-white">Carrera Real</span>
-            </h1>
-            <p class="text-xl text-gray-400 max-w-4xl mx-auto font-light leading-relaxed mb-12" data-aos="fade-up">
-                Herramientas técnicas reales para el mercado laboral actual. Sin promesas vacías. Acceda a nuestra base de datos propietaria, analíticas de mercado y sistemas de monitoreo para ejecutivos en Argentina y la región.
-            </p>
-        </div>
+    <header>
+        <img src="logo.png" alt="CVSTUDIO33 - Bolsa de Trabajo VIP">
     </header>
 
-    <div class="container mx-auto px-6 max-w-7xl">
+    <main>
+        <!-- PANTALLA 1: CARGA -->
+        <div id="view-loading" class="view-section" style="display: block;">
+            <div class="loader"></div>
+            <p>Conectando con servidores seguros...</p>
+        </div>
 
-        <section class="py-16">
-            <div class="flex flex-col lg:flex-row items-center gap-16 mb-20">
-                <div class="lg:w-1/2" data-aos="fade-right">
-                    <div class="vip-image-container h-[500px]">
-                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" alt="Corporate Skyscraper" class="vip-image">
-                    </div>
-                </div>
-                <div class="lg:w-1/2" data-aos="fade-left">
-                    <h2 class="vip-heading text-4xl mb-6">Acceso al Hidden Job Market</h2>
-                    <p class="text-gray-300 mb-6 leading-8 text-justify">
-                        En Argentina, más del 70% de las vacantes jerárquicas no se publican en LinkedIn. Se mueven a través de referidos directos y bases de datos internas de consultoras.
-                    </p>
-                    <p class="text-gray-300 mb-8 leading-8 text-justify font-light">
-                        Esta suite le permite realizar consultas sobre nuestra base de datos propietaria (construida con años de recolección de datos del mercado local) y acceder a perfiles públicos de reclutadores que hemos indexado manualmente para facilitar su networking.
-                    </p>
-                    <div class="flex gap-4">
-                        <a href="Servicios.html" class="btn-gold text-xs">Adquirir Membresía</a>
-                    </div>
-                </div>
-            </div>
+        <!-- PANTALLA 2: LOGIN -->
+        <div id="view-login" class="view-section">
+            <h1 class="login-title">Acceso Restringido</h1>
+            <p class="login-subtitle">Identifícate para acceder a la red exclusiva.</p>
+            
+            <button id="btn-login" class="btn-google">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Continuar con Google
+            </button>
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fa-solid fa-user-secret text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">GHOST SEARCH</h4>
-                    <p class="text-[11px] text-gray-400">Buscador de vacantes de nicho y ofertas indexadas de redes de partners no masivos.</p>
-                    <div class="lock-notice">Requiere Llave Nivel 1</div>
-                    <button class="btn-locked" onclick="showLockedAlert()">BUSCAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fa-solid fa-link text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">DIRECT LINK</h4>
-                    <p class="text-[11px] text-gray-400">Redirección directa a perfiles de LinkedIn de Decision Makers en nuestra DB.</p>
-                    <div class="lock-notice">Acceso Restringido</div>
-                    <button class="btn-locked" onclick="showLockedAlert()">CONECTAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fa-solid fa-envelope-open-text text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">EMAIL STEALTH</h4>
-                    <p class="text-[11px] text-gray-400">Consulta si el email corporativo del reclutador existe en nuestros registros históricos.</p>
-                    <div class="lock-notice">Clave de Acceso VIP</div>
-                    <button class="btn-locked" onclick="showLockedAlert()">CONSULTAR DB</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fa-solid fa-building text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">HEADHUNTER LIST</h4>
-                    <p class="text-[11px] text-gray-400">Directorio curado de las Top 50 Firmas de Executive Search en Buenos Aires.</p>
-                    <div class="lock-notice">No Autorizado</div>
-                    <button class="btn-locked" onclick="showLockedAlert()">VER LISTA</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="500">
-                    <i class="fa-solid fa-industry text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">SECTOR MAP</h4>
-                    <p class="text-[11px] text-gray-400">Mapa de calor de industrias contratando activamente este mes en la región.</p>
-                    <div class="lock-notice">Nivel Elite Necesario</div>
-                    <button class="btn-locked" onclick="showLockedAlert()">ANALIZAR</button>
-                </div>
-            </div>
-        </section>
+            <p class="legal-text">
+                Protocolo de seguridad activo. Al continuar, aceptas que tus datos de identidad están encriptados y protegidos bajo la infraestructura oficial de Google Cloud Auth. 
+                <br><br>
+                <a href="https://firebase.google.com/terms" target="_blank" rel="noopener noreferrer">Consultar Políticas de Privacidad y Seguridad de Firebase Auth</a>
+            </p>
+        </div>
 
-        <div class="gold-divider"></div>
+        <!-- PANTALLA 3: PAYWALL (Suscripción) -->
+        <div id="view-paywall" class="view-section">
+            <span class="premium-badge">ACCESO VIP REQUERIDO</span>
+            <h2 style="margin-bottom: 15px;">Membresía Mensual</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                Tu cuenta actualmente no posee acceso a la Bolsa de Trabajo VIP o tu periodo ha expirado. Suscríbete para desbloquear todas las herramientas exclusivas.
+            </p>
+            
+            <div class="price-tag">$10.000 <span style="font-size: 1rem; color: var(--text-muted);">ARS / mes</span></div>
+            
+            <button id="btn-subscribe" class="btn-premium">
+                Adquirir Pase VIP via MercadoPago
+            </button>
+            <p style="font-size: 0.8rem; margin-top: 15px; color: var(--text-muted);">
+                Operación gestionada y securizada por el Cerebro de CVSTUDIO33.
+            </p>
+        </div>
 
-        <section class="py-16">
-            <div class="flex flex-col lg:flex-row-reverse items-center gap-16 mb-20">
-                <div class="lg:w-1/2" data-aos="fade-left">
-                    <div class="vip-image-container h-[500px]">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Data Streams" class="vip-image">
-                    </div>
-                </div>
-                <div class="lg:w-1/2" data-aos="fade-right">
-                    <h2 class="vip-heading text-4xl mb-6">Sistema de Alertas Tempranas</h2>
-                    <p class="text-gray-300 mb-6 leading-8 text-justify">
-                        El tiempo es crucial. Utilizamos tecnología de monitoreo estándar para revisar cambios públicos en las páginas de carreras de empresas objetivo.
-                    </p>
-                    <p class="text-gray-300 mb-8 leading-8 text-justify font-light">
-                        Configure sus preferencias y reciba notificaciones cuando una URL pública cambie o cuando nuestro sistema detecte una nueva entrada en las bolsas de trabajo que indexamos.
-                    </p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="vip-card p-6" data-aos="fade-up">
-                    <i class="fa-solid fa-bolt text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">FLASH MONITOR</h4>
-                    <p class="text-[11px] text-gray-400">Bot que revisa URLs públicas de "Careers" cada 6 horas por cambios de texto.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">ACTIVAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fa-brands fa-whatsapp text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">WHATSAPP BOT ALERTAS</h4>
-                    <p class="text-[11px] text-gray-400">Recibe un mensaje automático cuando una vacante coincida con tu filtro.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">SINCRONIZAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fa-solid fa-clock-rotate-left text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">EARLY BIRD STATS</h4>
-                    <p class="text-[11px] text-gray-400">Estadística histórica: ¿Qué día y hora suele publicar vacantes X empresa?</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">VER DATOS</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fa-solid fa-tag text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">KEYWORD TRACKER</h4>
-                    <p class="text-[11px] text-gray-400">Rastreo de palabras clave específicas (ej: "Remote", "USD") en descripciones.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">CONFIGURAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fa-solid fa-rss text-vipGold mb-4 text-2xl"></i>
-                    <h4 class="text-white font-bold text-sm mb-2">FEED RSS PERSONAL</h4>
-                    <p class="text-[11px] text-gray-400">Generación de un link RSS único con tus búsquedas para tu lector de noticias.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">GENERAR</button>
-                </div>
-            </div>
-        </section>
-
-        <div class="gold-divider"></div>
-
-        <section class="py-16 bg-vipDark/50 rounded-3xl border border-vipGold/10 p-8 md:p-12 mb-20 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-vipGold/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-
-            <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="vip-heading text-4xl mb-4">The Vault (La Bóveda)</h2>
-                <p class="text-gray-400 max-w-3xl mx-auto text-lg">
-                    Acceso directo a nuestra base de conocimiento acumulado. Datos reales sobre entrevistas, salarios en pesos y dólares, y guías prácticas.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
-                    <div class="flex items-center justify-between mb-4">
-                        <i class="fa-solid fa-clipboard-question text-vipGold text-xl"></i>
-                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">DB INTERNA</span>
-                    </div>
-                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Preguntas de Entrevista</h3>
-                    <p class="text-xs text-gray-400 mb-4">Registro histórico de preguntas realizadas en procesos reales.</p>
-                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
-                        <li><i class="fa-solid fa-folder mr-1"></i> Mercado Libre (IT/Product)</li>
-                        <li><i class="fa-solid fa-folder mr-1"></i> Globant (Management)</li>
-                        <li><i class="fa-solid fa-folder mr-1"></i> J.P. Morgan (Finance)</li>
-                        <li><i class="fa-solid fa-plus mr-1"></i> 120+ Empresas</li>
-                    </ul>
-                </div>
-
-                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
-                    <div class="flex items-center justify-between mb-4">
-                        <i class="fa-solid fa-money-bill-wave text-vipGold text-xl"></i>
-                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">ARG & LATAM</span>
-                    </div>
-                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Reportes Salariales</h3>
-                    <p class="text-xs text-gray-400 mb-4">Datos de sueldos reales reportados por candidatos (ARS/USD).</p>
-                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
-                        <li><i class="fa-solid fa-chart-line mr-1"></i> Gerencia Media (Por Industria)</li>
-                        <li><i class="fa-solid fa-chart-line mr-1"></i> C-Level Compensation</li>
-                        <li><i class="fa-solid fa-chart-line mr-1"></i> Ajustes por Inflación</li>
-                    </ul>
-                </div>
-
-                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
-                    <div class="flex items-center justify-between mb-4">
-                        <i class="fa-solid fa-book-open text-vipGold text-xl"></i>
-                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">PDFs</span>
-                    </div>
-                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Guías de Negociación</h3>
-                    <p class="text-xs text-gray-400 mb-4">Scripts y plantillas de correo masivas para negociar.</p>
-                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
-                        <li><i class="fa-solid fa-file-pdf mr-1"></i> Contraofertas Salariales</li>
-                        <li><i class="fa-solid fa-file-pdf mr-1"></i> Negociación de Equity</li>
-                        <li><i class="fa-solid fa-file-pdf mr-1"></i> Beneficios Flexibles</li>
-                    </ul>
-                </div>
-
-                <div class="bg-black/40 border border-vipGold/20 p-6 rounded-xl hover:bg-black/60 transition group cursor-pointer" onclick="showLockedAlert()">
-                    <div class="flex items-center justify-between mb-4">
-                        <i class="fa-solid fa-lightbulb text-vipGold text-xl"></i>
-                        <span class="text-xs font-bold bg-vipGold/20 text-vipGold px-2 py-1 rounded">INSIGHTS</span>
-                    </div>
-                    <h3 class="text-white font-bold text-lg mb-2 group-hover:text-vipGold transition">Consejos Prácticos</h3>
-                    <p class="text-xs text-gray-400 mb-4">Estrategias probadas para el mercado local.</p>
-                    <ul class="text-[10px] text-gray-500 space-y-2 border-t border-gray-800 pt-3">
-                        <li><i class="fa-solid fa-check mr-1"></i> Manejo de LinkedIn</li>
-                        <li><i class="fa-solid fa-check mr-1"></i> Networking Efectivo</li>
-                        <li><i class="fa-solid fa-check mr-1"></i> Marca Personal</li>
-                    </ul>
-                </div>
+        <!-- PANTALLA 4: DASHBOARD VIP -->
+        <div id="view-dashboard" class="view-section">
+            <div class="vip-welcome">
+                <h2 class="vip-title">✅ Acceso Concedido</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;" id="user-display">Operador conectado.</p>
             </div>
             
-            <div class="mt-8 text-center">
-                <button class="btn-locked w-auto px-12" onclick="showLockedAlert()">ACCEDER A LA BASE DE DATOS COMPLETA</button>
-            </div>
-        </section>
-
-        <div class="gold-divider"></div>
-
-        <section class="py-16">
-            <div class="flex flex-col lg:flex-row items-center gap-16 mb-20">
-                <div class="lg:w-1/2" data-aos="fade-right">
-                    <div class="vip-image-container h-[400px]">
-                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" alt="Financial Analysis" class="vip-image">
-                    </div>
-                </div>
-                <div class="lg:w-1/2" data-aos="fade-left">
-                    <h2 class="vip-heading text-4xl mb-6">Herramientas de Cierre</h2>
-                    <p class="text-gray-300 mb-6 leading-8 text-justify">
-                        Prepare su estrategia de salida y entrada con datos. Nuestras herramientas de cálculo le ayudan a entender su posición neta real.
-                    </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                        <div class="flex items-center gap-3 text-vipGoldLight text-xs">
-                            <i class="fa-solid fa-check text-vipGold"></i> Comparador Bruto vs Neto
-                        </div>
-                        <div class="flex items-center gap-3 text-vipGoldLight text-xs">
-                            <i class="fa-solid fa-check text-vipGold"></i> Scripts Profesionales
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="vip-card p-6" data-aos="fade-up">
-                    <h4 class="text-white font-bold text-xs mb-3">GENERADOR SCRIPT</h4>
-                    <p class="text-[10px] text-gray-400 mb-4">Crea guiones de email basados en plantillas exitosas.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">DESBLOQUEAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="100">
-                    <h4 class="text-white font-bold text-xs mb-3">BENCHMARK DB</h4>
-                    <p class="text-[10px] text-gray-400 mb-4">Consulta rangos salariales en nuestra base de datos histórica.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">CONSULTAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="200">
-                    <h4 class="text-white font-bold text-xs mb-3">SALARY CHECK</h4>
-                    <p class="text-[10px] text-gray-400 mb-4">Calculadora de sueldo Neto/Bruto y conversión a Dólar Blue/MEP.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">CALCULAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="300">
-                    <h4 class="text-white font-bold text-xs mb-3">INFLATION ADJUST</h4>
-                    <p class="text-[10px] text-gray-400 mb-4">Calculadora de ajuste por inflación proyectada (REM del BCRA).</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">USAR</button>
-                </div>
-                <div class="vip-card p-6" data-aos="fade-up" data-aos-delay="400">
-                    <h4 class="text-white font-bold text-xs mb-3">OFFER COMPARATOR</h4>
-                    <p class="text-[10px] text-gray-400 mb-4">Matriz simple para comparar dos ofertas laborales lado a lado.</p>
-                    <button class="btn-locked" onclick="showLockedAlert()">COMPARAR</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-20 text-center" data-aos="fade-up">
-            <h3 class="vip-heading text-2xl mb-8">¿Su acceso está restringido?</h3>
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="Servicios.html" class="btn-gold">Comprar Licencia (KEY)</a>
-                <a href="Centro-de-ayuda.html" class="border border-vipGold text-vipGold px-8 py-3 rounded uppercase font-bold text-xs hover:bg-vipGold hover:text-black transition">Soporte Técnico</a>
-            </div>
-        </section>
-
-    </div>
-
-    <footer class="bg-black py-16 border-t border-vipGold/20">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="CV Studio33" class="h-16 w-auto grayscale opacity-50">
-                <div>
-                    <p class="uppercase tracking-widest font-bold text-gray-400 text-xs">CV Studio33 Elite</p>
-                    <p class="text-[10px] text-gray-600">Herramientas Profesionales de Gestión de Carrera</p>
-                </div>
-            </div>
-            <div class="text-xs text-gray-600">
-                <div class="flex gap-6 justify-center md:justify-end mb-4">
-                    <a href="Servicios.html" class="hover:text-vipGold">Servicios</a>
-                    <a href="Centro-de-ayuda.html" class="hover:text-vipGold">Centro de Ayuda</a>
-                    <a href="Contacto.html" class="hover:text-vipGold">Contacto VIP</a>
-                </div>
-                <p>© 2026 CV Studio33. Todos los derechos reservados.</p>
-            </div>
+            <p style="margin-top: 20px;">
+                Bienvenido a la infraestructura VIP de CVSTUDIO33. Aquí se inyectarán las herramientas premium en el futuro.
+            </p>
+            <br>
+            <button id="btn-logout" style="background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">Cerrar Sesión Segura</button>
         </div>
-    </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ once: true, duration: 1000, easing: 'ease-out-cubic' });
+    </main>
 
-        // Función para mostrar el modal personalizado
-        function showLockedAlert() {
-            const modal = document.getElementById('lockedModal');
-            modal.classList.remove('hidden');
+    <!-- ========================================== -->
+    <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
+    <!-- ========================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // 1. CONFIGURACIÓN FIREBASE (Tus credenciales)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Referencias a la UI
+        const viewLoading = document.getElementById('view-loading');
+        const viewLogin = document.getElementById('view-login');
+        const viewPaywall = document.getElementById('view-paywall');
+        const viewDashboard = document.getElementById('view-dashboard');
+        
+        // Función para cambiar pantallas
+        function showView(viewElement) {
+            viewLoading.style.display = 'none';
+            viewLogin.style.display = 'none';
+            viewPaywall.style.display = 'none';
+            viewDashboard.style.display = 'none';
+            viewElement.style.display = 'block';
         }
 
-        // Función para cerrar el modal
-        function closeModal() {
-            const modal = document.getElementById('lockedModal');
-            modal.classList.add('hidden');
-        }
+        // 2. SISTEMA DE EVALUACIÓN LAZY (INTERCEPTACIÓN)
+        async function evaluateUserSubscription(user) {
+            try {
+                // Seguridad: Forzamos la estructura cliente-xxxx con el UID real del Auth
+                const clientId = `cliente-${user.uid}`;
+                const userRef = doc(db, 'users2', clientId);
+                const docSnap = await getDoc(userRef);
 
-        // Cerrar modal al hacer click fuera del contenido
-        window.onclick = function(event) {
-            const modal = document.getElementById('lockedModal');
-            if (event.target == modal) {
-                closeModal();
+                if (docSnap.exists()) {
+                    let userData = docSnap.data();
+                    let isExpired = false;
+
+                    // INTERCEPTACIÓN LAZY EVALUATION
+                    if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
+                        const expireDate = new Date(userData.plan_expires_at);
+                        const currentDate = new Date();
+
+                        // Si la fecha actual superó a la de expiración...
+                        if (currentDate > expireDate) {
+                            isExpired = true;
+                            console.warn("Interceptación: Plan Vencido. Degradando cuenta.");
+                            
+                            // Disparamos la orden silenciosa a la base de datos para degradar
+                            await updateDoc(userRef, {
+                                plan_type: 'standard',
+                                plan_expires_at: null
+                            });
+                            userData.plan_type = 'standard';
+                        }
+                    }
+
+                    // Resolución Visual
+                    if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
+                        document.getElementById('user-display').innerText = `ID Operador: ${clientId}`;
+                        showView(viewDashboard);
+                    } else {
+                        showView(viewPaywall);
+                    }
+
+                } else {
+                    // Si no existe, es usuario nuevo. Lo creamos en users2.
+                    await setDoc(userRef, {
+                        user: clientId,
+                        plan_type: 'standard',
+                        plan_expires_at: null
+                    });
+                    showView(viewPaywall);
+                }
+            } catch (error) {
+                console.error("Error validando bóveda de usuario:", error);
+                alert("Error de conexión segura. Revisa tu internet.");
+                showView(viewLogin);
             }
         }
+
+        // 3. LISTENERS Y EVENTOS
+        
+        // Escucha de estado de sesión
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Usuario logueado, iniciamos la interceptación / validación
+                evaluateUserSubscription(user);
+            } else {
+                // No hay sesión
+                showView(viewLogin);
+            }
+        });
+
+        // Botón Login Google
+        document.getElementById('btn-login').addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider).catch((error) => {
+                console.error("Error en login:", error);
+            });
+        });
+
+        // Botón Cerrar Sesión
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // Botón Suscribirse (Conexión futura al Cerebro)
+        document.getElementById('btn-subscribe').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const clientId = `cliente-${user.uid}`;
+            const btn = document.getElementById('btn-subscribe');
+            btn.innerText = "Conectando al Cerebro...";
+            btn.disabled = true;
+
+            // ==========================================
+            // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
+            // ==========================================
+            console.log(`Solicitud de compra: ${clientId} solicita Plan_VIP`);
+            
+            // Simulación temporal para el front:
+            setTimeout(() => {
+                alert("El cerebro interceptará esta petición para generar el link de MercadoPago.\n\nDatos enviados al Cerebro:\nUsuario: " + clientId + "\nProducto: Plan_VIP");
+                btn.innerText = "Adquirir Pase VIP via MercadoPago";
+                btn.disabled = false;
+            }, 2000);
+        });
+
     </script>
 </body>
 </html>
+
+

@@ -314,12 +314,11 @@
     </footer>
 
 <!-- ========================================== -->
-<!-- LÓGICA FIREBASE (SELLO Y LECTURA LAZY) -->
+<!-- LÓGICA FIREBASE Y CONEXIÓN AL CEREBRO -->
 <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        // IMPORTANTE: Incluimos setDoc (para el sello) y onSnapshot (para lectura en tiempo real)
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -336,7 +335,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Controladores de Vistas
         const views = {
             loading: document.getElementById('view-loading'),
             login: document.getElementById('view-login'),
@@ -360,7 +358,6 @@
             }
         }
 
-        // LÓGICA PRINCIPAL - ARQUITECTURA SEGURA
         async function procesarUsuarioSeguro(user) {
             showView('loading');
             
@@ -369,13 +366,23 @@
             const userRef = doc(db, 'users2', clientId);
             
             // PASO 1: SELLO DE SEGURIDAD
-            // Inyectamos ÚNICAMENTE la firma de autenticación.
-            // Firebase rechazará esto si intentamos enviar 'plan_type'.
             try {
                 await setDoc(userRef, {
                     cliente_id: clientId,
                     auth_signature: user.uid
                 }, { merge: true });
+                
+                // ==========================================
+                // NUEVO: DISPARADOR AL CEREBRO
+                // Le avisamos silenciosamente al Cerebro que audite la cuenta.
+                // Si el plan venció, el Cerebro limpiará la Base de Datos.
+                // ==========================================
+                fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ clientId: clientId })
+                }).catch(e => console.log("Auditoría en background iniciada."));
+                
             } catch (err) {
                 console.error("Error al sellar firma en Firebase:", err);
             }
@@ -390,7 +397,8 @@
                 const userData = docSnap.data();
                 let isExpired = false;
 
-                // Verificación matemática local sin alterar Firebase
+                // Seguimos teniendo el bloqueo visual local para que sea instantáneo 
+                // mientras el Cerebro limpia la base de datos por detrás.
                 if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                     const expireDate = new Date(userData.plan_expires_at);
                     if (new Date() > expireDate) {
@@ -398,9 +406,7 @@
                     }
                 }
 
-                // Resolución de Acceso
                 if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                    // Acceso Concedido
                     document.getElementById('display-client-id').innerText = clientId.toUpperCase();
                     document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/35/d4af37/ffffff?text=VIP';
                     
@@ -409,7 +415,6 @@
                     
                     showView('dashboard');
                 } else {
-                    // Acceso Denegado / Caducado
                     showView('paywall');
                 }
                 
@@ -419,7 +424,6 @@
             });
         }
 
-        // Autenticación
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 procesarUsuarioSeguro(user);
@@ -438,9 +442,6 @@
             signOut(auth);
         });
 
-        // ==========================================
-        // CONEXIÓN CON EL CEREBRO DE PAGOS
-        // ==========================================
         btnSubscribe.addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -452,7 +453,6 @@
             const clientId = `cliente-${shortUid}`;
             
             try {
-                // Notifica al Cerebro para generar el Check-Out
                 const response = await fetch("https://bolsadetrabajovip.lautybg22.workers.dev/create-preference", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -480,3 +480,5 @@
     </script>
 </body>
 </html>
+
+

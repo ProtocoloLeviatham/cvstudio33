@@ -397,12 +397,13 @@
         &copy; 2026 CVSTUDIO33. Todos los derechos reservados. Infraestructura segura.
     </footer>
 
-    <!-- ========================================== -->
+<!-- ========================================== -->
     <!-- LOGICA FIREBASE Y CEREBRO (V9 MODULES) -->
     <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // CAMBIO IMPORTANTE: Importamos getRedirectResult y signInWithRedirect
+        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // CONFIGURACIÓN FIREBASE
@@ -434,29 +435,29 @@
             viewDashboard.style.display = 'none';
             
             if(viewElement === viewDashboard) {
-                viewDashboard.style.display = 'grid'; // Grid para el dashboard
-                profileBadge.style.display = 'flex'; // Mostrar perfil en header
+                viewDashboard.style.display = 'grid'; 
+                profileBadge.style.display = 'flex'; 
             } else {
                 viewElement.style.display = 'flex';
                 profileBadge.style.display = 'none';
             }
         }
 
-        // SISTEMA DE EVALUACIÓN LAZY CON ID CORTO UNIFICADO
+        // SISTEMA DE EVALUACIÓN LAZY
         async function evaluateUserSubscription(user) {
             try {
-                // EL ÚNICO ID: Usamos los 4 dígitos para TODO (Firebase y Visual)
                 const shortUid = user.uid.slice(-4).toLowerCase();
-                const clientId = `cliente-${shortUid}`;
+                const displayId = `cliente-${shortUid}`;
                 
-                const userRef = doc(db, 'users2', clientId);
+                // Usamos el UID largo (user.uid) para la base de datos
+                const userRef = doc(db, 'users2', user.uid);
+                
                 const docSnap = await getDoc(userRef);
 
                 if (docSnap.exists()) {
                     let userData = docSnap.data();
                     let isExpired = false;
 
-                    // INTERCEPTACIÓN LAZY
                     if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                         const expireDate = new Date(userData.plan_expires_at);
                         const currentDate = new Date();
@@ -472,9 +473,7 @@
                     }
 
                     if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                        // Inyectar datos de Google en el Header
-                        document.getElementById('display-client-id').innerText = clientId.toUpperCase();
-                        // Google Auth provee la foto de perfil en user.photoURL
+                        document.getElementById('display-client-id').innerText = displayId.toUpperCase();
                         document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/35/d4af37/ffffff?text=VIP';
                         
                         showView(viewDashboard);
@@ -483,22 +482,37 @@
                     }
 
                 } else {
-                    // CREACIÓN: Usamos el ID corto, pero guardamos la firma (auth_signature) por seguridad
+                    // Creación usando el UID largo
                     await setDoc(userRef, {
-                        user: clientId,
-                        auth_signature: user.uid, // <--- La llave que permite que las reglas funcionen
+                        user: displayId, 
                         plan_type: 'standard',
                         plan_expires_at: null
                     });
                     showView(viewPaywall);
                 }
             } catch (error) {
-                console.error("Fallo de acceso:", error);
+                console.error("Fallo de acceso a Firestore:", error);
                 showView(viewLogin);
             }
         }
 
-        // LISTENERS
+        // ==========================================
+        // NUEVA LÓGICA DE LOGIN (Sin Popup)
+        // ==========================================
+        
+        // 1. Verificamos si acabamos de regresar de un login de Google
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result) {
+                    // Si hay resultado, Google nos acaba de devolver exitosamente.
+                    console.log("Login por redirección exitoso.");
+                }
+            }).catch((error) => {
+                console.error("Error en la redirección:", error);
+                showView(viewLogin);
+            });
+
+        // 2. Escuchador de estado normal (Se ejecuta después de verificar la redirección)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 evaluateUserSubscription(user);
@@ -507,16 +521,17 @@
             }
         });
 
+        // 3. Botón de Login modificado
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch(() => {});
+            // Cambiamos el popup problemático por una redirección limpia
+            signInWithRedirect(auth, provider);
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
             signOut(auth);
         });
 
-        // BOTÓN DE PAGO LISTO PARA EL WORKER
         document.getElementById('btn-subscribe').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -526,13 +541,10 @@
             btn.disabled = true;
 
             const shortUid = user.uid.slice(-4).toLowerCase();
-            const clientId = `cliente-${shortUid}`;
+            const displayId = `cliente-${shortUid}`;
 
             try {
-                // ==========================================
-                // AQUÍ CONECTAREMOS EL CEREBRO EN EL PRÓXIMO PASO
-                // ==========================================
-                console.log(`Operación de compra silenciada, lista para Worker. ID: ${clientId}`);
+                console.log(`Operación lista para Worker. ID Visual: ${displayId}, ID DB: ${user.uid}`);
             } catch (error) {
                 btn.innerHTML = 'Error. Reintentar';
                 btn.disabled = false;

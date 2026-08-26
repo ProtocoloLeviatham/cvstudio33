@@ -17,6 +17,7 @@
             --success: #00ff88;
             --danger: #ff3366;
             --nav-bg: rgba(10, 13, 18, 0.9);
+            --telegram-blue: #24A1DE;
         }
 
         * {
@@ -176,11 +177,11 @@
         .spinner-small { width: 20px; height: 20px; border: 2px solid rgba(0,0,0, 0.2); border-left-color: #000; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ================= DASHBOARD VIP ================= */
+        /* ================= DASHBOARD VIP Y HERRAMIENTAS ================= */
         .dashboard-container {
             display: none;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 30px 20px;
             flex-grow: 1;
@@ -197,28 +198,72 @@
             flex-direction: column;
             gap: 15px;
             height: fit-content;
+            position: sticky;
+            top: 100px;
         }
 
-        .nav-item { padding: 12px 15px; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: all 0.3s; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .nav-item { padding: 12px 15px; border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: all 0.3s; display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 500; }
         .nav-item:hover, .nav-item.active { background: rgba(212, 175, 55, 0.1); color: var(--accent-gold); }
         .nav-item.logout { margin-top: auto; color: var(--danger); border: 1px solid rgba(255, 51, 102, 0.2); }
         .nav-item.logout:hover { background: rgba(255, 51, 102, 0.1); }
 
-        .dash-main { display: flex; flex-direction: column; gap: 25px; }
-        .dash-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
+        .dash-main { display: flex; flex-direction: column; gap: 30px; }
+        .dash-header h2 { font-size: 1.8rem; margin-bottom: 5px; color: #fff; }
         .dash-header p { color: var(--text-muted); font-size: 0.95rem; }
 
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .tool-card-placeholder { background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; padding: 40px 20px; text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        /* Tarjetas de Herramientas VIP */
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 25px; }
+        
+        .tool-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-card:hover { border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.05); }
+        .tool-card.telegram-card { border-color: rgba(36, 161, 222, 0.2); }
+        .tool-card.telegram-card:hover { border-color: var(--telegram-blue); box-shadow: 0 10px 30px rgba(36, 161, 222, 0.1); }
+
+        .tool-card h3 { font-size: 1.3rem; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .tool-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px; }
+        
+        /* Formularios e Inputs VIP */
+        .vip-input {
+            width: 100%; padding: 14px; border-radius: 8px;
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; font-size: 0.95rem; font-family: inherit; transition: all 0.3s;
+        }
+        .vip-input:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        textarea.vip-input { resize: vertical; min-height: 80px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        /* Botones VIP */
+        .btn-tool { background: transparent; color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-tool:hover { background: rgba(212, 175, 55, 0.1); transform: translateY(-2px); }
+        
+        .btn-telegram { background: var(--telegram-blue); color: #fff; border: none; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-telegram:hover { background: #1d8abf; transform: translateY(-2px); }
+        
+        .status-telegram { font-size: 0.85rem; font-weight: 600; margin-top: 5px; padding: 10px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); text-align: center;}
+        
+        .tool-result { margin-top: 15px; padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.4); border-left: 3px solid var(--accent-gold); font-size: 0.9rem; display: none; }
 
         /* ================= FOOTER ================= */
         footer { width: 100%; padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); margin-top: auto; font-size: 0.8rem; color: #5a6270; }
 
         @media (max-width: 768px) {
             .dashboard-container { grid-template-columns: 1fr; }
-            .dash-sidebar { flex-direction: row; overflow-x: auto; padding: 10px; }
+            .dash-sidebar { flex-direction: row; overflow-x: auto; padding: 10px; position: relative; top: 0; }
             .nav-item { white-space: nowrap; }
             .nav-item.logout { margin-top: 0; margin-left: auto; }
+            .tools-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -226,6 +271,7 @@
 
     <header>
         <div class="header-logo">
+            <!-- Asumiendo que logo.png existe -->
             <img src="logo.png" alt="CVSTUDIO33">
         </div>
         
@@ -244,7 +290,7 @@
             <div class="view-box" style="box-shadow: none; border: none; background: transparent; width: 100%;">
                 <div class="loader-container">
                     <div class="spinner"></div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px;">Sincronizando con el Cerebro...</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px;">Sincronizando con la Infraestructura LIXIE...</p>
                 </div>
             </div>
         </div>
@@ -273,7 +319,7 @@
                 <div class="premium-badge">◆ Acceso Restringido</div>
                 <h2 style="margin-bottom: 10px; font-weight: 600;">Pase Mensual VIP</h2>
                 <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">
-                    La infraestructura detecta que no posees una membresía activa. Habilita tu pase para desplegar las herramientas.
+                    La infraestructura detecta que no posees una membresía activa. Habilita tu pase para desplegar las herramientas del Cerebro LIXIE.
                 </p>
                 
                 <div class="price-tag">$10.000 <span class="price-currency">ARS</span></div>
@@ -288,29 +334,97 @@
         <div id="view-dashboard" class="dashboard-container">
             <aside class="dash-sidebar">
                 <div class="nav-item active">🚀 Arsenal Principal</div>
-                <div class="nav-item">📊 Mis Analíticas</div>
-                <div class="nav-item">⚙️ Configuración</div>
-                <div class="nav-item logout" id="btn-logout">Desconectar</div>
+                <div class="nav-item">📈 Economía y Salarios</div>
+                <div class="nav-item">🎙️ Entrenamiento IA</div>
+                <div class="nav-item">⚙️ Mi Protocolo VIP</div>
+                <div class="nav-item logout" id="btn-logout">Desconectar Sesión</div>
             </aside>
 
             <section class="dash-main">
                 <div class="dash-header">
-                    <h2>Terminal de Operaciones</h2>
-                    <p>Bienvenido al núcleo. Las herramientas están listas para su despliegue.</p>
+                    <h2>Terminal de Operaciones <span style="color: var(--accent-gold);">LIXIE</span></h2>
+                    <p>Módulos de inteligencia conectados y listos. El mercado oculto a tu disposición.</p>
                 </div>
                 
                 <div class="tools-grid">
-                    <div class="tool-card-placeholder">
-                        <span style="font-size: 2rem; opacity: 0.5;">🔒</span>
-                        <span>Módulo en Construcción</span>
+                    
+                    <!-- HERRAMIENTA 1: TELEGRAM RADAR VIP -->
+                    <div class="tool-card telegram-card">
+                        <h3>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.1 2.9C21.6 2.7 22.1 3.2 21.9 3.7L16.2 21.6C16 22.2 15.2 22.3 14.8 21.9L10.6 17.7L7.2 20.6C6.8 20.9 6.2 20.7 6.1 20.2L4.6 12.3L1.5 11.3C0.9 11.1 0.9 10.3 1.5 10.1L21.1 2.9Z" fill="#24A1DE"/>
+                            </svg>
+                            Radar LIXIE B2B (Vía Telegram)
+                        </h3>
+                        <p>Al conectar tu cuenta, nuestro sistema cifrado se sincronizará con tu dispositivo móvil a través de <strong>@lixieBbot</strong>. Recibirás de forma automatizada y confidencial las mejores posiciones B2B y vacantes remotas extraídas directamente de las bases de datos globales más exclusivas.</p>
+                        
+                        <div class="input-group" style="margin-bottom: 10px;">
+                            <span class="input-label">Protocolo de Emparejamiento</span>
+                            <p style="font-size: 0.8rem; color: #5a6270;">El enlace de abajo generará un token temporal único que vinculará tu cuenta con el Cerebro de extracción (Argentina & Global Remoto). Es de un solo uso.</p>
+                        </div>
+
+                        <div id="status-telegram" class="status-telegram">Procesando estado de conexión...</div>
+                        
+                        <button id="btn-link-telegram" class="btn-telegram" style="display: none;">
+                            Vincular con @lixieBbot Ahora
+                        </button>
                     </div>
+
+                    <!-- HERRAMIENTA 2: INFLATION ADJUST 2.0 -->
+                    <div class="tool-card">
+                        <h3>📈 Inflation Adjust 2.0</h3>
+                        <p>Calcula el poder adquisitivo real. Ingresa tu salario anterior y el algoritmo cruzará los datos con índices financieros para darte el número exacto que debes exigir hoy en tu próxima negociación.</p>
+                        
+                        <div class="input-group">
+                            <span class="input-label">Salario Base (ARS)</span>
+                            <input type="number" id="inf-salary" class="vip-input" placeholder="Ej: 1500000">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">Mes y Año de Referencia</span>
+                            <input type="month" id="inf-date" class="vip-input">
+                        </div>
+
+                        <button id="btn-calc-inflation" class="btn-tool">Calcular Ajuste de Mercado</button>
+                        <div id="result-inflation" class="tool-result"></div>
+                    </div>
+
+                    <!-- HERRAMIENTA 3: CV MATCH PREDICTIVO -->
+                    <div class="tool-card">
+                        <h3>🧠 CVStudio33 X-Ray</h3>
+                        <p>Audita tu perfil frente a cualquier vacante del mercado. La Inteligencia artificial (Cerebro 2) destripará la oferta y te indicará tu porcentaje de compatibilidad y qué palabras clave te faltan para burlar el software RRHH (ATS).</p>
+                        
+                        <div class="input-group">
+                            <span class="input-label">Pega el texto o URL de la Oferta Laboral</span>
+                            <textarea id="cv-offer-text" class="vip-input" placeholder="Senior Backend Developer requerimientos: Node.js, AWS, arquitectura de microservicios..."></textarea>
+                        </div>
+
+                        <button id="btn-match-cv" class="btn-tool">Ejecutar Análisis Predictivo</button>
+                        <div id="result-matcher" class="tool-result"></div>
+                    </div>
+
+                    <!-- HERRAMIENTA 4: SIMULADOR DE ENTREVISTAS -->
+                    <div class="tool-card">
+                        <h3>🎙️ LIXIE Interview Simulator</h3>
+                        <p>No vayas ciego a la entrevista. Enfréntate a un Headhunter implacable impulsado por IA. Te someterá a preguntas de alta tensión técnica y conductual basándose en tu perfil, dándote feedback en tiempo real.</p>
+                        
+                        <div class="input-group">
+                            <span class="input-label">Rol a Simular</span>
+                            <input type="text" id="sim-role" class="vip-input" placeholder="Ej: VP of Engineering, Data Scientist Sr...">
+                        </div>
+
+                        <button id="btn-start-sim" class="btn-tool" style="border-color: #00ff88; color: #00ff88;">
+                            Iniciar Sesión de Alta Tensión
+                        </button>
+                        <div id="result-sim" class="tool-result"></div>
+                    </div>
+
                 </div>
             </section>
         </div>
     </main>
 
     <footer>
-        &copy; 2026 CVSTUDIO33. Todos los derechos reservados. Infraestructura segura.
+        &copy; 2026 CVSTUDIO33. Todos los derechos reservados. Infraestructura LIXIE Segura.
     </footer>
 
 <!-- ========================================== -->
@@ -335,6 +449,9 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // URL Base del nuevo Cerebro 2 para herramientas
+        const CEREBRO_URL = "https://lixieradar.lautybg22.workers.dev";
+
         const views = {
             loading: document.getElementById('view-loading'),
             login: document.getElementById('view-login'),
@@ -345,6 +462,7 @@
         const btnSubscribe = document.getElementById('btn-subscribe');
         
         let unsubscribeSnapshot = null; 
+        let globalClientId = null; // Para usarlo en los botones de herramientas
 
         function showView(viewName) {
             Object.values(views).forEach(v => v.style.display = 'none');
@@ -363,6 +481,7 @@
             
             const shortUid = user.uid.slice(-4).toLowerCase();
             const clientId = `cliente-${shortUid}`;
+            globalClientId = clientId;
             const userRef = doc(db, 'users2', clientId);
             
             // PASO 1: SELLO DE SEGURIDAD
@@ -372,11 +491,7 @@
                     auth_signature: user.uid
                 }, { merge: true });
                 
-                // ==========================================
-                // NUEVO: DISPARADOR AL CEREBRO
-                // Le avisamos silenciosamente al Cerebro que audite la cuenta.
-                // Si el plan venció, el Cerebro limpiará la Base de Datos.
-                // ==========================================
+                // Auditoría silenciosa al Cerebro Original (Pagos)
                 fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -397,8 +512,6 @@
                 const userData = docSnap.data();
                 let isExpired = false;
 
-                // Seguimos teniendo el bloqueo visual local para que sea instantáneo 
-                // mientras el Cerebro limpia la base de datos por detrás.
                 if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                     const expireDate = new Date(userData.plan_expires_at);
                     if (new Date() > expireDate) {
@@ -413,6 +526,32 @@
                     btnSubscribe.innerHTML = 'Habilitar Pase via MercadoPago';
                     btnSubscribe.disabled = false;
                     
+                    // ==========================================
+                    // LOGICA DE CONEXIÓN TELEGRAM LIXIE VIP
+                    // ==========================================
+                    const btnTelegram = document.getElementById('btn-link-telegram');
+                    const statusTelegram = document.getElementById('status-telegram');
+                    
+                    if (userData.telegram_chat_id) {
+                        btnTelegram.style.display = 'none';
+                        statusTelegram.innerHTML = '🟢 Conexión Segura Activa. Dispositivo Vinculado.';
+                        statusTelegram.style.color = 'var(--success)';
+                        statusTelegram.style.borderColor = 'rgba(0, 255, 136, 0.2)';
+                    } else {
+                        btnTelegram.style.display = 'flex';
+                        statusTelegram.innerHTML = '🔴 Estado: Desconectado. Esperando vinculación...';
+                        statusTelegram.style.color = 'var(--danger)';
+                        statusTelegram.style.borderColor = 'rgba(255, 51, 102, 0.2)';
+                        
+                        btnTelegram.onclick = () => {
+                            // Deep Link hacia @lixieBbot enviando el código de cliente
+                            const botUsername = "lixieBbot";
+                            const telegramLink = `https://t.me/${botUsername}?start=${clientId}`;
+                            window.open(telegramLink, '_blank');
+                        };
+                    }
+                    // ==========================================
+
                     showView('dashboard');
                 } else {
                     showView('paywall');
@@ -472,11 +611,87 @@
                 }
 
             } catch (error) {
-                console.error("Error contactando al Cerebro:", error);
+                console.error("Error contactando al Cerebro de Pagos:", error);
                 btnSubscribe.innerHTML = 'Error. Reintentar Conexión';
                 btnSubscribe.disabled = false;
             }
         });
+
+        // ==========================================
+        // EVENTOS DE HERRAMIENTAS (CONEXIÓN CEREBRO 2)
+        // ==========================================
+        
+        // Función Helper para llamar al nuevo Cerebro
+        async function callLixieRadar(endpoint, payload, resultDivId, btnElement, loadingText, successText) {
+            const resultDiv = document.getElementById(resultDivId);
+            const originalBtnText = btnElement.innerHTML;
+            
+            try {
+                btnElement.innerHTML = `<div class="spinner-small"></div> ${loadingText}...`;
+                btnElement.disabled = true;
+                resultDiv.style.display = 'none';
+
+                // Se agrega el clientId para validación de seguridad en el backend
+                payload.clientId = globalClientId;
+
+                const response = await fetch(`${CEREBRO_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                resultDiv.innerHTML = data.message || data.result || successText;
+                resultDiv.style.display = 'block';
+                
+            } catch (error) {
+                console.error(`Error en ${endpoint}:`, error);
+                resultDiv.innerHTML = `<span style="color: var(--danger);">Error de conexión con el radar. El sistema pudo estar saturado. Intente de nuevo.</span>`;
+                resultDiv.style.display = 'block';
+            } finally {
+                btnElement.innerHTML = originalBtnText;
+                btnElement.disabled = false;
+            }
+        }
+
+        // Evento 1: Calculadora de Inflación
+        document.getElementById('btn-calc-inflation').addEventListener('click', function() {
+            const salary = document.getElementById('inf-salary').value;
+            const date = document.getElementById('inf-date').value;
+            
+            if(!salary || !date) {
+                alert("Complete los campos para procesar la inflación.");
+                return;
+            }
+            
+            callLixieRadar('/inflation', { salary, date }, 'result-inflation', this, 'Calculando Índices', 'Cálculo procesado correctamente.');
+        });
+
+        // Evento 2: Matcher Predictivo
+        document.getElementById('btn-match-cv').addEventListener('click', function() {
+            const offerText = document.getElementById('cv-offer-text').value;
+            
+            if(!offerText) {
+                alert("Pegue el contenido o URL de la vacante.");
+                return;
+            }
+            
+            callLixieRadar('/matcher', { offerText }, 'result-matcher', this, 'Analizando Algoritmos ATS', 'Análisis completado. Su perfil ha sido evaluado.');
+        });
+
+        // Evento 3: Simulador IA
+        document.getElementById('btn-start-sim').addEventListener('click', function() {
+            const role = document.getElementById('sim-role').value;
+            
+            if(!role) {
+                alert("Defina el rol que desea simular.");
+                return;
+            }
+            
+            callLixieRadar('/simulador', { role }, 'result-sim', this, 'Conectando IA Headhunter', 'Sesión iniciada. Revise su terminal interactiva.');
+        });
+        
     </script>
 </body>
 </html>

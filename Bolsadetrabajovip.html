@@ -647,7 +647,7 @@
 <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         // SE AÑADIÓ getDoc para asegurar la correcta validación sin reescribir planes VIP del webhook
         import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -741,7 +741,7 @@
                     await setDoc(userRef, { 
                         cliente_id: clientId, 
                         auth_signature: user.uid,
-                        plan_type: 'standard',
+                        // ELIMINADO: plan_type: 'standard', // Ya no violaremos la regla estricta de Firestore.
                         created_at: new Date().toISOString()
                     });
                 } else {
@@ -764,7 +764,7 @@
 
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch(err => console.error("Error Login:", err));
+            signInWithRedirect(auth, provider).catch(err => console.error("Error Login:", err));
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
@@ -939,4 +939,6 @@
 </body>
     
 </html>
+
+
 

@@ -648,8 +648,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        // SE AÑADIÓ getDoc para asegurar la correcta validación sin reescribir planes VIP del webhook
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ================= FIREBASE INTACTO =================
         const firebaseConfig = {
@@ -666,12 +665,11 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // AQUÍ SE CONECTARÁ EL CEREBRO 2 PARA LAS PETICIONES IA
         const CEREBRO_URL = "https://lixieradar.lautybg22.workers.dev";
         const views = { loading: document.getElementById('view-loading'), login: document.getElementById('view-login'), paywall: document.getElementById('view-paywall'), dashboard: document.getElementById('view-dashboard') };
         const profileBadge = document.getElementById('user-profile-badge');
         const btnSubscribe = document.getElementById('btn-subscribe');
-        
+
         let unsubscribeSnapshot = null; 
         let globalClientId = null;
 
@@ -684,7 +682,7 @@
             }
         }
 
-        // ================= INFRAESTRUCTURA DE PERFIL OPTIMIZADA =================
+        // ================= INFRAESTRUCTURA DE PERFIL CORREGIDA =================
         async function procesarUsuarioSeguro(user) {
             showView('loading');
             const shortUid = user.uid.slice(-4).toLowerCase();
@@ -692,9 +690,25 @@
             globalClientId = clientId;
             const userRef = doc(db, 'users2', clientId);
             
-            // 1. Escuchar al instante (NO bloquea la UI, reacciona rápido)
+            // PASO 1: SELLO DE SEGURIDAD PRIMERO (Vital para pasar tus reglas de Firestore)
+            try {
+                await setDoc(userRef, {
+                    cliente_id: clientId,
+                    auth_signature: user.uid
+                }, { merge: true });
+                
+                // Disparador silencioso al Cerebro (Auditoría)
+                fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clientId: clientId })
+                }).catch(e => console.log("Auditoría en background iniciada."));
+                
+            } catch (err) {
+                console.error("Error al sellar firma en Firebase:", err);
+            }
+            
+            // PASO 2: LECTURA EN TIEMPO REAL (Ahora sí te dejará leer)
             unsubscribeSnapshot = onSnapshot(userRef, (docSnap) => {
-                if (!docSnap.exists()) return; // Espera a la creación abajo
+                if (!docSnap.exists()) { showView('paywall'); return; }
 
                 const userData = docSnap.data();
                 let isExpired = false;
@@ -711,49 +725,27 @@
                     btnSubscribe.innerHTML = 'Abonar con Mercado Pago';
                     btnSubscribe.disabled = false;
                     
-                    // Lógica Telegram Frontend Update
+                    // Lógica Telegram UI
                     const btnTelegram = document.getElementById('btn-link-telegram');
                     const statusTelegram = document.getElementById('status-telegram');
-                    
-                    if (userData.telegram_chat_id) {
-                        btnTelegram.style.display = 'none';
-                        statusTelegram.className = 'tele-status online';
-                        statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Nodo Asegurado. Recibiendo datos.`;
-                    } else {
-                        btnTelegram.style.display = 'flex';
-                        statusTelegram.className = 'tele-status offline';
-                        statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Desconectado. Requiere Acción.`;
-                        
-                        btnTelegram.onclick = () => {
-                            const telegramLink = `https://t.me/lixieBbot?start=${clientId}`;
-                            window.open(telegramLink, '_blank');
-                        };
+                    if(btnTelegram && statusTelegram) {
+                        if (userData.telegram_chat_id) {
+                            btnTelegram.style.display = 'none';
+                            statusTelegram.className = 'tele-status online';
+                            statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Nodo Asegurado. Recibiendo datos.`;
+                        } else {
+                            btnTelegram.style.display = 'flex';
+                            statusTelegram.className = 'tele-status offline';
+                            statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Desconectado. Requiere Acción.`;
+                            btnTelegram.onclick = () => { window.open(`https://t.me/lixieBbot?start=${clientId}`, '_blank'); };
+                        }
                     }
                     showView('dashboard');
                 } else { showView('paywall'); }
-            }, (error) => { showView('login'); });
-
-            // 2. Creación segura y auditoría en background
-            try {
-                const docSnapInitial = await getDoc(userRef);
-                if (!docSnapInitial.exists()) {
-                    // Si el usuario es 100% nuevo, creamos la base. Esto previene que sobreescriba un VIP del Webhook de MP.
-                    await setDoc(userRef, { 
-                        cliente_id: clientId, 
-                        auth_signature: user.uid,
-                        // ELIMINADO: plan_type: 'standard', // Ya no violaremos la regla estricta de Firestore.
-                        created_at: new Date().toISOString()
-                    });
-                } else {
-                    // Si ya existe (pudo haber entrado el webhook o es un login recurrente), solo actualizamos firma
-                    await setDoc(userRef, { auth_signature: user.uid }, { merge: true });
-                }
-                
-                // Auditoría silenciosa Cerebro 1
-                fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
-                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clientId: clientId })
-                }).catch(e => console.log("Auditoría silenciosa background."));
-            } catch (err) { console.error("Error gestionando Firebase Admin:", err); }
+            }, (error) => {
+                console.error("Error al escuchar Firebase:", error);
+                showView('login');
+            });
         }
 
         onAuthStateChanged(auth, (user) => {
@@ -762,6 +754,7 @@
             }
         });
 
+        // USAMOS REDIRECT PARA EVITAR EL BLOQUEO DEL NAVEGADOR
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
             signInWithRedirect(auth, provider).catch(err => console.error("Error Login:", err));
@@ -769,7 +762,7 @@
 
         document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
 
-        // ================= MERCADO PAGO INTACTO =================
+        // ================= MERCADO PAGO =================
         btnSubscribe.addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -793,104 +786,47 @@
             }
         });
 
-        // ================= AGENDA VIP INYECCIÓN =================
-        const nombresEmpresas = [
-            "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina",
-            "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO",
-            "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle",
-            "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos",
-            "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold",
-            "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo",
-            "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint",
-            "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco",
-            "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart",
-            "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital",
-            "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien",
-            "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)"
-        ];
+        // ================= AGENDA VIP & HERRAMIENTAS JS =================
+        const nombresEmpresas = [ "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)" ];
 
         const agendaContainer = document.getElementById('agenda-grid-container');
-        if (agendaContainer) {
-            nombresEmpresas.forEach(empresa => {
-                const item = document.createElement('div');
-                item.className = 'agenda-item';
-                item.textContent = empresa;
-                agendaContainer.appendChild(item);
+        if (agendaContainer) { nombresEmpresas.forEach(empresa => { const item = document.createElement('div'); item.className = 'agenda-item'; item.textContent = empresa; agendaContainer.appendChild(item); }); }
+
+        if(document.getElementById('btn-calc-local')) {
+            document.getElementById('btn-calc-local').addEventListener('click', () => {
+                const salary = parseFloat(document.getElementById('local-salary').value);
+                const dateInput = document.getElementById('local-month').value;
+                const resDiv = document.getElementById('result-local');
+                if(!salary || !dateInput) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Faltan parámetros requeridos.'; return; }
+                const diffMonths = Math.ceil(Math.abs(new Date() - new Date(dateInput)) / (1000 * 60 * 60 * 24 * 30));
+                if(diffMonths < 0) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Fecha inválida.'; return; }
+                const salarioAjustado = Math.round(salary * Math.pow(1 + 0.042, diffMonths));
+                resDiv.style.display = 'block';
+                resDiv.innerHTML = `<strong style="color:var(--accent-gold);">Proyección:</strong><br><br>Meses: <strong>${diffMonths}</strong><br>Ajustado: <strong>$${salarioAjustado.toLocaleString('es-AR')} ARS</strong>`;
             });
         }
 
-        // ==========================================
-        // HERRAMIENTAS PURAMENTE JS (SIN LLAMAR AL CEREBRO)
-        // ==========================================
-        
-        // 1. Calculadora de Inflación Histórica
-        document.getElementById('btn-calc-local').addEventListener('click', () => {
-            const salary = parseFloat(document.getElementById('local-salary').value);
-            const dateInput = document.getElementById('local-month').value;
-            const resDiv = document.getElementById('result-local');
-            
-            if(!salary || !dateInput) {
-                resDiv.style.display = 'block'; resDiv.innerHTML = 'Faltan parámetros requeridos.'; return;
-            }
+        if(document.getElementById('btn-convert-b2b')) {
+            document.getElementById('btn-convert-b2b').addEventListener('click', () => {
+                const usd = parseFloat(document.getElementById('usd-offer').value);
+                const rate = parseFloat(document.getElementById('usd-rate').value);
+                const resDiv = document.getElementById('result-b2b');
+                if(!usd || !rate) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Parámetros incompletos.'; return; }
+                const usdEnPesos = usd * rate;
+                resDiv.style.display = 'block';
+                resDiv.innerHTML = `<strong style="color:var(--accent-gold);">Análisis:</strong><br><br>Neto Contractor: <strong>$${usdEnPesos.toLocaleString('es-AR')} ARS</strong><br>Bruto Dependencia exigido: <strong>$${Math.round(usdEnPesos / 0.83).toLocaleString('es-AR')} ARS</strong>`;
+            });
+        }
 
-            const inputDate = new Date(dateInput);
-            const today = new Date();
-            const diffTime = Math.abs(today - inputDate);
-            const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
-            
-            if(diffMonths < 0) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Fecha inválida.'; return; }
-
-            const TASA_PROMEDIO_MENSUAL = 0.042;
-            const multiplicador = Math.pow(1 + TASA_PROMEDIO_MENSUAL, diffMonths);
-            const salarioAjustado = Math.round(salary * multiplicador);
-
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong style="color:var(--accent-gold);">Proyección Algorítmica:</strong><br><br>
-                Meses transcurridos: <strong>${diffMonths}</strong><br>
-                Valor ajustado requerido: <strong>$${salarioAjustado.toLocaleString('es-AR')} ARS</strong><br>
-                <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:8px;">*Basado en IPC proyectado de base interna. Datos de carácter orientativo para negociaciones B2B.</span>
-            `;
-        });
-
-        // 2. Conversor Contractor vs Dependencia
-        document.getElementById('btn-convert-b2b').addEventListener('click', () => {
-            const usd = parseFloat(document.getElementById('usd-offer').value);
-            const rate = parseFloat(document.getElementById('usd-rate').value);
-            const resDiv = document.getElementById('result-b2b');
-
-            if(!usd || !rate) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Parámetros incompletos.'; return; }
-
-            const usdEnPesos = usd * rate;
-            const brutoRequerido = usdEnPesos / 0.83;
-
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong style="color:var(--accent-gold);">Análisis de Estructura Salarial:</strong><br><br>
-                Neto en mano Contractor: <strong>$${usdEnPesos.toLocaleString('es-AR')} ARS</strong><br>
-                Para igualar este neto en Relación de Dependencia, debes exigir:<br>
-                Bruto Mensual: <strong>$${Math.round(brutoRequerido).toLocaleString('es-AR')} ARS</strong><br>
-                <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:8px;">*No contempla impuesto a las ganancias ni beneficios secundarios (prepaga, aguinaldo).</span>
-            `;
-        });
-
-        // ==========================================
-        // HERRAMIENTAS IA (LLAMADO AL CEREBRO 2)
-        // ==========================================
-        
+        // ================= LLAMADAS A IA =================
         async function callLixieRadar(endpoint, payload, resultDivId, btnElement) {
             const resultDiv = document.getElementById(resultDivId);
             const originalBtnText = btnElement.innerHTML;
-            
             try {
                 btnElement.innerHTML = `<div class="loader-spinner"></div> Procesando datos...`;
                 btnElement.disabled = true; resultDiv.style.display = 'none';
-
                 payload.clientId = globalClientId;
-                const response = await fetch(`${CEREBRO_URL}${endpoint}`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-                });
-                
+                const response = await fetch(`${CEREBRO_URL}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const data = await response.json();
                 resultDiv.innerHTML = data.message || data.result || 'Operación completada exitosamente.';
                 resultDiv.style.display = 'block';
@@ -902,43 +838,22 @@
             }
         }
 
-        // Bindeo de Nuevas Herramientas
-        document.getElementById('btn-auto-pitch').addEventListener('click', function() {
-            const inputData = document.getElementById('pitch-input').value;
-            if(!inputData) return;
-            callLixieRadar('/auto-pitch', { promptText: inputData }, 'result-pitch', this);
+        ['btn-auto-pitch', 'btn-company-intel', 'btn-salary-benchmark', 'btn-match-cv', 'btn-start-sim'].forEach(id => {
+            const btn = document.getElementById(id);
+            if(btn) {
+                btn.addEventListener('click', function() {
+                    let payload = {}, endpoint = '', resId = '';
+                    if(id === 'btn-auto-pitch') { payload = { promptText: document.getElementById('pitch-input').value }; endpoint = '/auto-pitch'; resId = 'result-pitch'; }
+                    if(id === 'btn-company-intel') { payload = { company: document.getElementById('intel-company').value }; endpoint = '/company-intel'; resId = 'result-intel'; }
+                    if(id === 'btn-salary-benchmark') { payload = { roleInfo: document.getElementById('salary-role').value }; endpoint = '/salary-benchmarker'; resId = 'result-benchmark'; }
+                    if(id === 'btn-match-cv') { payload = { offerText: document.getElementById('cv-offer-text').value }; endpoint = '/matcher'; resId = 'result-matcher'; }
+                    if(id === 'btn-start-sim') { payload = { role: document.getElementById('sim-role').value }; endpoint = '/simulador'; resId = 'result-sim'; }
+                    if(Object.values(payload)[0]) callLixieRadar(endpoint, payload, resId, this);
+                });
+            }
         });
-
-        document.getElementById('btn-company-intel').addEventListener('click', function() {
-            const companyData = document.getElementById('intel-company').value;
-            if(!companyData) return;
-            callLixieRadar('/company-intel', { company: companyData }, 'result-intel', this);
-        });
-
-        document.getElementById('btn-salary-benchmark').addEventListener('click', function() {
-            const salaryData = document.getElementById('salary-role').value;
-            if(!salaryData) return;
-            callLixieRadar('/salary-benchmarker', { roleInfo: salaryData }, 'result-benchmark', this);
-        });
-
-        // Bindeo Original
-        document.getElementById('btn-match-cv').addEventListener('click', function() {
-            const offerText = document.getElementById('cv-offer-text').value;
-            if(!offerText) return;
-            callLixieRadar('/matcher', { offerText }, 'result-matcher', this);
-        });
-
-        document.getElementById('btn-start-sim').addEventListener('click', function() {
-            const role = document.getElementById('sim-role').value;
-            if(!role) return;
-            callLixieRadar('/simulador', { role }, 'result-sim', this);
-        });
-        
     </script>
-    
 </body>
-    
 </html>
-
 
 

@@ -7,142 +7,330 @@
     <style>
         /* ================= VARIABLES CORPORATIVAS ================= */
         :root {
-            --bg-deep: #06070a;
-            --surface-1: #0f1115;
-            --surface-2: #16191f;
+            --bg-deep: #0a0b0e;
+            --surface-1: #111318;
+            --surface-2: #1a1d24;
             --border-subtle: rgba(255, 255, 255, 0.08);
             --border-accent: rgba(212, 175, 55, 0.3);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --accent-gold: #d4af37;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
             --telegram-blue: #24A1DE;
             --mp-blue: #009EE3;
-            --nyx-purple: #9333ea;
-            --axon-green: #10b981;
+            --nyx-purple: #6b21a8;
+            --nyx-purple-hover: #581c87;
+            --axon-green: #15803d;
+            --axon-green-hover: #166534;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
         body {
-            background-color: var(--bg-deep); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.015) 0%, transparent 40%),
-                radial-gradient(circle at 85% 20%, rgba(147, 51, 234, 0.02) 0%, transparent 40%),
-                radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.015) 0%, transparent 40%);
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
         }
 
-        /* ================= HEADER & DOCUMENTACIÓN ================= */
+        /* ================= HEADER CORPORATIVO ================= */
         header {
-            width: 100%; height: 75px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(6, 7, 10, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-subtle);
-            position: sticky; top: 0; z-index: 100;
+            width: 100%;
+            height: 70px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 11, 14, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header-logo img { height: 35px; object-fit: contain; }
-        .header-actions { display: flex; align-items: center; gap: 24px; }
 
-        .doc-badges { display: flex; gap: 12px; }
-        .btn-doc { 
-            padding: 8px 16px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 1px; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s;
+        .header-logo img {
+            height: 32px;
+            object-fit: contain;
         }
-        .btn-doc.nyx-doc { background: rgba(147, 51, 234, 0.1); color: #d8b4fe; border: 1px solid rgba(147, 51, 234, 0.3); }
-        .btn-doc.nyx-doc:hover { background: rgba(147, 51, 234, 0.2); box-shadow: 0 0 15px rgba(147, 51, 234, 0.3); }
-        .btn-doc.axon-doc { background: rgba(16, 185, 129, 0.1); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .btn-doc.axon-doc:hover { background: rgba(16, 185, 129, 0.2); box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
 
-        .header-profile { display: none; align-items: center; gap: 16px; border-left: 1px solid var(--border-subtle); padding-left: 24px;}
-        .profile-data { text-align: right; display: flex; flex-direction: column; }
-        .profile-id { font-size: 0.8rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
-        .profile-status { font-size: 0.7rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
-        .profile-status::before { content: ''; width: 5px; height: 5px; background: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 5px var(--accent-gold);}
-        .avatar { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-accent); }
+        .header-profile {
+            display: none;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-data {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-id {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        .profile-status {
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: flex-end;
+        }
+        
+        .profile-status::before {
+            content: '';
+            width: 5px; height: 5px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+        }
+
+        .header-profile img.avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            border: 1px solid var(--border-accent);
+        }
 
         /* ================= VISTAS CENTRADAS (LOGIN / PAYWALL) ================= */
-        .centered-view { width: 100%; max-width: 500px; margin: auto; padding: 40px 20px; display: none; flex-direction: column; justify-content: center; flex-grow: 1; }
-        .auth-card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); }
-        .auth-header { text-align: center; margin-bottom: 30px; }
-        .auth-title { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 10px; color: #fff;}
-        
-        .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; border-radius: 6px; padding: 14px 16px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn-google:hover { background-color: #f8f9fa; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        
-        .legal-clausule { margin-top: 25px; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 6px; border: 1px solid var(--border-subtle); font-size: 0.7rem; color: var(--text-muted); line-height: 1.6; text-align: justify;}
-        .legal-clausule strong { color: var(--accent-gold); }
+        .centered-view {
+            width: 100%;
+            max-width: 440px;
+            margin: auto;
+            padding: 40px 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+        }
 
-        .paywall-price { font-size: 2.8rem; font-weight: 700; margin: 20px 0; color: #fff; display: flex; align-items: baseline; justify-content: center; gap: 8px;}
+        .auth-card {
+            background: var(--surface-1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-title { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 10px; }
+        .auth-subtitle { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+        /* Cláusula Legal Login */
+        .legal-login-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            text-align: center;
+            line-height: 1.5;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 20px;
+        }
+
+        /* Botón Google Enterprise */
+        .btn-google {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: 100%; background-color: #ffffff; color: #3c4043;
+            border: 1px solid #dadce0; border-radius: 6px; padding: 12px 16px;
+            font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-google:hover { background-color: #f8f9fa; box-shadow: 0 1px 3px rgba(60,64,67,0.3); }
+        
+        .security-badges {
+            margin-top: 30px; display: flex; flex-direction: column; gap: 12px;
+        }
+        .badge-item { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Paywall MercadoPago */
+        .paywall-price { font-size: 2.5rem; font-weight: 700; margin: 20px 0; color: #fff; display: flex; align-items: baseline; justify-content: center; gap: 8px;}
+        .paywall-currency { font-size: 1rem; color: var(--text-muted); font-weight: 400;}
+        
         .benefits-list { list-style: none; margin-bottom: 30px; text-align: left; }
         .benefits-list li { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
-        .btn-mp { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background-color: var(--mp-blue); color: #fff; border: none; border-radius: 6px; padding: 16px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        
+        .btn-mp {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; background-color: var(--mp-blue); color: #fff;
+            border: none; border-radius: 6px; padding: 16px;
+            font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
         .btn-mp:hover { background-color: #0088c4; }
+        .btn-mp:disabled { opacity: 0.7; cursor: not-wait; }
 
         /* ================= DASHBOARD CORPORATIVO ================= */
-        .dashboard-container { display: none; width: 100%; max-width: 1400px; margin: 0 auto; padding: 40px; flex-grow: 1; grid-template-columns: 240px 1fr; gap: 40px; }
+        .dashboard-container {
+            display: none;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            flex-grow: 1;
+            grid-template-columns: 240px 1fr;
+            gap: 40px;
+        }
+
+        /* Sidebar SVG Minimalista */
         .sidebar { display: flex; flex-direction: column; gap: 8px; position: sticky; top: 110px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            border-radius: 6px; color: var(--text-muted); text-decoration: none;
+            font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+            border: 1px solid transparent;
+        }
         .nav-item svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
         .nav-item:hover { color: var(--text-main); background: var(--surface-1); }
         .nav-item.active { color: var(--accent-gold); background: rgba(212, 175, 55, 0.05); border-color: var(--border-accent); }
-        .nav-item.logout { margin-top: auto; color: #ef4444; }
+        .nav-item.logout { margin-top: auto; color: var(--accent-red); }
+        .nav-item.logout:hover { background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
 
-        .main-content { display: flex; flex-direction: column; gap: 50px; }
-        .section-header h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; color: #fff;}
-        .section-header p { color: var(--text-muted); font-size: 0.95rem; }
+        /* Contenido Principal */
+        .main-content { display: flex; flex-direction: column; gap: 40px; }
+        
+        .section-header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .section-header p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
 
+        /* Doc Buttons */
+        .docs-container { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .btn-doc { 
+            padding: 8px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; 
+            text-decoration: none; color: #fff; display: inline-flex; align-items: center; gap: 8px;
+            transition: all 0.2s; border: none; cursor: pointer;
+        }
+        .btn-doc.nyx { background: var(--nyx-purple); }
+        .btn-doc.nyx:hover { background: var(--nyx-purple-hover); }
+        .btn-doc.axon { background: var(--axon-green); }
+        .btn-doc.axon:hover { background: var(--axon-green-hover); }
+
+        /* Tarjetas de Herramientas */
         .grid-tools { display: grid; grid-template-columns: 1fr; gap: 24px; }
         @media(min-width: 1024px) { .grid-tools { grid-template-columns: repeat(2, 1fr); } }
 
-        .card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 32px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-        .card-hero { grid-column: 1 / -1; border-color: var(--border-accent); background: linear-gradient(180deg, rgba(20, 22, 28, 1) 0%, rgba(15, 17, 21, 1) 100%); }
+        .card {
+            background: var(--surface-1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
 
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-        .card-title { font-size: 1.15rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .card-hero { grid-column: 1 / -1; border-color: var(--border-accent); background: linear-gradient(180deg, rgba(20, 22, 28, 1) 0%, rgba(17, 19, 24, 1) 100%); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; min-height: 35px; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .card-title svg { width: 20px; height: 20px; flex-shrink: 0; }
         .card-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; }
 
-        .ia-logo { height: 28px; object-fit: contain; padding: 4px 8px; border-radius: 4px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); }
-        .nyx-logo { filter: drop-shadow(0 0 4px rgba(147, 51, 234, 0.5)); border-color: rgba(147, 51, 234, 0.3); }
-        .axon-logo { filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.5)); border-color: rgba(16, 185, 129, 0.3); }
+        /* Estilo mejorado para Logos IA */
+        .ai-badge { height: 26px; width: auto; object-fit: contain; opacity: 0.9; margin-left: auto; }
+        .logos-center-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .logos-center-container .ai-badge { height: 35px; margin: 0; opacity: 1; }
 
+        /* Inputs Corporativos */
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600; }
-        .form-control { width: 100%; padding: 12px 16px; background: var(--surface-2); border: 1px solid var(--border-subtle); border-radius: 6px; color: var(--text-main); font-size: 0.9rem; transition: border 0.2s; }
+        .form-control {
+            width: 100%; padding: 12px 16px; background: var(--surface-2); border: 1px solid var(--border-subtle);
+            border-radius: 6px; color: var(--text-main); font-size: 0.9rem; transition: border 0.2s;
+        }
         .form-control:focus { outline: none; border-color: var(--accent-gold); }
         textarea.form-control { min-height: 100px; resize: vertical; }
 
-        .btn-action { width: 100%; padding: 14px; background: transparent; color: var(--text-main); border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        /* Botones de Acción */
+        .btn-action {
+            width: 100%; padding: 12px; background: transparent; color: var(--text-main);
+            border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 0.9rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
         .btn-action:hover { background: var(--surface-2); border-color: #fff; }
-        .btn-nyx { background: rgba(147, 51, 234, 0.1); color: #d8b4fe; border-color: rgba(147, 51, 234, 0.3); }
-        .btn-nyx:hover { background: rgba(147, 51, 234, 0.2); }
-        .btn-axon { background: rgba(16, 185, 129, 0.1); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); }
-        .btn-axon:hover { background: rgba(16, 185, 129, 0.2); }
-
-        .result-box { margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.5); border-left: 2px solid var(--border-subtle); border-radius: 4px 6px 6px 4px; font-size: 0.85rem; color: #e5e7eb; display: none; line-height: 1.6; white-space: pre-wrap; }
-        
-        .tele-status { padding: 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .tele-status.offline { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border-subtle); }
-        .tele-status.online { background: rgba(36, 161, 222, 0.1); color: var(--telegram-blue); border: 1px solid rgba(36, 161, 222, 0.3); }
-        .btn-telegram-connect { background: var(--telegram-blue); color: #fff; border: none; max-width: 300px;}
+        .btn-action.primary { background: #fff; color: #000; border: none; }
+        .btn-action.primary:hover { background: #e5e7eb; }
+        .btn-telegram-connect { background: var(--telegram-blue); color: #fff; border: none; }
         .btn-telegram-connect:hover { background: #1b8cd2; }
 
-        /* ================= AGENDA VIP ================= */
-        .agenda-vip-section { border-top: 1px solid var(--border-subtle); padding-top: 50px; margin-top: 30px; }
-        .agenda-header-wrapper { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 40px; }
-        .agenda-logos { display: flex; gap: 20px; margin-bottom: 20px; align-items: center; background: rgba(0,0,0,0.4); padding: 15px 30px; border-radius: 50px; border: 1px solid var(--border-subtle); }
-        .agenda-logos img { height: 24px; }
-        .agenda-legal { font-size: 0.8rem; color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-top: 15px; background: rgba(212, 175, 55, 0.03); padding: 20px; border-radius: 8px; border: 1px solid var(--border-accent); }
+        /* Resultados */
+        .result-box {
+            margin-top: 20px; padding: 16px; background: rgba(212, 175, 55, 0.05);
+            border-left: 2px solid var(--accent-gold); border-radius: 4px 6px 6px 4px;
+            font-size: 0.85rem; color: #e5e7eb; display: none; line-height: 1.6;
+        }
+
+        /* Status Telegram */
+        .tele-status {
+            padding: 12px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+            display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+        }
+        .tele-status.offline { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border-subtle); }
+        .tele-status.online { background: rgba(16, 185, 129, 0.1); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.2); }
         
-        .company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-        .company-tag { background: var(--surface-2); border: 1px solid var(--border-subtle); padding: 12px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: #d1d5db; display: flex; align-items: center; gap: 10px; transition: all 0.2s; cursor: default; }
-        .company-tag::before { content: ''; width: 4px; height: 4px; background: var(--border-accent); border-radius: 50%; }
-        .company-tag:hover { border-color: var(--border-accent); color: #fff; transform: translateY(-2px); background: var(--surface-1);}
+        /* Grid Agenda VIP */
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        /* Scrollbar custom para agenda */
+        .agenda-grid::-webkit-scrollbar { width: 6px; }
+        .agenda-grid::-webkit-scrollbar-track { background: var(--surface-1); }
+        .agenda-grid::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 4px; }
+        .agenda-grid::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        .agenda-item {
+            background: var(--surface-2);
+            border: 1px solid var(--border-subtle);
+            padding: 12px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-align: center;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 45px;
+        }
+        .agenda-item:hover {
+            color: var(--text-main);
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+            transform: translateY(-2px);
+        }
 
         .loader-spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            header { padding: 15px 20px; flex-wrap: wrap; height: auto; gap: 15px;}
-            .header-actions { width: 100%; justify-content: space-between; }
-            .dashboard-container { grid-template-columns: 1fr; padding: 20px; }
+            header { padding: 0 20px; }
+            .dashboard-container { grid-template-columns: 1fr; padding: 20px; gap: 30px;}
             .sidebar { flex-direction: row; overflow-x: auto; position: relative; top: 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
+            .nav-item { white-space: nowrap; }
+            .nav-item.logout { margin-left: auto; }
         }
     </style>
 </head>
@@ -154,23 +342,12 @@
             <img src="logo.png" alt="CVSTUDIO33">
         </div>
         
-        <div class="header-actions">
-            <div class="doc-badges">
-                <a href="https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html" target="_blank" class="btn-doc nyx-doc">
-                    Nyx Docs
-                </a>
-                <a href="https://protocololeviatham.github.io/cvstudio33/Axon.html" target="_blank" class="btn-doc axon-doc">
-                    Axon Docs
-                </a>
+        <div class="header-profile" id="user-profile-badge">
+            <div class="profile-data">
+                <span class="profile-id" id="display-client-id">CLIENTE-XXXX</span>
+                <span class="profile-status">Corporate Active</span>
             </div>
-
-            <div class="header-profile" id="user-profile-badge">
-                <div class="profile-data">
-                    <span class="profile-id" id="display-client-id">CLIENTE-XXXX</span>
-                    <span class="profile-status">Corporate Active</span>
-                </div>
-                <img src="" alt="Avatar" class="avatar" id="display-client-photo">
-            </div>
+            <img src="" alt="Avatar" class="avatar" id="display-client-photo">
         </div>
     </header>
 
@@ -179,7 +356,7 @@
         <div id="view-loading" class="centered-view" style="display: flex;">
             <div style="text-align: center;">
                 <div class="loader-spinner" style="width: 30px; height: 30px; margin: 0 auto 15px; border-top-color: var(--accent-gold);"></div>
-                <p style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Auditando Nodos de Seguridad...</p>
+                <p style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Sincronizando Infraestructura...</p>
             </div>
         </div>
 
@@ -187,459 +364,437 @@
         <div id="view-login" class="centered-view">
             <div class="auth-card">
                 <div class="auth-header">
-                    <h1 class="auth-title">Portal de Acceso B2B</h1>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Arquitectura restringida CVSTUDIO33 Corporate.</p>
+                    <h1 class="auth-title">Portal de Acceso</h1>
+                    <p class="auth-subtitle">Arquitectura de autenticación restringida para la red CVSTUDIO33 Corporate.</p>
                 </div>
                 
                 <button id="btn-login" class="btn-google">
-                    Autenticación Cifrada vía Google
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    Autenticación vía Google
                 </button>
 
-                <div class="legal-clausule">
-                    <strong>Cláusula Legal y Procesamiento de Datos:</strong> El acceso a esta terminal está auditado bajo arquitectura Cloud. Al autenticarse, autoriza el escrutinio de su huella digital única para el emparejamiento con el mercado oculto de Headhunting. Prohibida la distribución o copia de los datos provistos por los Agentes Autónomos Nyx & Axon.
+                <div class="security-badges">
+                    <div class="badge-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        End-to-End Encryption (Firebase Auth)
+                    </div>
+                    <div class="badge-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                        Auditoría de Acceso Estricta
+                    </div>
+                </div>
+
+                <!-- Cláusulas Legales -->
+                <div class="legal-login-text">
+                    Al acceder a la infraestructura, aceptas los <strong>Términos de Servicio</strong> y la <strong>Política de Privacidad</strong> de CVSTUDIO33. Tus datos están protegidos bajo protocolos estrictos de confidencialidad B2B.
                 </div>
             </div>
         </div>
 
-        <!-- PANTALLA 3: PAYWALL -->
+        <!-- PANTALLA 3: PAYWALL MERCADO PAGO -->
         <div id="view-paywall" class="centered-view">
             <div class="auth-card" style="border-color: var(--border-accent);">
                 <div class="auth-header">
-                    <span style="font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 2px; text-transform: uppercase; font-weight: 700;">Membresía Requerida</span>
-                    <h2 style="font-size: 1.5rem; font-weight: 600; margin-top: 10px; color: #fff;">LIXIE Corporate Pass</h2>
+                    <span style="font-size: 0.7rem; color: var(--accent-gold); letter-spacing: 2px; text-transform: uppercase;">Membresía Requerida</span>
+                    <h2 style="font-size: 1.4rem; font-weight: 600; margin-top: 10px;">LIXIE Corporate Pass</h2>
                 </div>
                 
-                <div class="paywall-price"> $10.000 <span class="paywall-currency">ARS / mes</span> </div>
+                <div class="paywall-price">
+                    $10.000 <span class="paywall-currency">ARS / mes</span>
+                </div>
                 
                 <ul class="benefits-list">
-                    <li>Nodo Tracker: Alertas VIP Telegram (Local & USD).</li>
-                    <li>Suite AXON: Auto-Pitch y Company Intel.</li>
-                    <li>Suite NYX: CV X-Ray y Simulador IA.</li>
-                    <li>Directorio B2B y Herramientas Financieras.</li>
+                    <li><svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--accent-gold)" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg> Conexión API a Mercado Oculto B2B (Telegram).</li>
+                    <li><svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--accent-gold)" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg> Suite CVStudio33 X-Ray (Algoritmos ATS).</li>
+                    <li><svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--accent-gold)" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg> Simuladores e Inteligencia de Mercado (NYX/AXON).</li>
+                    <li><svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--accent-gold)" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg> Herramientas Financieras y Salariales Pro.</li>
                 </ul>
                 
                 <button id="btn-subscribe" class="btn-mp">
+                    <!-- Icono Handshake MP simulado -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 10l-2 -6"/><path d="M9 10l2 -6"/><path d="M12 15v-5"/><path d="M5 20h14a2 2 0 0 0 2 -2v-6a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2z"/></svg>
                     Abonar con Mercado Pago
                 </button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.7rem; color: var(--text-muted);">Transacción cifrada TLS 1.3</p>
             </div>
         </div>
 
         <!-- PANTALLA 4: DASHBOARD CORPORATIVO -->
         <div id="view-dashboard" class="dashboard-container">
+            <!-- Sidebar Navigation -->
             <aside class="sidebar">
-                <a class="nav-item active">Centro de Mando</a>
-                <a href="#agenda-seccion" class="nav-item">Directorio B2B</a>
-                <a class="nav-item logout" id="btn-logout">Cerrar Sesión Segura</a>
+                <a class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Centro de Mando
+                </a>
+                <a class="nav-item">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Métricas Financieras
+                </a>
+                <a class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Módulos Inteligencia IA
+                </a>
+                <a class="nav-item logout" id="btn-logout">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Cerrar Sesión Segura
+                </a>
             </aside>
 
+            <!-- Main Content -->
             <section class="main-content">
                 <div class="section-header">
                     <h1>Terminal de Inteligencia LIXIE</h1>
-                    <p>Monitoreo algorítmico, simulación IA y estructuración de carrera ejecutiva.</p>
+                    <p>Monitoreo de mercado B2B, algoritmos ATS y cálculos salariales estructurados impulsados por inteligencia artificial de vanguardia.</p>
+                    
+                    <div class="docs-container">
+                        <a href="https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html" target="_blank" class="btn-doc nyx">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            Documentación NYX
+                        </a>
+                        <a href="https://protocololeviatham.github.io/cvstudio33/Axon.html" target="_blank" class="btn-doc axon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            Documentación AXON
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="grid-tools">
                     
-                    <!-- HERRAMIENTA 1: TELEGRAM RADAR -->
+                    <!-- HERRAMIENTA 1: TELEGRAM RADAR (HERO CARD) -->
                     <div class="card card-hero">
                         <div class="card-header">
-                            <h2 class="card-title" style="color: var(--accent-gold);">Nodo LIXIE Tracker (B2B & Global)</h2>
+                            <h2 class="card-title" style="color: var(--accent-gold);">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                                Nodo LIXIE Tracker (B2B & Global)
+                            </h2>
                         </div>
-                        <p class="card-desc">El sistema maestro extrae ofertas ejecutivas del mercado oculto argentino e internacional (Remote USD). Al habilitar este nodo, tu cuenta quedará vinculada mediante un token encriptado al bot <strong>@lixieBbot</strong> en Telegram. Recibirás reportes automatizados sin buscar en portales saturados.</p>
+                        <p class="card-desc">
+                            El sistema maestro extrae ofertas ejecutivas del mercado oculto argentino e internacional (Remote USD). Al habilitar este nodo, tu cuenta quedará vinculada mediante un token encriptado al bot <strong>@lixieBbot</strong> en Telegram. Recibirás reportes automatizados sin necesidad de buscar en portales saturados.
+                        </p>
                         
-                        <div id="status-telegram" class="tele-status offline">Estado: Verificando firmas de conexión...</div>
-                        <button id="btn-link-telegram" class="btn-action btn-telegram-connect" style="display: none;">Establecer Conexión Cifrada</button>
+                        <div id="status-telegram" class="tele-status offline">
+                            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Estado: Verificando firmas de conexión...
+                        </div>
+                        
+                        <button id="btn-link-telegram" class="btn-action btn-telegram-connect" style="display: none; max-width: 300px;">
+                            Establecer Conexión Cifrada
+                        </button>
                     </div>
 
-                    <!-- SUITE AXON (VERDE) -->
+                    <!-- NUEVA HERRAMIENTA IA: AUTO-PITCH -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Auto-Pitch B2B</h3>
-                            <img src="logoaxon.png" alt="AXON" class="ia-logo axon-logo" onerror="this.style.display='none'">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                Auto-Pitch IA
+                            </h3>
+                            <img src="logoaxon.png" alt="Axon AI" class="ai-badge" onerror="this.style.display='none'">
                         </div>
-                        <p class="card-desc">Redacta mensajes hiper-persuasivos para contactar directamente a Headhunters o CEOs en LinkedIn. El Agente AXON diseñará el rompehielos perfecto.</p>
+                        <p class="card-desc">Generación de pitch de presentación altamente persuasivo. Ingresa el rol y la empresa objetivo, y el agente AXON estructurará tu discurso de impacto.</p>
+                        
                         <div class="form-group">
-                            <label class="form-label">Empresa y Puesto Objetivo</label>
-                            <input type="text" id="pitch-data" class="form-control" placeholder="Ej: Globant - Project Manager Sr">
+                            <label class="form-label">Rol y Empresa Objetivo</label>
+                            <input type="text" id="pitch-input" class="form-control" placeholder="Ej: Product Manager en Mercado Libre">
                         </div>
-                        <button id="btn-autopitch" class="btn-action btn-axon">Generar Rompehielos (AXON)</button>
-                        <div id="result-pitch" class="result-box" style="border-color: var(--axon-green);"></div>
+                        <button id="btn-auto-pitch" class="btn-action primary">Generar Pitch con IA</button>
+                        <div id="result-pitch" class="result-box"></div>
                     </div>
 
+                    <!-- NUEVA HERRAMIENTA IA: COMPANY INTEL -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Company Intel</h3>
-                            <img src="logoaxon.png" alt="AXON" class="ia-logo axon-logo" onerror="this.style.display='none'">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                                Company Intel
+                            </h3>
+                            <img src="logoaxon.png" alt="Axon AI" class="ai-badge" onerror="this.style.display='none'">
                         </div>
-                        <p class="card-desc">Auditoría corporativa pre-entrevista. AXON extraerá el modelo de negocio, stack tecnológico y red flags de la organización objetivo.</p>
+                        <p class="card-desc">Análisis profundo de la cultura corporativa, procesos de entrevista y desafíos técnicos de la empresa que vas a enfrentar.</p>
+                        
                         <div class="form-group">
-                            <label class="form-label">Nombre de la Corporación</label>
-                            <input type="text" id="intel-empresa" class="form-control" placeholder="Ej: Mercado Libre">
+                            <label class="form-label">Nombre de la Empresa</label>
+                            <input type="text" id="intel-company" class="form-control" placeholder="Ej: Globant">
                         </div>
-                        <button id="btn-intel" class="btn-action btn-axon">Auditar Compañía (AXON)</button>
-                        <div id="result-intel" class="result-box" style="border-color: var(--axon-green);"></div>
+                        <button id="btn-company-intel" class="btn-action primary">Ejecutar Escaneo Corporativo</button>
+                        <div id="result-intel" class="result-box"></div>
                     </div>
 
+                    <!-- NUEVA HERRAMIENTA IA: SALARY BENCHMARKER -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Salary Benchmarker</h3>
-                            <img src="logoaxon.png" alt="AXON" class="ia-logo axon-logo" onerror="this.style.display='none'">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                Salary Benchmarker
+                            </h3>
+                            <img src="logoaxon.png" alt="Axon AI" class="ai-badge" onerror="this.style.display='none'">
                         </div>
-                        <p class="card-desc">Consulta la banda salarial actualizada del mercado. Inteligencia IA alimentada por encuestas salariales recientes para no ofertar por debajo de la media.</p>
+                        <p class="card-desc">Estimación salarial precisa en el mercado B2B consultando la base de datos de AXON. Obtén rangos realistas para tu negociación.</p>
+                        
                         <div class="form-group">
-                            <label class="form-label">Rol, Seniority y Región</label>
-                            <input type="text" id="bench-rol" class="form-control" placeholder="Ej: Data Engineer Semi-Senior (Argentina)">
+                            <label class="form-label">Rol y Seniority</label>
+                            <input type="text" id="salary-role" class="form-control" placeholder="Ej: Data Scientist Ssr">
                         </div>
-                        <button id="btn-benchmark" class="btn-action btn-axon">Analizar Mercado (AXON)</button>
-                        <div id="result-bench" class="result-box" style="border-color: var(--axon-green);"></div>
+                        <button id="btn-salary-benchmark" class="btn-action primary">Analizar Mercado Salarial</button>
+                        <div id="result-benchmark" class="result-box"></div>
                     </div>
 
-                    <!-- SUITE NYX (MORADO) -->
+                    <!-- HERRAMIENTA 4: CV MATCH PREDICTIVO (CEREBRO 2) -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">CVStudio33 X-Ray</h3>
-                            <img src="logonyx.png" alt="NYX" class="ia-logo nyx-logo" onerror="this.style.display='none'">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                                CVStudio33 X-Ray
+                            </h3>
+                            <img src="logonyx.png" alt="Logonyx AI" class="ai-badge" onerror="this.style.display='none'">
                         </div>
-                        <p class="card-desc">Auditoría algorítmica. Ingresa la descripción del puesto; el Agente NYX comparará los vectores de tu CV para vulnerar filtros ATS de RRHH.</p>
+                        <p class="card-desc">Auditoría algorítmica impulsada por IA. Ingresa la descripción del puesto objetivo; el Cerebro 2 comparará los vectores de tu CV para vulnerar filtros ATS.</p>
+                        
                         <div class="form-group">
-                            <label class="form-label">Estructura de la Vacante</label>
-                            <textarea id="cv-offer-text" class="form-control" placeholder="Pegue aquí los requerimientos del puesto..."></textarea>
+                            <label class="form-label">Estructura de la Vacante (Texto plano)</label>
+                            <textarea id="cv-offer-text" class="form-control" placeholder="Requerimientos del puesto..."></textarea>
                         </div>
-                        <button id="btn-match-cv" class="btn-action btn-nyx">Auditar CV Predictivo (NYX)</button>
-                        <div id="result-matcher" class="result-box" style="border-color: var(--nyx-purple);"></div>
+                        <button id="btn-match-cv" class="btn-action primary">Llamar Infraestructura IA</button>
+                        <div id="result-matcher" class="result-box"></div>
                     </div>
 
+                    <!-- HERRAMIENTA 5: SIMULADOR IA (CEREBRO 2) -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Interview Simulator</h3>
-                            <img src="logonyx.png" alt="NYX" class="ia-logo nyx-logo" onerror="this.style.display='none'">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                                LIXIE Interview Simulator
+                            </h3>
+                            <img src="logonyx.png" alt="Logonyx AI" class="ai-badge" onerror="this.style.display='none'">
                         </div>
-                        <p class="card-desc">Simulación de estrés gerencial. NYX asume el comportamiento de un Headhunter corporativo para prepararte ante interrogatorios de alta tensión.</p>
+                        <p class="card-desc">Simulación de estrés gerencial. El algoritmo asume el comportamiento de un Headhunter corporativo para prepararte ante interrogatorios técnicos.</p>
+                        
                         <div class="form-group">
                             <label class="form-label">Rol y Seniority a Evaluar</label>
                             <input type="text" id="sim-role" class="form-control" placeholder="Ej: Chief Technology Officer (CTO)">
                         </div>
-                        <button id="btn-start-sim" class="btn-action btn-nyx">Inicializar Módulo (NYX)</button>
-                        <div id="result-sim" class="result-box" style="border-color: var(--nyx-purple);"></div>
+                        <button id="btn-start-sim" class="btn-action primary">Inicializar Módulo Headhunter</button>
+                        <div id="result-sim" class="result-box"></div>
                     </div>
 
-                    <!-- HERRAMIENTAS MATEMÁTICAS JS -->
+                    <!-- HERRAMIENTA JS 2: INFLATION ADJUST -->
                     <div class="card">
-                        <div class="card-header"><h3 class="card-title">Ajuste Salarial ARS (Inflación)</h3></div>
-                        <p class="card-desc">Cálculo matemático local basado en histórico para determinar exigencias salariales actualizadas sin pérdida de poder adquisitivo.</p>
-                        <div class="form-group"><input type="number" id="local-salary" class="form-control" placeholder="Salario Bruto Base (ARS)"></div>
-                        <div class="form-group"><input type="month" id="local-month" class="form-control"></div>
-                        <button id="btn-calc-local" class="btn-action">Calcular Proyección</button>
-                        <div id="result-local" class="result-box" style="border-color: var(--text-muted);"></div>
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                                Ajuste Salarial ARS (Inflación)
+                            </h3>
+                        </div>
+                        <p class="card-desc">Cálculo matemático local basado en el acumulado inflacionario histórico proyectado para determinar exigencias salariales actualizadas.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Salario Bruto de Referencia (ARS)</label>
+                            <input type="number" id="local-salary" class="form-control" placeholder="Ej: 1500000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mes de Origen</label>
+                            <input type="month" id="local-month" class="form-control">
+                        </div>
+                        <button id="btn-calc-local" class="btn-action">Ejecutar Análisis</button>
+                        <div id="result-local" class="result-box"></div>
                     </div>
-                    
+
+                    <!-- HERRAMIENTA JS 3: CONTRACTOR VS DEPENDENCIA -->
                     <div class="card">
-                        <div class="card-header"><h3 class="card-title">Conversor B2B (USD vs Local)</h3></div>
-                        <p class="card-desc">Compara una oferta Contractor (USD) neta contra una posición en Relación de Dependencia (ARS) incluyendo cargas sociales.</p>
-                        <div class="form-group"><input type="number" id="usd-offer" class="form-control" placeholder="Oferta USD Mensual"></div>
-                        <div class="form-group"><input type="number" id="usd-rate" class="form-control" placeholder="Tipo de Cambio ARS" value="1100"></div>
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
+                                Conversor B2B (USD vs Local)
+                            </h3>
+                        </div>
+                        <p class="card-desc">Compara una oferta Contractor (USD) neta contra una posición en Relación de Dependencia (ARS) deduciendo cargas sociales (17%).</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Oferta Contractor (USD / Mes)</label>
+                            <input type="number" id="usd-offer" class="form-control" placeholder="Ej: 3500">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tipo de Cambio Proyectado (ARS)</label>
+                            <input type="number" id="usd-rate" class="form-control" placeholder="Ej: 1100" value="1100">
+                        </div>
                         <button id="btn-convert-b2b" class="btn-action">Proyectar Equivalencias</button>
-                        <div id="result-b2b" class="result-box" style="border-color: var(--text-muted);"></div>
+                        <div id="result-b2b" class="result-box"></div>
+                    </div>
+
+                    <!-- SECCIÓN VIP CONTACTS AGENDA -->
+                    <div class="card card-hero" style="border-color: rgba(255,255,255,0.1);">
+                        <div class="logos-center-container">
+                            <img src="logonyx.png" class="ai-badge" alt="NYX AI">
+                            <img src="logoaxon.png" class="ai-badge" alt="AXON AI">
+                        </div>
+                        <h2 style="text-align:center; color: var(--accent-gold); margin-bottom: 12px; font-weight: 600;">Agenda VIP de Reclutamiento Corporativo</h2>
+                        <p style="text-align:center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">
+                            <strong>Aviso Legal y Operativo:</strong> Nuestros agentes autónomos NYX y AXON escanean y actualizan diariamente la junta legal de datos, frameworks de entrevistas y matrices de reclutamiento de estas corporaciones de primer nivel. Este directorio garantiza ventajas asimétricas y es exclusivo de la red B2B CVSTUDIO33.
+                        </p>
+                        
+                        <!-- Grid inyectado por JS -->
+                        <div class="agenda-grid" id="agenda-grid-container"></div>
                     </div>
 
                 </div>
-
-                <!-- ================= AGENDA VIP ================= -->
-                <div id="agenda-seccion" class="agenda-vip-section">
-                    <div class="agenda-header-wrapper">
-                        <div class="agenda-logos">
-                            <img src="logonyx.png" alt="NYX" class="ia-logo nyx-logo" onerror="this.style.display='none'">
-                            <span style="color:var(--border-subtle)">+</span>
-                            <img src="logoaxon.png" alt="AXON" class="ia-logo axon-logo" onerror="this.style.display='none'">
-                        </div>
-                        <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Directorio Corporativo B2B</h2>
-                        <div class="agenda-legal">
-                            <strong style="color:var(--accent-gold)">Aviso de Inteligencia de Datos:</strong> Nuestros agentes autónomos (NYX y AXON) auditan y mapean diariamente los perfiles corporativos y procesos de selección abiertos de las siguientes 123 organizaciones Top Employer. Esta información es el pilar de emparejamiento predictivo de la Terminal LIXIE.
-                        </div>
-                    </div>
-                    
-                    <div id="company-grid" class="company-grid">
-                        <!-- Renderizado por JS -->
-                    </div>
-                </div>
-
             </section>
         </div>
     </main>
 
 <!-- ========================================== -->
-<!-- INFRAESTRUCTURA JAVASCRIPT (EXPANDIDA Y SEGURA) -->
+<!-- LÓGICA CORE: FIREBASE, PAGOS Y JS LOCAL -->
 <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        // SE AÑADIÓ getDoc para asegurar la correcta validación sin reescribir planes VIP del webhook
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ================= CONFIGURACIÓN FIREBASE =================
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728", 
-            authDomain: "cv-studio33.firebaseapp.com", 
-            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com", 
-            projectId: "cv-studio33", 
-            storageBucket: "cv-studio33.firebasestorage.app", 
-            messagingSenderId: "189453088234", 
-            appId: "1:189453088234:web:639c130a6287ff34122e93" 
+        // ================= FIREBASE INTACTO =================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
         };
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // ================= VARIABLES GLOBALES =================
+        // AQUÍ SE CONECTARÁ EL CEREBRO 2 PARA LAS PETICIONES IA
         const CEREBRO_URL = "https://lixieradar.lautybg22.workers.dev";
-        const views = { 
-            loading: document.getElementById('view-loading'), 
-            login: document.getElementById('view-login'), 
-            paywall: document.getElementById('view-paywall'), 
-            dashboard: document.getElementById('view-dashboard') 
-        };
+        const views = { loading: document.getElementById('view-loading'), login: document.getElementById('view-login'), paywall: document.getElementById('view-paywall'), dashboard: document.getElementById('view-dashboard') };
         const profileBadge = document.getElementById('user-profile-badge');
+        const btnSubscribe = document.getElementById('btn-subscribe');
+        
         let unsubscribeSnapshot = null; 
         let globalClientId = null;
 
-        // ================= FUNCIONES DE INTERFAZ =================
         function showView(viewName) {
             Object.values(views).forEach(v => v.style.display = 'none');
-            if (viewName === 'dashboard') { 
-                views.dashboard.style.display = 'grid'; 
-                profileBadge.style.display = 'flex'; 
-            } else { 
-                views[viewName].style.display = 'flex'; 
-                profileBadge.style.display = 'none'; 
+            if(viewName === 'dashboard') {
+                views.dashboard.style.display = 'grid'; profileBadge.style.display = 'flex'; 
+            } else {
+                views[viewName].style.display = 'flex'; profileBadge.style.display = 'none';
             }
         }
 
-        // ================= PROCESAMIENTO PRINCIPAL DE USUARIO =================
+        // ================= INFRAESTRUCTURA DE PERFIL OPTIMIZADA =================
         async function procesarUsuarioSeguro(user) {
             showView('loading');
-            
             const shortUid = user.uid.slice(-4).toLowerCase();
             const clientId = `cliente-${shortUid}`;
             globalClientId = clientId;
             const userRef = doc(db, 'users2', clientId);
             
-            // 1. INICIALIZACIÓN SEGURA Y NO DESTRUCTIVA
-            try {
-                const docSnap = await getDoc(userRef);
-                
-                // Si NO existe el documento, lo creamos con la estructura perfecta
-                if (!docSnap.exists()) {
-                    await setDoc(userRef, {
-                        cliente_id: clientId,
-                        auth_signature: user.uid,
-                        plan_type: "standard",
-                        plan_expires_at: null,
-                        telegram_chat_id: null
-                    });
-                }
-            } catch (error) {
-                console.warn("Advertencia en validación inicial:", error);
-            }
-
-            // 2. ESCUCHA ACTIVA DE FIREBASE (El fix al error de carga)
+            // 1. Escuchar al instante (NO bloquea la UI, reacciona rápido)
             unsubscribeSnapshot = onSnapshot(userRef, (docSnap) => {
-                
-                // Si por alguna razón el documento sigue sin existir, mostrar Paywall, NUNCA dejar en loading.
-                if (!docSnap.exists()) {
-                    showView('paywall');
-                    return;
-                }
+                if (!docSnap.exists()) return; // Espera a la creación abajo
 
                 const userData = docSnap.data();
                 let isExpired = false;
-                
+
                 if (userData.plan_type === 'mensual_bolsavip' && userData.plan_expires_at) {
                     const expireDate = new Date(userData.plan_expires_at);
-                    if (new Date() > expireDate) {
-                        isExpired = true;
-                    }
+                    if (new Date() > expireDate) { isExpired = true; }
                 }
 
                 if (userData.plan_type === 'mensual_bolsavip' && !isExpired) {
-                    // EL USUARIO ES VIP Y ESTÁ ACTIVO
                     document.getElementById('display-client-id').innerText = clientId.toUpperCase();
-                    document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/40/0f1115/d4af37?text=VIP';
+                    document.getElementById('display-client-photo').src = user.photoURL || 'https://via.placeholder.com/38/111318/d4af37?text=VIP';
                     
+                    btnSubscribe.innerHTML = 'Abonar con Mercado Pago';
+                    btnSubscribe.disabled = false;
+                    
+                    // Lógica Telegram Frontend Update
                     const btnTelegram = document.getElementById('btn-link-telegram');
                     const statusTelegram = document.getElementById('status-telegram');
                     
                     if (userData.telegram_chat_id) {
-                        btnTelegram.style.display = 'none'; 
+                        btnTelegram.style.display = 'none';
                         statusTelegram.className = 'tele-status online';
-                        statusTelegram.innerHTML = `🟢 Nodo Asegurado. Conectado a Telegram ID: ${userData.telegram_chat_id}`;
+                        statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Nodo Asegurado. Recibiendo datos.`;
                     } else {
-                        btnTelegram.style.display = 'block'; 
+                        btnTelegram.style.display = 'flex';
                         statusTelegram.className = 'tele-status offline';
-                        statusTelegram.innerHTML = `🔴 Desconectado. Requiere Acción.`;
+                        statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Desconectado. Requiere Acción.`;
                         
                         btnTelegram.onclick = () => {
-                            window.open(`https://t.me/lixieBbot?start=${clientId}`, '_blank');
+                            const telegramLink = `https://t.me/lixieBbot?start=${clientId}`;
+                            window.open(telegramLink, '_blank');
                         };
                     }
-                    
                     showView('dashboard');
-                } else { 
-                    // EL USUARIO NO ES VIP O VENCIÓ
-                    showView('paywall'); 
-                }
-            }, (error) => {
-                console.error("Error crítico en Snapshot:", error);
-                showView('login');
-            });
+                } else { showView('paywall'); }
+            }, (error) => { showView('login'); });
 
-            // 3. AUDITORÍA DEL CEREBRO DE PAGOS (El Verdugo)
-            fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
-                method: "POST", 
-                headers: { "Content-Type": "application/json" }, 
-                body: JSON.stringify({ clientId: clientId })
-            }).catch(e => console.log("Auditoría silenciosa finalizada."));
+            // 2. Creación segura y auditoría en background
+            try {
+                const docSnapInitial = await getDoc(userRef);
+                if (!docSnapInitial.exists()) {
+                    // Si el usuario es 100% nuevo, creamos la base. Esto previene que sobreescriba un VIP del Webhook de MP.
+                    await setDoc(userRef, { 
+                        cliente_id: clientId, 
+                        auth_signature: user.uid,
+                        plan_type: 'standard',
+                        created_at: new Date().toISOString()
+                    });
+                } else {
+                    // Si ya existe (pudo haber entrado el webhook o es un login recurrente), solo actualizamos firma
+                    await setDoc(userRef, { auth_signature: user.uid }, { merge: true });
+                }
+                
+                // Auditoría silenciosa Cerebro 1
+                fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clientId: clientId })
+                }).catch(e => console.log("Auditoría silenciosa background."));
+            } catch (err) { console.error("Error gestionando Firebase Admin:", err); }
         }
 
-        // ================= ESTADO DE AUTENTICACIÓN =================
-        onAuthStateChanged(auth, (user) => { 
-            if (user) {
-                procesarUsuarioSeguro(user); 
-            } else { 
-                if (unsubscribeSnapshot) unsubscribeSnapshot(); 
-                showView('login'); 
-            } 
+        onAuthStateChanged(auth, (user) => {
+            if (user) { procesarUsuarioSeguro(user); } else {
+                if(unsubscribeSnapshot) unsubscribeSnapshot(); showView('login');
+            }
         });
 
-        // ================= BOTONES DE INICIO Y CIERRE DE SESIÓN =================
-        document.getElementById('btn-login').addEventListener('click', () => { 
+        document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch(err => console.error(err)); 
-        });
-        
-        document.getElementById('btn-logout').addEventListener('click', () => { 
-            signOut(auth); 
+            signInWithPopup(auth, provider).catch(err => console.error("Error Login:", err));
         });
 
-        // ================= PASARELA DE PAGOS MERCADO PAGO =================
-        document.getElementById('btn-subscribe').addEventListener('click', async function() {
-            const user = auth.currentUser; 
+        document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
+
+        // ================= MERCADO PAGO INTACTO =================
+        btnSubscribe.addEventListener('click', async () => {
+            const user = auth.currentUser;
             if (!user) return;
-            
-            this.innerHTML = '<div class="loader-spinner"></div> Autenticando Gateway...'; 
-            this.disabled = true;
-            
-            const clientId = `cliente-${user.uid.slice(-4).toLowerCase()}`;
+            btnSubscribe.innerHTML = '<div class="loader-spinner"></div> Autenticando Gateway...';
+            btnSubscribe.disabled = true;
+
+            const shortUid = user.uid.slice(-4).toLowerCase();
+            const clientId = `cliente-${shortUid}`;
             
             try {
                 const response = await fetch("https://bolsadetrabajovip.lautybg22.workers.dev/create-preference", {
-                    method: "POST", 
-                    headers: { "Content-Type": "application/json" }, 
-                    body: JSON.stringify({ 
-                        clientId: clientId, 
-                        productId: "plan_vip", 
-                        returnUrl: window.location.href 
-                    })
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ clientId: clientId, productId: "plan_vip", returnUrl: window.location.href })
                 });
-                
                 const data = await response.json();
-                
-                if (data.init_point) {
-                    window.location.href = data.init_point; 
-                } else {
-                    throw new Error("No se devolvió init_point");
-                }
-            } catch (error) { 
-                this.innerHTML = 'Fallo de Red. Reintentar.'; 
-                this.disabled = false; 
-                console.error(error);
+                if (data.init_point) { window.location.href = data.init_point; } 
+                else { throw new Error("Fallo en generación de link"); }
+            } catch (error) {
+                btnSubscribe.innerHTML = 'Fallo de Red. Reintentar.';
+                btnSubscribe.disabled = false;
             }
         });
 
-        // ================= MOTOR DE LLAMADAS IA (AXON & NYX) =================
-        async function callLixieRadar(endpoint, payload, resultDivId, btnElement) {
-            const resultDiv = document.getElementById(resultDivId); 
-            const originalText = btnElement.innerHTML;
-            
-            try {
-                btnElement.innerHTML = `<div class="loader-spinner"></div> Procesando IA...`; 
-                btnElement.disabled = true; 
-                resultDiv.style.display = 'none';
-                
-                payload.clientId = globalClientId;
-                
-                const response = await fetch(`${CEREBRO_URL}${endpoint}`, { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'application/json' }, 
-                    body: JSON.stringify(payload) 
-                });
-                
-                const data = await response.json();
-                resultDiv.innerHTML = data.message || data.result; 
-                resultDiv.style.display = 'block';
-                
-            } catch (error) { 
-                resultDiv.innerHTML = `<span style="color:#ef4444; font-weight: 600;">Error 503: Infraestructura IA inalcanzable.</span> Intente nuevamente en unos instantes.`; 
-                resultDiv.style.display = 'block'; 
-            } finally { 
-                btnElement.innerHTML = originalText; 
-                btnElement.disabled = false; 
-            }
-        }
-
-        // ================= EVENTOS AXON (VERDE) =================
-        document.getElementById('btn-autopitch').addEventListener('click', function() {
-            const data = document.getElementById('pitch-data').value; 
-            if(data) callLixieRadar('/autopitch', { query: data }, 'result-pitch', this);
-        });
-        
-        document.getElementById('btn-intel').addEventListener('click', function() {
-            const data = document.getElementById('intel-empresa').value; 
-            if(data) callLixieRadar('/intel', { company: data }, 'result-intel', this);
-        });
-        
-        document.getElementById('btn-benchmark').addEventListener('click', function() {
-            const data = document.getElementById('bench-rol').value; 
-            if(data) callLixieRadar('/benchmark', { role: data }, 'result-bench', this);
-        });
-        
-        // ================= EVENTOS NYX (MORADO) =================
-        document.getElementById('btn-match-cv').addEventListener('click', function() {
-            const data = document.getElementById('cv-offer-text').value; 
-            if(data) callLixieRadar('/matcher', { offerText: data }, 'result-matcher', this);
-        });
-        
-        document.getElementById('btn-start-sim').addEventListener('click', function() {
-            const data = document.getElementById('sim-role').value; 
-            if(data) callLixieRadar('/simulador', { role: data }, 'result-sim', this);
-        });
-
-        // ================= MATEMÁTICAS LOCALES =================
-        document.getElementById('btn-calc-local').addEventListener('click', () => {
-            const salary = parseFloat(document.getElementById('local-salary').value); 
-            const date = new Date(document.getElementById('local-month').value);
-            
-            if(!salary || isNaN(date.getTime())) return;
-            
-            const diffMonths = Math.ceil(Math.abs(new Date() - date) / (1000 * 60 * 60 * 24 * 30));
-            const ajustado = Math.round(salary * Math.pow(1.042, diffMonths));
-            
-            const res = document.getElementById('result-local'); 
-            res.style.display = 'block';
-            res.innerHTML = `Línea de tiempo: ${diffMonths} meses. <br>Exigencia Salarial Ajustada: <strong>$${ajustado.toLocaleString('es-AR')} ARS</strong>`;
-        });
-        
-        document.getElementById('btn-convert-b2b').addEventListener('click', () => {
-            const usd = parseFloat(document.getElementById('usd-offer').value); 
-            const rate = parseFloat(document.getElementById('usd-rate').value);
-            
-            if(!usd || !rate) return;
-            
-            const res = document.getElementById('result-b2b'); 
-            res.style.display = 'block';
-            res.innerHTML = `Ingreso Líquido (ARS): <strong>$${(usd*rate).toLocaleString('es-AR')}</strong> <br>Equivalencia Bruta requerida (Rel. Dep): <strong>$${Math.round((usd*rate)/0.83).toLocaleString('es-AR')}</strong>`;
-        });
-
-        // ================= RENDERIZADO DIRECTORIO B2B =================
-        const empresas = [
+        // ================= AGENDA VIP INYECCIÓN =================
+        const nombresEmpresas = [
             "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina",
             "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO",
             "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle",
@@ -653,14 +808,132 @@
             "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien",
             "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)"
         ];
+
+        const agendaContainer = document.getElementById('agenda-grid-container');
+        if (agendaContainer) {
+            nombresEmpresas.forEach(empresa => {
+                const item = document.createElement('div');
+                item.className = 'agenda-item';
+                item.textContent = empresa;
+                agendaContainer.appendChild(item);
+            });
+        }
+
+        // ==========================================
+        // HERRAMIENTAS PURAMENTE JS (SIN LLAMAR AL CEREBRO)
+        // ==========================================
         
-        const grid = document.getElementById('company-grid');
-        empresas.forEach(emp => {
-            const tag = document.createElement('div'); 
-            tag.className = 'company-tag'; 
-            tag.innerText = emp; 
-            grid.appendChild(tag);
+        // 1. Calculadora de Inflación Histórica
+        document.getElementById('btn-calc-local').addEventListener('click', () => {
+            const salary = parseFloat(document.getElementById('local-salary').value);
+            const dateInput = document.getElementById('local-month').value;
+            const resDiv = document.getElementById('result-local');
+            
+            if(!salary || !dateInput) {
+                resDiv.style.display = 'block'; resDiv.innerHTML = 'Faltan parámetros requeridos.'; return;
+            }
+
+            const inputDate = new Date(dateInput);
+            const today = new Date();
+            const diffTime = Math.abs(today - inputDate);
+            const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
+            
+            if(diffMonths < 0) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Fecha inválida.'; return; }
+
+            const TASA_PROMEDIO_MENSUAL = 0.042;
+            const multiplicador = Math.pow(1 + TASA_PROMEDIO_MENSUAL, diffMonths);
+            const salarioAjustado = Math.round(salary * multiplicador);
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong style="color:var(--accent-gold);">Proyección Algorítmica:</strong><br><br>
+                Meses transcurridos: <strong>${diffMonths}</strong><br>
+                Valor ajustado requerido: <strong>$${salarioAjustado.toLocaleString('es-AR')} ARS</strong><br>
+                <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:8px;">*Basado en IPC proyectado de base interna. Datos de carácter orientativo para negociaciones B2B.</span>
+            `;
         });
+
+        // 2. Conversor Contractor vs Dependencia
+        document.getElementById('btn-convert-b2b').addEventListener('click', () => {
+            const usd = parseFloat(document.getElementById('usd-offer').value);
+            const rate = parseFloat(document.getElementById('usd-rate').value);
+            const resDiv = document.getElementById('result-b2b');
+
+            if(!usd || !rate) { resDiv.style.display = 'block'; resDiv.innerHTML = 'Parámetros incompletos.'; return; }
+
+            const usdEnPesos = usd * rate;
+            const brutoRequerido = usdEnPesos / 0.83;
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong style="color:var(--accent-gold);">Análisis de Estructura Salarial:</strong><br><br>
+                Neto en mano Contractor: <strong>$${usdEnPesos.toLocaleString('es-AR')} ARS</strong><br>
+                Para igualar este neto en Relación de Dependencia, debes exigir:<br>
+                Bruto Mensual: <strong>$${Math.round(brutoRequerido).toLocaleString('es-AR')} ARS</strong><br>
+                <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:8px;">*No contempla impuesto a las ganancias ni beneficios secundarios (prepaga, aguinaldo).</span>
+            `;
+        });
+
+        // ==========================================
+        // HERRAMIENTAS IA (LLAMADO AL CEREBRO 2)
+        // ==========================================
+        
+        async function callLixieRadar(endpoint, payload, resultDivId, btnElement) {
+            const resultDiv = document.getElementById(resultDivId);
+            const originalBtnText = btnElement.innerHTML;
+            
+            try {
+                btnElement.innerHTML = `<div class="loader-spinner"></div> Procesando datos...`;
+                btnElement.disabled = true; resultDiv.style.display = 'none';
+
+                payload.clientId = globalClientId;
+                const response = await fetch(`${CEREBRO_URL}${endpoint}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = data.message || data.result || 'Operación completada exitosamente.';
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = `<span style="color: var(--accent-red);">Error de infraestructura o timeouts de IA. Intente en unos minutos.</span>`;
+                resultDiv.style.display = 'block';
+            } finally {
+                btnElement.innerHTML = originalBtnText; btnElement.disabled = false;
+            }
+        }
+
+        // Bindeo de Nuevas Herramientas
+        document.getElementById('btn-auto-pitch').addEventListener('click', function() {
+            const inputData = document.getElementById('pitch-input').value;
+            if(!inputData) return;
+            callLixieRadar('/auto-pitch', { promptText: inputData }, 'result-pitch', this);
+        });
+
+        document.getElementById('btn-company-intel').addEventListener('click', function() {
+            const companyData = document.getElementById('intel-company').value;
+            if(!companyData) return;
+            callLixieRadar('/company-intel', { company: companyData }, 'result-intel', this);
+        });
+
+        document.getElementById('btn-salary-benchmark').addEventListener('click', function() {
+            const salaryData = document.getElementById('salary-role').value;
+            if(!salaryData) return;
+            callLixieRadar('/salary-benchmarker', { roleInfo: salaryData }, 'result-benchmark', this);
+        });
+
+        // Bindeo Original
+        document.getElementById('btn-match-cv').addEventListener('click', function() {
+            const offerText = document.getElementById('cv-offer-text').value;
+            if(!offerText) return;
+            callLixieRadar('/matcher', { offerText }, 'result-matcher', this);
+        });
+
+        document.getElementById('btn-start-sim').addEventListener('click', function() {
+            const role = document.getElementById('sim-role').value;
+            if(!role) return;
+            callLixieRadar('/simulador', { role }, 'result-sim', this);
+        });
+        
     </script>
 </body>
 </html>

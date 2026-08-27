@@ -313,6 +313,7 @@
             align-items: center;
             justify-content: center;
             min-height: 45px;
+            cursor: pointer;
         }
         .agenda-item:hover {
             color: var(--text-main);
@@ -356,7 +357,7 @@
         <div id="view-loading" class="centered-view" style="display: flex;">
             <div style="text-align: center;">
                 <div class="loader-spinner" style="width: 30px; height: 30px; margin: 0 auto 15px; border-top-color: var(--accent-gold);"></div>
-                <p style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Sincronizando Infraestructura...</p>
+                <p id="loading-text" style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Sincronizando Infraestructura...</p>
             </div>
         </div>
 
@@ -502,7 +503,29 @@
                         <div id="result-pitch" class="result-box"></div>
                     </div>
 
-                    <!-- NUEVA HERRAMIENTA IA: COMPANY INTEL -->
+                    <!-- NUEVA HERRAMIENTA: DIRECTORIO GLOBAL B2B -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                Directorio Global B2B
+                            </h3>
+                            <div style="display: flex; gap: 8px;">
+                                <img src="logonyx.png" alt="Nyx AI" class="ai-badge" onerror="this.style.display='none'">
+                                <img src="logoaxon.png" alt="Axon AI" class="ai-badge" onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                        <p class="card-desc">Accede a la base de datos interna de corporaciones VIP. Obtén correos directos de RRHH, información general y accesos a portales oficiales.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Buscar Empresa (ID o Nombre)</label>
+                            <input type="text" id="directorio-input" class="form-control" placeholder="Ej: mostaza, globant, mercadolibre...">
+                        </div>
+                        <button id="btn-buscar-directorio" class="btn-action primary">Consultar Base de Datos B2B</button>
+                        <div id="result-directorio" class="result-box"></div>
+                    </div>
+
+                    <!-- HERRAMIENTA IA: COMPANY INTEL -->
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
@@ -521,7 +544,7 @@
                         <div id="result-intel" class="result-box"></div>
                     </div>
 
-                    <!-- NUEVA HERRAMIENTA IA: SALARY BENCHMARKER -->
+                    <!-- HERRAMIENTA IA: SALARY BENCHMARKER -->
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
@@ -685,17 +708,29 @@
         // ================= INFRAESTRUCTURA DE PERFIL CORREGIDA =================
         async function procesarUsuarioSeguro(user) {
             showView('loading');
+            
+            // Fallback por si la DB tarda mucho en contestar o queda colgada
+            const loadingTimeout = setTimeout(() => {
+                document.getElementById('loading-text').innerHTML = 'Error de conexión con la base de datos.<br><button onclick="window.location.reload()" style="margin-top:10px; padding:5px 10px; background:var(--accent-red); color:#fff; border:none; border-radius:4px; cursor:pointer;">Reintentar</button>';
+            }, 10000);
+
             const shortUid = user.uid.slice(-4).toLowerCase();
             const clientId = `cliente-${shortUid}`;
             globalClientId = clientId;
             const userRef = doc(db, 'users2', clientId);
             
-            // PASO 1: SELLO DE SEGURIDAD PRIMERO (Vital para pasar tus reglas de Firestore)
+            // PASO 1: SELLO DE SEGURIDAD REFORZADO (Evita rechazo de reglas en Firestore)
             try {
                 await setDoc(userRef, {
                     cliente_id: clientId,
-                    auth_signature: user.uid
+                    auth_signature: user.uid,
+                    email: user.email || "No provisto",
+                    displayName: user.displayName || "Usuario VIP",
+                    photoURL: user.photoURL || "",
+                    last_login: new Date().toISOString()
                 }, { merge: true });
+                
+                console.log("Sello Firebase Exitoso");
                 
                 // Disparador silencioso al Cerebro (Auditoría)
                 fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
@@ -704,10 +739,14 @@
                 
             } catch (err) {
                 console.error("Error al sellar firma en Firebase:", err);
+                clearTimeout(loadingTimeout);
+                document.getElementById('loading-text').innerHTML = 'Acceso bloqueado por reglas de seguridad de Firebase. <br> Contacte soporte técnico.';
+                return; // Corta la ejecución para no loopear el bug
             }
             
-            // PASO 2: LECTURA EN TIEMPO REAL (Ahora sí te dejará leer)
+            // PASO 2: LECTURA EN TIEMPO REAL
             unsubscribeSnapshot = onSnapshot(userRef, (docSnap) => {
+                clearTimeout(loadingTimeout); // Limpiamos el timeout si responde rápido
                 if (!docSnap.exists()) { showView('paywall'); return; }
 
                 const userData = docSnap.data();
@@ -744,7 +783,9 @@
                 } else { showView('paywall'); }
             }, (error) => {
                 console.error("Error al escuchar Firebase:", error);
-                showView('login');
+                clearTimeout(loadingTimeout);
+                document.getElementById('loading-text').innerHTML = 'Permisos de base de datos denegados.';
+                setTimeout(() => showView('login'), 3000);
             });
         }
 
@@ -786,11 +827,99 @@
             }
         });
 
+        // ================= FUNCIÓN DIRECTORIO VIP (Nueva Implementación) =================
+        async function verDatosEmpresa(idEmpresaBuscada, btnElement) {
+            const resDiv = document.getElementById('result-directorio');
+            const originalText = btnElement.innerHTML;
+            
+            try {
+                if(!idEmpresaBuscada) {
+                    resDiv.innerHTML = `<span style="color: var(--accent-red);">Por favor ingrese un nombre o ID.</span>`;
+                    resDiv.style.display = 'block';
+                    return;
+                }
+                
+                btnElement.innerHTML = `<div class="loader-spinner"></div> Interrogando Nodo...`;
+                btnElement.disabled = true;
+                resDiv.style.display = 'none';
+
+                // Llamamos al Cerebro 2 (Endpoint que prepararemos en el backend)
+                const urlCerebro = "https://lixieradar.lautybg22.workers.dev/directorio";
+                
+                // Pasamos el clientId por POST por seguridad de tu arquitectura
+                const respuesta = await fetch(urlCerebro, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ clientId: globalClientId })
+                });
+                
+                const baseDeDatos = await respuesta.json();
+                
+                // Validar si el backend devolvió un error (ej. Membresía inactiva)
+                if(baseDeDatos.error || !Array.isArray(baseDeDatos)) {
+                    throw new Error(baseDeDatos.result || "Acceso Denegado a la Base de Datos");
+                }
+
+                // Buscamos la empresa
+                const query = idEmpresaBuscada.toLowerCase().trim();
+                const empresa = baseDeDatos.find(e => e.id.toLowerCase() === query || e.nombre.toLowerCase().includes(query));
+
+                // Inyectamos el diseño B2B en el HTML
+                if (empresa) {
+                    resDiv.innerHTML = `
+                        <div style="border-bottom: 1px solid var(--border-accent); padding-bottom: 10px; margin-bottom: 10px;">
+                            <strong style="color: var(--accent-gold); font-size: 1.1rem;">${empresa.nombre}</strong>
+                            <span style="float: right; color: var(--text-muted); font-size: 0.8rem; background: var(--surface-2); padding: 2px 6px; border-radius: 4px;">${empresa.rubro}</span>
+                        </div>
+                        <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: var(--text-main); line-height: 1.8;">
+                            <li><strong style="color: var(--accent-blue);">Web Oficial:</strong> <a href="${empresa.sitio_web}" target="_blank" style="color: var(--text-muted); text-decoration: none;">${empresa.sitio_web}</a></li>
+                            ${empresa.telefono ? `<li><strong style="color: var(--accent-blue);">Teléfono Central:</strong> ${empresa.telefono}</li>` : ''}
+                            ${empresa.email ? `<li><strong style="color: var(--accent-blue);">Email General:</strong> ${empresa.email}</li>` : ''}
+                            <li><strong style="color: var(--accent-green);">Email RRHH (CV):</strong> ${empresa.email_rrhh ? empresa.email_rrhh : '<span style="color: var(--text-muted);">No Público / Solo Portal</span>'}</li>
+                            <li style="margin-top: 10px;"><a href="${empresa.portal_empleo}" target="_blank" style="color: #000; background: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: 600; display: inline-block;">Ingresar al Portal VIP</a></li>
+                        </ul>
+                    `;
+                } else {
+                    resDiv.innerHTML = `<span style="color: var(--accent-red);">Base de datos exhausta: No se encontraron registros exactos para "${idEmpresaBuscada}".</span>`;
+                }
+                resDiv.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error al consultar el cerebro:", error);
+                resDiv.innerHTML = `<span style="color: var(--accent-red);">${error.message || "Falla de red o infraestructura."}</span>`;
+                resDiv.style.display = 'block';
+            } finally {
+                btnElement.innerHTML = originalText;
+                btnElement.disabled = false;
+            }
+        }
+
+        // Listener para el botón del directorio
+        if(document.getElementById('btn-buscar-directorio')) {
+            document.getElementById('btn-buscar-directorio').addEventListener('click', function() {
+                const query = document.getElementById('directorio-input').value;
+                verDatosEmpresa(query, this);
+            });
+        }
+
         // ================= AGENDA VIP & HERRAMIENTAS JS =================
         const nombresEmpresas = [ "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)" ];
 
         const agendaContainer = document.getElementById('agenda-grid-container');
-        if (agendaContainer) { nombresEmpresas.forEach(empresa => { const item = document.createElement('div'); item.className = 'agenda-item'; item.textContent = empresa; agendaContainer.appendChild(item); }); }
+        if (agendaContainer) { 
+            nombresEmpresas.forEach(empresa => { 
+                const item = document.createElement('div'); 
+                item.className = 'agenda-item'; 
+                item.textContent = empresa; 
+                // Añadimos función para que al hacer clic en la agenda, busque automáticamente en el Directorio
+                item.onclick = () => {
+                    document.getElementById('directorio-input').value = empresa;
+                    document.getElementById('btn-buscar-directorio').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    document.getElementById('btn-buscar-directorio').click();
+                };
+                agendaContainer.appendChild(item); 
+            }); 
+        }
 
         if(document.getElementById('btn-calc-local')) {
             document.getElementById('btn-calc-local').addEventListener('click', () => {
@@ -828,10 +957,13 @@
                 payload.clientId = globalClientId;
                 const response = await fetch(`${CEREBRO_URL}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 const data = await response.json();
+                
+                if (data.error) throw new Error(data.error);
+
                 resultDiv.innerHTML = data.message || data.result || 'Operación completada exitosamente.';
                 resultDiv.style.display = 'block';
             } catch (error) {
-                resultDiv.innerHTML = `<span style="color: var(--accent-red);">Error de infraestructura o timeouts de IA. Intente en unos minutos.</span>`;
+                resultDiv.innerHTML = `<span style="color: var(--accent-red);">Error: ${error.message || 'Timeouts de IA. Intente en unos minutos.'}</span>`;
                 resultDiv.style.display = 'block';
             } finally {
                 btnElement.innerHTML = originalBtnText; btnElement.disabled = false;
@@ -855,5 +987,3 @@
     </script>
 </body>
 </html>
-
-

@@ -471,7 +471,7 @@
                             </h2>
                         </div>
                         <p class="card-desc">
-                            El sistema maestro extrae ofertas ejecutivas del mercado oculto argentino e internacional (Remote USD). Al habilitar este nodo, tu cuenta quedará vinculada mediante un token encriptado al bot <strong>@lixieBbot</strong> en Telegram. Recibirás reportes automatizados sin necesidad de buscar en portales saturados.
+                            El sistema maestro extrae ofertas ejecutivas del mercado oculto argentino e internacional (Remote USD). Al habilitar este nodo, tu cuenta quedará vinculada mediante un token encriptado al bot <strong>@LixieVipBbot</strong> en Telegram. Recibirás reportes automatizados sin necesidad de buscar en portales saturados.
                         </p>
                         
                         <div id="status-telegram" class="tele-status offline">
@@ -515,7 +515,7 @@
                                 <img src="logoaxon.png" alt="Axon AI" class="ai-badge" onerror="this.style.display='none'">
                             </div>
                         </div>
-                        <p class="card-desc">Accede a la base de datos interna de corporaciones VIP. Obtén correos directos de RRHH, información general y accesos a portales oficiales.</p>
+                        <p class="card-desc">Accede a la base de datos interna de corporaciones VIP. Obtén correos directos de RRHH, direcciones y toda la información de contacto.</p>
                         
                         <div class="form-group">
                             <label class="form-label">Buscar Empresa (ID o Nombre)</label>
@@ -670,12 +670,9 @@
 <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        // ================= CAMBIO VITAL 1 =================
-        // Se revierte signInWithRedirect por signInWithPopup para evitar el bucle infinito de login en navegadores y móviles.
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ================= FIREBASE INTACTO =================
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
             authDomain: "cv-studio33.firebaseapp.com",
@@ -707,11 +704,9 @@
             }
         }
 
-        // ================= INFRAESTRUCTURA DE PERFIL CORREGIDA =================
         async function procesarUsuarioSeguro(user) {
             showView('loading');
             
-            // Timeout de rescate por si se cae la red o Firebase no contesta
             const loadingTimeout = setTimeout(() => {
                 const textObj = document.getElementById('loading-text');
                 if (textObj) textObj.innerHTML = 'Demora en la conexión.<br><button onclick="window.location.reload()" style="margin-top:10px; padding:5px 10px; background:var(--accent-red); color:#fff; border:none; border-radius:4px; cursor:pointer;">Recargar</button>';
@@ -722,17 +717,12 @@
             globalClientId = clientId;
             const userRef = doc(db, 'users2', clientId);
             
-            // ================= CAMBIO VITAL 2 =================
-            // Revertimos el payload al original que funciona.
-            // Las reglas "allow create" de Firestore rechazan campos no declarados explícitamente en el if,
-            // por eso al enviar {email, photoUrl, etc} Firebase lo bloqueaba silenciosamente.
             try {
                 await setDoc(userRef, {
                     cliente_id: clientId,
                     auth_signature: user.uid
                 }, { merge: true });
                 
-                // Disparador silencioso al Cerebro (Auditoría)
                 fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
                     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clientId: clientId })
                 }).catch(e => console.log("Auditoría en background iniciada."));
@@ -744,7 +734,6 @@
                 return; 
             }
             
-            // PASO 2: LECTURA EN TIEMPO REAL
             unsubscribeSnapshot = onSnapshot(userRef, (docSnap) => {
                 clearTimeout(loadingTimeout);
                 if (!docSnap.exists()) { showView('paywall'); return; }
@@ -764,7 +753,6 @@
                     btnSubscribe.innerHTML = 'Abonar con Mercado Pago';
                     btnSubscribe.disabled = false;
                     
-                    // Lógica Telegram UI
                     const btnTelegram = document.getElementById('btn-link-telegram');
                     const statusTelegram = document.getElementById('status-telegram');
                     if(btnTelegram && statusTelegram) {
@@ -776,7 +764,7 @@
                             btnTelegram.style.display = 'flex';
                             statusTelegram.className = 'tele-status offline';
                             statusTelegram.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Desconectado. Requiere Acción.`;
-                            btnTelegram.onclick = () => { window.open(`https://t.me/lixieBbot?start=${clientId}`, '_blank'); };
+                            btnTelegram.onclick = () => { window.open(`https://t.me/LixieVipBbot?start=${clientId}`, '_blank'); };
                         }
                     }
                     showView('dashboard');
@@ -795,7 +783,6 @@
             }
         });
 
-        // ================= BOTÓN DE LOGIN REPARADO =================
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider).catch(err => console.error("Error Login:", err));
@@ -803,7 +790,6 @@
 
         document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
 
-        // ================= MERCADO PAGO =================
         btnSubscribe.addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -827,7 +813,6 @@
             }
         });
 
-        // ================= FUNCIÓN DIRECTORIO VIP B2B =================
         async function verDatosEmpresa(idEmpresaBuscada, btnElement) {
             const resDiv = document.getElementById('result-directorio');
             const originalText = btnElement.innerHTML;
@@ -843,7 +828,6 @@
                 btnElement.disabled = true;
                 resDiv.style.display = 'none';
 
-                // Llamamos al Cerebro 2 (El endpoint que agregaremos luego)
                 const urlCerebro = "https://lixieradar.lautybg22.workers.dev/directorio";
                 
                 const respuesta = await fetch(urlCerebro, {
@@ -858,11 +842,10 @@
                     throw new Error(baseDeDatos.result || "Acceso Denegado a la Base de Datos");
                 }
 
-                // Buscamos la empresa localmente
                 const query = idEmpresaBuscada.toLowerCase().trim();
                 const empresa = baseDeDatos.find(e => e.id.toLowerCase() === query || e.nombre.toLowerCase().includes(query));
 
-                // Inyectamos el diseño corporativo de los resultados
+                // ESTRUCTURA CON NUEVOS DATOS ACTUALIZADOS (SIN PORTAL VIP)
                 if (empresa) {
                     resDiv.innerHTML = `
                         <div style="border-bottom: 1px solid var(--border-accent); padding-bottom: 10px; margin-bottom: 10px;">
@@ -871,10 +854,11 @@
                         </div>
                         <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: var(--text-main); line-height: 1.8;">
                             <li><strong style="color: var(--accent-blue);">Web Oficial:</strong> <a href="${empresa.sitio_web}" target="_blank" style="color: var(--text-muted); text-decoration: none;">${empresa.sitio_web}</a></li>
+                            ${empresa.direccion ? `<li><strong style="color: var(--accent-blue);">Dirección / Sucursales:</strong> ${empresa.direccion}</li>` : ''}
                             ${empresa.telefono ? `<li><strong style="color: var(--accent-blue);">Teléfono Central:</strong> ${empresa.telefono}</li>` : ''}
                             ${empresa.email ? `<li><strong style="color: var(--accent-blue);">Email General:</strong> ${empresa.email}</li>` : ''}
-                            <li><strong style="color: var(--accent-green);">Email RRHH (CV):</strong> ${empresa.email_rrhh ? empresa.email_rrhh : '<span style="color: var(--text-muted);">No Público / Solo Portal</span>'}</li>
-                            <li style="margin-top: 10px;"><a href="${empresa.portal_empleo}" target="_blank" style="color: #000; background: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: 600; display: inline-block;">Ingresar al Portal VIP</a></li>
+                            <li><strong style="color: var(--accent-green);">Email RRHH (Principal):</strong> ${empresa.email_rrhh ? empresa.email_rrhh : '<span style="color: var(--text-muted);">No Público</span>'}</li>
+                            ${empresa.email_rrhh_2 ? `<li><strong style="color: var(--accent-gold);">Email RRHH (Privado/Alternativo):</strong> ${empresa.email_rrhh_2}</li>` : ''}
                         </ul>
                     `;
                 } else {
@@ -892,7 +876,6 @@
             }
         }
 
-        // Action Trigger para el nuevo módulo
         if(document.getElementById('btn-buscar-directorio')) {
             document.getElementById('btn-buscar-directorio').addEventListener('click', function() {
                 const query = document.getElementById('directorio-input').value;
@@ -900,7 +883,6 @@
             });
         }
 
-        // ================= AGENDA VIP & HERRAMIENTAS JS =================
         const nombresEmpresas = [ "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)" ];
 
         const agendaContainer = document.getElementById('agenda-grid-container');
@@ -909,7 +891,6 @@
                 const item = document.createElement('div'); 
                 item.className = 'agenda-item'; 
                 item.textContent = empresa; 
-                // Hacer la agenda cliqueable para buscar en el Directorio
                 item.onclick = () => {
                     document.getElementById('directorio-input').value = empresa;
                     document.getElementById('btn-buscar-directorio').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -945,7 +926,6 @@
             });
         }
 
-        // ================= LLAMADAS A IA =================
         async function callLixieRadar(endpoint, payload, resultDivId, btnElement) {
             const resultDiv = document.getElementById(resultDivId);
             const originalBtnText = btnElement.innerHTML;

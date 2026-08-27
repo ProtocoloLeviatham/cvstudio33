@@ -670,7 +670,9 @@
 <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // ================= CAMBIO VITAL 1 =================
+        // Se revierte signInWithRedirect por signInWithPopup para evitar el bucle infinito de login en navegadores y móviles.
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ================= FIREBASE INTACTO =================
@@ -709,28 +711,26 @@
         async function procesarUsuarioSeguro(user) {
             showView('loading');
             
-            // Fallback por si la DB tarda mucho en contestar o queda colgada
+            // Timeout de rescate por si se cae la red o Firebase no contesta
             const loadingTimeout = setTimeout(() => {
-                document.getElementById('loading-text').innerHTML = 'Error de conexión con la base de datos.<br><button onclick="window.location.reload()" style="margin-top:10px; padding:5px 10px; background:var(--accent-red); color:#fff; border:none; border-radius:4px; cursor:pointer;">Reintentar</button>';
-            }, 10000);
+                const textObj = document.getElementById('loading-text');
+                if (textObj) textObj.innerHTML = 'Demora en la conexión.<br><button onclick="window.location.reload()" style="margin-top:10px; padding:5px 10px; background:var(--accent-red); color:#fff; border:none; border-radius:4px; cursor:pointer;">Recargar</button>';
+            }, 8000);
 
             const shortUid = user.uid.slice(-4).toLowerCase();
             const clientId = `cliente-${shortUid}`;
             globalClientId = clientId;
             const userRef = doc(db, 'users2', clientId);
             
-            // PASO 1: SELLO DE SEGURIDAD REFORZADO (Evita rechazo de reglas en Firestore)
+            // ================= CAMBIO VITAL 2 =================
+            // Revertimos el payload al original que funciona.
+            // Las reglas "allow create" de Firestore rechazan campos no declarados explícitamente en el if,
+            // por eso al enviar {email, photoUrl, etc} Firebase lo bloqueaba silenciosamente.
             try {
                 await setDoc(userRef, {
                     cliente_id: clientId,
-                    auth_signature: user.uid,
-                    email: user.email || "No provisto",
-                    displayName: user.displayName || "Usuario VIP",
-                    photoURL: user.photoURL || "",
-                    last_login: new Date().toISOString()
+                    auth_signature: user.uid
                 }, { merge: true });
-                
-                console.log("Sello Firebase Exitoso");
                 
                 // Disparador silencioso al Cerebro (Auditoría)
                 fetch("https://bolsadetrabajovip.lautybg22.workers.dev/verify-status", {
@@ -740,13 +740,13 @@
             } catch (err) {
                 console.error("Error al sellar firma en Firebase:", err);
                 clearTimeout(loadingTimeout);
-                document.getElementById('loading-text').innerHTML = 'Acceso bloqueado por reglas de seguridad de Firebase. <br> Contacte soporte técnico.';
-                return; // Corta la ejecución para no loopear el bug
+                document.getElementById('loading-text').innerHTML = 'Acceso bloqueado por reglas de seguridad. Revisa consola.';
+                return; 
             }
             
             // PASO 2: LECTURA EN TIEMPO REAL
             unsubscribeSnapshot = onSnapshot(userRef, (docSnap) => {
-                clearTimeout(loadingTimeout); // Limpiamos el timeout si responde rápido
+                clearTimeout(loadingTimeout);
                 if (!docSnap.exists()) { showView('paywall'); return; }
 
                 const userData = docSnap.data();
@@ -795,10 +795,10 @@
             }
         });
 
-        // USAMOS REDIRECT PARA EVITAR EL BLOQUEO DEL NAVEGADOR
+        // ================= BOTÓN DE LOGIN REPARADO =================
         document.getElementById('btn-login').addEventListener('click', () => {
             const provider = new GoogleAuthProvider();
-            signInWithRedirect(auth, provider).catch(err => console.error("Error Login:", err));
+            signInWithPopup(auth, provider).catch(err => console.error("Error Login:", err));
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
@@ -827,7 +827,7 @@
             }
         });
 
-        // ================= FUNCIÓN DIRECTORIO VIP (Nueva Implementación) =================
+        // ================= FUNCIÓN DIRECTORIO VIP B2B =================
         async function verDatosEmpresa(idEmpresaBuscada, btnElement) {
             const resDiv = document.getElementById('result-directorio');
             const originalText = btnElement.innerHTML;
@@ -843,10 +843,9 @@
                 btnElement.disabled = true;
                 resDiv.style.display = 'none';
 
-                // Llamamos al Cerebro 2 (Endpoint que prepararemos en el backend)
+                // Llamamos al Cerebro 2 (El endpoint que agregaremos luego)
                 const urlCerebro = "https://lixieradar.lautybg22.workers.dev/directorio";
                 
-                // Pasamos el clientId por POST por seguridad de tu arquitectura
                 const respuesta = await fetch(urlCerebro, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -855,16 +854,15 @@
                 
                 const baseDeDatos = await respuesta.json();
                 
-                // Validar si el backend devolvió un error (ej. Membresía inactiva)
                 if(baseDeDatos.error || !Array.isArray(baseDeDatos)) {
                     throw new Error(baseDeDatos.result || "Acceso Denegado a la Base de Datos");
                 }
 
-                // Buscamos la empresa
+                // Buscamos la empresa localmente
                 const query = idEmpresaBuscada.toLowerCase().trim();
                 const empresa = baseDeDatos.find(e => e.id.toLowerCase() === query || e.nombre.toLowerCase().includes(query));
 
-                // Inyectamos el diseño B2B en el HTML
+                // Inyectamos el diseño corporativo de los resultados
                 if (empresa) {
                     resDiv.innerHTML = `
                         <div style="border-bottom: 1px solid var(--border-accent); padding-bottom: 10px; margin-bottom: 10px;">
@@ -894,7 +892,7 @@
             }
         }
 
-        // Listener para el botón del directorio
+        // Action Trigger para el nuevo módulo
         if(document.getElementById('btn-buscar-directorio')) {
             document.getElementById('btn-buscar-directorio').addEventListener('click', function() {
                 const query = document.getElementById('directorio-input').value;
@@ -911,7 +909,7 @@
                 const item = document.createElement('div'); 
                 item.className = 'agenda-item'; 
                 item.textContent = empresa; 
-                // Añadimos función para que al hacer clic en la agenda, busque automáticamente en el Directorio
+                // Hacer la agenda cliqueable para buscar en el Directorio
                 item.onclick = () => {
                     document.getElementById('directorio-input').value = empresa;
                     document.getElementById('btn-buscar-directorio').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -987,3 +985,5 @@
     </script>
 </body>
 </html>
+
+

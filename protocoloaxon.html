@@ -46,9 +46,13 @@
     <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-black z-50 transition-opacity duration-500">
         <img src="logo.png" alt="CVStudio33" class="h-12 mb-4 opacity-80">
         <div class="glass-panel p-8 rounded-2xl flex flex-col items-center w-[90%] max-w-sm neon-shadow">
-            <img src="logoaxon.png" alt="AXON Logo" class="h-16 mb-6">
-            <h1 class="text-2xl font-bold text-white mb-2 tracking-widest text-center">ACCESO <span class="text-axonGreen">AXON</span></h1>
-            <p class="text-sm text-gray-400 mb-8 text-center">Identidad requerida para iniciar el protocolo.</p>
+            
+            <!-- Título con Logo Integrado -->
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-widest flex items-center justify-center gap-3 w-full">
+                ACCESO <img src="logoaxon.png" alt="AXON" class="h-8 md:h-10 object-contain">
+            </h1>
+            
+            <p class="text-sm text-gray-400 mb-8 text-center mt-2">Identidad requerida para iniciar el protocolo.</p>
             
             <button id="btn-login" class="w-full bg-white text-black font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition">
                 <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -148,7 +152,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // CONFIGURACIÓN PROPORCIONADA
         const firebaseConfig = {
@@ -194,12 +198,12 @@
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Generar ID y JWT
+                // Generar ID dinámico y JWT
                 const shortCode = user.uid.slice(-4);
                 userIdFormat = `cliente-${shortCode}`;
-                idTokenJWT = await user.getIdToken(true); // JWT Seguro para backend
+                idTokenJWT = await user.getIdToken(true); // JWT Seguro para el backend
 
-                // Mostrar interfaz
+                // Transición UI
                 ui.login.style.opacity = '0';
                 setTimeout(() => {
                     ui.login.classList.add('hidden');
@@ -209,18 +213,33 @@
 
                 ui.dispUser.innerText = userIdFormat;
 
-                // Escuchar SOLO los tokens del usuario (Read Only Frontend)
                 const docRef = doc(db, 'users', userIdFormat);
+
+                // 1. VERIFICAR Y CREAR DOCUMENTO SI NO EXISTE
+                try {
+                    const docSnap = await getDoc(docRef);
+                    if (!docSnap.exists()) {
+                        // Creación segura: solo envía firma y nombre de usuario. Sin tokens.
+                        await setDoc(docRef, {
+                            auth_signature: user.uid,
+                            user: userIdFormat
+                        });
+                        console.log("Perfil base creado. Listo para recibir tokens del Cerebro.");
+                    }
+                } catch (error) {
+                    console.error("Error validando/creando perfil en Firestore:", error);
+                }
+
+                // 2. ESCUCHAR SALDO EN TIEMPO REAL
                 onSnapshot(docRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         ui.dispTokens.innerText = data.tokens_axon || 0;
                     } else {
-                        // Si no existe, el worker/backend lo debe crear. Mostramos 0.
                         ui.dispTokens.innerText = "0";
                     }
                 }, (err) => {
-                    console.error("Error al leer datos (revisar reglas de Firestore):", err);
+                    console.error("Error de permisos al leer tokens:", err);
                 });
 
             } else {
@@ -277,12 +296,10 @@
         ui.btnStart.addEventListener('click', async () => {
             if (!pdfFile) return;
             
-            // 1. Ocultar Dashboard, Mostrar Animación
             ui.dashboard.classList.add('hidden');
             ui.header.classList.add('hidden');
             ui.animation.classList.remove('hidden');
 
-            // 2. Iniciar extracción de PDF en segundo plano usando pdf.js
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
             let extractedText = "";
             try {
@@ -301,7 +318,6 @@
                 return;
             }
 
-            // 3. Orquestar los 9 segundos de animaciones
             const runAnimations = new Promise((resolve) => {
                 const logsBasic = [
                     { t: 0, text: "> Inicializando núcleo AXON ATS..." },
@@ -327,15 +343,11 @@
                     setTimeout(() => {
                         const p = document.createElement('p');
                         p.innerText = `[${(step.t / 1000).toFixed(2)}s] ${step.text}`;
-                        
-                        // Quitar clase active de las anteriores
                         Array.from(ui.terminal.children).forEach(child => child.classList.remove('active'));
                         p.classList.add('active', 'animate-pulse');
-                        
                         ui.terminal.appendChild(p);
                         ui.terminal.scrollTop = ui.terminal.scrollHeight;
                         
-                        // Actualizar barra progreso
                         const progressPercent = Math.min((step.t / 9000) * 100, 100);
                         ui.progressBar.style.width = `${progressPercent}%`;
 
@@ -344,8 +356,7 @@
                 });
             });
 
-            // 4. Enviar datos al Cerebro (Worker Backend) simultáneamente
-            // Nota: JWT va en los headers o body para validación segura en Cloudflare Worker
+            // Enviar datos al Worker de Cloudflare
             const callBackend = fetch('https://cerebroaxon.lautybg22.workers.dev/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -357,19 +368,14 @@
                 })
             }).then(res => res.json()).catch(err => ({ error: true, detail: err }));
 
-            // 5. Esperar que AMBAS cosas terminen (La animación estricta de 9s y la rta del servidor)
             const [, backendResponse] = await Promise.all([runAnimations, callBackend]);
 
-            // 6. Transición a Resultados
             setTimeout(() => {
                 ui.animation.classList.add('opacity-0', 'transition-opacity', 'duration-500');
                 setTimeout(() => {
-                    // Aquí procesas el resultado y lo muestras en pantalla
-                    // Redirigir o inyectar HTML de resultados
                     console.log("Respuesta del Cerebro:", backendResponse);
-                    alert("Proceso completado. Revisa la consola o inyecta el HTML de respuesta del cerebro aquí.");
+                    alert("Proceso completado. Revisa la consola.");
                     
-                    // Volver a dashboard temporalmente
                     ui.animation.classList.add('hidden');
                     ui.animation.classList.remove('opacity-0');
                     ui.header.classList.remove('hidden');
@@ -379,7 +385,6 @@
                     pdfFile = null;
                     ui.progressBar.style.width = '0%';
                     ui.terminal.innerHTML = '';
-                    
                 }, 500);
             }, 500);
         });

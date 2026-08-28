@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo AXON | CV Studio33</title>
+    
+    <!-- Tailwind CSS para diseño rápido y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PDF.js para extracción de texto sin fallas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+        }
+
+        /* Tema AXON */
+        .text-axon { color: #00ff66; }
+        .bg-axon { background-color: #00ff66; }
+        .border-axon { border-color: #00ff66; }
+        .shadow-axon { box-shadow: 0 0 15px rgba(0, 255, 102, 0.2); }
+        .shadow-axon-intense { box-shadow: 0 0 25px rgba(0, 255, 102, 0.5); }
+        
+        /* Animaciones Red Neuronal / Escáner */
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #00ff66;
+            box-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+            animation: scan 2s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .pulse-node {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(0, 255, 102, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); }
+        }
+
+        /* Transiciones de interfaz */
+        .hidden-section { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+    <!-- PANTALLA DE LOGIN -->
+    <div id="login-section" class="w-full max-w-md p-6 mt-10 fade-in">
+        <div class="text-center mb-8">
+            <img src="logo.png" alt="CV Studio33" class="h-12 mx-auto mb-4 opacity-80">
+            <h1 class="text-3xl font-bold tracking-wider">PROTOCOLO <span class="text-axon">AXON</span></h1>
+            <p class="text-gray-400 text-sm mt-2">Acceso seguro al sistema ATS</p>
+        </div>
+        
+        <div class="bg-[#111111] border border-gray-800 rounded-xl p-6 shadow-2xl">
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">IDENTIFICACIÓN (EMAIL)</label>
+                    <input type="email" id="email" required class="w-full bg-[#0a0a0a] border border-gray-700 focus:border-axon text-white rounded-lg px-4 py-3 outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">CLAVE DE ACCESO</label>
+                    <input type="password" id="password" required class="w-full bg-[#0a0a0a] border border-gray-700 focus:border-axon text-white rounded-lg px-4 py-3 outline-none transition-colors">
+                </div>
+                <button type="submit" id="btn-login" class="w-full bg-axon text-black font-bold py-3 rounded-lg hover:bg-[#00cc52] transition-colors shadow-axon mt-4">
+                    INICIAR SESIÓN SEGURA <i class="fas fa-lock ml-2"></i>
+                </button>
+                <div id="login-error" class="text-red-500 text-sm text-center hidden mt-2"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PANTALLA PRINCIPAL (DASHBOARD) -->
+    <div id="app-section" class="w-full max-w-2xl p-4 hidden-section fade-in">
+        
+        <!-- Cabecera y Billetera -->
+        <header class="flex justify-between items-center bg-[#111111] border border-gray-800 rounded-xl p-4 mb-6 shadow-lg">
+            <div class="flex items-center space-x-3">
+                <img src="logoaxon.png" alt="AXON Logo" class="h-10">
+                <div>
+                    <h2 class="text-lg font-bold leading-tight">Módulo AXON</h2>
+                    <p id="user-client-id" class="text-xs text-gray-500 font-mono">ID: cliente-XXXX</p>
+                </div>
+            </div>
+            
+            <div class="bg-[#050505] border border-axon rounded-lg px-4 py-2 flex items-center shadow-axon">
+                <i class="fas fa-coins text-axon mr-2"></i>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Tokens AXON</p>
+                    <p id="token-balance" class="text-xl font-bold text-axon">--</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Herramienta Principal: BOT ATS AXON -->
+        <main class="bg-[#111111] border border-gray-800 rounded-xl p-5 md:p-8 relative overflow-hidden">
+            
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold mb-2">BOT ATS <span class="text-axon">AXON</span></h3>
+                <p class="text-sm text-gray-400">Analizador y simulador de estrés para Curriculum Vitae</p>
+            </div>
+
+            <!-- Zona de Subida de PDF -->
+            <div class="border-2 border-dashed border-gray-700 hover:border-axon rounded-xl p-8 text-center transition-colors mb-6 relative cursor-pointer" id="drop-zone" onclick="document.getElementById('cv-upload').click()">
+                <input type="file" id="cv-upload" accept="application/pdf" class="hidden">
+                <i class="fas fa-file-pdf text-4xl text-gray-600 mb-3" id="file-icon"></i>
+                <p class="text-gray-300 font-medium" id="file-name">Toca para subir tu PDF CV</p>
+                <p class="text-xs text-gray-500 mt-2">Extracción profunda 100% precisa</p>
+            </div>
+
+            <!-- Selección de Modo -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <label class="cursor-pointer">
+                    <input type="radio" name="ats-mode" value="basic" class="peer hidden">
+                    <div class="border border-gray-700 rounded-lg p-4 peer-checked:border-axon peer-checked:shadow-axon bg-[#0a0a0a] transition-all">
+                        <h4 class="font-bold text-white mb-1"><i class="fas fa-shield-halved text-gray-400 mr-2"></i>Modo Básico</h4>
+                        <p class="text-xs text-gray-500">Escaneo de estructura y simulación de filtros ATS estándar.</p>
+                    </div>
+                </label>
+                
+                <label class="cursor-pointer">
+                    <input type="radio" name="ats-mode" value="advanced" checked class="peer hidden">
+                    <div class="border border-gray-700 rounded-lg p-4 peer-checked:border-axon peer-checked:shadow-axon bg-[#0a0a0a] relative transition-all">
+                        <span class="absolute -top-3 right-3 bg-axon text-black text-[10px] font-bold px-2 py-1 rounded">RECOMENDADO</span>
+                        <h4 class="font-bold text-white mb-1"><i class="fas fa-network-wired text-axon mr-2"></i>Modo Avanzado</h4>
+                        <p class="text-xs text-gray-500">IA + Matching en mercado laboral en tiempo real.</p>
+                    </div>
+                </label>
+            </div>
+
+            <button id="btn-scan" class="w-full bg-axon text-black font-bold py-4 rounded-lg hover:bg-[#00cc52] transition-colors shadow-axon-intense flex justify-center items-center text-lg disabled:opacity-50">
+                INICIAR ESCANEO PROTOCOLO <i class="fas fa-power-off ml-2"></i>
+            </button>
+        </main>
+    </div>
+
+    <!-- PANTALLA DE ANIMACIÓN (9 SEGUNDOS) -->
+    <div id="scanning-section" class="fixed inset-0 bg-[#050505] z-50 flex flex-col justify-center items-center hidden-section fade-in">
+        <div class="scan-line"></div>
+        <img src="logoaxon.png" alt="AXON" class="h-24 mb-10 pulse-node">
+        
+        <div class="w-full max-w-md px-6 text-center font-mono">
+            <h2 class="text-2xl font-bold text-axon mb-6 tracking-widest">PROCESANDO CEREBRO AXON</h2>
+            
+            <div id="animation-text" class="text-sm text-gray-300 h-16 transition-opacity">
+                <!-- El texto cambia dinámicamente -->
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-800 rounded-full h-1 mt-4">
+                <div id="scan-progress" class="bg-axon h-1 rounded-full transition-all duration-[9000ms] ease-linear w-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE RESULTADOS -->
+    <div id="results-section" class="w-full max-w-2xl p-4 hidden-section fade-in mt-10">
+        <div class="bg-[#111111] border border-axon rounded-xl p-6 shadow-axon-intense">
+            <div class="flex items-center mb-6 border-b border-gray-800 pb-4">
+                <i class="fas fa-check-circle text-axon text-3xl mr-4"></i>
+                <div>
+                    <h3 class="text-xl font-bold text-white">Análisis Completado</h3>
+                    <p class="text-sm text-gray-400">Respuesta del Cerebro AXON</p>
+                </div>
+            </div>
+            <div id="results-content" class="text-gray-300 text-sm whitespace-pre-wrap font-mono">
+                <!-- Se inyecta la respuesta del worker -->
+            </div>
+            <button onclick="location.reload()" class="w-full bg-transparent border border-gray-600 text-white font-bold py-3 rounded-lg hover:border-white transition-colors mt-6">
+                NUEVO ESCANEO
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts de Firebase y Lógica -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, getIdToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Configuración Firebase (Ocultar en producción si es posible, pero expuesto según requerimiento)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Configuración de PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Variables Globales
+        let currentExtractedText = "";
+        let currentClientId = "";
+        let idToken = "";
+
+        // UI Elements
+        const ui = {
+            login: document.getElementById('login-section'),
+            app: document.getElementById('app-section'),
+            scanner: document.getElementById('scanning-section'),
+            results: document.getElementById('results-section'),
+            email: document.getElementById('email'),
+            password: document.getElementById('password'),
+            btnLogin: document.getElementById('btn-login'),
+            loginError: document.getElementById('login-error'),
+            clientId: document.getElementById('user-client-id'),
+            tokens: document.getElementById('token-balance'),
+            cvUpload: document.getElementById('cv-upload'),
+            fileName: document.getElementById('file-name'),
+            fileIcon: document.getElementById('file-icon'),
+            btnScan: document.getElementById('btn-scan'),
+            animText: document.getElementById('animation-text'),
+            progressBar: document.getElementById('scan-progress'),
+            resultsContent: document.getElementById('results-content')
+        };
+
+        // 1. GESTIÓN DE SESIÓN Y SEGURIDAD (Lectura exclusiva)
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    // Generar Token JWT Seguro
+                    idToken = await getIdToken(user, true);
+                    
+                    // Identificación cliente-xxxx (Últimos 4 dígitos del UID de Firebase)
+                    const uidLast4 = user.uid.slice(-4);
+                    currentClientId = `cliente-${uidLast4}`;
+                    
+                    ui.clientId.textContent = `ID: ${currentClientId}`;
+                    
+                    // Leer solo datos propios en Firestore (Requiere Reglas de Seguridad estrictas en Firebase)
+                    const userDocRef = doc(db, "users", currentClientId);
+                    const userDocSnap = await getDoc(userDocRef);
+                    
+                    if (userDocSnap.exists()) {
+                        const data = userDocSnap.data();
+                        ui.tokens.textContent = data.tokens_axon || '0';
+                    } else {
+                        // Si el documento no existe, el backend debió crearlo
+                        ui.tokens.textContent = 'Error BD';
+                    }
+
+                    ui.login.classList.add('hidden-section');
+                    ui.app.classList.remove('hidden-section');
+                } catch (error) {
+                    console.error("Error al cargar datos:", error);
+                }
+            } else {
+                ui.login.classList.remove('hidden-section');
+                ui.app.classList.add('hidden-section');
+            }
+        });
+
+        // 2. INICIO DE SESIÓN
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            ui.btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AUTENTICANDO...';
+            try {
+                await signInWithEmailAndPassword(auth, ui.email.value, ui.password.value);
+            } catch (error) {
+                ui.loginError.textContent = "Credenciales inválidas o no autorizadas.";
+                ui.loginError.classList.remove('hidden');
+                ui.btnLogin.innerHTML = 'INICIAR SESIÓN SEGURA <i class="fas fa-lock ml-2"></i>';
+            }
+        });
+
+        // 3. EXTRACCIÓN DE TEXTO DEL PDF (100% Precisa en Frontend)
+        ui.cvUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file || file.type !== "application/pdf") {
+                alert("Por favor sube un archivo PDF válido.");
+                return;
+            }
+
+            ui.fileName.textContent = "Procesando documento...";
+            ui.fileIcon.className = "fas fa-spinner fa-spin text-axon text-4xl mb-3";
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = "";
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(" ");
+                    fullText += pageText + "\n";
+                }
+
+                currentExtractedText = fullText;
+                ui.fileName.textContent = file.name;
+                ui.fileName.classList.add('text-axon');
+                ui.fileIcon.className = "fas fa-file-circle-check text-axon text-4xl mb-3";
+            } catch (error) {
+                ui.fileName.textContent = "Error al leer el PDF.";
+                ui.fileIcon.className = "fas fa-triangle-exclamation text-red-500 text-4xl mb-3";
+                console.error(error);
+            }
+        });
+
+        // 4. ANIMACIONES (9 Segundos) Y LLAMADA AL BACKEND
+        ui.btnScan.addEventListener('click', async () => {
+            if (!currentExtractedText) {
+                alert("Debes subir un CV en formato PDF primero.");
+                return;
+            }
+
+            const mode = document.querySelector('input[name="ats-mode"]:checked').value;
+            
+            // Iniciar UI de Escaneo
+            ui.app.classList.add('hidden-section');
+            ui.scanner.classList.remove('hidden-section');
+            
+            // Iniciar Barra de progreso (9 segundos)
+            setTimeout(() => { ui.progressBar.style.width = "100%"; }, 50);
+
+            // Secuencia de Animaciones
+            const animSequence = [
+                { time: 0, text: "> Inicializando Protocolo AXON...\n> Extrayendo metadata del CV..." },
+                { time: 2000, text: "> Sometiendo estructura a filtros ATS de alta exigencia...\n> Evaluando palabras clave..." },
+                { time: 4000, text: "> Procesamiento neuronal activado.\n> Verificando legibilidad y semántica..." }
+            ];
+
+            if (mode === "advanced") {
+                animSequence.push(
+                    { time: 6000, text: "> [AVANZADO] Conectando con el mercado laboral en tiempo real...\n> Extrayendo ofertas sugeridas..." },
+                    { time: 8000, text: "> [AVANZADO] Calculando Match Score mediante IA.\n> Emitiendo veredicto..." }
+                );
+            } else {
+                animSequence.push(
+                    { time: 6000, text: "> Finalizando chequeo estructural..." },
+                    { time: 8000, text: "> Compilando reporte ATS básico..." }
+                );
+            }
+
+            animSequence.forEach(step => {
+                setTimeout(() => {
+                    ui.animText.style.opacity = 0;
+                    setTimeout(() => {
+                        ui.animText.innerText = step.text;
+                        ui.animText.style.opacity = 1;
+                    }, 200);
+                }, step.time);
+            });
+
+            // Llamada asíncrona al Worker mientras transcurren los 9 segundos
+            let workerResponse = null;
+            let workerError = null;
+
+            try {
+                const response = await fetch('https://cerebroaxon.lautybg22.workers.dev/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${idToken}` // JWT de Firebase para validación segura en backend
+                    },
+                    body: JSON.stringify({
+                        client_id: currentClientId,
+                        mode: mode,
+                        cv_text: currentExtractedText
+                    })
+                });
+                
+                if (!response.ok) throw new Error("Error en la conexión con el Cerebro.");
+                workerResponse = await response.json();
+            } catch (err) {
+                workerError = err.message;
+            }
+
+            // Esperar obligatoriamente los 9 segundos de animación
+            setTimeout(() => {
+                ui.scanner.classList.add('hidden-section');
+                ui.results.classList.remove('hidden-section');
+
+                if (workerError) {
+                    ui.resultsContent.innerHTML = `<span class="text-red-500">Error de conexión: ${workerError}</span>`;
+                } else {
+                    // Formatear la respuesta del backend
+                    ui.resultsContent.innerText = JSON.stringify(workerResponse, null, 2);
+                }
+            }, 9000); // 9 segundos exactos
+        });
+    </script>
+</body>
+</html>

@@ -28,6 +28,9 @@
         }
     </script>
 
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
     <style>
         body { background-color: #050505; color: #e5e5e5; font-family: 'Inter', system-ui, sans-serif; }
         .glass-panel { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(16px); border: 1px solid #262626; }
@@ -268,17 +271,17 @@
                                 <svg class="h-8 w-8 text-gray-400 group-hover:text-axonGreen transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
                             <p class="text-center text-sm text-gray-300 font-bold px-4">Anclar Documento PDF</p>
-                            <p class="text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Motor de lectura Studio IA</p>
+                            <p class="text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Local Document Parsing</p>
                         </div>
 
-                        <!-- Estado Cargando (Google Studio IA Procesando) -->
+                        <!-- Estado Cargando (Procesamiento Local) -->
                         <div id="upload-loading" class="hidden flex-col items-center w-full px-4 z-20">
                             <div class="relative w-16 h-16 mb-4 flex items-center justify-center">
                                 <div class="absolute inset-0 border-t-2 border-axonGreen rounded-full animate-spin"></div>
                                 <div class="absolute inset-2 border-b-2 border-white rounded-full animate-spin direction-reverse"></div>
                                 <svg class="h-6 w-6 text-axonGreen animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             </div>
-                            <p class="text-xs text-axonGreen font-mono animate-pulse uppercase tracking-widest text-center">Extrayendo Datos<br>Google Studio IA...</p>
+                            <p class="text-xs text-axonGreen font-mono animate-pulse uppercase tracking-widest text-center">Parseando Datos<br>Procesamiento Local...</p>
                         </div>
                     </div>
 
@@ -359,7 +362,7 @@
             </h2>
             <div class="flex gap-3">
                 <button onclick="window.print()" class="hidden md:flex items-center gap-2 bg-[#121212] border border-[#333] hover:border-axonGreen/50 text-gray-300 px-4 py-2 rounded text-xs uppercase tracking-widest transition">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 00-2 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                     Imprimir
                 </button>
                 <button onclick="window.location.reload()" class="bg-axonGreen text-black font-bold px-4 py-2 rounded text-xs uppercase tracking-widest hover:bg-white transition shadow-[0_0_10px_rgba(0,255,65,0.2)]">
@@ -515,11 +518,11 @@
             }
         };
 
-        // INTEGRACIÓN GOOGLE STUDIO IA NATIVA (Sin librerías externas)
+        // INTEGRACIÓN LOCAL DOCUMENT PARSING PIPELINE (Client-Side OCR/Parsing)
         window.handleFileUpload = async (e) => {
             const file = e.target.files[0];
             
-            // Solución al "Efecto Fantasma": Limpiar el valor del input para permitir subir el mismo archivo en caso de fallo 503
+            // Solución al "Efecto Fantasma": Limpiar el valor del input
             e.target.value = '';
 
             if (!file) return;
@@ -536,50 +539,41 @@
             window.textConfirmed = false;
 
             try {
-                // 1. Convertir el archivo PDF a Base64 nativamente
-                const getBase64 = (file) => new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => resolve(reader.result.split(',')[1]); // Extrae solo el código Base64
-                    reader.onerror = error => reject(error);
-                });
-                const base64PDF = await getBase64(file);
-
-                // 2. Obtener API KEY de Firestore
-                const keyDoc = await getDoc(doc(db, 'chatbotcv', 'IDCV'));
-                if(!keyDoc.exists()) throw new Error("Llave IA no encontrada en bóveda.");
-                const apiKey = keyDoc.data().key3;
-
-                // 3. Prompt Estricto
-                const systemPrompt = "Actúa como el extractor 'API AXON'. Tu única tarea es leer el documento PDF adjunto y devolver únicamente el texto limpio, estructurado y fidedigno de toda la información. No agregues comentarios, no inventes datos, no saludes, ni incluyas formato adicional. Solo devuelve el texto puro del CV.";
-
-                // 4. Llamado al endpoint gemini-3.5-flash-lite con tokens aumentados a 10,000
-                const aiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ 
-                            role: "user", 
-                            parts: [
-                                { text: systemPrompt },
-                                { inlineData: { mimeType: "application/pdf", data: base64PDF } }
-                            ] 
-                        }],
-                        generationConfig: { 
-                            temperature: 0.1, 
-                            maxOutputTokens: 10000 
+                // Configurar el worker de PDF.js
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+                
+                // Leer el archivo localmente como ArrayBuffer
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                
+                let extractedText = "";
+                
+                // Iterar sobre cada página
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    
+                    let lastY = -1;
+                    let pageText = "";
+                    
+                    // Ordenar y estructurar el texto matemáticamente para evitar que quede "amontonado"
+                    for (let item of content.items) {
+                        // Si hay un cambio significativo en el eje Y (transform[5]), es un salto de línea natural del diseño
+                        if (lastY !== -1 && Math.abs(item.transform[5] - lastY) > 4) {
+                            pageText += "\n";
                         }
-                    })
-                });
-
-                const aiData = await aiRes.json();
-                
-                // Manejo directo de errores de Google (como el 503 High Demand)
-                if(aiData.error || !aiData.candidates) {
-                    throw new Error(aiData.error?.message || "Error en API de Inferencia Google.");
+                        pageText += item.str + " ";
+                        lastY = item.transform[5];
+                    }
+                    extractedText += pageText + "\n\n";
                 }
-                
-                window.cleanedCVText = aiData.candidates[0].content.parts[0].text;
+
+                if (extractedText.trim().length === 0) {
+                    throw new Error("El documento está vacío o es una imagen sin texto (requiere OCR visual avanzado).");
+                }
+
+                // Limpieza de espacios excesivos manteniendo los saltos de línea perfectos
+                window.cleanedCVText = extractedText.replace(/ {2,}/g, ' ').trim();
 
                 // Mostrar el Editor de Estructura
                 document.getElementById('upload-loading').classList.add('hidden');
@@ -593,7 +587,7 @@
                 document.getElementById('cv-extracted-text').value = window.cleanedCVText;
                 
             } catch (error) {
-                console.error("Error del Motor IA:", error);
+                console.error("Error del Motor Local Parsing:", error);
                 alert("Error procesando el documento:\n\n" + error.message + "\n\nPor favor, intenta de nuevo.");
                 
                 // Restaurar la UI para permitir un nuevo intento gracias a la limpieza del Efecto Fantasma
@@ -726,7 +720,5 @@
     </script>
 </body>
 </html>
-
-
 
 

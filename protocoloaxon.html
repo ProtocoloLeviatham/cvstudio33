@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXON - Protocolo ATS | CVStudio33</title>
+    <title>AXON ATS | Inteligencia Curricular</title>
     
     <!-- Tailwind CSS (Mobile First) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,150 +11,239 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { axonGreen: '#00FF41', axonDark: '#0D0D0D' },
-                    animation: { pulseFast: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite' }
+                    colors: { axonGreen: '#00FF41', axonDark: '#0A0A0A', axonGray: '#171717' },
+                    animation: { 
+                        spinSlow: 'spin 3s linear infinite',
+                        fadeIn: 'fadeIn 0.5s ease-out forwards'
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
                 }
             }
         }
     </script>
 
-    <!-- PDF.js para extraer texto del CV -->
+    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
     <style>
-        /* Estilos personalizados para animaciones y scroll */
-        body { background-color: #050505; color: #ffffff; font-family: 'Inter', system-ui, sans-serif; }
-        .glass-panel { background: rgba(13, 13, 13, 0.8); backdrop-filter: blur(10px); border: 1px solid #00FF4140; }
-        .neon-shadow { box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); }
-        .neon-text { text-shadow: 0 0 8px rgba(0, 255, 65, 0.6); }
+        body { background-color: #050505; color: #e5e5e5; font-family: 'Inter', system-ui, sans-serif; }
+        .glass-panel { background: rgba(23, 23, 23, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-panel-active { border: 1px solid #00FF41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.1); }
+        .input-dark { background: #0A0A0A; border: 1px solid #333; color: white; transition: border 0.3s; }
+        .input-dark:focus { border-color: #00FF41; outline: none; }
         
-        /* Animación de Red Neuronal CSS */
-        .node { width: 8px; height: 8px; background: #00FF41; border-radius: 50%; position: absolute; box-shadow: 0 0 10px #00FF41; }
-        .line { position: absolute; background: linear-gradient(90deg, transparent, #00FF41, transparent); height: 1px; width: 100%; opacity: 0.5; }
+        /* Animación del Loader Circular (Profesional) */
+        .loader-ring { width: 120px; height: 120px; border-radius: 50%; border: 2px solid transparent; border-top-color: #00FF41; border-right-color: rgba(0, 255, 65, 0.3); animation: spin 1.5s linear infinite; }
+        .loader-ring-inner { width: 90px; height: 90px; border-radius: 50%; border: 2px solid transparent; border-bottom-color: #00FF41; border-left-color: rgba(0, 255, 65, 0.3); animation: spin 2s linear infinite reverse; position: absolute; top: 15px; left: 15px; }
         
-        /* Consola / Terminal */
-        #terminal-log p { margin: 4px 0; font-family: monospace; font-size: 0.85rem; color: #a3a3a3; }
-        #terminal-log p.active { color: #00FF41; font-weight: bold; }
-        
-        /* Ocultar barra de scroll pero permitir scroll */
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative overflow-x-hidden">
+<body class="min-h-screen flex flex-col relative overflow-x-hidden selection:bg-axonGreen selection:text-black">
 
     <!-- PANTALLA 1: LOGIN PROFESIONAL -->
-    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-black z-50 transition-opacity duration-500">
-        <img src="logo.png" alt="CVStudio33" class="h-12 mb-4 opacity-80">
-        <div class="glass-panel p-8 rounded-2xl flex flex-col items-center w-[90%] max-w-sm neon-shadow">
-            
-            <!-- Título con Logo Integrado -->
-            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-widest flex items-center justify-center gap-3 w-full">
-                ACCESO <img src="logoaxon.png" alt="AXON" class="h-8 md:h-10 object-contain">
+    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50 transition-opacity duration-700">
+        <div class="glass-panel p-8 md:p-10 rounded-2xl flex flex-col items-center w-[90%] max-w-md shadow-2xl">
+            <h1 class="text-3xl font-bold text-white mb-2 tracking-widest flex items-center gap-3">
+                ACCESO <img src="logoaxon.png" alt="AXON" class="h-9 object-contain">
             </h1>
+            <p class="text-sm text-gray-400 mb-8 text-center leading-relaxed">
+                Plataforma corporativa de simulación ATS y optimización curricular. Autenticación de seguridad requerida.
+            </p>
             
-            <p class="text-sm text-gray-400 mb-8 text-center mt-2">Identidad requerida para iniciar el protocolo.</p>
-            
-            <button id="btn-login" class="w-full bg-white text-black font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition">
+            <button id="btn-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition duration-300">
                 <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Continuar con Google
+                Ingresar con Google
             </button>
         </div>
-        <p class="text-xs text-gray-600 mt-6 text-center max-w-xs">Plataforma de alta seguridad protegida por Tokens JWT.</p>
+        <div class="mt-8 flex items-center gap-2 opacity-50">
+            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <span class="text-xs text-gray-400 uppercase tracking-widest">Conexión Encriptada JWT</span>
+        </div>
     </div>
 
-    <!-- CABECERA: WALLET & USUARIO (Visible post-login) -->
-    <header id="app-header" class="hidden w-full bg-axonDark border-b border-axonGreen/30 p-4 sticky top-0 z-40">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" class="h-6 hidden md:block">
-                <span class="text-gray-500 hidden md:block">|</span>
-                <img src="logoaxon.png" class="h-8">
+    <!-- CABECERA PROFESIONAL -->
+    <header id="app-header" class="hidden w-full bg-[#0A0A0A] border-b border-gray-800 p-4 sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" class="h-6 hidden md:block opacity-80">
+                <div class="h-6 w-px bg-gray-700 hidden md:block"></div>
+                <img src="logoaxon.png" class="h-7 object-contain">
             </div>
             
-            <div class="flex flex-col items-end">
-                <div class="flex items-center gap-2">
-                    <div class="h-2 w-2 rounded-full bg-axonGreen animate-pulse"></div>
-                    <span id="display-user" class="text-xs text-gray-400 font-mono">cliente-....</span>
+            <div class="flex items-center gap-4 md:gap-6">
+                <!-- Billetera -->
+                <div class="flex flex-col items-end">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wider mb-0.5">Balance</span>
+                    <div class="flex items-center gap-1.5 text-axonGreen font-medium">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span id="display-tokens" class="text-sm font-bold">0</span> 
+                        <span class="text-xs">AXON</span>
+                    </div>
                 </div>
-                <div class="text-axonGreen font-bold font-mono neon-text flex items-center gap-1">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span id="display-tokens">0</span> AXON
+                
+                <div class="h-8 w-px bg-gray-800"></div>
+
+                <!-- Usuario y Logout -->
+                <div class="flex items-center gap-3">
+                    <div class="hidden md:flex flex-col items-end">
+                        <span class="text-[10px] text-gray-500 uppercase tracking-wider mb-0.5">Identidad</span>
+                        <div class="flex items-center gap-1.5">
+                            <div class="h-1.5 w-1.5 rounded-full bg-axonGreen animate-pulse"></div>
+                            <span id="display-user" class="text-xs text-gray-300">cliente-....</span>
+                        </div>
+                    </div>
+                    <button id="btn-logout" class="p-2 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white" title="Cerrar Sesión">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- PANTALLA 2: DASHBOARD / BOT ATS -->
-    <main id="dashboard-screen" class="hidden flex-1 w-full max-w-4xl mx-auto p-4 md:p-8 flex flex-col">
+    <main id="dashboard-screen" class="hidden flex-1 w-full max-w-5xl mx-auto p-4 md:p-8 flex flex-col">
         
-        <div class="mb-8">
-            <h2 class="text-xl md:text-2xl font-bold mb-1">BOT ATS <span class="text-axonGreen">AXON</span></h2>
-            <p class="text-sm text-gray-400">Selecciona el modo de protocolo y carga tu CV en formato PDF.</p>
+        <!-- Intro Profesional -->
+        <div class="mb-8 bg-axonGray p-6 rounded-xl border border-gray-800">
+            <h2 class="text-2xl font-bold mb-2 flex items-center gap-2">
+                Simulador ATS <span class="text-axonGreen">AXON</span>
+            </h2>
+            <p class="text-sm text-gray-400 leading-relaxed max-w-3xl">
+                Nuestro núcleo evalúa tu documento utilizando los mismos algoritmos semánticos que los motores ATS corporativos (Workday, Taleo, Greenhouse). Identifica brechas de palabras clave, errores de formato y extrae métricas de empleabilidad en tiempo real.
+            </p>
         </div>
 
-        <!-- Selector de Modo -->
-        <div class="grid grid-cols-2 gap-4 mb-8">
-            <div id="mode-basic" class="glass-panel p-4 rounded-xl cursor-pointer border-axonGreen/50 flex flex-col items-center justify-center transition" onclick="selectMode('basic')">
-                <h3 class="font-bold text-gray-300">BÁSICO</h3>
-                <p class="text-xs text-gray-500 text-center mt-1">Análisis estructural ATS</p>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            
+            <!-- Columna Izquierda: Modos y Calibración -->
+            <div class="col-span-1 lg:col-span-7 flex flex-col gap-6">
+                
+                <!-- Selector de Modo -->
+                <div>
+                    <h3 class="text-sm text-gray-400 uppercase tracking-wider mb-3">1. Selecciona el Protocolo</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div id="mode-basic" class="glass-panel p-5 rounded-xl cursor-pointer border-axonGreen transition relative" onclick="selectMode('basic')">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-axonGreen text-lg">Básico</h4>
+                                <span class="bg-gray-900 text-xs py-1 px-2 rounded font-mono text-gray-300">3 AXON</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed">Análisis estructural, extracción semántica NLP y validación de legibilidad ATS.</p>
+                        </div>
+                        
+                        <div id="mode-advanced" class="glass-panel p-5 rounded-xl cursor-pointer border-gray-800 opacity-60 transition relative" onclick="selectMode('advanced')">
+                            <div class="absolute -top-2.5 right-4 bg-axonGreen text-black text-[10px] font-bold px-2 py-0.5 rounded-sm">RECOMENDADO</div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-gray-300 text-lg transition-colors group">Avanzado</h4>
+                                <span class="bg-gray-900 text-xs py-1 px-2 rounded font-mono text-gray-300">5 AXON</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed">Incluye Básico + Estrés multicapa y conexión en tiempo real con API Jooble para Match de Ofertas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matriz de Calibración (NUEVO) -->
+                <div>
+                    <h3 class="text-sm text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        2. Matriz de Calibración <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    </h3>
+                    <div class="glass-panel p-5 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] text-gray-500 uppercase mb-1">Sector Profesional</label>
+                            <select id="cal-sector" class="w-full input-dark rounded-lg p-2.5 text-sm appearance-none cursor-pointer">
+                                <option value="IT & Software">IT & Software</option>
+                                <option value="Finanzas y Contabilidad">Finanzas y Contabilidad</option>
+                                <option value="Marketing y Ventas">Marketing y Ventas</option>
+                                <option value="Recursos Humanos">Recursos Humanos</option>
+                                <option value="Ingeniería y Operaciones">Ingeniería y Operaciones</option>
+                                <option value="Otro">Otro Sector</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-500 uppercase mb-1">Nivel de Experiencia</label>
+                            <select id="cal-experiencia" class="w-full input-dark rounded-lg p-2.5 text-sm appearance-none cursor-pointer">
+                                <option value="Trainee / Junior">Trainee / Junior (0-2 años)</option>
+                                <option value="Semi-Senior">Semi-Senior (2-5 años)</option>
+                                <option value="Senior">Senior (5+ años)</option>
+                                <option value="Ejecutivo / Management">Ejecutivo / Management</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-[11px] text-gray-500 uppercase mb-1">Puesto Objetivo (Ej. Analista de Datos)</label>
+                            <input type="text" id="cal-puesto" placeholder="Escribe tu puesto ideal..." class="w-full input-dark rounded-lg p-2.5 text-sm" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-[11px] text-gray-500 uppercase mb-1">Empresa Objetivo (Opcional)</label>
+                            <input type="text" id="cal-empresa" placeholder="Ej. MercadoLibre, Globant..." class="w-full input-dark rounded-lg p-2.5 text-sm">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="mode-advanced" class="glass-panel p-4 rounded-xl cursor-pointer border-gray-800 opacity-60 flex flex-col items-center justify-center relative transition" onclick="selectMode('advanced')">
-                <div class="absolute -top-3 bg-axonGreen text-black text-[10px] font-bold px-2 py-1 rounded-full animate-bounce">RECOMENDADO</div>
-                <h3 class="font-bold text-axonGreen">AVANZADO</h3>
-                <p class="text-xs text-gray-400 text-center mt-1">Match Laboral + Red Neuronal</p>
+
+            <!-- Columna Derecha: Upload y Botón -->
+            <div class="col-span-1 lg:col-span-5 flex flex-col gap-6">
+                <div>
+                    <h3 class="text-sm text-gray-400 uppercase tracking-wider mb-3">3. Documento Fuente</h3>
+                    <div class="glass-panel flex-1 rounded-xl flex flex-col items-center justify-center p-8 border-dashed border-2 border-gray-700 hover:border-axonGreen transition group relative overflow-hidden min-h-[220px]">
+                        <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <svg class="h-12 w-12 text-gray-500 group-hover:text-axonGreen transition mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <p id="upload-text" class="text-center text-sm text-gray-300 font-medium px-4">Haz clic o arrastra tu PDF aquí</p>
+                        <p class="text-[11px] text-gray-500 mt-2 uppercase tracking-wide">Límite: 5MB • Formato: PDF</p>
+                    </div>
+                </div>
+
+                <button id="btn-start" disabled class="mt-auto w-full bg-white text-black font-bold py-4 rounded-xl uppercase tracking-wider disabled:opacity-20 disabled:cursor-not-allowed hover:bg-axonGreen transition duration-300">
+                    Iniciar Escaneo ATS
+                </button>
             </div>
         </div>
-
-        <!-- Zona de Upload -->
-        <div class="glass-panel flex-1 rounded-2xl flex flex-col items-center justify-center p-6 border-dashed border-2 border-axonGreen/40 hover:border-axonGreen transition group relative overflow-hidden">
-            <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-            <svg class="h-16 w-16 text-axonGreen/50 group-hover:text-axonGreen transition mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-            <p id="upload-text" class="text-center text-sm md:text-base text-gray-300 font-medium">Toca para cargar tu PDF o arrástralo aquí</p>
-            <p class="text-xs text-gray-500 mt-2">Solo formato .pdf</p>
-        </div>
-
-        <button id="btn-start" disabled class="mt-6 w-full bg-axonGreen text-black font-bold py-4 rounded-xl uppercase tracking-wider disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#00cc33] transition neon-shadow">
-            Iniciar Protocolo de Extracción
-        </button>
     </main>
 
-    <!-- PANTALLA 3: ANIMACIÓN DE RED NEURONAL (9 SEGUNDOS) -->
-    <div id="animation-screen" class="hidden absolute inset-0 bg-black z-50 flex flex-col items-center justify-center overflow-hidden">
+    <!-- PANTALLA 3: ANIMACIÓN PROFESIONAL (9 SEGUNDOS) -->
+    <div id="animation-screen" class="hidden absolute inset-0 bg-[#050505] z-50 flex flex-col items-center justify-center overflow-hidden">
         
-        <!-- Red Neuronal de fondo -->
-        <div class="absolute inset-0 opacity-20 pointer-events-none">
-            <div class="line top-1/4 left-0 animate-pulseFast"></div>
-            <div class="line top-3/4 left-0 animate-pulseFast" style="animation-delay: 0.3s"></div>
-            <div class="node top-1/4 left-1/3"></div>
-            <div class="node top-1/2 left-1/2"></div>
-            <div class="node top-3/4 left-2/3"></div>
+        <!-- Elemento Visual Central -->
+        <div class="relative flex items-center justify-center mb-12">
+            <!-- Anillos CSS -->
+            <div class="loader-ring absolute"></div>
+            <div class="loader-ring-inner absolute"></div>
+            <!-- Logo Central -->
+            <img src="logoaxon.png" alt="AXON" class="h-10 relative z-10 animate-pulse">
         </div>
 
-        <!-- Logo Central Pulsante -->
-        <div class="relative z-10 flex flex-col items-center mb-10">
-            <div class="absolute inset-0 bg-axonGreen rounded-full blur-[40px] opacity-20 animate-pulse"></div>
-            <img src="logoaxon.png" alt="Procesando" class="h-24 md:h-32 animate-pulse relative z-10">
-        </div>
-
-        <!-- Consola de Progreso -->
-        <div class="glass-panel w-[90%] max-w-md p-4 rounded-lg relative z-10 text-left border-l-4 border-l-axonGreen">
-            <div id="terminal-log" class="h-40 overflow-y-hidden flex flex-col justify-end">
-                <!-- Se inyectarán textos por JS -->
+        <!-- Pantalla de Estado Dinámica -->
+        <div class="w-[85%] max-w-md text-center flex flex-col items-center">
+            <h3 class="text-axonGreen font-mono text-sm mb-2 uppercase tracking-widest">Ejecutando Protocolo</h3>
+            
+            <div class="h-16 flex items-center justify-center">
+                <!-- El texto cambia dinámicamente aquí -->
+                <p id="process-text" class="text-gray-300 text-base md:text-lg font-light transition-opacity duration-300">
+                    Conectando con el núcleo central...
+                </p>
             </div>
-            <!-- Barra de progreso -->
-            <div class="w-full bg-gray-900 h-1 mt-4 rounded overflow-hidden">
-                <div id="progress-bar" class="h-full bg-axonGreen w-0 transition-all duration-1000 ease-linear shadow-[0_0_10px_#00FF41]"></div>
+
+            <!-- Barra de Progreso Elegante -->
+            <div class="w-full bg-gray-900 h-0.5 mt-6 rounded-full overflow-hidden relative">
+                <div id="progress-bar" class="h-full bg-axonGreen w-0 transition-all duration-1000 ease-linear shadow-[0_0_8px_#00FF41]"></div>
+            </div>
+            
+            <div class="flex justify-between w-full mt-3 px-1">
+                <span class="text-[10px] text-gray-600 font-mono">ESTADO: AISLADO</span>
+                <span class="text-[10px] text-gray-600 font-mono" id="progress-percent">0%</span>
             </div>
         </div>
     </div>
 
-    <!-- Módulos de Firebase (Versión Modular) -->
+    <!-- Módulos de Firebase (Lógica Exacta) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // CONFIGURACIÓN PROPORCIONADA
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
             authDomain: "cv-studio33.firebaseapp.com",
@@ -169,13 +258,11 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Variables Globales
         let currentMode = 'basic';
         let pdfFile = null;
         let userIdFormat = "";
         let idTokenJWT = "";
 
-        // UI Elementos
         const ui = {
             login: document.getElementById('login-screen'),
             header: document.getElementById('app-header'),
@@ -186,51 +273,50 @@
             btnStart: document.getElementById('btn-start'),
             uploadText: document.getElementById('upload-text'),
             cvUpload: document.getElementById('cv-upload'),
-            terminal: document.getElementById('terminal-log'),
-            progressBar: document.getElementById('progress-bar')
+            processText: document.getElementById('process-text'),
+            progressBar: document.getElementById('progress-bar'),
+            progressPercent: document.getElementById('progress-percent'),
+            btnLogout: document.getElementById('btn-logout')
         };
 
-        // --- SISTEMA DE AUTENTICACIÓN ---
+        // AUTH: LOGIN & LOGOUT
         document.getElementById('btn-login').addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).catch(error => console.error("Error Login:", error));
+            signInWithPopup(auth, new GoogleAuthProvider()).catch(err => console.error("Login Error:", err));
+        });
+
+        ui.btnLogout.addEventListener('click', () => {
+            signOut(auth).then(() => window.location.reload());
         });
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Generar ID dinámico y JWT
                 const shortCode = user.uid.slice(-4);
                 userIdFormat = `cliente-${shortCode}`;
-                idTokenJWT = await user.getIdToken(true); // JWT Seguro para el backend
+                idTokenJWT = await user.getIdToken(true); 
 
-                // Transición UI
                 ui.login.style.opacity = '0';
                 setTimeout(() => {
                     ui.login.classList.add('hidden');
                     ui.header.classList.remove('hidden');
                     ui.dashboard.classList.remove('hidden');
-                }, 500);
+                }, 700);
 
                 ui.dispUser.innerText = userIdFormat;
 
                 const docRef = doc(db, 'users', userIdFormat);
-
-                // 1. VERIFICAR Y CREAR DOCUMENTO SI NO EXISTE
+                
+                // Creación de perfil seguro
                 try {
                     const docSnap = await getDoc(docRef);
                     if (!docSnap.exists()) {
-                        // Creación segura: solo envía firma y nombre de usuario. Sin tokens.
                         await setDoc(docRef, {
                             auth_signature: user.uid,
                             user: userIdFormat
                         });
-                        console.log("Perfil base creado. Listo para recibir tokens del Cerebro.");
                     }
-                } catch (error) {
-                    console.error("Error validando/creando perfil en Firestore:", error);
-                }
+                } catch (error) { console.error("Error validando perfil en Firestore:", error); }
 
-                // 2. ESCUCHAR SALDO EN TIEMPO REAL
+                // Escucha de tokens (Solo lectura)
                 onSnapshot(docRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
@@ -238,8 +324,6 @@
                     } else {
                         ui.dispTokens.innerText = "0";
                     }
-                }, (err) => {
-                    console.error("Error de permisos al leer tokens:", err);
                 });
 
             } else {
@@ -250,54 +334,67 @@
             }
         });
 
-        // --- SELECTOR DE MODO ---
+        // UI: SELECCIÓN DE MODO
         window.selectMode = (mode) => {
             currentMode = mode;
             const btnB = document.getElementById('mode-basic');
             const btnA = document.getElementById('mode-advanced');
             
             if(mode === 'basic') {
-                btnB.classList.add('border-axonGreen/50');
+                btnB.classList.add('border-axonGreen');
                 btnB.classList.remove('border-gray-800', 'opacity-60');
-                btnB.querySelector('h3').classList.add('text-axonGreen');
-                btnB.querySelector('h3').classList.remove('text-gray-300');
+                btnB.querySelector('h4').classList.add('text-axonGreen');
+                btnB.querySelector('h4').classList.remove('text-gray-300');
                 
                 btnA.classList.add('border-gray-800', 'opacity-60');
-                btnA.classList.remove('border-axonGreen/50');
-                btnA.querySelector('h3').classList.remove('text-axonGreen');
-                btnA.querySelector('h3').classList.add('text-gray-300');
+                btnA.classList.remove('border-axonGreen');
+                btnA.querySelector('h4').classList.remove('text-axonGreen');
+                btnA.querySelector('h4').classList.add('text-gray-300');
             } else {
-                btnA.classList.add('border-axonGreen/50');
+                btnA.classList.add('border-axonGreen');
                 btnA.classList.remove('border-gray-800', 'opacity-60');
-                btnA.querySelector('h3').classList.add('text-axonGreen');
-                btnA.querySelector('h3').classList.remove('text-gray-300');
+                btnA.querySelector('h4').classList.add('text-axonGreen');
+                btnA.querySelector('h4').classList.remove('text-gray-300');
                 
                 btnB.classList.add('border-gray-800', 'opacity-60');
-                btnB.classList.remove('border-axonGreen/50');
-                btnB.querySelector('h3').classList.remove('text-axonGreen');
-                btnB.querySelector('h3').classList.add('text-gray-300');
+                btnB.classList.remove('border-axonGreen');
+                btnB.querySelector('h4').classList.remove('text-axonGreen');
+                btnB.querySelector('h4').classList.add('text-gray-300');
             }
         };
 
-        // --- CARGA DE ARCHIVO ---
+        // UI: CARGA DE ARCHIVO
         ui.cvUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file && file.type === "application/pdf") {
                 pdfFile = file;
-                ui.uploadText.innerHTML = `<span class="text-axonGreen font-bold">${file.name}</span> cargado con éxito.`;
+                ui.uploadText.innerHTML = `<span class="text-axonGreen font-bold truncate max-w-xs block">${file.name}</span><span class="text-xs text-gray-400 mt-1 block">Documento anclado y listo.</span>`;
                 ui.btnStart.disabled = false;
             } else {
-                alert("Por favor, sube un archivo PDF válido.");
+                alert("Formato denegado. Se requiere un archivo .pdf estandarizado.");
                 ui.btnStart.disabled = true;
             }
         });
 
-        // --- EXTRACCIÓN Y ANIMACIÓN (9 SEGUNDOS) ---
+        // NÚCLEO: EXTRACCIÓN Y ANIMACIÓN
         ui.btnStart.addEventListener('click', async () => {
+            const puestoInput = document.getElementById('cal-puesto').value.trim();
+            if(!puestoInput) {
+                alert("La Matriz de Calibración requiere al menos definir el 'Puesto Objetivo'.");
+                document.getElementById('cal-puesto').focus();
+                return;
+            }
             if (!pdfFile) return;
+
+            // Recopilar Matriz
+            const calibrationData = {
+                sector: document.getElementById('cal-sector').value,
+                experiencia: document.getElementById('cal-experiencia').value,
+                puesto: puestoInput,
+                empresa: document.getElementById('cal-empresa').value.trim()
+            };
             
             ui.dashboard.classList.add('hidden');
-            ui.header.classList.add('hidden');
             ui.animation.classList.remove('hidden');
 
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
@@ -318,45 +415,47 @@
                 return;
             }
 
+            // Textos Corporativos para Animación
             const runAnimations = new Promise((resolve) => {
                 const logsBasic = [
-                    { t: 0, text: "> Inicializando núcleo AXON ATS..." },
-                    { t: 1500, text: "> Parsing documento semántico: EXITOSO" },
-                    { t: 3000, text: "> Aplicando filtros estrictos de Fortune 500..." },
-                    { t: 5000, text: "> Evaluando legibilidad y palabras clave..." },
-                    { t: 7500, text: "> Estructurando output neuronal..." },
-                    { t: 9000, text: "> Protocolo finalizado." }
+                    { t: 0, text: "Inicializando escáner semántico NLP..." },
+                    { t: 1500, text: "Extrayendo entidades y mapeando competencias..." },
+                    { t: 3500, text: "Aplicando algoritmos de validación estructural..." },
+                    { t: 5500, text: "Simulando filtros corporativos estándar..." },
+                    { t: 7500, text: "Calculando densidad de palabras clave..." },
+                    { t: 9000, text: "Compilando reporte de empleabilidad final." }
                 ];
                 const logsAdv = [
-                    { t: 0, text: "> Inicializando núcleo AXON ATS [MODO AVANZADO]..." },
-                    { t: 1500, text: "> Parsing documento semántico profundo: EXITOSO" },
-                    { t: 3000, text: "> Aplicando estrés algorítmico Fortune 500..." },
-                    { t: 4500, text: "> Conectando con mercado laboral global (APIs remotas)..." },
-                    { t: 6000, text: "> Analizando cientos de ofertas en tiempo real..." },
-                    { t: 7500, text: "> Ejecutando Match Neuronal perfil vs mercado..." },
-                    { t: 9000, text: "> Extracción de ofertas sugeridas completada. Finalizando..." }
+                    { t: 0, text: "Desplegando infraestructura de simulación ATS..." },
+                    { t: 1500, text: "Ejecutando parsing profundo (Taleo, Workday, Greenhouse)..." },
+                    { t: 3000, text: "Evaluando legibilidad, formato y brechas de retención..." },
+                    { t: 4500, text: "Estableciendo túnel seguro con API Jooble..." },
+                    { t: 6500, text: "Cruzando competencias contra mercado laboral en tiempo real..." },
+                    { t: 8000, text: "Calculando Match Score y emitiendo directrices..." },
+                    { t: 9000, text: "Protocolo avanzado finalizado con éxito." }
                 ];
 
                 const logsToUse = currentMode === 'advanced' ? logsAdv : logsBasic;
 
                 logsToUse.forEach(step => {
                     setTimeout(() => {
-                        const p = document.createElement('p');
-                        p.innerText = `[${(step.t / 1000).toFixed(2)}s] ${step.text}`;
-                        Array.from(ui.terminal.children).forEach(child => child.classList.remove('active'));
-                        p.classList.add('active', 'animate-pulse');
-                        ui.terminal.appendChild(p);
-                        ui.terminal.scrollTop = ui.terminal.scrollHeight;
+                        // Animación de fade en el texto
+                        ui.processText.style.opacity = '0';
+                        setTimeout(() => {
+                            ui.processText.innerText = step.text;
+                            ui.processText.style.opacity = '1';
+                        }, 200);
                         
-                        const progressPercent = Math.min((step.t / 9000) * 100, 100);
-                        ui.progressBar.style.width = `${progressPercent}%`;
+                        const progress = Math.min((step.t / 9000) * 100, 100);
+                        ui.progressBar.style.width = `${progress}%`;
+                        ui.progressPercent.innerText = `${Math.round(progress)}%`;
 
                         if(step.t === 9000) resolve();
                     }, step.t);
                 });
             });
 
-            // Enviar datos al Worker de Cloudflare
+            // Llamada al Cerebro (Worker) con la Matriz de Calibración
             const callBackend = fetch('https://cerebroaxon.lautybg22.workers.dev/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -364,6 +463,7 @@
                     userId: userIdFormat,
                     tokenJWT: idTokenJWT,
                     mode: currentMode,
+                    calibration: calibrationData,
                     cvText: extractedText
                 })
             }).then(res => res.json()).catch(err => ({ error: true, detail: err }));
@@ -374,21 +474,26 @@
                 ui.animation.classList.add('opacity-0', 'transition-opacity', 'duration-500');
                 setTimeout(() => {
                     console.log("Respuesta del Cerebro:", backendResponse);
-                    alert("Proceso completado. Revisa la consola.");
+                    
+                    // Aquí procesaremos la respuesta real en el próximo paso
+                    alert("Escaneo finalizado. Revisa la consola para ver los datos del backend.");
                     
                     ui.animation.classList.add('hidden');
                     ui.animation.classList.remove('opacity-0');
-                    ui.header.classList.remove('hidden');
                     ui.dashboard.classList.remove('hidden');
+                    
+                    // Reset UI
                     ui.btnStart.disabled = true;
-                    ui.uploadText.innerText = "Toca para cargar otro PDF";
+                    ui.uploadText.innerHTML = "Haz clic o arrastra otro PDF aquí";
                     pdfFile = null;
                     ui.progressBar.style.width = '0%';
-                    ui.terminal.innerHTML = '';
+                    ui.progressPercent.innerText = '0%';
                 }, 500);
             }, 500);
         });
     </script>
 </body>
 </html>
+
+
 

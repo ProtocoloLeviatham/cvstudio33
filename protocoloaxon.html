@@ -266,8 +266,8 @@
         </div>
         
         <div class="glass-panel p-6 md:p-8 rounded-xl">
-            <!-- Aquí se inyectará la respuesta del backend -->
-            <div id="results-content" class="text-gray-300 text-sm md:text-base leading-relaxed whitespace-pre-wrap font-mono"></div>
+            <!-- Aquí se inyectará el HTML renderizado por el Cerebro AXON -->
+            <div id="results-content" class="w-full"></div>
         </div>
     </div>
 
@@ -293,7 +293,7 @@
 
         // Variables de Estado
         window.currentMode = 'basic';
-        window.cleanedCVText = null; // Guardará el texto procesado por Groq
+        window.cleanedCVText = null; 
         window.userTokens = 0;
         const COST_BASIC = 3;
         const COST_ADVANCED = 5;
@@ -313,14 +313,14 @@
             inputs: ['cal-sector', 'cal-experiencia', 'cal-puesto']
         };
 
-        // Seguridad Anti-XSS para inputs manuales
+        // Seguridad Anti-XSS
         const sanitizeXSS = (str) => {
             return str.replace(/[&<>'"]/g, tag => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
             }[tag] || tag));
         };
 
-        // Auth Lógica...
+        // Auth Lógica
         document.getElementById('btn-login').addEventListener('click', () => signInWithPopup(auth, new GoogleAuthProvider()));
         document.getElementById('btn-logout').addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
 
@@ -379,7 +379,7 @@
         // VALIDACIÓN
         window.validateForm = () => {
             const inputsOk = ui.inputs.every(id => document.getElementById(id).value.trim().length > 0);
-            const cvOk = window.cleanedCVText !== null; // Se desbloquea SOLO si Groq terminó
+            const cvOk = window.cleanedCVText !== null; 
             const cost = window.currentMode === 'basic' ? COST_BASIC : COST_ADVANCED;
             const fundsOk = window.userTokens >= cost;
 
@@ -405,14 +405,12 @@
             const file = e.target.files[0];
             if (!file || file.type !== "application/pdf") { alert("Formato inválido. Sube un PDF."); return; }
             
-            // 1. Mostrar Spinner NYX IA
             document.getElementById('cv-upload').disabled = true;
             document.getElementById('upload-icon').classList.add('hidden');
             document.getElementById('upload-loading').classList.remove('hidden');
             document.getElementById('upload-loading').classList.add('flex');
 
             try {
-                // 2. Extraer texto crudo (PDF.js)
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
                 const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
                 let rawText = "";
@@ -421,12 +419,10 @@
                     rawText += content.items.map(item => item.str).join(" ") + "\n";
                 }
 
-                // 3. Obtener API Key de Firebase (Según reglas: chatbotcv/IDCV)
                 const keyDoc = await getDoc(doc(db, 'chatbotcv', 'IDCV'));
                 if(!keyDoc.exists()) throw new Error("Llave IA no encontrada en bóveda.");
                 const apiKey = keyDoc.data().key3;
 
-                // 4. Llamado a Groq Qwen
                 const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
@@ -445,10 +441,8 @@
                 const groqData = await groqRes.json();
                 if(groqData.error) throw new Error("Error en API de Inferencia.");
                 
-                // Texto perfecto listo para el Cerebro
                 window.cleanedCVText = groqData.choices[0].message.content;
 
-                // 5. Mostrar Éxito
                 document.getElementById('upload-loading').classList.add('hidden');
                 document.getElementById('upload-loading').classList.remove('flex');
                 document.getElementById('upload-success').classList.remove('hidden');
@@ -516,7 +510,6 @@
                 }, 50);
             });
 
-            // Enviar al Worker. Sanitización aplicada antes de enviar.
             const payload = {
                 userId: userIdFormat,
                 tokenJWT: idTokenJWT,
@@ -527,7 +520,7 @@
                     puesto: sanitizeXSS(document.getElementById('cal-puesto').value),
                     empresa: sanitizeXSS(document.getElementById('cal-empresa').value || "No especificada")
                 },
-                cvText: window.cleanedCVText // El texto ya estructurado por Groq
+                cvText: window.cleanedCVText
             };
 
             const callBackend = fetch('https://cerebroaxon.lautybg22.workers.dev/', {
@@ -545,11 +538,11 @@
                     ui.resultsScreen.classList.remove('hidden');
                     ui.resultsScreen.classList.add('flex');
                     
-                    // Mostrar los datos reales del Cerebro
+                    // Modificación Clave: Renderizado HTML en lugar de Texto Plano
                     if(backendResponse.error) {
-                        ui.resultsContent.innerHTML = `<span class="text-red-500 font-bold">ERROR DEL CEREBRO:</span>\n${backendResponse.detail || "Transacción denegada. Verifica tu saldo."}`;
+                        ui.resultsContent.innerHTML = `<span class="text-red-500 font-bold text-lg">ERROR DEL CEREBRO:</span><br><br><span class="text-gray-300">${backendResponse.detail || "Transacción denegada. Verifica tu saldo."}</span>`;
                     } else {
-                        ui.resultsContent.innerText = backendResponse.reporte || "Análisis completado satisfactoriamente.";
+                        ui.resultsContent.innerHTML = backendResponse.reporte || "<span class='text-axonGreen font-mono'>Análisis completado satisfactoriamente.</span>";
                     }
                 }, 500);
             }, 500);
@@ -557,3 +550,5 @@
     </script>
 </body>
 </html>
+
+

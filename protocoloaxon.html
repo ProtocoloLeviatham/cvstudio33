@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXON ATS | Inteligencia Curricular Corporativa</title>
+    <title>AXON ATS | NYX IA - CVStudio33</title>
     
     <!-- Tailwind CSS (Mobile First) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,7 +12,10 @@
             theme: {
                 extend: {
                     colors: { axonGreen: '#00FF41', axonDark: '#0A0A0A', axonGray: '#121212', axonBorder: '#262626' },
-                    animation: { pulseFast: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite' }
+                    animation: { 
+                        pulseFast: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        spinSlow: 'spin 2s linear infinite'
+                    }
                 }
             }
         }
@@ -44,6 +47,9 @@
         .module-item.active .status-dot { background: #00FF41; box-shadow: 0 0 8px #00FF41; animation: pulse 1s infinite; }
         .module-item.done .status-dot { background: #00FF41; }
 
+        /* Loader Redondo para NYX IA */
+        .nyx-loader { border: 3px solid rgba(255,255,255,0.1); border-left-color: #00FF41; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -51,14 +57,14 @@
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden selection:bg-axonGreen selection:text-black">
 
-    <!-- LOGIN -->
+    <!-- PANTALLA 1: LOGIN -->
     <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50 transition-opacity duration-700">
         <div class="glass-panel p-8 md:p-10 rounded-2xl flex flex-col items-center w-[90%] max-w-md shadow-2xl">
             <h1 class="text-3xl font-bold text-white mb-2 tracking-widest flex items-center gap-3">
                 ACCESO <img src="logoaxon.png" alt="AXON" class="h-9 object-contain">
             </h1>
             <p class="text-sm text-gray-400 mb-8 text-center leading-relaxed">
-                Sistema corporativo de inferencia semántica y simulación ATS. Identidad JWT requerida.
+                Sistema corporativo BOT ATS de CVStudio33. Identidad JWT requerida.
             </p>
             
             <button id="btn-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition duration-300">
@@ -107,22 +113,22 @@
         </div>
     </header>
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD PRINCIPAL -->
     <main id="dashboard-screen" class="hidden flex-1 w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col">
         
         <!-- Intro -->
         <div class="mb-6 bg-gradient-to-r from-axonGray to-[#050505] p-6 rounded-xl border border-axonBorder">
             <h2 class="text-xl md:text-2xl font-bold mb-2 flex items-center gap-2">
-                Simulador ATS <span class="text-axonGreen">AXON</span>
+                BOT ATS <span class="text-axonGreen">AXON</span> <span class="text-[10px] bg-[#1a1a1a] px-2 py-0.5 rounded text-gray-400 ml-2 border border-[#333]">Powered by NYX IA</span>
             </h2>
             <p class="text-sm text-gray-400 leading-relaxed max-w-4xl">
-                Nuestro núcleo procesa tu documento utilizando la API de <strong>Groq (Qwen 3.8-27b)</strong> para estructuración de datos, sometiéndolo a una prueba de estrés multicapa basada en los algoritmos semánticos de Workday, Taleo y SAP SuccessFactors. Detecta brechas algorítmicas antes que los reclutadores.
+                BOT ATS de última generación equipado con procesamiento semántico avanzado y conectado a nuestras bases de datos corporativas. Como plugin exclusivo de NYX IA, AXON evalúa tu perfil con precisión quirúrgica, aplicando filtros globales propios para detectar brechas algorítmicas y optimizar tu posicionamiento en el mercado laboral.
             </p>
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
             
-            <!-- Columna Izquierda: Configuración -->
+            <!-- Configuración -->
             <div class="col-span-1 xl:col-span-8 flex flex-col gap-6">
                 
                 <!-- Protocolos -->
@@ -140,73 +146,45 @@
                         <div id="mode-advanced" class="glass-panel p-5 rounded-xl cursor-pointer border-axonBorder opacity-60 transition relative group" onclick="selectMode('advanced')">
                             <div class="absolute -top-2.5 right-4 bg-axonGreen text-black text-[9px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">Recomendado</div>
                             <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-bold text-gray-300 text-base transition-colors group-hover:text-white">Estrés Multicapa + Mercado</h4>
+                                <h4 class="font-bold text-gray-300 text-base transition-colors group-hover:text-white">Escaneo Multicapa</h4>
                                 <span class="bg-[#050505] border border-gray-800 text-[10px] py-1 px-2 rounded font-mono text-gray-300">5 AXON</span>
                             </div>
-                            <p class="text-[13px] text-gray-400 leading-relaxed">Inferencia IA profunda, corrección semántica, y Match Score en tiempo real con <strong>API Jooble</strong>.</p>
+                            <p class="text-[13px] text-gray-400 leading-relaxed">Incluye protocolo básico más inferencia IA profunda, corrección semántica y cruce con filtros corporativos globales.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Matriz de Calibración -->
+                <!-- Matriz Libre Segura -->
                 <div>
                     <h3 class="text-[11px] text-gray-500 uppercase tracking-widest mb-3 font-semibold flex items-center gap-2">
-                        2. Matriz de Calibración Estratégica
+                        2. Matriz de Calibración Libre
                     </h3>
                     <div class="glass-panel p-5 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-5">
                         
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Rubro Profesional</label>
-                            <select id="cal-sector" class="w-full input-dark rounded-lg p-3 text-sm appearance-none cursor-pointer">
-                                <option value="IT, Sistemas y Software">IT, Sistemas y Software</option>
-                                <option value="Finanzas, Bancos y Seguros">Finanzas, Bancos y Seguros</option>
-                                <option value="Minería, Petróleo y Energía">Minería, Petróleo y Energía (O&G)</option>
-                                <option value="Logística y Operaciones">Logística y Operaciones</option>
-                                <option value="Comercio, Retail y Ventas">Comercio, Retail y Ventas</option>
-                                <option value="Recursos Humanos">Recursos Humanos (RRHH)</option>
-                                <option value="Salud y Medicina">Salud y Medicina</option>
-                                <option value="Otro">Otro Rubro</option>
-                            </select>
+                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Rubro Profesional <span class="text-axonGreen">*</span></label>
+                            <input type="text" id="cal-sector" placeholder="Ej. Finanzas, IT, Marketing..." class="w-full input-dark rounded-lg p-3 text-sm" required oninput="validateForm()">
                         </div>
                         
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Nivel de Seniority</label>
-                            <select id="cal-experiencia" class="w-full input-dark rounded-lg p-3 text-sm appearance-none cursor-pointer">
-                                <option value="Trainee / Sin Experiencia">Trainee / Sin Experiencia</option>
-                                <option value="Junior (0-2 años)">Junior (0-2 años)</option>
-                                <option value="Semi-Senior (2-5 años)">Semi-Senior (2-5 años)</option>
-                                <option value="Senior (5+ años)">Senior (5+ años)</option>
-                                <option value="Liderazgo / Management">Liderazgo / Management</option>
-                            </select>
+                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Nivel de Seniority <span class="text-axonGreen">*</span></label>
+                            <input type="text" id="cal-experiencia" placeholder="Ej. Junior (2 años), Senior..." class="w-full input-dark rounded-lg p-3 text-sm" required oninput="validateForm()">
                         </div>
 
                         <div class="md:col-span-1">
-                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Puesto Objetivo <span class="text-red-500">*</span></label>
-                            <input type="text" id="cal-puesto" placeholder="Ej. Desarrollador Backend, Analista Financiero..." class="w-full input-dark rounded-lg p-3 text-sm" required oninput="validateForm()">
+                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Puesto Objetivo <span class="text-axonGreen">*</span></label>
+                            <input type="text" id="cal-puesto" placeholder="Ej. Desarrollador Backend..." class="w-full input-dark rounded-lg p-3 text-sm" required oninput="validateForm()">
                         </div>
 
                         <div class="md:col-span-1">
-                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Target Corporativo (Argentina/Global)</label>
-                            <!-- Datalist para autocompletado con empresas reales -->
-                            <input type="text" id="cal-empresa" list="empresas-arg" placeholder="Opcional. Ej. Mercado Libre..." class="w-full input-dark rounded-lg p-3 text-sm">
-                            <datalist id="empresas-arg">
-                                <option value="Mercado Libre">
-                                <option value="Globant">
-                                <option value="YPF">
-                                <option value="Banco Galicia">
-                                <option value="Techint">
-                                <option value="Ualá">
-                                <option value="Telecom Argentina">
-                                <option value="Cervecería y Maltería Quilmes">
-                                <option value="Despegar">
-                                <option value="Accenture">
-                            </datalist>
+                            <label class="block text-[10px] text-gray-400 uppercase tracking-wide mb-1.5">Empresa / Sector Target (Opcional)</label>
+                            <input type="text" id="cal-empresa" placeholder="Ej. Mercado Libre, Startups..." class="w-full input-dark rounded-lg p-3 text-sm">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Columna Derecha: Upload y Botón -->
+            <!-- Columna Derecha: Upload y Pre-Proceso -->
             <div class="col-span-1 xl:col-span-4 flex flex-col gap-6">
                 <div>
                     <h3 class="text-[11px] text-gray-500 uppercase tracking-widest mb-3 font-semibold">3. Documento (Input)</h3>
@@ -214,24 +192,28 @@
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleFileUpload(event)">
                         
                         <!-- Ícono inicial -->
-                        <div id="upload-icon" class="flex flex-col items-center">
+                        <div id="upload-icon" class="flex flex-col items-center transition-opacity duration-300">
                             <svg class="h-10 w-10 text-gray-500 group-hover:text-axonGreen transition mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                             <p class="text-center text-sm text-gray-300 font-medium px-4">Anclar archivo PDF</p>
-                            <p class="text-[10px] text-gray-500 mt-1 uppercase tracking-wider">Máx 5MB</p>
                         </div>
 
-                        <!-- Estado cargado (oculto inicio) -->
-                        <div id="upload-success" class="hidden flex-col items-center w-full px-4">
+                        <!-- Estado Cargando (NYX IA Procesando) -->
+                        <div id="upload-loading" class="hidden flex-col items-center w-full px-4 z-20">
+                            <div class="nyx-loader mb-3"></div>
+                            <p class="text-xs text-axonGreen font-mono animate-pulse uppercase tracking-widest text-center">Optimizando Semántica<br>NYX IA...</p>
+                        </div>
+
+                        <!-- Estado Éxito -->
+                        <div id="upload-success" class="hidden flex-col items-center w-full px-4 z-20">
                             <div class="p-3 bg-axonGreen/10 rounded-full mb-2 border border-axonGreen/30">
                                 <svg class="h-6 w-6 text-axonGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                             <p id="filename-text" class="text-sm font-bold text-white text-center truncate w-full">archivo.pdf</p>
-                            <p class="text-[10px] text-axonGreen mt-1 uppercase tracking-wider">Texto crudo extraíble</p>
+                            <p class="text-[10px] text-axonGreen mt-1 uppercase tracking-wider">Texto Estructurado Listo</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- BOTÓN PRINCIPAL (CON LÓGICA DE SALDO Y FORMULARIO) -->
                 <button id="btn-start" disabled class="mt-auto w-full bg-gray-800 text-gray-500 font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all duration-300 cursor-not-allowed border border-gray-700">
                     Completar Requisitos
                 </button>
@@ -239,36 +221,30 @@
         </div>
     </main>
 
-    <!-- PANTALLA 3: ANIMACIÓN PROFESIONAL (ESCÁNER & MÓDULOS) -->
+    <!-- PANTALLA 3: ANIMACIÓN PROFESIONAL HACIA EL CEREBRO -->
     <div id="animation-screen" class="hidden absolute inset-0 bg-[#050505] z-50 flex flex-col items-center justify-center overflow-hidden">
-        
         <div class="flex flex-col md:flex-row items-center gap-12 max-w-4xl w-[90%]">
-            
-            <!-- Izquierda: Gráfico del Escáner -->
             <div class="flex flex-col items-center">
                 <div class="doc-scanner shadow-[0_0_30px_rgba(0,255,65,0.1)]">
                     <div class="laser"></div>
                     <div class="laser-overlay"></div>
                 </div>
-                <p class="text-axonGreen font-mono text-[10px] mt-4 uppercase tracking-widest animate-pulse">Parsing PDF.js</p>
+                <p class="text-axonGreen font-mono text-[10px] mt-4 uppercase tracking-widest animate-pulse">Escaneo de Estrés Activo</p>
             </div>
 
-            <!-- Derecha: Consola de Módulos -->
             <div class="flex-1 w-full bg-[#0A0A0A] border border-[#262626] rounded-xl p-6 shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-axonGreen to-transparent opacity-50"></div>
                 
                 <h3 class="text-white text-sm font-bold mb-4 flex items-center gap-2">
-                    <svg class="h-4 w-4 text-axonGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    <img src="logoaxon.png" class="h-4 object-contain">
                     NÚCLEO AXON EN EJECUCIÓN
                 </h3>
 
-                <div id="modules-list" class="flex flex-col gap-1">
-                    <!-- Los items se inyectan por JS -->
-                </div>
+                <div id="modules-list" class="flex flex-col gap-1"></div>
 
                 <div class="mt-6">
                     <div class="flex justify-between text-[10px] font-mono text-gray-500 mb-1">
-                        <span>PROGRESO DE INFERENCIA</span>
+                        <span>PROGRESO DEL CEREBRO</span>
                         <span id="progress-percent" class="text-axonGreen">0%</span>
                     </div>
                     <div class="w-full bg-[#121212] h-1.5 rounded-full overflow-hidden border border-[#262626]">
@@ -276,11 +252,26 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- SCRIPTS DE FIREBASE Y LÓGICA -->
+    <!-- PANTALLA 4: RESULTADOS DEL BOT ATS -->
+    <div id="results-screen" class="hidden flex-1 w-full max-w-5xl mx-auto p-4 md:p-8 flex-col">
+        <div class="flex items-center justify-between mb-6 border-b border-gray-800 pb-4">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                <svg class="h-7 w-7 text-axonGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                REPORTE DE DIAGNÓSTICO AXON
+            </h2>
+            <button onclick="window.location.reload()" class="bg-gray-900 border border-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded text-sm transition">Nuevo Escaneo</button>
+        </div>
+        
+        <div class="glass-panel p-6 md:p-8 rounded-xl">
+            <!-- Aquí se inyectará la respuesta del backend -->
+            <div id="results-content" class="text-gray-300 text-sm md:text-base leading-relaxed whitespace-pre-wrap font-mono"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS CORE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -302,31 +293,36 @@
 
         // Variables de Estado
         window.currentMode = 'basic';
-        window.pdfFile = null;
+        window.cleanedCVText = null; // Guardará el texto procesado por Groq
         window.userTokens = 0;
         const COST_BASIC = 3;
         const COST_ADVANCED = 5;
         let userIdFormat = "";
         let idTokenJWT = "";
 
-        // UI Elementos
+        // UI
         const ui = {
             login: document.getElementById('login-screen'),
             header: document.getElementById('app-header'),
             dashboard: document.getElementById('dashboard-screen'),
             animation: document.getElementById('animation-screen'),
+            resultsScreen: document.getElementById('results-screen'),
+            resultsContent: document.getElementById('results-content'),
             dispTokens: document.getElementById('display-tokens'),
             btnStart: document.getElementById('btn-start'),
-            puestoInput: document.getElementById('cal-puesto')
+            inputs: ['cal-sector', 'cal-experiencia', 'cal-puesto']
         };
 
-        // EVENTOS AUTH
-        document.getElementById('btn-login').addEventListener('click', () => {
-            signInWithPopup(auth, new GoogleAuthProvider()).catch(console.error);
-        });
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            signOut(auth).then(() => window.location.reload());
-        });
+        // Seguridad Anti-XSS para inputs manuales
+        const sanitizeXSS = (str) => {
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[tag] || tag));
+        };
+
+        // Auth Lógica...
+        document.getElementById('btn-login').addEventListener('click', () => signInWithPopup(auth, new GoogleAuthProvider()));
+        document.getElementById('btn-logout').addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -341,24 +337,17 @@
                 }, 700);
 
                 document.getElementById('display-user').innerText = userIdFormat;
-
                 const docRef = doc(db, 'users', userIdFormat);
-                
                 try {
                     const docSnap = await getDoc(docRef);
                     if (!docSnap.exists()) await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat });
                 } catch (e) {}
 
                 onSnapshot(docRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        window.userTokens = docSnap.data().tokens_axon || 0;
-                    } else {
-                        window.userTokens = 0;
-                    }
+                    window.userTokens = docSnap.exists() ? (docSnap.data().tokens_axon || 0) : 0;
                     ui.dispTokens.innerText = window.userTokens;
-                    validateForm(); // Re-evaluar botón al cambiar saldo
+                    validateForm();
                 });
-
             } else {
                 ui.login.classList.remove('hidden');
                 ui.login.style.opacity = '1';
@@ -367,7 +356,7 @@
             }
         });
 
-        // LÓGICA DEL FRONTEND (MODOS, ARCHIVOS Y VALIDACIÓN DE TOKENS)
+        // Selección de Modo
         window.selectMode = (mode) => {
             window.currentMode = mode;
             const btnB = document.getElementById('mode-basic');
@@ -387,33 +376,18 @@
             validateForm();
         };
 
-        window.handleFileUpload = (e) => {
-            const file = e.target.files[0];
-            if (file && file.type === "application/pdf") {
-                window.pdfFile = file;
-                document.getElementById('upload-icon').classList.add('hidden');
-                document.getElementById('upload-success').classList.remove('hidden');
-                document.getElementById('upload-success').classList.add('flex');
-                document.getElementById('filename-text').innerText = file.name;
-            } else {
-                alert("Formato inválido. Se requiere PDF.");
-                window.pdfFile = null;
-            }
-            validateForm();
-        };
-
-        // VALIDACIÓN MAESTRA DEL BOTÓN (Billetera + Formulario)
+        // VALIDACIÓN
         window.validateForm = () => {
-            const puestoOk = ui.puestoInput.value.trim().length > 0;
-            const fileOk = window.pdfFile !== null;
+            const inputsOk = ui.inputs.every(id => document.getElementById(id).value.trim().length > 0);
+            const cvOk = window.cleanedCVText !== null; // Se desbloquea SOLO si Groq terminó
             const cost = window.currentMode === 'basic' ? COST_BASIC : COST_ADVANCED;
             const fundsOk = window.userTokens >= cost;
 
             ui.btnStart.classList.remove('bg-gray-800', 'text-gray-500', 'bg-red-900', 'text-red-300', 'bg-white', 'text-black', 'hover:bg-axonGreen', 'border-red-700', 'border-gray-700');
 
-            if (!puestoOk || !fileOk) {
+            if (!inputsOk || !cvOk) {
                 ui.btnStart.disabled = true;
-                ui.btnStart.innerText = "Completar Requisitos";
+                ui.btnStart.innerText = "Completar Requisitos & CV";
                 ui.btnStart.classList.add('bg-gray-800', 'text-gray-500', 'border-gray-700');
             } else if (!fundsOk) {
                 ui.btnStart.disabled = true;
@@ -426,39 +400,89 @@
             }
         };
 
-        // EJECUCIÓN (El Frontend manda texto crudo, el backend hace el Groq)
+        // CARGA DE CV Y LLAMADO A IA (GROQ) EN EL FRONTEND
+        window.handleFileUpload = async (e) => {
+            const file = e.target.files[0];
+            if (!file || file.type !== "application/pdf") { alert("Formato inválido. Sube un PDF."); return; }
+            
+            // 1. Mostrar Spinner NYX IA
+            document.getElementById('cv-upload').disabled = true;
+            document.getElementById('upload-icon').classList.add('hidden');
+            document.getElementById('upload-loading').classList.remove('hidden');
+            document.getElementById('upload-loading').classList.add('flex');
+
+            try {
+                // 2. Extraer texto crudo (PDF.js)
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+                const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
+                let rawText = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const content = await (await pdf.getPage(i)).getTextContent();
+                    rawText += content.items.map(item => item.str).join(" ") + "\n";
+                }
+
+                // 3. Obtener API Key de Firebase (Según reglas: chatbotcv/IDCV)
+                const keyDoc = await getDoc(doc(db, 'chatbotcv', 'IDCV'));
+                if(!keyDoc.exists()) throw new Error("Llave IA no encontrada en bóveda.");
+                const apiKey = keyDoc.data().key3;
+
+                // 4. Llamado a Groq Qwen
+                const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "qwen/qwen3.8-27b",
+                        messages: [
+                            { role: "system", content: "Extrae, ordena y devuelve estrictamente toda la información del CV proporcionado. No alteres datos ni inventes nada. No incluyas introducciones ni despedidas, solo el texto puro estructurado." },
+                            { role: "user", content: rawText }
+                        ],
+                        temperature: 0.6,
+                        max_tokens: 2048,
+                        top_p: 0.95
+                    })
+                });
+
+                const groqData = await groqRes.json();
+                if(groqData.error) throw new Error("Error en API de Inferencia.");
+                
+                // Texto perfecto listo para el Cerebro
+                window.cleanedCVText = groqData.choices[0].message.content;
+
+                // 5. Mostrar Éxito
+                document.getElementById('upload-loading').classList.add('hidden');
+                document.getElementById('upload-loading').classList.remove('flex');
+                document.getElementById('upload-success').classList.remove('hidden');
+                document.getElementById('upload-success').classList.add('flex');
+                document.getElementById('filename-text').innerText = file.name;
+                
+            } catch (error) {
+                console.error(error);
+                alert("Error procesando el documento. Intenta de nuevo.");
+                document.getElementById('upload-loading').classList.add('hidden');
+                document.getElementById('upload-icon').classList.remove('hidden');
+            }
+            
+            document.getElementById('cv-upload').disabled = false;
+            validateForm();
+        };
+
+        // EJECUCIÓN: ENVÍO AL CEREBRO
         ui.btnStart.addEventListener('click', async () => {
             ui.dashboard.classList.add('hidden');
             ui.animation.classList.remove('hidden');
 
-            // 1. Extraer texto crudo del PDF.js (El front no llama a IA, solo limpia el PDF)
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-            let extractedRawText = "";
-            try {
-                const pdf = await pdfjsLib.getDocument(await window.pdfFile.arrayBuffer()).promise;
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const content = await (await pdf.getPage(i)).getTextContent();
-                    extractedRawText += content.items.map(item => item.str).join(" ") + "\n";
-                }
-            } catch (err) {
-                alert("Error crítico leyendo el PDF."); window.location.reload(); return;
-            }
-
-            // 2. Sistema de Animaciones (Duración fija obligatoria de 9s)
             const runAnimations = new Promise((resolve) => {
                 const modules = window.currentMode === 'advanced' ? [
-                    { id: 'm1', time: 0, text: "Extracción texto plano (PDF.js)" },
-                    { id: 'm2', time: 1000, text: "Llamada IA: Inferencia Groq Qwen 3.8-27b" },
-                    { id: 'm3', time: 3000, text: "Estructuración Semántica de Datos" },
-                    { id: 'm4', time: 4500, text: "Simulación Filtros Taleo / Workday" },
-                    { id: 'm5', time: 6500, text: "Conexión API Jooble: Match Laboral" },
-                    { id: 'm6', time: 8000, text: "Compilación de Reporte Final" }
+                    { id: 'm1', time: 0, text: "Compilando paquete semántico seguro..." },
+                    { id: 'm2', time: 1500, text: "Autenticando firma JWT con el Cerebro AXON..." },
+                    { id: 'm3', time: 3500, text: "Aplicando filtros globales (Workday, SuccessFactors)..." },
+                    { id: 'm4', time: 5500, text: "Ejecutando diagnóstico multicapa profundo..." },
+                    { id: 'm5', time: 8000, text: "Generando reporte de empleabilidad final..." }
                 ] : [
-                    { id: 'm1', time: 0, text: "Extracción texto plano (PDF.js)" },
-                    { id: 'm2', time: 1000, text: "Llamada IA: Inferencia Groq Qwen 3.8-27b" },
-                    { id: 'm3', time: 4000, text: "Estructuración Semántica de Datos" },
-                    { id: 'm4', time: 6000, text: "Simulación Filtros ATS Estándar" },
-                    { id: 'm5', time: 8000, text: "Compilación de Reporte Básico" }
+                    { id: 'm1', time: 0, text: "Compilando paquete semántico seguro..." },
+                    { id: 'm2', time: 2000, text: "Autenticando firma JWT con el Cerebro AXON..." },
+                    { id: 'm3', time: 5000, text: "Evaluando estructura y legibilidad ATS..." },
+                    { id: 'm4', time: 8000, text: "Generando reporte de diagnóstico básico..." }
                 ];
 
                 const container = document.getElementById('modules-list');
@@ -469,7 +493,7 @@
                 `).join('');
 
                 const startTime = Date.now();
-                const totalTime = 9500; // 9.5 segundos de UX obligatorios
+                const totalTime = 9500; 
                 
                 const interval = setInterval(() => {
                     const elapsed = Date.now() - startTime;
@@ -488,25 +512,22 @@
                         }
                     });
 
-                    if (elapsed >= totalTime) {
-                        clearInterval(interval);
-                        resolve();
-                    }
+                    if (elapsed >= totalTime) { clearInterval(interval); resolve(); }
                 }, 50);
             });
 
-            // 3. Petición al Cloudflare Worker (Cerebro)
+            // Enviar al Worker. Sanitización aplicada antes de enviar.
             const payload = {
                 userId: userIdFormat,
                 tokenJWT: idTokenJWT,
                 mode: window.currentMode,
                 calibration: {
-                    sector: document.getElementById('cal-sector').value,
-                    experiencia: document.getElementById('cal-experiencia').value,
-                    puesto: document.getElementById('cal-puesto').value,
-                    empresa: document.getElementById('cal-empresa').value
+                    sector: sanitizeXSS(document.getElementById('cal-sector').value),
+                    experiencia: sanitizeXSS(document.getElementById('cal-experiencia').value),
+                    puesto: sanitizeXSS(document.getElementById('cal-puesto').value),
+                    empresa: sanitizeXSS(document.getElementById('cal-empresa').value || "No especificada")
                 },
-                cvRawText: extractedRawText // Se envía texto crudo, el worker llamará a la IA
+                cvText: window.cleanedCVText // El texto ya estructurado por Groq
             };
 
             const callBackend = fetch('https://cerebroaxon.lautybg22.workers.dev/', {
@@ -515,20 +536,24 @@
                 body: JSON.stringify(payload)
             }).then(res => res.json()).catch(err => ({ error: true, detail: err }));
 
-            // 4. Esperar a que AMBAS (UX visual y Servidor) terminen.
             const [, backendResponse] = await Promise.all([runAnimations, callBackend]);
 
-            // Finalización
             setTimeout(() => {
-                ui.animation.classList.add('opacity-0', 'transition-opacity');
+                ui.animation.classList.add('opacity-0', 'transition-opacity', 'duration-500');
                 setTimeout(() => {
-                    console.log("Respuesta final del Cerebro:", backendResponse);
-                    alert("Operación Completada. Datos en consola.");
-                    window.location.reload(); // Reiniciar UI
+                    ui.animation.classList.add('hidden');
+                    ui.resultsScreen.classList.remove('hidden');
+                    ui.resultsScreen.classList.add('flex');
+                    
+                    // Mostrar los datos reales del Cerebro
+                    if(backendResponse.error) {
+                        ui.resultsContent.innerHTML = `<span class="text-red-500 font-bold">ERROR DEL CEREBRO:</span>\n${backendResponse.detail || "Transacción denegada. Verifica tu saldo."}`;
+                    } else {
+                        ui.resultsContent.innerText = backendResponse.reporte || "Análisis completado satisfactoriamente.";
+                    }
                 }, 500);
             }, 500);
         });
     </script>
 </body>
 </html>
-

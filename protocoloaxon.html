@@ -258,8 +258,8 @@
                         3. Ingesta de Documento
                     </h3>
                     
-                    <!-- Contenedor Principal de Carga -->
-                    <div id="upload-container" class="glass-panel flex-1 rounded-xl flex flex-col items-center justify-center p-6 border-dashed border-2 border-gray-700 hover:border-axonGreen transition group relative overflow-hidden min-h-[220px]">
+                    <!-- Contenedor Principal de Carga (CV Dropzone) -->
+                    <div id="cv-dropzone" class="glass-panel flex-1 rounded-xl flex flex-col items-center justify-center p-6 border-dashed border-2 border-gray-700 hover:border-axonGreen transition group relative overflow-hidden min-h-[220px]">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleFileUpload(event)">
                         
                         <!-- Ícono inicial -->
@@ -518,7 +518,15 @@
         // INTEGRACIÓN GOOGLE STUDIO IA NATIVA (Sin librerías externas)
         window.handleFileUpload = async (e) => {
             const file = e.target.files[0];
-            if (!file || file.type !== "application/pdf") { alert("Formato inválido. Sube un PDF."); return; }
+            
+            // Solución al "Efecto Fantasma": Limpiar el valor del input para permitir subir el mismo archivo en caso de fallo 503
+            e.target.value = '';
+
+            if (!file) return;
+            if (file.type !== "application/pdf") { 
+                alert("Formato inválido. El documento debe ser estrictamente un PDF (application/pdf)."); 
+                return; 
+            }
             
             document.getElementById('cv-upload').disabled = true;
             document.getElementById('upload-icon').classList.add('hidden');
@@ -542,11 +550,11 @@
                 if(!keyDoc.exists()) throw new Error("Llave IA no encontrada en bóveda.");
                 const apiKey = keyDoc.data().key3;
 
-                // 3. Prompt Profesional para Gemini
-                const systemPrompt = "Eres el módulo extractor de AXON ATS. Tu única tarea es leer el documento PDF adjunto y extraer TODA su información a texto plano bien estructurado. NO resumas, NO inventes datos, NO saludes, NO des explicaciones. Solo devuelve el contenido íntegro y ordenado.";
+                // 3. Prompt Estricto
+                const systemPrompt = "Actúa como el extractor 'API AXON'. Tu única tarea es leer el documento PDF adjunto y devolver únicamente el texto limpio, estructurado y fidedigno de toda la información. No agregues comentarios, no inventes datos, no saludes, ni incluyas formato adicional. Solo devuelve el texto puro del CV.";
 
-                // 4. Llamado a Google Studio IA enviando el documento directamente
-                const aiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+                // 4. Llamado al endpoint gemini-3.5-flash-lite con tokens aumentados a 10,000
+                const aiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -557,19 +565,26 @@
                                 { inlineData: { mimeType: "application/pdf", data: base64PDF } }
                             ] 
                         }],
-                        generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
+                        generationConfig: { 
+                            temperature: 0.1, 
+                            maxOutputTokens: 10000 
+                        }
                     })
                 });
 
                 const aiData = await aiRes.json();
-                if(aiData.error || !aiData.candidates) throw new Error(aiData.error?.message || "Error en API de Inferencia Google.");
+                
+                // Manejo directo de errores de Google (como el 503 High Demand)
+                if(aiData.error || !aiData.candidates) {
+                    throw new Error(aiData.error?.message || "Error en API de Inferencia Google.");
+                }
                 
                 window.cleanedCVText = aiData.candidates[0].content.parts[0].text;
 
                 // Mostrar el Editor de Estructura
                 document.getElementById('upload-loading').classList.add('hidden');
                 document.getElementById('upload-loading').classList.remove('flex');
-                document.getElementById('upload-container').classList.add('hidden'); // Ocultar input original para ahorrar espacio
+                document.getElementById('cv-dropzone').classList.add('hidden'); // Ocultar input original para ahorrar espacio
                 
                 const editor = document.getElementById('structure-editor');
                 editor.classList.remove('hidden');
@@ -579,14 +594,16 @@
                 
             } catch (error) {
                 console.error("Error del Motor IA:", error);
-                alert("Error procesando el documento: " + error.message);
+                alert("Error procesando el documento:\n\n" + error.message + "\n\nPor favor, intenta de nuevo.");
+                
+                // Restaurar la UI para permitir un nuevo intento gracias a la limpieza del Efecto Fantasma
                 document.getElementById('upload-loading').classList.add('hidden');
                 document.getElementById('upload-loading').classList.remove('flex');
                 document.getElementById('upload-icon').classList.remove('hidden');
+            } finally {
+                document.getElementById('cv-upload').disabled = false;
+                validateForm();
             }
-            
-            document.getElementById('cv-upload').disabled = false;
-            validateForm();
         };
 
         // Lógica del botón Confirmar Texto del Editor
@@ -709,3 +726,7 @@
     </script>
 </body>
 </html>
+
+
+
+

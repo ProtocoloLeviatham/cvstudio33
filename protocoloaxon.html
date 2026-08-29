@@ -28,9 +28,6 @@
         }
     </script>
 
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
     <style>
         body { background-color: #050505; color: #e5e5e5; font-family: 'Inter', system-ui, sans-serif; }
         .glass-panel { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(16px); border: 1px solid #262626; }
@@ -518,7 +515,7 @@
             }
         };
 
-        // INTEGRACIÓN GOOGLE STUDIO IA (gemini-flash-latest) PARA EXTRACCIÓN
+        // INTEGRACIÓN GOOGLE STUDIO IA NATIVA (Sin librerías externas)
         window.handleFileUpload = async (e) => {
             const file = e.target.files[0];
             if (!file || file.type !== "application/pdf") { alert("Formato inválido. Sube un PDF."); return; }
@@ -531,34 +528,41 @@
             window.textConfirmed = false;
 
             try {
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-                const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
-                let rawText = "";
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const content = await (await pdf.getPage(i)).getTextContent();
-                    rawText += content.items.map(item => item.str).join(" ") + "\n";
-                }
+                // 1. Convertir el archivo PDF a Base64 nativamente
+                const getBase64 = (file) => new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result.split(',')[1]); // Extrae solo el código Base64
+                    reader.onerror = error => reject(error);
+                });
+                const base64PDF = await getBase64(file);
 
-                // Obtener API KEY de Firestore
+                // 2. Obtener API KEY de Firestore
                 const keyDoc = await getDoc(doc(db, 'chatbotcv', 'IDCV'));
                 if(!keyDoc.exists()) throw new Error("Llave IA no encontrada en bóveda.");
                 const apiKey = keyDoc.data().key3;
 
-                // Prompt Profesional para Gemini
-                const systemPrompt = `Eres el módulo extractor de AXON ATS. Tu única tarea es tomar el texto crudo del CV proporcionado, limpiarlo de caracteres basura propios del PDF y devolver TODA la información en texto plano bien estructurado. NO resumas, NO inventes datos, NO saludes, NO des explicaciones. Solo devuelve el contenido íntegro y ordenado.\n\nCV:\n${rawText}`;
+                // 3. Prompt Profesional para Gemini
+                const systemPrompt = "Eres el módulo extractor de AXON ATS. Tu única tarea es leer el documento PDF adjunto y extraer TODA su información a texto plano bien estructurado. NO resumas, NO inventes datos, NO saludes, NO des explicaciones. Solo devuelve el contenido íntegro y ordenado.";
 
-                // Llamado a Google Studio IA (Flash Latest)
+                // 4. Llamado a Google Studio IA enviando el documento directamente
                 const aiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{ role: "user", parts: [{ text: systemPrompt }] }],
+                        contents: [{ 
+                            role: "user", 
+                            parts: [
+                                { text: systemPrompt },
+                                { inlineData: { mimeType: "application/pdf", data: base64PDF } }
+                            ] 
+                        }],
                         generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
                     })
                 });
 
                 const aiData = await aiRes.json();
-                if(aiData.error || !aiData.candidates) throw new Error("Error en API de Inferencia Google.");
+                if(aiData.error || !aiData.candidates) throw new Error(aiData.error?.message || "Error en API de Inferencia Google.");
                 
                 window.cleanedCVText = aiData.candidates[0].content.parts[0].text;
 
@@ -574,8 +578,8 @@
                 document.getElementById('cv-extracted-text').value = window.cleanedCVText;
                 
             } catch (error) {
-                console.error(error);
-                alert("Error procesando el documento. Intenta de nuevo.");
+                console.error("Error del Motor IA:", error);
+                alert("Error procesando el documento: " + error.message);
                 document.getElementById('upload-loading').classList.add('hidden');
                 document.getElementById('upload-loading').classList.remove('flex');
                 document.getElementById('upload-icon').classList.remove('hidden');
@@ -705,5 +709,3 @@
     </script>
 </body>
 </html>
-
-

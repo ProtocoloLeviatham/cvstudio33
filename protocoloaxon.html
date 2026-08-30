@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AXON ATS | Corporativo - CVStudio33</title>
     
-    <!-- Tailwind CSS (Mobile First) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,17 +14,12 @@
                     animation: { 
                         pulseFast: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         spinSlow: 'spin 2s linear infinite',
-                        glow: 'glow 2s ease-in-out infinite alternate',
-                        scrollCode: 'scrollCode 10s linear infinite'
+                        glow: 'glow 2s ease-in-out infinite alternate'
                     },
                     keyframes: {
                         glow: {
                             '0%': { boxShadow: '0 0 5px rgba(0, 255, 65, 0.2)' },
                             '100%': { boxShadow: '0 0 20px rgba(0, 255, 65, 0.6)' }
-                        },
-                        scrollCode: {
-                            '0%': { transform: 'translateY(100%)' },
-                            '100%': { transform: 'translateY(-100%)' }
                         }
                     }
                 }
@@ -33,11 +27,9 @@
         }
     </script>
 
-    <!-- FontAwesome & Google Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- PDF.js & Tesseract.js CDN (Client-Side OCR) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -69,14 +61,10 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         textarea::-webkit-scrollbar { width: 6px; }
         textarea::-webkit-scrollbar-thumb { background: #00FF41; border-radius: 10px; }
-        
-        /* Terminal Background Line */
-        .terminal-code { position: absolute; inset: 0; opacity: 0.05; overflow: hidden; font-family: monospace; font-size: 10px; color: #00FF41; line-height: 1.5; pointer-events: none; z-index: 0; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden selection:bg-axonGreen selection:text-black">
 
-    <!-- LOADER GLOBAL -->
     <div id="global-loader" class="fixed inset-0 bg-[#050505] z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
         <img src="logoaxon.png" alt="AXON" class="h-10 md:h-12 mb-6 animate-pulse opacity-80 object-contain">
         <div class="w-40 h-1 bg-[#121212] rounded-full overflow-hidden relative">
@@ -85,13 +73,11 @@
         <p class="text-[9px] text-gray-500 mt-4 uppercase tracking-widest font-mono">Autenticando Red Zero-Trust...</p>
     </div>
 
-    <!-- Notification Toast -->
     <div id="toast" class="fixed top-4 right-4 md:top-6 md:right-6 z-50 transform translate-x-full transition-transform duration-300 ease-out bg-[#0A0A0A] border border-[#333] text-white px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 w-[90%] md:w-auto max-w-sm">
         <i id="toast-icon" class="fas fa-check-circle text-axonGreen text-lg"></i>
         <span id="toast-message" class="text-xs md:text-sm font-semibold">Notificación</span>
     </div>
 
-    <!-- PANTALLA 1: LOGIN -->
     <div id="login-screen" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50 transition-opacity duration-700">
         <div class="glass-panel p-8 md:p-12 rounded-2xl flex flex-col items-center w-[90%] max-w-md shadow-2xl relative overflow-hidden">
             <div class="absolute -top-20 -left-20 w-40 h-40 bg-axonGreen rounded-full opacity-10 blur-[80px]"></div>
@@ -115,7 +101,6 @@
         </div>
     </div>
 
-    <!-- HEADER CORPORATIVO -->
     <header id="app-header" class="hidden w-full bg-[#0A0A0A] border-b border-axonBorder p-3 md:p-4 sticky top-0 z-40 shadow-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 md:gap-4">
@@ -140,10 +125,8 @@
         </div>
     </header>
 
-    <!-- DASHBOARD PRINCIPAL -->
     <main id="dashboard-screen" class="hidden flex-1 w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col">
         
-        <!-- Intro Corporativa (Mejorada visualmente) -->
         <div class="mb-6 md:mb-8 bg-gradient-to-br from-[#0A0A0A] via-[#050505] to-[#121212] p-6 md:p-8 rounded-2xl border border-[#333] shadow-[0_0_30px_rgba(0,255,65,0.05)] relative overflow-hidden">
             <div class="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-axonGreen/10 to-transparent pointer-events-none opacity-50"></div>
             
@@ -161,7 +144,6 @@
                 Diseñado bajo arquitectura Zero-Trust, este motor emula algorítmicamente los filtros rigurosos de plataformas líderes globales (Workday, Taleo, SuccessFactors). Extrae densidad semántica y cruza predictivamente tu perfil con el mercado laboral en tiempo real.
             </p>
 
-            <!-- Badges Tecnológicos CVStudio33 -->
             <div class="flex flex-wrap gap-2 md:gap-3 relative z-10">
                 <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-eye text-axonGreen"></i> Lectura Profunda OCR</span>
                 <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-microchip text-axonGreen"></i> Simulación Precisa ATS</span>
@@ -174,7 +156,6 @@
             
             <div class="col-span-1 xl:col-span-8 flex flex-col gap-6 md:gap-8">
                 
-                <!-- 1. Protocolo de Procesamiento -->
                 <div>
                     <h3 class="text-[10px] md:text-[11px] text-axonGreen uppercase tracking-widest mb-3 font-bold flex items-center gap-2">
                         <i class="fas fa-server text-xs"></i> 1. Selección de Protocolo Neuronal
@@ -205,7 +186,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Central de Calibración Estratégica (Lixie Unificado) -->
                 <div>
                     <h3 class="text-[10px] md:text-[11px] text-axonGreen uppercase tracking-widest mb-3 font-bold flex items-center gap-2">
                         <i class="fas fa-sliders-h text-xs"></i> 2. Matriz de Búsqueda y Preferencias
@@ -218,7 +198,7 @@
                                 Configuración Global de Lixie <img src="logo.png" class="h-4 opacity-90">
                             </h4>
                             <p class="text-xs text-gray-400 leading-relaxed max-w-lg mb-3">
-                                Define tu Puesto Objetivo, Seniority, Ubicación y Expectativas. Estos parámetros son vitales para que la Inteligencia Artificial cruce datos exactos con las vacantes ocultas en Jooble.
+                                Define tu Puesto Objetivo, Años de Experiencia, Ubicación y Expectativas. Estos parámetros son vitales para que la IA cruce datos exactos con las vacantes en Jooble.
                             </p>
                             <p id="lixie-status" class="text-[10px] md:text-xs text-yellow-500 uppercase tracking-widest font-mono font-bold animate-pulse inline-flex items-center gap-2 bg-yellow-900/10 px-3 py-1.5 rounded-md border border-yellow-900/30">
                                 <i class="fas fa-exclamation-circle"></i> Matriz de Configuración Pendiente
@@ -231,14 +211,12 @@
                 </div>
             </div>
 
-            <!-- 3. Ingesta de Documento Rediseñada -->
             <div class="col-span-1 xl:col-span-4 flex flex-col gap-5">
                 <h3 class="text-[10px] md:text-[11px] text-axonGreen uppercase tracking-widest font-bold flex items-center gap-2">
                     <i class="fas fa-microchip text-axonGreen text-sm"></i> 3. Motor de Ingesta y Procesamiento Neuronal (OCR)
                 </h3>
                 
                 <div class="glass-panel rounded-xl p-4 md:p-5 flex flex-col flex-1 relative overflow-hidden">
-                    <!-- Dropzone Principal -->
                     <div id="cv-dropzone" class="border-2 border-dashed border-[#333] hover:border-axonGreen bg-[#050505] rounded-xl flex-1 flex flex-col items-center justify-center p-6 text-center transition-all duration-300 relative group min-h-[180px]">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer z-10">
                         <div class="w-12 h-12 bg-[#121212] rounded-full flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-axonGreen/10 transition-all border border-[#262626] group-hover:border-axonGreen/40">
@@ -248,12 +226,10 @@
                         <p class="text-[9px] text-gray-500 uppercase tracking-widest mt-1">Soporta documentos e imágenes</p>
                     </div>
 
-                    <!-- Botón Flotante para Iniciar Extracción -->
                     <button id="btn-process" class="hidden mt-4 w-full bg-[#121212] hover:bg-[#1a1a1a] text-axonGreen font-bold py-2.5 rounded-lg text-[10px] uppercase tracking-wider transition-all border border-axonGreen/30 shadow-[0_0_10px_rgba(0,255,65,0.1)] flex items-center justify-center gap-2 z-20">
                         <i class="fas fa-cogs"></i> Ejecutar Procesamiento OCR
                     </button>
                     
-                    <!-- Contenedor Alerta Profesional y Botón Editor -->
                     <div id="edit-text-container" class="hidden mt-3 z-20 w-full flex-col gap-3">
                         <div class="bg-red-900/10 border border-red-500/30 p-3 rounded-lg flex items-start gap-3 shadow-inner">
                             <i class="fas fa-exclamation-triangle text-red-500 mt-0.5 text-xs"></i>
@@ -267,7 +243,6 @@
                     </div>
                 </div>
 
-                <!-- Botón Maestro de Envío -->
                 <button id="btn-start" disabled class="w-full bg-[#121212] text-gray-500 font-bold py-3.5 md:py-4 rounded-xl text-[10px] md:text-xs uppercase tracking-widest transition-all border border-[#333] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center justify-center gap-2">
                     <i class="fas fa-lock"></i> Faltan Datos o PDF
                 </button>
@@ -275,10 +250,8 @@
         </div>
     </main>
 
-    <!-- MODAL PREFERENCIAS LIXIE INTEGRADO (Flotante) -->
     <div id="lixie-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4">
         <div class="glass-panel-heavy rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden border-[#333] flex flex-col">
-            <!-- Header Modal con Logos CVStudio33 -->
             <div class="bg-[#050505] border-b border-[#262626] p-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <img src="logo.png" class="h-4">
@@ -289,7 +262,6 @@
             </div>
             
             <div class="p-6 relative min-h-[280px] flex flex-col justify-center">
-                <!-- PASO 1: Puesto y Seniority -->
                 <div id="lixie-step-1" class="flex flex-col gap-4">
                     <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 1 de 6 - Perfil</h4>
                     <div>
@@ -297,13 +269,12 @@
                         <input type="text" id="cal-puesto" placeholder="Ej. Backend Developer" class="w-full input-dark rounded-lg p-3 text-xs">
                     </div>
                     <div>
-                        <label class="block text-[9px] text-gray-400 uppercase tracking-wide mb-1.5">Seniority <span class="text-axonGreen">*</span></label>
-                        <input type="text" id="cal-experiencia" placeholder="Ej. Junior, Ssr, Senior..." class="w-full input-dark rounded-lg p-3 text-xs">
+                        <label class="block text-[9px] text-gray-400 uppercase tracking-wide mb-1.5">Años de experiencia en el rubro <span class="text-axonGreen">*</span></label>
+                        <input type="text" id="cal-experiencia" placeholder="Ej. 3 años, Sin experiencia, +10 años..." class="w-full input-dark rounded-lg p-3 text-xs">
                     </div>
                     <button onclick="nextLixieStep(2)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition shadow-lg">Siguiente</button>
                 </div>
 
-                <!-- PASO 2: Provincia -->
                 <div id="lixie-step-2" class="hidden flex-col gap-4">
                     <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 2 de 6 - Región</h4>
                     <p class="text-sm text-white text-center font-medium mb-2">¿En qué provincia te encuentras?</p>
@@ -314,10 +285,9 @@
                     <button onclick="nextLixieStep(3)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition">Siguiente</button>
                 </div>
 
-                <!-- PASO 3: Localidad -->
                 <div id="lixie-step-3" class="hidden flex-col gap-4">
                     <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 3 de 6 - Zona Exacta</h4>
-                    <p class="text-sm text-white text-center font-medium leading-relaxed">¿Quieres limitar la búsqueda exclusivamente a tu localidad? <br><span class="text-[10px] text-gray-400 font-normal">Ejemplo: Morón (Opcional)</span></p>
+                    <p class="text-sm text-white text-center font-medium leading-relaxed">¿Quieres limitar la búsqueda a tu localidad? <br><span class="text-[10px] text-gray-400 font-normal">Ejemplo: Morón (Opcional)</span></p>
                     <input type="text" id="lixie-input-localidad" placeholder="Ingresa tu localidad exacta..." class="w-full input-dark rounded-lg p-3 text-xs">
                     <div class="flex gap-3 mt-2">
                         <button onclick="nextLixieStep(4)" class="flex-1 border border-[#333] text-gray-300 font-bold py-2.5 rounded-lg text-xs hover:bg-[#1a1a1a] transition">Omitir</button>
@@ -325,7 +295,6 @@
                     </div>
                 </div>
 
-                <!-- PASO 4: Modalidad -->
                 <div id="lixie-step-4" class="hidden flex-col gap-4">
                     <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 4 de 6 - Modalidad</h4>
                     <p class="text-sm text-white text-center font-medium">¿Qué modalidad de trabajo buscas principalmente?</p>
@@ -336,10 +305,9 @@
                     </div>
                 </div>
 
-                <!-- PASO 5: Rubro Corporativo -->
                 <div id="lixie-step-5" class="hidden flex-col gap-4">
                     <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 5 de 6 - Industria</h4>
-                    <p class="text-sm text-white text-center font-medium">¿En qué sector o rubro corporativo te especializas?</p>
+                    <p class="text-sm text-white text-center font-medium">¿En qué sector corporativo te especializas?</p>
                     <select id="lixie-input-rubro" class="w-full input-dark rounded-lg p-3 text-xs appearance-none">
                         <option value="Sin filtro">Sin filtro (General) ⭐ Recomendada</option>
                         <option value="IT & Software">IT & Software</option><option value="Finanzas y Contabilidad">Finanzas y Contabilidad</option><option value="Recursos Humanos">Recursos Humanos</option><option value="Marketing y Publicidad">Marketing y Publicidad</option><option value="Ventas y Comercial">Ventas y Comercial</option><option value="Ingeniería">Ingeniería</option><option value="Salud y Medicina">Salud y Medicina</option><option value="Legal">Legal</option><option value="Logística y Supply Chain">Logística y Supply Chain</option><option value="Educación y Docencia">Educación y Docencia</option><option value="Diseño y UX/UI">Diseño y UX/UI</option><option value="Arquitectura">Arquitectura</option><option value="Administración">Administración</option><option value="Operaciones">Operaciones</option><option value="Atención al Cliente">Atención al Cliente</option>
@@ -347,7 +315,6 @@
                     <button onclick="nextLixieStep(6)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition">Siguiente</button>
                 </div>
 
-                <!-- PASO 6: Expectativa Salarial (Nuevo con Advertencia) -->
                 <div id="lixie-step-6" class="hidden flex-col gap-4">
                     <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 6 de 6 - Salario</h4>
                     <p class="text-sm text-white text-center font-medium">Filtro de Rango Salarial (Opcional)</p>
@@ -357,7 +324,7 @@
                             <i class="fas fa-exclamation-triangle"></i> ¡Advertencia ATS!
                         </div>
                         <p class="text-[10px] text-gray-400 leading-relaxed">
-                            <strong class="text-red-300">Omitir recomendado.</strong> La mayoría de empresas premium ocultan el salario en sus publicaciones. Establecer un rango salarial aquí forzará al algoritmo a descartar y ocultar ofertas excelentes que no tengan el precio publicado.
+                            <strong class="text-red-300">Omitir recomendado.</strong> Las empresas premium ocultan el salario en sus publicaciones. Establecer un rango aquí forzará al algoritmo a descartar y ocultar ofertas excelentes que no tengan el precio publicado.
                         </p>
                     </div>
 
@@ -371,12 +338,11 @@
                     </select>
                     
                     <div class="flex gap-3 mt-2">
-                        <button onclick="finishLixieConfig(true)" class="flex-1 border border-[#333] text-gray-300 font-bold py-2.5 rounded-lg text-xs hover:bg-[#1a1a1a] transition">Omitir</button>
+                        <button onclick="finishLixieConfig(true)" class="flex-1 border border-[#333] text-gray-300 font-bold py-2.5 rounded-lg text-xs hover:bg-[#1a1a1a] transition">Omitir y Finalizar</button>
                         <button onclick="finishLixieConfig(false)" class="flex-1 bg-axonGreen text-black font-bold py-2.5 rounded-lg text-xs hover:bg-white shadow-[0_0_15px_rgba(0,255,65,0.3)] transition">Finalizar</button>
                     </div>
                 </div>
 
-                <!-- PASO 7: Éxito -->
                 <div id="lixie-step-7" class="hidden flex-col items-center justify-center gap-4 text-center h-full pt-4">
                     <div class="w-16 h-16 bg-axonGreen/10 border border-axonGreen rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,65,0.3)] mb-2 animate-pulse"><img src="logo.png" class="h-6 object-contain"></div>
                     <h4 class="text-base font-bold text-white">Matriz Lixie Acoplada</h4>
@@ -387,7 +353,6 @@
         </div>
     </div>
 
-    <!-- MODAL EDITOR TEXTO OCR (Flotante) -->
     <div id="editor-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[160] flex flex-col items-center justify-center p-4">
         <div class="glass-panel-heavy rounded-xl w-full max-w-2xl shadow-2xl relative flex flex-col border-[#333] h-[85vh]">
             <div class="bg-[#050505] border-b border-[#262626] p-4 flex items-center justify-between rounded-t-xl shrink-0">
@@ -405,65 +370,32 @@
         </div>
     </div>
 
-    <!-- PANTALLA 3: ANIMACIÓN PROFESIONAL DE FLUJO (Estética Agencia CVStudio33) -->
-    <div id="animation-screen" class="hidden absolute inset-0 bg-[#050505] z-50 flex flex-col items-center justify-center overflow-hidden">
-        <!-- Terminal Code Background -->
-        <div class="terminal-code animate-scrollCode">
-            01000101 01011000 01010100 01010010 01000001 01000011 01010100 01001001 01001111 01001110<br>
-            EXEC_SYS_PROMPT_1_ATS_CORE_EVAL_INITIALIZED... SUCCESS [200 OK]<br>
-            PARSING_HEALTH_INDEX_ANALYSIS: RUNNING REGEX_TREE_NODE_7...<br>
-            BIAS_AUDIT_PROTOCOL: OVERRIDING DEMOGRAPHIC_DATA... CLEARED<br>
-            LOADING_LIXIE_MATRIX_V2... BOUNDS SET TO: LAT -34.61, LON -58.38<br>
-            JOOBLE_DATA_SYNC_API_CALL_3: HTTP_POST_REQUST_SENT...<br>
-            FETCHING_40_MARKET_JOBS... PREDICTING_SALARY_INTELLIGENCE...<br>
-            101010101110101010101011110101010001010101010101010101010<br>
-            CROSS_MATCHING_KEYWORDS... MISSING: "PYTHON", "SQL"<br>
-            COMPILING_AXON_CORPORATE_REPORT_FINAL_PDF_OUTPUT_HTML_SSR...
-            01000101 01011000 01010100 01010010 01000001 01000011 01010100 01001001 01001111 01001110<br>
-            EXEC_SYS_PROMPT_1_ATS_CORE_EVAL_INITIALIZED... SUCCESS [200 OK]<br>
-            PARSING_HEALTH_INDEX_ANALYSIS: RUNNING REGEX_TREE_NODE_7...<br>
-            BIAS_AUDIT_PROTOCOL: OVERRIDING DEMOGRAPHIC_DATA... CLEARED<br>
-            LOADING_LIXIE_MATRIX_V2... BOUNDS SET TO: LAT -34.61, LON -58.38<br>
-            JOOBLE_DATA_SYNC_API_CALL_3: HTTP_POST_REQUST_SENT...<br>
-            FETCHING_40_MARKET_JOBS... PREDICTING_SALARY_INTELLIGENCE...<br>
-            101010101110101010101011110101010001010101010101010101010<br>
-            CROSS_MATCHING_KEYWORDS... MISSING: "PYTHON", "SQL"<br>
-            COMPILING_AXON_CORPORATE_REPORT_FINAL_PDF_OUTPUT_HTML_SSR...
-        </div>
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgkJPGcgc3Ryb2tlPSIjMTExIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgoJCQk8cGF0aCBkPSJNMCAwdjYwaDYwVjB6Ii8+CgkJPC9nPgoJPC9zdmc+')] opacity-30 pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]"></div>
+    <div id="animation-screen" class="hidden absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#121212] via-[#050505] to-[#000000] z-50 flex flex-col items-center justify-center overflow-hidden">
         
         <div class="flex flex-col w-full max-w-4xl px-6 relative z-10 items-center">
             
-            <!-- Red Nodal Visual Avanzada de 5 Pasos -->
             <div class="flex items-center justify-center w-full mb-12 hidden md:flex scale-90 lg:scale-100">
-                <!-- Nodo 1 -->
                 <div id="anim-node-1" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
                     <i class="fas fa-file-alt text-lg text-gray-600 transition-colors" id="anim-icon-1"></i>
                 </div>
                 <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-1" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
-                <!-- Nodo 2 -->
                 <div id="anim-node-2" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
                     <i class="fas fa-search-plus text-lg text-gray-600 transition-colors" id="anim-icon-2"></i>
                 </div>
                 <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-2" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
-                <!-- Nodo 3 (AXON CORE) -->
                 <div id="anim-node-3" class="w-20 h-20 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0 shadow-[0_0_0_rgba(0,0,0,0)]">
                     <img src="logoaxon.png" class="h-6 opacity-30 transition-all" id="anim-icon-3">
                 </div>
                 <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-3" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
-                <!-- Nodo 4 -->
                 <div id="anim-node-4" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
                     <img src="logo.png" class="h-4 opacity-30 transition-all" id="anim-icon-4">
                 </div>
                 <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-4" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
-                <!-- Nodo 5 -->
                 <div id="anim-node-5" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
                     <i class="fas fa-chart-pie text-lg text-gray-600 transition-colors" id="anim-icon-5"></i>
                 </div>
             </div>
 
-            <!-- Panel Informativo -->
             <div class="w-full glass-panel-heavy rounded-xl p-5 md:p-8 shadow-2xl relative overflow-hidden border-[#333] max-w-2xl">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-axonGreen to-transparent opacity-70 animate-pulse"></div>
                 <h3 class="text-white text-xs md:text-sm font-bold mb-5 flex items-center justify-between border-b border-[#262626] pb-4">
@@ -484,12 +416,21 @@
                 </div>
             </div>
         </div>
+
+        <div id="queue-overlay" class="hidden absolute inset-0 bg-[#050505]/95 backdrop-blur-xl z-[60] flex-col items-center justify-center text-center p-6">
+            <i class="fas fa-server text-4xl md:text-5xl text-yellow-500 mb-5 animate-pulse drop-shadow-[0_0_15px_rgba(234,179,8,0.4)]"></i>
+            <h3 class="text-lg md:text-xl font-bold text-white mb-2 tracking-wide">Clúster de IA en Alta Demanda</h3>
+            <p class="text-xs md:text-sm text-gray-400 max-w-md leading-relaxed mb-6">
+                Nuestros nodos están procesando un alto volumen de solicitudes globales. Tu puesto en la cola está asegurado.<br><br>
+                Reintento automático en <span id="queue-timer" class="text-axonGreen font-bold text-lg">20</span>s...
+            </p>
+            <button id="btn-cancel-queue" class="px-6 py-3 border border-[#333] text-gray-300 rounded-xl text-xs font-bold hover:bg-[#121212] transition flex items-center gap-2">
+                <i class="fas fa-times text-red-500"></i> Cancelar e intentar más tarde
+            </button>
+        </div>
     </div>
 
-    <!-- PANTALLA 4: RESULTADOS CORPORATIVOS PREPARADOS -->
     <div id="results-screen" class="hidden flex-1 w-full max-w-5xl mx-auto p-4 md:p-8 flex-col relative z-10 mb-8">
-        
-        <!-- Header del Reporte Serio Mejorado -->
         <div class="glass-panel-heavy border border-[#333] rounded-t-2xl p-5 md:p-6 border-b-0 flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden bg-[#0A0A0A]">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-800 via-axonGreen to-gray-800"></div>
             
@@ -502,9 +443,7 @@
                         Auditoría Oficial Finalizada <i class="fas fa-check-circle text-axonGreen text-sm"></i>
                     </h2>
                     <div class="flex flex-wrap items-center gap-3 mt-2">
-                        <p class="text-[9px] md:text-[10px] text-gray-400 font-mono flex items-center gap-1.5">
-                            <i class="fas fa-lock text-gray-500"></i> Confidencial CVStudio33
-                        </p>
+                        <p class="text-[9px] md:text-[10px] text-gray-400 font-mono flex items-center gap-1.5"><i class="fas fa-lock text-gray-500"></i> Confidencial CVStudio33</p>
                         <span class="hidden md:block text-gray-700">|</span>
                         <span class="bg-[#121212] border border-[#333] text-gray-400 text-[8px] md:text-[9px] px-2 py-1 rounded font-mono flex items-center gap-1.5 shadow-inner">
                             <i class="fas fa-server text-axonGreen"></i> CLÚSTER ACTIVO: <strong id="display-server-node" class="text-white">Conectando...</strong>
@@ -523,125 +462,71 @@
             </div>
         </div>
 
-        <!-- Cuerpo del Reporte (Inyectado por el backend) -->
-        <div class="bg-[#050505] border border-[#333] border-t-0 p-5 md:p-8 shadow-2xl relative overflow-hidden min-h-[500px]">
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] mix-blend-screen">
-                <img src="logoaxon.png" class="w-2/3 md:w-1/2 object-contain transform -rotate-12 grayscale">
-            </div>
-            <div class="absolute top-4 right-5 text-[8px] md:text-[9px] text-gray-600 font-mono text-right pointer-events-none hidden sm:block">
-                AXON SECURE SYSTEM<br><span id="report-timestamp"></span>
-            </div>
-
+        <div class="bg-[#050505] border border-[#333] border-t-0 p-5 md:p-8 rounded-b-2xl shadow-2xl relative overflow-hidden min-h-[500px]">
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] mix-blend-screen"><img src="logoaxon.png" class="w-2/3 md:w-1/2 object-contain transform -rotate-12 grayscale"></div>
+            <div class="absolute top-4 right-5 text-[8px] md:text-[9px] text-gray-600 font-mono text-right pointer-events-none hidden sm:block">AXON SECURE SYSTEM<br><span id="report-timestamp"></span></div>
             <div id="results-content" class="w-full relative z-10 text-white"></div>
-        </div>
-
-        <!-- LABORATORIO DE OPTIMIZACIÓN CVSTUDIO33 (Estático en el Frontend) -->
-        <div class="bg-gradient-to-r from-[#0A0A0A] to-[#121212] border border-[#333] border-t-0 rounded-b-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-axonGreen rounded-full opacity-[0.03] blur-[50px] pointer-events-none"></div>
             
-            <div class="flex-1">
-                <h3 class="text-base md:text-lg font-bold text-white mb-2 flex items-center gap-3">
-                    <i class="fas fa-flask text-axonGreen animate-pulse"></i> Laboratorio de Optimización CVStudio33
-                </h3>
-                <p class="text-xs md:text-sm text-gray-400 leading-relaxed max-w-2xl border-l-2 border-[#333] pl-3">
-                    Basado en las brechas y métricas descubiertas por la Inteligencia Artificial, te recomendamos reestructurar tu perfil utilizando diseños ATS-Friendly comprobados. Accede a nuestra bóveda para corregir los errores estructurales y elevar tu score semántico.
-                </p>
-            </div>
-            
-            <a href="biblioteca-de-plantillas.html" class="w-full md:w-auto bg-transparent border border-axonGreen text-axonGreen hover:bg-axonGreen hover:text-black font-bold py-3.5 px-8 rounded-xl text-xs uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(0,255,65,0.1)] hover:shadow-[0_0_25px_rgba(0,255,65,0.4)] flex items-center justify-center gap-3 shrink-0">
-                <i class="fas fa-layer-group"></i> Ir a Biblioteca de Plantillas
-            </a>
-        </div>
-        
-        <!-- Footer Final -->
-        <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 opacity-60 px-2">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" class="h-3 grayscale opacity-70">
-                <span class="text-[8px] text-gray-500 font-mono tracking-widest uppercase border-l border-gray-700 pl-3">Inteligencia Corporativa HR</span>
-            </div>
-            <div class="text-[8px] text-gray-600 text-center md:text-right max-w-sm leading-relaxed">
-                Reporte generado mediante arquitecturas neuronales ATS. Resultados predictivos para maximizar empleabilidad.
+            <div class="mt-12 pt-6 border-t border-[#262626] flex flex-col md:flex-row items-center justify-between gap-4 opacity-80">
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" class="h-4 grayscale opacity-70">
+                    <span class="text-[9px] text-gray-400 font-mono tracking-widest uppercase border-l border-gray-700 pl-3">Inteligencia Corporativa HR</span>
+                </div>
+                <div class="text-[8px] text-gray-600 text-center md:text-right max-w-sm leading-relaxed">
+                    Este reporte es generado mediante arquitecturas neuronales ATS. Los resultados predictivos buscan maximizar la empleabilidad técnica. Todo el flujo es gestionado por protocolos de seguridad Zero-Trust.
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPTS CORE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
-            authDomain: "cv-studio33.firebaseapp.com",
-            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
-            projectId: "cv-studio33",
-            storageBucket: "cv-studio33.firebasestorage.app",
-            messagingSenderId: "189453088234",
-            appId: "1:189453088234:web:639c130a6287ff34122e93"
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728", authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com", projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app", messagingSenderId: "189453088234", appId: "1:189453088234:web:639c130a6287ff34122e93"
         };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        window.currentMode = 'advanced'; 
-        window.userTokens = 0;
-        window.cleanedCVText = ""; 
-        const COST_BASIC = 3;
-        const COST_ADVANCED = 5;
-        let userIdFormat = "";
-        let selectedFile = null;
+        window.currentMode = 'advanced'; window.userTokens = 0; window.cleanedCVText = ""; 
+        const COST_BASIC = 3; const COST_ADVANCED = 5; let userIdFormat = ""; let selectedFile = null;
 
-        window.lixieConfigured = false;
-        // Se agregaron Puesto, Seniority y Salario a Lixie
+        window.lixieConfigured = false; window.cancelQueueFlag = false;
         window.lixieData = { puesto: "", seniority: "", provincia: "", localidad: "", modalidad: "", rubro: "Sin filtro", salario: "" };
 
         const ui = {
-            loader: document.getElementById('global-loader'),
-            login: document.getElementById('login-screen'),
-            header: document.getElementById('app-header'),
-            dashboard: document.getElementById('dashboard-screen'),
-            animation: document.getElementById('animation-screen'),
-            resultsScreen: document.getElementById('results-screen'),
-            resultsContent: document.getElementById('results-content'),
-            dispTokens: document.getElementById('display-tokens'),
-            btnStart: document.getElementById('btn-start'),
-            animModeDisplay: document.getElementById('mode-display-anim')
+            loader: document.getElementById('global-loader'), login: document.getElementById('login-screen'),
+            header: document.getElementById('app-header'), dashboard: document.getElementById('dashboard-screen'),
+            animation: document.getElementById('animation-screen'), resultsScreen: document.getElementById('results-screen'),
+            resultsContent: document.getElementById('results-content'), dispTokens: document.getElementById('display-tokens'),
+            btnStart: document.getElementById('btn-start'), animModeDisplay: document.getElementById('mode-display-anim')
         };
 
-        const cvDropzone = document.getElementById('cv-dropzone');
-        const cvUpload = document.getElementById('cv-upload');
-        const btnProcess = document.getElementById('btn-process');
-        const toastMessage = document.getElementById('toast-message');
+        const cvDropzone = document.getElementById('cv-dropzone'); const cvUpload = document.getElementById('cv-upload');
+        const btnProcess = document.getElementById('btn-process'); const toastMessage = document.getElementById('toast-message');
         const toast = document.getElementById('toast');
 
         const sanitizeXSS = (str) => str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
-
         function showToast(message, isError = false) {
             toastMessage.innerText = message;
-            const icon = document.getElementById('toast-icon');
-            if(isError) {
-                icon.className = "fas fa-exclamation-triangle text-red-400 text-lg";
-                toast.classList.replace('border-[#333]', 'border-red-500/50');
-            } else {
-                icon.className = "fas fa-check-circle text-axonGreen text-lg";
-                toast.classList.replace('border-red-500/50', 'border-[#333]');
-            }
-            toast.classList.remove('translate-x-full');
-            toast.classList.add('translate-x-0');
+            document.getElementById('toast-icon').className = isError ? "fas fa-exclamation-triangle text-red-400 text-lg" : "fas fa-check-circle text-axonGreen text-lg";
+            toast.className = isError ? toast.className.replace('border-[#333]', 'border-red-500/50') : toast.className.replace('border-red-500/50', 'border-[#333]');
+            toast.classList.remove('translate-x-full'); toast.classList.add('translate-x-0');
             setTimeout(() => { toast.classList.remove('translate-x-0'); toast.classList.add('translate-x-full'); }, 3500);
         }
 
-        // LÓGICA DE FLUJO LIXIE (6 Pasos)
         window.openLixieModal = () => document.getElementById('lixie-modal').classList.remove('hidden');
         window.closeLixieModal = () => document.getElementById('lixie-modal').classList.add('hidden');
-        
         window.nextLixieStep = (stepNumber) => {
-            // Validaciones por paso
             if(stepNumber === 2) {
                 const puesto = document.getElementById('cal-puesto').value.trim();
                 const exp = document.getElementById('cal-experiencia').value.trim();
-                if(!puesto || !exp) return showToast('Completa tu puesto y seniority', true);
+                if(!puesto || !exp) return showToast('Completa tu puesto y experiencia', true);
             }
             if(stepNumber === 3) {
                 const prov = document.getElementById('lixie-input-provincia').value;
@@ -649,90 +534,61 @@
                 window.lixieData.provincia = prov;
             }
             if(stepNumber === 4) window.lixieData.localidad = document.getElementById('lixie-input-localidad').value.trim();
-            
-            // Ocultar todos, mostrar objetivo
-            [1,2,3,4,5,6,7].forEach(i => {
-                const el = document.getElementById(`lixie-step-${i}`);
-                if(el) el.classList.replace('flex', 'hidden');
-            });
+            [1,2,3,4,5,6,7].forEach(i => { const el = document.getElementById(`lixie-step-${i}`); if(el) el.classList.replace('flex', 'hidden'); });
             document.getElementById(`lixie-step-${stepNumber}`).classList.replace('hidden', 'flex');
         };
-        
         window.setModalidadAndNext = (modalidad) => { window.lixieData.modalidad = modalidad; window.nextLixieStep(5); };
-        
         window.finishLixieConfig = (omitirSalario = false) => {
             window.lixieData.rubro = document.getElementById('lixie-input-rubro').value;
             window.lixieData.salario = omitirSalario ? "Sin filtro salarial" : document.getElementById('lixie-input-salario').value;
             window.lixieConfigured = true;
             window.nextLixieStep(7);
-            
             const statusLabel = document.getElementById('lixie-status');
             statusLabel.className = "text-[10px] md:text-xs text-axonGreen uppercase tracking-widest font-mono mt-2 font-bold inline-flex items-center gap-2 bg-axonGreen/10 px-3 py-1.5 rounded-md border border-axonGreen/30";
             statusLabel.innerHTML = `<i class="fas fa-check-circle"></i> Matriz Lixie Acoplada`;
             window.validateForm();
         };
 
-        window.openEditorModal = () => {
-            document.getElementById('cv-textarea').value = window.cleanedCVText;
-            document.getElementById('editor-modal').classList.remove('hidden');
-        };
+        window.openEditorModal = () => { document.getElementById('cv-textarea').value = window.cleanedCVText; document.getElementById('editor-modal').classList.remove('hidden'); };
         window.closeEditorModal = () => document.getElementById('editor-modal').classList.add('hidden');
         window.saveEditorText = () => {
             const newText = document.getElementById('cv-textarea').value.trim();
             if(newText.length < 50) return showToast("El texto es demasiado corto para guardar.", true);
             window.cleanedCVText = newText;
             showToast("Texto modificado y anclado en memoria.");
-            window.closeEditorModal();
-            window.validateForm();
+            window.closeEditorModal(); window.validateForm();
         };
 
         document.getElementById('btn-login').addEventListener('click', async () => {
-            const btn = document.getElementById('btn-login');
-            const originalHTML = btn.innerHTML;
+            const btn = document.getElementById('btn-login'); const originalHTML = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Conectando...';
-            try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-            catch (err) { btn.innerHTML = originalHTML; showToast("Fallo al iniciar sesión", true); }
+            try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (err) { btn.innerHTML = originalHTML; showToast("Fallo al iniciar sesión", true); }
         });
         document.getElementById('btn-logout').addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
+        document.getElementById('btn-cancel-queue').addEventListener('click', () => { window.cancelQueueFlag = true; window.location.reload(); });
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                userIdFormat = `cliente-${user.uid.slice(-4)}`;
-                ui.loader.style.opacity = '0';
-                
+                userIdFormat = `cliente-${user.uid.slice(-4)}`; ui.loader.style.opacity = '0';
                 setTimeout(() => {
-                    ui.loader.classList.add('hidden');
-                    ui.login.classList.add('hidden'); 
-                    ui.header.classList.remove('hidden');
-                    ui.dashboard.classList.remove('hidden');
+                    ui.loader.classList.add('hidden'); ui.login.classList.add('hidden'); 
+                    ui.header.classList.remove('hidden'); ui.dashboard.classList.remove('hidden');
                     selectMode(window.currentMode);
                 }, 700);
-
                 const docRef = doc(db, 'users', userIdFormat);
-                try {
-                    const docSnap = await getDoc(docRef);
-                    if (!docSnap.exists()) await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat });
-                } catch (e) {}
-
+                try { const docSnap = await getDoc(docRef); if (!docSnap.exists()) await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat }); } catch (e) {}
                 onSnapshot(docRef, (docSnap) => {
                     window.userTokens = docSnap.exists() ? (docSnap.data().tokens_axon || 0) : 0;
-                    ui.dispTokens.innerText = window.userTokens;
-                    validateForm();
+                    ui.dispTokens.innerText = window.userTokens; validateForm();
                 });
             } else {
-                ui.loader.style.opacity = '0';
-                setTimeout(() => {
-                    ui.loader.classList.add('hidden');
-                    ui.login.classList.remove('hidden');
-                }, 700);
+                ui.loader.style.opacity = '0'; setTimeout(() => { ui.loader.classList.add('hidden'); ui.login.classList.remove('hidden'); }, 700);
             }
         });
 
         window.selectMode = (mode) => {
             window.currentMode = mode;
-            const btnB = document.getElementById('mode-basic');
-            const btnA = document.getElementById('mode-advanced');
-            
+            const btnB = document.getElementById('mode-basic'); const btnA = document.getElementById('mode-advanced');
             if(mode === 'basic') {
                 btnB.classList.add('border-axonGreen', 'bg-[#121212]'); btnB.classList.remove('border-axonBorder', 'opacity-60', 'bg-[#0A0A0A]');
                 btnB.querySelector('h4').classList.add('text-axonGreen'); btnB.querySelector('h4').classList.remove('text-gray-300');
@@ -752,9 +608,7 @@
             const cvOk = window.cleanedCVText && window.cleanedCVText.length > 50; 
             const cost = window.currentMode === 'basic' ? COST_BASIC : COST_ADVANCED;
             const fundsOk = window.userTokens >= cost;
-
             ui.btnStart.className = "w-full font-bold py-3.5 md:py-4 rounded-xl text-[10px] md:text-xs uppercase transition flex items-center justify-center gap-2 border shadow-lg ";
-
             if (!window.lixieConfigured || !cvOk) {
                 ui.btnStart.disabled = true;
                 const errorMsg = !window.lixieConfigured ? "Matriz Lixie Pendiente" : "Falta Ingesta de PDF";
@@ -771,7 +625,6 @@
             }
         };
 
-        // Inputs dentro de Lixie ahora controlan validación interna
         document.getElementById('cal-puesto').addEventListener('input', () => { if(window.lixieConfigured) window.validateForm(); });
         document.getElementById('cal-experiencia').addEventListener('input', () => { if(window.lixieConfigured) window.validateForm(); });
 
@@ -791,10 +644,8 @@
                 <p class="text-[9px] text-gray-500 font-mono uppercase tracking-widest mt-1">Anclado en Memoria</p>
                 <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="window.location.reload()">
             `;
-            btnProcess.classList.remove('hidden'); 
-            document.getElementById('edit-text-container').classList.add('hidden');
-            window.cleanedCVText = ""; 
-            validateForm();
+            btnProcess.classList.remove('hidden'); document.getElementById('edit-text-container').classList.add('hidden');
+            window.cleanedCVText = ""; validateForm();
         }
 
         btnProcess.addEventListener('click', async () => {
@@ -827,8 +678,7 @@
                     const viewport = page.getViewport({ scale: 2.0 }); 
                     const canvas = document.createElement('canvas');
                     const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
+                    canvas.height = viewport.height; canvas.width = viewport.width;
                     await page.render({ canvasContext: context, viewport: viewport }).promise;
 
                     let progressVal = Math.floor(((i - 0.5) / totalPages) * 100);
@@ -838,22 +688,28 @@
                     fullExtractedText += ret.data.text + `\n\n`;
 
                     progressVal = Math.floor((i / totalPages) * 100);
-                    ocrBar.style.width = `${progressVal}%`;
-                    ocrText.innerText = `Procesando pág ${i}... ${progressVal}%`;
+                    ocrBar.style.width = `${progressVal}%`; ocrText.innerText = `Procesando pág ${i}... ${progressVal}%`;
                 }
                 await worker.terminate();
 
                 if (fullExtractedText.trim().length < 50) throw new Error("Documento vacío o ilegible.");
 
-                window.cleanedCVText = fullExtractedText
+                // BARRERA DE SEGURIDAD EXTREMA ANTI XSS/INJECTIONS
+                let sanitizedText = fullExtractedText
                     .replace(/([a-z])([A-Z])/g, '$1 $2') 
                     .replace(/([a-zA-Z])(\d)/g, '$1 $2') 
                     .replace(/([.,!?:;])([a-zA-Z])/g, '$1 $2') 
+                    .replace(/[<>{}\\]/g, '') // Filtro de inyección maliciosa (bloquea DOM y JSON tampering)
+                    .replace(/script|iframe|onload|onerror|eval|alert|prompt/gi, '') // Keywords exploits
+                    .replace(/(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|OR 1=1)/gi, '') // Anti SQL
                     .replace(/[ \t]{2,}/g, ' ')       
-                    .replace(/\n{3,}/g, '\n\n')       
+                    .replace(/\n{3,}/g, '\n\n')
+                    .substring(0, 15000) // Buffer Overflow limit
                     .trim();       
 
-                showToast("Ingesta completada con éxito.");
+                window.cleanedCVText = sanitizedText;
+
+                showToast("Ingesta segura completada.");
 
                 cvDropzone.innerHTML = `
                     <div class="w-12 h-12 bg-axonGreen/10 rounded-full flex items-center justify-center mb-3 border border-axonGreen/30 shadow-[0_0_15px_rgba(0,255,65,0.2)]">
@@ -882,10 +738,46 @@
             }
         });
 
-        // EJECUCIÓN CON ANIMACIÓN NODAL 5 PASOS
+        // SISTEMA INTELIGENTE DE RETRY Y COLA
+        const callBackendWithRetry = async (payload) => {
+            let attempt = 1;
+            const maxAttempts = 3;
+            window.cancelQueueFlag = false;
+
+            while (attempt <= maxAttempts) {
+                if (window.cancelQueueFlag) return { error: true, detail: "Cancelado por el usuario." };
+
+                const backendResponse = await fetch('https://cerebroaxon.lautybg22.workers.dev/', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                }).then(res => res.json()).catch(err => ({ error: true, type: "CLUSTER_DOWN", detail: err.message || err }));
+
+                if (backendResponse.type === "CLUSTER_DOWN" && attempt < maxAttempts) {
+                    const queueOverlay = document.getElementById('queue-overlay');
+                    const queueTimer = document.getElementById('queue-timer');
+                    queueOverlay.classList.remove('hidden'); queueOverlay.classList.add('flex');
+                    
+                    let timeLeft = 20;
+                    queueTimer.innerText = timeLeft;
+                    
+                    await new Promise(resolve => {
+                        const countdown = setInterval(() => {
+                            timeLeft--; queueTimer.innerText = timeLeft;
+                            if (timeLeft <= 0 || window.cancelQueueFlag) { clearInterval(countdown); resolve(); }
+                        }, 1000);
+                    });
+
+                    queueOverlay.classList.add('hidden'); queueOverlay.classList.remove('flex');
+                    if (window.cancelQueueFlag) return { error: true, detail: "Transacción cancelada." };
+                    attempt++;
+                } else {
+                    return backendResponse;
+                }
+            }
+            return { error: true, detail: "Los servidores están temporalmente colapsados. Tu saldo ha sido reembolsado, por favor intenta más tarde." };
+        };
+
         ui.btnStart.addEventListener('click', async () => {
-            ui.dashboard.classList.add('hidden');
-            ui.animation.classList.remove('hidden');
+            ui.dashboard.classList.add('hidden'); ui.animation.classList.remove('hidden');
 
             const runAnimations = new Promise((resolve) => {
                 const modules = window.currentMode === 'advanced' ? [
@@ -902,16 +794,10 @@
                 ];
 
                 const container = document.getElementById('modules-list');
-                container.innerHTML = modules.map(m => `
-                    <div id="${m.id}" class="module-item">
-                        <div class="status-dot"></div> <span>[ESPERA] ${m.text}</span>
-                    </div>
-                `).join('');
+                container.innerHTML = modules.map(m => `<div id="${m.id}" class="module-item"><div class="status-dot"></div> <span>[ESPERA] ${m.text}</span></div>`).join('');
 
-                const startTime = Date.now();
-                const totalTime = 10500; 
-                const progressBarAnim = document.getElementById('progress-bar-anim');
-                const progressPercentAnim = document.getElementById('progress-percent-anim');
+                const startTime = Date.now(); const totalTime = 10500; 
+                const progressBarAnim = document.getElementById('progress-bar-anim'); const progressPercentAnim = document.getElementById('progress-percent-anim');
                 
                 const animNodes = {
                     node1: document.getElementById('anim-node-1'), icon1: document.getElementById('anim-icon-1'), line1: document.getElementById('anim-line-1'),
@@ -924,10 +810,8 @@
                 const interval = setInterval(() => {
                     const elapsed = Date.now() - startTime;
                     const percent = Math.min((elapsed / totalTime) * 100, 100);
-                    progressBarAnim.style.width = `${percent}%`;
-                    progressPercentAnim.innerText = `${Math.floor(percent)}%`;
+                    progressBarAnim.style.width = `${percent}%`; progressPercentAnim.innerText = `${Math.floor(percent)}%`;
 
-                    // Lógica Nodal 5 Pasos
                     if(percent > 10) { animNodes.node1.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); animNodes.icon1.classList.replace('text-gray-600', 'text-axonGreen'); }
                     if(percent > 15) animNodes.line1.style.width = "100%";
                     if(percent > 30) { animNodes.node2.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); animNodes.icon2.classList.replace('text-gray-600', 'text-axonGreen'); }
@@ -953,62 +837,46 @@
                             el.querySelector('span').innerText = `[COMPLETADO] ${m.text}`;
                         }
                     });
-
                     if (elapsed >= totalTime) { clearInterval(interval); resolve(); }
                 }, 50);
             });
 
             const currentUser = auth.currentUser;
-            if(!currentUser) {
-                showToast("Sesión expirada. Recargando...", true);
-                setTimeout(() => window.location.reload(), 2000);
-                return;
-            }
+            if(!currentUser) { showToast("Sesión expirada. Recargando...", true); setTimeout(() => window.location.reload(), 2000); return; }
+            
             const freshToken = await currentUser.getIdToken(true);
             const finalUbicacion = window.lixieData.localidad ? `${window.lixieData.localidad}, ${window.lixieData.provincia}` : window.lixieData.provincia;
 
-            // Extraemos los inputs directamente del modal usando los IDs intactos
             const payload = {
                 userId: userIdFormat, tokenJWT: freshToken, mode: window.currentMode,
                 calibration: {
-                    sector: sanitizeXSS(window.lixieData.rubro),
-                    experiencia: sanitizeXSS(document.getElementById('cal-experiencia').value),
-                    puesto: sanitizeXSS(document.getElementById('cal-puesto').value),
-                    empresa: "No especificada", 
-                    modalidad: sanitizeXSS(window.lixieData.modalidad), 
-                    ubicacion: sanitizeXSS(finalUbicacion),
-                    salario: sanitizeXSS(window.lixieData.salario) // Nuevo campo para el cerebro
+                    sector: sanitizeXSS(window.lixieData.rubro), experiencia: sanitizeXSS(document.getElementById('cal-experiencia').value),
+                    puesto: sanitizeXSS(document.getElementById('cal-puesto').value), empresa: "No especificada", 
+                    modalidad: sanitizeXSS(window.lixieData.modalidad), ubicacion: sanitizeXSS(finalUbicacion),
+                    salario: sanitizeXSS(window.lixieData.salario)
                 },
                 cvText: window.cleanedCVText
             };
 
-            const callBackend = fetch('https://cerebroaxon.lautybg22.workers.dev/', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-            }).then(res => res.json()).catch(err => ({ error: true, detail: err.message || err }));
-
+            const callBackend = callBackendWithRetry(payload);
             const [, backendResponse] = await Promise.all([runAnimations, callBackend]);
 
             setTimeout(() => {
                 ui.animation.classList.add('opacity-0', 'transition-opacity', 'duration-500');
                 setTimeout(() => {
-                    ui.animation.classList.add('hidden');
-                    ui.resultsScreen.classList.remove('hidden');
-                    ui.resultsScreen.classList.add('flex');
-                    
-                    const now = new Date();
-                    document.getElementById('report-timestamp').innerText = `${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`;
+                    ui.animation.classList.add('hidden'); ui.resultsScreen.classList.remove('hidden'); ui.resultsScreen.classList.add('flex');
+                    const now = new Date(); document.getElementById('report-timestamp').innerText = `${now.toLocaleDateString()} - ${now.toLocaleTimeString()}`;
 
                     if(backendResponse.error) {
                         ui.resultsContent.innerHTML = `
                         <div class="bg-red-900/10 border border-red-500/30 p-6 md:p-8 rounded-xl flex items-center gap-5">
                             <i class="fas fa-exclamation-triangle text-3xl md:text-4xl text-red-500 shadow-sm"></i>
                             <div>
-                                <h3 class="text-red-500 font-bold text-sm md:text-lg mb-1 tracking-wider">ERROR DEL CEREBRO IA</h3>
-                                <p class="text-gray-400 text-xs md:text-sm leading-relaxed">${backendResponse.detail || "Transacción denegada por firewall o colapso."}</p>
+                                <h3 class="text-red-500 font-bold text-sm md:text-lg mb-1 tracking-wider">TRANSACCIÓN ABORTADA</h3>
+                                <p class="text-gray-400 text-xs md:text-sm leading-relaxed">${backendResponse.detail}</p>
                             </div>
                         </div>`;
                     } else {
-                        // Badge actualizado "Nodo X (Tecnología AXON)" que devolverá el backend
                         document.getElementById('display-server-node').innerHTML = `<i class="fas fa-server text-axonGreen"></i> CLÚSTER ACTIVO: <strong class="text-white">${backendResponse.node_used || "Nodo 1 (Tecnología AXON)"}</strong>`;
                         ui.resultsContent.innerHTML = backendResponse.reporte;
                     }
@@ -1018,3 +886,4 @@
     </script>
 </body>
 </html>
+

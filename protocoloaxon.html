@@ -15,12 +15,17 @@
                     animation: { 
                         pulseFast: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         spinSlow: 'spin 2s linear infinite',
-                        glow: 'glow 2s ease-in-out infinite alternate'
+                        glow: 'glow 2s ease-in-out infinite alternate',
+                        scrollCode: 'scrollCode 10s linear infinite'
                     },
                     keyframes: {
                         glow: {
                             '0%': { boxShadow: '0 0 5px rgba(0, 255, 65, 0.2)' },
                             '100%': { boxShadow: '0 0 20px rgba(0, 255, 65, 0.6)' }
+                        },
+                        scrollCode: {
+                            '0%': { transform: 'translateY(100%)' },
+                            '100%': { transform: 'translateY(-100%)' }
                         }
                     }
                 }
@@ -62,15 +67,16 @@
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-
-        /* Custom Scrollbar for Textareas */
         textarea::-webkit-scrollbar { width: 6px; }
         textarea::-webkit-scrollbar-thumb { background: #00FF41; border-radius: 10px; }
+        
+        /* Terminal Background Line */
+        .terminal-code { position: absolute; inset: 0; opacity: 0.05; overflow: hidden; font-family: monospace; font-size: 10px; color: #00FF41; line-height: 1.5; pointer-events: none; z-index: 0; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden selection:bg-axonGreen selection:text-black">
 
-    <!-- LOADER GLOBAL (Evita el parpadeo del login) -->
+    <!-- LOADER GLOBAL -->
     <div id="global-loader" class="fixed inset-0 bg-[#050505] z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
         <img src="logoaxon.png" alt="AXON" class="h-10 md:h-12 mb-6 animate-pulse opacity-80 object-contain">
         <div class="w-40 h-1 bg-[#121212] rounded-full overflow-hidden relative">
@@ -137,24 +143,31 @@
     <!-- DASHBOARD PRINCIPAL -->
     <main id="dashboard-screen" class="hidden flex-1 w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col">
         
-        <!-- Intro Corporativa (Premium) -->
-        <div class="mb-6 md:mb-8 bg-gradient-to-r from-axonGray via-[#0A0A0A] to-[#050505] p-5 md:p-6 rounded-xl border border-axonBorder shadow-lg relative overflow-hidden">
-            <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-axonGreen/5 to-transparent pointer-events-none"></div>
-            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3">
-                <h2 class="text-lg md:text-xl font-bold flex items-center gap-2 text-white">
-                    MOTOR ATS <img src="logoaxon.png" class="h-5 md:h-6 object-contain inline-block ml-1"> 
+        <!-- Intro Corporativa (Mejorada visualmente) -->
+        <div class="mb-6 md:mb-8 bg-gradient-to-br from-[#0A0A0A] via-[#050505] to-[#121212] p-6 md:p-8 rounded-2xl border border-[#333] shadow-[0_0_30px_rgba(0,255,65,0.05)] relative overflow-hidden">
+            <div class="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-axonGreen/10 to-transparent pointer-events-none opacity-50"></div>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 mb-5 relative z-10">
+                <h2 class="text-xl md:text-2xl font-bold flex items-center gap-3 text-white tracking-wide">
+                    MOTOR ATS <img src="logoaxon.png" class="h-6 md:h-7 object-contain inline-block drop-shadow-[0_0_8px_rgba(0,255,65,0.6)]"> 
                 </h2>
-                <div class="hidden sm:block h-4 w-px bg-gray-700"></div>
+                <div class="hidden sm:block h-6 w-px bg-gray-700"></div>
                 <div class="flex items-center gap-2 text-xs md:text-sm text-gray-400 font-medium">
-                    Es un plugin de <img src="logonyx.png" class="h-3.5 md:h-4 object-contain inline-block opacity-90 hover:opacity-100 transition">
-                </div>
-                <div class="flex items-center gap-1.5 sm:ml-auto bg-[#1a1a1a] px-2 py-0.5 rounded text-gray-400 border border-[#333] w-max">
-                    <span class="text-[8px] md:text-[9px] uppercase tracking-wider">Por CV Studio 33</span>
+                    Plugin Oficial de <img src="logonyx.png" class="h-4 md:h-5 object-contain inline-block opacity-90 hover:opacity-100 transition">
                 </div>
             </div>
-            <p class="text-xs md:text-sm text-gray-400 leading-relaxed max-w-4xl border-l-2 border-axonGreen pl-3">
-                Diseñado con arquitectura Zero-Trust, este motor simula algorítmicamente los filtros rigurosos de plataformas de reclutamiento globales (Workday, Taleo). Extrae densidad semántica, detecta brechas estructurales en milisegundos y garantiza el cruce predictivo de tu perfil con las exigencias ocultas del mercado laboral actual. <strong>Precisión técnica sin rivales.</strong>
+            
+            <p class="text-xs md:text-sm text-gray-300 leading-relaxed max-w-4xl border-l-4 border-axonGreen pl-4 mb-6">
+                Diseñado bajo arquitectura Zero-Trust, este motor emula algorítmicamente los filtros rigurosos de plataformas líderes globales (Workday, Taleo, SuccessFactors). Extrae densidad semántica y cruza predictivamente tu perfil con el mercado laboral en tiempo real.
             </p>
+
+            <!-- Badges Tecnológicos CVStudio33 -->
+            <div class="flex flex-wrap gap-2 md:gap-3 relative z-10">
+                <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-eye text-axonGreen"></i> Lectura Profunda OCR</span>
+                <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-microchip text-axonGreen"></i> Simulación Precisa ATS</span>
+                <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-balance-scale text-axonGreen"></i> Auditoría de Sesgos</span>
+                <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-chart-line text-axonGreen"></i> Métricas de Decisión</span>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-8 mb-8">
@@ -176,10 +189,6 @@
                                 </div>
                             </div>
                             <p class="text-[11px] md:text-xs text-gray-400 leading-relaxed mb-3">Auditoría estructural profunda del documento. Evalúa el <strong>Parsing Health</strong> (legibilidad algorítmica), optimiza la densidad de palabras clave y corrige brechas semánticas para motores estándar de RRHH.</p>
-                            <div class="flex flex-wrap gap-1 mt-auto">
-                                <span class="text-[8px] bg-[#1a1a1a] text-gray-400 px-1.5 py-0.5 rounded border border-[#333]">Estructura Core</span>
-                                <span class="text-[8px] bg-[#1a1a1a] text-gray-400 px-1.5 py-0.5 rounded border border-[#333]">Keyword Gap</span>
-                            </div>
                         </div>
                         
                         <div id="mode-advanced" class="glass-panel p-4 md:p-5 rounded-xl cursor-pointer border-axonBorder opacity-60 transition relative group bg-[#050505] hover:bg-[#121212]" onclick="selectMode('advanced')">
@@ -192,45 +201,32 @@
                                 </div>
                             </div>
                             <p class="text-[11px] md:text-xs text-gray-400 leading-relaxed mb-3">Sincronización en tiempo real con bases de datos globales. Incluye análisis predictivo de contratación (<strong>Match corporativo</strong>), estimación de Salary Intelligence y mapas de retención del mercado actual.</p>
-                            <div class="flex flex-wrap gap-1 mt-auto">
-                                <span class="text-[8px] bg-axonGreen/10 text-axonGreen px-1.5 py-0.5 rounded border border-axonGreen/20">IA Predictiva</span>
-                                <span class="text-[8px] bg-[#1a1a1a] text-gray-300 px-1.5 py-0.5 rounded border border-[#333]">Jooble Data API</span>
-                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Matriz Libre Segura & LIXIE -->
+                <!-- 2. Central de Calibración Estratégica (Lixie Unificado) -->
                 <div>
                     <h3 class="text-[10px] md:text-[11px] text-axonGreen uppercase tracking-widest mb-3 font-bold flex items-center gap-2">
-                        <i class="fas fa-sliders-h text-xs"></i> 2. Parámetros de Calibración Estratégica
+                        <i class="fas fa-sliders-h text-xs"></i> 2. Matriz de Búsqueda y Preferencias
                     </h3>
-                    <div class="glass-panel p-5 md:p-6 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                        <div class="col-span-1">
-                            <label class="block text-[9px] text-gray-400 uppercase tracking-wide mb-1.5">Seniority <span class="text-axonGreen">*</span></label>
-                            <input type="text" id="cal-experiencia" placeholder="Ej. Junior, Ssr, Senior..." class="w-full input-dark rounded-lg p-2.5 text-xs" required oninput="validateForm()">
+                    
+                    <div class="glass-panel p-5 md:p-6 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-5 bg-[#0A0A0A] border border-[#333] shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 h-full w-32 bg-gradient-to-l from-white/5 to-transparent pointer-events-none"></div>
+                        <div class="flex-1">
+                            <h4 class="text-sm md:text-base font-bold text-white mb-2 flex items-center gap-3">
+                                Configuración Global de Lixie <img src="logo.png" class="h-4 opacity-90">
+                            </h4>
+                            <p class="text-xs text-gray-400 leading-relaxed max-w-lg mb-3">
+                                Define tu Puesto Objetivo, Seniority, Ubicación y Expectativas. Estos parámetros son vitales para que la Inteligencia Artificial cruce datos exactos con las vacantes ocultas en Jooble.
+                            </p>
+                            <p id="lixie-status" class="text-[10px] md:text-xs text-yellow-500 uppercase tracking-widest font-mono font-bold animate-pulse inline-flex items-center gap-2 bg-yellow-900/10 px-3 py-1.5 rounded-md border border-yellow-900/30">
+                                <i class="fas fa-exclamation-circle"></i> Matriz de Configuración Pendiente
+                            </p>
                         </div>
-                        <div class="col-span-1">
-                            <label class="block text-[9px] text-gray-400 uppercase tracking-wide mb-1.5">Puesto Objetivo <span class="text-axonGreen">*</span></label>
-                            <input type="text" id="cal-puesto" placeholder="Ej. Backend Developer" class="w-full input-dark rounded-lg p-2.5 text-xs" required oninput="validateForm()">
-                        </div>
-
-                        <div class="col-span-1 md:col-span-2 border-t border-[#262626] my-2"></div>
-                        
-                        <div class="col-span-1 md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0A0A0A] p-4 rounded-xl border border-[#333]">
-                            <div>
-                                <h4 class="text-xs font-bold text-white mb-1 flex items-center gap-2">
-                                    <img src="logo.png" class="h-3 opacity-90"> Preferencias del Motor Búsqueda
-                                </h4>
-                                <p class="text-[10px] text-gray-500 leading-relaxed max-w-sm">Configura la extensión de Lixie para delimitar tu rubro, ubicación y modalidad. Vital para el cruce de vacantes exactas en Jooble.</p>
-                                <p id="lixie-status" class="text-[9px] text-yellow-500 uppercase tracking-widest font-mono mt-2 font-bold animate-pulse">
-                                    <i class="fas fa-exclamation-circle"></i> Configuración Pendiente
-                                </p>
-                            </div>
-                            <button onclick="openLixieModal()" class="w-full sm:w-auto bg-white text-black font-bold py-2.5 px-5 rounded-lg text-[10px] uppercase tracking-wider transition-all hover:bg-axonGreen shadow-[0_0_15px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 shrink-0">
-                                <i class="fas fa-cogs"></i> Configurar Lixie
-                            </button>
-                        </div>
+                        <button onclick="openLixieModal()" class="w-full sm:w-auto bg-white text-black font-bold py-3.5 px-6 rounded-lg text-xs uppercase tracking-wider transition-all hover:bg-axonGreen shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 shrink-0 relative z-10">
+                            <i class="fas fa-cogs"></i> Iniciar Calibración Lixie
+                        </button>
                     </div>
                 </div>
             </div>
@@ -279,38 +275,59 @@
         </div>
     </main>
 
-    <!-- MODALES LIXIE Y EDITOR (Omitidos los cuerpos HTML internos idénticos para no sobrecargar, funcionan 100% igual que en la versión anterior) -->
-    <!-- MODAL PREFERENCIAS LIXIE (Flotante) -->
-    <div id="lixie-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4">
-        <div class="glass-panel-heavy rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden border-axonGreen/30 flex flex-col">
+    <!-- MODAL PREFERENCIAS LIXIE INTEGRADO (Flotante) -->
+    <div id="lixie-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4">
+        <div class="glass-panel-heavy rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden border-[#333] flex flex-col">
+            <!-- Header Modal con Logos CVStudio33 -->
             <div class="bg-[#050505] border-b border-[#262626] p-4 flex items-center justify-between">
-                <h3 class="text-white text-sm font-bold flex items-center gap-2"><img src="logo.png" class="h-4"> Extensión Lixie</h3>
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" class="h-4">
+                    <div class="h-4 w-px bg-gray-700"></div>
+                    <img src="logoaxon.png" class="h-4">
+                </div>
                 <button onclick="closeLixieModal()" class="text-gray-500 hover:text-white transition"><i class="fas fa-times"></i></button>
             </div>
-            <div class="p-6 relative min-h-[250px]">
-                <!-- PASO 1 -->
+            
+            <div class="p-6 relative min-h-[280px] flex flex-col justify-center">
+                <!-- PASO 1: Puesto y Seniority -->
                 <div id="lixie-step-1" class="flex flex-col gap-4">
-                    <h4 class="text-xs font-bold text-axonGreen uppercase tracking-widest text-center">Paso 1 de 4</h4>
-                    <p class="text-sm text-white text-center font-medium">¿En qué provincia te encuentras?</p>
+                    <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 1 de 6 - Perfil</h4>
+                    <div>
+                        <label class="block text-[9px] text-gray-400 uppercase tracking-wide mb-1.5">Puesto Objetivo <span class="text-axonGreen">*</span></label>
+                        <input type="text" id="cal-puesto" placeholder="Ej. Backend Developer" class="w-full input-dark rounded-lg p-3 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] text-gray-400 uppercase tracking-wide mb-1.5">Seniority <span class="text-axonGreen">*</span></label>
+                        <input type="text" id="cal-experiencia" placeholder="Ej. Junior, Ssr, Senior..." class="w-full input-dark rounded-lg p-3 text-xs">
+                    </div>
+                    <button onclick="nextLixieStep(2)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition shadow-lg">Siguiente</button>
+                </div>
+
+                <!-- PASO 2: Provincia -->
+                <div id="lixie-step-2" class="hidden flex-col gap-4">
+                    <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 2 de 6 - Región</h4>
+                    <p class="text-sm text-white text-center font-medium mb-2">¿En qué provincia te encuentras?</p>
                     <select id="lixie-input-provincia" class="w-full input-dark rounded-lg p-3 text-xs appearance-none">
                         <option value="">Selecciona tu provincia...</option>
                         <option value="Buenos Aires">Buenos Aires</option><option value="CABA">CABA</option><option value="Córdoba">Córdoba</option><option value="Santa Fe">Santa Fe</option><option value="Mendoza">Mendoza</option><option value="Tucumán">Tucumán</option><option value="Entre Ríos">Entre Ríos</option><option value="Salta">Salta</option><option value="Chaco">Chaco</option><option value="Corrientes">Corrientes</option><option value="Misiones">Misiones</option><option value="San Juan">San Juan</option><option value="Jujuy">Jujuy</option><option value="Río Negro">Río Negro</option><option value="Neuquén">Neuquén</option><option value="Formosa">Formosa</option><option value="Chubut">Chubut</option><option value="San Luis">San Luis</option><option value="Catamarca">Catamarca</option><option value="La Rioja">La Rioja</option><option value="La Pampa">La Pampa</option><option value="Santa Cruz">Santa Cruz</option><option value="Tierra del Fuego">Tierra del Fuego</option><option value="Santiago del Estero">Santiago del Estero</option>
                     </select>
-                    <button onclick="nextLixieStep(2)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition">Siguiente</button>
+                    <button onclick="nextLixieStep(3)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition">Siguiente</button>
                 </div>
-                <!-- PASO 2 -->
-                <div id="lixie-step-2" class="hidden flex-col gap-4">
-                    <h4 class="text-xs font-bold text-axonGreen uppercase tracking-widest text-center">Paso 2 de 4</h4>
+
+                <!-- PASO 3: Localidad -->
+                <div id="lixie-step-3" class="hidden flex-col gap-4">
+                    <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 3 de 6 - Zona Exacta</h4>
                     <p class="text-sm text-white text-center font-medium leading-relaxed">¿Quieres limitar la búsqueda exclusivamente a tu localidad? <br><span class="text-[10px] text-gray-400 font-normal">Ejemplo: Morón (Opcional)</span></p>
                     <input type="text" id="lixie-input-localidad" placeholder="Ingresa tu localidad exacta..." class="w-full input-dark rounded-lg p-3 text-xs">
                     <div class="flex gap-3 mt-2">
-                        <button onclick="nextLixieStep(3)" class="flex-1 border border-[#333] text-gray-300 font-bold py-2.5 rounded-lg text-xs hover:bg-[#1a1a1a] transition">Omitir</button>
-                        <button onclick="nextLixieStep(3)" class="flex-1 bg-white text-black font-bold py-2.5 rounded-lg text-xs hover:bg-gray-200 transition">Siguiente</button>
+                        <button onclick="nextLixieStep(4)" class="flex-1 border border-[#333] text-gray-300 font-bold py-2.5 rounded-lg text-xs hover:bg-[#1a1a1a] transition">Omitir</button>
+                        <button onclick="nextLixieStep(4)" class="flex-1 bg-white text-black font-bold py-2.5 rounded-lg text-xs hover:bg-gray-200 transition">Siguiente</button>
                     </div>
                 </div>
-                <!-- PASO 3 -->
-                <div id="lixie-step-3" class="hidden flex-col gap-4">
-                    <h4 class="text-xs font-bold text-axonGreen uppercase tracking-widest text-center">Paso 3 de 4</h4>
+
+                <!-- PASO 4: Modalidad -->
+                <div id="lixie-step-4" class="hidden flex-col gap-4">
+                    <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 4 de 6 - Modalidad</h4>
                     <p class="text-sm text-white text-center font-medium">¿Qué modalidad de trabajo buscas principalmente?</p>
                     <div class="flex flex-col gap-2 mt-2">
                         <button onclick="setModalidadAndNext('Presencial')" class="w-full bg-[#121212] border border-[#333] text-gray-300 font-bold py-3 rounded-lg text-xs hover:border-axonGreen hover:text-axonGreen transition">Oficina / Presencial</button>
@@ -318,21 +335,53 @@
                         <button onclick="setModalidadAndNext('Ambas')" class="w-full bg-[#121212] border border-[#333] text-gray-300 font-bold py-3 rounded-lg text-xs hover:border-axonGreen hover:text-axonGreen transition">Ambas / Híbrido</button>
                     </div>
                 </div>
-                <!-- PASO 4 -->
-                <div id="lixie-step-4" class="hidden flex-col gap-4">
-                    <h4 class="text-xs font-bold text-axonGreen uppercase tracking-widest text-center">Paso 4 de 4</h4>
+
+                <!-- PASO 5: Rubro Corporativo -->
+                <div id="lixie-step-5" class="hidden flex-col gap-4">
+                    <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 5 de 6 - Industria</h4>
                     <p class="text-sm text-white text-center font-medium">¿En qué sector o rubro corporativo te especializas?</p>
                     <select id="lixie-input-rubro" class="w-full input-dark rounded-lg p-3 text-xs appearance-none">
                         <option value="Sin filtro">Sin filtro (General) ⭐ Recomendada</option>
                         <option value="IT & Software">IT & Software</option><option value="Finanzas y Contabilidad">Finanzas y Contabilidad</option><option value="Recursos Humanos">Recursos Humanos</option><option value="Marketing y Publicidad">Marketing y Publicidad</option><option value="Ventas y Comercial">Ventas y Comercial</option><option value="Ingeniería">Ingeniería</option><option value="Salud y Medicina">Salud y Medicina</option><option value="Legal">Legal</option><option value="Logística y Supply Chain">Logística y Supply Chain</option><option value="Educación y Docencia">Educación y Docencia</option><option value="Diseño y UX/UI">Diseño y UX/UI</option><option value="Arquitectura">Arquitectura</option><option value="Administración">Administración</option><option value="Operaciones">Operaciones</option><option value="Atención al Cliente">Atención al Cliente</option>
                     </select>
-                    <button onclick="finishLixieConfig()" class="w-full bg-axonGreen text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-white shadow-[0_0_15px_rgba(0,255,65,0.3)] transition">Finalizar Configuración</button>
+                    <button onclick="nextLixieStep(6)" class="w-full bg-white text-black font-bold py-2.5 rounded-lg text-xs mt-2 hover:bg-gray-200 transition">Siguiente</button>
                 </div>
-                <!-- PASO 5 -->
-                <div id="lixie-step-5" class="hidden flex-col items-center justify-center gap-4 text-center h-full pt-4">
-                    <div class="w-16 h-16 bg-axonGreen/10 border border-axonGreen rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,65,0.3)] mb-2"><img src="logo.png" class="h-6 object-contain"></div>
-                    <h4 class="text-base font-bold text-white">Extensión de Lixie configurada</h4>
-                    <button onclick="closeLixieModal()" class="w-full border border-gray-600 text-white font-bold py-2 rounded-lg text-xs mt-4 hover:bg-gray-800 transition">Guardar y Cerrar</button>
+
+                <!-- PASO 6: Expectativa Salarial (Nuevo con Advertencia) -->
+                <div id="lixie-step-6" class="hidden flex-col gap-4">
+                    <h4 class="text-[10px] font-bold text-axonGreen uppercase tracking-widest text-center border-b border-[#262626] pb-2 mb-2">Paso 6 de 6 - Salario</h4>
+                    <p class="text-sm text-white text-center font-medium">Filtro de Rango Salarial (Opcional)</p>
+                    
+                    <div class="bg-red-900/10 border border-red-500/50 p-3 rounded-lg shadow-inner flex flex-col gap-1.5 mt-1">
+                        <div class="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-wider">
+                            <i class="fas fa-exclamation-triangle"></i> ¡Advertencia ATS!
+                        </div>
+                        <p class="text-[10px] text-gray-400 leading-relaxed">
+                            <strong class="text-red-300">Omitir recomendado.</strong> La mayoría de empresas premium ocultan el salario en sus publicaciones. Establecer un rango salarial aquí forzará al algoritmo a descartar y ocultar ofertas excelentes que no tengan el precio publicado.
+                        </p>
+                    </div>
+
+                    <select id="lixie-input-salario" class="w-full input-dark rounded-lg p-3 text-xs appearance-none">
+                        <option value="">No filtrar por salario (Recomendado)</option>
+                        <option value="Menos de 500k ARS">Menos de $500.000 ARS</option>
+                        <option value="500k - 1M ARS">$500.000 - $1.000.000 ARS</option>
+                        <option value="1M - 2M ARS">$1.000.000 - $2.000.000 ARS</option>
+                        <option value="Mas de 2M ARS">Más de $2.000.000 ARS</option>
+                        <option value="USD">Expectativa en USD (Remoto)</option>
+                    </select>
+                    
+                    <div class="flex gap-3 mt-2">
+                        <button onclick="finishLixieConfig(true)" class="flex-1 border border-[#333] text-gray-300 font-bold py-2.5 rounded-lg text-xs hover:bg-[#1a1a1a] transition">Omitir</button>
+                        <button onclick="finishLixieConfig(false)" class="flex-1 bg-axonGreen text-black font-bold py-2.5 rounded-lg text-xs hover:bg-white shadow-[0_0_15px_rgba(0,255,65,0.3)] transition">Finalizar</button>
+                    </div>
+                </div>
+
+                <!-- PASO 7: Éxito -->
+                <div id="lixie-step-7" class="hidden flex-col items-center justify-center gap-4 text-center h-full pt-4">
+                    <div class="w-16 h-16 bg-axonGreen/10 border border-axonGreen rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,65,0.3)] mb-2 animate-pulse"><img src="logo.png" class="h-6 object-contain"></div>
+                    <h4 class="text-base font-bold text-white">Matriz Lixie Acoplada</h4>
+                    <p class="text-[10px] text-gray-400 font-mono">El Motor ATS tiene sus coordenadas.</p>
+                    <button onclick="closeLixieModal()" class="w-full border border-gray-600 text-white font-bold py-2.5 rounded-lg text-xs mt-4 hover:bg-gray-800 transition">Guardar y Cerrar</button>
                 </div>
             </div>
         </div>
@@ -356,53 +405,81 @@
         </div>
     </div>
 
-    <!-- PANTALLA 3: ANIMACIÓN PROFESIONAL DE FLUJO (Estética CVStudio33) -->
+    <!-- PANTALLA 3: ANIMACIÓN PROFESIONAL DE FLUJO (Estética Agencia CVStudio33) -->
     <div id="animation-screen" class="hidden absolute inset-0 bg-[#050505] z-50 flex flex-col items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgkJPGcgc3Ryb2tlPSIjMTExIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgoJCQk8cGF0aCBkPSJNMCAwdjYwaDYwVjB6Ii8+CgkJPC9nPgoJPC9zdmc+')] opacity-20 pointer-events-none"></div>
+        <!-- Terminal Code Background -->
+        <div class="terminal-code animate-scrollCode">
+            01000101 01011000 01010100 01010010 01000001 01000011 01010100 01001001 01001111 01001110<br>
+            EXEC_SYS_PROMPT_1_ATS_CORE_EVAL_INITIALIZED... SUCCESS [200 OK]<br>
+            PARSING_HEALTH_INDEX_ANALYSIS: RUNNING REGEX_TREE_NODE_7...<br>
+            BIAS_AUDIT_PROTOCOL: OVERRIDING DEMOGRAPHIC_DATA... CLEARED<br>
+            LOADING_LIXIE_MATRIX_V2... BOUNDS SET TO: LAT -34.61, LON -58.38<br>
+            JOOBLE_DATA_SYNC_API_CALL_3: HTTP_POST_REQUST_SENT...<br>
+            FETCHING_40_MARKET_JOBS... PREDICTING_SALARY_INTELLIGENCE...<br>
+            101010101110101010101011110101010001010101010101010101010<br>
+            CROSS_MATCHING_KEYWORDS... MISSING: "PYTHON", "SQL"<br>
+            COMPILING_AXON_CORPORATE_REPORT_FINAL_PDF_OUTPUT_HTML_SSR...
+            01000101 01011000 01010100 01010010 01000001 01000011 01010100 01001001 01001111 01001110<br>
+            EXEC_SYS_PROMPT_1_ATS_CORE_EVAL_INITIALIZED... SUCCESS [200 OK]<br>
+            PARSING_HEALTH_INDEX_ANALYSIS: RUNNING REGEX_TREE_NODE_7...<br>
+            BIAS_AUDIT_PROTOCOL: OVERRIDING DEMOGRAPHIC_DATA... CLEARED<br>
+            LOADING_LIXIE_MATRIX_V2... BOUNDS SET TO: LAT -34.61, LON -58.38<br>
+            JOOBLE_DATA_SYNC_API_CALL_3: HTTP_POST_REQUST_SENT...<br>
+            FETCHING_40_MARKET_JOBS... PREDICTING_SALARY_INTELLIGENCE...<br>
+            101010101110101010101011110101010001010101010101010101010<br>
+            CROSS_MATCHING_KEYWORDS... MISSING: "PYTHON", "SQL"<br>
+            COMPILING_AXON_CORPORATE_REPORT_FINAL_PDF_OUTPUT_HTML_SSR...
+        </div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgkJPGcgc3Ryb2tlPSIjMTExIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgoJCQk8cGF0aCBkPSJNMCAwdjYwaDYwVjB6Ii8+CgkJPC9nPgoJPC9zdmc+')] opacity-30 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]"></div>
         
-        <div class="flex flex-col w-full max-w-2xl px-6 relative z-10 items-center">
+        <div class="flex flex-col w-full max-w-4xl px-6 relative z-10 items-center">
             
-            <!-- Red Nodal Visual (Diagrama de Flujo Estético) -->
-            <div class="flex items-center justify-center gap-2 md:gap-4 w-full mb-10">
-                <!-- Nodo 1: Ingesta -->
-                <div id="anim-node-1" class="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10">
-                    <i class="fas fa-file-pdf text-lg md:text-xl text-gray-600 transition-colors" id="anim-icon-1"></i>
+            <!-- Red Nodal Visual Avanzada de 5 Pasos -->
+            <div class="flex items-center justify-center w-full mb-12 hidden md:flex scale-90 lg:scale-100">
+                <!-- Nodo 1 -->
+                <div id="anim-node-1" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
+                    <i class="fas fa-file-alt text-lg text-gray-600 transition-colors" id="anim-icon-1"></i>
                 </div>
-                <!-- Línea 1 -->
-                <div class="h-1 w-12 md:w-20 bg-[#222] relative overflow-hidden rounded">
-                    <div id="anim-line-1" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-[1500ms] ease-out shadow-[0_0_10px_#00FF41]"></div>
+                <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-1" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
+                <!-- Nodo 2 -->
+                <div id="anim-node-2" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
+                    <i class="fas fa-search-plus text-lg text-gray-600 transition-colors" id="anim-icon-2"></i>
                 </div>
-                <!-- Nodo 2: Cerebro IA -->
-                <div id="anim-node-2" class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shadow-[0_0_0_rgba(0,0,0,0)]">
-                    <img src="logoaxon.png" class="h-5 md:h-6 opacity-30 transition-all" id="anim-icon-2">
+                <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-2" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
+                <!-- Nodo 3 (AXON CORE) -->
+                <div id="anim-node-3" class="w-20 h-20 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0 shadow-[0_0_0_rgba(0,0,0,0)]">
+                    <img src="logoaxon.png" class="h-6 opacity-30 transition-all" id="anim-icon-3">
                 </div>
-                <!-- Línea 2 -->
-                <div class="h-1 w-12 md:w-20 bg-[#222] relative overflow-hidden rounded">
-                    <div id="anim-line-2" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-[1500ms] ease-out shadow-[0_0_10px_#00FF41]"></div>
+                <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-3" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
+                <!-- Nodo 4 -->
+                <div id="anim-node-4" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
+                    <img src="logo.png" class="h-4 opacity-30 transition-all" id="anim-icon-4">
                 </div>
-                <!-- Nodo 3: Red Lixie -->
-                <div id="anim-node-3" class="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10">
-                    <img src="logo.png" class="h-4 opacity-30 transition-all" id="anim-icon-3">
+                <div class="h-1 w-16 bg-[#222] relative overflow-hidden rounded mx-1 shrink-0"><div id="anim-line-4" class="absolute inset-y-0 left-0 bg-axonGreen w-0 transition-all duration-1000 ease-out shadow-[0_0_10px_#00FF41]"></div></div>
+                <!-- Nodo 5 -->
+                <div id="anim-node-5" class="w-14 h-14 rounded-full border-2 border-[#333] flex items-center justify-center bg-[#0A0A0A] transition-all duration-700 z-10 shrink-0">
+                    <i class="fas fa-chart-pie text-lg text-gray-600 transition-colors" id="anim-icon-5"></i>
                 </div>
             </div>
 
             <!-- Panel Informativo -->
-            <div class="w-full glass-panel-heavy rounded-xl p-5 md:p-6 shadow-2xl relative overflow-hidden border-[#262626]">
+            <div class="w-full glass-panel-heavy rounded-xl p-5 md:p-8 shadow-2xl relative overflow-hidden border-[#333] max-w-2xl">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-axonGreen to-transparent opacity-70 animate-pulse"></div>
-                <h3 class="text-white text-xs md:text-sm font-bold mb-4 flex items-center justify-between border-b border-[#262626] pb-3">
-                    <span class="flex items-center gap-2 text-gray-300">
-                        NÚCLEO AXON ACTIVO
+                <h3 class="text-white text-xs md:text-sm font-bold mb-5 flex items-center justify-between border-b border-[#262626] pb-4">
+                    <span class="flex items-center gap-3">
+                        <i class="fas fa-microchip text-axonGreen animate-pulse"></i> NÚCLEO AXON ACTIVO
                     </span>
-                    <span class="text-[8px] md:text-[9px] text-axonGreen font-mono px-2 py-0.5 bg-axonGreen/10 border border-axonGreen/30 rounded" id="mode-display-anim">PROTOCOL</span>
+                    <span class="text-[9px] md:text-[10px] text-axonGreen font-mono px-2 py-1 bg-axonGreen/10 border border-axonGreen/30 rounded" id="mode-display-anim">PROTOCOL</span>
                 </h3>
-                <div id="modules-list" class="flex flex-col gap-1.5 md:gap-2"></div>
-                <div class="mt-5 pt-3 md:pt-4 border-t border-[#262626]">
-                    <div class="flex justify-between text-[9px] md:text-[10px] font-mono text-gray-400 mb-1.5">
-                        <span>PROGRESO ALGORÍTMICO</span>
-                        <span id="progress-percent-anim" class="text-axonGreen font-bold">0%</span>
+                <div id="modules-list" class="flex flex-col gap-2.5 md:gap-3 pl-2 border-l border-[#262626] ml-2"></div>
+                <div class="mt-6 pt-5 border-t border-[#262626]">
+                    <div class="flex justify-between text-[9px] md:text-[10px] font-mono text-gray-400 mb-2">
+                        <span>PROGRESO ALGORÍTMICO CORPORATIVO</span>
+                        <span id="progress-percent-anim" class="text-axonGreen font-bold text-xs">0%</span>
                     </div>
-                    <div class="w-full bg-[#050505] h-1.5 md:h-2 rounded-full overflow-hidden border border-[#333]">
-                        <div id="progress-bar-anim" class="h-full bg-axonGreen w-0 transition-all duration-100 ease-linear shadow-[0_0_10px_#00FF41]"></div>
+                    <div class="w-full bg-[#050505] h-2 md:h-2.5 rounded-full overflow-hidden border border-[#333]">
+                        <div id="progress-bar-anim" class="h-full bg-axonGreen w-0 transition-all duration-100 ease-linear shadow-[0_0_15px_#00FF41]"></div>
                     </div>
                 </div>
             </div>
@@ -410,7 +487,6 @@
     </div>
 
     <!-- PANTALLA 4: RESULTADOS CORPORATIVOS PREPARADOS -->
-    <!-- ESTE CONTENEDOR FUE DISEÑADO ULTRA PREMIUM ESPERANDO LOS DATOS DEL CEREBRO -->
     <div id="results-screen" class="hidden flex-1 w-full max-w-5xl mx-auto p-4 md:p-8 flex-col relative z-10 mb-8">
         
         <!-- Header del Reporte Serio Mejorado -->
@@ -430,7 +506,6 @@
                             <i class="fas fa-lock text-gray-500"></i> Confidencial CVStudio33
                         </p>
                         <span class="hidden md:block text-gray-700">|</span>
-                        <!-- BADGE DEL SERVIDOR IA (Se llenará dinámicamente) -->
                         <span class="bg-[#121212] border border-[#333] text-gray-400 text-[8px] md:text-[9px] px-2 py-1 rounded font-mono flex items-center gap-1.5 shadow-inner">
                             <i class="fas fa-server text-axonGreen"></i> CLÚSTER ACTIVO: <strong id="display-server-node" class="text-white">Conectando...</strong>
                         </span>
@@ -448,28 +523,44 @@
             </div>
         </div>
 
-        <!-- Cuerpo del Reporte -->
-        <div class="bg-[#050505] border border-[#333] border-t-0 p-5 md:p-8 rounded-b-2xl shadow-2xl relative overflow-hidden min-h-[500px]">
+        <!-- Cuerpo del Reporte (Inyectado por el backend) -->
+        <div class="bg-[#050505] border border-[#333] border-t-0 p-5 md:p-8 shadow-2xl relative overflow-hidden min-h-[500px]">
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] mix-blend-screen">
                 <img src="logoaxon.png" class="w-2/3 md:w-1/2 object-contain transform -rotate-12 grayscale">
             </div>
-            
             <div class="absolute top-4 right-5 text-[8px] md:text-[9px] text-gray-600 font-mono text-right pointer-events-none hidden sm:block">
-                AXON SECURE SYSTEM<br>
-                <span id="report-timestamp"></span>
+                AXON SECURE SYSTEM<br><span id="report-timestamp"></span>
             </div>
 
-            <!-- Contenido dinámico inyectado por el cerebro en el siguiente paso -->
             <div id="results-content" class="w-full relative z-10 text-white"></div>
+        </div>
+
+        <!-- LABORATORIO DE OPTIMIZACIÓN CVSTUDIO33 (Estático en el Frontend) -->
+        <div class="bg-gradient-to-r from-[#0A0A0A] to-[#121212] border border-[#333] border-t-0 rounded-b-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-axonGreen rounded-full opacity-[0.03] blur-[50px] pointer-events-none"></div>
             
-            <div class="mt-12 pt-6 border-t border-[#262626] flex flex-col md:flex-row items-center justify-between gap-4 opacity-80">
-                <div class="flex items-center gap-3">
-                    <img src="logo.png" class="h-4 grayscale opacity-70">
-                    <span class="text-[9px] text-gray-400 font-mono tracking-widest uppercase border-l border-gray-700 pl-3">Inteligencia Corporativa HR</span>
-                </div>
-                <div class="text-[8px] text-gray-600 text-center md:text-right max-w-sm leading-relaxed">
-                    Este reporte es generado mediante arquitecturas neuronales ATS. Los resultados predictivos buscan maximizar la empleabilidad técnica. Todo el flujo es gestionado por protocolos de seguridad Zero-Trust.
-                </div>
+            <div class="flex-1">
+                <h3 class="text-base md:text-lg font-bold text-white mb-2 flex items-center gap-3">
+                    <i class="fas fa-flask text-axonGreen animate-pulse"></i> Laboratorio de Optimización CVStudio33
+                </h3>
+                <p class="text-xs md:text-sm text-gray-400 leading-relaxed max-w-2xl border-l-2 border-[#333] pl-3">
+                    Basado en las brechas y métricas descubiertas por la Inteligencia Artificial, te recomendamos reestructurar tu perfil utilizando diseños ATS-Friendly comprobados. Accede a nuestra bóveda para corregir los errores estructurales y elevar tu score semántico.
+                </p>
+            </div>
+            
+            <a href="biblioteca-de-plantillas.html" class="w-full md:w-auto bg-transparent border border-axonGreen text-axonGreen hover:bg-axonGreen hover:text-black font-bold py-3.5 px-8 rounded-xl text-xs uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(0,255,65,0.1)] hover:shadow-[0_0_25px_rgba(0,255,65,0.4)] flex items-center justify-center gap-3 shrink-0">
+                <i class="fas fa-layer-group"></i> Ir a Biblioteca de Plantillas
+            </a>
+        </div>
+        
+        <!-- Footer Final -->
+        <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 opacity-60 px-2">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" class="h-3 grayscale opacity-70">
+                <span class="text-[8px] text-gray-500 font-mono tracking-widest uppercase border-l border-gray-700 pl-3">Inteligencia Corporativa HR</span>
+            </div>
+            <div class="text-[8px] text-gray-600 text-center md:text-right max-w-sm leading-relaxed">
+                Reporte generado mediante arquitecturas neuronales ATS. Resultados predictivos para maximizar empleabilidad.
             </div>
         </div>
     </div>
@@ -502,7 +593,8 @@
         let selectedFile = null;
 
         window.lixieConfigured = false;
-        window.lixieData = { provincia: "", localidad: "", modalidad: "", rubro: "Sin filtro" };
+        // Se agregaron Puesto, Seniority y Salario a Lixie
+        window.lixieData = { puesto: "", seniority: "", provincia: "", localidad: "", modalidad: "", rubro: "Sin filtro", salario: "" };
 
         const ui = {
             loader: document.getElementById('global-loader'),
@@ -514,7 +606,6 @@
             resultsContent: document.getElementById('results-content'),
             dispTokens: document.getElementById('display-tokens'),
             btnStart: document.getElementById('btn-start'),
-            inputs: ['cal-experiencia', 'cal-puesto'], 
             animModeDisplay: document.getElementById('mode-display-anim')
         };
 
@@ -538,32 +629,46 @@
             }
             toast.classList.remove('translate-x-full');
             toast.classList.add('translate-x-0');
-            setTimeout(() => { 
-                toast.classList.remove('translate-x-0');
-                toast.classList.add('translate-x-full'); 
-            }, 3500);
+            setTimeout(() => { toast.classList.remove('translate-x-0'); toast.classList.add('translate-x-full'); }, 3500);
         }
 
+        // LÓGICA DE FLUJO LIXIE (6 Pasos)
         window.openLixieModal = () => document.getElementById('lixie-modal').classList.remove('hidden');
         window.closeLixieModal = () => document.getElementById('lixie-modal').classList.add('hidden');
+        
         window.nextLixieStep = (stepNumber) => {
+            // Validaciones por paso
             if(stepNumber === 2) {
+                const puesto = document.getElementById('cal-puesto').value.trim();
+                const exp = document.getElementById('cal-experiencia').value.trim();
+                if(!puesto || !exp) return showToast('Completa tu puesto y seniority', true);
+            }
+            if(stepNumber === 3) {
                 const prov = document.getElementById('lixie-input-provincia').value;
-                if(!prov) return showToast('Selecciona una provincia primero', true);
+                if(!prov) return showToast('Selecciona una provincia', true);
                 window.lixieData.provincia = prov;
             }
-            if(stepNumber === 3) window.lixieData.localidad = document.getElementById('lixie-input-localidad').value.trim();
-            [1,2,3,4,5].forEach(i => document.getElementById(`lixie-step-${i}`).classList.replace('flex', 'hidden'));
+            if(stepNumber === 4) window.lixieData.localidad = document.getElementById('lixie-input-localidad').value.trim();
+            
+            // Ocultar todos, mostrar objetivo
+            [1,2,3,4,5,6,7].forEach(i => {
+                const el = document.getElementById(`lixie-step-${i}`);
+                if(el) el.classList.replace('flex', 'hidden');
+            });
             document.getElementById(`lixie-step-${stepNumber}`).classList.replace('hidden', 'flex');
         };
-        window.setModalidadAndNext = (modalidad) => { window.lixieData.modalidad = modalidad; window.nextLixieStep(4); };
-        window.finishLixieConfig = () => {
+        
+        window.setModalidadAndNext = (modalidad) => { window.lixieData.modalidad = modalidad; window.nextLixieStep(5); };
+        
+        window.finishLixieConfig = (omitirSalario = false) => {
             window.lixieData.rubro = document.getElementById('lixie-input-rubro').value;
+            window.lixieData.salario = omitirSalario ? "Sin filtro salarial" : document.getElementById('lixie-input-salario').value;
             window.lixieConfigured = true;
-            window.nextLixieStep(5);
+            window.nextLixieStep(7);
+            
             const statusLabel = document.getElementById('lixie-status');
-            statusLabel.className = "text-[9px] text-axonGreen uppercase tracking-widest font-mono mt-2 font-bold";
-            statusLabel.innerHTML = `<i class="fas fa-check-circle"></i> Extensión Lista (${window.lixieData.rubro})`;
+            statusLabel.className = "text-[10px] md:text-xs text-axonGreen uppercase tracking-widest font-mono mt-2 font-bold inline-flex items-center gap-2 bg-axonGreen/10 px-3 py-1.5 rounded-md border border-axonGreen/30";
+            statusLabel.innerHTML = `<i class="fas fa-check-circle"></i> Matriz Lixie Acoplada`;
             window.validateForm();
         };
 
@@ -581,17 +686,12 @@
             window.validateForm();
         };
 
-        // FIX LOGIN: Manejar promesa para evitar bug de recarga
         document.getElementById('btn-login').addEventListener('click', async () => {
             const btn = document.getElementById('btn-login');
             const originalHTML = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Conectando...';
-            try {
-                await signInWithPopup(auth, new GoogleAuthProvider());
-            } catch (err) {
-                btn.innerHTML = originalHTML;
-                showToast("Fallo al iniciar sesión", true);
-            }
+            try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
+            catch (err) { btn.innerHTML = originalHTML; showToast("Fallo al iniciar sesión", true); }
         });
         document.getElementById('btn-logout').addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
 
@@ -602,7 +702,7 @@
                 
                 setTimeout(() => {
                     ui.loader.classList.add('hidden');
-                    ui.login.classList.add('hidden'); // FIX CRÍTICO: Fuerza el ocultamiento del panel de login
+                    ui.login.classList.add('hidden'); 
                     ui.header.classList.remove('hidden');
                     ui.dashboard.classList.remove('hidden');
                     selectMode(window.currentMode);
@@ -649,16 +749,15 @@
         };
 
         window.validateForm = () => {
-            const inputsOk = ui.inputs.every(id => document.getElementById(id).value.trim().length > 0);
             const cvOk = window.cleanedCVText && window.cleanedCVText.length > 50; 
             const cost = window.currentMode === 'basic' ? COST_BASIC : COST_ADVANCED;
             const fundsOk = window.userTokens >= cost;
 
             ui.btnStart.className = "w-full font-bold py-3.5 md:py-4 rounded-xl text-[10px] md:text-xs uppercase transition flex items-center justify-center gap-2 border shadow-lg ";
 
-            if (!inputsOk || !cvOk || !window.lixieConfigured) {
+            if (!window.lixieConfigured || !cvOk) {
                 ui.btnStart.disabled = true;
-                const errorMsg = !window.lixieConfigured ? "Lixie No Configurado" : "Faltan Datos o Archivo";
+                const errorMsg = !window.lixieConfigured ? "Matriz Lixie Pendiente" : "Falta Ingesta de PDF";
                 ui.btnStart.innerHTML = `<i class="fas fa-lock text-gray-600"></i> ${errorMsg}`;
                 ui.btnStart.classList.add('bg-[#121212]', 'text-gray-500', 'border-[#333]');
             } else if (!fundsOk) {
@@ -671,7 +770,10 @@
                 ui.btnStart.classList.add('bg-white', 'text-black', 'hover:bg-axonGreen', 'border-white', 'shadow-[0_0_15px_rgba(255,255,255,0.2)]');
             }
         };
-        ui.inputs.forEach(id => document.getElementById(id).addEventListener('input', window.validateForm));
+
+        // Inputs dentro de Lixie ahora controlan validación interna
+        document.getElementById('cal-puesto').addEventListener('input', () => { if(window.lixieConfigured) window.validateForm(); });
+        document.getElementById('cal-experiencia').addEventListener('input', () => { if(window.lixieConfigured) window.validateForm(); });
 
         cvUpload.addEventListener('change', (e) => { if(e.target.files.length > 0) handleFileSelection(e.target.files[0]); e.target.value = ''; });
         cvDropzone.addEventListener('dragover', (e) => { e.preventDefault(); cvDropzone.classList.add('border-axonGreen'); });
@@ -743,11 +845,10 @@
 
                 if (fullExtractedText.trim().length < 50) throw new Error("Documento vacío o ilegible.");
 
-                // LIMPIEZA INTELIGENTE MEJORADA PARA OCR
                 window.cleanedCVText = fullExtractedText
-                    .replace(/([a-z])([A-Z])/g, '$1 $2') // Separa palabras juntas "ReactDeveloper" -> "React Developer"
-                    .replace(/([a-zA-Z])(\d)/g, '$1 $2') // Separa letras de numeros "HTML5" -> "HTML 5"
-                    .replace(/([.,!?:;])([a-zA-Z])/g, '$1 $2') // Espacio después de coma si falta
+                    .replace(/([a-z])([A-Z])/g, '$1 $2') 
+                    .replace(/([a-zA-Z])(\d)/g, '$1 $2') 
+                    .replace(/([.,!?:;])([a-zA-Z])/g, '$1 $2') 
                     .replace(/[ \t]{2,}/g, ' ')       
                     .replace(/\n{3,}/g, '\n\n')       
                     .trim();       
@@ -781,23 +882,23 @@
             }
         });
 
-        // EJECUCIÓN (CON NUEVA ANIMACIÓN DE FLUJO CVSTUDIO33)
+        // EJECUCIÓN CON ANIMACIÓN NODAL 5 PASOS
         ui.btnStart.addEventListener('click', async () => {
             ui.dashboard.classList.add('hidden');
             ui.animation.classList.remove('hidden');
 
             const runAnimations = new Promise((resolve) => {
                 const modules = window.currentMode === 'advanced' ? [
-                    { id: 'm1', time: 0, text: "Ingesta segura de perfiles paramétricos..." },
-                    { id: 'm2', time: 2000, text: "Validación de bóveda Zero-Trust..." },
-                    { id: 'm3', time: 4000, text: "Cruzando matriz neuronal en Clúster AXON..." },
-                    { id: 'm4', time: 6000, text: "Inferencia Lixie: Salary & Match Analysis..." },
-                    { id: 'm5', time: 8500, text: "Emitiendo Auditoría Oficial Corporativa..." }
+                    { id: 'm1', time: 0, text: "Lectura profunda OCR y extracción semántica..." },
+                    { id: 'm2', time: 2000, text: "Simulación ATS: Emulación algorítmica de plataformas..." },
+                    { id: 'm3', time: 4000, text: "Auditoría de sesgos y métricas de decisión corporativa..." },
+                    { id: 'm4', time: 6000, text: "Predicción de vista y Multi-Sync Lixie a Red Global..." },
+                    { id: 'm5', time: 8500, text: "Compilando reporte oficial en Clúster AXON..." }
                 ] : [
-                    { id: 'm1', time: 0, text: "Empaquetando perfil extraído OCR..." },
-                    { id: 'm2', time: 2500, text: "Validación de bóveda Zero-Trust..." },
-                    { id: 'm3', time: 5000, text: "Evaluando Parsing Health y estructura..." },
-                    { id: 'm4', time: 8000, text: "Ensamblando Reporte Corporativo AXON..." }
+                    { id: 'm1', time: 0, text: "Lectura profunda OCR y extracción semántica..." },
+                    { id: 'm2', time: 2500, text: "Simulación ATS: Emulación algorítmica de plataformas..." },
+                    { id: 'm3', time: 5000, text: "Auditoría de sesgos y métricas de decisión corporativa..." },
+                    { id: 'm4', time: 8000, text: "Compilando reporte oficial en Clúster AXON..." }
                 ];
 
                 const container = document.getElementById('modules-list');
@@ -808,15 +909,16 @@
                 `).join('');
 
                 const startTime = Date.now();
-                const totalTime = 10000; 
+                const totalTime = 10500; 
                 const progressBarAnim = document.getElementById('progress-bar-anim');
                 const progressPercentAnim = document.getElementById('progress-percent-anim');
                 
-                // Lógica de encendido de Nodos Animados
                 const animNodes = {
                     node1: document.getElementById('anim-node-1'), icon1: document.getElementById('anim-icon-1'), line1: document.getElementById('anim-line-1'),
                     node2: document.getElementById('anim-node-2'), icon2: document.getElementById('anim-icon-2'), line2: document.getElementById('anim-line-2'),
-                    node3: document.getElementById('anim-node-3'), icon3: document.getElementById('anim-icon-3')
+                    node3: document.getElementById('anim-node-3'), icon3: document.getElementById('anim-icon-3'), line3: document.getElementById('anim-line-3'),
+                    node4: document.getElementById('anim-node-4'), icon4: document.getElementById('anim-icon-4'), line4: document.getElementById('anim-line-4'),
+                    node5: document.getElementById('anim-node-5'), icon5: document.getElementById('anim-icon-5')
                 };
 
                 const interval = setInterval(() => {
@@ -825,23 +927,22 @@
                     progressBarAnim.style.width = `${percent}%`;
                     progressPercentAnim.innerText = `${Math.floor(percent)}%`;
 
-                    // Control de Nodos
-                    if(percent > 10) { 
-                        animNodes.node1.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); 
-                        animNodes.icon1.classList.replace('text-gray-600', 'text-axonGreen');
+                    // Lógica Nodal 5 Pasos
+                    if(percent > 10) { animNodes.node1.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); animNodes.icon1.classList.replace('text-gray-600', 'text-axonGreen'); }
+                    if(percent > 15) animNodes.line1.style.width = "100%";
+                    if(percent > 30) { animNodes.node2.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); animNodes.icon2.classList.replace('text-gray-600', 'text-axonGreen'); }
+                    if(percent > 40) animNodes.line2.style.width = "100%";
+                    if(percent > 55) { animNodes.node3.classList.add('border-axonGreen', 'shadow-[0_0_30px_#00FF41]', 'animate-glow'); animNodes.icon3.classList.replace('opacity-30', 'opacity-100'); }
+                    
+                    if(window.currentMode === 'advanced') {
+                        if(percent > 65) animNodes.line3.style.width = "100%";
+                        if(percent > 75) { animNodes.node4.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); animNodes.icon4.classList.replace('opacity-30', 'opacity-100'); }
+                        if(percent > 85) animNodes.line4.style.width = "100%";
+                    } else {
+                        if(percent > 75) animNodes.line3.style.width = "100%";
                     }
-                    if(percent > 20) animNodes.line1.style.width = "100%";
-                    if(percent > 45) { 
-                        animNodes.node2.classList.add('border-axonGreen', 'shadow-[0_0_30px_#00FF41]', 'animate-glow'); 
-                        animNodes.icon2.classList.replace('opacity-30', 'opacity-100');
-                    }
-                    if(percent > 60 && window.currentMode === 'advanced') animNodes.line2.style.width = "100%";
-                    if(percent > 85 && window.currentMode === 'advanced') { 
-                        animNodes.node3.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); 
-                        animNodes.icon3.classList.replace('opacity-30', 'opacity-100');
-                    }
+                    if(percent > 90) { animNodes.node5.classList.add('border-axonGreen', 'shadow-[0_0_15px_#00FF41]'); animNodes.icon5.classList.replace('text-gray-600', 'text-axonGreen'); }
 
-                    // Control de Lista
                     modules.forEach((m, index) => {
                         const el = document.getElementById(m.id);
                         if (elapsed >= m.time && elapsed < (modules[index+1]?.time || totalTime)) {
@@ -866,13 +967,17 @@
             const freshToken = await currentUser.getIdToken(true);
             const finalUbicacion = window.lixieData.localidad ? `${window.lixieData.localidad}, ${window.lixieData.provincia}` : window.lixieData.provincia;
 
+            // Extraemos los inputs directamente del modal usando los IDs intactos
             const payload = {
                 userId: userIdFormat, tokenJWT: freshToken, mode: window.currentMode,
                 calibration: {
                     sector: sanitizeXSS(window.lixieData.rubro),
                     experiencia: sanitizeXSS(document.getElementById('cal-experiencia').value),
                     puesto: sanitizeXSS(document.getElementById('cal-puesto').value),
-                    empresa: "No especificada", modalidad: sanitizeXSS(window.lixieData.modalidad), ubicacion: sanitizeXSS(finalUbicacion)
+                    empresa: "No especificada", 
+                    modalidad: sanitizeXSS(window.lixieData.modalidad), 
+                    ubicacion: sanitizeXSS(finalUbicacion),
+                    salario: sanitizeXSS(window.lixieData.salario) // Nuevo campo para el cerebro
                 },
                 cvText: window.cleanedCVText
             };
@@ -903,8 +1008,8 @@
                             </div>
                         </div>`;
                     } else {
-                        // Inyectar el nodo utilizado en el Badge que preparé
-                        document.getElementById('display-server-node').innerText = backendResponse.node_used || "Nodo 1 (Gemini)";
+                        // Badge actualizado "Nodo X (Tecnología AXON)" que devolverá el backend
+                        document.getElementById('display-server-node').innerHTML = `<i class="fas fa-server text-axonGreen"></i> CLÚSTER ACTIVO: <strong class="text-white">${backendResponse.node_used || "Nodo 1 (Tecnología AXON)"}</strong>`;
                         ui.resultsContent.innerHTML = backendResponse.reporte;
                     }
                 }, 500);

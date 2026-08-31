@@ -1181,11 +1181,25 @@
                     throw new Error("Error obteniendo permisos de Inteligencia Artificial.");
                 }
 
-                // 3. Inferencia Macroeconómica (Sindicatos)
+// ----------------------------------------------------
+                // PASO 3: INFERENCIA MACROECONÓMICA (SINDICATOS)
+                // ----------------------------------------------------
                 updateLogMi('mi-log-macro', 'Consultando paritarias...');
                 const promptMacro = `
-                Eres el Analista de Compensaciones de CVStudio33. Analiza el mercado laboral argentino para: "${keywords}" (${seniority}).
-                Describe en 3 líneas máximo el convenio sindical aplicable, la realidad económica del sector y el piso salarial realista esperado en ARS Netos para el mes actual. Tono corporativo, analítico y directo. Omite introducciones.`;
+                [SISTEMA: DIRECTOR DE COMPENSACIONES - ARGENTINA, AGOSTO 2026]
+                Analiza el mercado laboral para el puesto: "${keywords}" con nivel de seniority: "${seniority}".
+                
+                TAREA CRÍTICA:
+                Describe en 3 líneas el sindicato o convenio aplicable a este puesto, la realidad económica actual del sector y el piso salarial realista esperado en Pesos Argentinos (ARS Netos). 
+                Recuerda que en Agosto 2026, los pisos de convenios básicos (empleados de comercio, maestranza, playeros YPF/SUPEH, repositores) suelen superar los 900.000 ARS netos. Los perfiles técnicos o gerenciales superan los 1.500.000 ARS.
+                El tono debe ser frío, analítico y corporativo.
+                
+                CONSIDERA ADEMÁS ESTE CONTEXTO MACROECONÓMICO GENERAL PARA TU ANÁLISIS:
+                - Dinámica de Paritarias: El costo de vida actual (Canasta Básica) obliga a los gremios y empresas a aplicar ajustes salariales de forma constante (bimestral o trimestral) para evitar la pérdida de poder adquisitivo.
+                - Brecha de Industrias: Sectores dinámicos como IT, Energía (Vaca Muerta), Minería y Fintech manejan escalas significativamente superiores al promedio, utilizando agresivos bonos de retención.
+                - Fuga de Talentos y Dólar: Para perfiles bilingües, remotos o gerenciales, la competencia internacional en USD empuja fuertemente al alza la compensación local en ARS.
+                - Compensación Total: Contempla si el puesto suele compensar el salario base con beneficios no remunerativos clave (prepagas de primer nivel como OSDE/Swiss Medical, bonificaciones por desempeño o cobertura de conectividad).
+                `;
 
                 const reqMacro = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
@@ -1203,7 +1217,9 @@
                 const contextoMacro = dataMacro.choices[0].message.content;
                 updateLogMi('mi-log-macro', 'Contexto Establecido', 'done');
 
-                // 4. Barrido de Volumen Jooble
+                // ----------------------------------------------------
+                // PASO 4: BARRIDO VOLUMEN DE MERCADO (JOOBLE)
+                // ----------------------------------------------------
                 updateLogMi('mi-log-jooble', 'Cazando vacantes...');
                 const joobleRes = await fetch(JOOBLE_URL_MARKET, {
                     method: 'POST',
@@ -1214,22 +1230,32 @@
                 const volumenMercado = joobleRes.totalCount || 0;
                 updateLogMi('mi-log-jooble', `Volumen detectado: ${volumenMercado}`, 'done');
 
-                // 5. Sintetizador Matemático AXON
+                // ----------------------------------------------------
+                // PASO 5: SINTETIZADOR MATEMÁTICO AXON
+                // ----------------------------------------------------
                 updateLogMi('mi-log-math', 'Procesando tensores (120B)...');
                 const promptSintetizador = `
-                Eres el Motor Matemático ATS de CVStudio33. Calcula percentiles salariales en ARS Netos para "${keywords}" (${seniority}) en Argentina.
-                Contexto macro: ${contextoMacro}. Volumen mercado: ${volumenMercado}.
-                Reglas ESTRICTAS:
-                1. p25, p50, p75 DEBEN SER ENTEROS (ej: 1250000). Sin texto adicional.
-                2. Realistas y precisos.
-                3. Identifica 3 'palancas' (skills/certificaciones) para negociar y pasar de p50 a p75.
-                4. Devuelve SOLO Y EXCLUSIVAMENTE UN JSON. Nada de markdowns ni saludos.
+                [SISTEMA: MOTOR MATEMÁTICO ATS CVSTUDIO33 - ARGENTINA, AGOSTO 2026]
+                Eres el núcleo lógico de compensaciones de AXON. Calcula la curva de percentiles exactos en Pesos Argentinos (ARS) Netos.
                 
-                Estructura:
+                DATOS DE ENTRADA:
+                - Puesto: ${keywords} (${seniority})
+                - Contexto Sindical/Macro dictado por el Director: ${contextoMacro}
+                - Volumen Actual (Vacantes activas): ${volumenMercado}
+                
+                REGLAS ESTRICTAS QUE NO PUEDES ROMPER:
+                1. Los valores p25, p50 y p75 DEBEN SER NÚMEROS ENTEROS PUROS. Cero puntos, cero comas, cero símbolos. (Ejemplo CORRECTO: 1250000).
+                2. Basado en el contexto dado, los números DEBEN ser realistas para la inflación de Argentina en Agosto 2026. (Nada de sueldos de 2023).
+                3. Identifica 3 "palancas" (skills/certificaciones) que empujarían este sueldo de P50 a P75.
+                4. Devuelve ÚNICAMENTE un JSON válido.
+                
+                ESTRUCTURA JSON REQUERIDA:
                 {
-                  "p25": numero_entero, "p50": numero_entero, "p75": numero_entero,
+                  "p25": numero_entero,
+                  "p50": numero_entero,
+                  "p75": numero_entero,
                   "demanda": "Alta / Media / Baja",
-                  "analisis": "Conclusión de 2 líneas corporativas para negociar",
+                  "analisis": "Conclusión ejecutiva corporativa de 2 líneas sobre cómo negociar.",
                   "palancas": ["Skill 1", "Skill 2", "Skill 3"]
                 }`;
 

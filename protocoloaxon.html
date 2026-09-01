@@ -88,7 +88,6 @@
         <span id="toast-message" class="text-xs md:text-sm font-semibold">Notificación</span>
     </div>
 
-    <!-- PANTALLA DE LOGIN ACTUALIZADA Y PROFESIONALIZADA -->
     <div id="login-screen" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50 transition-opacity duration-700">
         <div class="glass-panel p-8 md:p-12 rounded-2xl flex flex-col items-center w-[90%] max-w-md shadow-2xl relative overflow-hidden">
             <div class="absolute -top-20 -left-20 w-40 h-40 bg-axonGreen rounded-full opacity-10 blur-[80px]"></div>
@@ -134,17 +133,29 @@
                 <div class="h-5 md:h-6 w-px bg-gray-800 hidden sm:block"></div>
                 <img src="logoaxon.png" class="h-5 md:h-6 object-contain" alt="AXON">
             </div>
-            <div class="flex items-center gap-3 md:gap-6">
+            <div class="flex items-center gap-2 md:gap-5">
+                
                 <div class="flex flex-col items-end">
-                    <span class="text-[8px] md:text-[9px] text-gray-500 uppercase tracking-widest mb-0.5 md:mb-1">Fondos Operativos</span>
-                    <div class="flex items-center gap-1.5 md:gap-2 bg-[#121212] px-2.5 py-1 rounded border border-[#333] shadow-inner">
-                        <img src="coinaxon.png" alt="Coin" class="h-3 w-3 md:h-4 md:w-4 object-contain animate-pulseFast drop-shadow-[0_0_5px_rgba(0,255,65,0.5)]">
-                        <span id="display-tokens" class="text-xs md:text-sm font-bold text-white">0</span> 
-                        <span class="text-[9px] md:text-[10px] uppercase font-mono text-axonGreen">AXON</span>
+                    <span class="text-[7px] md:text-[9px] text-gray-500 uppercase tracking-widest mb-0.5 md:mb-1">ID Cliente</span>
+                    <div class="flex items-center gap-1.5 bg-[#121212] px-2 py-1 rounded border border-[#333] shadow-inner" title="Proporciona este ID para recargar tokens">
+                        <i class="fas fa-user-shield text-axonGreen text-[9px] md:text-[10px]"></i>
+                        <span id="display-user-id" class="text-[10px] md:text-xs font-mono font-bold text-gray-300 select-all cursor-pointer">----</span>
                     </div>
                 </div>
-                <div class="h-6 md:h-8 w-px bg-gray-800"></div>
-                <button id="btn-logout" class="p-2 hover:bg-gray-800 rounded transition text-gray-500 hover:text-red-400" title="Cerrar Sesión Segura">
+
+                <div class="h-5 md:h-8 w-px bg-gray-800"></div>
+
+                <div class="flex flex-col items-end">
+                    <span class="text-[7px] md:text-[9px] text-gray-500 uppercase tracking-widest mb-0.5 md:mb-1">Fondos</span>
+                    <div class="flex items-center gap-1.5 md:gap-2 bg-[#121212] px-2 py-1 rounded border border-[#333] shadow-inner">
+                        <img src="coinaxon.png" alt="Coin" class="h-3 w-3 md:h-4 object-contain animate-pulseFast drop-shadow-[0_0_5px_rgba(0,255,65,0.5)]">
+                        <span id="display-tokens" class="text-xs md:text-sm font-bold text-white">0</span> 
+                    </div>
+                </div>
+                
+                <div class="h-5 md:h-8 w-px bg-gray-800"></div>
+                
+                <button id="btn-logout" class="p-1.5 md:p-2 hover:bg-gray-800 rounded transition text-gray-500 hover:text-red-400" title="Cerrar Sesión Segura">
                     <i class="fas fa-sign-out-alt text-sm md:text-base"></i>
                 </button>
             </div>
@@ -153,7 +164,6 @@
 
     <main id="dashboard-screen" class="hidden flex-1 w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col">
         
-        <!-- HEADER MOTOR ATS PRINCIPAL -->
         <div class="mb-6 md:mb-8 bg-gradient-to-br from-[#0A0A0A] via-[#050505] to-[#121212] p-6 md:p-8 rounded-2xl border border-[#333] shadow-[0_0_30px_rgba(0,255,65,0.05)] relative overflow-hidden">
             <div class="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-axonGreen/10 to-transparent pointer-events-none opacity-50"></div>
             
@@ -178,7 +188,6 @@
                 <span class="bg-[#121212] border border-[#333] text-gray-400 text-[9px] md:text-[10px] px-3 py-1.5 rounded-md font-mono flex items-center gap-1.5"><i class="fas fa-chart-line text-axonGreen"></i> Métricas de Decisión</span>
             </div>
 
-            <!-- BOTÓN PANEL DE RECARGA (NUEVO) -->
             <div class="relative z-10 border-t border-[#333] pt-5 mt-2 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <p class="text-[10px] text-gray-400 max-w-md leading-relaxed">Garantiza el correcto funcionamiento del motor inyectando tokens operativos a tu red. Administrado por tu agente Lixie.</p>
                 <button onclick="openRechargeModal()" class="bg-axonGreen/10 border border-axonGreen text-axonGreen hover:bg-axonGreen hover:text-black font-bold py-2.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(0,255,65,0.1)] hover:shadow-[0_0_20px_rgba(0,255,65,0.4)] flex items-center justify-center gap-2 w-full md:w-auto shrink-0">
@@ -284,9 +293,6 @@
             </div>
         </div>
 
-        <!-- ========================================================================= -->
-        <!-- MÓDULO INTEGRADO: SALARY INTEL AXON -->
-        <!-- ========================================================================= -->
         <div class="mt-8 border-t border-[#333] pt-8">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                  <h3 class="text-sm md:text-base text-white font-bold flex items-center gap-2">
@@ -302,7 +308,6 @@
                 Motor predictivo de compensaciones basado en la telemetría corporativa de CVStudio33. Analiza volúmenes de vacantes, paritarias sindicales y calcula curvas salariales netas reales (P25, P50, P75). Obtén palancas de negociación precisas para entrevistas sin depender de datos desactualizados.
             </p>
 
-            <!-- Panel de Búsqueda (Calibración Intel) -->
             <div class="glass-panel p-5 md:p-6 rounded-xl mb-6 border border-[#262626] shadow-xl relative overflow-hidden bg-gradient-to-r from-[#050505] to-[#0A0A0A]">
                 <div class="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-axonGreen/5 to-transparent pointer-events-none"></div>
                 
@@ -335,7 +340,6 @@
                 </div>
             </div>
 
-            <!-- Terminal de Carga CORPORATIVA (Triangulación) -->
             <div id="mi-loading-state" class="hidden flex-col items-center justify-center py-12 glass-panel rounded-xl mb-6 border-[#262626]">
                 <div class="w-12 h-12 border-4 border-white/10 border-t-axonGreen rounded-full animate-spin mb-6 shadow-[0_0_15px_rgba(0,255,65,0.3)]"></div>
                 <h4 class="text-sm md:text-base font-bold text-white mb-5 tracking-wide">Procesando Inteligencia de Mercado</h4>
@@ -359,9 +363,7 @@
                 </div>
             </div>
 
-            <!-- Dashboard de Resultados Intel -->
             <div id="mi-results-container" class="hidden flex-col gap-5 mb-8">
-                <!-- Panel Superior -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="md:col-span-2 glass-panel p-5 rounded-xl border border-[#262626] bg-gradient-to-r from-[#050505] to-[#0A0A0A]">
                         <span class="text-[10px] text-axonGreen uppercase tracking-widest mb-2 font-bold flex items-center gap-2">
@@ -380,7 +382,6 @@
                     </div>
                 </div>
 
-                <!-- Panel Central Curva -->
                 <div class="glass-panel p-5 md:p-6 rounded-xl border border-axonGreen/20 relative overflow-hidden bg-gradient-to-b from-[#050505] to-axonGreen/5 shadow-lg">
                     <div class="absolute right-0 top-0 w-64 h-64 bg-axonGreen opacity-5 rounded-full blur-[80px] pointer-events-none"></div>
                     
@@ -390,7 +391,6 @@
                             <span class="text-[8px] md:text-[9px] bg-axonGreen/20 border border-axonGreen/40 text-axonGreen font-mono px-2 py-1 rounded">Sintetizador AXON</span>
                         </h3>
 
-                        <!-- TOGGLE ARS / USD -->
                         <div class="flex items-center gap-2">
                             <span id="mi-lbl-ars" class="text-[9px] md:text-[10px] font-bold text-axonGreen transition-colors">ARS</span>
                             <label for="mi-currency-toggle" class="flex items-center cursor-pointer">
@@ -408,8 +408,7 @@
                     
                     <div class="mb-4 relative z-10">
                         <div id="mi-distribution-chart" class="bar-chart">
-                            <!-- Generado por JS -->
-                        </div>
+                            </div>
                         <div class="flex justify-between text-[8px] md:text-[9px] text-gray-600 mt-2 font-mono uppercase">
                             <span>P25 (Banda Inferior)</span>
                             <span class="text-axonGreen font-bold">P50 (Mediana)</span>
@@ -437,7 +436,6 @@
                     </div>
                 </div>
                 
-                <!-- Panel Inferior Palancas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="glass-panel p-5 rounded-xl border border-[#262626] bg-[#0A0A0A]">
                          <span class="text-[9px] text-gray-500 uppercase tracking-widest mb-2 block font-bold flex items-center gap-2"><i class="fas fa-handshake"></i> Conclusión de Negociación</span>
@@ -447,39 +445,35 @@
                          <span class="text-[9px] text-axonGreen uppercase tracking-widest mb-1 block font-bold flex items-center gap-2"><i class="fas fa-arrow-up"></i> Palancas de Negociación (A P75)</span>
                          <p class="text-[9px] text-gray-500 mb-3">Mencionar estas habilidades justifica pedir la Banda Superior.</p>
                          <ul id="mi-skills-list" class="space-y-2">
-                            <!-- Generado por JS -->
-                         </ul>
+                            </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- ========================================================================= -->
-    </main>
+        </main>
 
-    <!-- Modales de Lixie, Editor, Recarga y Animaciones -->
-
-   <!-- PANEL FLOTANTE DE RECARGA AXON (ACTUALIZADO Y PROFESIONAL) -->
-<div id="recharge-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4 transition-opacity">
+    <div id="recharge-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4 transition-opacity">
     <div class="glass-panel-heavy rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden border-[#333] flex flex-col p-8 items-center text-center">
-        <!-- Botón cerrar -->
         <button onclick="closeRechargeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition text-lg"><i class="fas fa-times"></i></button>
         
-        <!-- Encabezado corporativo -->
         <img src="logoaxon.png" alt="AXON" class="h-10 mb-4 object-contain drop-shadow-[0_0_8px_rgba(0,255,65,0.3)]">
         <h3 class="text-xl font-bold text-white mb-2 tracking-wide">Pasarela Operativa AXON</h3>
         
+        <div class="mb-5 bg-[#121212] border border-[#262626] px-4 py-2.5 rounded-lg flex items-center justify-between gap-4 w-full shadow-inner relative z-10">
+             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Tu ID de Cliente:</span>
+             <span id="modal-display-user-id" class="text-xs md:text-sm text-axonGreen font-mono font-bold tracking-wider select-all cursor-pointer">----</span>
+        </div>
+
         <p class="text-xs text-gray-400 mb-6 leading-relaxed max-w-[300px]">
             El sistema de inyección de tokens es gestionado bajo estrictos protocolos de seguridad. El agente <strong class="text-axonGreen">Lixie</strong> validará y acreditará los fondos en tu red de forma inmediata tras la confirmación.
         </p>
         
         <div class="flex flex-col gap-4 w-full mb-6 relative z-10">
-            <!-- ÚNICO BOTÓN DE REDIRECCIÓN -->
             <a href="panel-de-recarga-axon.html" class="w-full bg-axonGreen text-black font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(0,255,65,0.3)] flex items-center justify-center gap-3">
                 <i class="fas fa-shield-alt text-sm"></i> Acceder al Portal de Pago
             </a>
         </div>
 
-        <!-- Sección Legal y Enlaces -->
         <div class="w-full border-t border-[#262626] pt-5 relative z-10">
             <p class="text-[9px] md:text-[10px] text-gray-500 leading-relaxed mb-3">
                 Toda transacción se realiza mediante túneles encriptados AES-256. Al proceder, aceptas someterte a nuestras normativas corporativas.
@@ -495,12 +489,10 @@
             </div>
         </div>
         
-        <!-- Efecto de luz de fondo -->
         <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-axonGreen rounded-full opacity-[0.05] blur-[40px] pointer-events-none"></div>
     </div>
 </div>
 
-    <!-- MODAL LIXIE ORIGINAL (INTACTO) -->
     <div id="lixie-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4">
         <div class="glass-panel-heavy rounded-2xl w-full max-w-md shadow-2xl relative overflow-hidden border-[#333] flex flex-col">
             <div class="bg-[#050505] border-b border-[#262626] p-4 flex items-center justify-between">
@@ -604,7 +596,6 @@
         </div>
     </div>
 
-    <!-- MODAL EDITOR OCR ORIGINAL (INTACTO) -->
     <div id="editor-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[160] flex flex-col items-center justify-center p-4">
         <div class="glass-panel-heavy rounded-xl w-full max-w-2xl shadow-2xl relative flex flex-col border-[#333] h-[85vh]">
             <div class="bg-[#050505] border-b border-[#262626] p-4 flex items-center justify-between rounded-t-xl shrink-0">
@@ -622,7 +613,6 @@
         </div>
     </div>
 
-    <!-- ANIMACIÓN GLOBAL OPTIMIZADA PARA CELULARES (NUEVO ESCALADO RESPONSIVE) -->
     <div id="animation-screen" class="hidden absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#121212] via-[#050505] to-[#000000] z-50 flex flex-col items-center justify-center overflow-hidden">
         
         <div class="flex flex-col w-full max-w-4xl px-6 relative z-10 items-center">
@@ -683,7 +673,6 @@
         </div>
     </div>
 
-    <!-- PANTALLA RESULTADOS ORIGINAL (INTACTA) -->
     <div id="results-screen" class="hidden flex-1 w-full max-w-5xl mx-auto p-4 md:p-8 flex-col relative z-10 mb-8">
         <div class="glass-panel-heavy border border-[#333] rounded-t-2xl p-5 md:p-6 border-b-0 flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden bg-[#0A0A0A]">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-800 via-axonGreen to-gray-800"></div>
@@ -733,7 +722,6 @@
         </div>
     </div>
 
-    <!-- SCRIPT PRINCIPAL: Firebase, ATS Core y Salary Intel -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -759,7 +747,8 @@
             header: document.getElementById('app-header'), dashboard: document.getElementById('dashboard-screen'),
             animation: document.getElementById('animation-screen'), resultsScreen: document.getElementById('results-screen'),
             resultsContent: document.getElementById('results-content'), dispTokens: document.getElementById('display-tokens'),
-            btnStart: document.getElementById('btn-start'), animModeDisplay: document.getElementById('mode-display-anim')
+            btnStart: document.getElementById('btn-start'), animModeDisplay: document.getElementById('mode-display-anim'),
+            dispUserId: document.getElementById('display-user-id') // ID Agregado
         };
 
         const cvDropzone = document.getElementById('cv-dropzone'); const cvUpload = document.getElementById('cv-upload');
@@ -828,7 +817,14 @@
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                userIdFormat = `cliente-${user.uid.slice(-4)}`; ui.loader.style.opacity = '0';
+                userIdFormat = `cliente-${user.uid.slice(-4)}`; 
+                
+                // INYECCIÓN DEL ID GENERADO AL HTML EN EL HEADER Y MODAL
+                if(ui.dispUserId) ui.dispUserId.innerText = userIdFormat;
+                const modalIdEl = document.getElementById('modal-display-user-id');
+                if(modalIdEl) modalIdEl.innerText = userIdFormat;
+                
+                ui.loader.style.opacity = '0';
                 setTimeout(() => {
                     ui.loader.classList.add('hidden'); ui.login.classList.add('hidden'); 
                     ui.header.classList.remove('hidden'); ui.dashboard.classList.remove('hidden');
@@ -889,7 +885,7 @@
 
         cvUpload.addEventListener('change', (e) => { if(e.target.files.length > 0) handleFileSelection(e.target.files[0]); e.target.value = ''; });
         cvDropzone.addEventListener('dragover', (e) => { e.preventDefault(); cvDropzone.classList.add('border-axonGreen'); });
-        cvDropzone.addEventListener('dragleave', () => cvDropzone.classList.remove('border-axonGreen'));
+        cvDropzone.addEventListener('dragleave', () => cvDropzone.classList.remove('border-axonGreen'); });
         cvDropzone.addEventListener('drop', (e) => { e.preventDefault(); cvDropzone.classList.remove('border-axonGreen'); if(e.dataTransfer.files.length > 0) handleFileSelection(e.dataTransfer.files[0]); });
 
         function handleFileSelection(file) {
@@ -1453,3 +1449,6 @@
     </script>
 </body>
 </html>
+
+
+

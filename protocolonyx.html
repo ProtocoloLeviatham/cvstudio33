@@ -93,6 +93,7 @@
             <div class="flex items-center gap-4">
                 <img src="logo.png" alt="CVStudio33" onerror="this.src='https://via.placeholder.com/40?text=CV'" class="h-8 md:h-10 rounded-md">
                 <div>
+                    <!-- El ID visual se mostrará siempre en mayúsculas por estética, pero en BD respetará el formato exacto -->
                     <h2 class="text-sm md:text-base font-bold text-white uppercase" id="client-id">CLIENTE-XXXX</h2>
                     <p class="text-xs text-nyxPurple flex items-center gap-1 font-mono">
                         <i class="fa-solid fa-shield-halved text-[10px]"></i> Conexión Segura
@@ -149,7 +150,7 @@
                     </div>
                 </div>
 
-                <!-- PASOS 1 y 2 (Ocultos para no alargar innecesariamente el código, idénticos a los tuyos) -->
+                <!-- PASO 1 -->
                 <div id="step-1" class="step-content">
                     <h3 class="text-xl font-bold mb-4 text-white">Selección de Nodos Destino</h3>
                     <div class="flex justify-between items-center mb-4 bg-nyxDark p-3 rounded-lg border border-nyxBorder">
@@ -166,6 +167,7 @@
                     </div>
                 </div>
 
+                <!-- PASO 2 -->
                 <div id="step-2" class="step-content step-hidden">
                     <h3 class="text-xl font-bold mb-2 text-white">Estructura del Mensaje (Pitch)</h3>
                     <textarea id="pitch-text" class="w-full bg-nyxDark border border-nyxBorder text-gray-200 p-4 rounded-lg h-48 custom-scrollbar focus:border-nyxPurple focus:outline-none resize-none text-sm leading-relaxed transition shadow-inner">Estimado equipo de Selección,
@@ -180,6 +182,7 @@ Atentamente,
                     </div>
                 </div>
 
+                <!-- PASO 3 -->
                 <div id="step-3" class="step-content step-hidden">
                     <h3 class="text-xl font-bold mb-4 text-white">Carga de Documento Local</h3>
                     <div class="border-2 border-dashed border-nyxBorder bg-nyxDark p-10 rounded-xl text-center hover:border-nyxPurple hover:bg-[#0a0a0a] transition duration-300 relative group">
@@ -198,6 +201,7 @@ Atentamente,
                     </div>
                 </div>
 
+                <!-- PANTALLA DE PROCESAMIENTO -->
                 <div id="processing-screen" class="absolute inset-0 bg-nyxDark/95 backdrop-blur-md z-20 flex flex-col items-center justify-center p-8 hidden">
                     <img src="logonyx.png" alt="NYX" class="h-10 mb-6 animate-pulse drop-shadow-[0_0_15px_rgba(157,0,255,0.8)]">
                     <div class="w-full max-w-md bg-black border border-nyxBorder rounded p-4 h-48 overflow-y-auto custom-scrollbar terminal-text text-xs text-nyxPurple shadow-[inset_0_0_15px_rgba(157,0,255,0.1)]">
@@ -236,7 +240,7 @@ Atentamente,
         let currentUserData = { tokens: 0 };
         let userIdFormat = "";
         let selectedFileBase64 = null;
-        let unsubscribeSnapshot = null; // Variable para controlar la escucha en tiempo real
+        let unsubscribeSnapshot = null;
 
         // Elementos UI
         const loginScreen = document.getElementById('login-screen');
@@ -257,7 +261,9 @@ Atentamente,
             signOut(auth);
         });
 
-        // GESTIÓN DE SESIÓN Y BASE DE DATOS (Estilo Axon)
+        // =========================================================================
+        // GESTIÓN DE SESIÓN Y BD (IDENTICO A AXON - SOLUCIONA EL ARCHIVO DUPLICADO)
+        // =========================================================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // UI: Cambio de pantalla
@@ -268,22 +274,22 @@ Atentamente,
                     dashboardScreen.classList.add('flex');
                 }, 500);
 
-                // 1. CREACIÓN DEL ID DETERMINÍSTICO
-                userIdFormat = `cliente-${user.uid.slice(-4).toLowerCase()}`;
-                clientIdDisplay.textContent = userIdFormat.toUpperCase();
+                // 1. CREACIÓN DEL ID DETERMINÍSTICO (SIN toLowerCase para respetar mayúsculas/minúsculas de Axon)
+                userIdFormat = `cliente-${user.uid.slice(-4)}`;
+                clientIdDisplay.textContent = userIdFormat.toUpperCase(); // Visualmente en mayúsculas, pero el string original se mantiene intacto
 
                 // 2. REFERENCIA ÚNICA EN LA BASE DE DATOS
                 const docRef = doc(db, 'users', userIdFormat);
 
                 try {
                     const docSnap = await getDoc(docRef);
-                    // 3. SOLO SE CREA SI NO EXISTE PREVIAMENTE
+                    // 3. SOLO SE CREA SI NO EXISTE PREVIAMENTE (Con los campos exactos de Axon)
                     if (!docSnap.exists()) {
                         await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat });
                     }
-                } catch (e) { console.error("Error BD:", e); }
+                } catch (e) { /* Silenciamos error intencionalmente como en Axon */ }
 
-                // 4. ESCUCHA EN TIEMPO REAL (El saldo de tokens NYX)
+                // 4. ESCUCHA EN TIEMPO REAL (Saldo NYX, evitando pisar a Axon)
                 if (unsubscribeSnapshot) unsubscribeSnapshot();
                 
                 unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
@@ -292,18 +298,16 @@ Atentamente,
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         
-                        // Ecuación Lazy
                         let hasActivePlan = true;
                         if (data.plan_expires_at) {
                             const now = new Date();
                             const expireDate = data.plan_expires_at.toDate ? data.plan_expires_at.toDate() : new Date(data.plan_expires_at);
                             if (now > expireDate) {
                                 hasActivePlan = false;
-                                console.warn("NYX: Suscripción Expirada.");
                             }
                         }
 
-                        // Si hay plan, lee tokens. Si tokens_nyx no existe, pone 0 automáticamente (|| 0)
+                        // Asignamos a NYX. Si no existe, es 0 (no afecta a los tokens_axon del mismo documento)
                         if (hasActivePlan) {
                             tokens = data.tokens_nyx || 0;
                         }
@@ -343,7 +347,6 @@ Atentamente,
             wizardContainer.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Navegación Stepper (Omitida lógica repetitiva por espacio, usa la misma)
         document.querySelectorAll('.btn-next').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (currentStep === 0 && document.querySelectorAll('.branch-checkbox:checked').length === 0) return alert("Selecciona nodos.");
@@ -360,7 +363,6 @@ Atentamente,
             });
         });
 
-        // Generación de Nodos y Checkbox "Seleccionar Todo"
         const branchesList = document.getElementById('branches-list');
         ["Tech LATAM", "Agencia Global 33", "Nexus Corporativo", "Innovation Labs", "Desarrollo Sur", "Operaciones NYX"].forEach((b, i) => {
             const div = document.createElement('div'); div.className = "flex items-center gap-3 bg-[#0a0a0a] p-3 rounded border border-nyxBorder";
@@ -374,7 +376,6 @@ Atentamente,
         });
         branchesList.addEventListener('change', () => document.getElementById('selected-count').textContent = document.querySelectorAll('.branch-checkbox:checked').length);
 
-        // Validación Local de Archivo
         const cvUpload = document.getElementById('cv-upload'), btnFire = document.getElementById('btn-fire');
         cvUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -395,24 +396,21 @@ Atentamente,
         });
 
         // ==============================================
-        // COMUNICACIÓN CON CEREBRO NYX (PAYLOAD AXON)
+        // COMUNICACIÓN CON CEREBRO NYX 
         // ==============================================
         btnFire.addEventListener('click', async () => {
             if(currentUserData.tokens < COST_NYX_DISPATCH) return;
 
-            // ESTILOS AXON: Se obtiene el JWT fresco para seguridad absoluta
             const freshToken = await auth.currentUser.getIdToken(true); 
 
-            // PAYLOAD ESTILO AXON (userIdFormat + tokenJWT en el body)
             const payload = {
-                userId: userIdFormat,             // Ej: cliente-A1B2
-                tokenJWT: freshToken,             // La llave de seguridad
+                userId: userIdFormat,
+                tokenJWT: freshToken,
                 branches: Array.from(document.querySelectorAll('.branch-checkbox:checked')).map(cb => cb.value),
                 pitch: document.getElementById('pitch-text').value,
-                cv_data: selectedFileBase64       // PDF en Base64
+                cv_data: selectedFileBase64
             };
 
-            // Animación de Consola Lixie
             const procScreen = document.getElementById('processing-screen');
             procScreen.classList.remove('hidden');
             setTimeout(() => document.getElementById('progress-bar').style.width = '100%', 100);
@@ -441,3 +439,5 @@ Atentamente,
     </script>
 </body>
 </html>
+
+

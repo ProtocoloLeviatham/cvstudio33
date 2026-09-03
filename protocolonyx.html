@@ -12,7 +12,7 @@
                 extend: {
                     colors: { 
                         nyxPurple: '#9D00FF', 
-                        nyxDark: '#030005', /* Negro con un levísimo tinte morado */
+                        nyxDark: '#030005', 
                         nyxPanel: '#0a0a0a', 
                         nyxBorder: '#262626' 
                     }
@@ -35,27 +35,26 @@
         /* Fondo Premium NYX - Tech Grid */
         .bg-grid-pattern {
             background-image: 
-                linear-gradient(to right, rgba(157, 0, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(157, 0, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(to right, rgba(157, 0, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(157, 0, 255, 0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
             position: fixed;
             inset: 0;
             z-index: -2;
             pointer-events: none;
         }
         
-        /* Orbes de luz ambientales */
         .ambient-glow {
             position: fixed;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(157,0,255,0.15) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, rgba(157,0,255,0.12) 0%, rgba(0,0,0,0) 70%);
             z-index: -1;
             pointer-events: none;
         }
         .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; }
         .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; }
 
-        .glass-panel { background: rgba(10, 10, 10, 0.75); backdrop-filter: blur(20px); border: 1px solid #262626; }
+        .glass-panel { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(24px); border: 1px solid #262626; }
         .step-hidden { display: none; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
@@ -63,16 +62,17 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; border: 1px solid #111; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #9D00FF; }
         
-        .terminal-text { font-family: 'Courier New', Courier, monospace; }
-        
-        .nyx-checkbox { appearance: none; background-color: #121212; border: 1px solid #333; width: 22px; height: 22px; border-radius: 4px; display: inline-block; position: relative; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .nyx-checkbox { appearance: none; background-color: #121212; border: 1px solid #333; width: 20px; height: 20px; border-radius: 4px; display: inline-block; position: relative; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
         .nyx-checkbox:checked { background-color: rgba(157, 0, 255, 0.2); border-color: #9D00FF; }
-        .nyx-checkbox:checked::after { content: '\2714'; font-size: 14px; position: absolute; top: 0px; left: 4px; color: #9D00FF; }
+        .nyx-checkbox:checked::after { content: '\2714'; font-size: 13px; position: absolute; top: -1px; left: 3px; color: #9D00FF; }
+        
+        /* Animaciones Profesionales */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-nyxPurple selection:text-white">
 
-    <!-- Fondos de Red Neuronal NYX -->
     <div class="bg-grid-pattern"></div>
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
@@ -130,7 +130,7 @@
                 <div>
                     <h2 class="text-sm md:text-base font-bold text-white uppercase" id="client-id">CLIENTE-XXXX</h2>
                     <p class="text-xs text-nyxPurple flex items-center gap-1 font-mono">
-                        <i class="fa-solid fa-shield-halved text-[10px]"></i> Conexión Segura
+                        <i class="fa-solid fa-shield-check text-[10px]"></i> Conexión Segura
                     </p>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                 <div class="text-right flex flex-col items-end">
                     <p class="text-[10px] md:text-xs text-gray-400 font-mono tracking-wider">SALDO DISPONIBLE</p>
                     <div class="flex items-center gap-2 mt-1">
-                        <p class="text-2xl md:text-3xl font-black text-white leading-none drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" id="token-count">--</p>
+                        <p class="text-2xl md:text-3xl font-black text-white leading-none" id="token-count">--</p>
                         <img src="coinnyx.png" alt="NYX Coin" onerror="this.style.display='none'" class="h-6 w-auto object-contain drop-shadow-[0_0_8px_rgba(157,0,255,0.8)]">
                     </div>
                 </div>
@@ -150,19 +150,18 @@
             </div>
         </header>
 
-        <!-- Hero Section NYX -->
         <main class="flex-grow flex flex-col items-center max-w-5xl mx-auto w-full">
             <img src="logonyx.png" alt="NYX Hub" onerror="this.src='https://via.placeholder.com/200x60?text=LOGONYX'" class="h-16 mb-4 drop-shadow-[0_0_20px_rgba(157,0,255,0.6)]">
-            <h1 class="text-3xl md:text-5xl font-black text-center mb-2 tracking-tight text-white drop-shadow-md">DISTRIBUCIÓN HUB</h1>
-            <p class="text-nyxPurple text-[10px] md:text-xs font-mono mb-6 text-center tracking-[0.2em] border border-nyxPurple/50 px-4 py-1.5 rounded-full bg-nyxPurple/10 uppercase shadow-[0_0_15px_rgba(157,0,255,0.15)] backdrop-blur-sm">
-                Red Neuronal de IA de Envío Masivo Selectivo
+            <h1 class="text-3xl md:text-4xl font-black text-center mb-2 tracking-tight text-white drop-shadow-md">DISTRIBUCIÓN HUB</h1>
+            <p class="text-nyxPurple text-[10px] md:text-xs font-mono mb-6 text-center tracking-[0.2em] border border-nyxPurple/50 px-4 py-1.5 rounded-full bg-nyxPurple/10 uppercase shadow-[0_0_15px_rgba(157,0,255,0.15)]">
+                Red Neuronal de Enrutamiento Corporativo
             </p>
             <p class="text-gray-300 text-center max-w-2xl mb-10 text-sm md:text-base leading-relaxed">
-                Herramienta avanzada de distribución estratégica. Lixie, tu agente de IA, evaluará, formateará y despachará tu perfil corporativo a nuestra red de sucursales integradas.
+                Herramienta avanzada de distribución estratégica. Lixie, tu agente de IA, evaluará, formateará y despachará tu perfil a nuestra red de corporaciones integradas.
             </p>
 
             <button id="btn-start-wizard" class="bg-nyxPurple text-white font-bold text-lg py-4 px-10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_30px_rgba(157,0,255,0.6)] flex items-center gap-3">
-                <i class="fa-solid fa-microchip"></i> Inicializar Stepper Lixie
+                <i class="fa-solid fa-microchip"></i> Configurar Enrutamiento Lixie
                 <span class="text-xs bg-black/40 px-2 py-1 rounded-md ml-2 border border-white/20 font-mono">- 5 NYX</span>
             </button>
             <p id="token-error" class="text-red-500 text-sm mt-4 hidden font-mono text-center bg-black/50 p-2 rounded backdrop-blur-sm border border-red-500/30"></p>
@@ -171,91 +170,97 @@
             <!-- WIZARD / STEPPER -->
             <!-- ============================================== -->
             <div id="wizard-container" class="hidden w-full mt-10 glass-panel p-6 md:p-8 rounded-2xl relative overflow-hidden shadow-2xl">
+                <!-- Barra de Navegación -->
                 <div class="flex justify-between mb-8 border-b border-nyxBorder pb-4">
-                    <div class="text-center w-1/3 transition-all duration-300" id="nav-step-1">
-                        <p class="text-nyxPurple font-bold text-xs md:text-sm tracking-wide drop-shadow-[0_0_5px_rgba(157,0,255,0.5)]"><i class="fa-solid fa-network-wired"></i> 1. Nodos</p>
+                    <div class="text-center w-1/3 transition-all duration-300 text-nyxPurple opacity-100" id="nav-step-1">
+                        <p class="font-bold text-xs md:text-sm tracking-wide drop-shadow-[0_0_5px_rgba(157,0,255,0.5)]"><i class="fa-solid fa-network-wired"></i> 1. Nodos</p>
                     </div>
-                    <div class="text-center w-1/3 opacity-40 transition-all duration-300" id="nav-step-2">
-                        <p class="text-gray-400 font-bold text-xs md:text-sm tracking-wide"><i class="fa-solid fa-terminal"></i> 2. Pitch</p>
+                    <div class="text-center w-1/3 transition-all duration-300 text-gray-500 opacity-50" id="nav-step-2">
+                        <p class="font-bold text-xs md:text-sm tracking-wide"><i class="fa-solid fa-envelope-open-text"></i> 2. Pitch</p>
                     </div>
-                    <div class="text-center w-1/3 opacity-40 transition-all duration-300" id="nav-step-3">
-                        <p class="text-gray-400 font-bold text-xs md:text-sm tracking-wide"><i class="fa-solid fa-file-shield"></i> 3. Payload</p>
+                    <div class="text-center w-1/3 transition-all duration-300 text-gray-500 opacity-50" id="nav-step-3">
+                        <p class="font-bold text-xs md:text-sm tracking-wide"><i class="fa-solid fa-file-shield"></i> 3. Payload</p>
                     </div>
                 </div>
 
                 <!-- PASO 1: Nodos -->
-                <div id="step-1" class="step-content">
-                    <h3 class="text-xl font-bold mb-4 text-white">Selección de Nodos Destino</h3>
+                <div id="step-1" class="step-content animate-fade">
+                    <h3 class="text-xl font-bold mb-4 text-white">Selección de Corporaciones</h3>
                     
-                    <!-- Controles Superiores: Buscador y Seleccionar Todo -->
                     <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 bg-nyxPanel p-3 rounded-lg border border-nyxBorder shadow-inner">
                         <label class="flex items-center gap-3 text-sm font-medium cursor-pointer text-gray-300 hover:text-white transition w-full md:w-auto">
                             <input type="checkbox" id="check-all" class="nyx-checkbox">
-                            Seleccionar Todo el Clúster
+                            Seleccionar Visibles
                         </label>
                         
                         <div class="flex items-center gap-3 w-full md:w-auto">
                             <div class="relative w-full md:w-64">
                                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm"></i>
-                                <input type="text" id="search-branch" placeholder="Buscar empresa..." class="w-full bg-[#111] border border-[#333] text-gray-200 text-sm rounded-md py-1.5 pl-9 pr-3 focus:outline-none focus:border-nyxPurple transition">
+                                <input type="text" id="search-branch" placeholder="Buscar empresa..." class="w-full bg-[#111] border border-[#333] text-gray-200 text-sm rounded-md py-2 pl-9 pr-3 focus:outline-none focus:border-nyxPurple transition shadow-inner">
                             </div>
-                            <span class="text-nyxPurple text-sm font-bold bg-black px-3 py-1.5 rounded border border-nyxBorder whitespace-nowrap shadow-[0_0_10px_rgba(157,0,255,0.2)]"><span id="selected-count">0</span> Nodos</span>
+                            <span class="text-nyxPurple text-sm font-bold bg-black px-3 py-2 rounded border border-nyxBorder whitespace-nowrap"><span id="selected-count">0</span> Nodos</span>
                         </div>
                     </div>
                     
-                    <!-- Lista de Sucursales (Grid responsivo, scrollable) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-80 overflow-y-auto custom-scrollbar pr-2 p-1" id="branches-list">
-                        <!-- Nodos inyectados por JS -->
+                        <!-- Inyectado por JS -->
                     </div>
                     
                     <div class="mt-6 flex justify-end pt-4 border-t border-nyxBorder">
-                        <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.1)]">Configurar Pitch <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.1)] flex items-center">Continuar <i class="fa-solid fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
                 <!-- PASO 2: Pitch -->
-                <div id="step-2" class="step-content step-hidden">
-                    <h3 class="text-xl font-bold mb-2 text-white">Estructura del Mensaje (Pitch)</h3>
-                    <p class="text-xs text-gray-400 mb-4 font-mono">Agente Lixie inyectará esta plantilla en el protocolo de contacto corporativo.</p>
+                <div id="step-2" class="step-content step-hidden animate-fade">
+                    <h3 class="text-xl font-bold mb-2 text-white">Cuerpo del Mensaje Corporativo</h3>
+                    <p class="text-xs text-gray-400 mb-4 font-mono">El Agente Lixie utilizará esta plantilla base para contactar a los reclutadores.</p>
                     <textarea id="pitch-text" class="w-full bg-[#111] border border-[#333] text-gray-200 p-4 rounded-lg h-48 custom-scrollbar focus:border-nyxPurple focus:outline-none resize-none text-sm leading-relaxed transition shadow-inner">Estimado equipo de Selección,
 
-A través de la infraestructura corporativa de CVStudio33, me dirijo a ustedes para presentar mi perfil profesional. Adjunto mi currículum vitae cifrado para su consideración en futuras vacantes.
+A través de la infraestructura corporativa de CVStudio33, me dirijo a ustedes para presentar mi perfil profesional. Adjunto mi currículum vitae cifrado para su consideración en futuras vacantes que se alineen con mi trayectoria.
+
+Quedo a su entera disposición para ampliar cualquier información técnica o funcional.
 
 Atentamente,
 [Firma Autogenerada por NYX]</textarea>
                     <div class="mt-6 flex justify-between pt-4 border-t border-nyxBorder">
-                        <button class="btn-prev text-gray-400 hover:text-white px-4 py-2 font-bold transition"><i class="fa-solid fa-arrow-left mr-2"></i> Volver</button>
-                        <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.1)]">Carga Cifrada <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        <button class="btn-prev text-gray-400 hover:text-white px-4 py-2 font-bold transition flex items-center"><i class="fa-solid fa-arrow-left mr-2"></i> Volver</button>
+                        <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.1)] flex items-center">Adjuntar CV <i class="fa-solid fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
                 <!-- PASO 3: Payload -->
-                <div id="step-3" class="step-content step-hidden">
-                    <h3 class="text-xl font-bold mb-4 text-white">Carga de Documento Local</h3>
+                <div id="step-3" class="step-content step-hidden animate-fade">
+                    <h3 class="text-xl font-bold mb-4 text-white">Carga Cifrada de Documento Local</h3>
                     <div class="border-2 border-dashed border-[#333] bg-[#0a0a0a] p-10 rounded-xl text-center hover:border-nyxPurple hover:bg-[#111] transition duration-300 relative group shadow-inner">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                         <i class="fa-solid fa-file-pdf text-4xl text-gray-600 mb-3 group-hover:text-nyxPurple transition drop-shadow-md"></i>
                         <p class="text-white font-medium mb-1" id="file-name-display">Haz clic o arrastra tu Payload (.PDF)</p>
-                        <p class="text-xs text-gray-500 font-mono mt-2">Max: 5MB | Protocolo de Encriptación Activo</p>
+                        <p class="text-xs text-gray-500 font-mono mt-2">Tamaño Máx: 5MB | Formato Requerido: PDF</p>
                         <p id="file-error" class="text-red-500 text-xs mt-3 hidden font-bold"></p>
                     </div>
 
                     <div class="mt-8 flex justify-between items-center pt-4 border-t border-nyxBorder">
-                        <button class="btn-prev text-gray-400 hover:text-white px-4 py-2 font-bold transition"><i class="fa-solid fa-arrow-left mr-2"></i> Volver</button>
+                        <button class="btn-prev text-gray-400 hover:text-white px-4 py-2 font-bold transition flex items-center"><i class="fa-solid fa-arrow-left mr-2"></i> Volver</button>
                         <button id="btn-fire" class="bg-nyxPurple text-white px-8 py-3.5 rounded-lg font-black hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-3 opacity-50 cursor-not-allowed shadow-[0_0_25px_rgba(157,0,255,0.5)]" disabled>
-                            <i class="fa-solid fa-satellite-dish"></i> Autorizar Lixie (-5 Tokens)
+                            <i class="fa-solid fa-paper-plane"></i> Iniciar Distribución Corporativa
                         </button>
                     </div>
                 </div>
 
-                <!-- PANTALLA DE PROCESAMIENTO LIXIE -->
+                <!-- PANTALLA DE PROCESAMIENTO PROFESIONAL (SIN HACKER THEME) -->
                 <div id="processing-screen" class="absolute inset-0 bg-nyxDark/95 backdrop-blur-md z-20 flex flex-col items-center justify-center p-8 hidden">
-                    <img src="logonyx.png" alt="NYX" class="h-10 mb-6 animate-pulse drop-shadow-[0_0_20px_rgba(157,0,255,0.8)]">
-                    <div class="w-full max-w-md bg-black border border-nyxBorder rounded p-4 h-48 overflow-y-auto custom-scrollbar terminal-text text-xs text-nyxPurple shadow-[inset_0_0_20px_rgba(157,0,255,0.15)]">
-                        <ul id="terminal-logs" class="space-y-1.5 opacity-90"><li>> Inicializando Protocolo Lixie...</li></ul>
+                    <img src="logonyx.png" alt="NYX" class="h-10 mb-8 drop-shadow-[0_0_20px_rgba(157,0,255,0.6)]">
+                    
+                    <div class="w-full max-w-md bg-[#0a0a0a] border border-nyxBorder rounded-lg p-6 shadow-2xl">
+                        <h4 class="text-white font-bold mb-4 text-center border-b border-[#333] pb-3">Estado de Ejecución Lixie</h4>
+                        <ul id="process-logs" class="space-y-3 text-sm text-gray-300">
+                            <!-- Los logs se inyectan acá de forma limpia con íconos -->
+                        </ul>
                     </div>
-                    <div class="w-full max-w-md mt-6 bg-gray-900 rounded-full h-1.5 overflow-hidden border border-nyxBorder shadow-inner">
-                        <div id="progress-bar" class="bg-nyxPurple h-1.5 w-0 transition-all duration-[3000ms] ease-in-out shadow-[0_0_15px_rgba(157,0,255,1)]"></div>
+                    
+                    <div class="w-full max-w-md mt-6 bg-gray-900 rounded-full h-2 overflow-hidden border border-[#333] shadow-inner">
+                        <div id="progress-bar" class="bg-nyxPurple h-2 w-0 transition-all duration-500 ease-linear shadow-[0_0_15px_rgba(157,0,255,1)]"></div>
                     </div>
                 </div>
 
@@ -289,7 +294,6 @@ Atentamente,
         let selectedFileBase64 = null;
         let unsubscribeSnapshot = null;
 
-        // UI
         const loginScreen = document.getElementById('login-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
         const clientIdDisplay = document.getElementById('client-id');
@@ -297,8 +301,7 @@ Atentamente,
         const tokenError = document.getElementById('token-error');
 
         document.getElementById('btn-login').addEventListener('click', async () => {
-            try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-            catch (e) { alert("Seguridad NYX: Acceso denegado."); }
+            try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { alert("Seguridad NYX: Acceso denegado."); }
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
@@ -306,9 +309,9 @@ Atentamente,
             signOut(auth);
         });
 
-        // =========================================================================
-        // GESTIÓN DE SESIÓN EXACTA A AXON (COMPARTEN EL MISMO DOC)
-        // =========================================================================
+        // ==============================================
+        // GESTIÓN DE SESIÓN EXACTA A AXON
+        // ==============================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 loginScreen.classList.add('opacity-0');
@@ -325,26 +328,21 @@ Atentamente,
 
                 try {
                     const docSnap = await getDoc(docRef);
-                    if (!docSnap.exists()) {
-                        await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat });
-                    }
+                    if (!docSnap.exists()) { await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat }); }
                 } catch (e) { }
 
                 if (unsubscribeSnapshot) unsubscribeSnapshot();
-                
                 unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
                     let tokens = 0;
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         let hasActivePlan = true;
                         if (data.plan_expires_at) {
-                            const now = new Date();
                             const expireDate = data.plan_expires_at.toDate ? data.plan_expires_at.toDate() : new Date(data.plan_expires_at);
-                            if (now > expireDate) hasActivePlan = false;
+                            if (new Date() > expireDate) hasActivePlan = false;
                         }
                         if (hasActivePlan) tokens = data.tokens_nyx || 0;
                     }
-                    
                     currentUserData.tokens = tokens;
                     tokenDisplay.textContent = tokens;
                 });
@@ -358,7 +356,7 @@ Atentamente,
         });
 
         // ==============================================
-        // WIZARD Y SUCURSALES (MASIVA)
+        // WIZARD NAVEGACIÓN Y CSS (Corrección Stepper)
         // ==============================================
         const btnStart = document.getElementById('btn-start-wizard');
         const wizardContainer = document.getElementById('wizard-container');
@@ -377,79 +375,108 @@ Atentamente,
             wizardContainer.scrollIntoView({ behavior: 'smooth' });
         });
 
+        const updateNavVisuals = () => {
+            navSteps.forEach((nav, idx) => {
+                if (idx <= currentStep) {
+                    nav.classList.add('text-nyxPurple', 'opacity-100');
+                    nav.classList.remove('text-gray-500', 'opacity-50');
+                    nav.firstElementChild.classList.add('drop-shadow-[0_0_5px_rgba(157,0,255,0.5)]');
+                } else {
+                    nav.classList.add('text-gray-500', 'opacity-50');
+                    nav.classList.remove('text-nyxPurple', 'opacity-100');
+                    nav.firstElementChild.classList.remove('drop-shadow-[0_0_5px_rgba(157,0,255,0.5)]');
+                }
+            });
+        };
+
         document.querySelectorAll('.btn-next').forEach(btn => {
             btn.addEventListener('click', () => {
-                if (currentStep === 0 && document.querySelectorAll('.branch-checkbox:checked').length === 0) return alert("Selecciona nodos.");
-                steps[currentStep].classList.add('step-hidden'); navSteps[currentStep].classList.replace('text-nyxPurple', 'text-gray-400'); navSteps[currentStep].classList.replace('opacity-100', 'opacity-40');
+                if (currentStep === 0 && selectedBranches.size === 0) return alert("Por favor, selecciona al menos un Nodo corporativo.");
+                steps[currentStep].classList.add('step-hidden');
                 currentStep++;
-                steps[currentStep].classList.remove('step-hidden'); navSteps[currentStep].classList.replace('text-gray-400', 'text-nyxPurple'); navSteps[currentStep].classList.replace('opacity-40', 'opacity-100');
+                steps[currentStep].classList.remove('step-hidden');
+                updateNavVisuals();
             });
         });
         document.querySelectorAll('.btn-prev').forEach(btn => {
             btn.addEventListener('click', () => {
-                steps[currentStep].classList.add('step-hidden'); navSteps[currentStep].classList.replace('text-nyxPurple', 'text-gray-400'); navSteps[currentStep].classList.replace('opacity-100', 'opacity-40');
+                steps[currentStep].classList.add('step-hidden');
                 currentStep--;
-                steps[currentStep].classList.remove('step-hidden'); navSteps[currentStep].classList.replace('text-gray-400', 'text-nyxPurple'); navSteps[currentStep].classList.replace('opacity-40', 'opacity-100');
+                steps[currentStep].classList.remove('step-hidden');
+                updateNavVisuals();
             });
-        });
-
-        // 120+ Sucursales solicitadas
-        const allBranches = [
-            "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)", "Adidas Argentina", "Nike (Grupo Axo)", "Zara", "Blue Star Group (Isadora/TodoModa)", "Grimoldi", "Cuesta Blanca", "Rapsodia", "CvStudio33"
-        ];
-        
-        const branchesList = document.getElementById('branches-list');
-        
-        const renderBranches = (filterText = "") => {
-            branchesList.innerHTML = "";
-            allBranches.filter(b => b.toLowerCase().includes(filterText.toLowerCase())).forEach((b, i) => {
-                const safeName = b.toLowerCase().replace(/[^a-z0-9]/g, ''); // Limpiar para el logo
-                const div = document.createElement('div'); 
-                div.className = "flex items-center gap-3 bg-[#111] p-3 rounded-lg border border-[#333] hover:border-nyxPurple transition duration-300 shadow-sm";
-                // Logo de fallback a logo.png. También añadimos lógica para que el id del input sea único.
-                div.innerHTML = `
-                    <input type="checkbox" id="b-${safeName}-${i}" value="${b}" class="nyx-checkbox branch-checkbox">
-                    <img src="logos/${safeName}.png" onerror="this.src='logo.png'" class="h-6 w-6 object-contain bg-white rounded-sm p-0.5" alt="${b}">
-                    <label for="b-${safeName}-${i}" class="text-xs md:text-sm cursor-pointer w-full text-gray-300 font-medium truncate" title="${b}">${b}</label>
-                `;
-                branchesList.appendChild(div);
-            });
-            // Re-asignar eventos a los nuevos checkboxes
-            document.querySelectorAll('.branch-checkbox').forEach(cb => {
-                cb.addEventListener('change', updateCount);
-            });
-        };
-
-        // Renderizado inicial
-        renderBranches();
-
-        // Lógica de Búsqueda
-        document.getElementById('search-branch').addEventListener('input', (e) => {
-            renderBranches(e.target.value);
-        });
-        
-        const updateCount = () => {
-            const count = document.querySelectorAll('.branch-checkbox:checked').length;
-            document.getElementById('selected-count').textContent = count;
-            // No cambiamos el check-all automáticamente si hay filtros aplicados, para no confundir
-        };
-
-        document.getElementById('check-all').addEventListener('change', (e) => {
-            document.querySelectorAll('.branch-checkbox').forEach(cb => cb.checked = e.target.checked);
-            updateCount();
         });
 
         // ==============================================
-        // SEGURIDAD ARCHIVO
+        // LÓGICA DE SUCURSALES (BUSCADOR INTELIGENTE EN MEMORIA)
+        // ==============================================
+        const allBranches = ["Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)", "Adidas Argentina", "Nike (Grupo Axo)", "Zara", "Blue Star Group (Isadora/TodoModa)", "Grimoldi", "Cuesta Blanca", "Rapsodia", "CvStudio33"];
+        
+        // El SET guarda en memoria las selecciones sin importar los filtros visuales
+        const selectedBranches = new Set();
+        const branchesList = document.getElementById('branches-list');
+        const countDisplay = document.getElementById('selected-count');
+
+        const renderBranches = (filterText = "") => {
+            branchesList.innerHTML = "";
+            const filtered = allBranches.filter(b => b.toLowerCase().includes(filterText.toLowerCase()));
+            
+            filtered.forEach((b, i) => {
+                const isChecked = selectedBranches.has(b) ? 'checked' : '';
+                const div = document.createElement('div'); 
+                div.className = "flex items-center gap-3 bg-[#111] p-3 rounded-lg border border-[#333] hover:border-nyxPurple transition duration-300 shadow-sm";
+                div.innerHTML = `
+                    <input type="checkbox" id="b-${i}" value="${b}" class="nyx-checkbox branch-checkbox" ${isChecked}>
+                    <img src="logo.png" class="h-6 w-6 object-contain bg-white rounded-sm p-0.5 shadow-sm" alt="Logo">
+                    <label for="b-${i}" class="text-xs md:text-sm cursor-pointer w-full text-gray-300 font-medium truncate">${b}</label>
+                `;
+                branchesList.appendChild(div);
+            });
+            countDisplay.textContent = selectedBranches.size;
+        };
+
+        // Delegación de eventos para los checkboxes
+        branchesList.addEventListener('change', (e) => {
+            if (e.target.classList.contains('branch-checkbox')) {
+                if (e.target.checked) selectedBranches.add(e.target.value);
+                else selectedBranches.delete(e.target.value);
+                countDisplay.textContent = selectedBranches.size;
+            }
+        });
+
+        // Buscador
+        document.getElementById('search-branch').addEventListener('input', (e) => renderBranches(e.target.value));
+
+        // Seleccionar Visibles
+        document.getElementById('check-all').addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            document.querySelectorAll('.branch-checkbox').forEach(cb => {
+                cb.checked = isChecked;
+                if(isChecked) selectedBranches.add(cb.value);
+                else selectedBranches.delete(cb.value);
+            });
+            countDisplay.textContent = selectedBranches.size;
+        });
+
+        renderBranches(); // Inicio
+
+        // ==============================================
+        // CARGA DE DOCUMENTO (BASE64 FIABLE)
         // ==============================================
         const cvUpload = document.getElementById('cv-upload'), btnFire = document.getElementById('btn-fire');
         cvUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            btnFire.disabled = true; btnFire.classList.add('opacity-50');
+            btnFire.disabled = true; btnFire.classList.add('opacity-50', 'cursor-not-allowed');
             
-            if (!file || (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith('.pdf')) || file.size > 5242880) {
-                document.getElementById('file-error').innerHTML = "<i class='fa-solid fa-ban'></i> Bloqueo: Archivo inválido o mayor a 5MB.";
-                document.getElementById('file-error').classList.remove('hidden'); cvUpload.value = ''; return;
+            if (!file) return;
+
+            // Validación estricta y segura
+            const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf');
+            if (!isPdf || file.size > 5242880) { // 5MB
+                document.getElementById('file-error').innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Error: Formato no válido o excede 5MB. Inserte un PDF.";
+                document.getElementById('file-error').classList.remove('hidden'); 
+                cvUpload.value = ''; 
+                return;
             }
             
             document.getElementById('file-error').classList.add('hidden');
@@ -457,32 +484,55 @@ Atentamente,
             document.getElementById('file-name-display').classList.add('text-nyxPurple');
             
             const reader = new FileReader();
-            reader.onload = (ev) => { selectedFileBase64 = ev.target.result.split(',')[1]; btnFire.disabled = false; btnFire.classList.remove('opacity-50', 'cursor-not-allowed'); };
+            reader.onload = (ev) => { 
+                selectedFileBase64 = ev.target.result.split(',')[1]; 
+                btnFire.disabled = false; 
+                btnFire.classList.remove('opacity-50', 'cursor-not-allowed'); 
+            };
             reader.readAsDataURL(file);
         });
 
         // ==============================================
-        // COMUNICACIÓN CON CEREBRO NYX (RESEND BATCH)
+        // COMUNICACIÓN CON CEREBRO NYX (ESTADO PROFESIONAL)
         // ==============================================
         btnFire.addEventListener('click', async () => {
             if(currentUserData.tokens < COST_NYX_DISPATCH) return;
-
-            const selectedBranches = Array.from(document.querySelectorAll('.branch-checkbox:checked')).map(cb => cb.value);
-            if(selectedBranches.length === 0) return alert("Error: Ningún nodo seleccionado para el Batch.");
+            if(selectedBranches.size === 0) return alert("Selecciona al menos una corporación.");
 
             const freshToken = await auth.currentUser.getIdToken(true); 
+            const finalBranchesArray = Array.from(selectedBranches);
 
             const payload = {
                 userId: userIdFormat,
                 tokenJWT: freshToken,
-                branches: selectedBranches,
+                branches: finalBranchesArray,
                 pitch: document.getElementById('pitch-text').value,
                 cv_data: selectedFileBase64
             };
 
             const procScreen = document.getElementById('processing-screen');
+            const logsContainer = document.getElementById('process-logs');
+            const progressBar = document.getElementById('progress-bar');
+            
             procScreen.classList.remove('hidden');
-            setTimeout(() => document.getElementById('progress-bar').style.width = '100%', 100);
+            
+            const addLog = (text, iconClass, delay, progressVal) => {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        const li = document.createElement('li');
+                        li.className = "flex items-center gap-3 animate-fade";
+                        li.innerHTML = `<i class="${iconClass} text-nyxPurple w-4 text-center"></i> <span>${text}</span>`;
+                        logsContainer.appendChild(li);
+                        progressBar.style.width = progressVal + '%';
+                        resolve();
+                    }, delay);
+                });
+            };
+
+            await addLog("Autenticando conexión segura mediante JWT...", "fa-solid fa-shield-halved", 400, 20);
+            await addLog(`Estableciendo ruta hacia ${finalBranchesArray.length} nodos corporativos...`, "fa-solid fa-server", 800, 45);
+            await addLog("Cifrando documentación y empaquetando Payload...", "fa-solid fa-file-shield", 900, 70);
+            await addLog("Solicitando distribución a la API Batch...", "fa-solid fa-cloud-arrow-up", 600, 90);
 
             try {
                 const backendResponse = await fetch('https://cerebronyx.lautybg22.workers.dev/', {
@@ -492,17 +542,21 @@ Atentamente,
                 });
 
                 if (backendResponse.ok) {
+                    await addLog("Distribución finalizada con éxito. Cerrando canal.", "fa-solid fa-check text-green-500", 500, 100);
                     setTimeout(() => {
-                        alert(`¡Lixie ha distribuido tu perfil a ${selectedBranches.length} corporaciones exitosamente!`);
+                        alert(`¡Lixie ha distribuido tu perfil a ${finalBranchesArray.length} corporaciones exitosamente!`);
                         window.location.reload(); 
-                    }, 2500);
+                    }, 1500);
                 } else {
-                    alert(`Error del Cerebro: ${await backendResponse.text()}`);
-                    window.location.reload();
+                    const err = await backendResponse.text();
+                    await addLog(`Falla en servidor: ${err}`, "fa-solid fa-xmark text-red-500", 0, 100);
+                    progressBar.classList.replace('bg-nyxPurple', 'bg-red-500');
+                    setTimeout(() => window.location.reload(), 3000);
                 }
             } catch (error) {
-                alert("Error crítico conectando con Cerebro NYX.");
-                window.location.reload();
+                await addLog("Error crítico de conectividad. Operación abortada.", "fa-solid fa-xmark text-red-500", 0, 100);
+                progressBar.classList.replace('bg-nyxPurple', 'bg-red-500');
+                setTimeout(() => window.location.reload(), 3000);
             }
         });
     </script>

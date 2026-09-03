@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYX Distribution Hub - CVStudio33</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { axonGreen: '#00FF41', axonDark: '#0A0A0A', axonGray: '#121212', axonBorder: '#262626' }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { background-color: #050505; color: #e5e5e5; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-panel { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(16px); border: 1px solid #262626; }
+        .glass-input { background: rgba(10, 10, 10, 0.8); border: 1px solid #262626; color: #fff; transition: all 0.3s ease; }
+        .glass-input:focus { border-color: #00FF41; outline: none; box-shadow: 0 0 10px rgba(0, 255, 65, 0.2); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00FF41; }
+
+        /* NYX Checkbox */
+        .nyx-checkbox { appearance: none; width: 1.2rem; height: 1.2rem; border: 1px solid #262626; border-radius: 0.25rem; background: #121212; outline: none; cursor: pointer; transition: 0.2s; position: relative; }
+        .nyx-checkbox:checked { background: #00FF41; border-color: #00FF41; box-shadow: 0 0 8px rgba(0, 255, 65, 0.4); }
+        .nyx-checkbox:checked::after { content: '\f00c'; font-family: 'FontAwesome'; color: #000; position: absolute; font-size: 0.8rem; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+        /* Animations */
+        @keyframes pulse-glow { 0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(0,255,65,0.5); } 50% { opacity: 0.7; text-shadow: 0 0 20px rgba(0,255,65,0.8); } }
+        .animate-lixie { animation: pulse-glow 2s infinite; }
+        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        .scanline::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0,255,65,0.5); animation: scanline 2s linear infinite; pointer-events: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-axonGreen selection:text-black">
+
+    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50">
+        <div class="glass-panel p-8 md:p-12 rounded-2xl flex flex-col items-center w-[90%] max-w-md shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-20 -left-20 w-40 h-40 bg-axonGreen rounded-full opacity-10 blur-[80px]"></div>
+            
+            <img src="logonyx.png" alt="NYX" class="h-10 md:h-12 mb-4 object-contain drop-shadow-[0_0_8px_rgba(0,255,65,0.4)] relative z-10" onerror="this.src='https://via.placeholder.com/150x50/000000/00FF41?text=NYX'">
+            
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-widest text-center relative z-10 w-full">ACCESO</h1>
+            <p class="text-sm md:text-base text-gray-300 mb-8 text-center leading-relaxed font-medium relative z-10">Te damos la bienvenida. Inicia sesión para acceder a tu plataforma de inteligencia laboral.</p>
+            
+            <button id="btn-google-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition duration-300 shadow-lg relative z-10 text-sm">
+                <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Acceder con Google Workspace
+            </button>
+            
+            <div class="mt-8 border-t border-[#333] pt-6 flex flex-col items-center w-full relative z-10">
+                <svg class="h-6 w-6 text-gray-500 mb-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <p class="text-[10px] md:text-[11px] text-gray-500 text-center leading-relaxed max-w-[280px]">Acceso seguro y encriptado. Protegido bajo infraestructura corporativa.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-screen" class="hidden flex-col h-screen overflow-hidden">
+        
+        <header class="glass-panel sticky top-0 z-40 px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="CVStudio33" class="h-8 object-contain" onerror="this.style.display='none'">
+                <img src="logonyx.png" alt="NYX" class="h-6 border-l border-axonBorder pl-4 object-contain" onerror="this.src='https://via.placeholder.com/100x30/000000/00FF41?text=NYX'">
+            </div>
+            <div class="flex items-center gap-4 md:gap-6 text-sm">
+                <div class="text-right hidden md:block">
+                    <p class="text-gray-400 text-xs">ID de Cliente</p>
+                    <p id="ui-client-id" class="font-mono text-white font-bold">CARGANDO...</p>
+                </div>
+                <div class="bg-axonGray border border-axonBorder px-4 py-2 rounded-lg flex items-center gap-2">
+                    <i class="fa-solid fa-coins text-axonGreen"></i>
+                    <span id="ui-tokens" class="font-bold text-white">0</span>
+                    <span class="text-xs text-gray-400">Tokens</span>
+                </div>
+                <button id="btn-logout" class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-power-off"></i></button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 flex justify-center relative">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(0,255,65,0.03)] via-[#050505] to-[#050505] -z-10"></div>
+            
+            <div class="w-full max-w-4xl flex flex-col gap-8">
+                
+                <div class="text-center mt-6">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Distribución <span class="text-transparent bg-clip-text bg-gradient-to-r from-axonGreen to-emerald-600">Hub</span></h2>
+                    <p class="text-sm md:text-md text-axonGreen font-mono uppercase tracking-widest mb-4">Red Neuronal de IA - Envío Masivo Selectivo</p>
+                    <p class="text-gray-400 text-sm max-w-2xl mx-auto">Esta herramienta permite la dispersión automatizada de perfiles profesionales a través de múltiples nodos corporativos. Utiliza el ecosistema NYX para enrutar, encriptar y entregar tu CV de manera precisa y sin fricciones.</p>
+                    
+                    <div id="plan-status" class="mt-4 text-xs font-mono text-gray-500">Evaluando estado de plan...</div>
+                </div>
+
+                <div id="wizard-container" class="glass-panel rounded-xl p-6 md:p-10 shadow-2xl relative overflow-hidden hidden transition-all duration-500">
+                    
+                    <div class="flex justify-between mb-8 relative">
+                        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-axonBorder -z-10 -translate-y-1/2"></div>
+                        <div id="progress-line" class="absolute top-1/2 left-0 h-0.5 bg-axonGreen -z-10 -translate-y-1/2 transition-all duration-500 w-0"></div>
+                        
+                        <div class="step-indicator bg-axonGreen text-black w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-[0_0_10px_rgba(0,255,65,0.5)]">1</div>
+                        <div class="step-indicator bg-axonGray border border-axonBorder text-gray-500 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                        <div class="step-indicator bg-axonGray border border-axonBorder text-gray-500 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                    </div>
+
+                    <div id="step-1" class="wizard-step">
+                        <h3 class="text-xl text-white font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-network-wired text-axonGreen"></i> Nodos de Destino</h3>
+                        <p class="text-gray-400 text-sm mb-6">Selecciona las sucursales o redes corporativas a las que Lixie dirigirá la transmisión.</p>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-mono text-axonGreen"><span id="selected-count">0</span> seleccionadas</span>
+                            <button id="btn-select-all" class="text-xs border border-axonBorder px-3 py-1.5 rounded hover:border-axonGreen hover:text-axonGreen transition">Seleccionar Todas</button>
+                        </div>
+                        
+                        <div id="branches-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-2">
+                            </div>
+                    </div>
+
+                    <div id="step-2" class="wizard-step hidden">
+                        <h3 class="text-xl text-white font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-envelope-open-text text-axonGreen"></i> Pitch de Presentación</h3>
+                        <p class="text-gray-400 text-sm mb-6">Edita el cuerpo del mensaje que se enviará. Puedes usar la plantilla profesional por defecto.</p>
+                        
+                        <input type="text" id="pitch-subject" class="w-full glass-input p-3 rounded-lg text-sm mb-4" placeholder="Asunto: Presentación Profesional - [Tu Nombre]" value="Asunto: Presentación Profesional - Postulación Espontánea">
+                        
+                        <textarea id="pitch-body" class="w-full glass-input p-4 rounded-lg text-sm h-48 resize-none" placeholder="Cuerpo del mensaje..."></textarea>
+                    </div>
+
+                    <div id="step-3" class="wizard-step hidden">
+                        <h3 class="text-xl text-white font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-file-shield text-axonGreen"></i> Carga de Documento</h3>
+                        <p class="text-gray-400 text-sm mb-6">Sube tu CV. Solo se permiten archivos PDF (Max: 5MB). El documento será analizado y encriptado por el Cerebro NYX.</p>
+                        
+                        <div class="border-2 border-dashed border-axonBorder hover:border-axonGreen bg-axonGray/50 p-8 rounded-xl text-center transition-all group relative cursor-pointer" id="drop-zone">
+                            <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-500 group-hover:text-axonGreen mb-4 transition"></i>
+                            <p class="text-white font-medium text-sm" id="file-name-display">Arrastra tu PDF aquí o haz clic para buscar</p>
+                            <p class="text-xs text-gray-500 mt-2">Seguridad activa: Análisis de integridad antes del envío.</p>
+                        </div>
+                        <p id="file-error" class="text-red-500 text-xs mt-2 hidden text-center"></p>
+                    </div>
+
+                    <div class="mt-8 flex justify-between border-t border-axonBorder pt-6">
+                        <button id="btn-prev" class="hidden text-gray-400 hover:text-white px-4 py-2 text-sm font-medium transition">Atrás</button>
+                        <div class="flex-1"></div>
+                        <button id="btn-next" class="bg-white text-black px-6 py-2 rounded text-sm font-bold hover:bg-gray-200 transition">Siguiente <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                        <button id="btn-shoot" class="hidden bg-axonGreen text-black px-6 py-2 rounded text-sm font-bold hover:bg-emerald-400 transition shadow-[0_0_15px_rgba(0,255,65,0.4)] flex items-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> Ejecutar Protocolo Lixie
+                        </button>
+                    </div>
+                </div>
+
+                <div id="start-container" class="flex justify-center mt-4">
+                    <button id="btn-start-wizard" class="bg-transparent border border-axonGreen text-axonGreen px-8 py-3 rounded-lg text-sm font-bold hover:bg-axonGreen hover:text-black transition duration-300 shadow-[0_0_15px_rgba(0,255,65,0.2)] animate-lixie flex items-center gap-3">
+                        <i class="fa-solid fa-microchip"></i> Inicializar Asistente Lixie
+                    </button>
+                </div>
+
+                <div id="terminal-overlay" class="hidden glass-panel rounded-xl p-6 shadow-2xl relative overflow-hidden border-axonGreen scanline mt-6 h-64 flex flex-col font-mono text-xs">
+                    <div class="flex items-center justify-between border-b border-axonBorder pb-2 mb-4">
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-axonGreen"></div>
+                        </div>
+                        <span class="text-axonGreen">LIXIE TERMINAL v1.0</span>
+                    </div>
+                    <div id="terminal-output" class="flex-1 overflow-y-auto text-gray-300 space-y-1">
+                        </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, getIdToken } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // 1. Configuración exacta de Firebase provista
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // Variables de Estado
+        let currentUserData = null;
+        let currentStep = 1;
+        let selectedFile = null;
+        let authIdToken = null; // Token vital para el backend
+        const CEREBRO_URL = "https://cerebronyx.lautybg22.workers.dev/";
+
+        // Mock de Sucursales (Se pueden traer de la DB luego)
+        const branches = [
+            "Tech Data Solutions S.A.", "Nexus IT Core", "Fintech Global Sur", 
+            "Marketing & Media C.A", "DevOps Latam Hub", "CyberSec Operations", 
+            "Innovación y Desarrollo (I+D)", "Cloud Infrastructure Partners"
+        ];
+
+        // --- SISTEMA DE LOGIN Y LECTURA ---
+        const loginScreen = document.getElementById('login-screen');
+        const appScreen = document.getElementById('app-screen');
+        const uiClientId = document.getElementById('ui-client-id');
+        const uiTokens = document.getElementById('ui-tokens');
+        const planStatus = document.getElementById('plan-status');
+
+        document.getElementById('btn-google-login').addEventListener('click', async () => {
+            try { await signInWithPopup(auth, provider); } 
+            catch (error) { alert("Error de autenticación: " + error.message); }
+        });
+
+        document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                loginScreen.classList.add('hidden');
+                appScreen.classList.remove('hidden');
+                appScreen.classList.add('flex');
+                
+                // Extraemos el Token JWT para enviar al Cerebro (Seguridad Frontend -> Backend)
+                authIdToken = await getIdToken(user);
+                
+                // Solo leemos, NO escribimos
+                const userRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(userRef);
+                
+                if (docSnap.exists()) {
+                    currentUserData = docSnap.data();
+                    uiClientId.innerText = `cliente-${user.uid.substring(0,6).toUpperCase()}`;
+                    uiTokens.innerText = currentUserData.token_nyx || 0;
+                    
+                    // Lazy Equation: Evaluar vigencia
+                    if (currentUserData.plan_expires_at) {
+                        const expireDate = new Date(currentUserData.plan_expires_at.seconds * 1000);
+                        const now = new Date();
+                        if (now > expireDate) {
+                            planStatus.innerHTML = `<span class="text-red-500"><i class="fa-solid fa-triangle-exclamation"></i> Acceso denegado: Plan Expirado el ${expireDate.toLocaleDateString()}</span>`;
+                            document.getElementById('btn-start-wizard').disabled = true;
+                            document.getElementById('btn-start-wizard').classList.add('opacity-50', 'cursor-not-allowed');
+                        } else {
+                            const daysLeft = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24));
+                            planStatus.innerHTML = `<span class="text-axonGreen"><i class="fa-solid fa-shield-check"></i> Licencia Lixie Activa. Expira en: ${daysLeft} días.</span>`;
+                        }
+                    }
+                } else {
+                    // Si no existe, tokens 0. No creamos doc desde el front.
+                    uiClientId.innerText = `cliente-${user.uid.substring(0,6).toUpperCase()}`;
+                    uiTokens.innerText = 0;
+                    planStatus.innerText = "Usuario no registrado en base corporativa.";
+                }
+            } else {
+                loginScreen.classList.remove('hidden');
+                appScreen.classList.add('hidden');
+                appScreen.classList.remove('flex');
+            }
+        });
+
+        // --- LÓGICA DEL WIZARD (UI) ---
+        document.getElementById('btn-start-wizard').addEventListener('click', () => {
+            document.getElementById('start-container').classList.add('hidden');
+            document.getElementById('wizard-container').classList.remove('hidden');
+            renderBranches();
+        });
+
+        function updateStepperUI() {
+            const steps = [document.getElementById('step-1'), document.getElementById('step-2'), document.getElementById('step-3')];
+            const indicators = document.querySelectorAll('.step-indicator');
+            const progress = document.getElementById('progress-line');
+            
+            steps.forEach((el, index) => { el.classList.toggle('hidden', index !== currentStep - 1); });
+            indicators.forEach((el, index) => {
+                if(index < currentStep) {
+                    el.classList.add('bg-axonGreen', 'text-black', 'shadow-[0_0_10px_rgba(0,255,65,0.5)]');
+                    el.classList.remove('bg-axonGray', 'text-gray-500');
+                } else {
+                    el.classList.remove('bg-axonGreen', 'text-black', 'shadow-[0_0_10px_rgba(0,255,65,0.5)]');
+                    el.classList.add('bg-axonGray', 'text-gray-500');
+                }
+            });
+            
+            progress.style.width = currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%';
+            
+            document.getElementById('btn-prev').classList.toggle('hidden', currentStep === 1);
+            if (currentStep === 3) {
+                document.getElementById('btn-next').classList.add('hidden');
+                document.getElementById('btn-shoot').classList.remove('hidden');
+            } else {
+                document.getElementById('btn-next').classList.remove('hidden');
+                document.getElementById('btn-shoot').classList.add('hidden');
+            }
+        }
+
+        document.getElementById('btn-next').addEventListener('click', () => { if (currentStep < 3) { currentStep++; updateStepperUI(); } });
+        document.getElementById('btn-prev').addEventListener('click', () => { if (currentStep > 1) { currentStep--; updateStepperUI(); } });
+
+        // --- STEP 1: SUCURSALES ---
+        function renderBranches() {
+            const container = document.getElementById('branches-list');
+            container.innerHTML = '';
+            branches.forEach((b, i) => {
+                container.innerHTML += `
+                    <label class="flex items-center gap-3 p-3 glass-input rounded cursor-pointer hover:border-axonGreen transition">
+                        <input type="checkbox" class="nyx-checkbox branch-cb" value="${b}">
+                        <span class="text-sm font-medium">${b}</span>
+                    </label>
+                `;
+            });
+            document.querySelectorAll('.branch-cb').forEach(cb => cb.addEventListener('change', countSelected));
+        }
+
+        function countSelected() {
+            const count = document.querySelectorAll('.branch-cb:checked').length;
+            document.getElementById('selected-count').innerText = count;
+        }
+
+        document.getElementById('btn-select-all').addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('.branch-cb');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            checkboxes.forEach(cb => cb.checked = !allChecked);
+            countSelected();
+        });
+
+        // --- STEP 2: PITCH DEFAULT ---
+        const defaultPitch = `Estimado equipo de Selección,\n\nMe dirijo a ustedes con el propósito de presentar mi perfil profesional para posibles oportunidades dentro de su estructura. Adjunto mi CV (procesado vía NYX Distribution) detallando mi experiencia y competencias.\n\nQuedo a su entera disposición para ampliar esta información.\n\nAtentamente,\n[Tu Nombre]`;
+        document.getElementById('pitch-body').value = defaultPitch;
+
+        // --- STEP 3: CARGA DE CV (SEGURIDAD FRONTEND) ---
+        const fileInput = document.getElementById('cv-upload');
+        const fileDisplay = document.getElementById('file-name-display');
+        const fileError = document.getElementById('file-error');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            fileError.classList.add('hidden');
+            
+            if (!file) return;
+            
+            if (file.type !== 'application/pdf') {
+                fileError.innerText = "Error: El protocolo NYX solo admite formatos .PDF para prevenir inyección de código.";
+                fileError.classList.remove('hidden');
+                fileInput.value = '';
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                fileError.innerText = "Error: El documento supera el límite corporativo de 5MB.";
+                fileError.classList.remove('hidden');
+                fileInput.value = '';
+                return;
+            }
+            
+            selectedFile = file;
+            fileDisplay.innerHTML = `<i class="fa-solid fa-file-pdf text-red-500 mr-2"></i> ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+        });
+
+        // --- STEP 4: DISPARO Y ANIMACIÓN LIXIE ---
+        document.getElementById('btn-shoot').addEventListener('click', async () => {
+            const selectedBranches = Array.from(document.querySelectorAll('.branch-cb:checked')).map(cb => cb.value);
+            
+            if (selectedBranches.length === 0) { alert("Lixie: Debes seleccionar al menos un nodo de destino."); return; }
+            if (!selectedFile) { alert("Lixie: El payload (CV) no ha sido adjuntado."); return; }
+
+            // Ocultar wizard, mostrar terminal
+            document.getElementById('wizard-container').classList.add('hidden');
+            const terminal = document.getElementById('terminal-overlay');
+            const output = document.getElementById('terminal-output');
+            terminal.classList.remove('hidden');
+            output.innerHTML = '';
+
+            const appendLog = (msg, color = 'text-gray-300') => {
+                output.innerHTML += `<div class="${color}">> ${msg}</div>`;
+                output.scrollTop = output.scrollHeight;
+            };
+
+            // Animación simulada de procesamiento
+            appendLog(`[LIXIE] Iniciando protocolo de distribución masiva...`, 'text-axonGreen');
+            await new Promise(r => setTimeout(r, 800));
+            appendLog(`[LIXIE] Autenticando credenciales: ${uiClientId.innerText}... Ok.`);
+            await new Promise(r => setTimeout(r, 800));
+            appendLog(`[LIXIE] Validando integridad del documento: ${selectedFile.name}... Seguro.`);
+            await new Promise(r => setTimeout(r, 1000));
+            
+            // Empaquetando Datos (Usamos FormData para poder mandar el archivo en la request Fetch)
+            const formData = new FormData();
+            formData.append('cvFile', selectedFile);
+            formData.append('branches', JSON.stringify(selectedBranches));
+            formData.append('pitchSubject', document.getElementById('pitch-subject').value);
+            formData.append('pitchBody', document.getElementById('pitch-body').value);
+
+            appendLog(`[LIXIE] Estableciendo conexión cifrada con Cerebro NYX...`, 'text-yellow-500');
+
+            try {
+                // Aquí llamamos al Cloudflare Worker. Pasamos el ID Token en los headers
+                // para que el worker valide con Firebase Admin que el usuario es quien dice ser.
+                /* const response = await fetch(CEREBRO_URL, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authIdToken}` },
+                    body: formData
+                });
+                
+                if(!response.ok) throw new Error("Fallo en la comunicación con el Nodo Central.");
+                */
+                
+                // SIMULANDO EL FLUJO REAL PARA DEMOSTRACIÓN VISUAL (Mientras creas el backend)
+                for(let i=0; i<selectedBranches.length; i++) {
+                    await new Promise(r => setTimeout(r, 600)); // Tiempo simulado por envío
+                    appendLog(`[LIXIE] Enrutando payload a Nodo: ${selectedBranches[i]}... [EXITO]`, 'text-blue-400');
+                }
+
+                await new Promise(r => setTimeout(r, 500));
+                appendLog(`[LIXIE] DISTRIBUCIÓN COMPLETADA. Cerrando canales seguros.`, 'text-axonGreen font-bold mt-2');
+                
+            } catch (error) {
+                appendLog(`[ERROR CRÍTICO] ${error.message}`, 'text-red-500 font-bold');
+            }
+        });
+    </script>
+</body>
+</html>

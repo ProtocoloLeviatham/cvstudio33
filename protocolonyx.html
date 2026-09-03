@@ -12,8 +12,8 @@
                 extend: {
                     colors: { 
                         nyxPurple: '#9D00FF', 
-                        nyxDark: '#050505', 
-                        nyxPanel: '#121212', 
+                        nyxDark: '#030005', /* Negro con un levísimo tinte morado */
+                        nyxPanel: '#0a0a0a', 
                         nyxBorder: '#262626' 
                     }
                 }
@@ -25,31 +25,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body { background-color: #050505; color: #e5e5e5; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
-        .glass-panel { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(16px); border: 1px solid #262626; }
+        body { 
+            background-color: #030005; 
+            color: #e5e5e5; 
+            font-family: 'Inter', system-ui, sans-serif; 
+            overflow-x: hidden; 
+        }
+        
+        /* Fondo Premium NYX - Tech Grid */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(157, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(157, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        /* Orbes de luz ambientales */
+        .ambient-glow {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(157,0,255,0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; }
+        .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; }
+
+        .glass-panel { background: rgba(10, 10, 10, 0.75); backdrop-filter: blur(20px); border: 1px solid #262626; }
         .step-hidden { display: none; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #121212; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #9D00FF; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0a0a; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; border: 1px solid #111; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #9D00FF; }
         
         .terminal-text { font-family: 'Courier New', Courier, monospace; }
         
-        .nyx-checkbox { appearance: none; background-color: #121212; border: 1px solid #262626; padding: 10px; border-radius: 4px; display: inline-block; position: relative; cursor: pointer; transition: 0.3s; }
+        .nyx-checkbox { appearance: none; background-color: #121212; border: 1px solid #333; width: 22px; height: 22px; border-radius: 4px; display: inline-block; position: relative; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .nyx-checkbox:checked { background-color: rgba(157, 0, 255, 0.2); border-color: #9D00FF; }
         .nyx-checkbox:checked::after { content: '\2714'; font-size: 14px; position: absolute; top: 0px; left: 4px; color: #9D00FF; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-nyxPurple selection:text-white">
 
+    <!-- Fondos de Red Neuronal NYX -->
+    <div class="bg-grid-pattern"></div>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
     <!-- ============================================== -->
     <!-- PANTALLA DE LOGIN -->
     <!-- ============================================== -->
-    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50 transition-opacity duration-500">
+    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-nyxDark/90 backdrop-blur-sm z-50 transition-opacity duration-500">
         <div class="glass-panel p-8 md:p-12 rounded-2xl flex flex-col items-center w-[90%] max-w-md shadow-2xl relative overflow-hidden">
-            <div class="absolute -top-20 -left-20 w-40 h-40 bg-nyxPurple rounded-full opacity-15 blur-[80px]"></div>
+            <div class="absolute -top-20 -left-20 w-40 h-40 bg-nyxPurple rounded-full opacity-20 blur-[80px]"></div>
             
-            <img src="logonyx.png" alt="NYX" onerror="this.src='https://via.placeholder.com/150x50?text=LOGONYX'" class="h-10 md:h-12 mb-4 object-contain drop-shadow-[0_0_8px_rgba(157,0,255,0.5)] relative z-10">
+            <img src="logonyx.png" alt="NYX" onerror="this.src='https://via.placeholder.com/150x50?text=LOGONYX'" class="h-10 md:h-12 mb-4 object-contain drop-shadow-[0_0_12px_rgba(157,0,255,0.6)] relative z-10">
             
             <h1 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-widest text-center relative z-10 w-full">
                 ACCESO 
@@ -59,7 +94,7 @@
                 Te damos la bienvenida. Inicia sesión para acceder a tu plataforma de inteligencia laboral y gestionar tu perfil corporativo.
             </p>
             
-            <button id="btn-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition duration-300 shadow-lg relative z-10 text-sm">
+            <button id="btn-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] relative z-10 text-sm">
                 <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                 Acceder con Google Workspace
             </button>
@@ -86,14 +121,13 @@
     <!-- ============================================== -->
     <!-- DASHBOARD PRINCIPAL -->
     <!-- ============================================== -->
-    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-8 relative">
+    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-8 relative z-10">
         
         <!-- Header Corporativo -->
-        <header class="flex justify-between items-center glass-panel p-4 rounded-xl mb-8 border-nyxBorder">
+        <header class="flex justify-between items-center glass-panel p-4 rounded-xl mb-8 border-nyxBorder shadow-lg">
             <div class="flex items-center gap-4">
                 <img src="logo.png" alt="CVStudio33" onerror="this.src='https://via.placeholder.com/40?text=CV'" class="h-8 md:h-10 rounded-md">
                 <div>
-                    <!-- El ID visual se mostrará siempre en mayúsculas por estética, pero en BD respetará el formato exacto -->
                     <h2 class="text-sm md:text-base font-bold text-white uppercase" id="client-id">CLIENTE-XXXX</h2>
                     <p class="text-xs text-nyxPurple flex items-center gap-1 font-mono">
                         <i class="fa-solid fa-shield-halved text-[10px]"></i> Conexión Segura
@@ -105,12 +139,11 @@
                 <div class="text-right flex flex-col items-end">
                     <p class="text-[10px] md:text-xs text-gray-400 font-mono tracking-wider">SALDO DISPONIBLE</p>
                     <div class="flex items-center gap-2 mt-1">
-                        <p class="text-2xl md:text-3xl font-black text-white leading-none" id="token-count">--</p>
-                        <img src="coinnyx.png" alt="NYX Coin" onerror="this.style.display='none'" class="h-6 w-auto object-contain drop-shadow-[0_0_5px_rgba(157,0,255,0.6)]">
+                        <p class="text-2xl md:text-3xl font-black text-white leading-none drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" id="token-count">--</p>
+                        <img src="coinnyx.png" alt="NYX Coin" onerror="this.style.display='none'" class="h-6 w-auto object-contain drop-shadow-[0_0_8px_rgba(157,0,255,0.8)]">
                     </div>
                 </div>
                 
-                <!-- Botón Cerrar Sesión -->
                 <button id="btn-logout" class="text-gray-500 hover:text-red-500 transition duration-300 border-l border-nyxBorder pl-5 md:pl-8" title="Cerrar Sesión">
                     <i class="fa-solid fa-power-off text-xl md:text-2xl"></i>
                 </button>
@@ -118,29 +151,29 @@
         </header>
 
         <!-- Hero Section NYX -->
-        <main class="flex-grow flex flex-col items-center max-w-4xl mx-auto w-full">
-            <img src="logonyx.png" alt="NYX Hub" onerror="this.src='https://via.placeholder.com/200x60?text=LOGONYX'" class="h-16 mb-4 drop-shadow-[0_0_20px_rgba(157,0,255,0.4)]">
-            <h1 class="text-3xl md:text-5xl font-black text-center mb-2 tracking-tight">DISTRIBUCIÓN HUB</h1>
-            <p class="text-nyxPurple text-[10px] md:text-xs font-mono mb-6 text-center tracking-[0.2em] border border-nyxPurple px-4 py-1.5 rounded-full bg-[rgba(157,0,255,0.05)] uppercase shadow-[0_0_10px_rgba(157,0,255,0.1)]">
+        <main class="flex-grow flex flex-col items-center max-w-5xl mx-auto w-full">
+            <img src="logonyx.png" alt="NYX Hub" onerror="this.src='https://via.placeholder.com/200x60?text=LOGONYX'" class="h-16 mb-4 drop-shadow-[0_0_20px_rgba(157,0,255,0.6)]">
+            <h1 class="text-3xl md:text-5xl font-black text-center mb-2 tracking-tight text-white drop-shadow-md">DISTRIBUCIÓN HUB</h1>
+            <p class="text-nyxPurple text-[10px] md:text-xs font-mono mb-6 text-center tracking-[0.2em] border border-nyxPurple/50 px-4 py-1.5 rounded-full bg-nyxPurple/10 uppercase shadow-[0_0_15px_rgba(157,0,255,0.15)] backdrop-blur-sm">
                 Red Neuronal de IA de Envío Masivo Selectivo
             </p>
-            <p class="text-gray-400 text-center max-w-2xl mb-10 text-sm md:text-base leading-relaxed">
+            <p class="text-gray-300 text-center max-w-2xl mb-10 text-sm md:text-base leading-relaxed">
                 Herramienta avanzada de distribución estratégica. Lixie, tu agente de IA, evaluará, formateará y despachará tu perfil corporativo a nuestra red de sucursales integradas.
             </p>
 
-            <button id="btn-start-wizard" class="bg-nyxPurple text-white font-bold text-lg py-4 px-10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_25px_rgba(157,0,255,0.5)] flex items-center gap-3">
+            <button id="btn-start-wizard" class="bg-nyxPurple text-white font-bold text-lg py-4 px-10 rounded-xl hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_30px_rgba(157,0,255,0.6)] flex items-center gap-3">
                 <i class="fa-solid fa-microchip"></i> Inicializar Stepper Lixie
-                <span class="text-xs bg-black/30 px-2 py-1 rounded-md ml-2 border border-white/20">- 5 NYX</span>
+                <span class="text-xs bg-black/40 px-2 py-1 rounded-md ml-2 border border-white/20 font-mono">- 5 NYX</span>
             </button>
-            <p id="token-error" class="text-red-500 text-sm mt-4 hidden font-mono text-center"></p>
+            <p id="token-error" class="text-red-500 text-sm mt-4 hidden font-mono text-center bg-black/50 p-2 rounded backdrop-blur-sm border border-red-500/30"></p>
 
             <!-- ============================================== -->
             <!-- WIZARD / STEPPER -->
             <!-- ============================================== -->
-            <div id="wizard-container" class="hidden w-full mt-10 glass-panel p-6 md:p-8 rounded-2xl relative overflow-hidden border-nyxBorder">
+            <div id="wizard-container" class="hidden w-full mt-10 glass-panel p-6 md:p-8 rounded-2xl relative overflow-hidden shadow-2xl">
                 <div class="flex justify-between mb-8 border-b border-nyxBorder pb-4">
                     <div class="text-center w-1/3 transition-all duration-300" id="nav-step-1">
-                        <p class="text-nyxPurple font-bold text-xs md:text-sm tracking-wide"><i class="fa-solid fa-network-wired"></i> 1. Nodos</p>
+                        <p class="text-nyxPurple font-bold text-xs md:text-sm tracking-wide drop-shadow-[0_0_5px_rgba(157,0,255,0.5)]"><i class="fa-solid fa-network-wired"></i> 1. Nodos</p>
                     </div>
                     <div class="text-center w-1/3 opacity-40 transition-all duration-300" id="nav-step-2">
                         <p class="text-gray-400 font-bold text-xs md:text-sm tracking-wide"><i class="fa-solid fa-terminal"></i> 2. Pitch</p>
@@ -150,65 +183,79 @@
                     </div>
                 </div>
 
-                <!-- PASO 1 -->
+                <!-- PASO 1: Nodos -->
                 <div id="step-1" class="step-content">
                     <h3 class="text-xl font-bold mb-4 text-white">Selección de Nodos Destino</h3>
-                    <div class="flex justify-between items-center mb-4 bg-nyxDark p-3 rounded-lg border border-nyxBorder">
-                        <label class="flex items-center gap-3 text-sm font-medium cursor-pointer text-gray-300 hover:text-white transition">
+                    
+                    <!-- Controles Superiores: Buscador y Seleccionar Todo -->
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 bg-nyxPanel p-3 rounded-lg border border-nyxBorder shadow-inner">
+                        <label class="flex items-center gap-3 text-sm font-medium cursor-pointer text-gray-300 hover:text-white transition w-full md:w-auto">
                             <input type="checkbox" id="check-all" class="nyx-checkbox">
                             Seleccionar Todo el Clúster
                         </label>
-                        <span class="text-nyxPurple text-sm font-bold bg-black px-3 py-1 rounded border border-nyxBorder"><span id="selected-count">0</span> Nodos</span>
+                        
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            <div class="relative w-full md:w-64">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm"></i>
+                                <input type="text" id="search-branch" placeholder="Buscar empresa..." class="w-full bg-[#111] border border-[#333] text-gray-200 text-sm rounded-md py-1.5 pl-9 pr-3 focus:outline-none focus:border-nyxPurple transition">
+                            </div>
+                            <span class="text-nyxPurple text-sm font-bold bg-black px-3 py-1.5 rounded border border-nyxBorder whitespace-nowrap shadow-[0_0_10px_rgba(157,0,255,0.2)]"><span id="selected-count">0</span> Nodos</span>
+                        </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-64 overflow-y-auto custom-scrollbar pr-2" id="branches-list"></div>
-                    <div class="mt-6 flex justify-end">
+                    <!-- Lista de Sucursales (Grid responsivo, scrollable) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-80 overflow-y-auto custom-scrollbar pr-2 p-1" id="branches-list">
+                        <!-- Nodos inyectados por JS -->
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end pt-4 border-t border-nyxBorder">
                         <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.1)]">Configurar Pitch <i class="fa-solid fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
-                <!-- PASO 2 -->
+                <!-- PASO 2: Pitch -->
                 <div id="step-2" class="step-content step-hidden">
                     <h3 class="text-xl font-bold mb-2 text-white">Estructura del Mensaje (Pitch)</h3>
-                    <textarea id="pitch-text" class="w-full bg-nyxDark border border-nyxBorder text-gray-200 p-4 rounded-lg h-48 custom-scrollbar focus:border-nyxPurple focus:outline-none resize-none text-sm leading-relaxed transition shadow-inner">Estimado equipo de Selección,
+                    <p class="text-xs text-gray-400 mb-4 font-mono">Agente Lixie inyectará esta plantilla en el protocolo de contacto corporativo.</p>
+                    <textarea id="pitch-text" class="w-full bg-[#111] border border-[#333] text-gray-200 p-4 rounded-lg h-48 custom-scrollbar focus:border-nyxPurple focus:outline-none resize-none text-sm leading-relaxed transition shadow-inner">Estimado equipo de Selección,
 
 A través de la infraestructura corporativa de CVStudio33, me dirijo a ustedes para presentar mi perfil profesional. Adjunto mi currículum vitae cifrado para su consideración en futuras vacantes.
 
 Atentamente,
 [Firma Autogenerada por NYX]</textarea>
-                    <div class="mt-6 flex justify-between">
+                    <div class="mt-6 flex justify-between pt-4 border-t border-nyxBorder">
                         <button class="btn-prev text-gray-400 hover:text-white px-4 py-2 font-bold transition"><i class="fa-solid fa-arrow-left mr-2"></i> Volver</button>
-                        <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition">Carga Cifrada <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        <button class="btn-next bg-white text-black px-6 py-2.5 rounded-lg font-bold hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.1)]">Carga Cifrada <i class="fa-solid fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
-                <!-- PASO 3 -->
+                <!-- PASO 3: Payload -->
                 <div id="step-3" class="step-content step-hidden">
                     <h3 class="text-xl font-bold mb-4 text-white">Carga de Documento Local</h3>
-                    <div class="border-2 border-dashed border-nyxBorder bg-nyxDark p-10 rounded-xl text-center hover:border-nyxPurple hover:bg-[#0a0a0a] transition duration-300 relative group">
+                    <div class="border-2 border-dashed border-[#333] bg-[#0a0a0a] p-10 rounded-xl text-center hover:border-nyxPurple hover:bg-[#111] transition duration-300 relative group shadow-inner">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                        <i class="fa-solid fa-file-pdf text-4xl text-gray-600 mb-3 group-hover:text-nyxPurple transition"></i>
+                        <i class="fa-solid fa-file-pdf text-4xl text-gray-600 mb-3 group-hover:text-nyxPurple transition drop-shadow-md"></i>
                         <p class="text-white font-medium mb-1" id="file-name-display">Haz clic o arrastra tu Payload (.PDF)</p>
                         <p class="text-xs text-gray-500 font-mono mt-2">Max: 5MB | Protocolo de Encriptación Activo</p>
                         <p id="file-error" class="text-red-500 text-xs mt-3 hidden font-bold"></p>
                     </div>
 
-                    <div class="mt-8 flex justify-between items-center">
+                    <div class="mt-8 flex justify-between items-center pt-4 border-t border-nyxBorder">
                         <button class="btn-prev text-gray-400 hover:text-white px-4 py-2 font-bold transition"><i class="fa-solid fa-arrow-left mr-2"></i> Volver</button>
-                        <button id="btn-fire" class="bg-nyxPurple text-white px-8 py-3.5 rounded-lg font-black hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-3 opacity-50 cursor-not-allowed shadow-[0_0_20px_rgba(157,0,255,0.4)]" disabled>
+                        <button id="btn-fire" class="bg-nyxPurple text-white px-8 py-3.5 rounded-lg font-black hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-3 opacity-50 cursor-not-allowed shadow-[0_0_25px_rgba(157,0,255,0.5)]" disabled>
                             <i class="fa-solid fa-satellite-dish"></i> Autorizar Lixie (-5 Tokens)
                         </button>
                     </div>
                 </div>
 
-                <!-- PANTALLA DE PROCESAMIENTO -->
+                <!-- PANTALLA DE PROCESAMIENTO LIXIE -->
                 <div id="processing-screen" class="absolute inset-0 bg-nyxDark/95 backdrop-blur-md z-20 flex flex-col items-center justify-center p-8 hidden">
-                    <img src="logonyx.png" alt="NYX" class="h-10 mb-6 animate-pulse drop-shadow-[0_0_15px_rgba(157,0,255,0.8)]">
-                    <div class="w-full max-w-md bg-black border border-nyxBorder rounded p-4 h-48 overflow-y-auto custom-scrollbar terminal-text text-xs text-nyxPurple shadow-[inset_0_0_15px_rgba(157,0,255,0.1)]">
+                    <img src="logonyx.png" alt="NYX" class="h-10 mb-6 animate-pulse drop-shadow-[0_0_20px_rgba(157,0,255,0.8)]">
+                    <div class="w-full max-w-md bg-black border border-nyxBorder rounded p-4 h-48 overflow-y-auto custom-scrollbar terminal-text text-xs text-nyxPurple shadow-[inset_0_0_20px_rgba(157,0,255,0.15)]">
                         <ul id="terminal-logs" class="space-y-1.5 opacity-90"><li>> Inicializando Protocolo Lixie...</li></ul>
                     </div>
-                    <div class="w-full max-w-md mt-6 bg-gray-900 rounded-full h-1.5 overflow-hidden border border-nyxBorder">
-                        <div id="progress-bar" class="bg-nyxPurple h-1.5 w-0 transition-all duration-[3000ms] ease-in-out shadow-[0_0_10px_rgba(157,0,255,1)]"></div>
+                    <div class="w-full max-w-md mt-6 bg-gray-900 rounded-full h-1.5 overflow-hidden border border-nyxBorder shadow-inner">
+                        <div id="progress-bar" class="bg-nyxPurple h-1.5 w-0 transition-all duration-[3000ms] ease-in-out shadow-[0_0_15px_rgba(157,0,255,1)]"></div>
                     </div>
                 </div>
 
@@ -242,31 +289,28 @@ Atentamente,
         let selectedFileBase64 = null;
         let unsubscribeSnapshot = null;
 
-        // Elementos UI
+        // UI
         const loginScreen = document.getElementById('login-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
         const clientIdDisplay = document.getElementById('client-id');
         const tokenDisplay = document.getElementById('token-count');
         const tokenError = document.getElementById('token-error');
 
-        // Autenticación
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
             catch (e) { alert("Seguridad NYX: Acceso denegado."); }
         });
 
-        // Cerrar Sesión
         document.getElementById('btn-logout').addEventListener('click', () => {
             if (unsubscribeSnapshot) unsubscribeSnapshot();
             signOut(auth);
         });
 
         // =========================================================================
-        // GESTIÓN DE SESIÓN Y BD (IDENTICO A AXON - SOLUCIONA EL ARCHIVO DUPLICADO)
+        // GESTIÓN DE SESIÓN EXACTA A AXON (COMPARTEN EL MISMO DOC)
         // =========================================================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // UI: Cambio de pantalla
                 loginScreen.classList.add('opacity-0');
                 setTimeout(() => {
                     loginScreen.classList.add('hidden');
@@ -274,49 +318,36 @@ Atentamente,
                     dashboardScreen.classList.add('flex');
                 }, 500);
 
-                // 1. CREACIÓN DEL ID DETERMINÍSTICO (SIN toLowerCase para respetar mayúsculas/minúsculas de Axon)
                 userIdFormat = `cliente-${user.uid.slice(-4)}`;
-                clientIdDisplay.textContent = userIdFormat.toUpperCase(); // Visualmente en mayúsculas, pero el string original se mantiene intacto
+                clientIdDisplay.textContent = userIdFormat.toUpperCase();
 
-                // 2. REFERENCIA ÚNICA EN LA BASE DE DATOS
                 const docRef = doc(db, 'users', userIdFormat);
 
                 try {
                     const docSnap = await getDoc(docRef);
-                    // 3. SOLO SE CREA SI NO EXISTE PREVIAMENTE (Con los campos exactos de Axon)
                     if (!docSnap.exists()) {
                         await setDoc(docRef, { auth_signature: user.uid, user: userIdFormat });
                     }
-                } catch (e) { /* Silenciamos error intencionalmente como en Axon */ }
+                } catch (e) { }
 
-                // 4. ESCUCHA EN TIEMPO REAL (Saldo NYX, evitando pisar a Axon)
                 if (unsubscribeSnapshot) unsubscribeSnapshot();
                 
                 unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
                     let tokens = 0;
-                    
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
                         let hasActivePlan = true;
                         if (data.plan_expires_at) {
                             const now = new Date();
                             const expireDate = data.plan_expires_at.toDate ? data.plan_expires_at.toDate() : new Date(data.plan_expires_at);
-                            if (now > expireDate) {
-                                hasActivePlan = false;
-                            }
+                            if (now > expireDate) hasActivePlan = false;
                         }
-
-                        // Asignamos a NYX. Si no existe, es 0 (no afecta a los tokens_axon del mismo documento)
-                        if (hasActivePlan) {
-                            tokens = data.tokens_nyx || 0;
-                        }
+                        if (hasActivePlan) tokens = data.tokens_nyx || 0;
                     }
                     
                     currentUserData.tokens = tokens;
                     tokenDisplay.textContent = tokens;
                 });
-
             } else {
                 loginScreen.classList.remove('hidden', 'opacity-0');
                 dashboardScreen.classList.add('hidden');
@@ -327,7 +358,7 @@ Atentamente,
         });
 
         // ==============================================
-        // WIZARD, SUCURSALES Y SEGURIDAD ARCHIVO
+        // WIZARD Y SUCURSALES (MASIVA)
         // ==============================================
         const btnStart = document.getElementById('btn-start-wizard');
         const wizardContainer = document.getElementById('wizard-container');
@@ -338,8 +369,7 @@ Atentamente,
         btnStart.addEventListener('click', () => {
             if(currentUserData.tokens < COST_NYX_DISPATCH) {
                 tokenError.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Se requieren ${COST_NYX_DISPATCH} Tokens NYX. Saldo actual: ${currentUserData.tokens}.`;
-                tokenError.classList.remove('hidden');
-                return;
+                tokenError.classList.remove('hidden'); return;
             }
             tokenError.classList.add('hidden');
             wizardContainer.classList.remove('hidden');
@@ -363,19 +393,55 @@ Atentamente,
             });
         });
 
+        // 120+ Sucursales solicitadas
+        const allBranches = [
+            "Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)", "Adidas Argentina", "Nike (Grupo Axo)", "Zara", "Blue Star Group (Isadora/TodoModa)", "Grimoldi", "Cuesta Blanca", "Rapsodia", "CvStudio33"
+        ];
+        
         const branchesList = document.getElementById('branches-list');
-        ["Tech LATAM", "Agencia Global 33", "Nexus Corporativo", "Innovation Labs", "Desarrollo Sur", "Operaciones NYX"].forEach((b, i) => {
-            const div = document.createElement('div'); div.className = "flex items-center gap-3 bg-[#0a0a0a] p-3 rounded border border-nyxBorder";
-            div.innerHTML = `<input type="checkbox" id="b-${i}" value="${b}" class="nyx-checkbox branch-checkbox"><label for="b-${i}" class="text-sm cursor-pointer w-full text-gray-300">${b}</label>`;
-            branchesList.appendChild(div);
+        
+        const renderBranches = (filterText = "") => {
+            branchesList.innerHTML = "";
+            allBranches.filter(b => b.toLowerCase().includes(filterText.toLowerCase())).forEach((b, i) => {
+                const safeName = b.toLowerCase().replace(/[^a-z0-9]/g, ''); // Limpiar para el logo
+                const div = document.createElement('div'); 
+                div.className = "flex items-center gap-3 bg-[#111] p-3 rounded-lg border border-[#333] hover:border-nyxPurple transition duration-300 shadow-sm";
+                // Logo de fallback a logo.png. También añadimos lógica para que el id del input sea único.
+                div.innerHTML = `
+                    <input type="checkbox" id="b-${safeName}-${i}" value="${b}" class="nyx-checkbox branch-checkbox">
+                    <img src="logos/${safeName}.png" onerror="this.src='logo.png'" class="h-6 w-6 object-contain bg-white rounded-sm p-0.5" alt="${b}">
+                    <label for="b-${safeName}-${i}" class="text-xs md:text-sm cursor-pointer w-full text-gray-300 font-medium truncate" title="${b}">${b}</label>
+                `;
+                branchesList.appendChild(div);
+            });
+            // Re-asignar eventos a los nuevos checkboxes
+            document.querySelectorAll('.branch-checkbox').forEach(cb => {
+                cb.addEventListener('change', updateCount);
+            });
+        };
+
+        // Renderizado inicial
+        renderBranches();
+
+        // Lógica de Búsqueda
+        document.getElementById('search-branch').addEventListener('input', (e) => {
+            renderBranches(e.target.value);
         });
         
+        const updateCount = () => {
+            const count = document.querySelectorAll('.branch-checkbox:checked').length;
+            document.getElementById('selected-count').textContent = count;
+            // No cambiamos el check-all automáticamente si hay filtros aplicados, para no confundir
+        };
+
         document.getElementById('check-all').addEventListener('change', (e) => {
             document.querySelectorAll('.branch-checkbox').forEach(cb => cb.checked = e.target.checked);
-            document.getElementById('selected-count').textContent = document.querySelectorAll('.branch-checkbox:checked').length;
+            updateCount();
         });
-        branchesList.addEventListener('change', () => document.getElementById('selected-count').textContent = document.querySelectorAll('.branch-checkbox:checked').length);
 
+        // ==============================================
+        // SEGURIDAD ARCHIVO
+        // ==============================================
         const cvUpload = document.getElementById('cv-upload'), btnFire = document.getElementById('btn-fire');
         cvUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -391,22 +457,25 @@ Atentamente,
             document.getElementById('file-name-display').classList.add('text-nyxPurple');
             
             const reader = new FileReader();
-            reader.onload = (ev) => { selectedFileBase64 = ev.target.result.split(',')[1]; btnFire.disabled = false; btnFire.classList.remove('opacity-50'); };
+            reader.onload = (ev) => { selectedFileBase64 = ev.target.result.split(',')[1]; btnFire.disabled = false; btnFire.classList.remove('opacity-50', 'cursor-not-allowed'); };
             reader.readAsDataURL(file);
         });
 
         // ==============================================
-        // COMUNICACIÓN CON CEREBRO NYX 
+        // COMUNICACIÓN CON CEREBRO NYX (RESEND BATCH)
         // ==============================================
         btnFire.addEventListener('click', async () => {
             if(currentUserData.tokens < COST_NYX_DISPATCH) return;
+
+            const selectedBranches = Array.from(document.querySelectorAll('.branch-checkbox:checked')).map(cb => cb.value);
+            if(selectedBranches.length === 0) return alert("Error: Ningún nodo seleccionado para el Batch.");
 
             const freshToken = await auth.currentUser.getIdToken(true); 
 
             const payload = {
                 userId: userIdFormat,
                 tokenJWT: freshToken,
-                branches: Array.from(document.querySelectorAll('.branch-checkbox:checked')).map(cb => cb.value),
+                branches: selectedBranches,
                 pitch: document.getElementById('pitch-text').value,
                 cv_data: selectedFileBase64
             };
@@ -424,7 +493,7 @@ Atentamente,
 
                 if (backendResponse.ok) {
                     setTimeout(() => {
-                        alert("¡Lixie ha distribuido tu perfil exitosamente!");
+                        alert(`¡Lixie ha distribuido tu perfil a ${selectedBranches.length} corporaciones exitosamente!`);
                         window.location.reload(); 
                     }, 2500);
                 } else {
@@ -439,5 +508,3 @@ Atentamente,
     </script>
 </body>
 </html>
-
-

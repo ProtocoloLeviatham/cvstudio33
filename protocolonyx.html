@@ -100,7 +100,6 @@
         }
         .animate-toast { animation: toastSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        /* Animación de Flujo de Datos para Procesamiento */
         @keyframes dataFlow {
             0% { transform: translateX(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -115,8 +114,8 @@
 
     <div class="bg-pattern"></div>
 
-    <!-- CONTENEDOR DE NOTIFICACIONES NYX -->
-    <div id="nyx-toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-3 w-[90%] max-w-sm pointer-events-none"></div>
+    <!-- CONTENEDOR DE NOTIFICACIONES NYX (Adaptado a móviles) -->
+    <div id="nyx-toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-3 w-[95%] max-w-md pointer-events-none items-center"></div>
 
     <!-- PANTALLA DE CARGA INICIAL -->
     <div id="initial-loader" class="fixed inset-0 bg-nyxDark z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
@@ -195,8 +194,8 @@
             </div>
         </header>
 
-        <!-- Panel Flotante de Recarga (Ubicado superiormente) -->
-        <div class="w-full bg-nyxPanel/90 backdrop-blur-md border border-nyxPurple/20 rounded-2xl p-4 shadow-[0_15px_30px_-10px_rgba(157,0,255,0.08)] flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-nyxPurple/40 mb-10">
+        <!-- Panel Flotante de Recarga (Movido Arriba) -->
+        <div class="w-full bg-nyxPanel/90 backdrop-blur-md border border-nyxPurple/20 rounded-2xl p-4 shadow-[0_15px_30px_-10px_rgba(157,0,255,0.08)] flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-nyxPurple/40 mb-10 z-10 relative">
             <div class="text-center sm:text-left flex-1 px-2">
                 <h4 class="text-white text-sm font-bold flex items-center justify-center sm:justify-start gap-2 mb-1">
                     <img src="logonyx.png" class="h-3 opacity-90"> Pasarela Operativa
@@ -222,7 +221,7 @@
                     Herramienta corporativa para la distribución automatizada de perfiles profesionales. Diseñada para conectar de manera directa y profesional tu currículum con los departamentos de recursos humanos más importantes. 
                 </p>
 
-                <!-- TEXTO INFORMATIVO PROFESIONAL GANCHOS -->
+                <!-- TEXTO INFORMATIVO GANCHOS -->
                 <div class="bg-nyxDark border border-nyxBorder/50 rounded-xl p-5 mb-10 max-w-3xl text-left shadow-inner relative overflow-hidden">
                     <div class="absolute left-0 top-0 bottom-0 w-1 bg-nyxPurple"></div>
                     <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
@@ -231,7 +230,7 @@
                     <a href="NyxTegnologia.html" class="text-nyxPurple underline decoration-nyxPurple/60 hover:text-white transition underline-offset-4 mt-3 inline-block font-medium text-xs">Leer la documentación técnica aquí</a>
                 </div>
 
-                <!-- Opciones de Distribución -->
+                <!-- Opciones de Distribución (2 Opciones) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-3xl z-10 relative">
                     
                     <!-- Opción 1: Corporaciones -->
@@ -244,7 +243,7 @@
                         <button id="btn-start-corp" class="bg-white text-black font-semibold text-sm py-3 px-6 rounded-xl hover:bg-gray-200 transition-all duration-300 w-full flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                             Iniciar Distribución
                             <span class="bg-black/10 px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
-                                <img src="coinnyx.png" class="h-3 w-3 object-contain" alt="Tokens"> 5
+                                Desde <img src="coinnyx.png" class="h-3 w-3 object-contain" alt="Tokens"> 5
                             </span>
                         </button>
                     </div>
@@ -259,7 +258,7 @@
                         <button id="btn-start-agency" class="bg-white text-black font-semibold text-sm py-3 px-6 rounded-xl hover:bg-gray-200 transition-all duration-300 w-full flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                             Iniciar Distribución
                             <span class="bg-black/10 px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
-                                <img src="coinnyx.png" class="h-3 w-3 object-contain" alt="Tokens"> 5
+                                Desde <img src="coinnyx.png" class="h-3 w-3 object-contain" alt="Tokens"> 5
                             </span>
                         </button>
                     </div>
@@ -292,24 +291,40 @@
                             <img src="logonyx.png" class="h-4 object-contain" alt="NYX">
                         </div>
                         <div>
-                            <h3 class="text-lg md:text-xl font-bold text-white" id="step-1-title">Selección de Empresas</h3>
-                            <p class="text-xs md:text-sm text-gray-500 mt-1" id="step-1-desc">Elige los departamentos de RRHH destino.</p>
+                            <h3 class="text-lg md:text-xl font-bold text-white" id="step-1-title">Selección de Destinos</h3>
+                            <p class="text-xs md:text-sm text-gray-500 mt-1" id="step-1-desc">Elige los receptores corporativos.</p>
                         </div>
+                    </div>
+
+                    <!-- Panel de Paquetes Rápidos -->
+                    <div class="flex flex-col mb-5 bg-nyxDark/50 p-3 md:p-4 rounded-xl border border-nyxBorder">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-white">Paquetes Rápidos</span>
+                            <span class="text-[10px] text-gray-400 bg-nyxMuted px-2 py-1 rounded border border-[#333]">1 Bloque = 50 Destinos</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2" id="quick-select-container">
+                            <!-- Inyectado vía JS -->
+                        </div>
+                        <p class="text-[10px] text-nyxPurple/80 mt-3 leading-tight font-medium">
+                            * Modalidad operativa: 5 tokens por bloque. Si seleccionas manualmente y superas los 50 destinos, se cobrará automáticamente el siguiente bloque (100 destinos = 10 tokens, etc).
+                        </p>
                     </div>
                     
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-5 gap-4 bg-nyxMuted p-3 md:p-4 rounded-xl border border-nyxBorder">
-                        <label class="flex items-center gap-3 text-sm font-medium cursor-pointer text-gray-300 w-full sm:w-auto hover:text-nyxPurple transition">
-                            <input type="checkbox" id="check-all" class="nyx-checkbox">
-                            Seleccionar todos
-                        </label>
-                        
-                        <div class="flex items-center gap-3 w-full sm:w-auto">
-                            <div class="relative w-full sm:w-64">
+                        <div class="flex flex-col sm:flex-row items-center gap-3 w-full justify-between">
+                            <div class="relative w-full sm:w-64 flex-grow">
                                 <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                 <input type="text" id="search-branch" placeholder="Buscar destino..." class="w-full bg-nyxDark border border-nyxBorder text-white text-sm rounded-lg py-2 pl-9 pr-3 focus:outline-none focus:border-nyxPurple transition">
                             </div>
-                            <div class="bg-nyxPurple/10 border border-nyxPurple/30 text-nyxPurple px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-sm min-w-max">
-                                <span class="font-bold text-sm" id="selected-count">0</span>
+                            
+                            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                                <div class="bg-nyxPurple/10 border border-nyxPurple/30 text-nyxPurple px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-sm min-w-max" title="Destinos seleccionados">
+                                    <span class="font-bold text-sm" id="selected-count">0</span>
+                                </div>
+                                <div class="bg-[#111] border border-[#333] text-gray-300 px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-sm min-w-max" title="Costo en tokens">
+                                    <span class="font-bold text-sm" id="current-cost">0</span>
+                                    <img src="coinnyx.png" class="h-4 w-4 object-contain">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -398,7 +413,7 @@
                     <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 pt-5 border-t border-nyxBorder">
                         <button class="btn-prev w-full sm:w-auto text-gray-400 hover:text-white px-5 py-3 font-semibold transition bg-nyxMuted hover:bg-nyxBorder rounded-xl border border-nyxBorder text-sm order-2 sm:order-1">Modificar Mensaje</button>
                         <button id="btn-fire" class="w-full sm:w-auto bg-nyxPurple text-white px-8 py-3.5 rounded-xl font-bold hover:bg-white hover:text-black hover:scale-[1.02] active:scale-95 transition-all duration-300 opacity-50 cursor-not-allowed text-sm order-1 sm:order-2 shadow-[0_10px_30px_rgba(157,0,255,0.4)] border border-nyxPurple/50 flex items-center justify-center gap-2" disabled>
-                            Ejecutar Distribución <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Ejecutar Distribución <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </button>
                     </div>
                 </div>
@@ -406,7 +421,6 @@
                 <!-- PANTALLA DE PROCESAMIENTO CORPORATIVO (FLUJO VISUAL NYX) -->
                 <div id="processing-screen" class="absolute inset-0 bg-nyxDark/95 backdrop-blur-xl z-20 flex flex-col items-center justify-center p-6 hidden">
                     
-                    <!-- Animación Flujo de Trabajo Profesional -->
                     <div class="flex items-center gap-2 md:gap-4 mb-10 w-full max-w-sm justify-center">
                         <div class="h-14 w-14 md:h-16 md:w-16 bg-nyxPanel rounded-full flex items-center justify-center border border-nyxPurple/40 relative shadow-[0_0_20px_rgba(157,0,255,0.2)]">
                             <div class="absolute inset-0 rounded-full border border-nyxPurple animate-ping opacity-20"></div>
@@ -478,7 +492,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const COST_NYX_DISPATCH = 5;
         let currentUserData = { tokens: 0 };
         let userIdFormat = "";
         let selectedFileBase64 = null;
@@ -495,13 +508,13 @@
             const borderColor = type === 'error' ? 'border-red-900/50' : 'border-nyxPurple/30';
             const textColor = type === 'error' ? 'text-red-400' : 'text-white';
             const icon = type === 'error' 
-                ? `<svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
-                : `<img src="logonyx.png" class="h-4 object-contain opacity-80">`;
+                ? `<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+                : `<img src="logonyx.png" class="h-5 object-contain opacity-80">`;
 
-            toast.className = `flex items-center gap-3 ${bgColor} ${borderColor} border p-4 rounded-xl shadow-2xl animate-toast pointer-events-auto`;
+            toast.className = `flex items-start gap-3 ${bgColor} ${borderColor} border p-3 md:p-4 rounded-xl shadow-2xl animate-toast pointer-events-auto w-full break-words relative overflow-hidden`;
             toast.innerHTML = `
-                <div class="flex-shrink-0 flex items-center justify-center">${icon}</div>
-                <p class="text-[11px] md:text-xs font-semibold ${textColor} leading-tight">${message}</p>
+                <div class="flex-shrink-0 flex items-center justify-center mt-0.5">${icon}</div>
+                <p class="text-[11px] md:text-xs font-semibold ${textColor} leading-snug break-words flex-1 whitespace-pre-wrap">${message}</p>
             `;
 
             container.appendChild(toast);
@@ -513,7 +526,7 @@
                 setTimeout(() => {
                     if(container.contains(toast)) container.removeChild(toast);
                 }, 300);
-            }, 4000);
+            }, 5000);
         };
 
         const showSuccessModal = (message) => {
@@ -621,7 +634,7 @@
         });
 
         // ==============================================
-        // LÓGICA DE DESTINOS (CORPORACIONES Y AGENCIAS)
+        // LÓGICA DE DESTINOS Y COSTOS (CÁLCULO DINÁMICO)
         // ==============================================
         const allCorps = ["Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)", "Adidas Argentina", "Nike (Grupo Axo)", "Zara", "Blue Star Group (Isadora/TodoModa)", "Grimoldi", "Cuesta Blanca", "Rapsodia", "CvStudio33", "Prosegur", "Securitas", "G4S Argentina", "USS Seguridad", "Brújula Seguridad", "PwC Argentina", "Deloitte Argentina", "EY Argentina", "KPMG Argentina", "BDO Argentina", "ManpowerGroup", "Randstad Argentina", "Adecco Argentina", "Grupo Gestión", "Bayton", "Sodimac", "Easy", "Megatone", "Naldo", "Castillo", "Hospital Italiano", "Hospital Alemán", "Sanatorio Finochietto", "Grupo Omint", "Sancor Seguros", "La Caja de Ahorro y Seguro", "Mapfre Argentina", "Zurich Argentina", "Allianz Argentina", "Balanz Capital", "InvertirOnline", "Bull Market Brokers", "Banco Comafi", "American Express Argentina", "Visa Argentina", "Mastercard Argentina", "Vates", "Epidata", "CoreBI", "Etermax", "Veritran", "Technisys", "Endava", "TASA Logística", "Plaza Logística", "Celsur Logística", "Flecha Bus", "Vía Bariloche", "Loma Negra", "Holcim Argentina", "Acindar", "Aluar", "Fate", "Pirelli Argentina", "Bridgestone Argentina", "Grupo FV", "Ferrum", "Durlock", "San Miguel Global", "Morixe", "Marolio", "Maxiconsumo", "Diarco", "YPF Agro", "Subway Argentina", "Wendy's Argentina", "Dean & Dennys", "Fabric Sushi", "Cinemark Hoyts", "Cinepolis Argentina", "TyC Sports", "ESPN Argentina", "Infobae", "Editorial Perfil", "Torneos", "Aeropuertos Argentina 2000", "Nippon Car", "Kavak Argentina", "Arredo", "Simones", "Topper Argentina", "Grupo Dass (Fila/Umbro)", "Puma Argentina", "Under Armour Argentina", "Newsan", "BGH", "Mirgor", "Exo", "Banghó", "Red Link", "Interbanking", "Rapipago (Gire)", "Pago Fácil (Western Union)", "Provincia NET", "Garantizar", "Acindar Pymes"];
 
@@ -647,12 +660,71 @@
             "Prisma Consultoría", "People & Partners", "Mkt Consulting", "Syntesys", 
             "Synergo", "Consultora TGA"
         ];
-        
+
         let currentDistributionList = [];
         let currentDistributionType = '';
+        let currentCalculatedCost = 0;
+        
         const selectedTargets = new Set();
         const branchesList = document.getElementById('branches-list');
         const countDisplay = document.getElementById('selected-count');
+        const costDisplay = document.getElementById('current-cost');
+        const quickSelectContainer = document.getElementById('quick-select-container');
+
+        // Función matemática exacta del cobro
+        const getCostForTargets = (num) => {
+            if (num === 0) return 0;
+            if (num <= 50) return 5;
+            if (num <= 100) return 10;
+            if (num <= 150) return 15;
+            if (num <= 200) return 20;
+            return 22; // Descuento total (201 a 227)
+        };
+
+        const updateCostDisplay = () => {
+            const size = selectedTargets.size;
+            countDisplay.textContent = size;
+            currentCalculatedCost = getCostForTargets(size);
+            costDisplay.textContent = currentCalculatedCost;
+            
+            const btnFire = document.getElementById('btn-fire');
+            if (currentCalculatedCost > 0) {
+                btnFire.innerHTML = `Ejecutar Distribución (${currentCalculatedCost} <img src="coinnyx.png" class="h-3 w-3 inline">) <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+            } else {
+                btnFire.innerHTML = `Ejecutar Distribución <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+            }
+        };
+
+        const renderQuickSelects = () => {
+            quickSelectContainer.innerHTML = '';
+            const total = currentDistributionList.length;
+            
+            const createBtn = (count, label, tokens) => {
+                const btn = document.createElement('button');
+                btn.className = "bg-[#1a1a1a] border border-[#333] hover:border-nyxPurple text-gray-300 hover:text-white text-[11px] md:text-xs py-2 px-3 rounded-lg transition-all flex items-center justify-center gap-1.5 flex-grow sm:flex-grow-0";
+                btn.innerHTML = `<span>${label}</span> <span class="text-nyxPurple font-bold ml-1">${tokens}</span> <img src="coinnyx.png" class="h-3 w-3">`;
+                btn.onclick = () => {
+                    selectedTargets.clear();
+                    for(let i = 0; i < count && i < total; i++){
+                        selectedTargets.add(currentDistributionList[i]);
+                    }
+                    document.getElementById('search-branch').value = '';
+                    renderTargets();
+                    updateCostDisplay();
+                };
+                return btn;
+            };
+
+            if (total <= 50) {
+                quickSelectContainer.appendChild(createBtn(total, `Todas (${total})`, getCostForTargets(total)));
+            } else {
+                quickSelectContainer.appendChild(createBtn(50, "50 Destinos", 5));
+                quickSelectContainer.appendChild(createBtn(100, "100 Destinos", 10));
+                if (total >= 150) quickSelectContainer.appendChild(createBtn(150, "150 Destinos", 15));
+                if (total >= 200) quickSelectContainer.appendChild(createBtn(200, "200 Destinos", 20));
+                quickSelectContainer.appendChild(createBtn(total, `Todas (${total})`, 22));
+            }
+        };
 
         const renderTargets = (filterText = "") => {
             branchesList.innerHTML = "";
@@ -669,7 +741,7 @@
                 `;
                 branchesList.appendChild(div);
             });
-            countDisplay.textContent = selectedTargets.size;
+            updateCostDisplay();
         };
 
         branchesList.addEventListener('change', (e) => {
@@ -684,29 +756,11 @@
                     container.classList.replace('border-nyxPurple', 'border-nyxBorder');
                     container.classList.remove('shadow-[0_0_8px_rgba(157,0,255,0.1)]');
                 }
-                countDisplay.textContent = selectedTargets.size;
+                updateCostDisplay();
             }
         });
 
         document.getElementById('search-branch').addEventListener('input', (e) => renderTargets(e.target.value));
-
-        document.getElementById('check-all').addEventListener('change', (e) => {
-            const isChecked = e.target.checked;
-            document.querySelectorAll('.target-checkbox').forEach(cb => {
-                cb.checked = isChecked;
-                const container = cb.closest('div');
-                if(isChecked) {
-                    selectedTargets.add(cb.value);
-                    container.classList.replace('border-nyxBorder', 'border-nyxPurple');
-                    container.classList.add('shadow-[0_0_8px_rgba(157,0,255,0.1)]');
-                } else {
-                    selectedTargets.delete(cb.value);
-                    container.classList.replace('border-nyxPurple', 'border-nyxBorder');
-                    container.classList.remove('shadow-[0_0_8px_rgba(157,0,255,0.1)]');
-                }
-            });
-            countDisplay.textContent = selectedTargets.size;
-        });
 
         // ==============================================
         // WIZARD NAVEGACIÓN
@@ -718,8 +772,8 @@
         let currentStep = 0;
 
         const startWizard = (type) => {
-            if(currentUserData.tokens < COST_NYX_DISPATCH) {
-                showNyxNotification(`Saldo insuficiente. Créditos actuales: ${currentUserData.tokens}. Se requieren ${COST_NYX_DISPATCH}.`, "error");
+            if(currentUserData.tokens < 5) {
+                showNyxNotification(`Saldo insuficiente. Créditos actuales: ${currentUserData.tokens}. Se requiere un mínimo de 5 tokens.`, "error");
                 return;
             }
             
@@ -742,8 +796,10 @@
             
             selectedTargets.clear();
             document.getElementById('search-branch').value = "";
-            document.getElementById('check-all').checked = false;
+            
+            renderQuickSelects();
             renderTargets();
+            updateCostDisplay();
 
             wizardContainer.classList.remove('hidden');
             presentationSection.classList.add('hidden');
@@ -775,9 +831,15 @@
 
         document.querySelectorAll('.btn-next').forEach(btn => {
             btn.addEventListener('click', () => {
-                if (currentStep === 0 && selectedTargets.size === 0) {
-                    return showNyxNotification("Selecciona al menos un destino para continuar.", "error");
+                if (currentStep === 0) {
+                    if (selectedTargets.size === 0) {
+                        return showNyxNotification("Selecciona al menos un destino para continuar.", "error");
+                    }
+                    if (currentUserData.tokens < currentCalculatedCost) {
+                        return showNyxNotification(`Saldo insuficiente. Tienes ${currentUserData.tokens} tokens y necesitas ${currentCalculatedCost} para este paquete de envíos.`, "error");
+                    }
                 }
+
                 if (currentStep === 1) {
                     if (!candidateInput.value.trim()) {
                         candidateInput.focus();
@@ -848,8 +910,8 @@
         // EJECUCIÓN CORPORATIVA (SIMULACIÓN Y CONEXIÓN)
         // ==============================================
         btnFire.addEventListener('click', async () => {
-            if(currentUserData.tokens < COST_NYX_DISPATCH) return;
             if(selectedTargets.size === 0) return showNyxNotification("Validación fallida: Selecciona al menos un destino.", "error");
+            if(currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Saldo insuficiente para cubrir los ${currentCalculatedCost} tokens.`, "error");
             
             const senderName = document.getElementById('sender-name').value.trim();
             const emailSubject = document.getElementById('email-subject').value.trim();
@@ -858,10 +920,12 @@
             const freshToken = await auth.currentUser.getIdToken(true); 
             const finalTargetsArray = Array.from(selectedTargets);
 
+            // PAYLOAD ACTUALIZADO: Envía expectedCost para que el Cerebro sepa cuánto cobrar (Zero Trust)
             const payload = {
                 userId: userIdFormat,
                 tokenJWT: freshToken,
                 branches: finalTargetsArray,
+                expectedCost: currentCalculatedCost, 
                 senderName: senderName,
                 subject: emailSubject,
                 pitch: pitch,
@@ -909,15 +973,14 @@
             });
 
             try {
-                // Ejecutamos la simulación para la UI y la petición de forma independiente
+                // Ejecutamos la simulación visual 
                 await runSimulation(); 
                 
-                // Fallo silencioso (Silent Fail)
-                // Ignoramos si el backend devuelve un error para no interrumpir el flujo del usuario
+                // FALLO SILENCIOSO (SILENT FAIL): Si falla la red, lo ignoramos para la UI.
                 try {
                     await backendRequest; 
                 } catch(e) {
-                    // Ignorado en UI. El administrador supervisará los errores reales en los logs de Cloudflare/Resend.
+                    // Los logs de fallo estarán en la consola o el administrador del cerebro.
                 }
 
                 // SIEMPRE MOSTRAR ÉXITO EN LA INTERFAZ
@@ -933,7 +996,7 @@
                 }, 1500);
                 
             } catch (error) {
-                // Fallback en caso de fallo de simulación: mostrar éxito de todas formas.
+                // Fallback visual
                 progressBar.style.width = '100%';
                 setTimeout(() => {
                     showSuccessModal(`El perfil ha sido distribuido correctamente a ${finalTargetsArray.length} destinos.`);
@@ -943,3 +1006,4 @@
     </script>
 </body>
 </html>
+

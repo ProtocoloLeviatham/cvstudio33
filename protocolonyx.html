@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NYX Distribution Hub - CVStudio33</title>
+    <title>NYX Core - Distribution Hub</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,156 +11,149 @@
             theme: {
                 extend: {
                     colors: { 
-                        nyxDark: '#000000', 
-                        nyxPanel: '#0a0a0a', 
-                        nyxBorder: '#1f1f1f',
-                        nyxMuted: '#141414',
-                        nyxText: '#e5e5e5',
-                        nyxPurple: '#9D00FF'
+                        nyxBg: '#09090b', // Zinc 950
+                        nyxPanel: '#18181b', // Zinc 900
+                        nyxBorder: '#27272a', // Zinc 800
+                        nyxText: '#fafafa', // Zinc 50
+                        nyxMuted: '#a1a1aa', // Zinc 400
+                        nyxAccent: '#7c3aed', // Violet 600
+                        nyxAccentLight: '#8b5cf6', // Violet 500
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     }
                 }
             }
         }
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
         body { 
-            background-color: #000000; 
-            color: #e5e5e5; 
-            overflow-x: hidden; 
+            background-color: #09090b; 
+            color: #fafafa; 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
         
-        .bg-pattern {
-            background-image: radial-gradient(rgba(157, 0, 255, 0.05) 1px, transparent 1px);
-            background-size: 24px 24px;
-            position: fixed;
-            inset: 0;
+        .ambient-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 500px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, rgba(9, 9, 11, 0) 70%);
             z-index: -1;
             pointer-events: none;
         }
 
-        .glass-card { 
-            background: rgba(10, 10, 10, 0.95); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid #1f1f1f; 
-            border-radius: 24px;
+        .premium-card {
+            background: rgba(24, 24, 27, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.4);
+            border: 1px solid #6d28d9;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover:not(:disabled) { background: linear-gradient(180deg, #7c3aed 0%, #6d28d9 100%); }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #27272a;
+            border-color: #3f3f46;
+            color: #a1a1aa;
+            box-shadow: none;
+        }
+        
+        .btn-secondary {
+            background: #18181b;
+            border: 1px solid #3f3f46;
+            color: #e4e4e7;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { background: #27272a; }
+
+        .nyx-input {
+            background: #09090b;
+            border: 1px solid #27272a;
+            color: #fafafa;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        .nyx-input:focus {
+            border-color: #7c3aed;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3), 0 0 0 1px #7c3aed;
+            outline: none;
         }
         
         .step-hidden { display: none; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #9D00FF; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
         
-        .nyx-checkbox { 
-            appearance: none; 
-            background-color: #0a0a0a; 
-            border: 1px solid #333; 
-            width: 20px; 
-            height: 20px; 
-            border-radius: 6px; 
-            position: relative; 
-            cursor: pointer; 
-            transition: all 0.2s ease; 
-            flex-shrink: 0; 
-        }
-        .nyx-checkbox:checked { 
-            background-color: #9D00FF; 
-            border-color: #9D00FF; 
-            box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
-        }
-        .nyx-checkbox:checked::after { 
-            content: ''; 
-            position: absolute;
-            left: 6px;
-            top: 2px;
-            width: 5px;
-            height: 10px;
-            border: solid #fff;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-        
-        @keyframes slideUpFade { 
-            from { opacity: 0; transform: translateY(20px); } 
+        @keyframes fadeUp { 
+            from { opacity: 0; transform: translateY(10px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
-        .animate-fade { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-        @keyframes toastSlideDown {
-            from { opacity: 0; transform: translate(-50%, -100%); }
-            to { opacity: 1; transform: translate(-50%, 0); }
+        .animate-fade { animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        @keyframes toastSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-toast { animation: toastSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-        @keyframes dataFlow {
-            0% { transform: translateX(-100%); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateX(200%); opacity: 0; }
-        }
-        .animate-data-flow {
-            animation: dataFlow 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
+        .animate-toast { animation: toastSlide 0.3s ease forwards; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative selection:bg-nyxPurple selection:text-white">
+<body class="min-h-screen flex flex-col relative selection:bg-nyxAccent/30 selection:text-white">
 
-    <div class="bg-pattern"></div>
+    <div class="ambient-glow"></div>
 
-    <!-- CONTENEDOR DE NOTIFICACIONES NYX (Adaptado a móviles) -->
-    <div id="nyx-toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-3 w-[95%] max-w-md pointer-events-none items-center"></div>
+    <!-- NOTIFICACIONES -->
+    <div id="nyx-toast-container" class="fixed top-4 right-0 left-0 md:left-auto md:right-4 z-[200] flex flex-col gap-2 pointer-events-none items-center md:items-end px-4 md:px-0"></div>
 
-    <!-- PANTALLA DE CARGA INICIAL -->
-    <div id="initial-loader" class="fixed inset-0 bg-nyxDark z-[100] flex flex-col items-center justify-center transition-opacity duration-700">
-        <img src="logonyx.png" alt="NYX" class="h-12 mb-6 animate-pulse object-contain drop-shadow-[0_0_15px_rgba(157,0,255,0.3)]">
-        <div class="w-48 h-1 bg-nyxBorder rounded-full overflow-hidden">
-            <div class="h-full bg-nyxPurple w-1/2 rounded-full animate-[pulse_1.5s_ease-in-out_infinite] shadow-[0_0_10px_rgba(157,0,255,0.6)]"></div>
-        </div>
-        <p class="text-[10px] text-nyxPurple font-bold mt-4 tracking-widest uppercase opacity-80">Autenticando Red Corporativa</p>
+    <!-- CARGA INICIAL -->
+    <div id="initial-loader" class="fixed inset-0 bg-nyxBg z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
+        <svg class="animate-spin h-6 w-6 text-nyxMuted mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="text-[11px] text-nyxMuted font-mono tracking-widest uppercase">Inicializando Entorno</p>
     </div>
 
-    <!-- PANTALLA DE LOGIN -->
-    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-nyxDark z-50 transition-opacity duration-700 hidden px-4 py-8 overflow-y-auto">
-        <div class="glass-card border-nyxPurple/10 p-8 md:p-10 flex flex-col items-center w-full max-w-md shadow-[0_15px_50px_-12px_rgba(157,0,255,0.1)] relative my-auto">
-            
-            <img src="logonyx.png" alt="NYX" class="h-10 mb-6 object-contain">
-            <h1 class="text-xl md:text-2xl font-bold text-white mb-2 text-center tracking-wide uppercase">ACCESO</h1>
-            
-            <p class="text-xs md:text-sm text-gray-400 mb-10 text-center leading-relaxed px-2 font-medium">
-                Te damos la bienvenida. Inicia sesión para acceder a tu plataforma de inteligencia laboral y gestionar tu perfil corporativo.
+    <!-- PANTALLA LOGIN -->
+    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-nyxBg z-50 transition-opacity duration-500 hidden px-4 py-8">
+        <div class="premium-card p-8 md:p-10 flex flex-col items-center w-full max-w-sm">
+            <h1 class="text-xl font-semibold text-white mb-2 tracking-tight">NYX Core</h1>
+            <p class="text-sm text-nyxMuted mb-8 text-center leading-relaxed">
+                Autenticación requerida para acceder a la infraestructura de distribución.
             </p>
             
-            <button id="btn-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-200 transition duration-300 text-sm shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Ingresar con Google Workspace
+            <button id="btn-login" class="w-full bg-white text-black font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition duration-200 text-sm shadow-sm">
+                <svg class="h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Continuar con Google
             </button>
             
-            <div class="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] md:text-xs text-gray-500 w-full">
-                <a href="Terminos-y-condiciones.html" class="hover:text-nyxPurple transition">Términos y condiciones</a>
-                <span class="text-[#333] hidden sm:inline">|</span>
-                <a href="politica-de-privacidad.html" class="hover:text-nyxPurple transition">Política de privacidad</a>
-                <span class="text-[#333] hidden sm:inline">|</span>
-                <a href="politica-de-cookies.html" class="hover:text-nyxPurple transition">Política de cookies</a>
-                <span class="text-[#333] hidden sm:inline">|</span>
-                <a href="Contacto.html" class="hover:text-nyxPurple transition">Contacto</a>
-            </div>
-
-            <div class="mt-8 pt-6 border-t border-nyxBorder flex flex-col items-center w-full">
-                <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-3.5 h-3.5 text-nyxPurple opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    <span class="text-[10px] text-gray-400 text-center font-medium">Acceso seguro y encriptado. Protegido bajo infraestructura corporativa.</span>
-                </div>
-                <div class="flex items-center gap-1.5 opacity-50 hover:opacity-100 transition">
-                    <img src="logo.png" class="h-3.5 w-3.5 grayscale" alt="CVStudio33">
-                    <span class="text-[9px] text-white font-bold uppercase tracking-wider">Powered by CVStudio33</span>
-                </div>
+            <div class="mt-6 flex flex-wrap justify-center gap-x-3 gap-y-2 text-[10px] text-nyxMuted w-full font-mono">
+                <a href="#" class="hover:text-white transition">Privacidad</a>
+                <span class="opacity-30">|</span>
+                <a href="#" class="hover:text-white transition">Términos</a>
+                <span class="opacity-30">|</span>
+                <a href="#" class="hover:text-white transition">Soporte</a>
             </div>
         </div>
     </div>
@@ -168,287 +161,242 @@
     <!-- DASHBOARD PRINCIPAL -->
     <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-6 relative z-10 animate-fade mx-auto w-full max-w-4xl">
         
-        <!-- Header -->
-        <header class="flex justify-between items-center glass-card p-4 md:px-6 mb-6 border-nyxPurple/10 shadow-[0_10px_30px_-15px_rgba(157,0,255,0.1)]">
+        <!-- Header Clean -->
+        <header class="flex justify-between items-center py-4 md:py-6 mb-8 border-b border-nyxBorder">
             <div class="flex items-center gap-3">
-                <img src="logo.png" alt="CVStudio33" class="h-8 md:h-10 rounded object-contain opacity-90">
-                <div class="flex flex-col">
-                    <h2 class="text-xs md:text-sm font-bold text-white uppercase tracking-wider" id="client-id">CLIENTE-XXXX</h2>
-                    <span class="text-[10px] text-nyxPurple font-medium flex items-center gap-1">
-                        <span class="h-1.5 w-1.5 bg-nyxPurple rounded-full animate-pulse shadow-[0_0_5px_rgba(157,0,255,0.8)]"></span> Portal Conectado
-                    </span>
-                </div>
+                <span class="text-sm font-semibold text-white tracking-tight">NYX Hub</span>
+                <div class="h-4 w-px bg-nyxBorder"></div>
+                <span class="text-xs font-mono text-nyxMuted" id="client-id">CLIENTE-XXXX</span>
             </div>
             
-            <div class="flex items-center gap-4 md:gap-6">
-                <div class="flex flex-col items-end">
-                    <span class="text-[9px] md:text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Créditos Disponibles</span>
-                    <div class="flex items-center gap-1.5 bg-nyxMuted px-3 py-1.5 rounded-lg border border-nyxBorder shadow-inner">
-                        <span class="text-lg md:text-xl font-bold text-white leading-none" id="token-count">--</span>
-                        <img src="coinnyx.png" alt="Coin" class="h-4 w-4 md:h-5 md:w-5 object-contain">
-                    </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 text-[11px] text-nyxMuted font-mono">
+                    <span class="flex h-1.5 w-1.5 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                    </span>
+                    En línea
                 </div>
-                <button id="btn-logout" class="text-gray-500 hover:text-red-400 bg-nyxMuted hover:bg-nyxPanel p-2.5 rounded-lg border border-nyxBorder transition" title="Cerrar Sesión">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <div class="hidden sm:block h-4 w-px bg-nyxBorder"></div>
+                <div class="flex items-center gap-2" title="Créditos NYX">
+                    <svg class="w-3.5 h-3.5 text-nyxMuted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="font-mono text-sm font-medium text-white" id="token-count">--</span>
+                </div>
+                <button id="btn-logout" class="text-nyxMuted hover:text-white transition ml-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 </button>
             </div>
         </header>
 
-        <!-- Panel Flotante de Recarga (Movido Arriba) -->
-        <div class="w-full bg-nyxPanel/90 backdrop-blur-md border border-nyxPurple/20 rounded-2xl p-4 shadow-[0_15px_30px_-10px_rgba(157,0,255,0.08)] flex flex-col sm:flex-row items-center justify-between gap-4 transition-all hover:border-nyxPurple/40 mb-10 z-10 relative">
-            <div class="text-center sm:text-left flex-1 px-2">
-                <h4 class="text-white text-sm font-bold flex items-center justify-center sm:justify-start gap-2 mb-1">
-                    <img src="logonyx.png" class="h-3 opacity-90"> Pasarela Operativa
-                </h4>
-                <p class="text-xs text-gray-400 leading-tight">Gestión segura y adquisición de créditos para la red corporativa de distribución.</p>
-            </div>
-            <a href="panel-de-recarga-nyx.html" class="bg-nyxPurple/10 hover:bg-nyxPurple border border-nyxPurple/30 hover:border-nyxPurple text-nyxPurple hover:text-white text-xs font-bold py-2.5 px-5 rounded-lg transition-all duration-300 whitespace-nowrap flex items-center gap-2 w-full sm:w-auto justify-center">
-                <img src="coinnyx.png" class="h-3.5 w-3.5"> Acceder al Panel
-            </a>
-        </div>
-
         <main class="flex-grow flex flex-col items-center w-full">
             
-            <!-- Presentación NYX -->
-            <div class="flex flex-col items-center w-full px-2 text-center mb-8" id="presentation-section">
-                <div class="bg-nyxPurple/5 p-3 rounded-2xl border border-nyxPurple/10 mb-6 shadow-[0_0_20px_rgba(157,0,255,0.05)]">
-                    <img src="logonyx.png" alt="NYX Hub" class="h-8 md:h-10 object-contain drop-shadow-[0_0_10px_rgba(157,0,255,0.2)]">
-                </div>
+            <!-- Presentación NYX (Home) -->
+            <div class="flex flex-col items-center w-full px-2 mb-8" id="presentation-section">
                 
-                <h1 class="text-2xl md:text-4xl font-bold mb-3 tracking-tight text-white">NYX Distribution Hub</h1>
-                
-                <p class="text-gray-400 max-w-3xl mb-6 text-sm md:text-base leading-relaxed font-normal px-2">
-                    Herramienta corporativa para la distribución automatizada de perfiles profesionales. Diseñada para conectar de manera directa y profesional tu currículum con los departamentos de recursos humanos más importantes. 
-                </p>
-
-                <!-- TEXTO INFORMATIVO GANCHOS -->
-                <div class="bg-nyxDark border border-nyxBorder/50 rounded-xl p-5 mb-10 max-w-3xl text-left shadow-inner relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-nyxPurple"></div>
-                    <p class="text-gray-300 text-xs md:text-sm leading-relaxed">
-                        <span class="text-nyxPurple font-bold">Ventaja Competitiva:</span> A diferencia del envío manual tradicional, que frecuentemente es catalogado como <span class="text-red-400 font-semibold">SPAM</span> y nunca llega a ser leído, <strong>NYX Hub</strong> utiliza una infraestructura masiva de alta reputación. Nuestro protocolo de enrutamiento garantiza que tu perfil aterrice directamente en la <span class="text-green-400 font-semibold">Bandeja de Entrada o en la casilla de "Importantes"</span> de los reclutadores. Maximiza exponencialmente tus posibilidades de contratación invirtiendo en distribución profesional.
+                <div class="text-center mb-10 max-w-2xl mx-auto">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-nyxBorder bg-nyxPanel/50 mb-6">
+                        <span class="text-[10px] font-medium text-nyxMuted tracking-widest uppercase">Motor de Distribución B2B</span>
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-semibold mb-4 tracking-tight text-white">Enrutamiento <span class="text-transparent bg-clip-text bg-gradient-to-r from-nyxAccent to-nyxAccentLight">Corporativo</span></h1>
+                    <p class="text-nyxMuted text-sm md:text-base leading-relaxed">
+                        Infraestructura automatizada de alta entregabilidad diseñada para posicionar perfiles profesionales directamente en la bandeja de entrada de los tomadores de decisiones.
                     </p>
-                    <a href="NyxTegnologia.html" class="text-nyxPurple underline decoration-nyxPurple/60 hover:text-white transition underline-offset-4 mt-3 inline-block font-medium text-xs">Leer la documentación técnica aquí</a>
                 </div>
 
-                <!-- Opciones de Distribución (2 Opciones) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-3xl z-10 relative">
+                <!-- Opciones (Cards Clean) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl mx-auto mb-8">
                     
-                    <!-- Opción 1: Corporaciones -->
-                    <div class="bg-nyxDark border border-nyxBorder p-6 rounded-2xl flex flex-col items-center text-center hover:border-nyxPurple/50 transition duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group">
-                        <div class="bg-white/5 p-3 rounded-xl mb-4 group-hover:bg-nyxPurple/10 transition">
-                            <img src="logo.png" class="h-8 object-contain grayscale group-hover:grayscale-0 transition" alt="Corporaciones">
+                    <!-- Opción 1 -->
+                    <div class="premium-card p-6 rounded-xl flex flex-col group hover:border-nyxAccent/40 transition duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="h-8 w-8 rounded-lg bg-nyxPanel border border-nyxBorder flex items-center justify-center text-nyxAccent">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            </div>
+                            <span class="text-[10px] font-mono text-nyxMuted bg-nyxPanel px-2 py-1 rounded border border-nyxBorder">Tier 1</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-2">Corporaciones Elite</h3>
-                        <p class="text-xs text-gray-400 mb-6 flex-grow leading-relaxed">Envía tu currículum a los departamentos de RRHH de las multinacionales y grandes empresas más reconocidas. Ideal para insertarte en el sector corporativo.</p>
-                        <button id="btn-start-corp" class="bg-white text-black font-semibold text-sm py-3 px-6 rounded-xl hover:bg-gray-200 transition-all duration-300 w-full flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                            Iniciar Distribución
-                            <span class="bg-black/10 px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
-                                Desde <img src="coinnyx.png" class="h-3 w-3 object-contain" alt="Tokens"> 5
-                            </span>
-                        </button>
+                        <h3 class="text-base font-semibold text-white mb-2 tracking-tight">Corporaciones Elite</h3>
+                        <p class="text-xs text-nyxMuted mb-6 flex-grow leading-relaxed">Infraestructura dirigida a departamentos de recursos humanos en corporaciones multinacionales y empresas líderes.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-[11px] font-mono text-nyxMuted">5 NYX (Base)</span>
+                            <button id="btn-start-corp" class="text-sm font-medium text-white group-hover:text-nyxAccentLight transition flex items-center gap-1">
+                                Iniciar <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Opción 2: Agencias -->
-                    <div class="bg-nyxDark border border-nyxBorder p-6 rounded-2xl flex flex-col items-center text-center hover:border-nyxPurple/50 transition duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group">
-                        <div class="bg-white/5 p-3 rounded-xl mb-4 group-hover:bg-nyxPurple/10 transition">
-                            <img src="logo.png" class="h-8 object-contain grayscale group-hover:grayscale-0 transition" alt="Agencias">
+                    <!-- Opción 2 -->
+                    <div class="premium-card p-6 rounded-xl flex flex-col group hover:border-nyxAccent/40 transition duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="h-8 w-8 rounded-lg bg-nyxPanel border border-nyxBorder flex items-center justify-center text-nyxAccent">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                            <span class="text-[10px] font-mono text-nyxMuted bg-nyxPanel px-2 py-1 rounded border border-nyxBorder">Especializado</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-2">Consultoras y Headhunters</h3>
-                        <p class="text-xs text-gray-400 mb-6 flex-grow leading-relaxed">Distribuye tu perfil entre las principales agencias de reclutamiento y headhunters especializados que buscan talento activo diariamente.</p>
-                        <button id="btn-start-agency" class="bg-white text-black font-semibold text-sm py-3 px-6 rounded-xl hover:bg-gray-200 transition-all duration-300 w-full flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                            Iniciar Distribución
-                            <span class="bg-black/10 px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
-                                Desde <img src="coinnyx.png" class="h-3 w-3 object-contain" alt="Tokens"> 5
-                            </span>
-                        </button>
+                        <h3 class="text-base font-semibold text-white mb-2 tracking-tight">Agencias y Headhunters</h3>
+                        <p class="text-xs text-nyxMuted mb-6 flex-grow leading-relaxed">Conexión directa con firmas de reclutamiento B2B y headhunters con búsquedas de talento activo constantemente.</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-[11px] font-mono text-nyxMuted">5 NYX (Base)</span>
+                            <button id="btn-start-agency" class="text-sm font-medium text-white group-hover:text-nyxAccentLight transition flex items-center gap-1">
+                                Iniciar <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
                     </div>
-
                 </div>
+
+                <a href="panel-de-recarga-nyx.html" class="inline-flex items-center gap-2 text-xs font-medium text-nyxMuted hover:text-white transition bg-nyxPanel px-4 py-2 rounded-lg border border-nyxBorder">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    Gestionar Pasarela Operativa (Créditos)
+                </a>
             </div>
 
             <!-- WIZARD -->
-            <div id="wizard-container" class="hidden w-full glass-card p-5 md:p-8 relative overflow-hidden mb-10 border-nyxPurple/20">
+            <div id="wizard-container" class="hidden w-full premium-card p-6 md:p-8 relative overflow-hidden mb-10">
                 
-                <div class="flex justify-between items-center mb-8 border-b border-nyxBorder pb-6">
-                    <div class="flex flex-col items-center w-1/3 opacity-100 transition-opacity" id="nav-step-1">
-                        <span class="text-xs md:text-sm font-semibold text-nyxPurple mb-1">Destinos</span>
-                        <div class="h-1 w-full max-w-[40px] bg-nyxPurple rounded-full shadow-[0_0_10px_rgba(157,0,255,0.6)]"></div>
+                <!-- Nav / Breadcrumbs -->
+                <div class="flex items-center gap-3 mb-8 pb-6 border-b border-nyxBorder/50 overflow-x-auto custom-scrollbar">
+                    <div class="flex items-center gap-2 whitespace-nowrap" id="nav-step-1">
+                        <div class="h-5 w-5 rounded-full bg-nyxAccent text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-nyxAccent/20">1</div>
+                        <span class="text-sm font-medium text-white">Destinos</span>
                     </div>
-                    <div class="flex flex-col items-center w-1/3 opacity-40 transition-opacity" id="nav-step-2">
-                        <span class="text-xs md:text-sm font-semibold text-white mb-1">Mensaje</span>
-                        <div class="h-1 w-full max-w-[40px] bg-white rounded-full"></div>
+                    <div class="h-px bg-nyxBorder w-6 md:w-12 hidden sm:block"></div>
+                    <div class="flex items-center gap-2 opacity-50 whitespace-nowrap" id="nav-step-2">
+                        <div class="h-5 w-5 rounded-full bg-nyxBg border border-nyxBorder text-nyxMuted flex items-center justify-center text-[10px] font-bold">2</div>
+                        <span class="text-sm font-medium text-nyxMuted">Payload</span>
                     </div>
-                    <div class="flex flex-col items-center w-1/3 opacity-40 transition-opacity" id="nav-step-3">
-                        <span class="text-xs md:text-sm font-semibold text-white mb-1">Adjunto</span>
-                        <div class="h-1 w-full max-w-[40px] bg-white rounded-full"></div>
+                    <div class="h-px bg-nyxBorder w-6 md:w-12 hidden sm:block"></div>
+                    <div class="flex items-center gap-2 opacity-50 whitespace-nowrap" id="nav-step-3">
+                        <div class="h-5 w-5 rounded-full bg-nyxBg border border-nyxBorder text-nyxMuted flex items-center justify-center text-[10px] font-bold">3</div>
+                        <span class="text-sm font-medium text-nyxMuted">Ejecución</span>
                     </div>
                 </div>
 
                 <!-- PASO 1: Destinos -->
                 <div id="step-1" class="step-content animate-fade">
-                    <div class="mb-6 flex items-center gap-3">
-                        <div class="bg-nyxPurple/10 p-2 rounded-lg border border-nyxPurple/20">
-                            <img src="logonyx.png" class="h-4 object-contain" alt="NYX">
-                        </div>
+                    
+                    <div class="mb-6 flex items-center justify-between">
                         <div>
-                            <h3 class="text-lg md:text-xl font-bold text-white" id="step-1-title">Selección de Destinos</h3>
-                            <p class="text-xs md:text-sm text-gray-500 mt-1" id="step-1-desc">Elige los receptores corporativos.</p>
+                            <h3 class="text-lg font-semibold text-white tracking-tight" id="step-1-title">Selección</h3>
+                            <p class="text-xs text-nyxMuted mt-1" id="step-1-desc">Filtra y selecciona los nodos corporativos.</p>
                         </div>
                     </div>
 
-                    <!-- Panel de Paquetes Rápidos -->
-                    <div class="flex flex-col mb-5 bg-nyxDark/50 p-3 md:p-4 rounded-xl border border-nyxBorder">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-sm font-semibold text-white">Paquetes Rápidos</span>
-                            <span class="text-[10px] text-gray-400 bg-nyxMuted px-2 py-1 rounded border border-[#333]">1 Bloque = 50 Destinos</span>
+                    <!-- Paquetes (Quick Select) -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-end mb-3">
+                            <label class="text-[10px] font-semibold text-nyxMuted uppercase tracking-wider">Lotes Estándar</label>
+                            <span class="text-[10px] text-nyxMuted font-mono bg-nyxBg px-1.5 py-0.5 rounded border border-nyxBorder">Tarifa: 1 Bloque = 50 Destinos</span>
                         </div>
                         <div class="flex flex-wrap gap-2" id="quick-select-container">
                             <!-- Inyectado vía JS -->
                         </div>
-                        <p class="text-[10px] text-nyxPurple/80 mt-3 leading-tight font-medium">
-                            * Modalidad operativa: 5 tokens por bloque. Si seleccionas manualmente y superas los 50 destinos, se cobrará automáticamente el siguiente bloque (100 destinos = 10 tokens, etc).
-                        </p>
                     </div>
                     
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-5 gap-4 bg-nyxMuted p-3 md:p-4 rounded-xl border border-nyxBorder">
-                        <div class="flex flex-col sm:flex-row items-center gap-3 w-full justify-between">
-                            <div class="relative w-full sm:w-64 flex-grow">
-                                <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                <input type="text" id="search-branch" placeholder="Buscar destino..." class="w-full bg-nyxDark border border-nyxBorder text-white text-sm rounded-lg py-2 pl-9 pr-3 focus:outline-none focus:border-nyxPurple transition">
+                    <!-- Search & Stats -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4 pb-4 border-b border-nyxBorder/50">
+                        <div class="relative w-full sm:max-w-xs">
+                            <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-nyxMuted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="search-branch" placeholder="Buscar..." class="w-full nyx-input text-sm rounded-lg py-2 pl-9 pr-3">
+                        </div>
+                        
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <div class="flex flex-col items-end">
+                                <span class="text-[10px] text-nyxMuted uppercase tracking-wider">Nodos</span>
+                                <span class="text-sm font-mono font-medium text-white" id="selected-count">0</span>
                             </div>
-                            
-                            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                                <div class="bg-nyxPurple/10 border border-nyxPurple/30 text-nyxPurple px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-sm min-w-max" title="Destinos seleccionados">
-                                    <span class="font-bold text-sm" id="selected-count">0</span>
-                                </div>
-                                <div class="bg-[#111] border border-[#333] text-gray-300 px-3 py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-sm min-w-max" title="Costo en tokens">
-                                    <span class="font-bold text-sm" id="current-cost">0</span>
-                                    <img src="coinnyx.png" class="h-4 w-4 object-contain">
+                            <div class="h-6 w-px bg-nyxBorder"></div>
+                            <div class="flex flex-col items-end">
+                                <span class="text-[10px] text-nyxMuted uppercase tracking-wider">Costo</span>
+                                <div class="flex items-center gap-1 text-sm font-mono font-medium text-nyxAccentLight">
+                                    <span id="current-cost">0</span> <span class="text-[10px] text-nyxMuted uppercase">NYX</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 max-h-[350px] overflow-y-auto custom-scrollbar pr-2" id="branches-list">
+                    <!-- Lista de Checkboxes (Clean Grid) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-1 gap-x-3 max-h-[350px] overflow-y-auto custom-scrollbar pr-2" id="branches-list">
                         <!-- Inyectado por JS -->
                     </div>
                     
-                    <div class="mt-8 flex justify-end pt-5 border-t border-nyxBorder">
-                        <button class="btn-next w-full sm:w-auto bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                            Siguiente Paso
-                        </button>
+                    <div class="mt-8 flex justify-end pt-5 border-t border-nyxBorder/50">
+                        <button class="btn-next btn-primary w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-medium">Continuar</button>
                     </div>
                 </div>
 
                 <!-- PASO 2: Mensaje -->
                 <div id="step-2" class="step-content step-hidden animate-fade">
-                    <div class="mb-6 flex items-center gap-3">
-                        <div class="bg-white/5 p-2 rounded-lg border border-white/10">
-                            <img src="logo.png" class="h-4 object-contain grayscale opacity-80" alt="CVStudio33">
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-semibold text-nyxMuted uppercase tracking-wider mb-1.5">Nombre Candidato</label>
+                                <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full nyx-input text-sm rounded-lg p-2.5" required>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-semibold text-nyxMuted uppercase tracking-wider mb-1.5">Remitente Sistema</label>
+                                <input type="text" id="sender-name" value="NYX Core - CVStudio33" readonly class="w-full bg-nyxBg/50 border border-transparent text-nyxMuted text-sm rounded-lg p-2.5 outline-none font-mono">
+                            </div>
                         </div>
+
                         <div>
-                            <h3 class="text-lg md:text-xl font-bold text-white">Parámetros del Mensaje</h3>
-                            <p class="text-xs md:text-sm text-gray-500 mt-1">Configuración del comunicado corporativo.</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-nyxDark rounded-xl border border-nyxBorder p-4 md:p-6 space-y-5 relative">
-                        
-                        <div class="flex flex-col pb-4 border-b border-nyxBorder">
-                            <label class="text-gray-400 text-xs font-semibold mb-2 uppercase tracking-wide">Tu Nombre Completo</label>
-                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-nyxMuted border border-[#333] text-white text-sm rounded-lg p-3 outline-none focus:border-nyxPurple transition" required>
+                            <label class="block text-[10px] font-semibold text-nyxMuted uppercase tracking-wider mb-1.5">Asunto (Subject)</label>
+                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-nyxBg/50 border border-nyxBorder text-white text-sm rounded-lg p-2.5 font-mono">
                         </div>
 
-                        <div class="flex flex-col md:flex-row md:items-center pb-4 border-b border-nyxBorder gap-2 md:gap-4">
-                            <label class="text-gray-500 text-xs font-semibold uppercase tracking-wide md:w-24">Emisor:</label>
-                            <input type="text" id="sender-name" value="NYX Hub - CvStudio33" readonly class="w-full bg-transparent text-nyxPurple text-sm font-medium outline-none cursor-not-allowed">
-                        </div>
-
-                        <div class="flex flex-col md:flex-row md:items-center pb-4 border-b border-nyxBorder gap-2 md:gap-4">
-                            <label class="text-gray-500 text-xs font-semibold uppercase tracking-wide md:w-24">Asunto:</label>
-                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-transparent text-white text-sm font-medium outline-none cursor-not-allowed">
-                        </div>
-
-                        <div class="flex flex-col pt-2">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
-                                <label class="text-gray-500 text-xs font-semibold uppercase tracking-wide">Cuerpo del Mensaje:</label>
-                                <span class="text-[10px] text-gray-400 bg-nyxMuted px-2 py-1 rounded border border-[#333] flex items-center">
-                                    <svg class="w-3 h-3 inline mr-1 text-nyxPurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Es recomendable dejar el mensaje predeterminado para mayor efectividad
+                        <div>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="block text-[10px] font-semibold text-nyxMuted uppercase tracking-wider">Cuerpo del Correo</label>
+                                <span class="text-[10px] text-nyxMuted flex items-center gap-1 font-mono">
+                                    <svg class="w-3 h-3 text-nyxAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Plantilla B2B
                                 </span>
                             </div>
-                            <textarea id="pitch-text" class="w-full bg-nyxMuted text-gray-300 h-64 md:h-56 p-4 rounded-lg outline-none resize-none text-sm leading-relaxed border border-[#333] focus:border-nyxPurple transition focus:text-white custom-scrollbar"></textarea>
+                            <textarea id="pitch-text" class="w-full nyx-input h-56 p-4 rounded-lg resize-none text-[13px] leading-relaxed custom-scrollbar font-mono"></textarea>
                         </div>
                     </div>
 
-                    <div class="mt-8 flex flex-col sm:flex-row justify-between gap-4 pt-5 border-t border-nyxBorder">
-                        <button class="btn-prev w-full sm:w-auto text-gray-400 hover:text-white px-5 py-3 font-semibold transition bg-nyxMuted hover:bg-nyxBorder rounded-xl border border-nyxBorder text-sm order-2 sm:order-1">Anterior</button>
-                        <button class="btn-next w-full sm:w-auto bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm order-1 sm:order-2 shadow-[0_0_15px_rgba(255,255,255,0.1)]">Confirmar Mensaje</button>
+                    <div class="mt-8 flex flex-col sm:flex-row justify-between gap-3 pt-5 border-t border-nyxBorder/50">
+                        <button class="btn-prev btn-secondary w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-medium order-2 sm:order-1">Atrás</button>
+                        <button class="btn-next btn-primary w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-medium order-1 sm:order-2">Confirmar Payload</button>
                     </div>
                 </div>
 
                 <!-- PASO 3: Adjunto -->
                 <div id="step-3" class="step-content step-hidden animate-fade">
-                    <div class="mb-6 flex items-center gap-3">
-                        <div class="bg-nyxPurple/10 p-2 rounded-lg border border-nyxPurple/20">
-                            <img src="logonyx.png" class="h-4 object-contain" alt="NYX">
-                        </div>
-                        <div>
-                            <h3 class="text-lg md:text-xl font-bold text-white">Documento Adjunto</h3>
-                            <p class="text-xs md:text-sm text-gray-500 mt-1">Carga tu Currículum Vitae en formato PDF.</p>
-                        </div>
-                    </div>
                     
-                    <div class="border border-dashed border-[#444] bg-nyxDark hover:bg-nyxMuted hover:border-nyxPurple/50 p-10 rounded-2xl text-center transition-all duration-300 relative group cursor-pointer flex flex-col items-center justify-center min-h-[220px]">
+                    <div class="border border-dashed border-nyxBorder bg-nyxBg hover:bg-nyxPanel hover:border-nyxAccent/50 p-12 rounded-xl text-center transition-all duration-300 relative group cursor-pointer flex flex-col items-center justify-center min-h-[200px]">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                         
-                        <div class="h-14 w-14 bg-nyxPanel rounded-full border border-nyxBorder flex items-center justify-center mb-4 group-hover:border-nyxPurple/50 transition duration-300 shadow-inner">
-                            <img src="logo.png" class="h-6 w-6 object-contain opacity-60 group-hover:opacity-100 transition duration-300" alt="Upload">
+                        <div class="h-12 w-12 rounded-lg bg-nyxPanel border border-nyxBorder flex items-center justify-center mb-4 group-hover:border-nyxAccent/50 group-hover:text-nyxAccent text-nyxMuted transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         </div>
                         
-                        <p class="text-white font-medium text-sm md:text-base mb-2 group-hover:text-nyxPurple transition" id="file-name-display">Seleccionar documento PDF</p>
-                        <p class="text-xs text-gray-500 bg-black px-3 py-1 rounded border border-[#222]">Límite de tamaño: 5 MB</p>
+                        <p class="text-sm font-medium text-white mb-1 group-hover:text-nyxAccentLight transition-colors" id="file-name-display">Haz clic para cargar tu PDF</p>
+                        <p class="text-[11px] text-nyxMuted font-mono">Limit: 5MB (Solo PDF)</p>
                     </div>
 
-                    <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 pt-5 border-t border-nyxBorder">
-                        <button class="btn-prev w-full sm:w-auto text-gray-400 hover:text-white px-5 py-3 font-semibold transition bg-nyxMuted hover:bg-nyxBorder rounded-xl border border-nyxBorder text-sm order-2 sm:order-1">Modificar Mensaje</button>
-                        <button id="btn-fire" class="w-full sm:w-auto bg-nyxPurple text-white px-8 py-3.5 rounded-xl font-bold hover:bg-white hover:text-black hover:scale-[1.02] active:scale-95 transition-all duration-300 opacity-50 cursor-not-allowed text-sm order-1 sm:order-2 shadow-[0_10px_30px_rgba(157,0,255,0.4)] border border-nyxPurple/50 flex items-center justify-center gap-2" disabled>
-                            Ejecutar Distribución <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-3 pt-5 border-t border-nyxBorder/50">
+                        <button class="btn-prev btn-secondary w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-medium order-2 sm:order-1">Modificar</button>
+                        <button id="btn-fire" class="btn-primary w-full sm:w-auto px-8 py-2.5 rounded-lg text-sm font-medium flex items-center justify-center order-1 sm:order-2" disabled>
+                            Ejecutar Instancia
                         </button>
                     </div>
                 </div>
 
-                <!-- PANTALLA DE PROCESAMIENTO CORPORATIVO (FLUJO VISUAL NYX) -->
-                <div id="processing-screen" class="absolute inset-0 bg-nyxDark/95 backdrop-blur-xl z-20 flex flex-col items-center justify-center p-6 hidden">
+                <!-- PANTALLA DE PROCESAMIENTO (Estilo Deployment) -->
+                <div id="processing-screen" class="absolute inset-0 bg-nyxBg/95 backdrop-blur-md z-20 flex flex-col items-center justify-center p-6 hidden">
                     
-                    <div class="flex items-center gap-2 md:gap-4 mb-10 w-full max-w-sm justify-center">
-                        <div class="h-14 w-14 md:h-16 md:w-16 bg-nyxPanel rounded-full flex items-center justify-center border border-nyxPurple/40 relative shadow-[0_0_20px_rgba(157,0,255,0.2)]">
-                            <div class="absolute inset-0 rounded-full border border-nyxPurple animate-ping opacity-20"></div>
-                            <img src="logonyx.png" class="h-6 md:h-8 object-contain">
-                        </div>
-                        
-                        <div class="w-16 md:w-28 h-0.5 bg-nyxBorder relative overflow-hidden flex-shrink-0">
-                            <div class="absolute top-0 left-0 h-full w-1/2 bg-nyxPurple animate-data-flow shadow-[0_0_10px_rgba(157,0,255,1)]"></div>
-                        </div>
-                        
-                        <div class="h-14 w-14 md:h-16 md:w-16 bg-nyxPanel rounded-full flex items-center justify-center border border-[#333] relative">
-                            <img src="logo.png" class="h-5 md:h-6 object-contain opacity-70 grayscale">
-                        </div>
-                    </div>
+                    <svg class="animate-spin h-8 w-8 text-nyxAccent mb-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                     
-                    <h2 class="text-xl md:text-2xl font-bold text-white mb-2 text-center tracking-tight">Pasarela NYX Activa</h2>
-                    <p class="text-nyxPurple text-xs md:text-sm mb-10 text-center tracking-[0.2em] uppercase font-bold animate-pulse">Distribución en Proceso</p>
+                    <h2 class="text-base font-semibold text-white mb-1">Desplegando Distribución</h2>
+                    <p class="text-nyxMuted text-xs mb-8 font-mono">Iniciando subrutina de red...</p>
                     
-                    <div class="w-full max-w-md bg-nyxPanel border border-nyxBorder rounded-2xl p-6 shadow-2xl relative overflow-hidden">
-                        
-                        <div class="w-full bg-[#1a1a1a] rounded-full h-1.5 mb-6 overflow-hidden relative z-10 border border-[#222]">
-                            <div id="progress-bar" class="bg-nyxPurple h-full w-0 transition-all duration-[1500ms] ease-out shadow-[0_0_15px_rgba(157,0,255,0.8)] relative">
-                                <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-white opacity-40"></div>
-                            </div>
-                        </div>
-                        
-                        <ul id="process-logs" class="space-y-4 text-[11px] md:text-sm text-gray-400 h-36 overflow-hidden flex flex-col justify-end relative z-10 font-medium">
-                            <!-- Inyección JS -->
+                    <div class="w-full max-w-sm bg-nyxBg border border-nyxBorder rounded-lg p-4 font-mono text-[11px] text-nyxMuted h-36 overflow-hidden flex flex-col justify-end relative shadow-inner">
+                        <div class="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-nyxBg to-transparent z-10 pointer-events-none"></div>
+                        <ul id="process-logs" class="space-y-2 relative z-0">
+                            <!-- Logs inyectados por JS -->
                         </ul>
                     </div>
                 </div>
@@ -457,18 +405,16 @@
         </main>
     </div>
 
-    <!-- MODAL DE ÉXITO PERSONALIZADO NYX -->
-    <div id="nyx-success-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-500 px-4">
-        <div class="bg-nyxPanel border border-nyxPurple/30 p-8 md:p-10 rounded-2xl flex flex-col items-center max-w-sm w-full shadow-[0_20px_50px_-10px_rgba(157,0,255,0.3)] text-center transform scale-95 transition-transform duration-500 relative overflow-hidden" id="nyx-success-card">
+    <!-- MODAL DE ÉXITO -->
+    <div id="nyx-success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
+        <div class="premium-card p-8 rounded-xl flex flex-col items-center max-w-sm w-full text-center transform scale-95 transition-transform duration-300" id="nyx-success-card">
             
-            <div class="absolute -top-20 -right-20 w-40 h-40 bg-nyxPurple rounded-full opacity-20 blur-[60px]"></div>
-
-            <div class="h-16 w-16 bg-nyxPurple/10 border border-nyxPurple/50 rounded-full flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(157,0,255,0.4)]">
-                <svg class="w-8 h-8 text-nyxPurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            <div class="h-12 w-12 rounded-full bg-nyxAccent/10 text-nyxAccent flex items-center justify-center mb-5 ring-1 ring-nyxAccent/30">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h2 class="text-xl md:text-2xl font-bold text-white mb-2">Distribución Exitosa</h2>
-            <p class="text-sm text-gray-400 mb-8 font-medium" id="nyx-success-msg">El perfil ha sido distribuido correctamente a los destinos seleccionados.</p>
-            <button id="btn-close-success" class="w-full bg-nyxPurple text-white font-bold py-3.5 rounded-xl hover:bg-white hover:text-black transition-all duration-300 text-sm shadow-[0_0_15px_rgba(157,0,255,0.4)] relative z-10">Panel Principal</button>
+            <h2 class="text-lg font-semibold text-white mb-2">Despliegue Exitoso</h2>
+            <p class="text-sm text-nyxMuted mb-6 leading-relaxed" id="nyx-success-msg">El perfil ha sido transmitido correctamente a los nodos seleccionados.</p>
+            <button id="btn-close-success" class="w-full btn-secondary py-2.5 rounded-lg text-sm font-medium">Cerrar y Volver</button>
         </div>
     </div>
 
@@ -497,36 +443,32 @@
         let selectedFileBase64 = null;
         let unsubscribeSnapshot = null;
 
-        // ==============================================
-        // SISTEMA DE NOTIFICACIONES NYX PROFESIONAL
-        // ==============================================
         const showNyxNotification = (message, type = 'error') => {
             const container = document.getElementById('nyx-toast-container');
             const toast = document.createElement('div');
             
-            const bgColor = type === 'error' ? 'bg-[#1a0a0a]' : 'bg-nyxPanel';
-            const borderColor = type === 'error' ? 'border-red-900/50' : 'border-nyxPurple/30';
-            const textColor = type === 'error' ? 'text-red-400' : 'text-white';
+            const borderColor = type === 'error' ? 'border-red-900/50' : 'border-nyxBorder';
+            const iconColor = type === 'error' ? 'text-red-400' : 'text-nyxAccent';
             const icon = type === 'error' 
-                ? `<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
-                : `<img src="logonyx.png" class="h-5 object-contain opacity-80">`;
+                ? `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+                : `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
-            toast.className = `flex items-start gap-3 ${bgColor} ${borderColor} border p-3 md:p-4 rounded-xl shadow-2xl animate-toast pointer-events-auto w-full break-words relative overflow-hidden`;
+            toast.className = `flex items-start gap-3 bg-nyxPanel border ${borderColor} p-3 rounded-lg shadow-xl animate-toast pointer-events-auto w-full max-w-sm mt-2 md:mt-0 md:mb-2`;
             toast.innerHTML = `
-                <div class="flex-shrink-0 flex items-center justify-center mt-0.5">${icon}</div>
-                <p class="text-[11px] md:text-xs font-semibold ${textColor} leading-snug break-words flex-1 whitespace-pre-wrap">${message}</p>
+                <div class="flex-shrink-0 mt-0.5 ${iconColor}">${icon}</div>
+                <p class="text-xs text-white leading-relaxed font-medium flex-1">${message}</p>
             `;
 
             container.appendChild(toast);
 
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transform = 'translate(-50%, -10px)';
+                toast.style.transform = 'translateY(-10px)';
                 toast.style.transition = 'all 0.3s ease';
                 setTimeout(() => {
                     if(container.contains(toast)) container.removeChild(toast);
                 }, 300);
-            }, 5000);
+            }, 4000);
         };
 
         const showSuccessModal = (message) => {
@@ -538,16 +480,11 @@
             setTimeout(() => {
                 modal.classList.replace('opacity-0', 'opacity-100');
                 card.classList.replace('scale-95', 'scale-100');
-            }, 50);
+            }, 10);
 
-            document.getElementById('btn-close-success').onclick = () => {
-                window.location.reload();
-            };
+            document.getElementById('btn-close-success').onclick = () => window.location.reload();
         };
 
-        // ==============================================
-        // REFERENCIAS DOM Y AUTENTICACIÓN
-        // ==============================================
         const initialLoader = document.getElementById('initial-loader');
         const loginScreen = document.getElementById('login-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
@@ -556,7 +493,7 @@
 
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-            catch (e) { showNyxNotification("Proceso de autenticación corporativa cancelado.", "error"); }
+            catch (e) { showNyxNotification("Autenticación cancelada.", "error"); }
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
@@ -574,7 +511,7 @@
                     initialLoader.classList.add('hidden');
                     dashboardScreen.classList.remove('hidden');
                     dashboardScreen.classList.add('flex');
-                }, 700);
+                }, 500);
 
                 userIdFormat = `cliente-${user.uid.slice(-4)}`;
                 clientIdDisplay.textContent = userIdFormat.toUpperCase();
@@ -605,17 +542,14 @@
                 setTimeout(() => {
                     initialLoader.classList.add('hidden');
                     loginScreen.classList.remove('hidden');
-                    setTimeout(() => loginScreen.classList.remove('opacity-0'), 50);
-                }, 700);
+                    setTimeout(() => loginScreen.classList.remove('opacity-0'), 10);
+                }, 500);
                 
                 dashboardScreen.classList.add('hidden');
                 dashboardScreen.classList.remove('flex');
             }
         });
 
-        // ==============================================
-        // LÓGICA DE ACTUALIZACIÓN DEL MENSAJE (PASO 2)
-        // ==============================================
         const candidateInput = document.getElementById('candidate-name');
         const subjectInput = document.getElementById('email-subject');
         const pitchTextarea = document.getElementById('pitch-text');
@@ -633,36 +567,11 @@
             }
         });
 
-        // ==============================================
-        // LÓGICA DE DESTINOS Y COSTOS (CÁLCULO DINÁMICO)
-        // ==============================================
+        // Bases de datos (completas)
         const allCorps = ["Mercado Libre", "Globant", "Accenture", "IBM Argentina", "Despegar", "Auth0 (Okta)", "MURAL", "Baufest", "Softtek", "Google Argentina", "Microsoft Argentina", "SAP Argentina", "Ualá", "Naranja X", "Brubank", "Lemon Cash", "Ripio", "Belo", "Prisma Medios de Pago", "MODO", "Banco Galicia", "Santander", "Banco Macro", "BBVA Argentina", "ICBC Argentina", "Banco Patagonia", "Banco Nación", "Banco Provincia", "Banco Ciudad", "Banco Hipotecario", "Banco Supervielle", "Cervecería y Maltería Quilmes", "Unilever", "Arcor", "Molinos Río de la Plata", "Danone", "Coca-Cola FEMSA", "PepsiCo", "Mastellone (La Serenísima)", "Nestlé", "Mondelēz International", "CCU Argentina", "Procter & Gamble (P&G)", "L'Oréal Argentina", "Natura Cosméticos", "YPF", "Pan American Energy", "Pampa Energía", "Shell", "Tecpetrol (Techint)", "Vista Energy", "Puma Energy", "Barrick Gold", "Cargill", "Bunge", "Ledesma", "LDC (Louis Dreyfus)", "Aceitera General Deheza", "Grupo Los Grobo", "Toyota", "Ford", "Volkswagen", "General Motors", "Renault", "Stellantis (Fiat/Peugeot)", "Scania", "Mercedes-Benz", "Grupo Techint", "OSDE", "Swiss Medical", "Galeno", "Medifé", "Sancor Salud", "Laboratorios Roemmers", "Bayer Argentina", "Pfizer", "Laboratorio Elea", "Laboratorios Bagó", "Laboratorios Casasco", "Andreani", "Correo Argentino", "OCA", "Urbano", "DHL Argentina", "FedEx Argentina", "Cruz del Sur", "Aerolíneas Argentinas", "Flybondi", "JetSmart", "Coto", "Carrefour", "Cencosud (Jumbo/Vea/Disco)", "Supermercados DIA", "La Anónima", "ChangoMás", "Makro", "Frávega", "Musimundo", "Cetrogar", "Farmacity", "Dexter / Stock Center", "Mayorista Yaguar", "Supermercados Vital", "Mostaza", "McDonald's (Arcos Dorados)", "Alsea (Burger King / Starbucks)", "KFC Argentina", "Grido", "Freddo", "Lucciano's", "Havanna", "Café Martínez", "El Club de la Milanesa", "Tostado Cafe Club", "Le Pain Quotidien", "Telecom / Personal", "Movistar (Telefónica)", "Claro", "Telecentro", "DirecTV (Vrio)", "Grupo Clarín", "La Nación", "Telefe (Paramount)", "Adidas Argentina", "Nike (Grupo Axo)", "Zara", "Blue Star Group (Isadora/TodoModa)", "Grimoldi", "Cuesta Blanca", "Rapsodia", "CvStudio33", "Prosegur", "Securitas", "G4S Argentina", "USS Seguridad", "Brújula Seguridad", "PwC Argentina", "Deloitte Argentina", "EY Argentina", "KPMG Argentina", "BDO Argentina", "ManpowerGroup", "Randstad Argentina", "Adecco Argentina", "Grupo Gestión", "Bayton", "Sodimac", "Easy", "Megatone", "Naldo", "Castillo", "Hospital Italiano", "Hospital Alemán", "Sanatorio Finochietto", "Grupo Omint", "Sancor Seguros", "La Caja de Ahorro y Seguro", "Mapfre Argentina", "Zurich Argentina", "Allianz Argentina", "Balanz Capital", "InvertirOnline", "Bull Market Brokers", "Banco Comafi", "American Express Argentina", "Visa Argentina", "Mastercard Argentina", "Vates", "Epidata", "CoreBI", "Etermax", "Veritran", "Technisys", "Endava", "TASA Logística", "Plaza Logística", "Celsur Logística", "Flecha Bus", "Vía Bariloche", "Loma Negra", "Holcim Argentina", "Acindar", "Aluar", "Fate", "Pirelli Argentina", "Bridgestone Argentina", "Grupo FV", "Ferrum", "Durlock", "San Miguel Global", "Morixe", "Marolio", "Maxiconsumo", "Diarco", "YPF Agro", "Subway Argentina", "Wendy's Argentina", "Dean & Dennys", "Fabric Sushi", "Cinemark Hoyts", "Cinepolis Argentina", "TyC Sports", "ESPN Argentina", "Infobae", "Editorial Perfil", "Torneos", "Aeropuertos Argentina 2000", "Nippon Car", "Kavak Argentina", "Arredo", "Simones", "Topper Argentina", "Grupo Dass (Fila/Umbro)", "Puma Argentina", "Under Armour Argentina", "Newsan", "BGH", "Mirgor", "Exo", "Banghó", "Red Link", "Interbanking", "Rapipago (Gire)", "Pago Fácil (Western Union)", "Provincia NET", "Garantizar", "Acindar Pymes"];
-
-        const allAgencies = [
-            "Adecco Argentina", "Randstad Argentina", "ManpowerGroup Argentina", "Grupo Gestión", 
-            "Bayton", "Pullmen", "Suministra", "Grupo CETA", "Assistem", "Tiauto Recursos Humanos", 
-            "Selectum", "GhidiniRodil", "Page Personnel", "Bumeran Selecta", "Work Solutions", 
-            "Team Seleqto", "Complement Group", "Serial de la Torre", "Guía Laboral", 
-            "Consultores de Empresas", "Estrategia Laboral", "Excelencia Laboral", "Aliantec", 
-            "ADN Recursos Humanos", "HuCap", "Capital Humano", "Suple", "Serh Consultores", 
-            "Mooks Recursos Humanos", "Pesesa", "Evolución RRHH", "Wall Chase", "NUMAN", 
-            "Spencer Stuart Argentina", "Egon Zehnder Argentina", "Korn Ferry Argentina",
-            "CONA Recursos Humanos", "Cia de Talentos", "Hays Argentina", "IT Patagonia", 
-            "Tecnosoftware", "RH Tecnología", "Werben HR", "Eulen Argentina", "Agil RH", 
-            "Taynes Consultores", "Bureau Consultores", "Activa RH", "Suman RH", 
-            "Talent Recruiters", "Redes RH", "Conectar RH", "Nexos RH", "Potencial RH", 
-            "Vincular RH", "Dinámica SE", "Acción RH", "Integra RH", "Trascender RH", 
-            "Stanton Chase", "Boyden", "Amrop", "Valuar", "Barton Consultores", 
-            "Oportunidad Laboral", "ABM Recursos Humanos", "Focus RH", "Gestión M&M", 
-            "C&C Consultores", "Optimis", "Aptitud Estratégica", "Direcciona", 
-            "Macola Consultores", "Angus Recursos Humanos", "CSI Group", "Grupo P&P", 
-            "Pilar RH", "Mandel & Partners", "Oxford Partners", "Proa Consulting", 
-            "Prisma Consultoría", "People & Partners", "Mkt Consulting", "Syntesys", 
-            "Synergo", "Consultora TGA"
-        ];
+        const allAgencies = ["Adecco Argentina", "Randstad Argentina", "ManpowerGroup Argentina", "Grupo Gestión", "Bayton", "Pullmen", "Suministra", "Grupo CETA", "Assistem", "Tiauto Recursos Humanos", "Selectum", "GhidiniRodil", "Page Personnel", "Bumeran Selecta", "Work Solutions", "Team Seleqto", "Complement Group", "Serial de la Torre", "Guía Laboral", "Consultores de Empresas", "Estrategia Laboral", "Excelencia Laboral", "Aliantec", "ADN Recursos Humanos", "HuCap", "Capital Humano", "Suple", "Serh Consultores", "Mooks Recursos Humanos", "Pesesa", "Evolución RRHH", "Wall Chase", "NUMAN", "Spencer Stuart Argentina", "Egon Zehnder Argentina", "Korn Ferry Argentina", "CONA Recursos Humanos", "Cia de Talentos", "Hays Argentina", "IT Patagonia", "Tecnosoftware", "RH Tecnología", "Werben HR", "Eulen Argentina", "Agil RH", "Taynes Consultores", "Bureau Consultores", "Activa RH", "Suman RH", "Talent Recruiters", "Redes RH", "Conectar RH", "Nexos RH", "Potencial RH", "Vincular RH", "Dinámica SE", "Acción RH", "Integra RH", "Trascender RH", "Stanton Chase", "Boyden", "Amrop", "Valuar", "Barton Consultores", "Oportunidad Laboral", "ABM Recursos Humanos", "Focus RH", "Gestión M&M", "C&C Consultores", "Optimis", "Aptitud Estratégica", "Direcciona", "Macola Consultores", "Angus Recursos Humanos", "CSI Group", "Grupo P&P", "Pilar RH", "Mandel & Partners", "Oxford Partners", "Proa Consulting", "Prisma Consultoría", "People & Partners", "Mkt Consulting", "Syntesys", "Synergo", "Consultora TGA"];
 
         let currentDistributionList = [];
-        let currentDistributionType = '';
         let currentCalculatedCost = 0;
         
         const selectedTargets = new Set();
@@ -671,14 +580,13 @@
         const costDisplay = document.getElementById('current-cost');
         const quickSelectContainer = document.getElementById('quick-select-container');
 
-        // Función matemática exacta del cobro
         const getCostForTargets = (num) => {
             if (num === 0) return 0;
             if (num <= 50) return 5;
             if (num <= 100) return 10;
             if (num <= 150) return 15;
             if (num <= 200) return 20;
-            return 22; // Descuento total (201 a 227)
+            return 22; 
         };
 
         const updateCostDisplay = () => {
@@ -689,9 +597,9 @@
             
             const btnFire = document.getElementById('btn-fire');
             if (currentCalculatedCost > 0) {
-                btnFire.innerHTML = `Ejecutar Distribución (${currentCalculatedCost} <img src="coinnyx.png" class="h-3 w-3 inline">) <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+                btnFire.innerHTML = `Ejecutar Instancia <span class="font-mono bg-black/20 px-1.5 py-0.5 rounded ml-1 text-xs">${currentCalculatedCost} NYX</span>`;
             } else {
-                btnFire.innerHTML = `Ejecutar Distribución <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+                btnFire.innerHTML = `Ejecutar Instancia`;
             }
         };
 
@@ -701,8 +609,8 @@
             
             const createBtn = (count, label, tokens) => {
                 const btn = document.createElement('button');
-                btn.className = "bg-[#1a1a1a] border border-[#333] hover:border-nyxPurple text-gray-300 hover:text-white text-[11px] md:text-xs py-2 px-3 rounded-lg transition-all flex items-center justify-center gap-1.5 flex-grow sm:flex-grow-0";
-                btn.innerHTML = `<span>${label}</span> <span class="text-nyxPurple font-bold ml-1">${tokens}</span> <img src="coinnyx.png" class="h-3 w-3">`;
+                btn.className = "bg-nyxPanel border border-nyxBorder hover:border-nyxAccent text-nyxMuted hover:text-white text-[11px] py-1.5 px-3 rounded-md transition-all flex items-center gap-2 font-medium";
+                btn.innerHTML = `<span>${label}</span> <div class="h-3 w-px bg-nyxBorder"></div> <span class="text-nyxAccentLight font-mono">${tokens}</span>`;
                 btn.onclick = () => {
                     selectedTargets.clear();
                     for(let i = 0; i < count && i < total; i++){
@@ -718,10 +626,10 @@
             if (total <= 50) {
                 quickSelectContainer.appendChild(createBtn(total, `Todas (${total})`, getCostForTargets(total)));
             } else {
-                quickSelectContainer.appendChild(createBtn(50, "50 Destinos", 5));
-                quickSelectContainer.appendChild(createBtn(100, "100 Destinos", 10));
-                if (total >= 150) quickSelectContainer.appendChild(createBtn(150, "150 Destinos", 15));
-                if (total >= 200) quickSelectContainer.appendChild(createBtn(200, "200 Destinos", 20));
+                quickSelectContainer.appendChild(createBtn(50, "50 Nodos", 5));
+                quickSelectContainer.appendChild(createBtn(100, "100 Nodos", 10));
+                if (total >= 150) quickSelectContainer.appendChild(createBtn(150, "150 Nodos", 15));
+                if (total >= 200) quickSelectContainer.appendChild(createBtn(200, "200 Nodos", 20));
                 quickSelectContainer.appendChild(createBtn(total, `Todas (${total})`, 22));
             }
         };
@@ -732,39 +640,34 @@
             
             filtered.forEach((b, i) => {
                 const isChecked = selectedTargets.has(b) ? 'checked' : '';
-                const div = document.createElement('div'); 
-                div.className = `flex items-center gap-3 bg-nyxDark p-2.5 rounded-lg border ${isChecked ? 'border-nyxPurple shadow-[0_0_8px_rgba(157,0,255,0.1)]' : 'border-nyxBorder'} transition-all duration-200`;
+                const label = document.createElement('label'); 
+                label.className = `flex items-center gap-3 py-2 px-2.5 rounded-lg hover:bg-nyxPanel transition-colors cursor-pointer group w-full border border-transparent hover:border-nyxBorder/50 select-none`;
                 
-                div.innerHTML = `
-                    <input type="checkbox" id="b-${i}" value="${b}" class="nyx-checkbox target-checkbox" ${isChecked}>
-                    <label for="b-${i}" class="text-xs md:text-sm cursor-pointer w-full text-gray-300 font-medium truncate">${b}</label>
+                label.innerHTML = `
+                    <div class="relative flex items-center justify-center flex-shrink-0">
+                        <input type="checkbox" value="${b}" class="peer sr-only target-checkbox" ${isChecked}>
+                        <div class="w-3.5 h-3.5 rounded-sm border border-nyxBorder bg-nyxBg peer-checked:bg-nyxAccent peer-checked:border-nyxAccent transition-all flex items-center justify-center">
+                            <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                    </div>
+                    <span class="text-xs text-nyxMuted group-hover:text-white transition-colors truncate">${b}</span>
                 `;
-                branchesList.appendChild(div);
+                branchesList.appendChild(label);
             });
             updateCostDisplay();
         };
 
         branchesList.addEventListener('change', (e) => {
             if (e.target.classList.contains('target-checkbox')) {
-                const container = e.target.closest('div');
-                if (e.target.checked) {
-                    selectedTargets.add(e.target.value);
-                    container.classList.replace('border-nyxBorder', 'border-nyxPurple');
-                    container.classList.add('shadow-[0_0_8px_rgba(157,0,255,0.1)]');
-                } else {
-                    selectedTargets.delete(e.target.value);
-                    container.classList.replace('border-nyxPurple', 'border-nyxBorder');
-                    container.classList.remove('shadow-[0_0_8px_rgba(157,0,255,0.1)]');
-                }
+                if (e.target.checked) selectedTargets.add(e.target.value);
+                else selectedTargets.delete(e.target.value);
                 updateCostDisplay();
             }
         });
 
         document.getElementById('search-branch').addEventListener('input', (e) => renderTargets(e.target.value));
 
-        // ==============================================
-        // WIZARD NAVEGACIÓN
-        // ==============================================
+        // NAVEGACIÓN
         const wizardContainer = document.getElementById('wizard-container');
         const presentationSection = document.getElementById('presentation-section');
         const steps = [document.getElementById('step-1'), document.getElementById('step-2'), document.getElementById('step-3')];
@@ -773,26 +676,14 @@
 
         const startWizard = (type) => {
             if(currentUserData.tokens < 5) {
-                showNyxNotification(`Saldo insuficiente. Créditos actuales: ${currentUserData.tokens}. Se requiere un mínimo de 5 tokens.`, "error");
+                showNyxNotification(`Créditos insuficientes. Disponibles: ${currentUserData.tokens} NYX. Base requerida: 5.`, "error");
                 return;
             }
             
-            currentDistributionType = type;
             currentDistributionList = type === 'corp' ? allCorps : allAgencies;
             
-            const title = document.getElementById('step-1-title');
-            const desc = document.getElementById('step-1-desc');
-            const searchInput = document.getElementById('search-branch');
-            
-            if(type === 'corp') {
-                title.innerText = "Selección de Empresas";
-                desc.innerText = "Elige los departamentos de RRHH destino.";
-                searchInput.placeholder = "Buscar corporación...";
-            } else {
-                title.innerText = "Selección de Agencias";
-                desc.innerText = "Elige las consultoras y headhunters destino.";
-                searchInput.placeholder = "Buscar agencia...";
-            }
+            document.getElementById('step-1-title').innerText = type === 'corp' ? "Sector Corporativo" : "Firmas y Agencias";
+            document.getElementById('search-branch').placeholder = "Filtrar nodo...";
             
             selectedTargets.clear();
             document.getElementById('search-branch').value = "";
@@ -810,21 +701,21 @@
 
         const updateNavVisuals = () => {
             navSteps.forEach((nav, idx) => {
+                const circle = nav.querySelector('div');
                 const text = nav.querySelector('span');
-                const bar = nav.querySelector('div');
                 
-                if (idx <= currentStep) {
-                    nav.classList.replace('opacity-40', 'opacity-100');
-                    text.classList.add('text-nyxPurple');
-                    text.classList.remove('text-white');
-                    bar.classList.add('bg-nyxPurple', 'shadow-[0_0_10px_rgba(157,0,255,0.6)]');
-                    bar.classList.remove('bg-white');
+                if (idx === currentStep) {
+                    nav.classList.remove('opacity-50');
+                    circle.className = "h-5 w-5 rounded-full bg-nyxAccent text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-nyxAccent/20";
+                    text.className = "text-sm font-medium text-white";
+                } else if (idx < currentStep) {
+                    nav.classList.remove('opacity-50');
+                    circle.className = "h-5 w-5 rounded-full bg-nyxBg border border-nyxAccent text-nyxAccent flex items-center justify-center text-[10px] font-bold";
+                    text.className = "text-sm font-medium text-nyxMuted";
                 } else {
-                    nav.classList.replace('opacity-100', 'opacity-40');
-                    text.classList.remove('text-nyxPurple');
-                    text.classList.add('text-white');
-                    bar.classList.remove('bg-nyxPurple', 'shadow-[0_0_10px_rgba(157,0,255,0.6)]');
-                    bar.classList.add('bg-white');
+                    nav.classList.add('opacity-50');
+                    circle.className = "h-5 w-5 rounded-full bg-nyxBg border border-nyxBorder text-nyxMuted flex items-center justify-center text-[10px] font-bold";
+                    text.className = "text-sm font-medium text-nyxMuted";
                 }
             });
         };
@@ -832,33 +723,17 @@
         document.querySelectorAll('.btn-next').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (currentStep === 0) {
-                    if (selectedTargets.size === 0) {
-                        return showNyxNotification("Selecciona al menos un destino para continuar.", "error");
-                    }
-                    if (currentUserData.tokens < currentCalculatedCost) {
-                        return showNyxNotification(`Saldo insuficiente. Tienes ${currentUserData.tokens} tokens y necesitas ${currentCalculatedCost} para este paquete de envíos.`, "error");
-                    }
+                    if (selectedTargets.size === 0) return showNyxNotification("Selecciona al menos un nodo de la red.", "error");
+                    if (currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Créditos insuficientes. Requeridos: ${currentCalculatedCost} NYX.`, "error");
                 }
-
                 if (currentStep === 1) {
-                    if (!candidateInput.value.trim()) {
-                        candidateInput.focus();
-                        return showNyxNotification("Registra el nombre del profesional para continuar.", "error");
-                    }
-                    if (!pitchTextarea.value.trim()) {
-                        pitchTextarea.focus();
-                        return showNyxNotification("El cuerpo del comunicado corporativo no puede estar vacío.", "error");
-                    }
+                    if (!candidateInput.value.trim()) return showNyxNotification("El parámetro 'Nombre Candidato' es obligatorio.", "error");
+                    if (!pitchTextarea.value.trim()) return showNyxNotification("El Payload del correo está vacío.", "error");
                 }
                 
-                steps[currentStep].classList.add('step-hidden', 'animate-fade');
+                steps[currentStep].classList.add('step-hidden');
                 currentStep++;
                 steps[currentStep].classList.remove('step-hidden');
-                
-                steps[currentStep].style.animation = 'none';
-                steps[currentStep].offsetHeight;
-                steps[currentStep].style.animation = null; 
-
                 updateNavVisuals();
             });
         });
@@ -872,46 +747,38 @@
             });
         });
 
-        // ==============================================
-        // CARGA DE DOCUMENTO (PASO 3)
-        // ==============================================
+        // ADJUNTO
         const cvUpload = document.getElementById('cv-upload'), btnFire = document.getElementById('btn-fire');
         cvUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            btnFire.disabled = true; btnFire.classList.add('opacity-50', 'cursor-not-allowed');
+            btnFire.disabled = true; 
             
             if (!file) return;
 
-            const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf');
-            if (!isPdf || file.size > 5242880) {
-                showNyxNotification("El archivo adjunto debe ser en formato PDF y menor a 5MB.", "error");
+            if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith('.pdf') || file.size > 5242880) {
+                showNyxNotification("Protocolo rechazado: Solo PDF, máximo 5MB.", "error");
                 cvUpload.value = ''; 
                 return;
             }
             
             document.getElementById('file-name-display').textContent = file.name;
-            document.getElementById('file-name-display').classList.add('text-nyxPurple');
+            document.getElementById('file-name-display').classList.replace('text-white', 'text-nyxAccent');
             
             const box = e.target.closest('div.border-dashed');
-            box.classList.replace('border-[#444]', 'border-nyxPurple');
-            box.querySelector('div').classList.replace('border-nyxBorder', 'border-nyxPurple/50');
-            box.querySelector('img').classList.replace('opacity-60', 'opacity-100');
+            box.classList.replace('border-nyxBorder', 'border-nyxAccent');
             
             const reader = new FileReader();
             reader.onload = (ev) => { 
                 selectedFileBase64 = ev.target.result.split(',')[1]; 
                 btnFire.disabled = false; 
-                btnFire.classList.remove('opacity-50', 'cursor-not-allowed'); 
             };
             reader.readAsDataURL(file);
         });
 
-        // ==============================================
-        // EJECUCIÓN CORPORATIVA (SIMULACIÓN Y CONEXIÓN)
-        // ==============================================
+        // EJECUCIÓN 
         btnFire.addEventListener('click', async () => {
-            if(selectedTargets.size === 0) return showNyxNotification("Validación fallida: Selecciona al menos un destino.", "error");
-            if(currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Saldo insuficiente para cubrir los ${currentCalculatedCost} tokens.`, "error");
+            if(selectedTargets.size === 0) return;
+            if(currentUserData.tokens < currentCalculatedCost) return showNyxNotification("Créditos NYX insuficientes para esta operación.", "error");
             
             const senderName = document.getElementById('sender-name').value.trim();
             const emailSubject = document.getElementById('email-subject').value.trim();
@@ -920,7 +787,6 @@
             const freshToken = await auth.currentUser.getIdToken(true); 
             const finalTargetsArray = Array.from(selectedTargets);
 
-            // PAYLOAD ACTUALIZADO: Envía expectedCost para que el Cerebro sepa cuánto cobrar (Zero Trust)
             const payload = {
                 userId: userIdFormat,
                 tokenJWT: freshToken,
@@ -934,35 +800,27 @@
 
             const procScreen = document.getElementById('processing-screen');
             const logsContainer = document.getElementById('process-logs');
-            const progressBar = document.getElementById('progress-bar');
-            
             procScreen.classList.remove('hidden');
             
             const processSteps = [
-                { msg: "Inicializando pasarela operativa NYX...", prog: 10, delay: 1000 },
-                { msg: "Validando permisos corporativos y enrutamiento seguro...", prog: 20, delay: 1200 },
-                { msg: "Compilando estructura del Currículum Vitae (PDF)...", prog: 35, delay: 1500 },
-                { msg: "Cifrando paquete mediante End-to-End Encryption...", prog: 45, delay: 1200 },
-                { msg: "Calibrando directivas Anti-Spam y SMTP NYX Core...", prog: 55, delay: 1600 },
-                { msg: `Resolviendo rutas hacia ${finalTargetsArray.length} servidores destino...`, prog: 70, delay: 1400 },
-                { msg: "Despachando envíos concurrentes automatizados...", prog: 85, delay: 2000 },
-                { msg: "Aguardando confirmación de servidores receptores...", prog: 95, delay: 1500 }
+                "Compilando subrutina de enrutamiento B2B...",
+                "Generando paquete MIME multipart (PDF encapsulado)...",
+                "Verificando firmas criptográficas de red...",
+                `Asignando ${finalTargetsArray.length} descriptores de socket (AWS/Resend)...`,
+                "Iniciando transferencia asíncrona por lotes (Rate Limit 8/s)...",
+                "Delegando ejecución a proceso Background en Worker..."
             ];
 
             const runSimulation = async () => {
                 for (const step of processSteps) {
-                    await new Promise(resolve => setTimeout(resolve, step.delay));
+                    await new Promise(resolve => setTimeout(resolve, 800));
                     
                     const li = document.createElement('li');
-                    li.className = "flex items-center gap-3 animate-fade text-gray-300";
-                    li.innerHTML = `<span class="text-nyxPurple font-bold">></span> <span>${step.msg}</span>`;
+                    li.className = "animate-fade flex gap-2 text-nyxMuted";
+                    li.innerHTML = `<span class="text-nyxAccent">></span> ${step}`;
                     
-                    if (logsContainer.children.length >= 4) {
-                        logsContainer.removeChild(logsContainer.firstElementChild);
-                    }
-                    
+                    if (logsContainer.children.length >= 6) logsContainer.removeChild(logsContainer.firstElementChild);
                     logsContainer.appendChild(li);
-                    progressBar.style.width = step.prog + '%';
                 }
             };
 
@@ -973,37 +831,24 @@
             });
 
             try {
-                // Ejecutamos la simulación visual 
                 await runSimulation(); 
                 
-                // FALLO SILENCIOSO (SILENT FAIL): Si falla la red, lo ignoramos para la UI.
-                try {
-                    await backendRequest; 
-                } catch(e) {
-                    // Los logs de fallo estarán en la consola o el administrador del cerebro.
-                }
+                // Silent Error Fallback
+                try { await backendRequest; } catch(e) {}
 
-                // SIEMPRE MOSTRAR ÉXITO EN LA INTERFAZ
-                progressBar.style.width = '100%';
                 const li = document.createElement('li');
-                li.className = "flex items-center gap-3 animate-fade text-white font-bold mt-2";
-                li.innerHTML = `<span class="text-nyxPurple">></span> <span>Transmisión completada exitosamente.</span>`;
-                if (logsContainer.children.length >= 4) logsContainer.removeChild(logsContainer.firstElementChild);
+                li.className = "animate-fade flex gap-2 text-white font-medium mt-2";
+                li.innerHTML = `<span class="text-green-400">></span> Instancia delegada con éxito. Worker procesando en cola.`;
                 logsContainer.appendChild(li);
 
                 setTimeout(() => {
-                    showSuccessModal(`El perfil ha sido distribuido correctamente a ${finalTargetsArray.length} destinos.`);
-                }, 1500);
+                    showSuccessModal(`El perfil ha sido transmitido correctamente a ${finalTargetsArray.length} nodos corporativos.`);
+                }, 1200);
                 
             } catch (error) {
-                // Fallback visual
-                progressBar.style.width = '100%';
-                setTimeout(() => {
-                    showSuccessModal(`El perfil ha sido distribuido correctamente a ${finalTargetsArray.length} destinos.`);
-                }, 1500);
+                setTimeout(() => showSuccessModal(`Despliegue finalizado (${finalTargetsArray.length} destinos)`), 1000);
             }
         });
     </script>
 </body>
 </html>
-

@@ -828,8 +828,8 @@
                 clientIdDisplay.textContent = userIdFormat.toUpperCase();
                 
                 // Pre-cargar la trazabilidad silenciosamente en segundo plano
-                if (window.fetchTraceAnalytics) {
-                    window.fetchTraceAnalytics();
+                if (typeof fetchTraceAnalytics === 'function') {
+                    fetchTraceAnalytics();
                 }
 
                 const docRef = doc(db, 'users', userIdFormat);
@@ -1255,7 +1255,7 @@
             }
         });
 
-        window.fetchTraceAnalytics = async function() {
+        async function fetchTraceAnalytics() {
             const tbody = document.getElementById('ta-table-body');
             
             try {
@@ -1316,11 +1316,11 @@
                 console.error("Trace Analytics Error:", error);
                 tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-red-400 text-xs font-medium flex flex-col items-center gap-2"><svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Error de red: CORS bloqueado o servidor inaccesible.</td></tr>`;
             }
-        };
+        }
 
         document.getElementById('btn-refresh-ta')?.addEventListener('click', () => {
             document.getElementById('ta-table-body').innerHTML = `<tr><td colspan="4" class="py-10 text-center text-textMuted"><div class="flex flex-col items-center justify-center"><div class="pro-spinner mb-3 h-6 w-6"></div><span class="text-xs font-medium">Sincronizando telemetría...</span></div></td></tr>`;
-            window.fetchTraceAnalytics();
+            fetchTraceAnalytics();
         });
 
     </script>

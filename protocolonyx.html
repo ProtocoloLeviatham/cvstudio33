@@ -857,7 +857,7 @@
 
                     // Auto-actualizar la UI de Analytics si el usuario está en esa pestaña
                     if (!document.getElementById('view-analytics').classList.contains('hidden')) {
-                        fetchTraceAnalytics();
+                        renderTraceAnalytics();
                     }
                 });
             } else {
@@ -1235,7 +1235,7 @@
         });
 
         // ==============================================
-        // LÓGICA DE NAVEGACIÓN Y TRACE ANALYTICS 2.0 (COSTO CERO)
+        // LÓGICA DE NAVEGACIÓN Y TRACE ANALYTICS 3.0 (BULLET-PROOF)
         // ==============================================
         const tabDist = document.getElementById('tab-dist');
         const tabAnalytics = document.getElementById('tab-analytics');
@@ -1255,78 +1255,130 @@
             viewDist.classList.add('hidden');
             viewAnalytics.classList.remove('hidden');
             
-            if(userIdFormat) {
-                fetchTraceAnalytics();
+            if (userIdFormat) {
+                renderTraceAnalytics();
             }
         });
 
-        function fetchTraceAnalytics() {
+        function renderTraceAnalytics() {
             const tbody = document.getElementById('ta-table-body');
+            const totalEl = document.getElementById('ta-total');
+            const deliveredEl = document.getElementById('ta-delivered');
+            const readEl = document.getElementById('ta-read');
+            const rateEl = document.getElementById('ta-rate');
             
+            if (!tbody) return; 
+
             try {
-                // LECTURA COSTO CERO: Usamos el array ya guardado en currentUserData desde el onSnapshot
-                const tracesData = currentUserData.traces || [];
+                // 1. LECTURA SÚPER SEGURA (Anti-Crashes por estructuras de REST API o SDK)
+                let rawTraces = currentUserData?.traces;
+                let tracesList = [];
+                
+                if (Array.isArray(rawTraces)) {
+                    tracesList = rawTraces;
+                } else if (rawTraces && typeof rawTraces === 'object') {
+                    // Extrae los valores por si el motor lo guardó accidentalmente como objeto/diccionario
+                    tracesList = Object.values(rawTraces);
+                }
+
+                // Limpieza del estado de carga inicial
                 tbody.innerHTML = '';
 
-                if (tracesData.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-textMuted text-xs font-medium tracking-wide">No se encontraron registros de distribución para este ID.</td></tr>`;
+                // 2. MANEJO DE ESTADO VACÍO (El usuario aún no distribuyó nada)
+                if (!tracesList || tracesList.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-textMuted"><div class="flex flex-col items-center justify-center gap-3"><svg class="w-8 h-8 text-panelBorder" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg><span class="text-xs font-medium tracking-wide">No se detectaron registros de enrutamiento en la Bóveda.</span></div></td></tr>`;
+                    
+                    if (totalEl) totalEl.textContent = '0';
+                    if (deliveredEl) deliveredEl.textContent = '0';
+                    if (readEl) readEl.textContent = '0';
+                    if (rateEl) rateEl.textContent = '0%';
                     return;
                 }
 
-                // Formateo de retrocompatibilidad
-                const mappedTraces = tracesData.map(t => ({
-                    ...t,
-                    status: t.status === 'LEIDO' ? 'read' : (t.status === 'ENVIADO' ? 'delivered' : t.status)
-                }));
+                // 3. PARSEO SEGURO (Desempaqueta las respuestas de la API REST o Firebase SDK sin romper)
+                const processedTraces = tracesList
+                    .filter(t => t !== null && typeof t === 'object')
+                    .map(t => {
+                        // Resuelve si el dato es nativo o si viene "envuelto" por la API REST cruda
+                        const targetName = t.targetName || t.mapValue?.fields?.targetName?.stringValue || "Entidad Desconocida";
+                        const channel = t.channel || t.mapValue?.fields?.channel?.stringValue || "Network NYX";
+                        const date = t.date || t.mapValue?.fields?.date?.stringValue || "--/--/----";
+                        const rawStatus = (t.status || t.mapValue?.fields?.status?.stringValue || "").toUpperCase();
+                        
+                        // Estandarización de estados
+                        let statusType = 'error';
+                        if (rawStatus === 'LEIDO' || rawStatus === 'READ') statusType = 'read';
+                        else if (rawStatus === 'ENVIADO' || rawStatus === 'DELIVERED') statusType = 'delivered';
+                        
+                        return { targetName, channel, date, statusType };
+                    });
 
-                mappedTraces.forEach(trace => {
-                    const tr = document.createElement('tr');
-                    tr.className = "border-b border-panelBorder/40 hover:bg-white/[0.02] transition-colors";
-                    
+                // 4. RENDERIZADO AL DOM
+                let htmlBuffer = '';
+                let countDelivered = 0;
+                let countRead = 0;
+
+                processedTraces.forEach(trace => {
                     let statusBadge = '';
-                    if (trace.status === 'read' || trace.status === 'LEIDO') {
-                        statusBadge = `<span class="bg-accent/10 border border-accent/20 text-accent px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-accent animate-pulse"></div>Leído</span>`;
-                    } else if (trace.status === 'delivered' || trace.status === 'ENVIADO') {
+                    
+                    if (trace.statusType === 'read') {
+                        countRead++;
+                        countDelivered++; // Todo lo leído primero fue entregado
+                        statusBadge = `<span class="bg-accent/10 border border-accent/20 text-accent px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto shadow-[0_0_10px_rgba(124,58,237,0.2)]"><div class="h-1.5 w-1.5 rounded-full bg-accent animate-ping"></div>Leído</span>`;
+                    } else if (trace.statusType === 'delivered') {
+                        countDelivered++;
                         statusBadge = `<span class="bg-green-500/10 border border-green-500/20 text-green-400 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>Entregado</span>`;
                     } else {
-                        statusBadge = `<span class="bg-panelBorder/50 border border-panelBorder text-textMuted px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-textMuted"></div>No Leído</span>`;
+                        statusBadge = `<span class="bg-panelBorder/50 border border-panelBorder text-textMuted px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-textMuted"></div>Fallido</span>`;
                     }
 
-                    tr.innerHTML = `
-                        <td class="py-3 px-5 text-textMain font-medium flex items-center gap-3 text-xs md:text-sm">
-                            <div class="h-7 w-7 rounded-lg bg-bgDark border border-panelBorder flex items-center justify-center shadow-sm flex-shrink-0">
-                                <img src="logo.png" class="h-4 w-4 object-contain grayscale opacity-70" alt="Icon">
-                            </div>
-                            <span class="truncate max-w-[120px] sm:max-w-[200px] md:max-w-xs" title="${trace.targetName}">${trace.targetName}</span>
-                        </td>
-                        <td class="py-3 px-5 text-textMuted text-[11px] md:text-xs hidden sm:table-cell">${trace.channel || 'Network'}</td>
-                        <td class="py-3 px-5 text-textMuted text-[10px] md:text-xs font-mono hidden md:table-cell">${trace.date}</td>
-                        <td class="py-3 px-5 text-right">${statusBadge}</td>
+                    htmlBuffer += `
+                        <tr class="border-b border-panelBorder/40 hover:bg-white/[0.02] transition-colors group">
+                            <td class="py-3 px-4 md:px-5 text-textMain font-medium flex items-center gap-3 text-xs md:text-sm">
+                                <div class="h-7 w-7 rounded-lg bg-bgDark border border-panelBorder flex items-center justify-center shadow-sm flex-shrink-0 group-hover:border-accent/50 transition-colors">
+                                    <img src="logo.png" class="h-4 w-4 object-contain grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all" alt="Icon">
+                                </div>
+                                <span class="truncate max-w-[130px] sm:max-w-[200px] md:max-w-xs" title="${trace.targetName}">${trace.targetName}</span>
+                            </td>
+                            <td class="py-3 px-4 md:px-5 text-textMuted text-[11px] md:text-xs hidden sm:table-cell">${trace.channel}</td>
+                            <td class="py-3 px-4 md:px-5 text-textMuted text-[10px] md:text-xs font-mono hidden md:table-cell">${trace.date}</td>
+                            <td class="py-3 px-4 md:px-5 text-right">${statusBadge}</td>
+                        </tr>
                     `;
-                    tbody.appendChild(tr);
                 });
 
-                document.getElementById('ta-total').textContent = tracesData.length;
-                document.getElementById('ta-delivered').textContent = tracesData.filter(t => t.status !== 'error').length;
+                tbody.innerHTML = htmlBuffer;
+
+                // 5. ACTUALIZACIÓN DE ESTADÍSTICAS GLOBALES
+                const totalCount = processedTraces.length;
+                if (totalEl) totalEl.textContent = totalCount.toString();
+                if (deliveredEl) deliveredEl.textContent = countDelivered.toString();
+                if (readEl) readEl.textContent = countRead.toString();
                 
-                const readCount = tracesData.filter(t => t.status === 'read' || t.status === 'LEIDO').length;
-                const totalCount = tracesData.length;
-                document.getElementById('ta-read').textContent = readCount;
-                document.getElementById('ta-rate').textContent = totalCount > 0 ? Math.round((readCount / totalCount) * 100) + '%' : '0%';
+                if (rateEl) {
+                    const effectiveness = totalCount > 0 ? Math.round((countRead / totalCount) * 100) : 0;
+                    rateEl.textContent = `${effectiveness}%`;
+                    
+                    // Extra visual corporativo: Cambio de color de estadística si hay buen rendimiento
+                    if (effectiveness > 15) rateEl.className = "text-accent text-xl md:text-2xl font-bold transition-colors";
+                    else rateEl.className = "text-textMain text-xl md:text-2xl font-bold transition-colors";
+                }
 
             } catch (error) {
-                console.error("Trace Analytics Error:", error);
-                tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-red-400 text-xs font-medium flex flex-col items-center gap-2"><svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Error interno al procesar trazabilidad.</td></tr>`;
+                console.error("NYX Core Error - Trace Analytics Render:", error);
+                tbody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-red-400 text-xs font-medium flex flex-col items-center gap-3"><svg class="w-6 h-6 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> <span>Alerta de Bóveda: El array de seguridad fue modificado o corrompido.<br>ID Error: ${error.message}</span></td></tr>`;
             }
         }
 
         document.getElementById('btn-refresh-ta')?.addEventListener('click', () => {
-            document.getElementById('ta-table-body').innerHTML = `<tr><td colspan="4" class="py-10 text-center text-textMuted"><div class="flex flex-col items-center justify-center"><div class="pro-spinner mb-3 h-6 w-6"></div><span class="text-xs font-medium">Sincronizando telemetría...</span></div></td></tr>`;
-            setTimeout(fetchTraceAnalytics, 400); // Simulamos una pequeñísima recarga para fluidez UI
+            const tbody = document.getElementById('ta-table-body');
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-10 text-center text-textMuted"><div class="flex flex-col items-center justify-center"><div class="pro-spinner mb-3 h-6 w-6"></div><span class="text-xs font-medium">Reconstruyendo telemetría de red...</span></div></td></tr>`;
+            }
+            // Simulación visual rápida de refresco antes de cargar desde memoria
+            setTimeout(renderTraceAnalytics, 400); 
         });
 
     </script>
 </body>
 </html>
-
-

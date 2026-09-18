@@ -117,6 +117,58 @@
             animation: rotation 0.8s linear infinite;
         }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Uiverse.io Chip Loader adaptado */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .trace-bg {
+            stroke: #27272a;
+            stroke-width: 1.8;
+            fill: none;
+        }
+        .trace-flow {
+            stroke-width: 1.8;
+            fill: none;
+            stroke-dasharray: 40 400;
+            stroke-dashoffset: 438;
+            filter: drop-shadow(0 0 6px currentColor);
+            animation: flow 3s cubic-bezier(0.5, 0, 0.9, 1) infinite;
+        }
+        .flow-accent { stroke: #7c3aed; color: #7c3aed; }
+        .flow-white { stroke: #a1a1aa; color: #a1a1aa; }
+        @keyframes flow { to { stroke-dashoffset: 0; } }
+
+        /* Uiverse.io Squares Loader adaptado */
+        .squares-loader {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            transform: rotate(45deg);
+        }
+        .squares-loader-square {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            margin: 1px;
+            background: #7c3aed;
+            animation: square-animation 10s ease-in-out infinite both;
+        }
+        @keyframes square-animation {
+            0%, 10.5%, 100% { left: 0; top: 0; }
+            12.5%, 23% { left: 16px; top: 0; }
+            25%, 35.5% { left: 32px; top: 0; }
+            37.5%, 48% { left: 32px; top: 16px; }
+            50%, 60.5% { left: 16px; top: 16px; }
+            62.5%, 73% { left: 16px; top: 32px; }
+            75%, 85.5% { left: 0; top: 32px; }
+            87.5%, 98% { left: 0; top: 16px; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-accent selection:text-white">
@@ -438,17 +490,102 @@
                 </div>
 
                 <!-- PANTALLA DE PROCESAMIENTO CORPORATIVO -->
-                <div id="processing-screen" class="absolute inset-0 bg-bgDark/95 backdrop-blur-md z-30 flex flex-col items-center justify-center p-6 hidden rounded-2xl">
+                <div id="processing-screen" class="absolute inset-0 bg-bgDark/95 backdrop-blur-md z-30 flex flex-col items-center justify-center p-6 hidden rounded-2xl overflow-hidden">
                     
-                    <div class="pro-spinner mb-6"></div>
+                    <!-- Decoración Chip SVG (Fondo animado) -->
+                    <div class="main-container absolute top-4 w-full opacity-50 pointer-events-none scale-75 md:scale-100 h-[250px] z-0">
+                        <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-lg">
+                            <defs>
+                                <linearGradient id="chipGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#121214"></stop>
+                                    <stop offset="100%" stop-color="#09090b"></stop>
+                                </linearGradient>
+                                <linearGradient id="pinGradient" x1="1" y1="0" x2="0" y2="0">
+                                    <stop offset="0%" stop-color="#3f3f46"></stop>
+                                    <stop offset="50%" stop-color="#27272a"></stop>
+                                    <stop offset="100%" stop-color="#18181b"></stop>
+                                </linearGradient>
+                            </defs>
+
+                            <g id="traces">
+                                <path d="M100 100 H200 V210 H326" class="trace-bg"></path>
+                                <path d="M100 100 H200 V210 H326" class="trace-flow flow-accent"></path>
+
+                                <path d="M80 180 H180 V230 H326" class="trace-bg"></path>
+                                <path d="M80 180 H180 V230 H326" class="trace-flow flow-white"></path>
+
+                                <path d="M60 260 H150 V250 H326" class="trace-bg"></path>
+                                <path d="M60 260 H150 V250 H326" class="trace-flow flow-accent"></path>
+
+                                <path d="M100 350 H200 V270 H326" class="trace-bg"></path>
+                                <path d="M100 350 H200 V270 H326" class="trace-flow flow-white"></path>
+
+                                <path d="M700 90 H560 V210 H474" class="trace-bg"></path>
+                                <path d="M700 90 H560 V210 H474" class="trace-flow flow-white"></path>
+
+                                <path d="M740 160 H580 V230 H474" class="trace-bg"></path>
+                                <path d="M740 160 H580 V230 H474" class="trace-flow flow-accent"></path>
+
+                                <path d="M720 250 H590 V250 H474" class="trace-bg"></path>
+                                <path d="M720 250 H590 V250 H474" class="trace-flow flow-white"></path>
+
+                                <path d="M680 340 H570 V270 H474" class="trace-bg"></path>
+                                <path d="M680 340 H570 V270 H474" class="trace-flow flow-accent"></path>
+                            </g>
+
+                            <rect x="330" y="190" width="140" height="100" rx="16" ry="16" fill="url(#chipGradient)" stroke="#27272a" stroke-width="2" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.5))"></rect>
+
+                            <g>
+                                <rect x="322" y="205" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                                <rect x="322" y="225" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                                <rect x="322" y="245" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                                <rect x="322" y="265" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                            </g>
+
+                            <g>
+                                <rect x="470" y="205" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                                <rect x="470" y="225" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                                <rect x="470" y="245" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                                <rect x="470" y="265" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                            </g>
+
+                            <image href="logonyx.png" x="350" y="220" width="100" height="40" preserveAspectRatio="xMidYMid meet" />
+
+                            <circle cx="100" cy="100" r="4" fill="#3f3f46"></circle>
+                            <circle cx="80" cy="180" r="4" fill="#3f3f46"></circle>
+                            <circle cx="60" cy="260" r="4" fill="#3f3f46"></circle>
+                            <circle cx="100" cy="350" r="4" fill="#3f3f46"></circle>
+
+                            <circle cx="700" cy="90" r="4" fill="#3f3f46"></circle>
+                            <circle cx="740" cy="160" r="4" fill="#3f3f46"></circle>
+                            <circle cx="720" cy="250" r="4" fill="#3f3f46"></circle>
+                            <circle cx="680" cy="340" r="4" fill="#3f3f46"></circle>
+                        </svg>
+                    </div>
+
+                    <!-- Squares Loader Principal -->
+                    <div class="squares-loader mb-12 mt-8 relative z-10">
+                        <div class="squares-loader-square" style="animation-delay: 0s;"></div>
+                        <div class="squares-loader-square" style="animation-delay: -1.428s;"></div>
+                        <div class="squares-loader-square" style="animation-delay: -2.857s;"></div>
+                        <div class="squares-loader-square" style="animation-delay: -4.285s;"></div>
+                        <div class="squares-loader-square" style="animation-delay: -5.714s;"></div>
+                        <div class="squares-loader-square" style="animation-delay: -7.142s;"></div>
+                        <div class="squares-loader-square" style="animation-delay: -8.571s;"></div>
+                    </div>
                     
-                    <h2 class="text-lg font-semibold text-textMain mb-1 text-center">Pasarela de Distribución Activa</h2>
-                    <p class="text-textMuted text-xs mb-10 text-center font-medium">Procesando solicitud mediante infraestructura Zero Trust</p>
+                    <h2 class="text-xl font-semibold text-textMain mb-2 text-center relative z-10 flex items-center gap-3">
+                        <img src="logo.png" class="h-6 w-6 object-contain grayscale opacity-80" alt="CVStudio33">
+                        Pasarela de Enrutamiento
+                    </h2>
+                    <p class="text-accent text-xs mb-10 text-center font-bold tracking-widest uppercase relative z-10 animate-pulse">
+                        Distribución en Progreso
+                    </p>
                     
-                    <div class="w-full max-w-sm bg-panelDark border border-panelBorder rounded-xl p-5 relative overflow-hidden">
+                    <div class="w-full max-w-md bg-panelDark border border-panelBorder rounded-xl p-6 relative overflow-hidden z-10 shadow-2xl">
                         
-                        <div class="w-full bg-bgDark rounded-full h-1.5 mb-5 overflow-hidden relative z-10 border border-panelBorder">
-                            <div id="progress-bar" class="bg-accent h-full w-0 transition-all duration-[1200ms] ease-out relative"></div>
+                        <div class="w-full bg-bgDark rounded-full h-2 mb-6 overflow-hidden relative border border-panelBorder">
+                            <div id="progress-bar" class="bg-gradient-to-r from-accent to-accentHover h-full w-0 transition-all duration-[1200ms] ease-out relative shadow-[0_0_10px_rgba(124,58,237,0.5)]"></div>
                         </div>
                         
                         <div class="h-6 flex flex-col items-center justify-center">
@@ -977,3 +1114,6 @@
     </script>
 </body>
 </html>
+
+
+

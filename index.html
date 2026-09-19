@@ -1256,23 +1256,58 @@
         </div>
     </nav>
 
-    <!-- Modal Obligatorio Legal y Cookies (Actualizado a Banner Profesional) -->
-    <div id="legal-modal" class="fixed bottom-0 left-0 w-full z-[999] bg-white border-t border-gray-200 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] hidden transform translate-y-full transition-transform duration-700 ease-out">
-        <div class="container mx-auto px-4 py-6 md:py-8 flex flex-col md:flex-row items-center justify-between gap-6" id="legal-content">
-            <div class="flex items-start gap-5 w-full md:w-3/4">
-                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 md:h-16 w-auto object-contain hidden sm:block drop-shadow-sm">
-                <div>
-                    <h3 class="text-lg md:text-xl font-extrabold text-gray-900 mb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-blue-600"></i> Aviso de Privacidad y Términos de Servicio</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed text-justify">
-                        Para garantizar una experiencia corporativa premium y el rendimiento óptimo de nuestros sistemas algorítmicos, requerimos su consentimiento. Este sitio web emplea tecnologías de vanguardia, cookies estrictamente necesarias y conexiones seguras a las APIs de <strong>NYX AI</strong>. Al continuar navegando, usted acepta explícitamente nuestras normativas vigentes. Lo invitamos a revisar detalladamente nuestros <a href="#" class="text-blue-600 hover:underline font-semibold">Términos y Condiciones</a>, donde garantizamos la absoluta confidencialidad, seguridad y transparencia en el manejo de sus datos.
-                    </p>
-                </div>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-1/4 justify-end shrink-0">
-                <button id="btn-reject-legal" class="px-5 py-3 border-2 border-gray-200 text-gray-600 font-bold text-sm rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all">Rechazar y Salir</button>
-                <button id="btn-accept-legal" class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-blue-500/30 transform hover:-translate-y-0.5">Aceptar y Continuar</button>
-            </div>
+    <!-- Ad Modal -->
+    <div id="ad-modal" class="fixed inset-0 z-[1000] bg-black/60 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-500">
+        <div class="relative bg-white rounded-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-500" id="ad-container" style="max-width: 600px; width: 90%;">
+            <img src="anuncio.png" alt="Anuncio CV Studio33" class="w-full h-auto object-cover" id="ad-image" onerror="this.parentElement.parentElement.remove();">
+            <button id="ad-close-btn" class="absolute top-4 right-4 bg-black/60 hover:bg-black/90 text-white backdrop-blur-md rounded-full px-4 py-2 text-xs font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Cerrar en <span id="ad-timer">5</span>s
+            </button>
         </div>
+    </div>
+
+    <!-- Compact Cookies & Terms Widget -->
+    <div id="legal-widget" class="fixed bottom-6 md:bottom-24 left-1/2 md:left-6 -translate-x-1/2 md:translate-x-0 w-[92%] max-w-[340px] z-[999] bg-white/95 backdrop-blur-xl border border-gray-100 shadow-[0_20px_60px_rgba(0,0,0,0.15)] rounded-2xl hidden transform translate-y-8 opacity-0 transition-all duration-700 ease-out p-5">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="flex -space-x-2">
+                <img src="logo.png" alt="CV33" class="w-8 h-8 rounded-full border-2 border-white shadow-sm object-contain bg-white">
+                <img src="logonyx.png" alt="Nyx" class="w-8 h-8 rounded-full border-2 border-white shadow-sm object-contain bg-black">
+                <img src="logoaxon.png" alt="Axon" class="w-8 h-8 rounded-full border-2 border-white shadow-sm object-contain bg-black">
+            </div>
+            <h3 class="text-sm font-extrabold text-gray-900 tracking-tight">Privacidad y Términos</h3>
+        </div>
+        
+        <p class="text-[11px] text-gray-500 mb-4 leading-relaxed">
+            CV Studio33 utiliza cookies e integraciones algorítmicas con Lixie IA, Panel Nyx y Axon para optimizar tu experiencia y la compatibilidad ATS.
+        </p>
+        
+        <div class="space-y-2 mb-4 text-[11px]">
+            <label class="flex items-center justify-between p-2 rounded-lg bg-gray-50 border border-gray-100 cursor-not-allowed">
+                <div class="flex flex-col">
+                    <span class="font-bold text-gray-700">Esenciales (Nyx & ATS)</span>
+                    <span class="text-[9px] text-gray-400">Requeridas para operar.</span>
+                </div>
+                <input type="checkbox" checked disabled class="w-4 h-4 text-blue-600 rounded">
+            </label>
+            <label class="flex items-center justify-between p-2 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors">
+                <div class="flex flex-col">
+                    <span class="font-bold text-gray-700">Analíticas (Lixie & Axon)</span>
+                    <span class="text-[9px] text-gray-400">Ayudan a entrenar la IA.</span>
+                </div>
+                <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded border-gray-300">
+            </label>
+        </div>
+
+        <label class="flex items-start gap-2 mb-4 cursor-pointer">
+            <input type="checkbox" id="terms-checkbox" class="mt-0.5 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+            <span class="text-[10px] text-gray-500 leading-tight">
+                He leído y acepto los <a href="#" class="text-blue-600 font-semibold hover:underline">Términos y Condiciones</a> y autorizo el uso de la IA de CV Studio33.
+            </span>
+        </label>
+
+        <button id="btn-accept-legal" class="w-full py-3 bg-gray-900 text-white text-[11px] uppercase tracking-wider font-bold rounded-xl hover:bg-blue-600 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+            Aceptar Configuración
+        </button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -1372,34 +1407,88 @@
             });
         });
 
-        // --- LÓGICA DEL MODAL LEGAL IRRENUNCIABLE (NUEVO BANNER) ---
+        // --- LÓGICA DEL WIDGET LEGAL ---
         document.addEventListener("DOMContentLoaded", () => {
-            const modal = document.getElementById('legal-modal');
-            const btnAccept = document.getElementById('btn-accept-legal');
-            const btnReject = document.getElementById('btn-reject-legal');
+            const legalWidget = document.getElementById('legal-widget');
+            const btnAcceptLegal = document.getElementById('btn-accept-legal');
+            const termsCheckbox = document.getElementById('terms-checkbox');
 
             // Verifica en LocalStorage si ya aceptaron
-            if (!localStorage.getItem('cvs33_terms_accepted_v1')) {
-                modal.classList.remove('hidden');
-                // Pequeño timeout para permitir que se aplique el hidden:false antes de animar
+            if (legalWidget && !localStorage.getItem('cvs33_terms_v2')) {
+                legalWidget.classList.remove('hidden');
                 setTimeout(() => {
-                    modal.classList.remove('translate-y-full');
-                }, 100);
+                    legalWidget.classList.remove('translate-y-8', 'opacity-0');
+                }, 300);
             }
 
-            btnAccept.addEventListener('click', () => {
-                localStorage.setItem('cvs33_terms_accepted_v1', 'true');
-                modal.classList.add('translate-y-full');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 700);
-            });
+            if(termsCheckbox && btnAcceptLegal) {
+                termsCheckbox.addEventListener('change', (e) => {
+                    btnAcceptLegal.disabled = !e.target.checked;
+                });
+                btnAcceptLegal.disabled = !termsCheckbox.checked;
 
-            btnReject.addEventListener('click', () => {
-                // Al rechazar, bloqueamos el acceso mandando a otra web (Ej: Google)
-                window.location.href = "https://www.google.com";
-            });
+                btnAcceptLegal.addEventListener('click', () => {
+                    if(termsCheckbox.checked) {
+                        localStorage.setItem('cvs33_terms_v2', 'true');
+                        legalWidget.classList.add('translate-y-8', 'opacity-0');
+                        setTimeout(() => {
+                            legalWidget.classList.add('hidden');
+                        }, 700);
+                    }
+                });
+            }
+
+            // --- LÓGICA DEL POP-UP ANUNCIO (Aleatorio) ---
+            const adModal = document.getElementById('ad-modal');
+            const adImage = document.getElementById('ad-image');
+            const adCloseBtn = document.getElementById('ad-close-btn');
+            const adTimerSpan = document.getElementById('ad-timer');
+
+            // Timeout aleatorio entre 15s (15000ms) y 33s (33000ms)
+            const randomDelay = Math.floor(Math.random() * (33000 - 15000 + 1)) + 15000;
+
+            if (adModal && adImage) {
+                setTimeout(() => {
+                    // Check if modal still exists (hasn't been removed by image error)
+                    if (document.getElementById('ad-modal')) {
+                        adModal.classList.remove('hidden');
+                        adModal.classList.add('flex');
+                        
+                        // Animación de entrada
+                        setTimeout(() => {
+                            adModal.classList.remove('opacity-0');
+                            document.getElementById('ad-container').classList.remove('scale-95');
+                            document.getElementById('ad-container').classList.add('scale-100');
+                        }, 50);
+
+                        // Temporizador de 5 segundos
+                        let timeLeft = 5;
+                        const timerInterval = setInterval(() => {
+                            timeLeft--;
+                            if (timeLeft <= 0) {
+                                clearInterval(timerInterval);
+                                adTimerSpan.parentElement.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                                adCloseBtn.disabled = false;
+                            } else {
+                                adTimerSpan.textContent = timeLeft;
+                            }
+                        }, 1000);
+
+                        // Evento cerrar
+                        adCloseBtn.addEventListener('click', () => {
+                            adModal.classList.add('opacity-0');
+                            document.getElementById('ad-container').classList.remove('scale-100');
+                            document.getElementById('ad-container').classList.add('scale-95');
+                            setTimeout(() => {
+                                adModal.remove();
+                            }, 500);
+                        });
+                    }
+                }, randomDelay);
+            }
         });
     </script>
 </body>
 </html>
+
+

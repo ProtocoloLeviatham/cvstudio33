@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,28 +8,28 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
+    <!-- FontAwesome (Solo íconos esenciales) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0b1120',
+                        primary: '#020617', /* Deeper slate for ultra-professional look */
                         secondary: '#3b82f6',
                         accent: '#6366f1',
-                        dark: '#020617',
+                        dark: '#02040a',
                         textMain: '#cbd5e1',
                         textHead: '#f8fafc',
-                        success: '#10b981', // Para resaltar seguridad
                     },
                     fontFamily: {
                         heading: ['Montserrat', 'sans-serif'],
-                        sans: ['Open Sans', 'sans-serif']
+                        sans: ['Open Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
             }
@@ -39,266 +39,456 @@
     <style>
         body { 
             font-family: 'Open Sans', sans-serif; 
-            background-color: #0b1120; 
+            background-color: #020617; 
             color: #cbd5e1; 
             overflow-x: hidden; 
-            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        /* Selection styling: Verde Esmeralda para Privacidad/Seguridad */
+        ::selection { background-color: rgba(16, 185, 129, 0.3); color: #a7f3d0; }
 
-        /* Contenedor Legal (Glassmorphism) */
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar { width: 8px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #02040a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; } /* Emerald accent */
+
+        /* Contenedor Legal Glassmorphism Extremo */
         .legal-container {
-            background: rgba(30, 41, 59, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
         /* Títulos de Cláusulas */
         .clause-title {
             font-family: 'Montserrat', sans-serif;
             color: #f8fafc;
-            border-left: 4px solid #10b981; /* Verde seguridad */
-            padding-left: 1rem;
-            margin-bottom: 1rem;
+            border-left: 4px solid #10b981; /* Verde Seguridad */
+            padding-left: 1.25rem;
+            margin-bottom: 2rem;
             font-size: 1.25rem;
-            font-weight: 700;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
         }
+        @media (min-width: 768px) {
+            .clause-title { font-size: 1.5rem; padding-left: 1.5rem; }
+        }
+        .clause-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1.25rem;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, transparent);
+            margin-bottom: -10px;
+        }
+        @media (min-width: 768px) { .clause-title::after { left: 1.5rem; } }
 
         /* Subtítulos */
         .clause-subtitle {
             color: #6ee7b7;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            padding-bottom: 0.75rem;
         }
 
-        /* Texto Legal */
+        /* Texto Legal: Máxima legibilidad */
         .legal-text {
-            font-size: 0.9rem;
-            line-height: 1.8;
-            color: #cbd5e1;
-            text-align: justify;
+            font-size: 0.95rem;
+            line-height: 1.85;
+            color: #94a3b8;
+            font-weight: 400;
+            text-align: left; 
+            letter-spacing: 0.02em;
+        }
+        .legal-text p { margin-bottom: 1.25rem; }
+        .legal-text strong { color: #f1f5f9; font-weight: 600; }
+
+        /* Listas Legales */
+        .legal-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.02);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .legal-list li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 1rem;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .legal-list li:last-child { margin-bottom: 0; }
+        .legal-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
         }
 
-        /* Navegación Lateral (Sticky) */
-        .sidebar-nav {
-            position: sticky;
-            top: 120px;
-        }
-        
-        .nav-link {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: #64748b;
-            font-size: 0.85rem;
-            border-left: 2px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
-        }
-        .nav-link:hover {
-            color: #10b981;
-            border-left-color: #10b981;
-            background: rgba(16, 185, 129, 0.05);
+        /* Navegación Lateral / Superior Móvil */
+        @media (max-width: 1024px) {
+            .sidebar-nav-container {
+                position: sticky;
+                top: 75px;
+                z-index: 40;
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255,255,255,0.05);
+                border-radius: 12px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+            }
+            .nav-list {
+                display: flex;
+                overflow-x: auto;
+                gap: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            .nav-link {
+                white-space: nowrap;
+                background: rgba(255,255,255,0.03);
+                border-radius: 8px;
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+                color: #64748b;
+                font-weight: 600;
+                text-transform: uppercase;
+                transition: all 0.3s ease;
+                border: 1px solid transparent;
+            }
+            .nav-link:hover, .nav-link:active {
+                background: rgba(16, 185, 129, 0.1);
+                color: #f8fafc;
+                border-color: rgba(16, 185, 129, 0.2);
+            }
         }
 
-        /* Fondo sutil */
+        @media (min-width: 1025px) {
+            .sidebar-nav-container { position: sticky; top: 120px; }
+            .nav-list { display: flex; flex-direction: column; gap: 0.25rem; }
+            .nav-link {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.7rem 1.2rem;
+                color: #64748b;
+                font-size: 0.75rem;
+                border-left: 2px solid rgba(255,255,255,0.02);
+                transition: all 0.2s ease;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                border-radius: 0 8px 8px 0;
+            }
+            .nav-link:hover, .nav-link.active {
+                color: #f8fafc;
+                border-left-color: #10b981;
+                background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
+                padding-left: 1.5rem;
+            }
+        }
+
+        /* Fondo Grid Tecnológico Sutil */
         .bg-grid {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
         }
     </style>
 </head>
-<body>
+<body class="selection:bg-emerald-500/30 selection:text-emerald-200">
 
     <div class="bg-grid"></div>
 
-    <!-- NAVBAR SIMPLE -->
-    <nav class="bg-primary/95 backdrop-blur-xl border-b border-white/5 h-20 sticky top-0 z-50">
-        <div class="container mx-auto px-6 h-full flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="CV Studio33" class="h-8 w-auto opacity-80">
-                <div class="h-6 w-px bg-gray-700"></div>
-                <span class="font-heading font-bold text-sm tracking-widest text-gray-400 uppercase">Privacidad & Datos</span>
+    <!-- NAVBAR CORPORATIVA MÓVIL FIRST -->
+    <nav class="bg-[#02040a]/90 backdrop-blur-md border-b border-white/5 h-16 md:h-20 sticky top-0 z-50">
+        <div class="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
+            <div class="flex items-center gap-3 md:gap-4">
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-8 md:h-10 w-auto opacity-90 filter drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+                <div class="h-6 md:h-8 w-px bg-white/10 hidden sm:block"></div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-bold text-xs md:text-sm tracking-widest text-white uppercase">CV Studio33</span>
+                    <span class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide">Privacy & Data Security</span>
+                </div>
             </div>
-            <a href="index.html" class="text-sm text-green-400 hover:text-white transition font-semibold">
-                <i class="fa-solid fa-xmark mr-1"></i> volver al inicio
+            <a href="index.html" class="group flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 transition-all text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white">
+                <span class="hidden sm:inline">Volver al inicio</span>
+                <span class="sm:hidden">Volver</span>
             </a>
         </div>
     </nav>
 
-    <!-- HEADER -->
-    <header class="py-16 bg-gradient-to-b from-primary to-dark border-b border-white/5">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-3xl md:text-5xl font-heading font-black text-white mb-4">Política de Privacidad</h1>
-            <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
-                Su confianza es nuestra prioridad. A continuación, detallamos cómo <strong>CV Studio33</strong> protege, procesa y utiliza sus datos personales en conjunto con nuestras tecnologías de IA (NYX y AXON).
+    <!-- HEADER EJECUTIVO -->
+    <header class="py-16 md:py-24 bg-gradient-to-b from-[#02040a] via-[#040814] to-primary border-b border-white/5 relative overflow-hidden">
+        <!-- Resplandor Verde Sutil de Seguridad -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[500px] bg-emerald-600/10 rounded-full blur-[100px] md:blur-[140px] pointer-events-none"></div>
+        
+        <div class="container mx-auto px-4 md:px-6 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 mb-6 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></span>
+                <span class="text-emerald-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">Documento Oficial de Transparencia</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 mb-6 leading-tight tracking-tight">
+                Política Global de Privacidad y<br class="hidden lg:block"> Tratamiento de Datos Personales
+            </h1>
+            <p class="text-slate-400 text-sm md:text-base max-w-4xl mx-auto leading-relaxed font-light text-left md:text-center mt-6">
+                La confianza y la seguridad algorítmica son los pilares fundamentales de CV Studio33. El presente documento detalla exhaustivamente cómo protegemos, procesamos, anonimizamos y eliminamos sus datos personales al interactuar con nuestras infraestructuras de Inteligencia Artificial (Módulos NYX y AXON). Operamos bajo los estándares internacionales más estrictos de privacidad por diseño (Zero-Data Retention), asegurando que su información profesional estratégica sea utilizada exclusivamente para su optimización táctica y nunca para el entrenamiento de modelos fundacionales externos. Su privacidad es un derecho inquebrantable.
+                <span class="text-slate-500 text-xs md:text-sm mt-6 block text-left md:text-center uppercase tracking-widest font-mono">Última actualización: <span id="current-date" class="text-emerald-400 font-bold"></span></span>
             </p>
         </div>
     </header>
 
-    <div class="container mx-auto px-4 py-12 flex flex-col lg:flex-row gap-12">
+    <div class="container mx-auto px-4 md:px-6 py-12 md:py-20 flex flex-col lg:flex-row gap-8 lg:gap-12 relative">
         
-        <!-- SIDEBAR DE NAVEGACIÓN (Desktop) -->
-        <aside class="hidden lg:block lg:w-1/4">
-            <div class="sidebar-nav">
-                <h4 class="text-white font-bold mb-4 px-4 uppercase tracking-widest text-xs">Índice Legal</h4>
-                <nav class="space-y-1">
-                    <a href="#recoleccion" class="nav-link">1. Información que Recopilamos</a>
-                    <a href="#ia-processing" class="nav-link">2. Procesamiento por IA (NYX/AXON)</a>
-                    <a href="#uso-datos" class="nav-link">3. Uso de la Información</a>
-                    <a href="#compartir" class="nav-link">4. Compartición (Bolsa VIP)</a>
-                    <a href="#seguridad" class="nav-link">5. Seguridad y Almacenamiento</a>
-                    <a href="#cookies" class="nav-link">6. Cookies y Tokens</a>
-                    <a href="#derechos" class="nav-link">7. Sus Derechos (ARCO)</a>
+        <!-- SIDEBAR DE NAVEGACIÓN -->
+        <aside class="w-full lg:w-1/4 xl:w-1/5">
+            <div class="sidebar-nav-container">
+                <h4 class="text-white font-bold mb-4 lg:mb-6 px-2 lg:px-4 uppercase tracking-widest text-[10px] lg:text-xs border-b border-white/5 pb-3 flex items-center gap-2">
+                    <img src="logo.png" alt="Icono" class="w-4 h-4 opacity-70 filter grayscale">
+                    <span class="whitespace-nowrap">Índice Legal</span>
+                </h4>
+                <nav class="nav-list">
+                    <a href="#recoleccion" class="nav-link">1. Datos Recopilados</a>
+                    <a href="#ia-processing" class="nav-link">2. Procesamiento IA (NYX)</a>
+                    <a href="#uso-datos" class="nav-link">3. Finalidad de Uso</a>
+                    <a href="#compartir" class="nav-link">4. Red VIP & Terceros</a>
+                    <a href="#seguridad" class="nav-link">5. Seguridad Zero-Data</a>
+                    <a href="#integraciones" class="nav-link">6. APIs & Integraciones</a>
+                    <a href="#cookies" class="nav-link">7. Cookies & Tokens</a>
+                    <a href="#derechos" class="nav-link">8. Sus Derechos (ARCO)</a>
                 </nav>
             </div>
         </aside>
 
         <!-- CONTENIDO LEGAL -->
-        <main class="lg:w-3/4 legal-container p-8 md:p-12">
+        <main class="w-full lg:w-3/4 xl:w-4/5 legal-container p-6 sm:p-8 md:p-12 lg:p-16">
             
             <!-- 1. RECOLECCIÓN -->
-            <section id="recoleccion" class="mb-16">
+            <section id="recoleccion" class="mb-16 scroll-mt-32">
                 <h2 class="clause-title">1. Información que Recopilamos</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        Para proporcionar nuestros servicios de creación de CV y análisis de carrera, recopilamos diferentes tipos de información:
-                    </p>
-                    <ul class="list-disc pl-5 space-y-2 text-gray-400 text-sm">
-                        <li><strong>Datos Biográficos:</strong> Nombre, dirección, teléfono, correo electrónico, fecha de nacimiento, nacionalidad y fotografía.</li>
-                        <li><strong>Datos Profesionales:</strong> Historial laboral, educación, habilidades, idiomas, certificaciones, portafolio y enlaces a redes profesionales (LinkedIn).</li>
-                        <li><strong>Datos de Uso:</strong> Interacción con nuestros Bots de aplicación, tokens consumidos y preferencias de plantillas.</li>
-                        <li><strong>Datos de Transacción:</strong> Información necesaria para procesar pagos (gestionada externamente por Mercado Pago, CV Studio33 no almacena números de tarjeta de crédito completos).</li>
+                <div class="legal-text">
+                    <p>Para proporcionar nuestros servicios de estructuración algorítmica de CV y análisis predictivo de carrera, recopilamos proactivamente diferentes tipos de información:</p>
+                    <ul class="legal-list">
+                        <li><strong>Datos Biográficos:</strong> Nombre completo, dirección, teléfono, correo electrónico, fecha de nacimiento, nacionalidad y fotografía (cuando sea suministrada).</li>
+                        <li><strong>Datos Profesionales:</strong> Historial laboral detallado, educación, habilidades (Soft y Hard Skills), idiomas, certificaciones, portafolio y enlaces a redes profesionales (ej. LinkedIn, GitHub).</li>
+                        <li><strong>Datos de Uso y Telemetría:</strong> Interacción con nuestros Bots de aplicación, volumen de tokens consumidos, tiempos de respuesta y preferencias de plantillas de diseño.</li>
+                        <li><strong>Datos de Transacción Comercial:</strong> Información necesaria para procesar pagos y suscripciones. Dichos datos son gestionados de forma encriptada y externa por pasarelas certificadas (ej. <strong>Mercado Pago</strong>). CV Studio33 NO intercepta ni almacena números de tarjeta de crédito en sus servidores de base.</li>
                     </ul>
                 </div>
             </section>
 
             <!-- 2. PROCESAMIENTO IA -->
-            <section id="ia-processing" class="mb-16">
-                <h2 class="clause-title">2. Procesamiento mediante IA (NYX y AXON)</h2>
-                <div class="legal-text space-y-6">
-                    <p>
-                        CV Studio33 utiliza tecnologías avanzadas de procesamiento de datos. Al utilizar nuestros servicios, usted autoriza el tratamiento de sus datos bajo las siguientes condiciones específicas:
-                    </p>
+            <section id="ia-processing" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">2. Procesamiento Volátil mediante IA (NYX y AXON)</h2>
+                <div class="legal-text">
+                    <p>CV Studio33 utiliza tecnologías avanzadas de procesamiento de lenguaje natural y deep learning. Al utilizar nuestros servicios, usted autoriza el tratamiento de sus datos bajo las siguientes condiciones de blindaje técnico:</p>
 
-                    <div>
-                        <h3 class="clause-subtitle">2.1. Análisis Semántico con NYX</h3>
-                        <p>
-                            La IA <strong>NYX</strong> procesa el texto de su CV para reescribirlo, optimizarlo para sistemas ATS y sugerir mejoras de redacción. Los datos ingresados son anonimizados temporalmente para su procesamiento en nuestros servidores seguros. NYX no utiliza sus datos personales identificables para el entrenamiento público de su modelo, garantizando la confidencialidad de su estrategia de carrera.
-                        </p>
-                    </div>
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                        <span>2.1. Análisis Semántico con NYX (Motor Generativo)</span>
+                    </h3>
+                    <p>La IA <strong>NYX</strong> procesa el texto de su CV para reescribirlo, optimizarlo y sugerir mejoras de impacto. Los datos ingresados son anonimizados temporalmente para su procesamiento en nuestros servidores seguros o a través de APIs de tránsito. <strong>NYX no retiene sus datos de forma persistente ni los utiliza para el entrenamiento público de modelos fundacionales</strong> (LLM training), garantizando la total confidencialidad de su estrategia de carrera e historial corporativo.</p>
 
-                    <div>
-                        <h3 class="clause-subtitle">2.2. Auditoría Predictiva con AXON</h3>
-                        <p>
-                            El bot <strong>AXON</strong> escanea su perfil comparándolo con nuestra base de datos interna de perfiles exitosos. Este proceso implica el análisis de patrones y palabras clave. Los resultados del "Score de Compatibilidad" y el "Semáforo de Habilidades" se generan automáticamente y se almacenan en su perfil de usuario para su consulta.
-                        </p>
-                    </div>
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                        <span>2.2. Auditoría Predictiva con AXON (Motor Analítico)</span>
+                    </h3>
+                    <p>El módulo <strong>AXON</strong> escanea su perfil comparándolo dinámicamente con nuestra base de datos histórica de "Perfiles de Oro". Este proceso implica un análisis vectorial de palabras clave y patrones de rechazo ATS. Los resultados (como el "Score de Compatibilidad" o el "Mapa de Calor Biomédico") se generan mediante simulación algorítmica y se exponen en su interfaz de usuario sin exponer los datos puros a terceros.</p>
                 </div>
             </section>
 
             <!-- 3. USO DE DATOS -->
-            <section id="uso-datos" class="mb-16">
+            <section id="uso-datos" class="mb-16 scroll-mt-32">
                 <h2 class="clause-title">3. Finalidad del Uso de Datos</h2>
-                <div class="legal-text space-y-4">
-                    <p>Utilizamos su información exclusivamente para:</p>
-                    <ul class="list-disc pl-5 space-y-2 text-gray-400 text-sm">
-                        <li>Generar y renderizar sus documentos (CVs y Cartas de Presentación) en formato PDF.</li>
-                        <li>Permitir la funcionalidad de autocompletado mediante <strong>LocalStorage</strong> en su navegador para una mejor experiencia de usuario.</li>
-                        <li>Ejecutar los servicios de Bots de Aplicación Automática en los portales de empleo seleccionados por usted.</li>
-                        <li>Proporcionar soporte técnico y asistencia personalizada a través de nuestros canales de venta directa (WhatsApp).</li>
+                <div class="legal-text">
+                    <p>Utilizamos su información, con estricto apego al principio de minimización de datos, exclusivamente para los siguientes propósitos operativos:</p>
+                    <ul class="legal-list">
+                        <li><strong>Generación Documental:</strong> Compilar, estructurar y renderizar sus documentos finales (CVs y Cartas de Presentación optimizadas) en formato PDF.</li>
+                        <li><strong>Optimización de Interfaz (LocalStorage):</strong> Permitir la funcionalidad de autocompletado y guardado de borradores almacenando la información localmente en la caché de su navegador para una experiencia más rápida.</li>
+                        <li><strong>Despliegue Estratégico:</strong> Ejecutar los servicios del Distribution Hub (envío masivo a portales corporativos) en nombre del usuario y bajo sus parámetros de selección.</li>
+                        <li><strong>Soporte al Cliente:</strong> Proporcionar asistencia técnica, seguimiento de tokens y atención personalizada a través de nuestros canales de venta directa (ej. WhatsApp).</li>
                     </ul>
                 </div>
             </section>
 
             <!-- 4. COMPARTICIÓN (BOLSA VIP) -->
-            <section id="compartir" class="mb-16">
-                <h2 class="clause-title">4. Compartición de Datos con Terceros</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        CV Studio33 <strong>NO</strong> vende sus datos a anunciantes externos. Sin embargo, dependiendo del servicio contratado, sus datos pueden ser compartidos de la siguiente manera:
-                    </p>
-                    <div>
-                        <h3 class="clause-subtitle">4.1. Usuarios de la "Bolsa de Trabajo VIP" y "Career Suite"</h3>
-                        <p>
-                            Si usted contrata planes que incluyen acceso a la Bolsa VIP (Plan Avanzado, Profesional o Membresía), autoriza expresamente a CV Studio33 a compartir su Perfil Profesional Optimizado con nuestra red de partners, que incluye: <strong>Headhunters verificados, Agencias de Reclutamiento y Departamentos de RRHH</strong> de empresas aliadas.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="clause-subtitle">4.2. Proveedores de Servicios</h3>
-                        <p>
-                            Compartimos datos estrictamente necesarios con proveedores de infraestructura (hosting, procesamiento de pagos) que cumplen con estándares de seguridad internacionales.
-                        </p>
-                    </div>
+            <section id="compartir" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">4. Compartición de Datos con Terceros (Red VIP)</h2>
+                <div class="legal-text">
+                    <p>CV Studio33 declara expresamente que <strong>NO vende, comercializa ni transfiere comercialmente sus datos a anunciantes externos, brokers de datos o agencias de marketing</strong>. Sin embargo, dependiendo del nivel de servicio contratado, sus datos profesionales pueden ser compartidos bajo confidencialidad de la siguiente manera:</p>
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                        <span>4.1. Usuarios de la "Bolsa de Trabajo VIP" y Career Suite</span>
+                    </h3>
+                    <p>Si usted adquiere planes de nivel superior que incluyen acceso a nuestra infraestructura VIP (Plan Avanzado, Profesional o Membresía), autoriza expresamente a CV Studio33 a compartir su Perfil Profesional Optimizado con nuestra red de aliados estratégicos. Esta red incluye exclusivamente: Headhunters verificados, Agencias de Reclutamiento Boutique y Departamentos de RRHH de empresas corporativas aliadas, con el fin de maximizar sus oportunidades en el "Mercado Oculto".</p>
                 </div>
             </section>
 
-            <!-- 5. SEGURIDAD -->
-            <section id="seguridad" class="mb-16">
-                <h2 class="clause-title">5. Seguridad y Almacenamiento</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        Implementamos medidas de seguridad de grado bancario para proteger su información.
-                    </p>
-                    <ul class="list-disc pl-5 space-y-2 text-gray-400 text-sm">
-                        <li><strong>Encriptación:</strong> Todos los datos transmitidos entre su dispositivo y nuestros servidores (para análisis de IA) viajan encriptados mediante protocolo SSL/TLS.</li>
-                        <li><strong>Almacenamiento Local:</strong> Para maximizar su privacidad, gran parte de la información de borrador de sus CVs se almacena localmente en su dispositivo (LocalStorage), minimizando la exposición en la nube hasta que usted decide procesarlos o guardarlos en su cuenta.</li>
-                        <li><strong>Acceso Restringido:</strong> El acceso a sus datos personales dentro de nuestra organización está limitado a personal autorizado sujeto a acuerdos de confidencialidad.</li>
+            <!-- 5. SEGURIDAD (ZERO-DATA) -->
+            <section id="seguridad" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">5. Seguridad Estructural y Zero-Data Retention</h2>
+                <div class="legal-text">
+                    <p>Implementamos arquitecturas de ciberseguridad de grado militar para aislar y proteger su información. Nuestra infraestructura se rige por el principio de "Privacidad por Diseño":</p>
+                    <ul class="legal-list">
+                        <li><strong>Procesamiento en RAM (Zero-Data Retention):</strong> Para evitar fugas de información de identificación personal (PII), nuestro motor de análisis semántico no almacena su currículum en bases de datos relacionales persistentes. El proceso de optimización (parsing) ocurre de manera volátil en la memoria RAM del servidor y se destruye irreversiblemente tras completarse el ciclo de IA.</li>
+                        <li><strong>Almacenamiento Local (LocalStorage):</strong> Para maximizar su soberanía de datos, el texto en formato borrador de sus CVs se almacena localmente en la caché de su propio dispositivo (computadora o celular). Usted tiene el control total sobre la limpieza de dichos datos.</li>
+                        <li><strong>Cifrado en Tránsito (AES-256):</strong> Toda comunicación bidireccional entre su dispositivo y nuestros orquestadores neuronales viaja protegida y encriptada bajo estándares SSL/TLS y AES-256.</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- 6. COOKIES Y TOKENS -->
-            <section id="cookies" class="mb-16">
-                <h2 class="clause-title">6. Cookies y Economía de Tokens</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        Utilizamos cookies técnicas necesarias para el funcionamiento del "Creador de CV" y la gestión de sesiones.
-                    </p>
-                    <h3 class="clause-subtitle">Tokens NYX y AXON</h3>
-                    <p>
-                        El saldo de sus Tokens (créditos para uso de IA) se asocia a su cuenta de usuario. CV Studio33 mantiene un registro digital de su consumo de Tokens para garantizar la transparencia del servicio. Estos registros se conservan por un periodo de 12 meses con fines de auditoría y soporte al cliente.
-                    </p>
+            <!-- 6. INTEGRACIONES Y APIs -->
+            <section id="integraciones" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">6. Integraciones Externas, APIs y Telemetría</h2>
+                <div class="legal-text">
+                    <p>Para dotar a CV Studio33 de sus capacidades de alta disponibilidad y poder de inferencia, nos apoyamos en infraestructuras tecnológicas globales. Al utilizar nuestra plataforma, los siguientes procesadores de terceros intervienen bajo sus propias políticas de privacidad, en condición de "passthrough" (tránsito puro):</p>
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                        <span>6.1. Procesadores de Inteligencia Artificial (LLM)</span>
+                    </h3>
+                    <p>Utilizamos APIs empresariales de <strong>OpenAI</strong>, <strong>Google Gemini</strong> y <strong>Pollinations</strong> para la reestructuración semántica del texto. Las peticiones enviadas a estos proveedores no incluyen metadatos que lo identifiquen personalmente, y están respaldadas por contratos que prohíben el uso de su CV para el entrenamiento público de sus inteligencias artificiales.</p>
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                        <span>6.2. Seguridad, Base de Datos y Métricas de Tráfico</span>
+                    </h3>
+                    <p>El tráfico de red es analizado y mitigado contra ataques DDoS por <strong>Cloudflare</strong>. La sincronización de información estructurada en tiempo real utiliza la arquitectura de <strong>Firebase</strong>. Para entender el rendimiento de nuestra web, empleamos <strong>Google Analytics</strong> recopilando métricas de tráfico y comportamiento (como mapas de clics) de manera estrictamente agregada y anonimizada.</p>
                 </div>
             </section>
 
-            <!-- 7. DERECHOS -->
-            <section id="derechos" class="mb-16">
-                <h2 class="clause-title">7. Sus Derechos (ARCO)</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse al tratamiento de sus datos personales. Puede ejercer estos derechos en cualquier momento:
-                    </p>
-                    <ul class="list-disc pl-5 space-y-2 text-gray-400 text-sm">
-                        <li><strong>Exportación:</strong> Puede descargar toda su información en formato PDF a través de la plataforma.</li>
-                        <li><strong>Eliminación:</strong> Puede solicitar la eliminación total de su cuenta y los datos asociados en nuestros servidores enviando un correo a <strong>legal@cvstudio33.com</strong>. Tenga en cuenta que esto eliminará permanentemente sus Tokens y acceso a la Bolsa VIP.</li>
+            <!-- 7. COOKIES Y TOKENS -->
+            <section id="cookies" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">7. Uso de Cookies y Trazabilidad de Tokens</h2>
+                <div class="legal-text">
+                    <p>CV Studio33 utiliza cookies técnicas y de sesión que son estrictamente necesarias para el funcionamiento del ecosistema, el mantenimiento de su sesión activa y la carga rápida de la interfaz de usuario.</p>
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-emerald-500 rounded-full shadow-[0_0_8px_#10b981]"></div>
+                        <span>7.1. Economía de Tokens y Auditoría Interna</span>
+                    </h3>
+                    <p>El saldo de sus Tokens (unidades de cómputo para uso de IA) está asociado a su cuenta de usuario de manera encriptada. Mantenemos un registro digital interno (Log) de su historial de consumo de Tokens (ej. cuándo y cuántos tokens se usaron para un análisis AXON) con el fin de garantizar la transparencia transaccional y la prevención de fraudes. Estos registros inmutables se conservan por un periodo de 12 meses para fines de auditoría técnica y soporte al cliente.</p>
+                </div>
+            </section>
+
+            <!-- 8. DERECHOS ARCO -->
+            <section id="derechos" class="mb-10 scroll-mt-32">
+                <h2 class="clause-title">8. Sus Derechos (ARCO) y Eliminación de Datos</h2>
+                <div class="legal-text">
+                    <p>Como usuario, usted retiene la soberanía absoluta sobre su información y tiene derecho a Acceder, Rectificar, Cancelar u Oponerse (Derechos ARCO) al tratamiento de sus datos personales en cualquier momento.</p>
+                    <ul class="legal-list">
+                        <li><strong>Derecho de Exportación (Portabilidad):</strong> Puede descargar, compilar o exportar la totalidad de su información estructurada y currículums finales en formato PDF desde la interfaz de la plataforma en cualquier instante.</li>
+                        <li><strong>Derecho al Olvido (Eliminación Definitiva):</strong> Puede solicitar la purga o eliminación total de su cuenta, configuraciones y cualquier dato persistente remanente en nuestros servidores. Para ello, debe enviar un correo electrónico formal a <strong>legal@cvstudio33.com</strong>. Tenga en cuenta que ejecutar la eliminación total borrará permanentemente sus historiales, anulará cualquier saldo de Tokens restante sin derecho a reembolso (conforme al SLA), y revocará su acceso a la Bolsa VIP.</li>
                     </ul>
                 </div>
             </section>
             
-            <div class="border-t border-white/10 pt-8 mt-12 text-center text-xs text-gray-500">
-                <p>CV Studio33 - Buenos Aires, Argentina.</p>
-                <p class="mt-2">Al continuar utilizando este sitio, usted confirma que ha leído y aceptado nuestra Política de Privacidad.</p>
+            <div class="border-t border-white/10 pt-10 mt-8 text-center text-xs md:text-sm text-slate-500 font-mono">
+                <p class="mb-2">Documento elaborado por el equipo de cumplimiento legal (Compliance & Privacy) de CV Studio33.</p>
+                <p>Buenos Aires, Argentina. Al continuar utilizando este ecosistema, usted confirma su lectura y aceptación unívoca.</p>
             </div>
 
         </main>
     </div>
 
-    <!-- Script Fecha -->
+    <!-- FOOTER 2026 PROFESIONAL (Adaptado a Privacidad) -->
+    <footer class="bg-[#02040a] pt-16 pb-8 border-t border-white/5 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Columna 1 -->
+                <div>
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-auto mb-6 opacity-80 filter grayscale hover:grayscale-0 transition-all duration-500">
+                    <p class="text-xs text-slate-400 leading-relaxed mb-6 text-left">
+                        Infraestructura algorítmica inexpugnable. Protegemos sus datos biomédicos, profesionales y estratégicos con arquitecturas Zero-Data y protocolos AES-256.
+                    </p>
+                </div>
+
+                <!-- Columna 2 -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Privacy Core</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#general" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors">Términos de Recolección</a></li>
+                        <li><a href="#seguridad" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors">Infraestructura Zero-Data</a></li>
+                        <li><a href="#derechos" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors">Ejercicio Derechos ARCO</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3 -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Legal & Compliance</h4>
+                    <ul class="space-y-4">
+                        <li><a href="legal.html" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors block">Marco Legal y SLA (Principal)</a></li>
+                        <li><a href="#integraciones" class="text-xs text-slate-400 hover:text-emerald-400 transition-colors block">Transparencia de APIs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4 -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Auditoría de Seguridad</h4>
+                    <div class="flex items-center gap-3 mb-4 p-3 rounded-lg bg-emerald-900/10 border border-emerald-500/20">
+                        <div class="text-xs text-slate-400 text-left">
+                            <p class="font-bold text-emerald-400">Zero-Data Retention</p>
+                            <p class="mt-1 text-slate-500">Máxima inmunidad de PII</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-emerald-900/10 border border-emerald-500/20">
+                        <div class="text-xs text-slate-400 text-left">
+                            <p class="font-bold text-emerald-400">AES-256 Encryption</p>
+                            <p class="mt-1 text-slate-500">APIs Pass-through Seguras</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase text-center md:text-left">
+                    &copy; 2026 CV Studio33 Privacy & Security Protocol.
+                </p>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_5px_#10b981]"></span>
+                    <span class="text-[9px] text-emerald-400 font-mono uppercase font-bold tracking-wider">Privacy Protocols Active</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Fecha Dinámica -->
     <script>
-        const date = new Date();
-        const month = date.toLocaleString('es-ES', { month: 'long' });
-        const year = date.getFullYear();
-        // Insertar fecha dinámica si fuera necesario en algún span con id
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date().toLocaleDateString('es-ES', options);
+        document.getElementById('current-date').textContent = today;
     </script>
 </body>
-
 </html>
+

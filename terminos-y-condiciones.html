@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome (Solo para íconos esenciales de contacto/redes) -->
+    <!-- FontAwesome (Solo íconos esenciales) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
@@ -25,7 +25,6 @@
                         dark: '#020617',
                         textMain: '#cbd5e1',
                         textHead: '#f8fafc',
-                        legalGold: '#d4af37',
                     },
                     fontFamily: {
                         heading: ['Montserrat', 'sans-serif'],
@@ -43,7 +42,6 @@
             background-color: #0b1120; 
             color: #cbd5e1; 
             overflow-x: hidden; 
-            /* Antialiasing para mejorar cómo se ven las letras */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -67,7 +65,7 @@
         .clause-title {
             font-family: 'Montserrat', sans-serif;
             color: #f8fafc;
-            border-left: 4px solid #3b82f6;
+            border-left: 4px solid #ef4444; /* Rojo para denotar estatus legal severo */
             padding-left: 1rem;
             margin-bottom: 2rem;
             font-size: 1.25rem;
@@ -77,12 +75,8 @@
             position: relative;
         }
         @media (min-width: 768px) {
-            .clause-title {
-                font-size: 1.4rem;
-                padding-left: 1.5rem;
-            }
+            .clause-title { font-size: 1.4rem; padding-left: 1.5rem; }
         }
-        
         .clause-title::after {
             content: '';
             position: absolute;
@@ -90,14 +84,12 @@
             left: 1rem;
             width: 50px;
             height: 2px;
-            background: linear-gradient(90deg, #3b82f6, transparent);
+            background: linear-gradient(90deg, #ef4444, transparent);
             margin-bottom: -10px;
         }
-        @media (min-width: 768px) {
-            .clause-title::after { left: 1.5rem; }
-        }
+        @media (min-width: 768px) { .clause-title::after { left: 1.5rem; } }
 
-        /* Subtítulos (Diseño Minimalista sin íconos recargados) */
+        /* Subtítulos */
         .clause-subtitle {
             color: #93c5fd;
             font-weight: 700;
@@ -111,16 +103,17 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Texto Legal Corregido (Eliminado el justify que causaba espacios raros) */
+        /* Texto Legal: Alineado a la izquierda para evitar espacios raros */
         .legal-text {
             font-size: 0.95rem;
             line-height: 1.8;
             color: #cbd5e1;
             font-weight: 400;
-            text-align: left; /* FIX: Las letras ahora salen perfectamente ordenadas */
+            text-align: left; 
             letter-spacing: 0.015em;
         }
         .legal-text p { margin-bottom: 1.25rem; }
+        .legal-text strong { color: #f8fafc; font-weight: 700; }
 
         /* Listas Legales */
         .legal-list {
@@ -147,7 +140,7 @@
             top: 8px;
             width: 6px;
             height: 6px;
-            background: #3b82f6;
+            background: #ef4444;
             border-radius: 50%;
         }
 
@@ -184,39 +177,32 @@
                 border: 1px solid transparent;
             }
             .nav-link:hover, .nav-link:active {
-                background: rgba(59, 130, 246, 0.15);
+                background: rgba(239, 68, 68, 0.15);
                 color: #fff;
-                border-color: rgba(59, 130, 246, 0.3);
+                border-color: rgba(239, 68, 68, 0.3);
             }
         }
 
         @media (min-width: 1025px) {
-            .sidebar-nav-container {
-                position: sticky;
-                top: 120px;
-            }
-            .nav-list {
-                display: flex;
-                flex-direction: column;
-                gap: 0.2rem;
-            }
+            .sidebar-nav-container { position: sticky; top: 120px; }
+            .nav-list { display: flex; flex-direction: column; gap: 0.2rem; }
             .nav-link {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 padding: 0.8rem 1.2rem;
                 color: #64748b;
-                font-size: 0.8rem;
+                font-size: 0.75rem;
                 border-left: 2px solid rgba(255,255,255,0.05);
                 transition: all 0.3s;
-                font-weight: 600;
+                font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
             }
             .nav-link:hover, .nav-link.active {
                 color: #f8fafc;
-                border-left-color: #3b82f6;
-                background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+                border-left-color: #ef4444;
+                background: linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent);
                 padding-left: 1.5rem;
             }
         }
@@ -224,118 +210,12 @@
         /* Fondo Grid Tecnológico */
         .bg-grid {
             background-image: 
-                linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             mask-image: radial-gradient(circle at center, black, transparent 80%);
         }
-
-        /* Pricing Cards */
-        .pricing-card {
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .pricing-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 15px 35px -10px rgba(59, 130, 246, 0.2);
-            background: rgba(15, 23, 42, 0.7);
-        }
-        .pricing-card.popular {
-            border-color: rgba(212, 175, 55, 0.4);
-            background: linear-gradient(180deg, rgba(212,175,55,0.05) 0%, rgba(15,23,42,0.6) 100%);
-        }
-        .pricing-badge {
-            background: linear-gradient(90deg, #d4af37, #fde047);
-            color: #000;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: absolute;
-            top: 0;
-            transform: translateY(-50%);
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
-        }
-        .pricing-title {
-            color: #f8fafc;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-        .pricing-tokens {
-            color: #93c5fd;
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .pricing-price {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .pricing-btn {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 8px;
-            background: linear-gradient(90deg, #3b82f6, #6366f1);
-            color: white;
-            font-weight: 800;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-        .pricing-btn:hover {
-            filter: brightness(1.15);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-        }
-        .pricing-card.popular .pricing-btn {
-            background: linear-gradient(90deg, #d4af37, #ca8a04);
-            color: #000;
-        }
-        
-        .list-features {
-            text-align: left;
-            width: 100%;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-        .list-features li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .list-features li::before {
-            content: '•';
-            color: #3b82f6;
-            font-size: 1.2rem;
-            line-height: 0;
-            margin-right: 4px;
-        }
-        .pricing-card.popular .list-features li::before { color: #d4af37; }
-
     </style>
 </head>
 <body>
@@ -350,7 +230,7 @@
                 <div class="h-6 md:h-8 w-px bg-white/10 hidden sm:block"></div>
                 <div class="flex flex-col">
                     <span class="font-heading font-bold text-xs md:text-sm tracking-widest text-white uppercase">CV Studio33</span>
-                    <span class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide">Legal & Compliance</span>
+                    <span class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide">Legal, Compliance & Security</span>
                 </div>
             </div>
             <a href="index.html" class="group flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white">
@@ -362,347 +242,190 @@
 
     <!-- HEADER EJECUTIVO -->
     <header class="py-16 md:py-24 bg-gradient-to-b from-primary via-[#0f172a] to-dark border-b border-white/5 relative overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[500px] bg-blue-600/15 rounded-full blur-[100px] md:blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[500px] bg-red-600/10 rounded-full blur-[100px] md:blur-[120px] pointer-events-none"></div>
         
         <div class="container mx-auto px-4 md:px-6 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 mb-6">
-                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                <span class="text-blue-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">Documento Oficial V.2026.1 SLA</span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/30 bg-red-500/10 mb-6 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-red-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">Documento Legal Vinculante</span>
             </div>
             <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 mb-6 leading-tight tracking-tight">
-                Marco Legal, SLA y<br class="hidden lg:block"> Políticas de Privacidad
+                Términos Universales de Servicio y<br class="hidden lg:block"> Políticas de Ciberseguridad
             </h1>
             <p class="text-gray-400 text-sm md:text-base max-w-4xl mx-auto leading-relaxed font-light text-left md:text-center mt-6">
-                Este documento vinculante establece las normativas operativas, limitaciones de responsabilidad y protocolos de privacidad que rigen el ecosistema de CV Studio33. Al acceder a nuestras infraestructuras de IA (NYX, AXON) o utilizar el Distribution Hub, el Usuario acepta estas condiciones, asumiendo total comprensión de la naturaleza estadística, predictiva y exenta de garantías de los servicios algorítmicos. Su lectura y aceptación son requisitos ineludibles previos a la adquisición de cualquier capacidad de cómputo.
-                <span class="text-gray-500 text-xs md:text-sm mt-6 block text-left md:text-center">Vigencia efectiva a partir de: <span id="current-date" class="text-blue-400 font-mono font-bold"></span></span>
+                Este documento establece las normativas operativas, limitaciones absolutas de responsabilidad, protocolos de ciberseguridad y políticas anti-denuncias que rigen todo el ecosistema tecnológico de CV Studio33. Al acceder a nuestra plataforma, adquirir Tokens o interactuar con nuestros motores de Inteligencia Artificial, <strong>el Usuario acepta incondicionalmente estos términos vinculantes</strong>. La ignorancia de este documento no exime a ninguna de las partes de su estricto cumplimiento.
+                <span class="text-gray-500 text-xs md:text-sm mt-6 block text-left md:text-center">Vigencia y última actualización: <span id="current-date" class="text-red-400 font-mono font-bold"></span></span>
             </p>
         </div>
     </header>
 
-    <div class="container mx-auto px-4 md:px-6 py-12 md:py-20 flex flex-col lg:flex-row gap-8 lg:gap-16 relative">
+    <div class="container mx-auto px-4 md:px-6 py-12 md:py-20 flex flex-col lg:flex-row gap-8 lg:gap-12 relative">
         
         <!-- SIDEBAR DE NAVEGACIÓN -->
-        <aside class="w-full lg:w-1/4">
+        <aside class="w-full lg:w-1/4 xl:w-1/5">
             <div class="sidebar-nav-container">
                 <h4 class="text-white font-bold mb-4 lg:mb-6 px-2 lg:px-4 uppercase tracking-widest text-[10px] lg:text-xs border-b border-white/10 pb-3 flex items-center gap-2">
-                    <img src="logo.png" alt="Icono" class="w-4 h-4 opacity-70">
+                    <img src="logo.png" alt="Icono" class="w-4 h-4 opacity-70 filter grayscale">
                     <span class="whitespace-nowrap">Índice Contractual</span>
                 </h4>
                 <nav class="nav-list">
                     <a href="#general" class="nav-link">1. Naturaleza del Servicio</a>
-                    <a href="#ia-limits" class="nav-link">2. Escudos IA (NYX/AXON)</a>
-                    <a href="#distribution" class="nav-link">3. Normativa Distribution</a>
-                    <a href="#privacidad" class="nav-link">4. Privacidad Zero-Data</a>
-                    <a href="#reembolsos" class="nav-link">5. Política No Reembolsos</a>
-                    <a href="#responsabilidad" class="nav-link">6. Exoneración Máxima</a>
-                    <a href="#partners" class="nav-link">7. API B2B & Partners</a>
-                    <a href="#anexo" class="nav-link text-blue-400">Anexo Comercial</a>
+                    <a href="#ia-limits" class="nav-link">2. Límites Algorítmicos</a>
+                    <a href="#distribution" class="nav-link">3. Normativa de Envíos</a>
+                    <a href="#integraciones" class="nav-link">4. APIs & Privacidad</a>
+                    <a href="#pagos" class="nav-link">5. Tokens & Pagos</a>
+                    <a href="#afiliados" class="nav-link">6. Panel de Referidos</a>
+                    <a href="#ciberseguridad" class="nav-link">7. Ciberseguridad & Hackeos</a>
+                    <a href="#cambios" class="nav-link">8. Anti-Multas & Futuro</a>
+                    <a href="#responsabilidad" class="nav-link">9. Exoneración Total</a>
                 </nav>
             </div>
         </aside>
 
         <!-- CONTENIDO LEGAL -->
-        <main class="w-full lg:w-3/4 legal-container p-5 sm:p-8 md:p-12 lg:p-16">
+        <main class="w-full lg:w-3/4 xl:w-4/5 legal-container p-5 sm:p-8 md:p-12 lg:p-16">
             
             <!-- 1. GENERAL -->
             <section id="general" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">1. Naturaleza del Servicio y Definición Contractual</h2>
+                <h2 class="clause-title">1. Naturaleza Tecnológica del Servicio</h2>
                 <div class="legal-text">
-                    <p><strong>CV Studio33</strong> es un proveedor de tecnología de software como servicio (SaaS) especializado en procesamiento algorítmico y estructuración de datos profesionales. Declaramos expresa y categóricamente que <strong>NO operamos como agencia de reclutamiento, bolsa de empleo tradicional, headhunters, ni entidad garante de inserción laboral</strong>.</p>
-                    <p>Nuestros sistemas proveen una ventaja estadística y táctica basada en el análisis de datos masivos. Sin embargo, la decisión final de contratación depende exclusivamente de factores subjetivos, económicos y humanos propios de terceras empresas. Por consiguiente, CV Studio33 rechaza de plano cualquier responsabilidad legal o civil frente a la no consecución de entrevistas, ofertas laborales o mejoras salariales por parte del Usuario tras el uso de nuestras herramientas.</p>
+                    <p><strong>CV Studio33</strong> opera única y exclusivamente como una entidad desarrolladora de Software como Servicio (SaaS) y herramientas de procesamiento algorítmico masivo. <strong>Rechazamos categóricamente cualquier denominación de agencia de empleo, headhunter, o bolsa de trabajo tradicional.</strong></p>
+                    <p>Nuestras infraestructuras (NYX y AXON) proporcionan ventajas estadísticas en el posicionamiento de mercado. Sin embargo, la decisión de contratación, entrevistas y salarios recae en factores socioeconómicos y humanos de terceros. CV Studio33 rechaza cualquier responsabilidad legal, civil o penal frente a la no obtención de empleo o resultados laborales negativos tras el uso de nuestras herramientas.</p>
                 </div>
             </section>
 
-            <!-- 2. IA LIMITS (NYX Y AXON) -->
+            <!-- 2. IA LIMITS -->
             <section id="ia-limits" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">2. Infraestructura NYX y AXON: Limitaciones y Responsabilidad de la IA</h2>
+                <h2 class="clause-title">2. Limitaciones de la IA (Módulos NYX y AXON)</h2>
                 <div class="legal-text">
-                    <p>El ecosistema central compuesto por los módulos NYX (red neuronal ofensiva) y AXON (auditoría predictiva) opera mediante orquestación multi-motor, algoritmos de Deep Learning y modelos de lenguaje a gran escala (LLM). Su utilización por parte del Cliente está sujeta a los siguientes escudos legales inquebrantables:</p>
+                    <p>El uso de nuestros motores predictivos (NYX/AXON) está blindado por las siguientes normativas de uso asimétrico:</p>
                     
                     <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>2.1. Naturaleza Probabilística y "Alucinaciones"</span>
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>2.1. Alucinaciones e Inexactitudes</span>
                     </h3>
-                    <p>Todo el contenido generado, reestructurado o sugerido por NYX (incluyendo optimización semántica, inyección de keywords y protocolos de mirroring psicológico) es fundamentalmente probabilístico. La Inteligencia Artificial es propensa a generar información imprecisa, ficticia o descontextualizada ("alucinaciones"). <strong>Es obligación ineludible y exclusiva del Cliente</strong> auditar, verificar y aprobar la veracidad técnica y temporal de su perfil profesional antes de exportarlo o distribuirlo. CV Studio33 no asume responsabilidad alguna por errores de sintaxis u omisiones generadas algorítmicamente.</p>
+                    <p>El contenido generado mediante Inteligencia Artificial es probabilístico. Los sistemas pueden "alucinar", inventar datos o proponer certificaciones erróneas ("Skills Gap"). <strong>El Consumidor es el único responsable legal</strong> de auditar y verificar que cada palabra generada en su perfil sea verídica. CV Studio33 se exime totalmente ante casos de fraude corporativo, despidos o acciones penales por falsedad ideológica originados por currículums generados en nuestra plataforma.</p>
 
                     <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>2.2. Simulación ATS y Cambios Algorítmicos Externos</span>
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>2.2. Simuladores ATS y Cajas Negras</span>
                     </h3>
-                    <p>Las auditorías proporcionadas por el módulo AXON (Score de Compatibilidad, Parsing Health, Predicción de Vista Biométrica y Mapa de Calor de Retención) son simulaciones basadas en ingeniería inversa histórica de sistemas como Taleo, Workday o Greenhouse. Estas simulaciones representan un esfuerzo tecnológico de "mejor intento" (best-effort). CV Studio33 no asume ninguna responsabilidad frente a rechazos automáticos (auto-rejections) causados por actualizaciones imprevistas, cajas negras propietarias o configuraciones corporativas privadas en los filtros de las empresas empleadoras.</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>2.3. Integridad de los Datos del Cliente</span>
-                    </h3>
-                    <p>El Usuario asume total responsabilidad legal (civil y penal) en caso de que la información provista a la IA para el cálculo del "Skills Gap" o la generación de contenido contenga falsedades, certificaciones apócrifas o exageraciones deliberadas. CV Studio33 queda total y completamente eximido ante casos de fraude, falsedad ideológica o despidos originados por discrepancias entre el perfil generado y las verdaderas capacidades del Cliente.</p>
+                    <p>Las auditorías biométricas y el "Score de Compatibilidad" son estimaciones estadísticas (Best-Effort). Las empresas corporativas cambian sus algoritmos constantemente. CV Studio33 no asume responsabilidad alguna si su perfil es rechazado automáticamente (auto-rejected) por filtros externos.</p>
                 </div>
             </section>
 
             <!-- 3. DISTRIBUTION HUB -->
             <section id="distribution" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">3. Cumplimiento Normativo del Distribution Hub</h2>
+                <h2 class="clause-title">3. Distribution Hub y Responsabilidad Anti-Spam</h2>
                 <div class="legal-text">
-                    <p>El Distribution Hub permite el despliegue estratégico y envío masivo inteligente de perfiles hacia portales de empleo y bases de datos corporativas. Su uso está regulado estrictamente bajo el siguiente marco legal:</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>3.1. Rol Exclusivo de Intermediario Tecnológico</span>
-                    </h3>
-                    <p>CV Studio33 actúa pura y exclusivamente como un conducto o facilitador tecnológico. <strong>El Usuario es reconocido legalmente como el único emisor y remitente primario</strong> de todas las comunicaciones ejecutadas a través de la plataforma.</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>3.2. Políticas Anti-Spam y Cumplimiento Internacional</span>
-                    </h3>
-                    <p>Al utilizar la tecnología de distribución, el Cliente acepta de forma vinculante cumplir con todas las leyes internacionales anti-spam vigentes (incluyendo, pero no limitado a CAN-SPAM Act, regulaciones GDPR europeas y la Ley 25.326 de Protección de Datos). El Usuario se compromete a no utilizar la infraestructura para acosar, saturar o vulnerar los sistemas de los receptores. En caso de reclamos legales, denuncias o inclusión en listas negras (blacklists) por parte de proveedores de correo (Google, Microsoft) debido al comportamiento del Usuario, CV Studio33 quedará eximido de toda responsabilidad, recayendo las consecuencias legales íntegramente sobre el Cliente.</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>3.3. Sin Garantía de Entregabilidad (No-Deliverability Guarantee)</span>
-                    </h3>
-                    <p>Si bien utilizamos algoritmos para la evasión de filtros básicos, no garantizamos tasas de apertura específicas, ni podemos asegurar que los sistemas de seguridad externos (firewalls corporativos, detectores antispam severos) no bloqueen los correos o aislen los archivos PDF adjuntos enviados mediante nuestra infraestructura.</p>
+                    <p>El Distribution Hub es una tubería tecnológica (conduit). Al utilizar el envío masivo, el Usuario se reconoce legalmente como el único emisor del tráfico de red.</p>
+                    <p><strong>Cero Garantía de Entregabilidad:</strong> No nos hacemos responsables si proveedores externos (Google, Microsoft) clasifican sus correos como Spam, bloquean su IP o aplican blacklisting a su identidad. El Usuario acepta indemnizar a CV Studio33 ante cualquier demanda o multa internacional por violaciones a la ley CAN-SPAM, GDPR o leyes de protección de datos derivadas de sus campañas de postulación.</p>
                 </div>
             </section>
 
-            <!-- 4. PRIVACIDAD ZERO-DATA -->
-            <section id="privacidad" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">4. Privacidad Extrema y Procesamiento Volátil (Zero-Data Retention)</h2>
+            <!-- 4. INTEGRACIONES EXTERNAS Y PRIVACIDAD -->
+            <section id="integraciones" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">4. Privacidad Zero-Data e Integraciones de Terceros</h2>
                 <div class="legal-text">
-                    
                     <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>4.1. Arquitectura de Memoria Volátil (Local/Caché)</span>
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>4.1. Arquitectura Sin Persistencia (Zero-Data Retention)</span>
                     </h3>
-                    <p>CV Studio33 ha sido estructurado bajo los principios más estrictos de "Privacidad por Diseño". Para blindar nuestra plataforma contra filtraciones, brechas de seguridad o mal uso de datos personales (PII), <strong>nuestro sistema no guarda bases de datos persistentes con su currículum ni información biográfica</strong>. Todo el procesamiento de parsing y auditoría se realiza de forma efímera en la memoria RAM del servidor o a través de memoria caché local del navegador, destruyéndose irreversiblemente tras finalizar la sesión de optimización.</p>
+                    <p>CV Studio33 no almacena bases de datos persistentes con su información de identificación personal (PII). Todo parsing ocurre en memoria RAM (Local/Caché) y se destruye post-ejecución. Esto anula nuestro rol como custodios de datos a largo plazo, eximiéndonos de la responsabilidad de restitución de archivos perdidos por el usuario.</p>
 
                     <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>4.2. Tratamiento Transitorio mediante APIs Externas</span>
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>4.2. Infraestructuras y APIs Externas</span>
                     </h3>
-                    <p>Los datos procesados que requieren derivación hacia nuestros orquestadores multi-motor (OpenAI, Gemini, Pollinations) son transmitidos bajo protocolos estrictos de cifrado AES-256 en tránsito. Garantizamos contractualmente que sus datos actúan únicamente como "passthrough" (tránsito puro) y no son retenidos ni utilizados para el entrenamiento algorítmico de los modelos fundacionales de dichas corporaciones.</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>4.3. Exención de Repositorio Documental</span>
-                    </h3>
-                    <p>Al no operar como un repositorio en la nube a largo plazo, no estamos sujetos a obligaciones de recuperación de datos. CV Studio33 no asume ninguna responsabilidad por la pérdida de documentos finales que el Usuario no haya descargado y resguardado en sus dispositivos personales.</p>
-                </div>
-            </section>
-
-            <!-- 5. NO REEMBOLSOS -->
-            <section id="reembolsos" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">5. Economía de Tokens y Política Estricta de Cero Reembolsos</h2>
-                <div class="legal-text">
-                    
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>5.1. Naturaleza Comercial de los "Tokens"</span>
-                    </h3>
-                    <p>La adquisición de cualquiera de nuestros planes otorga al Usuario unidades denominadas "Tokens". Un Token no constituye un activo financiero, criptomoneda ni moneda de curso legal. Representa exclusivamente un comprobante digital interno que habilita un bloque de tiempo de procesamiento de servidor, ancho de banda y llamadas a las APIs de inteligencia artificial para la ejecución de tareas específicas (ej. un Token NYX permite una iteración de mirroring).</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>5.2. Renuncia Estricta e Irrevocable a Reembolsos</span>
-                    </h3>
-                    <p>Debido a que la ejecución de nuestras herramientas de IA consume recursos computacionales de alto costo de forma inmediata, e implica la entrega de productos digitales irrevocables y know-how estructurado, <strong>TODAS LAS VENTAS, ADQUISICIONES DE TOKENS, PLANES CORPORATIVOS Y SUSCRIPCIONES SON ABSOLUTAMENTE FINALES</strong>.</p>
-                    <p><strong>No se emitirán reembolsos bajo ninguna circunstancia</strong>, incluyéndose taxativamente pero no limitándose a: (a) Insatisfacción subjetiva con el resultado final generado por la IA; (b) Fracaso en la obtención de entrevistas de trabajo; (c) Consumo parcial o nulo de los tokens adquiridos; (d) Problemas técnicos originados por el navegador del usuario; (e) Arrepentimiento posterior a la compra. Al procesar el pago, el Cliente renuncia explícitamente a cualquier derecho legal de desistimiento, disputa de contracargos bancarios o reclamo pecuniario.</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>5.3. Interrupción de Suscripciones (Plan Mensual VIP)</span>
-                    </h3>
-                    <p>Las mensualidades VIP o planes de uso ilimitado son cobrados por adelantado. El Cliente puede cancelar la renovación automática en cualquier momento para evitar cobros futuros, manteniendo el acceso hasta el final del período facturado. No se emitirán, bajo ninguna excepción, devoluciones prorrateadas por el tiempo no utilizado del mes en curso.</p>
-                </div>
-            </section>
-
-            <!-- 6. EXONERACIÓN -->
-            <section id="responsabilidad" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">6. Exoneración Máxima de Responsabilidad e Indemnidad</h2>
-                <div class="legal-text">
-                    <p>Nuestra plataforma se proporciona bajo la base técnica de "tal cual" (AS-IS) y "según estricta disponibilidad" (AS-AVAILABLE), sin garantías expresas o implícitas de ningún tipo respecto a su idoneidad para la consecución de empleo.</p>
-                    
+                    <p>Para asegurar el rendimiento, dependemos de integraciones globales de terceros. Al usar nuestra web, usted acepta implícitamente las políticas de:</p>
                     <ul class="legal-list">
-                        <li><strong>Límite Financiero de Responsabilidad:</strong> CV Studio33, sus fundadores, desarrolladores o entidades afiliadas no serán responsables por daños indirectos, incidentales, punitivos, lucro cesante o pérdida dramática de oportunidades laborales bajo ninguna teoría legal (contractual, extracontractual o negligencia). En el caso remoto de que una jurisdicción competente determine responsabilidad, esta estará siempre limitada estricta y rígidamente al monto monetario que el Cliente nos haya pagado en los últimos treinta (30) días previos al incidente.</li>
-                        <li><strong>Indemnidad Activa:</strong> El Cliente acepta defender, indemnizar y eximir de toda responsabilidad civil o penal a CV Studio33 ante cualquier reclamación, demanda, costo (incluyendo honorarios de abogados), originados por la falsificación de su CV, infracción de derechos de autor de terceros o mal uso flagrante del Distribution Hub.</li>
-                        <li><strong>Eventos de Fuerza Mayor:</strong> No asumiremos responsabilidad por interrupciones del servicio, demoras o bloqueos derivados de caídas masivas en proveedores de nube (AWS, Google Cloud), ataques cibernéticos DDoS, regulaciones gubernamentales, o fallos críticos en las APIs de los motores fundacionales de inteligencia artificial (OpenAI, Gemini).</li>
+                        <li><strong>Google Analytics & Firebase:</strong> Utilizados para bases de datos en tiempo real y telemetría de tráfico.</li>
+                        <li><strong>Cloudflare:</strong> Red de entrega de contenido (CDN) y mitigación de ataques DDoS.</li>
+                        <li><strong>OpenAI / Google Gemini:</strong> Orquestadores LLM de procesamiento de lenguaje natural.</li>
+                    </ul>
+                    <p>CV Studio33 queda absolutamente eximido de responsabilidad civil o penal por caídas de servidores, brechas de seguridad masivas (data breaches) o recolección de metadatos que ocurran directamente en los servidores de estos gigantes tecnológicos.</p>
+                </div>
+            </section>
+
+            <!-- 5. PAGOS Y TOKENS -->
+            <section id="pagos" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">5. Pasarelas de Pago, Tokens y No Reembolso</h2>
+                <div class="legal-text">
+                    <p>CV Studio33 ofrece diversos niveles de capacidad computacional (Planes Starter, Advanced, Pro, Elite y Suscripciones VIP). Estos planes otorgan "Tokens", que representan bloques consumibles de procesamiento algorítmico.</p>
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>5.1. Pasarelas Seguras (Mercado Pago)</span>
+                    </h3>
+                    <p>Toda transacción económica es procesada a través de pasarelas de pago seguras y certificadas, principalmente <strong>Mercado Pago</strong> (pudiendo incorporar otras a futuro). CV Studio33 no intercepta, procesa ni almacena datos de tarjetas de crédito o débito. Cualquier disputa, fraude bancario, cobro duplicado o caída del sistema transaccional es responsabilidad exclusiva de la pasarela proveedora, eximiendo a CV Studio33 de devoluciones forzadas.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>5.2. Política Universal de CERO Reembolsos</span>
+                    </h3>
+                    <p>Dado que los Tokens inician el consumo inmediato de costosos servidores en la nube y entregan tecnología digital irrevocable, <strong>TODAS LAS VENTAS SON ABSOLUTAMENTE FINALES</strong>. El usuario renuncia a su derecho de desistimiento o reembolso bajo cualquier pretexto (incluyendo arrepentimiento, errores técnicos locales, o fracaso laboral).</p>
+                </div>
+            </section>
+
+            <!-- 6. PANEL DE REFERIDOS -->
+            <section id="afiliados" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">6. Panel de Referidos y Afiliados (B2B)</h2>
+                <div class="legal-text">
+                    <p>El sistema de afiliación de CV Studio33 permite generar ingresos o saldo en la plataforma recomendando nuestra tecnología. Para proteger a los consumidores y a la Entidad, aplican las siguientes normativas:</p>
+                    <ul class="legal-list">
+                        <li><strong>Regulación de Creadores:</strong> Todo creador de contenido o afiliado que promocione la plataforma debe indicar obligatoriamente que somos una herramienta tecnológica, no una garantía de empleo. CV Studio33 no responde por promesas falsas o publicidad engañosa emitida por sus usuarios afiliados.</li>
+                        <li><strong>Naturaleza del Saldo (Utility Tokens):</strong> Las comisiones y recompensas acumuladas en el Panel de Referencias son "créditos virtuales" sin valor fiat fuera de nuestro ecosistema hasta el momento de su liquidación aprobada.</li>
+                        <li><strong>Anulación por Abuso:</strong> Nos reservamos el derecho unilateral de congelar cuentas, anular saldos y expulsar usuarios si detectamos granjas de bots, auto-referencias (self-referrals) o exploits en la plataforma.</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- 7. PARTNERS -->
-            <section id="partners" class="mb-16 scroll-mt-32">
-                <h2 class="clause-title">7. Programa "Únete al Sistema": Ecosistema B2B y Propiedad Intelectual</h2>
+            <!-- 7. CIBERSEGURIDAD Y HACKEOS -->
+            <section id="ciberseguridad" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">7. Ciberseguridad, Hackeos y Pérdida de Saldo</h2>
                 <div class="legal-text">
-                    <p>Nuestra arquitectura está diseñada para permitir que Reclutadores, Desarrolladores de IA y Estrategas de Carrera utilicen CV Studio33 como plataforma operativa (Marca Blanca / API B2B).</p>
+                    <p>A pesar de contar con seguridad de grado militar mediante Cloudflare y Firebase, ningún sistema informático en el mundo es 100% invulnerable. Esta cláusula protege expresamente la continuidad del negocio en caso de desastres cibernéticos.</p>
                     
                     <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>7.1. Responsabilidad Delegada del Partner B2B</span>
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>7.1. Pérdida de Saldos en el Panel de Referencias</span>
                     </h3>
-                    <p>Aquellos usuarios corporativos o consultores independientes que utilicen la infraestructura (incluyendo el módulo "Tu Propio BOT ATS" o herramientas de producción masiva) para proveer servicios a sus propios clientes finales, asumen legalmente la figura de "Responsables del Tratamiento de Datos". CV Studio33 actuará únicamente como un Sub-Procesador tecnológico ciego. El Partner B2B deberá tener sus propios acuerdos legales que protejan y aíslen a CV Studio33 de sus usuarios finales.</p>
+                    <p>En el evento fortuito de que un ataque informático, vulnerabilidad Zero-Day, ataque DDoS severo, o corrupción masiva en la base de datos comprometa la integridad del Panel de Referencias o el monedero de Tokens, <strong>CV Studio33 se declara legalmente exento y NO asume responsabilidad civil, penal o económica por la pérdida del saldo virtual o comisiones acumuladas por los usuarios</strong>.</p>
+                    <p>Aunque la Entidad realiza copias de seguridad (Backups) regulares, la decisión de restaurar la economía del sistema será a nuestra entera discreción técnica. No existirá obligación vinculante de restituir los fondos virtuales exactos si la integridad de la base de datos es irrecuperable o alterada por agentes maliciosos.</p>
 
                     <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>7.2. Propiedad Intelectual de los Algoritmos</span>
+                        <div class="w-1.5 h-5 bg-red-500 rounded-full"></div>
+                        <span>7.2. Consecuencias por Hacking y Exploits</span>
                     </h3>
-                    <p>Toda la lógica algorítmica, los procesos de inyección de "Invisible Text", el código fuente del "Método 33", la conexión neural, las bases de datos de "Perfiles de Oro" y el diseño de la interfaz gráfica son propiedad exclusiva e inalienable de CV Studio33. El acceso B2B o el desarrollo a medida no transfiere derechos de propiedad intelectual. La ingeniería inversa, la extracción no autorizada de código (scraping) o el intento de vulnerar los motores NYX/AXON resultará en la cancelación inmediata de la cuenta sin derecho a reembolso y la persecución legal en tribunales competentes.</p>
-
-                    <h3 class="clause-subtitle">
-                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-                        <span>7.3. Jurisdicción Exclusiva</span>
-                    </h3>
-                    <p>Toda controversia derivada de este acuerdo, o del uso del ecosistema en su totalidad, será sometida de manera exclusiva a la jurisdicción de los Tribunales Ordinarios en lo Comercial con asiento en la Ciudad Autónoma de Buenos Aires, República Argentina, renunciando expresamente el Usuario a cualquier otro fuero o jurisdicción (incluyendo arbitrajes internacionales), sin importar su ubicación geográfica real.</p>
+                    <p>Cualquier intento por parte de un usuario o tercero de ejecutar inyecciones SQL, ataques XSS, escaneo de puertos, o vulneración maliciosa de nuestras APIs, resultará en el bloqueo definitivo (Ban de IP y HWID) sin derecho a reembolso. Asimismo, CV Studio33 colaborará activamente entregando los registros de red (logs) a las autoridades internacionales (Interpol, Divisiones de Cibercrimen) para asegurar la máxima persecución penal posible del atacante.</p>
                 </div>
             </section>
 
-            <!-- ANEXO COMERCIAL: PRECIOS -->
-            <section id="anexo" class="mb-10 scroll-mt-32 border-t border-white/10 pt-16 mt-16">
-                <h2 class="clause-title text-blue-400 border-l-blue-400">Anexo Comercial: Tarifario de Licencias y Tokens</h2>
-                <div class="legal-text mb-8">
-                    <p>En estricta conformidad con la <strong>Cláusula 5 (Política de Cero Reembolsos)</strong>, la adquisición de los siguientes paquetes representa exclusivamente la compra anticipada de capacidad de procesamiento algorítmico computacional, infraestructura de auditoría y/o derechos de acceso preferencial a los ecosistemas VIP.</p>
-                </div>
-                
-                <h3 class="clause-subtitle mt-10">
-                    <div class="w-1.5 h-5 bg-blue-400 rounded-full"></div>
-                    <span class="text-white">A.1 Adquisición de Cómputo: Ecosistema NYX (Ofensivo)</span>
-                </h3>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                    <div class="pricing-card">
-                        <h4 class="pricing-title">STARTER</h4>
-                        <div class="pricing-tokens">5 Tokens</div>
-                        <div class="pricing-price">$5.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens" class="pricing-btn">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card">
-                        <h4 class="pricing-title">ADVANCED</h4>
-                        <div class="pricing-tokens">10 Tokens</div>
-                        <div class="pricing-price">$10.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Advanced%20de%2010%20Tokens" class="pricing-btn">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card popular pt-8 mt-4 sm:mt-0 relative border-2 border-yellow-500/50">
-                        <div class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20">Más Elegido</div>
-                        <h4 class="pricing-title">PRO TIER</h4>
-                        <div class="pricing-tokens text-yellow-300">20 Tokens</div>
-                        <div class="pricing-price text-yellow-500 drop-shadow-md">$20.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20Tier%20de%2020%20Tokens" class="pricing-btn hover:shadow-yellow-500/30">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card">
-                        <h4 class="pricing-title">ELITE</h4>
-                        <div class="pricing-tokens">50 Tokens</div>
-                        <div class="pricing-price">$40.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Elite%20de%2050%20Tokens" class="pricing-btn">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card md:col-span-2 lg:col-span-1 border-blue-500/30">
-                        <h4 class="pricing-title text-blue-400">SUBSCRIPCIÓN<br>PLAN MENSUAL</h4>
-                        <div class="pricing-tokens text-blue-300">Tokens Ilimitados*</div>
-                        <div class="pricing-price">$33.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripci%C3%B3n%20Mensual" class="pricing-btn border border-blue-400">SUSCRIBIRSE</a>
-                    </div>
-                </div>
-
-                <h3 class="clause-subtitle mt-16">
-                    <div class="w-1.5 h-5 bg-blue-400 rounded-full"></div>
-                    <span class="text-white">A.2 Adquisición de Auditoría: Ecosistema AXON (Analítico)</span>
-                </h3>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                    <div class="pricing-card">
-                        <h4 class="pricing-title">STARTER</h4>
-                        <div class="pricing-tokens">5 Tokens</div>
-                        <div class="pricing-price">$2.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card">
-                        <h4 class="pricing-title">BASIC</h4>
-                        <div class="pricing-tokens">10 Tokens</div>
-                        <div class="pricing-price">$3.500</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Basic%20de%2010%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card popular pt-8 mt-4 sm:mt-0 relative border-2 border-yellow-500/50">
-                        <div class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20">Recomendado</div>
-                        <h4 class="pricing-title">PRO</h4>
-                        <div class="pricing-tokens text-yellow-300">20 Tokens</div>
-                        <div class="pricing-price text-yellow-500 drop-shadow-md">$6.500</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20de%2020%20Tokens%20AXON" class="pricing-btn hover:shadow-yellow-500/30">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card">
-                        <h4 class="pricing-title">EXPERT</h4>
-                        <div class="pricing-tokens">50 Tokens</div>
-                        <div class="pricing-price">$15.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Expert%20de%2050%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
-                    </div>
-                    <div class="pricing-card md:col-span-2 lg:col-span-1 border-blue-500/30">
-                        <h4 class="pricing-title text-blue-400">UNLIMITED<br>PLAN MENSUAL</h4>
-                        <div class="pricing-price mt-4">$20.000</div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripci%C3%B3n%20Mensual%20AXON" class="pricing-btn border border-blue-400">SUSCRIBIRSE</a>
-                    </div>
-                </div>
-
-                <h3 class="clause-subtitle mt-16">
-                    <div class="w-1.5 h-5 bg-blue-400 rounded-full"></div>
-                    <span class="text-white">A.3 Acceso Premium: Bolsa VIP y Planes Corporativos</span>
-                </h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div class="pricing-card items-start text-left">
-                        <h4 class="pricing-title w-full text-left">START</h4>
-                        <div class="pricing-price text-2xl w-full text-left">$15.000 ARS</div>
-                        <ul class="list-features">
-                            <li>CV Personalizado</li>
-                            <li>Carta de Presentación</li>
-                            <li>1 Token AXON</li>
-                        </ul>
-                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Start" class="pricing-btn mt-auto text-[10px]">INICIAR PROCESO DE CONTRATACIÓN</a>
-                    </div>
-                    
-                    <div class="pricing-card items-start text-left">
-                        <h4 class="pricing-title w-full text-left">AVANZADO</h4>
-                        <div class="pricing-price text-2xl w-full text-left">$22.000 ARS</div>
-                        <ul class="list-features">
-                            <li>CV Personalizado</li>
-                            <li>Carta de Presentación</li>
-                            <li>5 Tokens NYX</li>
-                            <li>5 Tokens AXON</li>
-                            <li>Bolsa de Trabajo VIP</li>
-                        </ul>
-                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Avanzado" class="pricing-btn mt-auto text-[10px]">INICIAR PROCESO DE CONTRATACIÓN</a>
-                    </div>
-                    
-                    <div class="pricing-card popular pt-8 relative items-start text-left border-2 border-yellow-500/50">
-                        <div class="pricing-badge absolute -top-3 left-6 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20 transform-none">POPULAR</div>
-                        <h4 class="pricing-title w-full text-left">PROFESIONAL</h4>
-                        <div class="pricing-price text-2xl w-full text-left text-yellow-500">$50.000 ARS</div>
-                        <ul class="list-features">
-                            <li>CV + Carta</li>
-                            <li>10 Tokens NYX</li>
-                            <li>20 Tokens AXON</li>
-                            <li>Bolsa VIP + Career Suite</li>
-                            <li>Acceso Herramientas Privadas</li>
-                        </ul>
-                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Profesional" class="pricing-btn mt-auto text-[10px] hover:shadow-yellow-500/30">INICIAR PROCESO DE CONTRATACIÓN</a>
-                    </div>
-                    
-                    <div class="pricing-card items-start text-left border-blue-500/30 bg-blue-900/10">
-                        <h4 class="pricing-title text-blue-400 w-full text-left">MENSUALIDAD VIP</h4>
-                        <div class="text-sm text-gray-400 line-through mt-1">$70.000 ARS</div>
-                        <div class="pricing-price text-2xl w-full text-left mb-1">$33.000 <span class="text-xs font-normal tracking-wide text-gray-400">PRIMER PAGO</span></div>
-                        <ul class="list-features mt-2">
-                            <li>Personalización Única</li>
-                            <li>ACCESO COMPLETO</li>
-                            <li>Duración: 1 Mes</li>
-                            <li>Uso Ilimitado NYX AI</li>
-                            <li>Uso Ilimitado AXON</li>
-                        </ul>
-                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20acceso%20prioritario%20para%20contratar%20la%20Mensualidad%20VIP" class="pricing-btn mt-auto text-[10px] border border-blue-500/50">GESTIONAR SUSCRIPCIÓN EXCLUSIVA</a>
-                    </div>
+            <!-- 8. ANTI MULTAS -->
+            <section id="cambios" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">8. Modificaciones Futuras y Escudo Anti-Denuncias</h2>
+                <div class="legal-text">
+                    <p>Para asegurar la supervivencia tecnológica y financiera del proyecto, establecemos un escudo total contra demandas de consumidores respecto al estado evolutivo del software:</p>
+                    <p>CV Studio33 se reserva el derecho <strong>absoluto, unilateral e inapelable</strong> de modificar, agregar, restringir o eliminar de forma permanente funcionalidades, módulos de Inteligencia Artificial, integraciones externas o estructuras de precios en cualquier momento y sin previo aviso.</p>
+                    <p><strong>El Usuario renuncia expresamente a su derecho a presentar denuncias, multas o acciones legales</strong> ante organismos gubernamentales de Defensa del Consumidor por concepto de "cambios perjudiciales en las condiciones originales del servicio". El usuario acepta comprender que el software es un ente vivo en constante mutación y adaptación técnica, no un producto estático.</p>
                 </div>
             </section>
-            
+
+            <!-- 9. RESPONSABILIDAD Y JURISDICCIÓN -->
+            <section id="responsabilidad" class="mb-10 scroll-mt-32">
+                <h2 class="clause-title">9. Exoneración Máxima y Jurisdicción</h2>
+                <div class="legal-text">
+                    <ul class="legal-list">
+                        <li><strong>Exoneración Financiera Máxima:</strong> Bajo ninguna teoría de responsabilidad (contractual, agravio, negligencia estricta), CV Studio33 será responsable por lucro cesante, daños punitivos o pérdida de oportunidades. En el escenario remoto de que un tribunal nos halle culpables, el usuario acepta que la penalidad máxima estará rígidamente limitada a la suma que el usuario abonó a la empresa en los últimos treinta (30) días.</li>
+                        <li><strong>Propiedad Intelectual:</strong> Las tecnologías de "Invisible Text", metodologías (Método 33), algoritmos de parsing y marcas son propiedad inalienable de CV Studio33. Queda terminantemente prohibida la venta, scraping o descompilación B2B no autorizada de nuestra tecnología.</li>
+                        <li><strong>Jurisdicción:</strong> Toda controversia derivada de este acuerdo, renunciando el Usuario a cualquier otro fuero, se someterá a la jurisdicción exclusiva de los Tribunales Ordinarios en lo Comercial de la Ciudad Autónoma de Buenos Aires, República Argentina.</li>
+                    </ul>
+                </div>
+            </section>
+
             <div class="border-t border-white/10 pt-10 mt-8 text-center text-xs md:text-sm text-gray-500 font-mono">
-                <p class="mb-2">Documento elaborado por el equipo de cumplimiento (Compliance) de CV Studio33.</p>
-                <p>Buenos Aires, Argentina. Jurisdicción aplicable: Tribunales Ordinarios en lo Comercial.</p>
+                <p class="mb-2">Documento elaborado por el equipo de cumplimiento legal (Compliance & Security) de CV Studio33.</p>
+                <p>Las normativas aquí presentes anulan cualquier acuerdo previo verbal o escrito.</p>
             </div>
 
         </main>
@@ -717,46 +440,43 @@
                 <div>
                     <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-auto mb-6 opacity-80 filter grayscale hover:grayscale-0 transition-all duration-500">
                     <p class="text-xs text-gray-400 leading-relaxed mb-6 text-left">
-                        Infraestructura algorítmica y procesamiento de datos para la optimización táctica de carrera.
+                        Infraestructura algorítmica inexpugnable. Protegemos nuestros sistemas y a nuestros usuarios bajo los más altos estándares legales globales.
                     </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
-                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
-                    </div>
                 </div>
 
                 <!-- Columna 2 -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Compliance</h4>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Compliance Core</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-xs text-gray-400 hover:text-blue-400 transition-colors">Términos Contractuales</a></li>
-                        <li><a href="#privacidad" class="text-xs text-gray-400 hover:text-blue-400 transition-colors">Política Zero-Data Retention</a></li>
-                        <li><a href="#reembolsos" class="text-xs text-gray-400 hover:text-blue-400 transition-colors">Renuncia de Reembolsos</a></li>
+                        <li><a href="#general" class="text-xs text-gray-400 hover:text-red-400 transition-colors">Términos Vinculantes</a></li>
+                        <li><a href="#ciberseguridad" class="text-xs text-gray-400 hover:text-red-400 transition-colors">Protocolos de Ciberseguridad</a></li>
+                        <li><a href="#pagos" class="text-xs text-gray-400 hover:text-red-400 transition-colors">Cláusulas de Mercado Pago</a></li>
                     </ul>
                 </div>
 
                 <!-- Columna 3 -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Soporte Jurídico</h4>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">APIs & Partners</h4>
                     <ul class="space-y-4">
-                        <li><a href="mailto:legal@cvstudio33.com" class="text-xs text-gray-400 hover:text-blue-400 transition-colors block">legal@cvstudio33.com</a></li>
-                        <li><a href="https://wa.me/5491123167967" class="text-xs text-gray-400 hover:text-green-400 transition-colors block">+54 9 11 2316 7967</a></li>
+                        <li><span class="text-xs text-gray-500 block">Infraestructura apoyada en:</span></li>
+                        <li><span class="text-xs text-gray-400 block font-bold">Cloudflare WAF / Firebase</span></li>
+                        <li><span class="text-xs text-gray-400 block font-bold">OpenAI / Google Gemini</span></li>
                     </ul>
                 </div>
 
                 <!-- Columna 4 -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Cifrado de Sistema</h4>
-                    <div class="flex items-center gap-3 mb-4 p-3 rounded-lg bg-white/5 border border-white/5">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Estatus del Sistema</h4>
+                    <div class="flex items-center gap-3 mb-4 p-3 rounded-lg bg-red-900/10 border border-red-500/20">
                         <div class="text-xs text-gray-400 text-left">
-                            <p class="font-bold text-gray-200">Protocolo Local / Caché</p>
-                            <p class="mt-1">Sin persistencia de datos (PII)</p>
+                            <p class="font-bold text-red-400">Zero-Data Retention</p>
+                            <p class="mt-1 text-gray-500">Máxima inmunidad PII</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                    <div class="flex items-center gap-3 p-3 rounded-lg bg-blue-900/10 border border-blue-500/20">
                         <div class="text-xs text-gray-400 text-left">
-                            <p class="font-bold text-gray-200">Cifrado AES-256</p>
-                            <p class="mt-1">Tránsito seguro hacia APIs</p>
+                            <p class="font-bold text-blue-400">SLA Enforced</p>
+                            <p class="mt-1 text-gray-500">Legalmente Vinculante</p>
                         </div>
                     </div>
                 </div>
@@ -765,25 +485,25 @@
             <!-- Copyright -->
             <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-[10px] text-gray-500 font-mono tracking-widest uppercase text-center md:text-left">
-                    &copy; 2026 CV Studio33 Compliance.
+                    &copy; 2026 CV Studio33 Compliance & Legal Authority.
                 </p>
-                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_5px_#3b82f6]"></span>
-                    <span class="text-[9px] text-blue-400 font-mono uppercase font-bold tracking-wider">SLA Active & Enforced</span>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/30">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_5px_#ef4444]"></span>
+                    <span class="text-[9px] text-red-400 font-mono uppercase font-bold tracking-wider">Maximum Legal Shields Active</span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Script Fecha -->
+    <!-- Script Fecha Dinámica -->
     <script>
-        const date = new Date();
-        const month = date.toLocaleString('es-ES', { month: 'long' });
-        const year = 2026; 
-        document.getElementById('current-date').textContent = `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date().toLocaleDateString('es-ES', options);
+        document.getElementById('current-date').textContent = today;
     </script>
 </body>
 </html>
+
 
 
 

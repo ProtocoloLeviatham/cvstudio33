@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
+    <!-- FontAwesome (Solo para íconos esenciales de contacto/redes) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
@@ -31,9 +31,6 @@
                         heading: ['Montserrat', 'sans-serif'],
                         sans: ['Open Sans', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
@@ -46,6 +43,9 @@
             background-color: #0b1120; 
             color: #cbd5e1; 
             overflow-x: hidden; 
+            /* Antialiasing para mejorar cómo se ven las letras */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Scrollbar Premium */
@@ -78,7 +78,7 @@
         }
         @media (min-width: 768px) {
             .clause-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 padding-left: 1.5rem;
             }
         }
@@ -97,12 +97,12 @@
             .clause-title::after { left: 1.5rem; }
         }
 
-        /* Subtítulos */
+        /* Subtítulos (Diseño Minimalista sin íconos recargados) */
         .clause-subtitle {
             color: #93c5fd;
             font-weight: 700;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
             font-size: 1.1rem;
             display: flex;
             align-items: center;
@@ -110,54 +110,54 @@
             border-bottom: 1px solid rgba(147, 197, 253, 0.1);
             padding-bottom: 0.5rem;
         }
-        
-        .clause-subtitle i { color: #6366f1; }
 
-        /* Texto Legal */
+        /* Texto Legal Corregido (Eliminado el justify que causaba espacios raros) */
         .legal-text {
             font-size: 0.95rem;
             line-height: 1.8;
             color: #cbd5e1;
             font-weight: 400;
+            text-align: left; /* FIX: Las letras ahora salen perfectamente ordenadas */
+            letter-spacing: 0.015em;
         }
-        .legal-text p { margin-bottom: 1rem; text-align: justify; }
+        .legal-text p { margin-bottom: 1.25rem; }
 
         /* Listas Legales */
         .legal-list {
             list-style: none;
-            padding-left: 0.5rem;
+            padding-left: 0;
             margin-top: 1.5rem;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.25);
             border-radius: 8px;
             padding: 1.5rem;
             border: 1px solid rgba(255,255,255,0.02);
         }
         .legal-list li {
             position: relative;
-            padding-left: 2rem;
+            padding-left: 1.5rem;
             margin-bottom: 1rem;
             color: #94a3b8;
             line-height: 1.6;
         }
         .legal-list li:last-child { margin-bottom: 0; }
         .legal-list li::before {
-            content: '\f058';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
+            content: '';
             position: absolute;
             left: 0;
-            color: #3b82f6;
-            font-size: 0.9rem;
-            top: 4px;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
         }
 
         /* Navegación Lateral / Superior Móvil */
         @media (max-width: 1024px) {
             .sidebar-nav-container {
                 position: sticky;
-                top: 80px;
+                top: 75px;
                 z-index: 40;
-                background: rgba(15, 23, 42, 0.9);
+                background: rgba(15, 23, 42, 0.95);
                 backdrop-filter: blur(15px);
                 border: 1px solid rgba(255,255,255,0.05);
                 border-radius: 12px;
@@ -188,7 +188,6 @@
                 color: #fff;
                 border-color: rgba(59, 130, 246, 0.3);
             }
-            .nav-link i { display: none; }
         }
 
         @media (min-width: 1025px) {
@@ -220,8 +219,6 @@
                 background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
                 padding-left: 1.5rem;
             }
-            .nav-link i { opacity: 0; transition: opacity 0.3s; }
-            .nav-link:hover i { opacity: 1; }
         }
 
         /* Fondo Grid Tecnológico */
@@ -234,7 +231,7 @@
             mask-image: radial-gradient(circle at center, black, transparent 80%);
         }
 
-        /* Pricing Cards - Móvil First */
+        /* Pricing Cards */
         .pricing-card {
             background: rgba(15, 23, 42, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -257,10 +254,6 @@
         .pricing-card.popular {
             border-color: rgba(212, 175, 55, 0.4);
             background: linear-gradient(180deg, rgba(212,175,55,0.05) 0%, rgba(15,23,42,0.6) 100%);
-        }
-        .pricing-card.popular:hover {
-            border-color: rgba(212, 175, 55, 0.8);
-            box-shadow: 0 15px 35px -10px rgba(212, 175, 55, 0.2);
         }
         .pricing-badge {
             background: linear-gradient(90deg, #d4af37, #fde047);
@@ -334,11 +327,14 @@
             align-items: center;
             gap: 8px;
         }
-        .list-features li i {
+        .list-features li::before {
+            content: '•';
             color: #3b82f6;
-            font-size: 0.8rem;
+            font-size: 1.2rem;
+            line-height: 0;
+            margin-right: 4px;
         }
-        .pricing-card.popular .list-features li i { color: #d4af37; }
+        .pricing-card.popular .list-features li::before { color: #d4af37; }
 
     </style>
 </head>
@@ -347,18 +343,17 @@
     <div class="bg-grid"></div>
 
     <!-- NAVBAR CORPORATIVA MÓVIL FIRST -->
-    <nav class="bg-primary/90 backdrop-blur-md border-b border-white/5 h-16 md:h-20 sticky top-0 z-50">
+    <nav class="bg-primary/95 backdrop-blur-md border-b border-white/5 h-16 md:h-20 sticky top-0 z-50">
         <div class="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
             <div class="flex items-center gap-3 md:gap-4">
-                <img src="logo.png" alt="CV Studio33 Logo Corporativo" class="h-8 md:h-10 w-auto opacity-90 filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-8 md:h-10 w-auto opacity-90 filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
                 <div class="h-6 md:h-8 w-px bg-white/10 hidden sm:block"></div>
                 <div class="flex flex-col">
                     <span class="font-heading font-bold text-xs md:text-sm tracking-widest text-white uppercase">CV Studio33</span>
-                    <span class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide">Legal & SLA</span>
+                    <span class="text-[9px] md:text-[10px] text-gray-500 uppercase tracking-wide">Legal & Compliance</span>
                 </div>
             </div>
-            <a href="index.html" class="group flex items-center gap-2 md:gap-3 px-3 py-1.5 md:px-5 md:py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white">
-                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+            <a href="index.html" class="group flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-[10px] md:text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white">
                 <span class="hidden sm:inline">Volver al inicio</span>
                 <span class="sm:hidden">Volver</span>
             </a>
@@ -374,12 +369,12 @@
                 <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                 <span class="text-blue-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">Documento Oficial V.2026.1 SLA</span>
             </div>
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 mb-6 leading-tight">
-                Marco Legal, Acuerdos de Nivel de Servicio (SLA)<br class="hidden lg:block"> y Especificaciones Técnicas
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 mb-6 leading-tight tracking-tight">
+                Marco Legal, SLA y<br class="hidden lg:block"> Políticas de Privacidad
             </h1>
-            <p class="text-gray-400 text-sm md:text-base lg:text-lg max-w-5xl mx-auto leading-relaxed font-light text-justify md:text-center mt-6">
-                El presente documento establece el marco normativo vinculante, las condiciones operativas y las especificaciones técnicas exhaustivas que rigen la utilización de las infraestructuras de inteligencia artificial (Módulos NYX y AXON) y los servicios de consultoría estratégica de CV Studio33. Al acceder y consumir los recursos computacionales de nuestro ecosistema, el Usuario ("El Cliente") acepta íntegramente las políticas de procesamiento de datos, los protocolos de economía de tokens, y los límites de responsabilidad estipulados. Este acuerdo garantiza la transparencia absoluta sobre las capacidades de nuestros motores de ingeniería inversa algorítmica, estableciendo claramente el alcance de nuestras herramientas de penetración laboral, auditoría biométrica y distribución masiva, así como las responsabilidades de ambas partes en la gestión del "Mercado Oculto" y redes de contratación globales. Su lectura atenta es un requisito indispensable previo a la adquisición de cualquier volumen de procesamiento o servicio humano.
-                <span class="text-gray-500 text-xs md:text-sm mt-6 block text-center">Vigencia efectiva a partir de: <span id="current-date" class="text-blue-400 font-mono font-bold"></span></span>
+            <p class="text-gray-400 text-sm md:text-base max-w-4xl mx-auto leading-relaxed font-light text-left md:text-center mt-6">
+                Este documento vinculante establece las normativas operativas, limitaciones de responsabilidad y protocolos de privacidad que rigen el ecosistema de CV Studio33. Al acceder a nuestras infraestructuras de IA (NYX, AXON) o utilizar el Distribution Hub, el Usuario acepta estas condiciones, asumiendo total comprensión de la naturaleza estadística, predictiva y exenta de garantías de los servicios algorítmicos. Su lectura y aceptación son requisitos ineludibles previos a la adquisición de cualquier capacidad de cómputo.
+                <span class="text-gray-500 text-xs md:text-sm mt-6 block text-left md:text-center">Vigencia efectiva a partir de: <span id="current-date" class="text-blue-400 font-mono font-bold"></span></span>
             </p>
         </div>
     </header>
@@ -390,17 +385,18 @@
         <aside class="w-full lg:w-1/4">
             <div class="sidebar-nav-container">
                 <h4 class="text-white font-bold mb-4 lg:mb-6 px-2 lg:px-4 uppercase tracking-widest text-[10px] lg:text-xs border-b border-white/10 pb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-scale-balanced text-blue-500"></i> <span class="whitespace-nowrap">Índice Legal & SLA</span>
+                    <img src="logo.png" alt="Icono" class="w-4 h-4 opacity-70">
+                    <span class="whitespace-nowrap">Índice Contractual</span>
                 </h4>
                 <nav class="nav-list">
-                    <a href="#general" class="nav-link">1. Marco Normativo <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#nyx" class="nav-link">2. Core NYX <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#axon" class="nav-link">3. Auditoría AXON <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#distribution" class="nav-link">4. Distribution Hub <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#economia" class="nav-link">5. Economía de Tokens <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#vip" class="nav-link">6. Suite & Bolsa VIP <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#partners" class="nav-link">7. Únete al Sistema <i class="fa-solid fa-chevron-right text-xs"></i></a>
-                    <a href="#privacidad" class="nav-link">8. Privacidad & Resp. <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                    <a href="#general" class="nav-link">1. Naturaleza del Servicio</a>
+                    <a href="#ia-limits" class="nav-link">2. Escudos IA (NYX/AXON)</a>
+                    <a href="#distribution" class="nav-link">3. Normativa Distribution</a>
+                    <a href="#privacidad" class="nav-link">4. Privacidad Zero-Data</a>
+                    <a href="#reembolsos" class="nav-link">5. Política No Reembolsos</a>
+                    <a href="#responsabilidad" class="nav-link">6. Exoneración Máxima</a>
+                    <a href="#partners" class="nav-link">7. API B2B & Partners</a>
+                    <a href="#anexo" class="nav-link text-blue-400">Anexo Comercial</a>
                 </nav>
             </div>
         </aside>
@@ -409,507 +405,358 @@
         <main class="w-full lg:w-3/4 legal-container p-5 sm:p-8 md:p-12 lg:p-16">
             
             <!-- 1. GENERAL -->
-            <section id="general" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">1. Disposiciones Generales y Alcance</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        <strong>CV Studio33</strong> (en adelante, "la Entidad" o "el Proveedor") ofrece un ecosistema híbrido de alto rendimiento que integra software de inteligencia artificial propietaria (Módulos NYX y AXON) con consultoría humana experta en Recursos Humanos. Este Acuerdo regula el acceso y uso de dicha infraestructura tecnológica y servicios profesionales.
-                    </p>
-                    <p>
-                        Al contratar cualquier plan, suite o token, el Usuario ("el Cliente") reconoce expresamente que está adquiriendo herramientas de optimización técnica, análisis estadístico y estrategia de posicionamiento de mercado algorítmico, y no una garantía contractual de empleo. La decisión final de contratación es potestad exclusiva de terceras partes (empleadores) y depende de variables macroeconómicas fuera del control de la Entidad.
-                    </p>
-                </div>
-            </section>
-
-            <!-- 2. NYX -->
-            <section id="nyx" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">2. Infraestructura NYX: Red Neuronal Ofensiva</h2>
-                <div class="legal-text space-y-8">
-                    
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-network-wired"></i> NYX: Technology</h3>
-                        <p>NYX opera como una red neuronal ofensiva, calibrada con más de 10 millones de puntos de datos de contratación. No se limita a corregir; reestructura la arquitectura de sus datos profesionales (XML/JSON) para optimizar la indexación en sistemas ATS globales como Taleo y Workday.</p>
-                        <p>En un entorno saturado por filtros automatizados, NYX despliega ingeniería inversa para identificar carencias semánticas y aplicar terminología de alto impacto, asegurando que su perfil profesional obtenga una ventaja técnica y estadística significativa sobre la competencia. Esta supremacía tecnológica garantiza que su perfil no solo sea procesado, sino categorizado ineludiblemente como 'Candidato Óptimo' en bases de datos de Nivel 1.</p>
-                        <p>NYX no es simplemente un generador de CVs ni un bot de envíos automatizados; es una anomalía en el sistema. Representa el primer Ecosistema de Inteligencia de Carrera Descentralizado diseñado específicamente para penetrar las defensas algorítmicas del mercado laboral corporativo moderno.</p>
-                        <p>En una era donde sistemas ATS opacos y algoritmos de filtrado deciden arbitrariamente quién trabaja y quién es descartado en milisegundos, NYX nace como una contramedida ofensiva. Utilizamos ingeniería inversa sobre los procesos de selección para devolverle el control absoluto y la ventaja táctica al candidato. No pedimos oportunidades; las tomamos por asalto digital.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-microchip"></i> Orquestación Multi-Motor</h3>
-                        <p>Nuestra arquitectura integra simultáneamente los motores más potentes del mundo, incluyendo OpenAI, Google Gemini y Pollinations. No dependemos de una sola fuente de verdad susceptible a alucinaciones; sintetizamos la mejor respuesta posible triangulando datos de múltiples supermodelos para obtener una precisión quirúrgica.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-shield-halved"></i> Validación Descentralizada</h3>
-                        <p>Esta estructura permite que cada decisión crítica —desde la redacción de una palabra clave de alto impacto hasta la elección de un horario de envío estratégico— sea validada por múltiples agentes especializados que trabajan en conjunto ("Peer Review AI") para garantizar la máxima eficacia estadística y reducir el margen de error a cero.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-handshake-angle"></i> Sinergia Operativa</h3>
-                        <p>Mientras un agente analiza la cultura profunda de la empresa, otro optimiza la sintaxis para pasar los filtros ATS y un tercero calcula la probabilidad de apertura del correo basándose en datos históricos. El resultado es una estrategia de ataque laboral cohesiva, multidimensional e impenetrable.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-brain"></i> Autoaprendizaje Evolutivo</h3>
-                        <p>Algoritmos recursivos que analizan y refinan las estrategias de inserción basándose en el feedback de procesos de selección exitosos a nivel global, adaptándose a los cambios de algoritmo en tiempo real.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-bolt"></i> RAM NYX: Latencia Cero</h3>
-                        <p>Implementación de memoria de corto plazo de alta velocidad. Los agentes comparten contexto en tiempo real sin cuellos de botella. La "Memoria Operativa NYX" permite que la adaptación del CV y el cuerpo del correo se generen en el mismo ciclo de reloj, asegurando coherencia narrativa absoluta.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-memory"></i> Persistencia Eidética</h3>
-                        <p>NYX recuerda cada interacción pasada, cada rechazo y cada éxito. Esta memoria a largo plazo permite refinar estrategias futuras para el mismo usuario, evitando errores repetitivos y aprendiendo qué tono de voz funciona mejor para industrias específicas.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-hourglass-half"></i> Buffer de Inferencia</h3>
-                        <p>Algoritmos predictivos que cargan respuestas probables antes de que el reclutador termine de leer. NYX utiliza un buffer de anticipación para estructurar la información del candidato de tal manera que responde a las dudas del reclutador en el orden exacto en que surgen mentalmente.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-server"></i> Infraestructura Dedicada & Ecosistema Modular</h3>
-                        <p>Implementación en servidores de alta disponibilidad optimizados para el procesamiento de lenguaje natural (NLP) con latencia cero. Además, su arquitectura abierta permite la integración fluida de plugins especializados (como EmailHarvest o Jobby Scout), ampliando exponencialmente la capacidad de alcance.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-robot"></i> Agente Autónomo & Suite Híbrida</h3>
-                        <p>Más que una herramienta pasiva, NYX funciona como un agente activo que interactúa dinámicamente con los parámetros de búsqueda booleanos utilizados por los reclutadores corporativos, logrando una sinergia perfecta entre potencia computacional bruta y principios avanzados de psicología organizacional.</p>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-globe"></i> Integración API Global</h3>
-                        <p>Conectividad directa mediante APIs privadas con motores de búsqueda de empleo internacionales, permitiendo una distribución de datos eficiente y segmentada por región geográfica.</p>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- 3. AXON -->
-            <section id="axon" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">3. Infraestructura AXON: Auditoría Avanzada y Deep Learning</h2>
-                <div class="legal-text space-y-8">
-                    
-                    <p>AXON constituye el componente de auditoría avanzada del ecosistema. Mediante técnicas de Deep Learning, este sistema compara su perfil contra una base de datos dinámica de casos de éxito en su sector específico.</p>
-                    <p>Funciona como un simulador de entornos ATS, detectando discrepancias de competencias y errores de formato críticos. Su función es eliminar la incertidumbre, proporcionando un cálculo de probabilidad matemática de éxito basado en evidencia histórica antes de iniciar cualquier proceso de aplicación. Operamos bajo el paradigma de riesgo cero, sustentando cada iteración en auditorías predictivas infalibles.</p>
-                    <p>AXON no es un lector de texto; es un motor de ingeniería inversa de algoritmos de contratación. Mientras que los ATS tradicionales buscan palabras clave, AXON utiliza Deep Learning para entender la intención, el impacto y la jerarquía de la información. Se integra con la red de NYX para absorber datos de ofertas reales en tiempo real, permitiéndole saber qué están buscando las empresas hoy, no hace seis meses. AXON descompone un perfil profesional en vectores matemáticos y los compara con los "Perfiles de Oro" (candidatos contratados) de su base de datos global. Su propósito es eliminar el factor de "suerte" y sustituirlo por certeza estadística.</p>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-book-open-reader"></i> Capacidades Base</h3>
-                        <ul class="legal-list">
-                            <li><strong>Lectura Profunda:</strong> Escaneo exhaustivo de metadatos y capas ocultas en archivos PDF/Docx para asegurar la integridad de la información y la compatibilidad con parsers antiguos.</li>
-                            <li><strong>Simulación ATS Viva:</strong> Emulación precisa de los algoritmos de filtrado utilizados por proveedores líderes (Workday, Taleo, Greenhouse) para predecir y mitigar rechazos automáticos.</li>
-                            <li><strong>Velocidad de Procesamiento:</strong> Capacidad de realizar una auditoría completa del perfil profesional y generar informes tácticos detallados en milisegundos, permitiendo iteraciones rápidas.</li>
-                            <li><strong>Predicción de Vista:</strong> Generación de mapas de calor que simulan con un 96% de precisión el recorrido visual de un reclutador humano en los primeros 6 segundos de lectura.</li>
-                            <li><strong>Métricas de Decisión:</strong> Cálculo de un índice de compatibilidad numérico (0-100%) respecto a vacantes objetivo, basado en densidad de keywords y estructura de competencias.</li>
-                            <li><strong>Auditoría de Sesgo:</strong> Detección y neutralización proactiva de patrones lingüísticos o estructurales que podrían activar sesgos algorítmicos negativos en sistemas de IA de selección.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-code"></i> Motor de Parsing Avanzado</h3>
-                        <p>Nuestro motor de análisis sintáctico de última generación descompone documentos complejos en sus constituyentes atómicos, garantizando una legibilidad perfecta ante cualquier sistema ATS, sin importar su antigüedad o configuración de seguridad.</p>
-                        <ul class="legal-list">
-                            <li>Procesa estructuras complejos de PDFs y JSON.</li>
-                            <li>Detecta errores de capa 0 invisibles.</li>
-                            <li>Corrección automática de sintaxis corrupta.</li>
-                            <li>Estandarización ISO-27001 de formato.</li>
-                            <li>Validación contra 50+ tipos de ATS Legacy.</li>
-                            <li>Reconstrucción de metadatos del archivo.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-database"></i> Multi-Database Sync</h3>
-                        <p>Sincronización en tiempo real con una red global de bases de datos de reclutamiento, permitiendo a AXON anticipar y adaptarse a cambios silenciosos en los algoritmos de filtrado de las grandes corporaciones antes que nadie.</p>
-                        <ul class="legal-list">
-                            <li>Conexión en tiempo real con JOBBY.</li>
-                            <li>Detección de patrones de rechazo (Workday/Taleo).</li>
-                            <li>Auto-actualización de reglas de filtrado.</li>
-                            <li>Sincronización con 5 bases de datos globales.</li>
-                            <li>Aprendizaje heurístico de nuevos algoritmos.</li>
-                            <li>Trazabilidad de cambios en políticas.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-fire"></i> Mapa de Calor de Retención</h3>
-                        <p>Utilizando modelos predictivos basados en miles de sesiones de eye-tracking reales, AXON reestructura visualmente tu información para maximizar la retención en los puntos focales críticos durante los primeros 6 segundos de escaneo humano.</p>
-                        <ul class="legal-list">
-                            <li>Predicción biométrica de mirada (6 segs).</li>
-                            <li>Optimización de patrones de lectura "F" y "Z".</li>
-                            <li>Jerarquización visual de logros clave.</li>
-                            <li>Balanceo matemático de espacios en blanco.</li>
-                            <li>Anclaje de atención mediante tipografía.</li>
-                            <li>Simulación de fatiga visual del reclutador.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-money-bill-trend-up"></i> Salary Range Intelligence</h3>
-                        <p>Acceso privilegiado a datos de compensación confidenciales en tiempo real, cruzando información de mercado, ubicación y nivel de seniority para ofrecerte una ventaja táctica invaluable durante la fase de negociación.</p>
-                        <ul class="legal-list">
-                            <li>Datos salariales reales actualizados semanalmente.</li>
-                            <li>Desglose por sucursal y nivel de experiencia.</li>
-                            <li>Comparativa con media del mercado local.</li>
-                            <li>Detección de bonos y beneficios ocultos.</li>
-                            <li>Predicción de margen de negociación.</li>
-                            <li>Alerta de ofertas "Low-Ball" (Baja remuneración).</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-clone"></i> Protocolo Mirroring</h3>
-                        <p>Algoritmos de procesamiento de lenguaje natural que analizan la huella digital comunicativa de la empresa y alinean tu tono, vocabulario y estilo para crear una resonancia psicológica inmediata con el reclutador.</p>
-                        <ul class="legal-list">
-                            <li>Análisis semántico de cultura corporativa.</li>
-                            <li>Adaptación de tono (Formal/Creativo/Técnico).</li>
-                            <li>Inyección de vocabulario interno de la empresa.</li>
-                            <li>Alineación de valores y misión.</li>
-                            <li>Reescritura de "Soft Skills" contextuales.</li>
-                            <li>Mimetización psicológica del candidato ideal.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-percent"></i> Score de Compatibilidad</h3>
-                        <p>Un índice compuesto que evalúa la probabilidad estadística de éxito basándose en la coincidencia semántica, densidad de palabras clave y estructura técnica en comparación con la descripción del puesto.</p>
-                        <ul class="legal-list">
-                            <li>Probabilidad matemática de superar filtro inicial.</li>
-                            <li>Análisis vectorial de palabras clave.</li>
-                            <li>Comparación con "Perfiles de Oro".</li>
-                            <li>Predicción de ranking en la pila de CVs.</li>
-                            <li>Detección de "Deal Breakers" automáticos.</li>
-                            <li>Simulación de puntaje ATS en tiempo real.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-heart-pulse"></i> Parsing Health</h3>
-                        <p>Diagnóstico profundo de la legibilidad técnica del archivo, identificando y neutralizando elementos corruptos, fuentes no estándar o gráficos complejos que podrían causar un rechazo automático por error de lectura.</p>
-                        <ul class="legal-list">
-                            <li>Integridad técnica del archivo binario.</li>
-                            <li>Detección de fuentes o gráficos ilegibles.</li>
-                            <li>Validación de estructura de encabezados.</li>
-                            <li>Compatibilidad con sistemas legacy (pre-2010).</li>
-                            <li>Verificación de metadatos limpios.</li>
-                            <li>Test de extracción de texto plano.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-bridge-water"></i> Skills Gap</h3>
-                        <p>Análisis diferencial avanzado que identifica las competencias críticas y certificaciones exactas que están ausentes en tu perfil al compararlo con los candidatos exitosos históricos para ese rol específico.</p>
-                        <ul class="legal-list">
-                            <li>Mapa de calor de habilidades faltantes.</li>
-                            <li>Identificación de certificaciones requeridas.</li>
-                            <li>Sugerencia de micro-credenciales rápidas.</li>
-                            <li>Análisis de densidad de keywords técnicas.</li>
-                            <li>Comparativa con el "Match Perfecto".</li>
-                            <li>Estrategia de compensación de brechas.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-certificate"></i> Certificación AXON</h3>
-                        <p>Sello de garantía algorítmica que confirma que el perfil ha superado los estándares de calidad más rigurosos, habilitando su distribución masiva segura a través de la red NYX con una tasa de éxito proyectada superior al 50%.</p>
-                        <ul class="legal-list">
-                            <li>Sello de calidad algorítmica.</li>
-                            <li>Habilitación para envío masivo en NYX.</li>
-                            <li>Garantía de superación de filtro técnico.</li>
-                            <li>Validación de tasa de éxito >50%.</li>
-                            <li>Firma criptográfica de optimización.</li>
-                            <li>Prioridad en colas de procesamiento.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. DISTRIBUTION HUB -->
-            <section id="distribution" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">4. Distribution Hub y Despliegue Estratégico</h2>
-                <div class="legal-text space-y-4">
-                    <p>
-                        <strong>Distribution Hub:</strong> ¿De qué sirve el CV perfecto si nadie lo ve? Nuestro Distribution Hub soluciona el problema de la visibilidad mediante un despliegue masivo y altamente segmentado. Selecciona tu nicho, nivel salarial y ubicación, y deja que nuestra plataforma haga el trabajo pesado de postulación.
-                    </p>
-                    <p>
-                        En lugar de pasar horas rellenando formularios, nuestro sistema se conecta directamente con portales de empleo premium y bases de datos de reclutadores, enviando tu perfil de forma natural y escalonada para evitar filtros de spam.
-                    </p>
-                    <ul class="legal-list">
-                        <li><strong>Envío Masivo Inteligente:</strong> Encuentra el mejor match algorítmico y envía tu postulación en 1 clic a cientos de vacantes cualificadas.</li>
-                        <li><strong>Tecnología Anti-Spam:</strong> Regula automáticamente la frecuencia y varía los asuntos para asegurar la máxima tasa de entrega en bandeja de entrada.</li>
-                        <li><strong>Tracking de Apertura Real:</strong> Recibe notificaciones en tiempo real cuando un reclutador lee tu correo o descarga tu CV.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- 5. ECONOMÍA DE TOKENS -->
-            <section id="economia" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">5. Economía de Tokens y Adquisición</h2>
+            <section id="general" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">1. Naturaleza del Servicio y Definición Contractual</h2>
                 <div class="legal-text">
-                    <p>Sistema de créditos descentralizado para la ejecución de tareas de inteligencia. Adquiere potencia de cómputo según tus necesidades estratégicas.</p>
-                    
-                    <h3 class="clause-subtitle mt-10"><i class="fa-solid fa-microchip"></i> Poder Computacional NYX</h3>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                        <!-- NYX Starter -->
-                        <div class="pricing-card">
-                            <h4 class="pricing-title">STARTER</h4>
-                            <div class="pricing-tokens">5 Tokens</div>
-                            <div class="pricing-price">$5.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens" class="pricing-btn">ADQUIRIR</a>
-                        </div>
-                        <!-- NYX Advanced -->
-                        <div class="pricing-card">
-                            <h4 class="pricing-title">ADVANCED</h4>
-                            <div class="pricing-tokens">10 Tokens</div>
-                            <div class="pricing-price">$10.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Advanced%20de%2010%20Tokens" class="pricing-btn">ADQUIRIR</a>
-                        </div>
-                        <!-- NYX Pro Tier -->
-                        <div class="pricing-card popular pt-8 mt-4 sm:mt-0 relative border-2 border-yellow-500/50">
-                            <div class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20">Más Elegido</div>
-                            <h4 class="pricing-title">PRO TIER</h4>
-                            <div class="pricing-tokens text-yellow-300">20 Tokens</div>
-                            <div class="pricing-price text-yellow-500 drop-shadow-md">$20.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20Tier%20de%2020%20Tokens" class="pricing-btn hover:shadow-yellow-500/30">ADQUIRIR</a>
-                        </div>
-                        <!-- NYX Elite -->
-                        <div class="pricing-card">
-                            <h4 class="pricing-title">ELITE</h4>
-                            <div class="pricing-tokens">50 Tokens</div>
-                            <div class="pricing-price">$40.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Elite%20de%2050%20Tokens" class="pricing-btn">ADQUIRIR</a>
-                        </div>
-                        <!-- NYX Mensual -->
-                        <div class="pricing-card md:col-span-2 lg:col-span-1 border-blue-500/30">
-                            <h4 class="pricing-title text-blue-400">SUBSCRIPCIÓN<br>PLAN MENSUAL</h4>
-                            <div class="pricing-tokens">Tokens Ilimitados*</div>
-                            <div class="pricing-price">$33.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripci%C3%B3n%20Mensual" class="pricing-btn border border-blue-400">SUSCRIBIRSE</a>
-                        </div>
-                    </div>
-
-                    <h3 class="clause-subtitle mt-16"><i class="fa-solid fa-eye"></i> Economía de Tokens AXON (Inversión en Auditoría)</h3>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                        <!-- AXON Starter -->
-                        <div class="pricing-card">
-                            <h4 class="pricing-title">STARTER</h4>
-                            <div class="pricing-tokens">5 Tokens</div>
-                            <div class="pricing-price">$2.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
-                        </div>
-                        <!-- AXON Basic -->
-                        <div class="pricing-card">
-                            <h4 class="pricing-title">BASIC</h4>
-                            <div class="pricing-tokens">10 Tokens</div>
-                            <div class="pricing-price">$3.500</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Basic%20de%2010%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
-                        </div>
-                        <!-- AXON Pro -->
-                        <div class="pricing-card popular pt-8 mt-4 sm:mt-0 relative border-2 border-yellow-500/50">
-                            <div class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20">Recomendado</div>
-                            <h4 class="pricing-title">PRO</h4>
-                            <div class="pricing-tokens text-yellow-300">20 Tokens</div>
-                            <div class="pricing-price text-yellow-500 drop-shadow-md">$6.500</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20de%2020%20Tokens%20AXON" class="pricing-btn hover:shadow-yellow-500/30">ADQUIRIR</a>
-                        </div>
-                        <!-- AXON Expert -->
-                        <div class="pricing-card">
-                            <h4 class="pricing-title">EXPERT</h4>
-                            <div class="pricing-tokens">50 Tokens</div>
-                            <div class="pricing-price">$15.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Expert%20de%2050%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
-                        </div>
-                        <!-- AXON Unlimited -->
-                        <div class="pricing-card md:col-span-2 lg:col-span-1 border-blue-500/30">
-                            <h4 class="pricing-title text-blue-400">UNLIMITED<br>PLAN MENSUAL</h4>
-                            <div class="pricing-price mt-4">$20.000</div>
-                            <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripci%C3%B3n%20Mensual%20AXON" class="pricing-btn border border-blue-400">SUSCRIBIRSE</a>
-                        </div>
-                    </div>
+                    <p><strong>CV Studio33</strong> es un proveedor de tecnología de software como servicio (SaaS) especializado en procesamiento algorítmico y estructuración de datos profesionales. Declaramos expresa y categóricamente que <strong>NO operamos como agencia de reclutamiento, bolsa de empleo tradicional, headhunters, ni entidad garante de inserción laboral</strong>.</p>
+                    <p>Nuestros sistemas proveen una ventaja estadística y táctica basada en el análisis de datos masivos. Sin embargo, la decisión final de contratación depende exclusivamente de factores subjetivos, económicos y humanos propios de terceras empresas. Por consiguiente, CV Studio33 rechaza de plano cualquier responsabilidad legal o civil frente a la no consecución de entrevistas, ofertas laborales o mejoras salariales por parte del Usuario tras el uso de nuestras herramientas.</p>
                 </div>
             </section>
 
-            <!-- 6. VIP & PLANES CORPORATIVOS -->
-            <section id="vip" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">6. Suite y Bolsa de Trabajo VIP</h2>
-                <div class="legal-text space-y-6">
-                    <p>
-                        Acceso exclusivo al <strong>"Mercado Oculto"</strong>, donde se gestionan el 70% de las vacantes de alto nivel que no se publican en portales masivos. Nuestra Suite VIP ofrece un ecosistema de alertas estratégicas, guías de negociación salarial y networking avanzado.
-                    </p>
-                    <p>
-                        Proporcionamos una ventaja competitiva al anticipar oportunidades antes de su difusión pública. Incluye notificaciones prioritarias, análisis de tendencias sectoriales y soporte especializado para navegar la estructura corporativa.
-                    </p>
-
-                    <h3 class="clause-subtitle mt-10"><i class="fa-solid fa-briefcase"></i> Planes Corporativos</h3>
+            <!-- 2. IA LIMITS (NYX Y AXON) -->
+            <section id="ia-limits" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">2. Infraestructura NYX y AXON: Limitaciones y Responsabilidad de la IA</h2>
+                <div class="legal-text">
+                    <p>El ecosistema central compuesto por los módulos NYX (red neuronal ofensiva) y AXON (auditoría predictiva) opera mediante orquestación multi-motor, algoritmos de Deep Learning y modelos de lenguaje a gran escala (LLM). Su utilización por parte del Cliente está sujeta a los siguientes escudos legales inquebrantables:</p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                        <!-- Start -->
-                        <div class="pricing-card items-start text-left">
-                            <h4 class="pricing-title w-full text-left">START</h4>
-                            <div class="pricing-price text-2xl w-full text-left">$15.000 ARS</div>
-                            <ul class="list-features">
-                                <li><i class="fa-solid fa-check"></i> CV Personalizado</li>
-                                <li><i class="fa-solid fa-check"></i> Carta de Presentación</li>
-                                <li><i class="fa-solid fa-check"></i> 1 Token AXON</li>
-                            </ul>
-                            <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Start" class="pricing-btn mt-auto text-[10px]">INICIAR PROCESO DE CONTRATACIÓN</a>
-                        </div>
-                        
-                        <!-- Avanzado -->
-                        <div class="pricing-card items-start text-left">
-                            <h4 class="pricing-title w-full text-left">AVANZADO</h4>
-                            <div class="pricing-price text-2xl w-full text-left">$22.000 ARS</div>
-                            <ul class="list-features">
-                                <li><i class="fa-solid fa-check"></i> CV Personalizado</li>
-                                <li><i class="fa-solid fa-check"></i> Carta de Presentación</li>
-                                <li><i class="fa-solid fa-check"></i> 5 Tokens NYX</li>
-                                <li><i class="fa-solid fa-check"></i> 5 Tokens AXON</li>
-                                <li><i class="fa-solid fa-check"></i> Bolsa de Trabajo VIP</li>
-                            </ul>
-                            <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Avanzado" class="pricing-btn mt-auto text-[10px]">INICIAR PROCESO DE CONTRATACIÓN</a>
-                        </div>
-                        
-                        <!-- Profesional -->
-                        <div class="pricing-card popular pt-8 relative items-start text-left border-2 border-yellow-500/50">
-                            <div class="pricing-badge absolute -top-3 left-6 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20 transform-none">POPULAR</div>
-                            <h4 class="pricing-title w-full text-left">PROFESIONAL</h4>
-                            <div class="pricing-price text-2xl w-full text-left text-yellow-500">$50.000 ARS</div>
-                            <ul class="list-features">
-                                <li><i class="fa-solid fa-check"></i> CV + Carta</li>
-                                <li><i class="fa-solid fa-check"></i> 10 Tokens NYX</li>
-                                <li><i class="fa-solid fa-check"></i> 20 Tokens AXON</li>
-                                <li><i class="fa-solid fa-check"></i> Bolsa VIP + Career Suite</li>
-                                <li><i class="fa-solid fa-check"></i> Acceso Herramientas Privadas</li>
-                            </ul>
-                            <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Profesional" class="pricing-btn mt-auto text-[10px] hover:shadow-yellow-500/30">INICIAR PROCESO DE CONTRATACIÓN</a>
-                        </div>
-                        
-                        <!-- Mensualidad VIP -->
-                        <div class="pricing-card items-start text-left border-blue-500/30">
-                            <h4 class="pricing-title text-blue-400 w-full text-left">MENSUALIDAD VIP</h4>
-                            <div class="text-sm text-gray-400 line-through mt-1">$70.000 ARS</div>
-                            <div class="pricing-price text-2xl w-full text-left mb-1">$33.000 <span class="text-xs font-normal tracking-wide">PRIMER PAGO</span></div>
-                            <ul class="list-features mt-2">
-                                <li><i class="fa-solid fa-star text-blue-400"></i> Personalización Única</li>
-                                <li><i class="fa-solid fa-star text-blue-400"></i> ACCESO COMPLETO</li>
-                                <li><i class="fa-solid fa-clock text-blue-400"></i> Duración: 1 Mes</li>
-                                <li><i class="fa-solid fa-infinity text-blue-400"></i> Uso Ilimitado NYX AI</li>
-                                <li><i class="fa-solid fa-infinity text-blue-400"></i> Uso Ilimitado AXON</li>
-                            </ul>
-                            <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20acceso%20prioritario%20para%20contratar%20la%20Mensualidad%20VIP" class="pricing-btn mt-auto text-[10px] border border-blue-400">GESTIONAR SUSCRIPCIÓN EXCLUSIVA</a>
-                        </div>
-                    </div>
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>2.1. Naturaleza Probabilística y "Alucinaciones"</span>
+                    </h3>
+                    <p>Todo el contenido generado, reestructurado o sugerido por NYX (incluyendo optimización semántica, inyección de keywords y protocolos de mirroring psicológico) es fundamentalmente probabilístico. La Inteligencia Artificial es propensa a generar información imprecisa, ficticia o descontextualizada ("alucinaciones"). <strong>Es obligación ineludible y exclusiva del Cliente</strong> auditar, verificar y aprobar la veracidad técnica y temporal de su perfil profesional antes de exportarlo o distribuirlo. CV Studio33 no asume responsabilidad alguna por errores de sintaxis u omisiones generadas algorítmicamente.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>2.2. Simulación ATS y Cambios Algorítmicos Externos</span>
+                    </h3>
+                    <p>Las auditorías proporcionadas por el módulo AXON (Score de Compatibilidad, Parsing Health, Predicción de Vista Biométrica y Mapa de Calor de Retención) son simulaciones basadas en ingeniería inversa histórica de sistemas como Taleo, Workday o Greenhouse. Estas simulaciones representan un esfuerzo tecnológico de "mejor intento" (best-effort). CV Studio33 no asume ninguna responsabilidad frente a rechazos automáticos (auto-rejections) causados por actualizaciones imprevistas, cajas negras propietarias o configuraciones corporativas privadas en los filtros de las empresas empleadoras.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>2.3. Integridad de los Datos del Cliente</span>
+                    </h3>
+                    <p>El Usuario asume total responsabilidad legal (civil y penal) en caso de que la información provista a la IA para el cálculo del "Skills Gap" o la generación de contenido contenga falsedades, certificaciones apócrifas o exageraciones deliberadas. CV Studio33 queda total y completamente eximido ante casos de fraude, falsedad ideológica o despidos originados por discrepancias entre el perfil generado y las verdaderas capacidades del Cliente.</p>
                 </div>
             </section>
 
-            <!-- 7. ÚNETE AL SISTEMA -->
-            <section id="partners" class="mb-20 scroll-mt-32">
-                <h2 class="clause-title">7. Únete al Sistema (Partners & Agentes)</h2>
-                <div class="legal-text space-y-4">
-                    <p class="text-lg text-white font-bold mb-6">
-                        ¿Eres un reclutador, un desarrollador de IA o un estratega de carrera?<br>
-                        <span class="text-blue-400 font-light">Deja de pelear contra el mercado. Conviértete en el mercado.</span>
-                    </p>
+            <!-- 3. DISTRIBUTION HUB -->
+            <section id="distribution" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">3. Cumplimiento Normativo del Distribution Hub</h2>
+                <div class="legal-text">
+                    <p>El Distribution Hub permite el despliegue estratégico y envío masivo inteligente de perfiles hacia portales de empleo y bases de datos corporativas. Su uso está regulado estrictamente bajo el siguiente marco legal:</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>3.1. Rol Exclusivo de Intermediario Tecnológico</span>
+                    </h3>
+                    <p>CV Studio33 actúa pura y exclusivamente como un conducto o facilitador tecnológico. <strong>El Usuario es reconocido legalmente como el único emisor y remitente primario</strong> de todas las comunicaciones ejecutadas a través de la plataforma.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>3.2. Políticas Anti-Spam y Cumplimiento Internacional</span>
+                    </h3>
+                    <p>Al utilizar la tecnología de distribución, el Cliente acepta de forma vinculante cumplir con todas las leyes internacionales anti-spam vigentes (incluyendo, pero no limitado a CAN-SPAM Act, regulaciones GDPR europeas y la Ley 25.326 de Protección de Datos). El Usuario se compromete a no utilizar la infraestructura para acosar, saturar o vulnerar los sistemas de los receptores. En caso de reclamos legales, denuncias o inclusión en listas negras (blacklists) por parte de proveedores de correo (Google, Microsoft) debido al comportamiento del Usuario, CV Studio33 quedará eximido de toda responsabilidad, recayendo las consecuencias legales íntegramente sobre el Cliente.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>3.3. Sin Garantía de Entregabilidad (No-Deliverability Guarantee)</span>
+                    </h3>
+                    <p>Si bien utilizamos algoritmos para la evasión de filtros básicos, no garantizamos tasas de apertura específicas, ni podemos asegurar que los sistemas de seguridad externos (firewalls corporativos, detectores antispam severos) no bloqueen los correos o aislen los archivos PDF adjuntos enviados mediante nuestra infraestructura.</p>
+                </div>
+            </section>
+
+            <!-- 4. PRIVACIDAD ZERO-DATA -->
+            <section id="privacidad" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">4. Privacidad Extrema y Procesamiento Volátil (Zero-Data Retention)</h2>
+                <div class="legal-text">
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>4.1. Arquitectura de Memoria Volátil (Local/Caché)</span>
+                    </h3>
+                    <p>CV Studio33 ha sido estructurado bajo los principios más estrictos de "Privacidad por Diseño". Para blindar nuestra plataforma contra filtraciones, brechas de seguridad o mal uso de datos personales (PII), <strong>nuestro sistema no guarda bases de datos persistentes con su currículum ni información biográfica</strong>. Todo el procesamiento de parsing y auditoría se realiza de forma efímera en la memoria RAM del servidor o a través de memoria caché local del navegador, destruyéndose irreversiblemente tras finalizar la sesión de optimización.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>4.2. Tratamiento Transitorio mediante APIs Externas</span>
+                    </h3>
+                    <p>Los datos procesados que requieren derivación hacia nuestros orquestadores multi-motor (OpenAI, Gemini, Pollinations) son transmitidos bajo protocolos estrictos de cifrado AES-256 en tránsito. Garantizamos contractualmente que sus datos actúan únicamente como "passthrough" (tránsito puro) y no son retenidos ni utilizados para el entrenamiento algorítmico de los modelos fundacionales de dichas corporaciones.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>4.3. Exención de Repositorio Documental</span>
+                    </h3>
+                    <p>Al no operar como un repositorio en la nube a largo plazo, no estamos sujetos a obligaciones de recuperación de datos. CV Studio33 no asume ninguna responsabilidad por la pérdida de documentos finales que el Usuario no haya descargado y resguardado en sus dispositivos personales.</p>
+                </div>
+            </section>
+
+            <!-- 5. NO REEMBOLSOS -->
+            <section id="reembolsos" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">5. Economía de Tokens y Política Estricta de Cero Reembolsos</h2>
+                <div class="legal-text">
+                    
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>5.1. Naturaleza Comercial de los "Tokens"</span>
+                    </h3>
+                    <p>La adquisición de cualquiera de nuestros planes otorga al Usuario unidades denominadas "Tokens". Un Token no constituye un activo financiero, criptomoneda ni moneda de curso legal. Representa exclusivamente un comprobante digital interno que habilita un bloque de tiempo de procesamiento de servidor, ancho de banda y llamadas a las APIs de inteligencia artificial para la ejecución de tareas específicas (ej. un Token NYX permite una iteración de mirroring).</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>5.2. Renuncia Estricta e Irrevocable a Reembolsos</span>
+                    </h3>
+                    <p>Debido a que la ejecución de nuestras herramientas de IA consume recursos computacionales de alto costo de forma inmediata, e implica la entrega de productos digitales irrevocables y know-how estructurado, <strong>TODAS LAS VENTAS, ADQUISICIONES DE TOKENS, PLANES CORPORATIVOS Y SUSCRIPCIONES SON ABSOLUTAMENTE FINALES</strong>.</p>
+                    <p><strong>No se emitirán reembolsos bajo ninguna circunstancia</strong>, incluyéndose taxativamente pero no limitándose a: (a) Insatisfacción subjetiva con el resultado final generado por la IA; (b) Fracaso en la obtención de entrevistas de trabajo; (c) Consumo parcial o nulo de los tokens adquiridos; (d) Problemas técnicos originados por el navegador del usuario; (e) Arrepentimiento posterior a la compra. Al procesar el pago, el Cliente renuncia explícitamente a cualquier derecho legal de desistimiento, disputa de contracargos bancarios o reclamo pecuniario.</p>
+
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>5.3. Interrupción de Suscripciones (Plan Mensual VIP)</span>
+                    </h3>
+                    <p>Las mensualidades VIP o planes de uso ilimitado son cobrados por adelantado. El Cliente puede cancelar la renovación automática en cualquier momento para evitar cobros futuros, manteniendo el acceso hasta el final del período facturado. No se emitirán, bajo ninguna excepción, devoluciones prorrateadas por el tiempo no utilizado del mes en curso.</p>
+                </div>
+            </section>
+
+            <!-- 6. EXONERACIÓN -->
+            <section id="responsabilidad" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">6. Exoneración Máxima de Responsabilidad e Indemnidad</h2>
+                <div class="legal-text">
+                    <p>Nuestra plataforma se proporciona bajo la base técnica de "tal cual" (AS-IS) y "según estricta disponibilidad" (AS-AVAILABLE), sin garantías expresas o implícitas de ningún tipo respecto a su idoneidad para la consecución de empleo.</p>
                     
                     <ul class="legal-list">
-                        <li><strong>Acceso Ilimitado:</strong> Control total sobre la infraestructura tecnológica de CV Studio33, desde herramientas públicas hasta módulos de desarrollo privados para potenciar tu operativa comercial.</li>
-                        <li><strong>Alta Velocidad:</strong> Capacidad de producción masiva de perfiles optimizados en tiempo récord, permitiendo escalar tu cartera de clientes sin sacrificar la calidad técnica.</li>
-                        <li><strong>Evasión ATS:</strong> Acceso a nuestra tecnología propietaria de inyección de "Invisible Text" y formateo avanzado, garantizando tasas de lectura superiores al 99% en cualquier sistema.</li>
-                        <li><strong>Tu Propio BOT ATS:</strong> Te entregamos un agente autónomo personalizado para que operes tu negocio de forma independiente, automatizando filtros y respuestas.</li>
-                        <li><strong>Conexión Neural:</strong> Sincronización directa con el núcleo de NYX. Retroalimentación de datos en tiempo real para una mejora continua de los algoritmos predictivos.</li>
-                        <li><strong>Desarrollo a Medida:</strong> Posibilidad de solicitar herramientas personalizadas específicas para tu nicho de mercado o consultoría, desarrolladas por nuestro equipo de ingeniería.</li>
+                        <li><strong>Límite Financiero de Responsabilidad:</strong> CV Studio33, sus fundadores, desarrolladores o entidades afiliadas no serán responsables por daños indirectos, incidentales, punitivos, lucro cesante o pérdida dramática de oportunidades laborales bajo ninguna teoría legal (contractual, extracontractual o negligencia). En el caso remoto de que una jurisdicción competente determine responsabilidad, esta estará siempre limitada estricta y rígidamente al monto monetario que el Cliente nos haya pagado en los últimos treinta (30) días previos al incidente.</li>
+                        <li><strong>Indemnidad Activa:</strong> El Cliente acepta defender, indemnizar y eximir de toda responsabilidad civil o penal a CV Studio33 ante cualquier reclamación, demanda, costo (incluyendo honorarios de abogados), originados por la falsificación de su CV, infracción de derechos de autor de terceros o mal uso flagrante del Distribution Hub.</li>
+                        <li><strong>Eventos de Fuerza Mayor:</strong> No asumiremos responsabilidad por interrupciones del servicio, demoras o bloqueos derivados de caídas masivas en proveedores de nube (AWS, Google Cloud), ataques cibernéticos DDoS, regulaciones gubernamentales, o fallos críticos en las APIs de los motores fundacionales de inteligencia artificial (OpenAI, Gemini).</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- 8. PRIVACIDAD Y RESPONSABILIDAD -->
-            <section id="privacidad" class="mb-10 scroll-mt-32">
-                <h2 class="clause-title">8. Propiedad, Privacidad y Responsabilidad</h2>
-                <div class="legal-text space-y-8">
+            <!-- 7. PARTNERS -->
+            <section id="partners" class="mb-16 scroll-mt-32">
+                <h2 class="clause-title">7. Programa "Únete al Sistema": Ecosistema B2B y Propiedad Intelectual</h2>
+                <div class="legal-text">
+                    <p>Nuestra arquitectura está diseñada para permitir que Reclutadores, Desarrolladores de IA y Estrategas de Carrera utilicen CV Studio33 como plataforma operativa (Marca Blanca / API B2B).</p>
                     
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-copyright"></i> 8.1. Propiedad Intelectual</h3>
-                        <p>El Cliente retiene la propiedad plena de sus datos biográficos personales. Sin embargo, la estructura, código fuente de las herramientas (NYX/AXON), metodologías de análisis ("Método 33"), bases de datos de "Perfiles de Oro" y formatos de diseño generados son propiedad intelectual exclusiva de CV Studio33. Queda terminantemente prohibida la reventa, ingeniería inversa, o distribución comercial no autorizada de los entregables.</p>
-                    </div>
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>7.1. Responsabilidad Delegada del Partner B2B</span>
+                    </h3>
+                    <p>Aquellos usuarios corporativos o consultores independientes que utilicen la infraestructura (incluyendo el módulo "Tu Propio BOT ATS" o herramientas de producción masiva) para proveer servicios a sus propios clientes finales, asumen legalmente la figura de "Responsables del Tratamiento de Datos". CV Studio33 actuará únicamente como un Sub-Procesador tecnológico ciego. El Partner B2B deberá tener sus propios acuerdos legales que protejan y aíslen a CV Studio33 de sus usuarios finales.</p>
 
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-user-shield"></i> 8.2. Privacidad y Datos (AES-256)</h3>
-                        <p>CV Studio33 cumple con los estándares internacionales de protección de datos. La información procesada por nuestros motores de IA es anonimizada y encriptada (AES-256) antes de su análisis.</p>
-                        <p>Los datos cargados para análisis temporal (parsing) son eliminados automáticamente de los servidores de procesamiento tras 24 horas de inactividad para garantizar la confidencialidad absoluta del Cliente. No compartimos ni vendemos datos a terceros.</p>
-                    </div>
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>7.2. Propiedad Intelectual de los Algoritmos</span>
+                    </h3>
+                    <p>Toda la lógica algorítmica, los procesos de inyección de "Invisible Text", el código fuente del "Método 33", la conexión neural, las bases de datos de "Perfiles de Oro" y el diseño de la interfaz gráfica son propiedad exclusiva e inalienable de CV Studio33. El acceso B2B o el desarrollo a medida no transfiere derechos de propiedad intelectual. La ingeniería inversa, la extracción no autorizada de código (scraping) o el intento de vulnerar los motores NYX/AXON resultará en la cancelación inmediata de la cuenta sin derecho a reembolso y la persecución legal en tribunales competentes.</p>
 
-                    <div>
-                        <h3 class="clause-subtitle"><i class="fa-solid fa-triangle-exclamation"></i> 8.3. Limitación de Responsabilidad</h3>
-                        <p>CV Studio33 proporciona herramientas de "Mejora de Probabilidades". En ningún caso la Entidad, sus directores, empleados o afiliados serán responsables por daños directos, indirectos, incidentales o consecuentes que resulten de: (i) la imposibilidad de conseguir empleo tras el uso del servicio; (ii) decisiones tomadas por empleadores basadas en la información procesada; (iii) interrupciones temporales del servicio por mantenimiento. La responsabilidad máxima de CV Studio33 se limita al monto abonado por el Cliente.</p>
+                    <h3 class="clause-subtitle">
+                        <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                        <span>7.3. Jurisdicción Exclusiva</span>
+                    </h3>
+                    <p>Toda controversia derivada de este acuerdo, o del uso del ecosistema en su totalidad, será sometida de manera exclusiva a la jurisdicción de los Tribunales Ordinarios en lo Comercial con asiento en la Ciudad Autónoma de Buenos Aires, República Argentina, renunciando expresamente el Usuario a cualquier otro fuero o jurisdicción (incluyendo arbitrajes internacionales), sin importar su ubicación geográfica real.</p>
+                </div>
+            </section>
+
+            <!-- ANEXO COMERCIAL: PRECIOS -->
+            <section id="anexo" class="mb-10 scroll-mt-32 border-t border-white/10 pt-16 mt-16">
+                <h2 class="clause-title text-blue-400 border-l-blue-400">Anexo Comercial: Tarifario de Licencias y Tokens</h2>
+                <div class="legal-text mb-8">
+                    <p>En estricta conformidad con la <strong>Cláusula 5 (Política de Cero Reembolsos)</strong>, la adquisición de los siguientes paquetes representa exclusivamente la compra anticipada de capacidad de procesamiento algorítmico computacional, infraestructura de auditoría y/o derechos de acceso preferencial a los ecosistemas VIP.</p>
+                </div>
+                
+                <h3 class="clause-subtitle mt-10">
+                    <div class="w-1.5 h-5 bg-blue-400 rounded-full"></div>
+                    <span class="text-white">A.1 Adquisición de Cómputo: Ecosistema NYX (Ofensivo)</span>
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                    <div class="pricing-card">
+                        <h4 class="pricing-title">STARTER</h4>
+                        <div class="pricing-tokens">5 Tokens</div>
+                        <div class="pricing-price">$5.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens" class="pricing-btn">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h4 class="pricing-title">ADVANCED</h4>
+                        <div class="pricing-tokens">10 Tokens</div>
+                        <div class="pricing-price">$10.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Advanced%20de%2010%20Tokens" class="pricing-btn">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card popular pt-8 mt-4 sm:mt-0 relative border-2 border-yellow-500/50">
+                        <div class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20">Más Elegido</div>
+                        <h4 class="pricing-title">PRO TIER</h4>
+                        <div class="pricing-tokens text-yellow-300">20 Tokens</div>
+                        <div class="pricing-price text-yellow-500 drop-shadow-md">$20.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20Tier%20de%2020%20Tokens" class="pricing-btn hover:shadow-yellow-500/30">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h4 class="pricing-title">ELITE</h4>
+                        <div class="pricing-tokens">50 Tokens</div>
+                        <div class="pricing-price">$40.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Elite%20de%2050%20Tokens" class="pricing-btn">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card md:col-span-2 lg:col-span-1 border-blue-500/30">
+                        <h4 class="pricing-title text-blue-400">SUBSCRIPCIÓN<br>PLAN MENSUAL</h4>
+                        <div class="pricing-tokens text-blue-300">Tokens Ilimitados*</div>
+                        <div class="pricing-price">$33.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripci%C3%B3n%20Mensual" class="pricing-btn border border-blue-400">SUSCRIBIRSE</a>
+                    </div>
+                </div>
+
+                <h3 class="clause-subtitle mt-16">
+                    <div class="w-1.5 h-5 bg-blue-400 rounded-full"></div>
+                    <span class="text-white">A.2 Adquisición de Auditoría: Ecosistema AXON (Analítico)</span>
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                    <div class="pricing-card">
+                        <h4 class="pricing-title">STARTER</h4>
+                        <div class="pricing-tokens">5 Tokens</div>
+                        <div class="pricing-price">$2.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h4 class="pricing-title">BASIC</h4>
+                        <div class="pricing-tokens">10 Tokens</div>
+                        <div class="pricing-price">$3.500</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Basic%20de%2010%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card popular pt-8 mt-4 sm:mt-0 relative border-2 border-yellow-500/50">
+                        <div class="pricing-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20">Recomendado</div>
+                        <h4 class="pricing-title">PRO</h4>
+                        <div class="pricing-tokens text-yellow-300">20 Tokens</div>
+                        <div class="pricing-price text-yellow-500 drop-shadow-md">$6.500</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20de%2020%20Tokens%20AXON" class="pricing-btn hover:shadow-yellow-500/30">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h4 class="pricing-title">EXPERT</h4>
+                        <div class="pricing-tokens">50 Tokens</div>
+                        <div class="pricing-price">$15.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Expert%20de%2050%20Tokens%20AXON" class="pricing-btn">ADQUIRIR</a>
+                    </div>
+                    <div class="pricing-card md:col-span-2 lg:col-span-1 border-blue-500/30">
+                        <h4 class="pricing-title text-blue-400">UNLIMITED<br>PLAN MENSUAL</h4>
+                        <div class="pricing-price mt-4">$20.000</div>
+                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripci%C3%B3n%20Mensual%20AXON" class="pricing-btn border border-blue-400">SUSCRIBIRSE</a>
+                    </div>
+                </div>
+
+                <h3 class="clause-subtitle mt-16">
+                    <div class="w-1.5 h-5 bg-blue-400 rounded-full"></div>
+                    <span class="text-white">A.3 Acceso Premium: Bolsa VIP y Planes Corporativos</span>
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="pricing-card items-start text-left">
+                        <h4 class="pricing-title w-full text-left">START</h4>
+                        <div class="pricing-price text-2xl w-full text-left">$15.000 ARS</div>
+                        <ul class="list-features">
+                            <li>CV Personalizado</li>
+                            <li>Carta de Presentación</li>
+                            <li>1 Token AXON</li>
+                        </ul>
+                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Start" class="pricing-btn mt-auto text-[10px]">INICIAR PROCESO DE CONTRATACIÓN</a>
                     </div>
                     
+                    <div class="pricing-card items-start text-left">
+                        <h4 class="pricing-title w-full text-left">AVANZADO</h4>
+                        <div class="pricing-price text-2xl w-full text-left">$22.000 ARS</div>
+                        <ul class="list-features">
+                            <li>CV Personalizado</li>
+                            <li>Carta de Presentación</li>
+                            <li>5 Tokens NYX</li>
+                            <li>5 Tokens AXON</li>
+                            <li>Bolsa de Trabajo VIP</li>
+                        </ul>
+                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Avanzado" class="pricing-btn mt-auto text-[10px]">INICIAR PROCESO DE CONTRATACIÓN</a>
+                    </div>
+                    
+                    <div class="pricing-card popular pt-8 relative items-start text-left border-2 border-yellow-500/50">
+                        <div class="pricing-badge absolute -top-3 left-6 whitespace-nowrap px-4 py-1 text-xs shadow-lg shadow-yellow-500/20 transform-none">POPULAR</div>
+                        <h4 class="pricing-title w-full text-left">PROFESIONAL</h4>
+                        <div class="pricing-price text-2xl w-full text-left text-yellow-500">$50.000 ARS</div>
+                        <ul class="list-features">
+                            <li>CV + Carta</li>
+                            <li>10 Tokens NYX</li>
+                            <li>20 Tokens AXON</li>
+                            <li>Bolsa VIP + Career Suite</li>
+                            <li>Acceso Herramientas Privadas</li>
+                        </ul>
+                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20asesoramiento%20profesional%20para%20contratar%20el%20Plan%20Profesional" class="pricing-btn mt-auto text-[10px] hover:shadow-yellow-500/30">INICIAR PROCESO DE CONTRATACIÓN</a>
+                    </div>
+                    
+                    <div class="pricing-card items-start text-left border-blue-500/30 bg-blue-900/10">
+                        <h4 class="pricing-title text-blue-400 w-full text-left">MENSUALIDAD VIP</h4>
+                        <div class="text-sm text-gray-400 line-through mt-1">$70.000 ARS</div>
+                        <div class="pricing-price text-2xl w-full text-left mb-1">$33.000 <span class="text-xs font-normal tracking-wide text-gray-400">PRIMER PAGO</span></div>
+                        <ul class="list-features mt-2">
+                            <li>Personalización Única</li>
+                            <li>ACCESO COMPLETO</li>
+                            <li>Duración: 1 Mes</li>
+                            <li>Uso Ilimitado NYX AI</li>
+                            <li>Uso Ilimitado AXON</li>
+                        </ul>
+                        <a href="https://wa.me/5491123167967?text=Hola,%20solicito%20acceso%20prioritario%20para%20contratar%20la%20Mensualidad%20VIP" class="pricing-btn mt-auto text-[10px] border border-blue-500/50">GESTIONAR SUSCRIPCIÓN EXCLUSIVA</a>
+                    </div>
                 </div>
             </section>
             
-            <div class="border-t border-white/10 pt-10 mt-16 text-center text-xs md:text-sm text-gray-500 font-mono">
-                <p class="mb-2">Para consultas legales o soporte de cumplimiento SLA: <span class="text-blue-400 cursor-pointer hover:text-blue-300 transition-colors">legal@cvstudio33.com</span></p>
+            <div class="border-t border-white/10 pt-10 mt-8 text-center text-xs md:text-sm text-gray-500 font-mono">
+                <p class="mb-2">Documento elaborado por el equipo de cumplimiento (Compliance) de CV Studio33.</p>
                 <p>Buenos Aires, Argentina. Jurisdicción aplicable: Tribunales Ordinarios en lo Comercial.</p>
             </div>
 
         </main>
     </div>
 
-    <!-- FOOTER 2026 PROFESIONAL CORREGIDO -->
+    <!-- FOOTER 2026 PROFESIONAL -->
     <footer class="bg-[#02040a] pt-16 pb-8 border-t border-white/5 relative z-10">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 
-                <!-- Columna 1: Logo e Info -->
+                <!-- Columna 1 -->
                 <div>
-                    <img src="logo.png" alt="CV Studio33 Logo" class="h-14 w-auto mb-6 opacity-90 filter drop-shadow-[0_0_5px_rgba(59,130,246,0.5)]">
-                    <p class="text-xs text-gray-400 leading-relaxed mb-6 text-justify">
-                        Líderes en ingeniería de carrera y optimización algorítmica. Fusionamos tecnología de punta con estrategia humana para posicionar talento de alto nivel.
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-auto mb-6 opacity-80 filter grayscale hover:grayscale-0 transition-all duration-500">
+                    <p class="text-xs text-gray-400 leading-relaxed mb-6 text-left">
+                        Infraestructura algorítmica y procesamiento de datos para la optimización táctica de carrera.
                     </p>
                     <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
                     </div>
                 </div>
 
-                <!-- Columna 2: Enlaces -->
+                <!-- Columna 2 -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Legal</h4>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Compliance</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-xs text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-[10px]"></i> Términos de Servicio</a></li>
-                        <li><a href="#" class="text-xs text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-[10px]"></i> Privacidad de Datos</a></li>
-                        <li><a href="#" class="text-xs text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2"><i class="fa-solid fa-angle-right text-[10px]"></i> SLA & SLA</a></li>
+                        <li><a href="#" class="text-xs text-gray-400 hover:text-blue-400 transition-colors">Términos Contractuales</a></li>
+                        <li><a href="#privacidad" class="text-xs text-gray-400 hover:text-blue-400 transition-colors">Política Zero-Data Retention</a></li>
+                        <li><a href="#reembolsos" class="text-xs text-gray-400 hover:text-blue-400 transition-colors">Renuncia de Reembolsos</a></li>
                     </ul>
                 </div>
 
-                <!-- Columna 3: Contacto -->
+                <!-- Columna 3 -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Soporte</h4>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Soporte Jurídico</h4>
                     <ul class="space-y-4">
-                        <li><a href="mailto:legal@cvstudio33.com" class="text-xs text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-3"><i class="fa-solid fa-envelope w-4 text-center"></i> legal@cvstudio33.com</a></li>
-                        <li><a href="https://wa.me/5491123167967" class="text-xs text-gray-400 hover:text-green-400 transition-colors flex items-center gap-3"><i class="fa-brands fa-whatsapp w-4 text-center text-base"></i> +54 9 11 2316 7967</a></li>
+                        <li><a href="mailto:legal@cvstudio33.com" class="text-xs text-gray-400 hover:text-blue-400 transition-colors block">legal@cvstudio33.com</a></li>
+                        <li><a href="https://wa.me/5491123167967" class="text-xs text-gray-400 hover:text-green-400 transition-colors block">+54 9 11 2316 7967</a></li>
                     </ul>
                 </div>
 
-                <!-- Columna 4: Certificación -->
+                <!-- Columna 4 -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Seguridad</h4>
-                    <div class="flex items-center gap-3 mb-5 p-3 rounded-lg bg-white/5 border border-white/5">
-                        <i class="fa-solid fa-shield-halved text-2xl text-green-500"></i>
-                        <div class="text-xs text-gray-400">
-                            <p class="font-bold text-gray-200">Datos Encriptados</p>
-                            <p>Protocolo AES-256</p>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-white/10 pb-2 inline-block">Cifrado de Sistema</h4>
+                    <div class="flex items-center gap-3 mb-4 p-3 rounded-lg bg-white/5 border border-white/5">
+                        <div class="text-xs text-gray-400 text-left">
+                            <p class="font-bold text-gray-200">Protocolo Local / Caché</p>
+                            <p class="mt-1">Sin persistencia de datos (PII)</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
-                        <i class="fa-solid fa-lock text-2xl text-blue-500"></i>
-                        <div class="text-xs text-gray-400">
-                            <p class="font-bold text-gray-200">SSL Seguro</p>
-                            <p>Conexión Verificada</p>
+                        <div class="text-xs text-gray-400 text-left">
+                            <p class="font-bold text-gray-200">Cifrado AES-256</p>
+                            <p class="mt-1">Tránsito seguro hacia APIs</p>
                         </div>
                     </div>
                 </div>
@@ -918,11 +765,11 @@
             <!-- Copyright -->
             <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-[10px] text-gray-500 font-mono tracking-widest uppercase text-center md:text-left">
-                    &copy; 2026 CV Studio33 Global Services. Todos los derechos reservados.
+                    &copy; 2026 CV Studio33 Compliance.
                 </p>
-                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_#22c55e]"></span>
-                    <span class="text-[9px] text-green-400 font-mono uppercase font-bold tracking-wider">Systems Operational</span>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_5px_#3b82f6]"></span>
+                    <span class="text-[9px] text-blue-400 font-mono uppercase font-bold tracking-wider">SLA Active & Enforced</span>
                 </div>
             </div>
         </div>
@@ -937,3 +784,6 @@
     </script>
 </body>
 </html>
+
+
+

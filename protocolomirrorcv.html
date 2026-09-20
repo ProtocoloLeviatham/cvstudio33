@@ -132,15 +132,35 @@
         
         .languages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; color: var(--cv-text-color); }
 
-        /* IMPRESIÓN (DOOM NATIVO) */
+        /* IMPRESIÓN (DOOM NATIVO Y PDF ATS) */
         @media print { 
-            body, html { background-color: white !important; margin: 0 !important; padding: 0 !important; }
+            @page { size: A4 portrait; margin: 0; } /* Elimina márgenes del navegador web y fuerza A4 */
+            
+            body, html { background-color: white !important; margin: 0 !important; padding: 0 !important; color: black !important; }
+            
             .dashboard-header, .no-print, #auth-message, #step-1, #step-2, #step-3, #step-4, #loader { display: none !important; } 
             
-            #app-container, #step-5, .cv-preview-wrapper { display: block !important; padding: 0 !important; margin: 0 !important; background: white !important; border: none !important; box-shadow: none !important; max-width: none !important; }
+            #app-container, #step-5, .cv-preview-wrapper { 
+                display: block !important; padding: 0 !important; margin: 0 !important; 
+                background: white !important; border: none !important; box-shadow: none !important; 
+                max-width: none !important; height: auto !important; overflow: visible !important;
+            }
             
-            .a4-container-scale { transform: scale(1) !important; height: auto !important; }
-            .a4-page { box-shadow: none !important; width: 100% !important; height: auto !important; margin: 0 !important; page-break-after: avoid !important; overflow: visible !important; } 
+            /* CRÍTICO: Remover transform para evitar palabras invisibles o recortadas por el navegador */
+            .a4-container-scale { transform: none !important; height: auto !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            
+            .a4-page { 
+                box-shadow: none !important; 
+                width: 210mm !important; 
+                min-height: 297mm !important; 
+                height: auto !important; 
+                margin: 0 !important; 
+                padding: var(--cv-padding-v) var(--cv-padding-h) !important; 
+                overflow: visible !important; 
+                page-break-inside: avoid !important;
+                -webkit-print-color-adjust: exact !important; /* Fuerza a imprimir los colores de las fuentes */
+                print-color-adjust: exact !important;
+            } 
         }
     </style>
 </head>
@@ -545,6 +565,5 @@
     </script>
 </body>
 </html>
-
 
 

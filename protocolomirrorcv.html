@@ -468,9 +468,11 @@
             document.getElementById('loader').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Enviamos el userId correcto al Worker para el cobro
+            // SEGURIDAD ZERO TRUST: Obtenemos el Token JWT firmado criptográficamente
+            const idToken = await currentUser.getIdToken();
+
             const payload = {
-                userId: `cliente-${currentUser.uid}`, 
+                idToken: idToken, // Empaquetado de seguridad para el Cerebro
                 targetJob: document.getElementById('target-job').value,
                 targetCompany: document.getElementById('target-company').value,
                 targetIndustry: document.getElementById('target-industry').value,
@@ -538,3 +540,5 @@
     </script>
 </body>
 </html>
+
+

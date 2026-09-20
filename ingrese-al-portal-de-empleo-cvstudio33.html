@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecosistema Central | CV Studio33</title>
+    <title>Hub Operativo | CV Studio33</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +14,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Animaciones (MacBook, 3D Loader, SVG Rings) -->
+    <!-- Animaciones Extraídas (MacBook, 3D Loader, SVG Rings, Sparkle Button) -->
     <link rel="stylesheet" href="animations.css">
 
     <script>
@@ -23,9 +23,6 @@
                 extend: {
                     colors: {
                         primary: '#020617', 
-                        secondary: '#3b82f6',
-                        accent: '#6366f1',
-                        dark: '#02040a',
                         textMain: '#cbd5e1',
                     },
                     fontFamily: {
@@ -46,9 +43,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism Core */
         .glass-card {
-            background: rgba(15, 23, 42, 0.65);
+            background: rgba(15, 23, 42, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -56,15 +52,15 @@
         }
 
         .hub-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
         }
         .hub-card:hover {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
         .google-btn {
@@ -72,7 +68,6 @@
         }
         .google-btn:hover { background: #f1f5f9; transform: translateY(-2px); }
 
-        /* Custom Scrollbar for Hub */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
@@ -88,319 +83,304 @@
             animation: moveGrid 20s linear infinite;
         }
         @keyframes moveGrid { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
-
-        /* Motivational Toast */
-        #motivational-toast {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
     </style>
 </head>
-<body class="selection:bg-blue-500/30 selection:text-blue-200 overflow-x-hidden">
+<body class="selection:bg-slate-700 selection:text-white overflow-x-hidden">
 
     <div class="bg-grid"></div>
 
     <!-- ==============================================
-         1. PANTALLA DE CARGA INICIAL (MACBOOK)
+         1. PRELOADER (MACBOOK)
          ============================================== -->
     <div id="preloader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#02040a] transition-opacity duration-700 ease-in-out">
         <div class="preloader-wrapper">
             <div class="macbook">
-                <div class="macbook__topBord">
-                    <div class="macbook__display">
-                        <img src="logo.png" alt="CV Studio33" class="macbook__logo">
-                        <div class="macbook__load"></div>
-                    </div>
-                </div>
+                <div class="macbook__topBord"><div class="macbook__display"><img src="logo.png" alt="CV Studio33" class="macbook__logo"><div class="macbook__load"></div></div></div>
                 <div class="macbook__underBord">
                     <div class="macbook__keybord">
                         <div class="keybord">
                             <div class="keybord__touchbar"></div>
                             <ul class="keybord__keyBox">
-                                <li class="keybord__key key--01"></li><li class="keybord__key key--02"></li><li class="keybord__key key--03"></li>
-                                <li class="keybord__key key--04"></li><li class="keybord__key key--05"></li><li class="keybord__key key--06"></li>
-                                <li class="keybord__key key--07"></li><li class="keybord__key key--08"></li><li class="keybord__key key--09"></li>
-                                <li class="keybord__key key--10"></li><li class="keybord__key key--11"></li><li class="keybord__key key--12"></li>
-                                <li class="keybord__key key--13"></li>
+                                <li class="keybord__key key--01"></li><li class="keybord__key key--02"></li><li class="keybord__key key--03"></li><li class="keybord__key key--04"></li><li class="keybord__key key--05"></li><li class="keybord__key key--06"></li><li class="keybord__key key--07"></li><li class="keybord__key key--08"></li><li class="keybord__key key--09"></li><li class="keybord__key key--10"></li><li class="keybord__key key--11"></li><li class="keybord__key key--12"></li><li class="keybord__key key--13"></li>
                             </ul>
                             <ul class="keybord__keyBox--under">
-                                <li class="keybord__key key--14"></li><li class="keybord__key key--15"></li><li class="keybord__key key--16"></li>
-                                <li class="keybord__key key--17"></li><li class="keybord__key key--18"></li><li class="keybord__key key--19"></li>
-                                <li class="keybord__key key--20"></li><li class="keybord__key key--21"></li><li class="keybord__key key--22"></li>
-                                <li class="keybord__key key--23"></li><li class="keybord__key key--24"></li>
+                                <li class="keybord__key key--14"></li><li class="keybord__key key--15"></li><li class="keybord__key key--16"></li><li class="keybord__key key--17"></li><li class="keybord__key key--18"></li><li class="keybord__key key--19"></li><li class="keybord__key key--20"></li><li class="keybord__key key--21"></li><li class="keybord__key key--22"></li><li class="keybord__key key--23"></li><li class="keybord__key key--24"></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            
             <div class="mt-24 text-center">
                 <div class="flex items-center gap-2 justify-center mb-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
-                    <p class="text-[10px] md:text-xs font-mono text-blue-400 uppercase tracking-[0.3em]">Cifrado AES-256 Activo</p>
+                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                    <p class="text-[10px] md:text-xs font-mono text-white uppercase tracking-[0.3em]">Cifrado AES-256 Activo</p>
                 </div>
-                <p class="text-[9px] text-slate-500 font-mono tracking-widest">FIREBASE SECURE AUTHENTICATION</p>
+                <p class="text-[9px] text-slate-500 font-mono tracking-widest">INFRAESTRUCTURA SEGURA CV STUDIO33</p>
             </div>
         </div>
     </div>
 
     <!-- ==============================================
-         2. PANTALLA DE CARGA POST-LOGIN (3D BOX CUBE)
+         2. POST-LOGIN LOADER (3D BOX CUBE)
          ============================================== -->
     <div id="post-login-loader" class="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-[#02040a] opacity-0 hidden transition-opacity duration-700 ease-in-out">
         <div class="loader">
-            <div class="box box0"><div></div></div><div class="box box1"><div></div></div>
-            <div class="box box2"><div></div></div><div class="box box3"><div></div></div>
-            <div class="box box4"><div></div></div><div class="box box5"><div></div></div>
-            <div class="box box6"><div></div></div><div class="box box7"><div></div></div>
-            <div class="ground"><div></div></div>
+            <div class="box box0"><div></div></div><div class="box box1"><div></div></div><div class="box box2"><div></div></div><div class="box box3"><div></div></div><div class="box box4"><div></div></div><div class="box box5"><div></div></div><div class="box box6"><div></div></div><div class="box box7"><div></div></div><div class="ground"><div></div></div>
         </div>
-
         <div class="mt-16 text-center z-10">
-            <p class="text-xs font-mono text-blue-400 uppercase tracking-[0.3em] animate-pulse">Autenticación Exitosa</p>
-            <p class="text-[10px] text-slate-500 mt-2 font-mono">Ensamblando ecosistema de servicios VIP...</p>
+            <p class="text-xs font-mono text-white uppercase tracking-[0.3em] animate-pulse">Acceso Autorizado</p>
+            <p class="text-[10px] text-slate-500 mt-2 font-mono">Ensamblando ecosistema VIP...</p>
         </div>
     </div>
 
     <!-- ==============================================
-         3. PANTALLA DE REDIRECCIÓN (SVG RINGS)
+         3. SVG RINGS REDIRECT LOADER
          ============================================== -->
-    <div id="redirect-loader" class="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-[#02040a]/95 backdrop-blur-md opacity-0 hidden transition-opacity duration-500 ease-in-out">
+    <div id="redirect-loader" class="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-[#02040a]/95 backdrop-blur-md opacity-0 hidden transition-opacity duration-300 ease-in-out">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" height="128px" width="128px" class="pl">
-            <circle stroke-dashoffset="-376.4" stroke-dasharray="377 377" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="8" fill="none" r="60" cy="64" cx="64" class="pl__ring1"></circle>
-            <circle stroke-dashoffset="-329.3" stroke-dasharray="329.9 329.9" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="7" fill="none" r="52.5" cy="64" cx="64" class="pl__ring2"></circle>
-            <circle stroke-dashoffset="-288.6" stroke-dasharray="289 289" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="6" fill="none" r="46" cy="64" cx="64" class="pl__ring3"></circle>
-            <circle stroke-dashoffset="-254" stroke-dasharray="254.5 254.5" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="5" fill="none" r="40.5" cy="64" cx="64" class="pl__ring4"></circle>
-            <circle stroke-dashoffset="-225.8" stroke-dasharray="226.2 226.2" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="4" fill="none" r="36" cy="64" cx="64" class="pl__ring5"></circle>
-            <circle stroke-dashoffset="-203.9" stroke-dasharray="204.2 204.2" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="3" fill="none" r="32.5" cy="64" cx="64" class="pl__ring6"></circle>
+            <circle stroke-dashoffset="-376.4" stroke-dasharray="377 377" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="8" stroke="hsl(3,90%,55%)" fill="none" r="60" cy="64" cx="64" class="pl__ring1"></circle>
+            <circle stroke-dashoffset="-329.3" stroke-dasharray="329.9 329.9" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="7" stroke="hsl(13,90%,55%)" fill="none" r="52.5" cy="64" cx="64" class="pl__ring2"></circle>
+            <circle stroke-dashoffset="-288.6" stroke-dasharray="289 289" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="6" stroke="hsl(23,90%,55%)" fill="none" r="46" cy="64" cx="64" class="pl__ring3"></circle>
+            <circle stroke-dashoffset="-254" stroke-dasharray="254.5 254.5" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="5" stroke="hsl(33,90%,55%)" fill="none" r="40.5" cy="64" cx="64" class="pl__ring4"></circle>
+            <circle stroke-dashoffset="-225.8" stroke-dasharray="226.2 226.2" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="4" stroke="hsl(43,90%,55%)" fill="none" r="36" cy="64" cx="64" class="pl__ring5"></circle>
+            <circle stroke-dashoffset="-203.9" stroke-dasharray="204.2 204.2" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="3" stroke="hsl(53,90%,55%)" fill="none" r="32.5" cy="64" cx="64" class="pl__ring6"></circle>
         </svg>
         <div class="mt-8 text-center">
-            <p class="text-sm font-heading font-bold text-white tracking-widest uppercase">Estableciendo Conexión</p>
-            <p class="text-[10px] text-slate-500 font-mono mt-1" id="redirect-target-text">Procesando solicitud segura...</p>
+            <p class="text-xs font-heading font-bold text-white tracking-widest uppercase">Estableciendo Conexión</p>
         </div>
     </div>
 
-
     <!-- ==============================================
-         CONTENEDOR PRINCIPAL DE LA APP
+         APP CONTAINER
          ============================================== -->
-    <main id="app-container" class="relative w-full min-h-screen flex items-center justify-center p-4 md:p-8 opacity-0 hidden transition-opacity duration-1000">
+    <main id="app-container" class="relative w-full min-h-screen p-4 md:p-8 opacity-0 hidden transition-opacity duration-1000">
         
-        <!-- ==========================================
-             VISTA 1: LOGIN (Profesional y Seguro)
-             ========================================== -->
-        <div id="login-view" class="w-full max-w-md hidden">
+        <!-- VISTA 1: LOGIN -->
+        <div id="login-view" class="w-full max-w-md mx-auto mt-[10vh] hidden">
             <div class="glass-card rounded-3xl p-8 md:p-10 text-center relative overflow-hidden">
-                <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-[50px] pointer-events-none"></div>
-                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-[50px] pointer-events-none"></div>
-                
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-white/5 rounded-full blur-[50px] pointer-events-none"></div>
                 <div class="relative z-10">
-                    <img src="logo.png" alt="CV Studio33" class="h-14 mx-auto mb-6 opacity-90">
+                    <img src="logo.png" alt="CV Studio33" class="h-16 mx-auto mb-6 opacity-90">
                     
                     <h1 class="text-2xl md:text-3xl font-heading font-black text-white mb-3 tracking-tight">Acceso Corporativo</h1>
                     <p class="text-[13px] text-slate-400 mb-8 font-light leading-relaxed">
-                        Infraestructura protegida bajo protocolos <strong>Zero-Data Retention</strong> y cifrado de grado militar. Su identidad profesional está 100% resguardada.
+                        Infraestructura protegida bajo protocolos <strong>Zero-Data Retention</strong>. Su identidad profesional está 100% resguardada.
                     </p>
                     
-                    <button id="btn-google-login" class="google-btn w-full flex items-center justify-center gap-4 py-3.5 px-6 rounded-xl font-bold text-sm">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                        </svg>
-                        <span>Autenticación Segura (Google)</span>
+                    <button id="btn-login" class="google-btn w-full flex items-center justify-center gap-4 py-3.5 px-6 rounded-xl font-bold text-sm">
+                        <i class="fa-solid fa-shield-halved text-lg"></i>
+                        <span>Autenticación Segura</span>
                     </button>
-
                     <div id="login-error" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs text-red-400 font-mono text-left"></div>
 
-                    <!-- Acuerdos Legales -->
                     <div class="mt-8 pt-6 border-t border-white/10 text-[10px] md:text-xs text-slate-500 leading-relaxed">
                         Al ingresar, certifica que aprueba nuestra arquitectura legal:<br>
-                        <a href="terminos-y-condiciones.html" class="text-blue-400 hover:text-blue-300 underline underline-offset-2">SLA & Términos</a> | 
-                        <a href="politica-de-privacidad.html" class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">Privacidad</a> | 
-                        <a href="politica-de-cookies.html" class="text-amber-400 hover:text-amber-300 underline underline-offset-2">Cookies & Caché</a>
+                        <a href="terminos-y-condiciones.html" class="text-white hover:underline">SLA</a> | 
+                        <a href="politica-de-privacidad.html" class="text-white hover:underline">Privacidad</a> | 
+                        <a href="politica-de-cookies.html" class="text-white hover:underline">Cookies</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ==========================================
-             VISTA 2: ECOSISTEMA CENTRAL (Hub)
-             ========================================== -->
-        <div id="profile-view" class="w-full max-w-7xl hidden flex-col xl:flex-row gap-6 md:gap-8 items-start">
+        <!-- VISTA 2: ECOSISTEMA (HUB) -->
+        <div id="profile-view" class="w-full max-w-7xl mx-auto hidden grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- COLUMNA IZQUIERDA: Perfil y Datos -->
-            <div class="glass-card rounded-3xl p-6 md:p-8 w-full xl:w-[320px] shrink-0 sticky top-8">
+            <!-- COLUMNA IZQUIERDA (Perfil - Sticky) -->
+            <div class="lg:col-span-4 xl:col-span-3 glass-card rounded-3xl p-6 md:p-8 h-fit sticky top-8 z-10">
                 <div class="text-center mb-6">
                     <div class="relative inline-block group">
-                        <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-emerald-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
-                            <img id="user-photo" src="" alt="Profile" class="w-full h-full rounded-full object-cover border-2 border-[#020617] bg-slate-800">
+                        <div class="w-24 h-24 rounded-full p-1 bg-white/10 shadow-2xl">
+                            <img id="user-photo" src="logo.png" alt="Profile" class="w-full h-full rounded-full object-cover border-2 border-[#020617] bg-slate-900">
                         </div>
-                        <!-- Botón flotante para cambiar foto localmente -->
-                        <label for="local-photo-upload" class="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 hover:bg-blue-500 rounded-full flex items-center justify-center cursor-pointer shadow-lg border-2 border-[#020617] transition-colors">
+                        <label for="local-photo-upload" class="absolute bottom-0 right-0 w-8 h-8 bg-slate-700 hover:bg-slate-600 rounded-full flex items-center justify-center cursor-pointer shadow-lg border-2 border-[#020617] transition-colors">
                             <i class="fa-solid fa-camera text-white text-[10px]"></i>
                             <input type="file" id="local-photo-upload" class="hidden" accept="image/*">
                         </label>
                     </div>
-                    
-                    <h2 id="user-name" class="text-xl font-heading font-black text-white mt-4 tracking-tight">Usuario VIP</h2>
-                    <p id="user-email" class="text-xs text-slate-400 font-mono mt-1">cargando@datos.com</p>
+                    <h2 id="user-name" class="text-xl font-heading font-black text-white mt-4 tracking-tight">Cargando...</h2>
+                    <p id="user-email" class="text-xs text-slate-400 font-mono mt-1">...</p>
                 </div>
 
                 <div class="space-y-3 mb-8">
-                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/50 border border-white/5">
-                        <span class="text-[10px] uppercase text-slate-500 font-bold">Estado de Cuenta</span>
-                        <span class="text-xs text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Verificada</span>
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/30 border border-white/5">
+                        <span class="text-[10px] uppercase text-slate-500 font-bold">Estado</span>
+                        <span class="text-[10px] text-white font-mono bg-white/10 px-2 py-0.5 rounded">Verificada</span>
                     </div>
-                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/50 border border-white/5">
-                        <span class="text-[10px] uppercase text-slate-500 font-bold">Nivel de Acceso</span>
-                        <span class="text-xs text-amber-400 font-mono"><i class="fa-solid fa-crown mr-1"></i> Ecosistema Hub</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/50 border border-white/5">
-                        <span class="text-[10px] uppercase text-slate-500 font-bold">Ingreso Registrado</span>
-                        <span class="text-xs text-slate-300 font-mono" id="login-date">--/--/----</span>
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/30 border border-white/5">
+                        <span class="text-[10px] uppercase text-slate-500 font-bold">Acceso</span>
+                        <span class="text-[10px] text-white font-mono">Ecosistema Central</span>
                     </div>
                 </div>
 
-                <button id="btn-logout" class="w-full py-3.5 px-4 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider transition-all text-center">
+                <button id="btn-logout" class="w-full py-3.5 px-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all text-center">
                     Cerrar Sesión
                 </button>
             </div>
 
-            <!-- COLUMNA DERECHA: Grid de Servicios (El Hub) -->
-            <div class="w-full flex flex-col gap-6">
+            <!-- COLUMNA DERECHA (Tarjetas Informativas Profesionales) -->
+            <div class="lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
                 
                 <div class="glass-card rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h3 class="text-2xl md:text-3xl font-heading font-black text-white tracking-tight">Hub de Servicios Integrales</h3>
-                        <p class="text-sm text-slate-400 mt-2 font-light max-w-2xl">
-                            Seleccione un módulo operativo. Le entregamos la infraestructura pesada (Pasarelas, Inteligencia Artificial y diseño algorítmico); usted domina el mercado laboral.
+                        <h3 class="text-2xl md:text-3xl font-heading font-black text-white tracking-tight">El Ecosistema CV Studio33</h3>
+                        <p class="text-sm text-slate-400 mt-2 font-light leading-relaxed max-w-2xl">
+                            Bienvenido a la red de vinculación profesional definitiva. Como Asesor, nosotros le entregamos la infraestructura pesada; usted aporta la conexión orgánica y el cierre estratégico. Seleccione el módulo para comenzar.
                         </p>
                     </div>
                 </div>
 
-                <!-- GRID DE SERVICIOS -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    <!-- 1. Ventas -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('PanelDeGestion-Ventas.html', 'Abriendo Panel de Ventas')">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-chart-line"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Panel De Ventas</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            Gestión comercial y comisiones. Proyección de ingresos (Tier 1). Operativa orgánica y cierres estratégicos de venta de alto valor.
+                    <!-- Panel de Ventas -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="PanelDeGestion-Ventas.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Panel De Ventas</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            Proyección Realista de Ingresos. Si dedica 1 a 2 horas al día subiendo contenido y responde de forma profesional, un flujo estándar orgánico es de 1 a 2 ventas diarias.<br><br>
+                            Obtenga comisiones limpias y acceso a la infraestructura de equipo (Nivel Agencia) contratando setters para multiplicar sus cifras reales.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 2. NYX IA -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('protocolonyx.html', 'Iniciando Red Neuronal NYX')">
-                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-brain-circuit"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Panel Nyx IA</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            Red neuronal operativa calibrada con 10M+ de datos. Optimización semántica y categorización para evasión de filtros ATS corporativos.
+                    <!-- Panel NYX IA -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="protocolonyx.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logonyx.png" class="w-10 h-10 object-contain drop-shadow-md" onerror="this.src='logo.png'">
+                            <h4 class="text-lg font-bold text-white font-heading">Panel Nyx IA</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            NYX opera como una red neuronal ofensiva, calibrada con más de 10 millones de puntos de datos de contratación. Reestructura la arquitectura de sus datos profesionales para optimizar la indexación en sistemas globales.<br><br>
+                            Despliega ingeniería inversa para identificar carencias semánticas, asegurando que su perfil obtenga una ventaja técnica sobre la competencia y sea categorizado como 'Candidato Óptimo'.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 3. AXON -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('protocoloaxon.html', 'Iniciando Auditoría AXON')">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-radar"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Panel Axón BOT ATS</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            Simulador ATS en tiempo real. Análisis predictivo y métricas de decisión (0-100%). Detección y neutralización de sesgos algorítmicos.
+                    <!-- Panel AXON -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="protocoloaxon.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logoaxon.png" class="w-10 h-10 object-contain drop-shadow-md" onerror="this.src='logo.png'">
+                            <h4 class="text-lg font-bold text-white font-heading">Panel Axón BOT ATS</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            AXON constituye el componente de auditoría avanzada del ecosistema. Mediante técnicas de Deep Learning, funciona como un simulador vivo detectando discrepancias de competencias y errores críticos de formato.<br><br>
+                            Proporciona un cálculo de probabilidad matemática de éxito basado en evidencia histórica. Operamos bajo el paradigma de riesgo cero mediante auditorías predictivas infalibles.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 4. VIP -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group border-l-2 border-amber-500/50" onclick="triggerRedirect('Bolsadetrabajovip.html', 'Accediendo al Mercado Oculto')">
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-gem"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Acceso a SUITE VIP</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            El "Mercado Oculto" (70% de vacantes confidenciales). Alertas tempranas, notificaciones push estratégicas y guías de negociación salarial.
+                    <!-- Suite VIP -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="Bolsadetrabajovip.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Acceso a SUITE VIP</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            Acceso exclusivo al "Mercado Oculto", donde se gestionan el 70% de las vacantes de alto nivel que no se publican en portales masivos.<br><br>
+                            Ofrece un ecosistema de alertas estratégicas tempranas, guías de negociación salarial comprobadas y networking avanzado. Anticipamos oportunidades antes de su difusión pública.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 5. Creación CV -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('servicio-de-creación-cv.html', 'Servicios de Creación')">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-file-signature"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Creación de CV (Nosotros)</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            Metodología 33 (Diagnóstico, Estrategia, Redacción, Diseño y Certificación). Neuro-copywriting para generar impacto humano y algorítmico.
+                    <!-- Creación de CV -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="servicio-de-creación-cv.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Creación de CV por CV Studio33</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            Implementamos la Metodología 33: Precisión, Estrategia y Tecnología. Realizamos un Diagnóstico Forense de tu trayectoria para detectar brechas y errores estructurales que bloquean tu visibilidad.<br><br>
+                            Aplicamos neuro-copywriting corporativo transformando tareas aburridas en logros con métricas (KPIs), finalizando con un diseño híbrido legible para algoritmos y humanos. Certificado y validado.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 6. Biblioteca -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('biblioteca-de-plantillas.html', 'Abriendo Biblioteca')">
-                        <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-swatchbook"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Biblioteca de Plantillas</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            Diseños Especiales (AXON), Avanzados (NYX) y ÉLITE. Arquitectura visual probada que garantiza legibilidad perfecta y estructuración semántica.
+                    <!-- Biblioteca -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="biblioteca-de-plantillas.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Biblioteca de Plantillas Cv ATS</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            Accede a la arquitectura visual definitiva. Desde Diseños Especiales certificados por AXON para lectura rápida, hasta Diseños Avanzados (Optimización NYX) con inyección de palabras clave.<br><br>
+                            Incluye acceso a los diseños ELITE: con más del 87% de aprobación en filtros corporativos estrictos, bases de datos masivas y el Kit Total de Plugins para estructurar vacíos temporales estratégicamente.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 7. Empleos -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('EmpleosCvstudio33.html', 'Buscando Oportunidades')">
-                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-briefcase"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Lista de Empleos</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            Base de datos de contratación corporativa internacional. Encuentra oportunidades locales de jerarquía o posiciones globales remotas.
+                    <!-- Empleos -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="EmpleosCvstudio33.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Lista de Empleos</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            Bienvenido a la red de vinculación profesional. Centralizamos, auditamos y actualizamos constantemente la base de datos de contratación más robusta del mercado corporativo e internacional.<br><br>
+                            Encuentra oportunidades locales de alta jerarquía o posiciones globales con modalidades flexibles, asegurando que tu perfil optimizado llegue exactamente a los tomadores de decisión.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
 
-                    <!-- 8. Partnerships -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group bg-gradient-to-br from-slate-800/40 to-slate-900/40" onclick="triggerRedirect('Partnerships.html', 'NYX & AXON Partnership')">
-                        <div class="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-handshake"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading">Únete A Nosotros</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
-                            NYX & AXON PARTNERSHIP. Si eres reclutador o estratega, obtén acceso ilimitado a la infraestructura, bots ATS personalizados y desarrollo a medida.
+                    <!-- Partnerships -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="Partnerships.html">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Únete a Nosotros</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            NYX & AXON PARTNERSHIP. Si es estratega de carrera, obtenga acceso ilimitado a nuestra infraestructura tecnológica para producir perfiles optimizados masivamente.<br><br>
+                            Le entregamos un agente autónomo personalizado para que opere su negocio con conexión neural directa a nuestros sistemas, garantizando tasas de lectura superiores al 99% sin sacrificar calidad técnica.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
-
-                    <!-- 9. App -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group relative overflow-hidden" onclick="triggerAppInfo()">
-                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
-                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl mb-4 relative z-10"><i class="fa-solid fa-mobile-screen"></i></div>
-                        <h4 class="text-base font-bold text-white mb-2 font-heading relative z-10">Futura APP Mobile</h4>
-                        <p class="text-xs text-slate-400 flex-grow leading-relaxed relative z-10">
-                            Próximamente. La máxima potencia de CV Studio33 empaquetada en una aplicación nativa para iOS y Android. Conoce el roadmap.
+                    
+                    <!-- App Futura -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="alert('La Aplicación Nativa para dispositivos móviles se encuentra actualmente en desarrollo. Pronto podrá llevar la infraestructura completa de CV Studio33 en su bolsillo.')">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
+                            <h4 class="text-lg font-bold text-white font-heading">Información sobre futura APP</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                            Nuestra hoja de ruta incluye el despliegue de una Aplicación Nativa integral. Esta plataforma empaquetará toda la capacidad computacional y los simuladores algorítmicos en un formato móvil de latencia cero.<br><br>
+                            Manténgase atento a las actualizaciones del Hub para obtener acceso anticipado al ecosistema móvil corporativo.
                         </p>
-                        <div class="mt-4 text-[10px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1 relative z-10">Más Información</div>
+                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Más Información <i class="fa-solid fa-arrow-right"></i></div>
                     </div>
-
+                    
                 </div>
                 
-                <!-- Enlaces de Documentación Técnica -->
-                <div class="mt-4 flex flex-wrap gap-4 text-xs">
-                    <button onclick="triggerRedirect('NyxTegnologia.html', 'Abriendo Documentación')" class="px-4 py-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors font-mono"><i class="fa-solid fa-book mr-2"></i>Doc NYX</button>
-                    <button onclick="triggerRedirect('Axon.html', 'Abriendo Documentación')" class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-colors font-mono"><i class="fa-solid fa-book mr-2"></i>Doc AXON</button>
+                <!-- Documentación Técnica extraída del prompt -->
+                <div class="mt-4 mb-20 flex flex-wrap gap-4 text-xs">
+                    <button class="btn-redirect px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors font-mono" data-url="NyxTegnologia.html">Documentación NYX</button>
+                    <button class="btn-redirect px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors font-mono" data-url="Axon.html">Documentación AXON</button>
                 </div>
 
             </div>
         </div>
-
     </main>
 
-    <!-- Botón Motivacional Flotante -->
-    <button id="btn-motivate" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-600 to-emerald-500 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.4)] flex items-center justify-center text-white hover:scale-110 transition-transform active:scale-95 group">
-        <i class="fa-solid fa-bolt text-xl group-hover:animate-pulse"></i>
-    </button>
+    <!-- TOAST INSPIRACIÓN VIP -->
+    <div id="motivational-toast" class="fixed bottom-24 right-6 z-50 max-w-[300px] bg-slate-900/95 backdrop-blur-md border border-slate-700 p-5 rounded-2xl shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300">
+        <p id="motivational-text" class="text-xs text-slate-300 leading-relaxed font-sans"></p>
+    </div>
 
-    <!-- Toast Motivacional -->
-    <div id="motivational-toast" class="fixed bottom-24 right-6 z-50 max-w-[280px] md:max-w-xs bg-slate-900 border border-slate-700 p-4 rounded-xl shadow-2xl opacity-0 translate-y-4 pointer-events-none">
-        <div class="flex items-start gap-3">
-            <div class="text-amber-400 mt-0.5"><i class="fa-solid fa-quote-left"></i></div>
-            <p id="motivational-text" class="text-xs text-slate-300 italic leading-relaxed"></p>
-        </div>
+    <!-- BOTÓN INSPIRACIÓN (SVG SPARKLE) -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="btn-motivate" class="button">
+            <div class="dots_border"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="sparkle">
+                <path class="path" stroke-linejoin="round" stroke-linecap="round" stroke="black" fill="black" d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z"></path>
+                <path class="path" stroke-linejoin="round" stroke-linecap="round" stroke="black" fill="black" d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z"></path>
+                <path class="path" stroke-linejoin="round" stroke-linecap="round" stroke="black" fill="black" d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z"></path>
+            </svg>
+            <span class="text_button font-heading font-bold">Generar Frase VIP</span>
+        </button>
     </div>
 
     <!-- ==============================================
-         LÓGICA DE FIREBASE, TRANSICIONES Y APP
+         LÓGICA CORE
          ============================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -423,20 +403,18 @@
         const preloader = document.getElementById('preloader');
         const postLoginLoader = document.getElementById('post-login-loader');
         const redirectLoader = document.getElementById('redirect-loader');
-        const redirectText = document.getElementById('redirect-target-text');
         
         const appContainer = document.getElementById('app-container');
         const loginView = document.getElementById('login-view');
         const profileView = document.getElementById('profile-view');
         
-        const btnLogin = document.getElementById('btn-google-login');
+        const btnLogin = document.getElementById('btn-login');
         const btnLogout = document.getElementById('btn-logout');
 
-        // Datos del Usuario
+        // Referencias Perfil
         const uName = document.getElementById('user-name');
         const uEmail = document.getElementById('user-email');
         const uPhoto = document.getElementById('user-photo');
-        const loginDate = document.getElementById('login-date');
         const photoUpload = document.getElementById('local-photo-upload');
 
         const MIN_MACBOOK_TIME = 3500; 
@@ -444,19 +422,15 @@
         let authStateResolved = false;
         let currentUser = null;
 
-        // Formato de Fecha
-        const today = new Date();
-        loginDate.textContent = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-        // Cambio de Foto Local (LocalStorage)
+        // Subir foto y guardar en localStorage
         photoUpload.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    const newPic = e.target.result;
+                reader.onload = (ev) => {
+                    const newPic = ev.target.result;
                     uPhoto.src = newPic;
-                    localStorage.setItem('cv33_local_avatar', newPic); // Guarda en caché
+                    localStorage.setItem('cv33_local_avatar', newPic);
                 };
                 reader.readAsDataURL(file);
             }
@@ -465,40 +439,35 @@
         function populateProfile(user) {
             uName.textContent = user.displayName || 'Asesor Profesional';
             uEmail.textContent = user.email;
-            
-            // Revisa si hay foto personalizada en caché, sino usa la de Google
             const cachedPic = localStorage.getItem('cv33_local_avatar');
             if (cachedPic) {
                 uPhoto.src = cachedPic;
-            } else {
-                uPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + (user.displayName || 'U') + '&background=0f172a&color=3b82f6';
+            } else if (user.photoURL) {
+                uPhoto.src = user.photoURL;
             }
         }
 
-        // Animación de Redirección (SVG Rings) Expuesta al ámbito global
-        window.triggerRedirect = function(targetUrl, message) {
-            redirectText.textContent = message + "...";
-            redirectLoader.classList.remove('hidden');
-            
-            // Timeout para asegurar que la clase se aplique
-            setTimeout(() => {
-                redirectLoader.style.opacity = '1';
-                
-                // Esperar 2.5s para disfrutar la animación SVG, luego redirigir
+        // LÓGICA DE REDIRECCIÓN (SVG RINGS)
+        document.querySelectorAll('.btn-redirect').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetUrl = this.getAttribute('data-url');
+                if(!targetUrl) return;
+
+                redirectLoader.classList.remove('hidden');
                 setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 2500);
-            }, 50);
-        };
+                    redirectLoader.style.opacity = '1';
+                    // Animación corre por 2 segundos antes de redirigir
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 2000);
+                }, 50);
+            });
+        });
 
-        window.triggerAppInfo = function() {
-            alert("La infraestructura de la App Mobile nativa se encuentra actualmente en desarrollo por el equipo de ingeniería. ¡Mantente atento a las actualizaciones en el Hub!");
-        };
-
+        // Transiciones
         function triggerPostLoginAnimation(callback) {
             appContainer.classList.add('hidden');
             preloader.classList.add('hidden');
-            
             postLoginLoader.classList.remove('hidden');
             void postLoginLoader.offsetWidth;
             postLoginLoader.style.opacity = '1';
@@ -520,23 +489,20 @@
                 preloader.style.opacity = '0';
                 setTimeout(() => {
                     preloader.classList.add('hidden');
-                    
                     if (currentUser) {
                         triggerPostLoginAnimation(() => {
                             loginView.classList.add('hidden');
                             profileView.classList.remove('hidden');
-                            profileView.classList.add('flex', 'xl:flex-row');
+                            profileView.classList.add('grid');
                             populateProfile(currentUser);
-                            
                             appContainer.classList.remove('hidden');
                             void appContainer.offsetWidth;
                             appContainer.style.opacity = '1';
                         });
                     } else {
                         profileView.classList.add('hidden');
-                        profileView.classList.remove('flex', 'xl:flex-row');
+                        profileView.classList.remove('grid');
                         loginView.classList.remove('hidden');
-                        
                         appContainer.classList.remove('hidden');
                         void appContainer.offsetWidth;
                         appContainer.style.opacity = '1';
@@ -556,7 +522,7 @@
         btnLogin.addEventListener('click', async () => {
             document.getElementById('login-error').classList.add('hidden');
             const originalText = btnLogin.innerHTML;
-            btnLogin.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Conectando Infraestructura...';
+            btnLogin.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Conectando...';
             btnLogin.disabled = true;
 
             try {
@@ -568,15 +534,13 @@
                     triggerPostLoginAnimation(() => {
                         loginView.classList.add('hidden');
                         profileView.classList.remove('hidden');
-                        profileView.classList.add('flex', 'xl:flex-row');
+                        profileView.classList.add('grid');
                         populateProfile(currentUser);
-                        
                         appContainer.classList.remove('hidden');
                         void appContainer.offsetWidth;
                         appContainer.style.opacity = '1';
                     });
                 }, 500);
-
             } catch (error) {
                 console.error("Auth Error:", error);
                 document.getElementById('login-error').textContent = `Acceso denegado: ${error.message}`;
@@ -590,19 +554,14 @@
             const originalText = btnLogout.innerHTML;
             btnLogout.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
             btnLogout.disabled = true;
-
             try {
                 await signOut(auth);
                 appContainer.style.opacity = '0';
                 setTimeout(() => {
                     profileView.classList.add('hidden');
-                    profileView.classList.remove('flex', 'xl:flex-row');
+                    profileView.classList.remove('grid');
                     loginView.classList.remove('hidden');
-                    
-                    btnLogin.innerHTML = `
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                        <span>Autenticación Segura (Google)</span>
-                    `;
+                    btnLogin.innerHTML = originalText;
                     btnLogin.disabled = false;
                     appContainer.style.opacity = '1';
                 }, 800);
@@ -614,42 +573,42 @@
         });
 
         // ==============================================
-        // LÓGICA DE FRASES MOTIVACIONALES (33 Frases)
+        // LÓGICA DE FRASES VIP (33 Frases)
         // ==============================================
         const phrases = [
-            "El mercado laboral está quebrado. Pero tú tienes el algoritmo para dominarlo.",
-            "Invertir en tu carrera con CV Studio33 es asegurar tu supremacía profesional.",
-            "Los reclutadores leen en 6 segundos. NYX asegura que esos 6 segundos sean tuyos.",
-            "Deja de enviar CVs a la basura. Inyecta tu perfil en el mercado oculto.",
-            "No te preocupes por la competencia; ellos no tienen acceso a AXON.",
-            "Un perfil bien optimizado no busca empleo; el empleo lo encuentra a él.",
-            "Proyección mensual conservadora: Alcanzar tus metas sin desgaste absurdo.",
-            "Nosotros ponemos la infraestructura pesada, tú pones el éxito corporativo.",
-            "¿Tu CV era invisible? Ahora tiene visión nocturna para los sistemas ATS.",
-            "Tu inversión aquí cuesta menos que el café que tomaste buscando trabajo ayer.",
-            "El riesgo cero existe cuando tienes Deep Learning auditando tu perfil.",
-            "Mientras otros se frustran, tú estás siendo categorizado como 'Candidato Óptimo'.",
-            "Si la Inteligencia Artificial no lo aprueba, el mercado tampoco lo haría.",
-            "Tu carrera no es un juego de azar, es pura neuro-estrategia y tecnología.",
-            "Ríete del mercado. Tienes una IA que hace ingeniería inversa por ti.",
-            "El éxito no es magia, es una alineación quirúrgica con el puesto de tus sueños.",
-            "Cifrado AES-256: Tus datos están más seguros aquí que en tu propio banco.",
-            "La Metodología 33 es implacable: Precisión, Estrategia y Tecnología bruta.",
-            "Conecta orgánicamente, nosotros nos encargamos del diseño algorítmico.",
-            "¿Filtros ATS de Workday o Taleo? AXON se ríe de ellos en milisegundos.",
-            "La inversión que hiciste hoy, te la pagará tu próximo sueldo multiplicado por 10.",
-            "Eres el CEO de tu trayectoria. CV Studio33 es tu junta directiva silenciosa.",
-            "La única brecha que tienes ahora, es entre tu viejo yo y el éxito que te espera.",
-            "Evasión ATS al 99%: Eres oficialmente un fantasma tecnológico indetectable.",
-            "Tus logros no son aburridos, solo les faltaba nuestro neuro-copywriting.",
-            "Con el mercado oculto, tendrás la entrevista antes de que publiquen la vacante.",
-            "Cada token invertido en NYX es una llave maestra para corporaciones Nivel 1.",
-            "Deja de pelear contra el mercado. Conviértete en el mercado.",
-            "La simulación salarial te dirá cuánto pedir sin que te tiemble el pulso.",
-            "El Bot ATS trabajará por ti mientras tú duermes tranquilamente.",
-            "Diseño Elite: Tu perfil ahora tiene un 87% más de probabilidad de éxito real.",
-            "Aprovecha nuestra base de datos. El mundo corporativo internacional te espera.",
-            "Recuerda: Tu perfil ha sido sometido a rayos X forenses. Eres imparable."
+            "El mercado laboral está quebrado. Nosotros tenemos la infraestructura para dominarlo.",
+            "Invertir en su carrera técnica es asegurar su supremacía operativa.",
+            "Nuestra red neuronal asegura que su perfil sea procesado y categorizado de forma óptima.",
+            "Inyecte su perfil en el mercado cerrado y posicione su trayectoria corporativa.",
+            "Un perfil auditado matemáticamente no busca empleo; centraliza la atención.",
+            "Proyección operativa: Alcanzar sus metas sin desgaste absurdo mediante inteligencia artificial.",
+            "Nosotros proporcionamos la infraestructura analítica, usted domina el mercado corporativo.",
+            "La tecnología de simulación de CV Studio33 emite diagnósticos forenses infalibles.",
+            "La seguridad Zero-Data garantiza que su información esté estrictamente resguardada.",
+            "Operamos bajo el paradigma de riesgo cero mediante auditorías predictivas continuas.",
+            "Mientras la competencia utiliza sistemas básicos, su perfil supera el 90% de aprobación técnica.",
+            "Si el algoritmo no valida la estructura, el diseño no se despliega. Precisión absoluta.",
+            "El neuro-copywriting transforma labores monótonas en métricas de alto rendimiento.",
+            "Despliegue ingeniería inversa para garantizar su visibilidad en sistemas empresariales.",
+            "Evite la exclusión automatizada con nuestras herramientas de estructuración híbrida.",
+            "Cifrado de grado militar: Sus datos tácticos están blindados operativamente.",
+            "La Metodología 33 es implacable: Precisión analítica, Estrategia estructurada y Tecnología de punta.",
+            "Usted gestiona la conexión; nosotros nos encargamos del diseño arquitectónico del algoritmo.",
+            "La simulación viva detecta discrepancias de formato antes de que ocurra el procesamiento.",
+            "Nuestra infraestructura garantiza que su postulación sea ineludible para el análisis corporativo.",
+            "Usted lidera su trayectoria. CV Studio33 procesa los datos detrás del telón.",
+            "La estructuración inteligente convierte ausencias de experiencia en valor estratégico.",
+            "Tasas de validación superiores al 99%: Su perfil es técnicamente innegable.",
+            "Nuestra base de datos de contratación es la más robusta del sector internacional.",
+            "Anticipamos oportunidades confidenciales antes de su difusión generalizada.",
+            "Cada iteración en nuestro ecosistema optimiza su alcance corporativo.",
+            "Deje de pelear contra las estadísticas. Incorpore la métrica a su favor.",
+            "La tecnología simula entornos vivos para brindarle informes tácticos en milisegundos.",
+            "Nuestro agente interactúa dinámicamente con las bases algorítmicas avanzadas.",
+            "Diseños de Élite: Cruce de datos con exigencias corporativas altamente estrictas.",
+            "El ecosistema central está diseñado para la máxima eficiencia y velocidad de procesamiento.",
+            "Aproveche los recursos de nuestro Hub para generar simulaciones reales de interacción.",
+            "Recuerde: Su información fue analizada, estructurada y blindada."
         ];
 
         const btnMotivate = document.getElementById('btn-motivate');
@@ -658,16 +617,13 @@
         let toastTimeout;
 
         btnMotivate.addEventListener('click', () => {
-            // Seleccionar frase aleatoria
             const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
             toastText.textContent = randomPhrase;
-
-            // Mostrar Toast
+            
             toast.style.opacity = '1';
             toast.style.transform = 'translateY(0)';
             toast.style.pointerEvents = 'auto';
 
-            // Ocultar tras 6 segundos
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.style.opacity = '0';
@@ -675,7 +631,6 @@
                 toast.style.pointerEvents = 'none';
             }, 6000);
         });
-
     </script>
 </body>
 </html>

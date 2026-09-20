@@ -405,22 +405,26 @@
                 document.getElementById('auth-message').style.display = 'none';
                 document.getElementById('dash-header').style.display = 'flex';
                 document.getElementById('app-container').style.display = 'block';
-                
-                // Formato exigido: cliente-xxxx
-                const clientId = `cliente-${user.uid}`;
-                document.getElementById('user-id').innerText = clientId.substring(0, 15) + '...';
+                document.getElementById('user-id').innerText = "Cargando...";
 
-                // Listener de Tokens NYX en FIRESTORE (Colección users, Documento cliente-xxxx)
-                db.collection('users').doc(clientId).onSnapshot((doc) => {
-                    if (doc.exists) {
+                // Búsqueda inteligente: Buscar la cuenta existente del usuario
+                db.collection('users').where('auth_signature', '==', user.uid).limit(1).onSnapshot((snapshot) => {
+                    if (!snapshot.empty) {
+                        const doc = snapshot.docs[0];
+                        window.currentClientId = doc.id; // Ej: cliente-8521
+                        document.getElementById('user-id').innerText = doc.id.toUpperCase();
                         userTokens = doc.data().tokens_nyx || 0;
                         document.getElementById('token-amount').innerText = userTokens + ' NYX';
                     } else {
-                        // Si el documento no existe, crear el registro inicial según las reglas
-                        db.collection('users').doc(clientId).set({
+                        // Si no tiene cuenta, crearla con el formato cliente-xxxx (4 últimos dígitos)
+                        const shortId = user.uid.substring(user.uid.length - 4);
+                        const newClientId = `cliente-${shortId}`;
+                        db.collection('users').doc(newClientId).set({
                             auth_signature: user.uid,
                             traces: []
                         }).then(() => {
+                            window.currentClientId = newClientId;
+                            document.getElementById('user-id').innerText = newClientId.toUpperCase();
                             userTokens = 0;
                             document.getElementById('token-amount').innerText = '0 NYX';
                         }).catch(err => {
@@ -473,6 +477,7 @@
 
             const payload = {
                 idToken: idToken, // Empaquetado de seguridad para el Cerebro
+                clientId: window.currentClientId, // ID de la bóveda (Ej: cliente-8521)
                 targetJob: document.getElementById('target-job').value,
                 targetCompany: document.getElementById('target-company').value,
                 targetIndustry: document.getElementById('target-industry').value,
@@ -540,5 +545,6 @@
     </script>
 </body>
 </html>
+
 
 

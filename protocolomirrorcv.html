@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MirrorCV - CvStudio33 Black Edition</title>
     
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
@@ -380,7 +381,7 @@
             </div>
         </div>
     </div>
-
+    <!-- SCRIPTS CORE -->
     <script>
         // FIREBASE CONF
         const firebaseConfig = {
@@ -393,7 +394,7 @@
             appId: "1:189453088234:web:639c130a6287ff34122e93"
         };
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        const db = firebase.firestore();
 
         let currentUser = null;
         let userTokens = 0;
@@ -409,10 +410,23 @@
                 const clientId = `cliente-${user.uid}`;
                 document.getElementById('user-id').innerText = clientId.substring(0, 15) + '...';
 
-                // Listener de Tokens NYX en la ruta /users/cliente-xxxx/tokens_nyx
-                db.ref(`users/${clientId}/tokens_nyx`).on('value', (snapshot) => {
-                    userTokens = snapshot.val() || 0;
-                    document.getElementById('token-amount').innerText = userTokens + ' NYX';
+                // Listener de Tokens NYX en FIRESTORE (Colección users, Documento cliente-xxxx)
+                db.collection('users').doc(clientId).onSnapshot((doc) => {
+                    if (doc.exists) {
+                        userTokens = doc.data().tokens_nyx || 0;
+                        document.getElementById('token-amount').innerText = userTokens + ' NYX';
+                    } else {
+                        // Si el documento no existe, crear el registro inicial según las reglas
+                        db.collection('users').doc(clientId).set({
+                            auth_signature: user.uid,
+                            traces: []
+                        }).then(() => {
+                            userTokens = 0;
+                            document.getElementById('token-amount').innerText = '0 NYX';
+                        }).catch(err => {
+                            console.error("No se pudo crear bóveda:", err);
+                        });
+                    }
                 });
             } else {
                 document.getElementById('app-container').style.display = 'none';
@@ -524,9 +538,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-

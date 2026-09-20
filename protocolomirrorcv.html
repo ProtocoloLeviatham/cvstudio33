@@ -3,331 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MirrorCV - CvStudio33</title>
+    <title>MirrorCV - CvStudio33 Black Edition</title>
     
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
     <style>
         :root {
-            /* Variables CSS dinámicas para personalizar la plantilla y evitar desbordamientos */
+            /* Variables CV Customization */
+            --cv-font-family: 'Arial', sans-serif;
             --cv-font-size: 9.5pt;
             --cv-line-height: 1.4;
             --cv-padding-v: 15mm;
             --cv-padding-h: 20mm;
             --cv-section-space: 18px;
             --cv-header-size: 24pt;
+            --cv-title-color: #000000;
+            --cv-text-color: #222222;
         }
 
-        body, html { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f9; color: #2c3e50; }
+        /* TEMA OSCURO */
+        body, html { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #080808; color: #ffffff; }
 
-        .header-app { background: #ffffff; padding: 12px 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .header-app img { height: 35px; margin-right: 10px; object-fit: contain; }
-        .header-app span { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+        /* DASHBOARD */
+        .dashboard-header { background: #111111; border-bottom: 1px solid #222; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .brand-zone { display: flex; align-items: center; }
+        .brand-zone img { height: 32px; margin-right: 12px; }
+        .brand-zone span { font-size: 16px; font-weight: 800; letter-spacing: 1px; color: #fff; }
+        
+        .user-zone { display: flex; align-items: center; gap: 15px; }
+        .user-id-badge { background: #1a1a1a; padding: 6px 12px; border-radius: 6px; font-size: 12px; color: #aaa; border: 1px solid #333; display: flex; align-items: center; }
+        .user-id-badge img { height: 14px; margin-right: 6px; }
+        
+        .token-balance { background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%); padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: bold; color: #00d2ff; display: flex; align-items: center; border: 1px solid #00d2ff44; box-shadow: 0 0 10px rgba(0,210,255,0.1); }
+        .token-balance img { height: 16px; margin-right: 6px; }
 
-        #auth-message { display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; background-color: #fff; }
-        #auth-message img { max-width: 120px; margin-bottom: 20px; }
-        #auth-message h2 { margin-bottom: 10px; color: #e74c3c; }
-        #auth-message p { margin-bottom: 20px; color: #7f8c8d; font-size: 15px; max-width: 300px; }
+        #auth-message { display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; background-color: #080808; }
+        #auth-message img { max-width: 140px; margin-bottom: 25px; }
+        #auth-message h2 { margin-bottom: 10px; color: #fff; }
+        #auth-message p { margin-bottom: 25px; color: #888; font-size: 15px; max-width: 300px; }
 
-        .btn { background-color: #2980b9; color: white; border: none; padding: 14px 20px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; text-align: center; box-sizing: border-box; transition: all 0.2s ease; margin-bottom: 12px; display: block; text-decoration: none; }
-        .btn:active { transform: translateY(2px); }
-        .btn-outline { background-color: transparent; color: #2980b9; border: 2px solid #2980b9; }
-        .btn-small { padding: 8px 12px; font-size: 13px; display: inline-block; width: auto; margin-right: 5px; margin-bottom: 5px; }
-
-        #app-container { display: none; padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
-
-        .step-view { display: none; animation: fadeIn 0.3s; }
+        /* UI */
+        .btn { background-color: #ffffff; color: #000000; border: none; padding: 15px 20px; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; width: 100%; text-align: center; box-sizing: border-box; transition: all 0.2s ease; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn:active { transform: scale(0.98); }
+        .btn-outline { background-color: transparent; color: #fff; border: 1px solid #444; }
+        .btn-pay { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3); }
+        
+        #app-container { display: none; padding: 15px; max-width: 650px; margin: 0 auto; padding-bottom: 80px; }
+        .step-view { display: none; animation: fadeIn 0.4s cubic-bezier(0.1, 0.9, 0.2, 1); }
         .step-view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: #fff; border-radius: 12px; padding: 22px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .step-indicator { font-size: 13px; color: #2980b9; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; }
-        .card-title { font-size: 20px; font-weight: 800; margin-top: 0; margin-bottom: 8px; color: #2c3e50; }
-        .card-desc { font-size: 14px; color: #7f8c8d; margin-bottom: 20px; line-height: 1.4; }
+        .card { background: #121212; border-radius: 12px; padding: 25px; margin-bottom: 15px; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .step-indicator { font-size: 12px; color: #00d2ff; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .card-title { font-size: 22px; font-weight: 800; margin-top: 0; margin-bottom: 8px; color: #fff; }
+        .card-desc { font-size: 14px; color: #999; margin-bottom: 25px; line-height: 1.5; }
         
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 14px; color: #34495e; }
-        input[type="text"], input[type="email"], textarea { width: 100%; padding: 14px; border: 1.5px solid #dfe6e9; border-radius: 8px; box-sizing: border-box; font-size: 15px; background: #fdfdfd; font-family: inherit; transition: border 0.2s; }
-        input:focus, textarea:focus { border-color: #2980b9; outline: none; background: #fff; }
-        textarea { resize: vertical; min-height: 100px; }
+        .form-group { margin-bottom: 22px; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 13px; color: #ccc; text-transform: uppercase; letter-spacing: 0.5px; }
+        input[type="text"], input[type="email"], textarea { width: 100%; padding: 15px; border: 1px solid #333; border-radius: 8px; box-sizing: border-box; font-size: 15px; background: #0a0a0a; color: #fff; font-family: inherit; transition: all 0.3s; }
+        input:focus, textarea:focus { border-color: #00d2ff; outline: none; background: #111; box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.1); }
+        textarea { resize: vertical; min-height: 120px; }
         
-        /* Instrucciones Profesionales (Nuevas) */
-        .hint { font-size: 12.5px; color: #34495e; margin-top: 6px; display: block; line-height: 1.45; background: #ecf0f1; padding: 10px; border-radius: 6px; border-left: 4px solid #2980b9; }
+        .hint { font-size: 12.5px; color: #bbb; margin-top: 8px; display: block; line-height: 1.5; background: #1a1a1a; padding: 12px; border-radius: 6px; border-left: 3px solid #00d2ff; }
+        .hint strong { color: #fff; }
 
-        #loader { display: none; text-align: center; padding: 50px 20px; }
-        #loader img { width: 80px; animation: pulse 1.5s infinite; margin-bottom: 20px; }
-        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
+        /* ================= PANEL DE PERSONALIZACIÓN PRO (NUEVO) ================= */
+        .customizer-panel-pro { background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(10px); border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .panel-header-pro { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .panel-header-pro span { color: #00d2ff; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; }
+        .badge-pro { background: #00d2ff; color: #000; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+        
+        .customizer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        @media (max-width: 600px) { .customizer-grid { grid-template-columns: 1fr; gap: 10px; } }
+        
+        .ctrl-group { background: #111; padding: 12px; border-radius: 8px; border: 1px solid #222; }
+        .ctrl-group label { font-size: 11px; margin-bottom: 8px; color: #aaa; text-transform: uppercase; font-weight: 700; display: block; letter-spacing: 0.5px; }
+        .ctrl-select { width: 100%; background: #0a0a0a; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; transition: border 0.3s; }
+        .ctrl-select:focus { border-color: #00d2ff; }
+        .ctrl-range { width: 100%; accent-color: #00d2ff; cursor: pointer; }
 
-        .cv-preview-wrapper { width: 100%; overflow-x: auto; background: #525659; padding: 15px; border-radius: 8px; box-sizing: border-box; margin-top: 20px; -webkit-overflow-scrolling: touch; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
+        /* LOADER */
+        #loader { display: none; text-align: center; padding: 60px 20px; }
+        #loader img { width: 90px; animation: pulse 2s infinite; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
+        #loader h3 { color: #fff; margin-bottom: 10px; font-size: 20px; }
 
-        /* ================= CV TEMPLATE (A4 format ATS) ================= */
-        .a4-page { 
-            width: 210mm; 
-            height: 297mm; /* Anclado para no desbordar en web */
-            overflow: hidden; /* Oculta lo que rompe el formato ATS web */
-            background: white; 
-            padding: var(--cv-padding-v) var(--cv-padding-h); 
-            box-sizing: border-box; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.5); 
-            font-size: var(--cv-font-size); 
-            line-height: var(--cv-line-height); 
-            font-family: 'Arial', sans-serif; 
-            color: #222; 
-            margin: 0 auto; 
-            transition: all 0.3s ease; /* Transición suave para personalización */
-        }
+        /* MOBILE FIX */
+        .cv-preview-wrapper { width: 100%; display: flex; justify-content: center; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; margin-top: 20px; overflow: hidden; padding: 10px 0; }
+        .a4-container-scale { transform-origin: top center; transition: transform 0.3s ease; }
+
+        /* A4 ATS */
+        .a4-page { width: 210mm; height: 297mm; overflow: hidden; background: white; padding: var(--cv-padding-v) var(--cv-padding-h); box-sizing: border-box; box-shadow: 0 0 20px rgba(0,0,0,0.8); font-size: var(--cv-font-size); line-height: var(--cv-line-height); font-family: var(--cv-font-family); color: var(--cv-text-color); margin: 0 auto; transition: all 0.3s ease; }
         
         .cv-header { text-align: center; margin-bottom: var(--cv-section-space); }
-        .cv-name { font-size: var(--cv-header-size); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
-        .cv-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .cv-name { font-size: var(--cv-header-size); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; color: var(--cv-title-color); }
+        .cv-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; color: var(--cv-text-color); }
         .cv-contact { color: #555; font-size: 0.95em; }
-        .section-title-centered { text-align: center; font-size: 1.1em; font-weight: bold; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 6px 0; margin-bottom: 15px; letter-spacing: 1px; }
-        .section-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; margin-top: var(--cv-section-space); margin-bottom: 10px; letter-spacing: 0.5px; }
-        .profile-text { text-align: center; margin-bottom: var(--cv-section-space); padding: 0 5px; color: #333; }
+        .section-title-centered { text-align: center; font-size: 1.1em; font-weight: bold; text-transform: uppercase; border-top: 1px solid var(--cv-title-color); border-bottom: 1px solid var(--cv-title-color); padding: 6px 0; margin-bottom: 15px; letter-spacing: 1px; color: var(--cv-title-color); }
+        .section-title { font-size: 1.1em; font-weight: bold; text-transform: uppercase; margin-top: var(--cv-section-space); margin-bottom: 8px; letter-spacing: 0.5px; color: var(--cv-title-color); border-bottom: 1px solid #eee; padding-bottom: 3px; }
+        .profile-text { text-align: center; margin-bottom: var(--cv-section-space); padding: 0 5px; color: var(--cv-text-color); }
         
-        .edu-container { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .edu-container { display: flex; justify-content: space-between; margin-bottom: 12px; }
         .edu-col { flex: 1; }
         .edu-col.right { text-align: right; }
-        .edu-title { font-weight: bold; margin-bottom: 2px; color: #222; }
+        .edu-title { font-weight: bold; margin-bottom: 2px; color: var(--cv-text-color); }
         .edu-school { color: #555; margin-bottom: 2px; }
-        .edu-desc { color: #888; font-size: 0.9em; }
+        .edu-desc { color: #777; font-size: 0.95em; }
         
         .job { margin-bottom: 12px; }
         .job-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-        .job-title { font-weight: bold; color: #222; }
+        .job-title { font-weight: bold; color: var(--cv-text-color); }
         .job-company { color: #555; }
-        .job-right { text-align: right; color: #555; }
-        .job-duties { margin-top: 3px; padding-left: 20px; margin-bottom: 0; color: #333; }
+        .job-right { text-align: right; color: #555; font-size: 0.95em; }
+        .job-duties { margin-top: 4px; padding-left: 20px; margin-bottom: 0; color: var(--cv-text-color); }
         .job-duties li { margin-bottom: 3px; }
         
-        .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
         .skills-list { list-style-type: none; padding-left: 0; margin: 0; }
-        .skills-list li { position: relative; padding-left: 10px; margin-bottom: 3px; color: #333; }
-        .skills-list li::before { content: "•"; position: absolute; left: 0; color: #000; }
+        .skills-list li { position: relative; padding-left: 10px; margin-bottom: 3px; color: var(--cv-text-color); }
+        .skills-list li::before { content: "•"; position: absolute; left: 0; color: var(--cv-title-color); }
         
         .cert-list { list-style-type: none; padding-left: 0; margin: 0; }
-        .cert-list li { position: relative; padding-left: 10px; margin-bottom: 3px; color: #333; }
-        .cert-list li::before { content: "•"; position: absolute; left: 0; color: #000; }
+        .cert-list li { position: relative; padding-left: 10px; margin-bottom: 3px; color: var(--cv-text-color); }
+        .cert-list li::before { content: "•"; position: absolute; left: 0; color: var(--cv-title-color); }
         
-        .languages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; color: #333; }
+        .languages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; color: var(--cv-text-color); }
 
-        /* ================= IMPRESIÓN CORREGIDA PARA BOTS ATS (DOM PURO) ================= */
+        /* IMPRESIÓN (DOOM NATIVO) */
         @media print { 
             body, html { background-color: white !important; margin: 0 !important; padding: 0 !important; }
+            .dashboard-header, .no-print, #auth-message, #step-1, #step-2, #step-3, #step-4, #loader { display: none !important; } 
             
-            /* Ocultar ABSOLUTAMENTE TODO excepto el CV */
-            .header-app, .no-print, #auth-message, #step-1, #step-2, #step-3, #step-4, #loader { display: none !important; } 
+            #app-container, #step-5, .cv-preview-wrapper { display: block !important; padding: 0 !important; margin: 0 !important; background: white !important; border: none !important; box-shadow: none !important; max-width: none !important; }
             
-            /* Extraer el contenedor del CV para que fluya libre en la impresora (lectura ATS 100%) */
-            #app-container, #step-5, .cv-preview-wrapper { 
-                display: block !important; 
-                padding: 0 !important; 
-                margin: 0 !important; 
-                background: white !important; 
-                box-shadow: none !important; 
-                overflow: visible !important; 
-                max-width: none !important;
-            }
-            
-            /* La plantilla se adapta a la impresión como un documento de texto puro */
-            .a4-page { 
-                box-shadow: none !important; 
-                width: 100% !important; 
-                height: auto !important; /* Libera el alto estricto para que la impresora no deje página en blanco */
-                padding: 10mm 15mm !important; 
-                margin: 0 !important;
-                page-break-after: avoid !important;
-                overflow: visible !important;
-            } 
+            .a4-container-scale { transform: scale(1) !important; height: auto !important; }
+            .a4-page { box-shadow: none !important; width: 100% !important; height: auto !important; margin: 0 !important; page-break-after: avoid !important; overflow: visible !important; } 
         }
     </style>
 </head>
 <body>
 
-    <!-- Mensaje de Autenticación Requerida -->
+    <!-- Autenticación -->
     <div id="auth-message">
-        <img src="logo.png" alt="CvStudio33" onerror="this.style.display='none'">
+        <img src="logonyx.png" alt="CvStudio33" onerror="this.style.display='none'">
         <h2>Acceso Restringido</h2>
-        <p>Debes iniciar sesión con tu cuenta de CvStudio33 para utilizar Lixie IA.</p>
-        <a href="protocolonyx.html" class="btn">Iniciar Sesión</a>
+        <p>Inicia sesión en CvStudio33 para activar el motor Lixie IA.</p>
+        <a href="protocolonyx.html" class="btn">Iniciar Sesión Segura</a>
     </div>
 
-    <!-- Interfaz Principal (App) -->
-    <div id="app-container">
-        <div class="header-app">
-            <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header" id="dash-header" style="display: none;">
+        <div class="brand-zone">
+            <img src="logonyx.png" alt="Lixie" onerror="this.style.display='none'">
             <span>MirrorCV</span>
         </div>
+        <div class="user-zone">
+            <div class="user-id-badge">
+                <img src="logo.png" alt="User" onerror="this.style.display='none'">
+                <span id="user-id">Cargando...</span>
+            </div>
+            <div class="token-balance">
+                <img src="coinnyx.png" alt="NYX" onerror="this.style.display='none'">
+                <span id="token-amount">-- NYX</span>
+            </div>
+        </div>
+    </div>
 
+    <div id="app-container">
         <!-- FORMULARIO 1: OBJETIVO -->
         <div id="step-1" class="step-view active">
             <div class="card">
-                <div class="step-indicator">Paso 1 de 4</div>
-                <h3 class="card-title">Tu Objetivo ATS</h3>
-                <p class="card-desc">Definir el blanco perfecto ayuda a la IA a buscar en Jooble y elegir las palabras clave correctas del mercado.</p>
+                <div class="step-indicator">Fase 1 / 4</div>
+                <h3 class="card-title">Enfoque Algorítmico</h3>
                 
                 <div class="form-group">
                     <label>Puesto Objetivo</label>
-                    <input type="text" id="target-job" placeholder="Ej. Desarrollador Web Frontend">
+                    <input type="text" id="target-job" placeholder="Ej. Ingeniero de Software Senior">
                 </div>
                 <div class="form-group">
                     <label>Empresa Deseada (Opcional)</label>
-                    <input type="text" id="target-company" placeholder="Ej. Google, Microsoft...">
+                    <input type="text" id="target-company" placeholder="Ej. Microsoft">
                 </div>
                 <div class="form-group">
                     <label>Sector / Industria</label>
-                    <input type="text" id="target-industry" placeholder="Ej. Tecnología, Ventas, Salud">
+                    <input type="text" id="target-industry" placeholder="Ej. Tecnología y Finanzas">
                 </div>
-                <button class="btn" onclick="nextStep(2)">Siguiente: Contacto</button>
+                <button class="btn" onclick="nextStep(2)">Continuar</button>
             </div>
         </div>
 
         <!-- FORMULARIO 2: CONTACTO -->
         <div id="step-2" class="step-view">
             <div class="card">
-                <div class="step-indicator">Paso 2 de 4</div>
-                <h3 class="card-title">Datos Personales</h3>
-                <p class="card-desc">La cabecera de tu formato ATS. Llénalo exactamente como quieres que los reclutadores te contacten.</p>
+                <div class="step-indicator">Fase 2 / 4</div>
+                <h3 class="card-title">Cabecera de Contacto</h3>
                 
                 <div class="form-group">
                     <label>Nombre Completo</label>
-                    <span class="hint">Ej: María Camila Vargas López</span>
-                    <input type="text" id="user-name" placeholder="Tu nombre exacto">
+                    <span class="hint"><strong>Ejemplo Correcto:</strong> María Camila Vargas López</span>
+                    <input type="text" id="user-name" placeholder="Tu nombre formal">
                 </div>
                 <div class="form-group">
-                    <label>Ubicación (Ciudad, País)</label>
-                    <input type="text" id="user-location" placeholder="Ej. Madrid, España">
+                    <label>Ubicación</label>
+                    <span class="hint">No pongas dirección exacta. <strong>Ejemplo:</strong> Madrid, España</span>
+                    <input type="text" id="user-location" placeholder="Ciudad, País">
                 </div>
                 <div class="form-group">
-                    <label>Teléfono</label>
+                    <label>Teléfono Profesional</label>
                     <input type="text" id="user-phone" placeholder="Ej. +34 600 000 000">
                 </div>
                 <div class="form-group">
-                    <label>Correo Electrónico Profesional</label>
-                    <input type="email" id="user-email" placeholder="Ej. profesional@mail.com">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="user-email" placeholder="Ej. profesional@dominio.com">
                 </div>
                 <div class="form-group">
-                    <label>LinkedIn o Portfolio (Opcional)</label>
+                    <label>LinkedIn o Portfolio</label>
                     <input type="text" id="user-linkedin" placeholder="Ej. linkedin.com/in/tu-perfil">
                 </div>
                 
-                <button class="btn" onclick="nextStep(3)">Siguiente: Background</button>
-                <button class="btn btn-outline" onclick="nextStep(1)">Volver</button>
+                <button class="btn" onclick="nextStep(3)">Continuar</button>
+                <button class="btn btn-outline" onclick="nextStep(1)">Atrás</button>
             </div>
         </div>
 
         <!-- FORMULARIO 3: BACKGROUND -->
         <div id="step-3" class="step-view">
             <div class="card">
-                <div class="step-indicator">Paso 3 de 4</div>
-                <h3 class="card-title">Background Profesional</h3>
-                <p class="card-desc">Sé descriptivo. Lixie IA se encargará de redactarlo con alto impacto y estructurarlo matemáticamente para el sistema ATS.</p>
+                <div class="step-indicator">Fase 3 / 4</div>
+                <h3 class="card-title">Historial Profesional</h3>
                 
                 <div class="form-group">
                     <label>Experiencia Laboral Detallada</label>
-                    <span class="hint"><strong>Para máximo rendimiento ATS:</strong> Indica Cargo, Empresa y Años. Describe tus logros con verbos de acción y cifras.<br><br><em>Ej: "Gerente de Ventas en Microsoft (2020-2023). Lideré un equipo de 10 personas. Aumenté las ventas en un 35% en 6 meses."</em></span>
-                    <textarea id="user-experience" placeholder="Escribe tu experiencia aquí..."></textarea>
+                    <span class="hint"><strong>Regla de Oro ATS:</strong> Pon el Cargo, Empresa y Años. Luego redacta tus logros usando cifras.<br><br><em>Ejemplo: "Gerente Operativo en Amazon (2019 - Presente). Lideré un equipo de 40 personas. Reduje tiempos de entrega en un 15%."</em></span>
+                    <textarea id="user-experience" placeholder="Vierte toda tu experiencia aquí..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>Educación Formal</label>
-                    <span class="hint"><strong>Estructura recomendada:</strong> Título, Institución y Año de graduación. Añade enfoque si es relevante.</span>
-                    <textarea id="user-education" placeholder="Ej. Maestría en Arquitectura Sostenible. Univ. de Barcelona (2022)."></textarea>
+                    <span class="hint"><em>Ej: Maestría en Ciencias de la Computación - MIT - 2021. Tesis en Inteligencia Artificial.</em></span>
+                    <textarea id="user-education" placeholder="Tus títulos universitarios o superiores..."></textarea>
                 </div>
                 
-                <button class="btn" onclick="nextStep(4)">Siguiente: Competencias</button>
-                <button class="btn btn-outline" onclick="nextStep(2)">Volver</button>
+                <button class="btn" onclick="nextStep(4)">Continuar</button>
+                <button class="btn btn-outline" onclick="nextStep(2)">Atrás</button>
             </div>
         </div>
 
-        <!-- FORMULARIO 4: COMPETENCIAS Y VALOR -->
+        <!-- FORMULARIO 4: COMPETENCIAS Y EJECUCIÓN -->
         <div id="step-4" class="step-view">
             <div class="card">
-                <div class="step-indicator">Paso 4 de 4</div>
-                <h3 class="card-title">Competencias y Valor</h3>
-                <p class="card-desc">Los algoritmos ATS escanean Keywords (Palabras clave) estrictas. Proporciona tus habilidades duras y blandas separadas por comas.</p>
+                <div class="step-indicator">Fase 4 / 4</div>
+                <h3 class="card-title">Habilidades y Ejecución</h3>
                 
                 <div class="form-group">
-                    <label>Habilidades (Hard y Soft Skills)</label>
-                    <span class="hint">Herramientas técnicas y habilidades personales.<br><em>Ej: AutoCAD, Liderazgo, Metodologías Ágiles, Revit.</em></span>
-                    <textarea id="user-skills" style="min-height:60px;" placeholder="Tus habilidades aquí..."></textarea>
+                    <label>Habilidades Técnicas y Blandas</label>
+                    <span class="hint">Separadas por comas. <em>Ej: Liderazgo, Python, Gestión Ágil, AWS, Trabajo en Equipo.</em></span>
+                    <textarea id="user-skills" style="min-height:70px;" placeholder="Tus habilidades clave..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Certificaciones Relevantes</label>
-                    <textarea id="user-certifications" style="min-height:60px;" placeholder="Ej. Certificación AWS Solutions Architect..."></textarea>
+                    <label>Certificaciones (Opcional)</label>
+                    <textarea id="user-certifications" style="min-height:70px;" placeholder="Ej. Certificado PMP, Scrum Master..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>Idiomas y Nivel</label>
-                    <span class="hint">Asegúrate de indicar el nivel para filtros ATS.<br><em>Ej: Inglés Avanzado (C1), Español Nativo.</em></span>
-                    <textarea id="user-languages" style="min-height:60px;" placeholder="Tus idiomas..."></textarea>
+                    <span class="hint"><em>Ej: Inglés Avanzado (C1), Alemán Básico (A2)</em></span>
+                    <textarea id="user-languages" style="min-height:70px;" placeholder="Idiomas que dominas..."></textarea>
                 </div>
                 
-                <button class="btn" onclick="generateCV()">Generar Currículum ATS</button>
-                <button class="btn btn-outline" onclick="nextStep(3)">Volver</button>
+                <div style="background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                    <img src="coinnyx.png" height="30" style="margin-bottom: 5px;" onerror="this.style.display='none'">
+                    <div style="font-size: 14px; color: #ccc; margin-bottom: 5px;">Costo de Inferencia: <strong>10 NYX</strong></div>
+                    <div style="font-size: 11px; color: #666;">El saldo será debitado automáticamente por el servidor seguro (Zero Trust).</div>
+                </div>
+
+                <button class="btn btn-pay" onclick="generateCV()">Ejecutar Lixie IA (-10 NYX)</button>
+                <button class="btn btn-outline" onclick="nextStep(3)">Atrás</button>
             </div>
         </div>
 
-        <!-- LOADER IA -->
+        <!-- LOADER -->
         <div id="loader">
             <img src="logonyx.png" alt="IA procesando" onerror="this.style.display='none'">
-            <h3>Lixie IA procesando...</h3>
-            <p>Conectando con Clúster AXON.<br>Formateando datos en esquema ATS estricto.</p>
+            <h3>Procesamiento Cognitivo...</h3>
+            <p>Conectando con Clúster AXON.<br>Renderizando malla ATS para optimización global.</p>
         </div>
 
-        <!-- RESULTADO: PLANTILLA CV -->
+        <!-- PASO 5: RESULTADO Y PERSONALIZADOR ABSOLUTO -->
         <div id="step-5" class="step-view">
             <div class="card no-print">
-                <h3 class="card-title" style="margin-bottom: 5px;">Currículum ATS Listo</h3>
-                <p class="card-desc">Desliza la vista previa hacia los lados para visualizar el formato en móvil. Usa los ajustes si el contenido quedó fuera (Ej. Idiomas).</p>
+                <h3 class="card-title" style="margin-bottom: 15px;">Renderizado Completo</h3>
                 
-                <!-- Ajustes de Personalización (Soluciona el problema de los idiomas quedando fuera) -->
-                <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-                    <strong style="font-size: 13px; color: #2c3e50; display: block; margin-bottom: 8px;">Ajustes de Plantilla:</strong>
-                    <button class="btn btn-outline btn-small" onclick="ajustarCV('normal')">Estándar</button>
-                    <button class="btn btn-outline btn-small" onclick="ajustarCV('compacto')">Compactar Contenido (Para ajustar más info)</button>
-                    <button class="btn btn-outline btn-small" onclick="ajustarCV('espacioso')">Espacioso</button>
-                </div>
-
-                <button class="btn" onclick="window.print()">Imprimir PDF (Lectura DOM ATS)</button>
-                <button class="btn btn-outline" onclick="location.reload()">Crear un nuevo CV</button>
-            </div>
-
-            <!-- ENVOLTORIO CV -->
-            <div class="cv-preview-wrapper">
-                
-                <!-- PLANTILLA CV A4 MAPEO ESTRUCTURAL -->
-                <div class="a4-page" id="cv-template-render">
-                    <div class="cv-header">
-                        <div class="cv-name" id="cv-name">Nombre Generado</div>
-                        <div class="cv-title" id="cv-title">Cargo Generado</div>
-                        <div class="cv-contact" id="cv-contact">Contacto Generado</div>
+                <!-- NUEVO MENÚ DE PERSONALIZACIÓN ULTRA-MODERNO -->
+                <div class="customizer-panel-pro">
+                    <div class="panel-header-pro">
+                        <span><img src="logonyx.png" style="height: 16px; margin-right:8px;" onerror="this.style.display='none'"> Lixie Studio Engine</span>
+                        <div class="badge-pro">PRO</div>
+                    </div>
+                    
+                    <div class="customizer-grid">
+                        <div class="ctrl-group">
+                            <label>⚙️ Arquitectura de Fuente</label>
+                            <select class="ctrl-select" onchange="document.documentElement.style.setProperty('--cv-font-family', this.value)">
+                                <option value="'Arial', sans-serif">Arial (Máxima Legibilidad ATS)</option>
+                                <option value="'Times New Roman', serif">Times New Roman (Clásico)</option>
+                                <option value="'Georgia', serif">Georgia (Elegante)</option>
+                                <option value="'Roboto', sans-serif">Roboto (Moderno)</option>
+                            </select>
+                        </div>
+                        <div class="ctrl-group">
+                            <label>🎨 Paleta Cromática (Títulos)</label>
+                            <select class="ctrl-select" onchange="document.documentElement.style.setProperty('--cv-title-color', this.value)">
+                                <option value="#000000">Ébano (Negro Puro)</option>
+                                <option value="#2c3e50">Azul Corporativo</option>
+                                <option value="#34495e">Gris Pizarra</option>
+                                <option value="#8e44ad">Púrpura Ejecutivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="customizer-grid">
+                        <div class="ctrl-group">
+                            <label>📐 Escala de Renderizado (Texto)</label>
+                            <input type="range" class="ctrl-range" min="8" max="11.5" step="0.5" value="9.5" oninput="document.documentElement.style.setProperty('--cv-font-size', this.value + 'pt')">
+                        </div>
+                        <div class="ctrl-group">
+                            <label>↕️ Interlineado Estructural</label>
+                            <input type="range" class="ctrl-range" min="1.1" max="1.8" step="0.1" value="1.4" oninput="document.documentElement.style.setProperty('--cv-line-height', this.value)">
+                        </div>
                     </div>
 
-                    <div class="section-title-centered">Perfil Profesional</div>
-                    <div class="profile-text" id="cv-profile">Perfil generado por Lixie IA...</div>
-
-                    <div class="section-title">Educación</div>
-                    <div id="cv-education-list"></div>
-
-                    <div class="section-title">Experiencia Profesional</div>
-                    <div id="cv-experience-list"></div>
-
-                    <div class="section-title">Habilidades</div>
-                    <div class="skills-grid" id="cv-skills-grid"></div>
-
-                    <div class="section-title">Certificaciones</div>
-                    <ul class="cert-list" id="cv-certifications-list"></ul>
-
-                    <div class="section-title">Idiomas</div>
-                    <div class="languages-grid" id="cv-languages-grid"></div>
+                    <div class="customizer-grid">
+                        <div class="ctrl-group">
+                            <label>📦 Padding Vertical (Márgenes)</label>
+                            <input type="range" class="ctrl-range" min="10" max="25" step="1" value="15" oninput="document.documentElement.style.setProperty('--cv-padding-v', this.value + 'mm')">
+                        </div>
+                        <div class="ctrl-group">
+                            <label>📏 Espaciado de Bloques</label>
+                            <input type="range" class="ctrl-range" min="10" max="30" step="2" value="18" oninput="document.documentElement.style.setProperty('--cv-section-space', this.value + 'px')">
+                        </div>
+                    </div>
                 </div>
 
+                <button class="btn btn-pay" onclick="window.print()">Guardar / Imprimir PDF ATS</button>
+                <button class="btn btn-outline" onclick="location.reload()">Volver a empezar</button>
+            </div>
+
+            <!-- ENVOLTORIO CV CON AUTO-ESCALADO MOBILE -->
+            <div class="cv-preview-wrapper" id="preview-wrapper">
+                <div class="a4-container-scale" id="a4-scale">
+                    <div class="a4-page" id="cv-template-render">
+                        <div class="cv-header">
+                            <div class="cv-name" id="cv-name">Nombre Generado</div>
+                            <div class="cv-title" id="cv-title">Cargo Generado</div>
+                            <div class="cv-contact" id="cv-contact">Contacto Generado</div>
+                        </div>
+                        <div class="section-title-centered">Perfil Profesional</div>
+                        <div class="profile-text" id="cv-profile">Perfil generado por Lixie IA...</div>
+                        
+                        <div class="section-title">Educación</div>
+                        <div id="cv-education-list"></div>
+                        
+                        <div class="section-title">Experiencia Profesional</div>
+                        <div id="cv-experience-list"></div>
+                        
+                        <div class="section-title">Habilidades</div>
+                        <div class="skills-grid" id="cv-skills-grid"></div>
+                        
+                        <div class="section-title">Certificaciones</div>
+                        <ul class="cert-list" id="cv-certifications-list"></ul>
+                        
+                        <div class="section-title">Idiomas</div>
+                        <div class="languages-grid" id="cv-languages-grid"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPTS CORE -->
     <script>
         // FIREBASE CONF
         const firebaseConfig = {
@@ -340,13 +393,30 @@
             appId: "1:189453088234:web:639c130a6287ff34122e93"
         };
         firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentUser = null;
+        let userTokens = 0;
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                document.getElementById('app-container').style.display = 'block';
+                currentUser = user;
                 document.getElementById('auth-message').style.display = 'none';
+                document.getElementById('dash-header').style.display = 'flex';
+                document.getElementById('app-container').style.display = 'block';
+                
+                // Formato exigido: cliente-xxxx
+                const clientId = `cliente-${user.uid}`;
+                document.getElementById('user-id').innerText = clientId.substring(0, 15) + '...';
+
+                // Listener de Tokens NYX en la ruta /users/cliente-xxxx/tokens_nyx
+                db.ref(`users/${clientId}/tokens_nyx`).on('value', (snapshot) => {
+                    userTokens = snapshot.val() || 0;
+                    document.getElementById('token-amount').innerText = userTokens + ' NYX';
+                });
             } else {
                 document.getElementById('app-container').style.display = 'none';
+                document.getElementById('dash-header').style.display = 'none';
                 document.getElementById('auth-message').style.display = 'flex';
             }
         });
@@ -357,37 +427,36 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // SISTEMA DE PERSONALIZACIÓN CSS VARIABLES
-        function ajustarCV(modo) {
-            const root = document.documentElement;
-            if (modo === 'compacto') {
-                root.style.setProperty('--cv-font-size', '8.5pt');
-                root.style.setProperty('--cv-line-height', '1.2');
-                root.style.setProperty('--cv-padding-v', '12mm');
-                root.style.setProperty('--cv-section-space', '12px');
-                root.style.setProperty('--cv-header-size', '20pt');
-            } else if (modo === 'espacioso') {
-                root.style.setProperty('--cv-font-size', '10.5pt');
-                root.style.setProperty('--cv-line-height', '1.6');
-                root.style.setProperty('--cv-padding-v', '18mm');
-                root.style.setProperty('--cv-section-space', '24px');
-                root.style.setProperty('--cv-header-size', '26pt');
-            } else {
-                // Normal
-                root.style.setProperty('--cv-font-size', '9.5pt');
-                root.style.setProperty('--cv-line-height', '1.4');
-                root.style.setProperty('--cv-padding-v', '15mm');
-                root.style.setProperty('--cv-section-space', '18px');
-                root.style.setProperty('--cv-header-size', '24pt');
+        // Auto-escalado móvil
+        function resizePreview() {
+            const wrapper = document.getElementById('preview-wrapper');
+            const scaleDiv = document.getElementById('a4-scale');
+            if(wrapper && scaleDiv && window.innerWidth < 850) {
+                const scale = (wrapper.clientWidth - 20) / 794; 
+                scaleDiv.style.transform = `scale(${scale})`;
+                scaleDiv.style.height = `${1122 * scale}px`; 
+                wrapper.style.height = `${1122 * scale + 20}px`;
+            } else if (wrapper && scaleDiv) {
+                scaleDiv.style.transform = 'scale(1)';
+                wrapper.style.height = 'auto';
+                scaleDiv.style.height = 'auto';
             }
         }
+        window.addEventListener('resize', resizePreview);
 
         async function generateCV() {
+            if (userTokens < 10) {
+                alert("⚠️ Fondos insuficientes. Necesitas al menos 10 tokens NYX para ejecutar Lixie IA.");
+                return;
+            }
+
             document.getElementById('step-4').classList.remove('active');
             document.getElementById('loader').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
+            // Enviamos el userId correcto al Worker para el cobro
             const payload = {
+                userId: `cliente-${currentUser.uid}`, 
                 targetJob: document.getElementById('target-job').value,
                 targetCompany: document.getElementById('target-company').value,
                 targetIndustry: document.getElementById('target-industry').value,
@@ -418,7 +487,6 @@
                     throw new Error(data.error || `Error HTTP ${response.status}`);
                 }
 
-                // Inyección ATS Ultra-Segura
                 const setEl = (id, htmlContent, isText = false) => {
                     const el = document.getElementById(id);
                     if (el && htmlContent) {
@@ -437,18 +505,18 @@
                 setEl('cv-certifications-list', data.cvCertificationsListHTML);
                 setEl('cv-languages-grid', data.cvLanguagesGridHTML);
 
-                // Auto-ajuste preventivo si hay mucha experiencia
-                if (payload.userExperience.length > 300) {
-                    ajustarCV('compacto'); 
+                if (payload.userExperience.length > 350) {
+                    document.documentElement.style.setProperty('--cv-font-size', '8.5pt');
+                    document.documentElement.style.setProperty('--cv-padding-v', '12mm');
                 }
 
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('step-5').classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(resizePreview, 100);
 
             } catch (error) {
                 console.error("Error ATS:", error);
-                alert(`⚠️ FALLO EN CEREBRO LIXIE IA:\n\n${error.message}\n\nVerifica variables o conexión.`);
+                alert(`⚠️ ERROR CEREBRO LIXIE IA:\n\n${error.message}`);
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('step-4').classList.add('active');
             }
@@ -456,4 +524,9 @@
     </script>
 </body>
 </html>
+
+
+
+
+
 

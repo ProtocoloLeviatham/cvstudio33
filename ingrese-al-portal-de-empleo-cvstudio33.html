@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Empleo y Autenticación | CV Studio33</title>
+    <title>Ecosistema Central | CV Studio33</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +14,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Animaciones Extraídas (MacBook & 3D Loader) -->
+    <!-- Animaciones (MacBook, 3D Loader, SVG Rings) -->
     <link rel="stylesheet" href="animations.css">
 
     <script>
@@ -46,27 +46,38 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism Classes */
+        /* Glassmorphism Core */
         .glass-card {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .google-btn {
-            background: #ffffff;
-            color: #333333;
+        .hub-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
-        .google-btn:hover {
-            background: #f1f5f9;
+        .hub-card:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(59, 130, 246, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
         }
 
-        /* Fondo Grid Animado */
+        .google-btn {
+            background: #ffffff; color: #333333; transition: all 0.3s ease;
+        }
+        .google-btn:hover { background: #f1f5f9; transform: translateY(-2px); }
+
+        /* Custom Scrollbar for Hub */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
         .bg-grid {
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
@@ -76,20 +87,22 @@
             mask-image: radial-gradient(circle at center, black, transparent 80%);
             animation: moveGrid 20s linear infinite;
         }
-        @keyframes moveGrid {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(40px); }
+        @keyframes moveGrid { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
+
+        /* Motivational Toast */
+        #motivational-toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
     </style>
 </head>
-<body class="selection:bg-blue-500/30 selection:text-blue-200">
+<body class="selection:bg-blue-500/30 selection:text-blue-200 overflow-x-hidden">
 
     <div class="bg-grid"></div>
 
     <!-- ==============================================
-         PANTALLA DE CARGA INICIAL (MACBOOK)
+         1. PANTALLA DE CARGA INICIAL (MACBOOK)
          ============================================== -->
-    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#02040a] transition-opacity duration-700 ease-in-out">
+    <div id="preloader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#02040a] transition-opacity duration-700 ease-in-out">
         <div class="preloader-wrapper">
             <div class="macbook">
                 <div class="macbook__topBord">
@@ -123,7 +136,7 @@
             <div class="mt-24 text-center">
                 <div class="flex items-center gap-2 justify-center mb-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
-                    <p class="text-[10px] md:text-xs font-mono text-blue-400 uppercase tracking-[0.3em]">Verificando Sesión JWT</p>
+                    <p class="text-[10px] md:text-xs font-mono text-blue-400 uppercase tracking-[0.3em]">Cifrado AES-256 Activo</p>
                 </div>
                 <p class="text-[9px] text-slate-500 font-mono tracking-widest">FIREBASE SECURE AUTHENTICATION</p>
             </div>
@@ -131,49 +144,62 @@
     </div>
 
     <!-- ==============================================
-         PANTALLA DE CARGA POST-LOGIN (3D BOX CUBE)
+         2. PANTALLA DE CARGA POST-LOGIN (3D BOX CUBE)
          ============================================== -->
-    <div id="post-login-loader" class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-[#02040a] opacity-0 hidden transition-opacity duration-700 ease-in-out">
-        
+    <div id="post-login-loader" class="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-[#02040a] opacity-0 hidden transition-opacity duration-700 ease-in-out">
         <div class="loader">
-            <div class="box box0"><div></div></div>
-            <div class="box box1"><div></div></div>
-            <div class="box box2"><div></div></div>
-            <div class="box box3"><div></div></div>
-            <div class="box box4"><div></div></div>
-            <div class="box box5"><div></div></div>
-            <div class="box box6"><div></div></div>
-            <div class="box box7"><div></div></div>
+            <div class="box box0"><div></div></div><div class="box box1"><div></div></div>
+            <div class="box box2"><div></div></div><div class="box box3"><div></div></div>
+            <div class="box box4"><div></div></div><div class="box box5"><div></div></div>
+            <div class="box box6"><div></div></div><div class="box box7"><div></div></div>
             <div class="ground"><div></div></div>
         </div>
 
         <div class="mt-16 text-center z-10">
-            <p class="text-xs font-mono text-blue-400 uppercase tracking-[0.3em] animate-pulse">Desplegando Ecosistema VIP...</p>
-            <p class="text-[10px] text-slate-500 mt-2 font-mono">Ensamblando perfil inteligente</p>
+            <p class="text-xs font-mono text-blue-400 uppercase tracking-[0.3em] animate-pulse">Autenticación Exitosa</p>
+            <p class="text-[10px] text-slate-500 mt-2 font-mono">Ensamblando ecosistema de servicios VIP...</p>
         </div>
     </div>
 
     <!-- ==============================================
+         3. PANTALLA DE REDIRECCIÓN (SVG RINGS)
+         ============================================== -->
+    <div id="redirect-loader" class="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-[#02040a]/95 backdrop-blur-md opacity-0 hidden transition-opacity duration-500 ease-in-out">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" height="128px" width="128px" class="pl">
+            <circle stroke-dashoffset="-376.4" stroke-dasharray="377 377" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="8" fill="none" r="60" cy="64" cx="64" class="pl__ring1"></circle>
+            <circle stroke-dashoffset="-329.3" stroke-dasharray="329.9 329.9" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="7" fill="none" r="52.5" cy="64" cx="64" class="pl__ring2"></circle>
+            <circle stroke-dashoffset="-288.6" stroke-dasharray="289 289" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="6" fill="none" r="46" cy="64" cx="64" class="pl__ring3"></circle>
+            <circle stroke-dashoffset="-254" stroke-dasharray="254.5 254.5" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="5" fill="none" r="40.5" cy="64" cx="64" class="pl__ring4"></circle>
+            <circle stroke-dashoffset="-225.8" stroke-dasharray="226.2 226.2" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="4" fill="none" r="36" cy="64" cx="64" class="pl__ring5"></circle>
+            <circle stroke-dashoffset="-203.9" stroke-dasharray="204.2 204.2" stroke-linecap="round" transform="rotate(-90,64,64)" stroke-width="3" fill="none" r="32.5" cy="64" cx="64" class="pl__ring6"></circle>
+        </svg>
+        <div class="mt-8 text-center">
+            <p class="text-sm font-heading font-bold text-white tracking-widest uppercase">Estableciendo Conexión</p>
+            <p class="text-[10px] text-slate-500 font-mono mt-1" id="redirect-target-text">Procesando solicitud segura...</p>
+        </div>
+    </div>
+
+
+    <!-- ==============================================
          CONTENEDOR PRINCIPAL DE LA APP
          ============================================== -->
-    <main id="app-container" class="relative w-full min-h-screen flex items-center justify-center p-4 opacity-0 hidden transition-opacity duration-1000">
+    <main id="app-container" class="relative w-full min-h-screen flex items-center justify-center p-4 md:p-8 opacity-0 hidden transition-opacity duration-1000">
         
-        <!-- VISTA 1: LOGIN -->
+        <!-- ==========================================
+             VISTA 1: LOGIN (Profesional y Seguro)
+             ========================================== -->
         <div id="login-view" class="w-full max-w-md hidden">
-            <!-- Botón volver -->
-            <a href="index.html" class="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-wider transition-colors z-10">
-                <i class="fa-solid fa-arrow-left"></i> Inicio
-            </a>
-
             <div class="glass-card rounded-3xl p-8 md:p-10 text-center relative overflow-hidden">
-                <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-[50px] pointer-events-none"></div>
-                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/20 rounded-full blur-[50px] pointer-events-none"></div>
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-[50px] pointer-events-none"></div>
+                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-[50px] pointer-events-none"></div>
                 
                 <div class="relative z-10">
-                    <img src="logo.png" alt="CV Studio33" class="h-14 mx-auto mb-6 opacity-90 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                    <img src="logo.png" alt="CV Studio33" class="h-14 mx-auto mb-6 opacity-90">
                     
-                    <h1 class="text-2xl md:text-3xl font-heading font-black text-white mb-2 tracking-tight">Portal de Empleo</h1>
-                    <p class="text-sm text-slate-400 mb-8 font-light">Identidad verificada. Conecte su ecosistema profesional a nuestra IA.</p>
+                    <h1 class="text-2xl md:text-3xl font-heading font-black text-white mb-3 tracking-tight">Acceso Corporativo</h1>
+                    <p class="text-[13px] text-slate-400 mb-8 font-light leading-relaxed">
+                        Infraestructura protegida bajo protocolos <strong>Zero-Data Retention</strong> y cifrado de grado militar. Su identidad profesional está 100% resguardada.
+                    </p>
                     
                     <button id="btn-google-login" class="google-btn w-full flex items-center justify-center gap-4 py-3.5 px-6 rounded-xl font-bold text-sm">
                         <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -182,97 +208,199 @@
                             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                         </svg>
-                        <span>Continuar con Google</span>
+                        <span>Autenticación Segura (Google)</span>
                     </button>
 
                     <div id="login-error" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs text-red-400 font-mono text-left"></div>
 
                     <!-- Acuerdos Legales -->
                     <div class="mt-8 pt-6 border-t border-white/10 text-[10px] md:text-xs text-slate-500 leading-relaxed">
-                        Al autenticarse, usted confirma que ha leído, comprendido y aceptado incondicionalmente nuestro 
-                        <a href="legal.html" class="text-blue-400 hover:text-blue-300 underline underline-offset-2">SLA</a>, 
-                        <a href="politica-de-privacidad.html" class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">Privacidad</a> y 
-                        <a href="politica-de-cookies.html" class="text-amber-400 hover:text-amber-300 underline underline-offset-2">Cookies</a>.
+                        Al ingresar, certifica que aprueba nuestra arquitectura legal:<br>
+                        <a href="terminos-y-condiciones.html" class="text-blue-400 hover:text-blue-300 underline underline-offset-2">SLA & Términos</a> | 
+                        <a href="politica-de-privacidad.html" class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">Privacidad</a> | 
+                        <a href="politica-de-cookies.html" class="text-amber-400 hover:text-amber-300 underline underline-offset-2">Cookies & Caché</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- VISTA 2: PERFIL / DASHBOARD -->
-        <div id="profile-view" class="w-full max-w-5xl hidden flex-col md:flex-row gap-6">
+        <!-- ==========================================
+             VISTA 2: ECOSISTEMA CENTRAL (Hub)
+             ========================================== -->
+        <div id="profile-view" class="w-full max-w-7xl hidden flex-col xl:flex-row gap-6 md:gap-8 items-start">
             
-            <!-- Tarjeta de Identidad -->
-            <div class="glass-card rounded-2xl p-6 md:p-8 w-full md:w-1/3 flex flex-col items-center text-center relative overflow-hidden h-fit">
-                <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-blue-600/20 to-purple-600/20"></div>
-                
-                <div class="relative z-10 w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-purple-500 mb-4 mt-8 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                    <img id="user-photo" src="" alt="Profile" class="w-full h-full rounded-full object-cover border-2 border-[#020617] bg-slate-800">
+            <!-- COLUMNA IZQUIERDA: Perfil y Datos -->
+            <div class="glass-card rounded-3xl p-6 md:p-8 w-full xl:w-[320px] shrink-0 sticky top-8">
+                <div class="text-center mb-6">
+                    <div class="relative inline-block group">
+                        <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-emerald-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                            <img id="user-photo" src="" alt="Profile" class="w-full h-full rounded-full object-cover border-2 border-[#020617] bg-slate-800">
+                        </div>
+                        <!-- Botón flotante para cambiar foto localmente -->
+                        <label for="local-photo-upload" class="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 hover:bg-blue-500 rounded-full flex items-center justify-center cursor-pointer shadow-lg border-2 border-[#020617] transition-colors">
+                            <i class="fa-solid fa-camera text-white text-[10px]"></i>
+                            <input type="file" id="local-photo-upload" class="hidden" accept="image/*">
+                        </label>
+                    </div>
+                    
+                    <h2 id="user-name" class="text-xl font-heading font-black text-white mt-4 tracking-tight">Usuario VIP</h2>
+                    <p id="user-email" class="text-xs text-slate-400 font-mono mt-1">cargando@datos.com</p>
                 </div>
-                
-                <h2 id="user-name" class="text-xl font-heading font-bold text-white mb-1 relative z-10">Cargando...</h2>
-                <p id="user-email" class="text-xs text-slate-400 font-mono mb-6 relative z-10">verificando@datos.com</p>
-                
-                <div class="w-full bg-slate-800/50 rounded-xl p-4 mb-6 border border-white/5 flex justify-between items-center relative z-10">
-                    <div class="text-left">
-                        <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Estado</p>
-                        <p class="text-xs text-emerald-400 font-mono mt-1"><i class="fa-solid fa-shield-check mr-1"></i> Sesión Encriptada JWT</p>
+
+                <div class="space-y-3 mb-8">
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/50 border border-white/5">
+                        <span class="text-[10px] uppercase text-slate-500 font-bold">Estado de Cuenta</span>
+                        <span class="text-xs text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Verificada</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/50 border border-white/5">
+                        <span class="text-[10px] uppercase text-slate-500 font-bold">Nivel de Acceso</span>
+                        <span class="text-xs text-amber-400 font-mono"><i class="fa-solid fa-crown mr-1"></i> Ecosistema Hub</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/50 border border-white/5">
+                        <span class="text-[10px] uppercase text-slate-500 font-bold">Ingreso Registrado</span>
+                        <span class="text-xs text-slate-300 font-mono" id="login-date">--/--/----</span>
                     </div>
                 </div>
 
-                <button id="btn-logout" class="w-full py-3 px-4 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider transition-all relative z-10">
-                    <i class="fa-solid fa-power-off mr-2"></i> Cerrar Sesión Segura
+                <button id="btn-logout" class="w-full py-3.5 px-4 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider transition-all text-center">
+                    Cerrar Sesión
                 </button>
             </div>
 
-            <!-- Panel de Control (Mockup Dashboard) -->
-            <div class="w-full md:w-2/3 flex flex-col gap-6">
-                <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <!-- COLUMNA DERECHA: Grid de Servicios (El Hub) -->
+            <div class="w-full flex flex-col gap-6">
+                
+                <div class="glass-card rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h3 class="text-2xl font-heading font-black text-white">Central de Comando</h3>
-                        <p class="text-sm text-slate-400 mt-1">Gestione sus borradores, tokens y envíos automatizados.</p>
-                    </div>
-                    <img src="logo.png" alt="Logo" class="h-8 opacity-50 filter grayscale">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                    <!-- Bóveda -->
-                    <div class="glass-card rounded-2xl p-6 border-l-4 border-l-blue-500 hover:-translate-y-1 transition-transform cursor-pointer">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 rounded-lg bg-blue-500/10 text-blue-400"><i class="fa-solid fa-file-pdf text-xl"></i></div>
-                            <span class="px-2 py-1 rounded bg-slate-800 text-[10px] text-slate-400 font-mono">Storage</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white mb-1">Mis Currículums</h4>
-                        <p class="text-xs text-slate-400">Acceda a sus borradores guardados en caché y PDFs finales.</p>
-                    </div>
-
-                    <!-- IA -->
-                    <div class="glass-card rounded-2xl p-6 border-l-4 border-l-purple-500 hover:-translate-y-1 transition-transform cursor-pointer">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400"><i class="fa-solid fa-brain-circuit text-xl"></i></div>
-                            <span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-mono border border-emerald-500/20">Activo</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white mb-1">Motor IA (NYX/AXON)</h4>
-                        <p class="text-xs text-slate-400">Consultar saldo de tokens y ejecutar auditorías predictivas.</p>
-                    </div>
-
-                    <!-- Distribution -->
-                    <div class="glass-card rounded-2xl p-6 border-l-4 border-l-amber-500 sm:col-span-2 hover:-translate-y-1 transition-transform cursor-pointer">
-                        <div class="flex items-center gap-4">
-                            <div class="p-4 rounded-full bg-amber-500/10 text-amber-400"><i class="fa-solid fa-rocket text-2xl"></i></div>
-                            <div>
-                                <h4 class="text-lg font-bold text-white mb-1">Distribution Hub VIP</h4>
-                                <p class="text-xs text-slate-400">Configure los bots de envío masivo para el mercado oculto.</p>
-                            </div>
-                        </div>
+                        <h3 class="text-2xl md:text-3xl font-heading font-black text-white tracking-tight">Hub de Servicios Integrales</h3>
+                        <p class="text-sm text-slate-400 mt-2 font-light max-w-2xl">
+                            Seleccione un módulo operativo. Le entregamos la infraestructura pesada (Pasarelas, Inteligencia Artificial y diseño algorítmico); usted domina el mercado laboral.
+                        </p>
                     </div>
                 </div>
+
+                <!-- GRID DE SERVICIOS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                    <!-- 1. Ventas -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('PanelDeGestion-Ventas.html', 'Abriendo Panel de Ventas')">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-chart-line"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Panel De Ventas</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            Gestión comercial y comisiones. Proyección de ingresos (Tier 1). Operativa orgánica y cierres estratégicos de venta de alto valor.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 2. NYX IA -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('protocolonyx.html', 'Iniciando Red Neuronal NYX')">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-brain-circuit"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Panel Nyx IA</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            Red neuronal operativa calibrada con 10M+ de datos. Optimización semántica y categorización para evasión de filtros ATS corporativos.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 3. AXON -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('protocoloaxon.html', 'Iniciando Auditoría AXON')">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-radar"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Panel Axón BOT ATS</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            Simulador ATS en tiempo real. Análisis predictivo y métricas de decisión (0-100%). Detección y neutralización de sesgos algorítmicos.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 4. VIP -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group border-l-2 border-amber-500/50" onclick="triggerRedirect('Bolsadetrabajovip.html', 'Accediendo al Mercado Oculto')">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-gem"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Acceso a SUITE VIP</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            El "Mercado Oculto" (70% de vacantes confidenciales). Alertas tempranas, notificaciones push estratégicas y guías de negociación salarial.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 5. Creación CV -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('servicio-de-creación-cv.html', 'Servicios de Creación')">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-file-signature"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Creación de CV (Nosotros)</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            Metodología 33 (Diagnóstico, Estrategia, Redacción, Diseño y Certificación). Neuro-copywriting para generar impacto humano y algorítmico.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 6. Biblioteca -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('biblioteca-de-plantillas.html', 'Abriendo Biblioteca')">
+                        <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-swatchbook"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Biblioteca de Plantillas</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            Diseños Especiales (AXON), Avanzados (NYX) y ÉLITE. Arquitectura visual probada que garantiza legibilidad perfecta y estructuración semántica.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 7. Empleos -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group" onclick="triggerRedirect('EmpleosCvstudio33.html', 'Buscando Oportunidades')">
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-briefcase"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Lista de Empleos</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            Base de datos de contratación corporativa internacional. Encuentra oportunidades locales de jerarquía o posiciones globales remotas.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 8. Partnerships -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group bg-gradient-to-br from-slate-800/40 to-slate-900/40" onclick="triggerRedirect('Partnerships.html', 'NYX & AXON Partnership')">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-handshake"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading">Únete A Nosotros</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed">
+                            NYX & AXON PARTNERSHIP. Si eres reclutador o estratega, obtén acceso ilimitado a la infraestructura, bots ATS personalizados y desarrollo a medida.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">Acceder <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <!-- 9. App -->
+                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group relative overflow-hidden" onclick="triggerAppInfo()">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl mb-4 relative z-10"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <h4 class="text-base font-bold text-white mb-2 font-heading relative z-10">Futura APP Mobile</h4>
+                        <p class="text-xs text-slate-400 flex-grow leading-relaxed relative z-10">
+                            Próximamente. La máxima potencia de CV Studio33 empaquetada en una aplicación nativa para iOS y Android. Conoce el roadmap.
+                        </p>
+                        <div class="mt-4 text-[10px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1 relative z-10">Más Información</div>
+                    </div>
+
+                </div>
+                
+                <!-- Enlaces de Documentación Técnica -->
+                <div class="mt-4 flex flex-wrap gap-4 text-xs">
+                    <button onclick="triggerRedirect('NyxTegnologia.html', 'Abriendo Documentación')" class="px-4 py-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors font-mono"><i class="fa-solid fa-book mr-2"></i>Doc NYX</button>
+                    <button onclick="triggerRedirect('Axon.html', 'Abriendo Documentación')" class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-colors font-mono"><i class="fa-solid fa-book mr-2"></i>Doc AXON</button>
+                </div>
+
             </div>
         </div>
 
     </main>
 
+    <!-- Botón Motivacional Flotante -->
+    <button id="btn-motivate" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-600 to-emerald-500 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.4)] flex items-center justify-center text-white hover:scale-110 transition-transform active:scale-95 group">
+        <i class="fa-solid fa-bolt text-xl group-hover:animate-pulse"></i>
+    </button>
+
+    <!-- Toast Motivacional -->
+    <div id="motivational-toast" class="fixed bottom-24 right-6 z-50 max-w-[280px] md:max-w-xs bg-slate-900 border border-slate-700 p-4 rounded-xl shadow-2xl opacity-0 translate-y-4 pointer-events-none">
+        <div class="flex items-start gap-3">
+            <div class="text-amber-400 mt-0.5"><i class="fa-solid fa-quote-left"></i></div>
+            <p id="motivational-text" class="text-xs text-slate-300 italic leading-relaxed"></p>
+        </div>
+    </div>
+
     <!-- ==============================================
-         LÓGICA DE FIREBASE Y TRANSICIONES
+         LÓGICA DE FIREBASE, TRANSICIONES Y APP
          ============================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -291,57 +419,99 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-        provider.addScope('profile');
-        provider.addScope('email');
 
         const preloader = document.getElementById('preloader');
         const postLoginLoader = document.getElementById('post-login-loader');
+        const redirectLoader = document.getElementById('redirect-loader');
+        const redirectText = document.getElementById('redirect-target-text');
+        
         const appContainer = document.getElementById('app-container');
         const loginView = document.getElementById('login-view');
         const profileView = document.getElementById('profile-view');
         
         const btnLogin = document.getElementById('btn-google-login');
         const btnLogout = document.getElementById('btn-logout');
-        const errorDiv = document.getElementById('login-error');
 
+        // Datos del Usuario
         const uName = document.getElementById('user-name');
         const uEmail = document.getElementById('user-email');
         const uPhoto = document.getElementById('user-photo');
+        const loginDate = document.getElementById('login-date');
+        const photoUpload = document.getElementById('local-photo-upload');
 
         const MIN_MACBOOK_TIME = 3500; 
         const initTime = Date.now();
         let authStateResolved = false;
         let currentUser = null;
 
-        // Función auxiliar para llenar el perfil
+        // Formato de Fecha
+        const today = new Date();
+        loginDate.textContent = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+        // Cambio de Foto Local (LocalStorage)
+        photoUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const newPic = e.target.result;
+                    uPhoto.src = newPic;
+                    localStorage.setItem('cv33_local_avatar', newPic); // Guarda en caché
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         function populateProfile(user) {
-            uName.textContent = user.displayName || 'Usuario';
+            uName.textContent = user.displayName || 'Asesor Profesional';
             uEmail.textContent = user.email;
-            uPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + (user.displayName || 'U') + '&background=0D8ABC&color=fff';
+            
+            // Revisa si hay foto personalizada en caché, sino usa la de Google
+            const cachedPic = localStorage.getItem('cv33_local_avatar');
+            if (cachedPic) {
+                uPhoto.src = cachedPic;
+            } else {
+                uPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + (user.displayName || 'U') + '&background=0f172a&color=3b82f6';
+            }
         }
 
-        // Ejecuta la animación Post-Login (3D Box)
+        // Animación de Redirección (SVG Rings) Expuesta al ámbito global
+        window.triggerRedirect = function(targetUrl, message) {
+            redirectText.textContent = message + "...";
+            redirectLoader.classList.remove('hidden');
+            
+            // Timeout para asegurar que la clase se aplique
+            setTimeout(() => {
+                redirectLoader.style.opacity = '1';
+                
+                // Esperar 2.5s para disfrutar la animación SVG, luego redirigir
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 2500);
+            }, 50);
+        };
+
+        window.triggerAppInfo = function() {
+            alert("La infraestructura de la App Mobile nativa se encuentra actualmente en desarrollo por el equipo de ingeniería. ¡Mantente atento a las actualizaciones en el Hub!");
+        };
+
         function triggerPostLoginAnimation(callback) {
-            // Oculta lo que esté en pantalla
             appContainer.classList.add('hidden');
             preloader.classList.add('hidden');
             
-            // Muestra el 3D Box
             postLoginLoader.classList.remove('hidden');
-            void postLoginLoader.offsetWidth; // reflow
+            void postLoginLoader.offsetWidth;
             postLoginLoader.style.opacity = '1';
 
-            // Esperar 4.5 segundos para que la animacion se aprecie
             setTimeout(() => {
                 postLoginLoader.style.opacity = '0';
                 setTimeout(() => {
                     postLoginLoader.classList.add('hidden');
                     callback();
                 }, 700);
-            }, 4500);
+            }, 4000);
         }
 
-        // Transición inicial al cargar la página
         function transitionInitial() {
             const elapsed = Date.now() - initTime;
             const remaining = Math.max(0, MIN_MACBOOK_TIME - elapsed);
@@ -352,11 +522,10 @@
                     preloader.classList.add('hidden');
                     
                     if (currentUser) {
-                        // Usuario ya logueado al recargar la página -> Animación 3D Box -> Perfil
                         triggerPostLoginAnimation(() => {
                             loginView.classList.add('hidden');
                             profileView.classList.remove('hidden');
-                            profileView.classList.add('flex');
+                            profileView.classList.add('flex', 'xl:flex-row');
                             populateProfile(currentUser);
                             
                             appContainer.classList.remove('hidden');
@@ -364,9 +533,8 @@
                             appContainer.style.opacity = '1';
                         });
                     } else {
-                        // No logueado -> Mostrar Login
                         profileView.classList.add('hidden');
-                        profileView.classList.remove('flex');
+                        profileView.classList.remove('flex', 'xl:flex-row');
                         loginView.classList.remove('hidden');
                         
                         appContainer.classList.remove('hidden');
@@ -377,7 +545,6 @@
             }, remaining);
         }
 
-        // Listener de Estado
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (!authStateResolved) {
@@ -386,77 +553,132 @@
             }
         });
 
-        // Login Manual
         btnLogin.addEventListener('click', async () => {
-            errorDiv.classList.add('hidden');
+            document.getElementById('login-error').classList.add('hidden');
             const originalText = btnLogin.innerHTML;
-            btnLogin.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Conectando...';
+            btnLogin.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Conectando Infraestructura...';
             btnLogin.disabled = true;
 
             try {
                 const result = await signInWithPopup(auth, provider);
                 currentUser = result.user;
-                
-                // Login Exitoso -> Desvanecer App Container (Login view)
                 appContainer.style.opacity = '0';
                 
                 setTimeout(() => {
                     triggerPostLoginAnimation(() => {
                         loginView.classList.add('hidden');
                         profileView.classList.remove('hidden');
-                        profileView.classList.add('flex');
+                        profileView.classList.add('flex', 'xl:flex-row');
                         populateProfile(currentUser);
                         
                         appContainer.classList.remove('hidden');
                         void appContainer.offsetWidth;
                         appContainer.style.opacity = '1';
                     });
-                }, 1000);
+                }, 500);
 
             } catch (error) {
-                console.error("Error de Auth:", error);
-                errorDiv.textContent = `Error [${error.code}]: ${error.message}`;
-                errorDiv.classList.remove('hidden');
+                console.error("Auth Error:", error);
+                document.getElementById('login-error').textContent = `Acceso denegado: ${error.message}`;
+                document.getElementById('login-error').classList.remove('hidden');
                 btnLogin.innerHTML = originalText;
                 btnLogin.disabled = false;
             }
         });
 
-        // Logout
         btnLogout.addEventListener('click', async () => {
             const originalText = btnLogout.innerHTML;
-            btnLogout.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cerrando...';
+            btnLogout.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
             btnLogout.disabled = true;
 
             try {
                 await signOut(auth);
-                // Cerrar sesión solo desvanece y muestra login de nuevo
                 appContainer.style.opacity = '0';
                 setTimeout(() => {
                     profileView.classList.add('hidden');
-                    profileView.classList.remove('flex');
+                    profileView.classList.remove('flex', 'xl:flex-row');
                     loginView.classList.remove('hidden');
                     
                     btnLogin.innerHTML = `
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                        </svg>
-                        <span>Continuar con Google</span>
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                        <span>Autenticación Segura (Google)</span>
                     `;
                     btnLogin.disabled = false;
-
                     appContainer.style.opacity = '1';
-                }, 1000);
+                }, 800);
             } catch (error) {
-                console.error("Error al cerrar sesión:", error);
+                console.error("Logout Error:", error);
                 btnLogout.innerHTML = originalText;
                 btnLogout.disabled = false;
             }
         });
 
+        // ==============================================
+        // LÓGICA DE FRASES MOTIVACIONALES (33 Frases)
+        // ==============================================
+        const phrases = [
+            "El mercado laboral está quebrado. Pero tú tienes el algoritmo para dominarlo.",
+            "Invertir en tu carrera con CV Studio33 es asegurar tu supremacía profesional.",
+            "Los reclutadores leen en 6 segundos. NYX asegura que esos 6 segundos sean tuyos.",
+            "Deja de enviar CVs a la basura. Inyecta tu perfil en el mercado oculto.",
+            "No te preocupes por la competencia; ellos no tienen acceso a AXON.",
+            "Un perfil bien optimizado no busca empleo; el empleo lo encuentra a él.",
+            "Proyección mensual conservadora: Alcanzar tus metas sin desgaste absurdo.",
+            "Nosotros ponemos la infraestructura pesada, tú pones el éxito corporativo.",
+            "¿Tu CV era invisible? Ahora tiene visión nocturna para los sistemas ATS.",
+            "Tu inversión aquí cuesta menos que el café que tomaste buscando trabajo ayer.",
+            "El riesgo cero existe cuando tienes Deep Learning auditando tu perfil.",
+            "Mientras otros se frustran, tú estás siendo categorizado como 'Candidato Óptimo'.",
+            "Si la Inteligencia Artificial no lo aprueba, el mercado tampoco lo haría.",
+            "Tu carrera no es un juego de azar, es pura neuro-estrategia y tecnología.",
+            "Ríete del mercado. Tienes una IA que hace ingeniería inversa por ti.",
+            "El éxito no es magia, es una alineación quirúrgica con el puesto de tus sueños.",
+            "Cifrado AES-256: Tus datos están más seguros aquí que en tu propio banco.",
+            "La Metodología 33 es implacable: Precisión, Estrategia y Tecnología bruta.",
+            "Conecta orgánicamente, nosotros nos encargamos del diseño algorítmico.",
+            "¿Filtros ATS de Workday o Taleo? AXON se ríe de ellos en milisegundos.",
+            "La inversión que hiciste hoy, te la pagará tu próximo sueldo multiplicado por 10.",
+            "Eres el CEO de tu trayectoria. CV Studio33 es tu junta directiva silenciosa.",
+            "La única brecha que tienes ahora, es entre tu viejo yo y el éxito que te espera.",
+            "Evasión ATS al 99%: Eres oficialmente un fantasma tecnológico indetectable.",
+            "Tus logros no son aburridos, solo les faltaba nuestro neuro-copywriting.",
+            "Con el mercado oculto, tendrás la entrevista antes de que publiquen la vacante.",
+            "Cada token invertido en NYX es una llave maestra para corporaciones Nivel 1.",
+            "Deja de pelear contra el mercado. Conviértete en el mercado.",
+            "La simulación salarial te dirá cuánto pedir sin que te tiemble el pulso.",
+            "El Bot ATS trabajará por ti mientras tú duermes tranquilamente.",
+            "Diseño Elite: Tu perfil ahora tiene un 87% más de probabilidad de éxito real.",
+            "Aprovecha nuestra base de datos. El mundo corporativo internacional te espera.",
+            "Recuerda: Tu perfil ha sido sometido a rayos X forenses. Eres imparable."
+        ];
+
+        const btnMotivate = document.getElementById('btn-motivate');
+        const toast = document.getElementById('motivational-toast');
+        const toastText = document.getElementById('motivational-text');
+        let toastTimeout;
+
+        btnMotivate.addEventListener('click', () => {
+            // Seleccionar frase aleatoria
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            toastText.textContent = randomPhrase;
+
+            // Mostrar Toast
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+            toast.style.pointerEvents = 'auto';
+
+            // Ocultar tras 6 segundos
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(1rem)';
+                toast.style.pointerEvents = 'none';
+            }, 6000);
+        });
+
     </script>
 </body>
 </html>
+
+
+

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta viewport enfocado totalmente en dispositivos móviles (Native App Feel) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MirrorCV - Generador ATS Lixie IA</title>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+    <style>
+        /* ================= APP UI (Mobile First) ================= */
+        body, html {
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .header-app {
+            background: #202124;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Pantalla de autenticación */
+        #auth-message {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+        }
+        #auth-message h2 { margin-bottom: 10px; color: #d32f2f; }
+        #auth-message p { margin-bottom: 20px; color: #555; font-size: 15px; }
+
+        /* Botones nativos */
+        .btn {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            transition: background 0.2s;
+        }
+        .btn:active { background-color: #1557b0; }
+        .btn-outline {
+            background-color: transparent;
+            color: #1a73e8;
+            border: 2px solid #1a73e8;
+            margin-top: 10px;
+        }
+
+        /* Contenedor de los formularios */
+        #app-container {
+            display: none; /* Oculto hasta verificar login */
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #1a73e8;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 10px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+            background: #fafafa;
+            -webkit-appearance: none; /* Eliminar estilos nativos de iOS */
+        }
+        input:focus, textarea:focus {
+            border-color: #1a73e8;
+            outline: none;
+            background: #fff;
+        }
+        textarea { resize: vertical; min-height: 80px; }
+
+        .step-indicator {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Sistema de pestañas para el flujo */
+        .step-view { display: none; }
+        .step-view.active { display: block; }
+
+        /* Loader estilo IA */
+        #loader {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .spinner {
+            border: 4px solid rgba(26, 115, 232, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: #1a73e8;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Contenedor del CV para Móviles (Permite scroll horizontal para mantener proporción A4) */
+        .cv-preview-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            background: #525659;
+            padding: 10px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-top: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ================= CV TEMPLATE (A4 format conservado) ================= */
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 20mm 20mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            font-size: 9.5pt;
+            line-height: 1.4;
+            font-family: 'Arial', sans-serif;
+            color: #222;
+        }
+        
+        @media print {
+            body { background-color: white; padding: 0; }
+            .header-app, .card, .btn, .cv-preview-wrapper { display: none !important; }
+            #step-4 { display: block !important; }
+            .a4-page {
+                box-shadow: none; width: 100%; min-height: auto; padding: 15mm;
+            }
+        }
+
+        .cv-header { text-align: center; margin-bottom: 25px; }
+        .cv-name { font-size: 24pt; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .cv-title { font-size: 10pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .cv-contact { color: #555; font-size: 9.5pt; }
+        .section-title-centered { text-align: center; font-size: 11pt; font-weight: bold; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 8px 0; margin-bottom: 20px; letter-spacing: 1px; }
+        .section-title { font-size: 11pt; font-weight: bold; text-transform: uppercase; margin-top: 25px; margin-bottom: 12px; letter-spacing: 0.5px; }
+        .profile-text { text-align: center; margin-bottom: 30px; padding: 0 5px; color: #333; }
+        .edu-container { display: flex; justify-content: space-between; margin-bottom: 25px; }
+        .edu-col { flex: 1; }
+        .edu-col.right { text-align: right; }
+        .edu-title { font-weight: bold; margin-bottom: 2px; color: #222; }
+        .edu-school { color: #555; margin-bottom: 2px; }
+        .edu-desc { color: #888; }
+        .job { margin-bottom: 15px; }
+        .job-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .job-title { font-weight: bold; color: #222; }
+        .job-company { color: #555; }
+        .job-right { text-align: right; color: #555; }
+        .job-duties { margin-top: 5px; padding-left: 20px; margin-bottom: 0; color: #333; }
+        .job-duties li { margin-bottom: 3px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .skills-list { list-style-type: none; padding-left: 0; margin: 0; }
+        .skills-list li { position: relative; padding-left: 12px; margin-bottom: 5px; color: #333; }
+        .skills-list li::before { content: "•"; position: absolute; left: 0; color: #000; }
+        .cert-list { list-style-type: none; padding-left: 0; margin: 0; }
+        .cert-list li { position: relative; padding-left: 12px; margin-bottom: 5px; color: #333; }
+        .cert-list li::before { content: "•"; position: absolute; left: 0; color: #000; }
+        .languages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; color: #333; }
+    </style>
+</head>
+<body>
+
+    <!-- Mensaje de Autenticación Requerida -->
+    <div id="auth-message">
+        <h2>Acceso Restringido</h2>
+        <p>Debes iniciar sesión para usar Lixie IA y generar tu CV adaptado.</p>
+        <a href="protocolonyx.html" class="btn">Iniciar Sesión</a>
+    </div>
+
+    <!-- Interfaz Principal (App) -->
+    <div id="app-container">
+        <div class="header-app">MirrorCV - Lixie IA</div>
+        
+        <!-- PANTALLA 1: Puesto y Empresa -->
+        <div id="step-1" class="step-view active">
+            <div class="card">
+                <div class="step-indicator">Paso 1 de 3</div>
+                <h3 class="card-title">Objetivo Profesional</h3>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Dile a Lixie IA a dónde apuntas. Nos conectaremos con Jooble para ver los matchs del sector.</p>
+                
+                <div class="form-group">
+                    <label for="target-job">Puesto Objetivo</label>
+                    <input type="text" id="target-job" placeholder="Ej. Arquitecta Senior, Desarrollador Web...">
+                </div>
+                <div class="form-group">
+                    <label for="target-company">Empresa Objetivo (Opcional)</label>
+                    <input type="text" id="target-company" placeholder="Ej. Arquitectura & Diseños XYZ">
+                </div>
+                <button class="btn" onclick="nextStep(2)">Continuar</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: Preguntas Extras -->
+        <div id="step-2" class="step-view">
+            <div class="card">
+                <div class="step-indicator">Paso 2 de 3</div>
+                <h3 class="card-title">Precisión del Perfil</h3>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Responde esto para que la IA mejore la calidad y pase los filtros ATS.</p>
+                
+                <div class="form-group">
+                    <label for="extra-q1">¿Cuáles son tus 3 habilidades más fuertes?</label>
+                    <input type="text" id="extra-q1" placeholder="Ej. Liderazgo, AutoCAD, Diseño Sostenible">
+                </div>
+                <div class="form-group">
+                    <label for="extra-q2">¿Cuál ha sido tu mayor logro profesional?</label>
+                    <textarea id="extra-q2" placeholder="Describe brevemente..."></textarea>
+                </div>
+                <button class="btn" onclick="nextStep(3)">Continuar</button>
+                <button class="btn btn-outline" onclick="nextStep(1)">Volver</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 3: Formulario Largo de Datos -->
+        <div id="step-3" class="step-view">
+            <div class="card">
+                <div class="step-indicator">Paso 3 de 3</div>
+                <h3 class="card-title">Tus Datos Completos</h3>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Llena estos datos; Lixie IA escribirá TODO el CV enfocado para la empresa usando la plantilla ATS.</p>
+                
+                <div class="form-group">
+                    <label for="user-name">Nombre Completo</label>
+                    <input type="text" id="user-name" placeholder="Ej. Camila Vargas">
+                </div>
+                <div class="form-group">
+                    <label for="user-location">Dirección o Localidad</label>
+                    <input type="text" id="user-location" placeholder="Ej. Madrid, España">
+                </div>
+                <div class="form-group">
+                    <label for="user-phone">Teléfono</label>
+                    <input type="text" id="user-phone" placeholder="Ej. +34 600 000 000">
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Correo Electrónico</label>
+                    <input type="email" id="user-email" placeholder="Ej. correo@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="user-experience">Experiencia Profesional (Resumen)</label>
+                    <textarea id="user-experience" placeholder="Empresas, años, roles..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="user-education">Educación (Títulos e Instituciones)</label>
+                    <textarea id="user-education" placeholder="Universidad, enfoque..."></textarea>
+                </div>
+                
+                <button class="btn" onclick="generateCV()">Generar CV con Lixie IA</button>
+                <button class="btn btn-outline" onclick="nextStep(2)">Volver</button>
+            </div>
+        </div>
+
+        <!-- LOADER DE IA -->
+        <div id="loader">
+            <div class="spinner"></div>
+            <h3 style="color: #1a73e8; margin-bottom: 5px;">Lixie IA procesando...</h3>
+            <p style="color: #666; font-size: 14px;">Nutriéndose de Jooble y estructurando formato ATS.</p>
+        </div>
+
+        <!-- PANTALLA 4: Plantilla CV Generada -->
+        <div id="step-4" class="step-view">
+            <div class="card">
+                <h3 class="card-title" style="margin-bottom: 5px;">¡CV ATS Generado!</h3>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Desliza horizontalmente la vista del CV para leerlo al detalle en tu celular.</p>
+                
+                <button class="btn" onclick="window.print()" style="margin-bottom: 10px;">Exportar PDF (Imprimir)</button>
+                <button class="btn btn-outline" onclick="nextStep(1)">Generar otro perfil</button>
+
+                <!-- ENVOLTORIO CON SCROLL HORIZONTAL PARA MÓVILES -->
+                <div class="cv-preview-wrapper">
+                    <!-- CV PLANTILLA A4 MAPEO DE IDs -->
+                    <div class="a4-page" id="cv-template-render">
+                        
+                        <div class="cv-header">
+                            <div class="cv-name" id="cv-name">Camila Vargas</div>
+                            <div class="cv-title" id="cv-title">Arquitecta</div>
+                            <div class="cv-contact" id="cv-contact">
+                                +57 01 01 01 01 01<br>
+                                tucorreo@mail.com
+                            </div>
+                        </div>
+
+                        <div class="section-title-centered">Perfil Profesional</div>
+                        <div class="profile-text" id="cv-profile">
+                            Arquitecta apasionada con más de 5 años de experiencia en diseño y gestión de proyectos arquitectónicos residenciales y comerciales. Habilidad comprobada para liderar equipos en la entrega de proyectos dentro de los plazos y presupuestos establecidos, manteniendo altos estándares de calidad. Experta en software de diseño como AutoCAD, Revit y SketchUp. Interesada en contribuir con soluciones sostenibles e innovadoras.
+                        </div>
+
+                        <div class="section-title">Educación</div>
+                        <div id="cv-education-list">
+                            <!-- JS Inyectará la educación dinámica aquí -->
+                            <div class="edu-container">
+                                <div class="edu-col">
+                                    <div class="edu-title">Maestría en Arquitectura Sostenible</div>
+                                    <div class="edu-school">Universidad Autónoma de Barcelona</div>
+                                    <div class="edu-desc">Enfoque en Gestión Integral Sostenible de Proyectos</div>
+                                </div>
+                                <div class="edu-col right">
+                                    <div class="edu-title">Maestría en Arquitectura Sostenible | 20XX - 20XX</div>
+                                    <div class="edu-school">Universidad Autónoma de Barcelona</div>
+                                    <div class="edu-desc">Enfoque en Gestión Integral Sostenible de Proyectos</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Experiencia Profesional</div>
+                        <div id="cv-experience-list">
+                            <!-- JS Inyectará las experiencias aquí -->
+                            <div class="job">
+                                <div class="job-header">
+                                    <div class="job-left">
+                                        <div class="job-title">Arquitecta Senior</div>
+                                        <div class="job-company">Arquitectura & Diseños XYZ</div>
+                                    </div>
+                                    <div class="job-right">
+                                        <div class="job-location">Barcelona, España</div>
+                                        <div class="job-date">Enero 2024 - Presente</div>
+                                    </div>
+                                </div>
+                                <ul class="job-duties">
+                                    <li>Dirigí un equipo de 5 arquitectos en el desarrollo de proyectos residenciales de alta densidad.</li>
+                                    <li>Coordiné con ingenieros y diseñadores para asegurar la implementación efectiva de especificaciones de diseño.</li>
+                                    <li>Realicé presentaciones a clientes y partes interesadas, logrando un aumento del 20% en la satisfacción del cliente.</li>
+                                </ul>
+                            </div>
+                            <div class="job">
+                                <div class="job-header">
+                                    <div class="job-left">
+                                        <div class="job-title">Arquitecta Asociada</div>
+                                        <div class="job-company">Arquitectura & Diseños XYZ</div>
+                                    </div>
+                                    <div class="job-right">
+                                        <div class="job-location">Madrid, España</div>
+                                        <div class="job-date">Enero 20XX - Marzo 20XX</div>
+                                    </div>
+                                </div>
+                                <ul class="job-duties">
+                                    <li>Participé en la planificación y diseño de más de 30 proyectos comerciales y públicos.</li>
+                                    <li>Colaboré estrechamente con clientes para definir requisitos del proyecto de manera satisfactoria.</li>
+                                    <li>Contribuí en la redacción y revisión de documentos de construcción garantizando el cumplimiento de las normativas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Habilidades</div>
+                        <div class="skills-grid" id="cv-skills-grid">
+                            <!-- JS Inyectará habilidades aquí -->
+                            <ul class="skills-list"><li>Trabajo en equipo</li><li>Word</li></ul>
+                            <ul class="skills-list"><li>AutoCAD</li><li>SketchUp</li></ul>
+                            <ul class="skills-list"><li>Revit</li><li>LEED AP</li></ul>
+                            <ul class="skills-list"><li>Adobe Photoshop</li><li>Modelado 3D</li></ul>
+                        </div>
+
+                        <div class="section-title">Certificaciones</div>
+                        <ul class="cert-list" id="cv-certifications-list">
+                            <li>Certificación LEED (Leadership in Energy and Environmental Design).</li>
+                            <li>Autodesk Certified Professional en Revit (Architecture, Structure o MEP).</li>
+                            <li>Certificación en Gestión de Proyectos.</li>
+                        </ul>
+
+                        <div class="section-title">Idiomas</div>
+                        <div class="languages-grid" id="cv-languages-grid">
+                            <div>Español: Nativo</div>
+                            <div>Alemán: Avanzado (C1)</div>
+                            <div>Inglés: Básico (A2)</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Core -->
+    <script>
+        // CONFIGURACIÓN FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            databaseURL: "https://cv-studio33-default-rtdb.firebaseio.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Detectar estado de usuario
+        firebase.auth().onAuthStateChanged((user) => {
+            // [!] PARA TESTEO EN DESARROLLO SIN LOGIN: COMENTAR EL IF/ELSE Y PONER SOLO ESTAS DOS LÍNEAS:
+            // document.getElementById('app-container').style.display = 'block';
+            // document.getElementById('auth-message').style.display = 'none';
+
+            if (user) {
+                document.getElementById('app-container').style.display = 'block';
+                document.getElementById('auth-message').style.display = 'none';
+            } else {
+                document.getElementById('app-container').style.display = 'none';
+                document.getElementById('auth-message').style.display = 'flex';
+            }
+        });
+
+        // Navegación entre tarjetas del flujo
+        function nextStep(step) {
+            document.querySelectorAll('.step-view').forEach(el => el.classList.remove('active'));
+            document.getElementById('step-' + step).classList.add('active');
+        }
+
+        // Llamado IA al Backend (Cloudflare Worker)
+        function generateCV() {
+            // Animaciones UI
+            document.getElementById('step-3').classList.remove('active');
+            document.getElementById('loader').style.display = 'block';
+
+            // Obtener todos los inputs para mandar a Lixie IA
+            const payload = {
+                targetJob: document.getElementById('target-job').value,
+                targetCompany: document.getElementById('target-company').value,
+                extraQ1: document.getElementById('extra-q1').value,
+                extraQ2: document.getElementById('extra-q2').value,
+                userName: document.getElementById('user-name').value,
+                userLocation: document.getElementById('user-location').value,
+                userPhone: document.getElementById('user-phone').value,
+                userEmail: document.getElementById('user-email').value,
+                userExperience: document.getElementById('user-experience').value,
+                userEducation: document.getElementById('user-education').value
+            };
+
+            // URL DE TU CLOUDFLARE WORKER PARA PROCESAR CON LIXIE IA Y JOOBLE
+            const WORKER_URL = "https://TU-WORKER-URL.workers.dev";
+
+            /* 
+            // CÓDIGO REAL PARA FETCH A TU BACKEND
+            fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                // Aquí el worker devuelve el JSON estructurado y reemplazas los IDs.
+                // Ej: document.getElementById('cv-profile').innerText = data.ia_profile;
+            })
+            .catch(err => console.error('Error IA:', err));
+            */
+
+            // SIMULACIÓN VISUAL (Para ver que el mapeo de IDs funciona con los inputs)
+            setTimeout(() => {
+                if (payload.userName) document.getElementById('cv-name').innerText = payload.userName;
+                if (payload.targetJob) document.getElementById('cv-title').innerText = payload.targetJob;
+                
+                let contactInfo = "";
+                if (payload.userPhone) contactInfo += payload.userPhone + "<br>";
+                if (payload.userEmail) contactInfo += payload.userEmail + "<br>";
+                if (payload.userLocation) contactInfo += payload.userLocation;
+                if (contactInfo) document.getElementById('cv-contact').innerHTML = contactInfo;
+
+                // Ocultar Loader y Mostrar CV
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('step-4').classList.add('active');
+                
+            }, 2500); // Simulando tiempo de IA 2.5 seg
+        }
+    </script>
+</body>
+</html>
+

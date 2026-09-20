@@ -14,6 +14,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
+    <!-- Animaciones Extraídas (MacBook & 3D Loader) -->
+    <link rel="stylesheet" href="animations.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -77,247 +80,15 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(40px); }
         }
-
-        /* ==========================================
-           MACBOOK PRELOADER ANIMATION (UIVERSE)
-           ========================================== */
-        .preloader-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-        }
-        .macbook {
-            position: relative;
-            width: 228px;
-            height: 260px;
-            transform: scale(0.8); /* Scale down slightly for mobile */
-        }
-        @media (min-width: 768px) { .macbook { transform: scale(1); } }
-        
-        .macbook__topBord {
-            position: absolute;
-            z-index: 0;
-            top: 34px;
-            left: 0;
-            width: 128px;
-            height: 116px;
-            border-radius: 6px;
-            transform-origin: center;
-            background: linear-gradient(-135deg, #475569 52%, #1e293b 56%); /* Darker corporate colors */
-            transform: scale(0) skewY(-30deg);
-            animation: topbord 0.4s 0.5s ease-out forwards;
-        }
-        .macbook__topBord::before {
-            content: "";
-            position: absolute;
-            z-index: 2;
-            top: 8px;
-            left: 6px;
-            width: 100%;
-            height: 100%;
-            border-radius: 6px;
-            background: #020617; /* Screen border */
-        }
-        .macbook__topBord::after {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            bottom: -7px;
-            left: 8px;
-            width: 168px;
-            height: 12px;
-            transform-origin: left bottom;
-            transform: rotate(-42deg) skew(-4deg);
-            background: linear-gradient(-135deg, #475569 52%, #1e293b 56%);
-        }
-        .macbook__display {
-            position: absolute;
-            z-index: 10;
-            top: 17px;
-            left: 12px;
-            width: calc(100% - 12px);
-            height: calc(100% - 18px);
-            background: #0f172a; /* Deep blue background */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 2px;
-        }
-        .macbook__display::before {
-            content: "";
-            position: absolute;
-            z-index: 5;
-            top: -9px;
-            left: -6px;
-            width: calc(100% + 12px);
-            height: calc(100% + 18px);
-            border-radius: 6px;
-            background: linear-gradient(60deg, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.1) 60%);
-            pointer-events: none;
-        }
-        .macbook__load {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(2, 6, 23, 0.9);
-            animation: displayFade 0.4s 2.8s ease forwards;
-            z-index: 20;
-        }
-        .macbook__load:before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            margin: auto;
-            width: 80px; height: 4px;
-            border-radius: 2px;
-            border: solid 1px rgba(255,255,255,0.2);
-        }
-        .macbook__load:after {
-            content: "";
-            position: absolute;
-            top: 0; left: 18px; bottom: 0;
-            margin: auto;
-            width: 0; height: 4px;
-            border-radius: 2px;
-            background: #3b82f6; /* Blue loading bar */
-            animation: loadBar 1.5s 1.2s ease-out forwards;
-        }
-        
-        /* Logo inside screen */
-        .macbook__logo {
-            width: 40px;
-            height: auto;
-            z-index: 15;
-            opacity: 0;
-            animation: fadeInLogo 0.5s 3.0s forwards;
-            filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
-        }
-
-        .macbook__underBord {
-            position: relative;
-            left: 42px;
-            bottom: -145px;
-            width: 150px;
-            height: 90px;
-            border-radius: 6px;
-            transform-origin: center;
-            transform: rotate(-30deg) skew(30deg);
-            background: linear-gradient(-45deg, #475569 61%, #1e293b 66%);
-            animation: modal 0.5s 0.2s ease-out forwards;
-            opacity: 0;
-        }
-        .macbook__underBord::before {
-            content: "";
-            position: absolute;
-            z-index: 3;
-            top: -8px; left: 8px;
-            width: 100%; height: 100%;
-            border-radius: 6px;
-            background: #334155;
-        }
-        .macbook__underBord::after {
-            content: "";
-            position: absolute;
-            z-index: 2;
-            top: -8px; left: 12px;
-            width: 170px; height: 15px;
-            transform-origin: top left;
-            background: linear-gradient(-45deg, #475569 61%, #1e293b 66%);
-            transform: rotate(31deg) skew(-16deg);
-        }
-        
-        /* Teclado animado */
-        .macbook__keybord {
-            position: relative;
-            top: 0; left: 16px;
-            z-index: 3;
-            border-radius: 3px;
-            width: calc(100% - 16px);
-            height: 45px;
-            background: #1e293b;
-        }
-        .macbook__keybord::before {
-            content: "";
-            position: absolute;
-            bottom: -30px; left: 0; right: 0; margin: 0 auto;
-            width: 40px; height: 25px;
-            border-radius: 3px;
-            background: #1e293b;
-        }
-        .keybord {
-            position: relative;
-            top: 2px; left: 2px;
-            display: flex; flex-direction: column;
-            width: calc(100% - 3px); height: calc(100% - 4px);
-        }
-        .keybord__touchbar {
-            width: 100%; height: 6px;
-            border-radius: 3px; background: #000;
-        }
-        .keybord__keyBox {
-            display: grid;
-            grid-template-rows: 3fr 1fr;
-            grid-template-columns: repeat(11, 1fr);
-            width: 100%; height: 24px;
-            margin: 1px 0 0 0; padding: 0 0 0 1px;
-            box-sizing: border-box; list-style: none;
-        }
-        .keybord__key {
-            position: relative;
-            width: 8px; height: 7px;
-            margin: 1px; background: #020617;
-            opacity: 0;
-            transform: translate(60px, -60px);
-            animation: keyAnim 0.2s 0.6s ease-out forwards;
-        }
-        .keybord__key::before, .keybord__key::after {
-            content: ""; position: absolute; left: 0; width: 100%; height: 100%; background: #020617;
-        }
-        .keybord__key::before { top: 8px; transform: translate(20px, -20px); animation: keyAnim1 0.2s 0.7s ease-out forwards; }
-        .keybord__key::after { top: 16px; transform: translate(40px, -40px); animation: keyAnim2 0.2s 0.8s ease-out forwards; }
-        
-        .keybord__keyBox--under {
-            margin: 0; padding: 0 0 0 1px; box-sizing: border-box; list-style: none; display: flex;
-        }
-        .keybord__keyBox--under .keybord__key {
-            transform: translate(80px, -80px);
-            animation: keyAnim3 0.3s 0.8s linear forwards;
-            opacity: 0;
-        }
-        .key--19 { width: 28px; }
-
-        @keyframes topbord {
-            0% { transform: scale(0) skewY(-30deg); }
-            30% { transform: scale(1.1) skewY(-30deg); }
-            45% { transform: scale(0.9) skewY(-30deg); }
-            60% { transform: scale(1.05) skewY(-30deg); }
-            75% { transform: scale(0.95) skewY(-30deg); }
-            90% { transform: scale(1.02) skewY(-30deg); }
-            100% { transform: scale(1) skewY(-30deg); }
-        }
-        @keyframes displayFade { 0% { opacity: 1; } 100% { opacity: 0; } }
-        @keyframes loadBar { 0% { width: 0; } 100% { width: 80px; } }
-        @keyframes fadeInLogo { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes modal {
-            0% { transform: scale(0) rotate(-30deg) skew(30deg); opacity: 0; }
-            100% { transform: scale(1) rotate(-30deg) skew(30deg); opacity: 1; }
-        }
-        @keyframes keyAnim { 100% { transform: translate(0px, 0px); opacity: 1; } }
-        @keyframes keyAnim1 { 100% { transform: translate(0px, 0px); opacity: 1; } }
-        @keyframes keyAnim2 { 100% { transform: translate(0px, 0px); opacity: 1; } }
-        @keyframes keyAnim3 { 100% { transform: translate(0px, 0px); opacity: 1; } }
-
     </style>
 </head>
 <body class="selection:bg-blue-500/30 selection:text-blue-200">
 
     <div class="bg-grid"></div>
 
-    <!-- PANTALLA DE CARGA (PRELOADER) -->
+    <!-- ==============================================
+         PANTALLA DE CARGA INICIAL (MACBOOK)
+         ============================================== -->
     <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#02040a] transition-opacity duration-700 ease-in-out">
         <div class="preloader-wrapper">
             <div class="macbook">
@@ -332,15 +103,17 @@
                         <div class="keybord">
                             <div class="keybord__touchbar"></div>
                             <ul class="keybord__keyBox">
-                                <!-- Teclas generadas dinámicamente o estáticas según CSS -->
-                                <li class="keybord__key"></li><li class="keybord__key"></li><li class="keybord__key"></li>
-                                <li class="keybord__key"></li><li class="keybord__key"></li><li class="keybord__key"></li>
-                                <li class="keybord__key"></li><li class="keybord__key"></li><li class="keybord__key"></li>
-                                <li class="keybord__key"></li><li class="keybord__key"></li>
+                                <li class="keybord__key key--01"></li><li class="keybord__key key--02"></li><li class="keybord__key key--03"></li>
+                                <li class="keybord__key key--04"></li><li class="keybord__key key--05"></li><li class="keybord__key key--06"></li>
+                                <li class="keybord__key key--07"></li><li class="keybord__key key--08"></li><li class="keybord__key key--09"></li>
+                                <li class="keybord__key key--10"></li><li class="keybord__key key--11"></li><li class="keybord__key key--12"></li>
+                                <li class="keybord__key key--13"></li>
                             </ul>
                             <ul class="keybord__keyBox--under">
-                                <li class="keybord__key"></li><li class="keybord__key"></li><li class="keybord__key"></li>
-                                <li class="keybord__key key--19"></li><li class="keybord__key"></li><li class="keybord__key"></li>
+                                <li class="keybord__key key--14"></li><li class="keybord__key key--15"></li><li class="keybord__key key--16"></li>
+                                <li class="keybord__key key--17"></li><li class="keybord__key key--18"></li><li class="keybord__key key--19"></li>
+                                <li class="keybord__key key--20"></li><li class="keybord__key key--21"></li><li class="keybord__key key--22"></li>
+                                <li class="keybord__key key--23"></li><li class="keybord__key key--24"></li>
                             </ul>
                         </div>
                     </div>
@@ -350,27 +123,49 @@
             <div class="mt-24 text-center">
                 <div class="flex items-center gap-2 justify-center mb-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
-                    <p class="text-[10px] md:text-xs font-mono text-blue-400 uppercase tracking-[0.3em]">Verificando Credenciales</p>
+                    <p class="text-[10px] md:text-xs font-mono text-blue-400 uppercase tracking-[0.3em]">Verificando Sesión JWT</p>
                 </div>
-                <p class="text-[9px] text-slate-500 font-mono tracking-widest">FIREBASE AUTHENTICATION PROTOCOL</p>
+                <p class="text-[9px] text-slate-500 font-mono tracking-widest">FIREBASE SECURE AUTHENTICATION</p>
             </div>
         </div>
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL DE LA APP -->
+    <!-- ==============================================
+         PANTALLA DE CARGA POST-LOGIN (3D BOX CUBE)
+         ============================================== -->
+    <div id="post-login-loader" class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-[#02040a] opacity-0 hidden transition-opacity duration-700 ease-in-out">
+        
+        <div class="loader">
+            <div class="box box0"><div></div></div>
+            <div class="box box1"><div></div></div>
+            <div class="box box2"><div></div></div>
+            <div class="box box3"><div></div></div>
+            <div class="box box4"><div></div></div>
+            <div class="box box5"><div></div></div>
+            <div class="box box6"><div></div></div>
+            <div class="box box7"><div></div></div>
+            <div class="ground"><div></div></div>
+        </div>
+
+        <div class="mt-16 text-center z-10">
+            <p class="text-xs font-mono text-blue-400 uppercase tracking-[0.3em] animate-pulse">Desplegando Ecosistema VIP...</p>
+            <p class="text-[10px] text-slate-500 mt-2 font-mono">Ensamblando perfil inteligente</p>
+        </div>
+    </div>
+
+    <!-- ==============================================
+         CONTENEDOR PRINCIPAL DE LA APP
+         ============================================== -->
     <main id="app-container" class="relative w-full min-h-screen flex items-center justify-center p-4 opacity-0 hidden transition-opacity duration-1000">
         
-        <!-- ==============================================
-             VISTA 1: LOGIN (Usuario NO autenticado)
-             ============================================== -->
+        <!-- VISTA 1: LOGIN -->
         <div id="login-view" class="w-full max-w-md hidden">
-            <!-- Botón volver (opcional) -->
+            <!-- Botón volver -->
             <a href="index.html" class="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-wider transition-colors z-10">
                 <i class="fa-solid fa-arrow-left"></i> Inicio
             </a>
 
             <div class="glass-card rounded-3xl p-8 md:p-10 text-center relative overflow-hidden">
-                <!-- Resplandor de fondo interno -->
                 <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-[50px] pointer-events-none"></div>
                 <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/20 rounded-full blur-[50px] pointer-events-none"></div>
                 
@@ -378,9 +173,8 @@
                     <img src="logo.png" alt="CV Studio33" class="h-14 mx-auto mb-6 opacity-90 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
                     
                     <h1 class="text-2xl md:text-3xl font-heading font-black text-white mb-2 tracking-tight">Portal de Empleo</h1>
-                    <p class="text-sm text-slate-400 mb-8 font-light">Identidad verificada. Conecte su ecosistema profesional a nuestra Inteligencia Artificial.</p>
+                    <p class="text-sm text-slate-400 mb-8 font-light">Identidad verificada. Conecte su ecosistema profesional a nuestra IA.</p>
                     
-                    <!-- Botón de Google Login -->
                     <button id="btn-google-login" class="google-btn w-full flex items-center justify-center gap-4 py-3.5 px-6 rounded-xl font-bold text-sm">
                         <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -391,30 +185,26 @@
                         <span>Continuar con Google</span>
                     </button>
 
-                    <!-- Mensaje de Error (Oculto por defecto) -->
                     <div id="login-error" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs text-red-400 font-mono text-left"></div>
 
-                    <!-- Acuerdos Legales (Enterprise) -->
+                    <!-- Acuerdos Legales -->
                     <div class="mt-8 pt-6 border-t border-white/10 text-[10px] md:text-xs text-slate-500 leading-relaxed">
                         Al autenticarse, usted confirma que ha leído, comprendido y aceptado incondicionalmente nuestro 
-                        <a href="legal.html" class="text-blue-400 hover:text-blue-300 underline underline-offset-2">Acuerdo de Nivel de Servicio (SLA)</a>, nuestra 
-                        <a href="politica-de-privacidad.html" class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">Política de Privacidad</a> y la 
-                        <a href="politica-de-cookies.html" class="text-amber-400 hover:text-amber-300 underline underline-offset-2">Política de Almacenamiento Local</a>.
+                        <a href="legal.html" class="text-blue-400 hover:text-blue-300 underline underline-offset-2">SLA</a>, 
+                        <a href="politica-de-privacidad.html" class="text-emerald-400 hover:text-emerald-300 underline underline-offset-2">Privacidad</a> y 
+                        <a href="politica-de-cookies.html" class="text-amber-400 hover:text-amber-300 underline underline-offset-2">Cookies</a>.
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ==============================================
-             VISTA 2: PERFIL / DASHBOARD (Usuario Autenticado)
-             ============================================== -->
+        <!-- VISTA 2: PERFIL / DASHBOARD -->
         <div id="profile-view" class="w-full max-w-5xl hidden flex-col md:flex-row gap-6">
             
             <!-- Tarjeta de Identidad -->
             <div class="glass-card rounded-2xl p-6 md:p-8 w-full md:w-1/3 flex flex-col items-center text-center relative overflow-hidden h-fit">
                 <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-blue-600/20 to-purple-600/20"></div>
                 
-                <!-- Foto de Perfil -->
                 <div class="relative z-10 w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-purple-500 mb-4 mt-8 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                     <img id="user-photo" src="" alt="Profile" class="w-full h-full rounded-full object-cover border-2 border-[#020617] bg-slate-800">
                 </div>
@@ -436,7 +226,6 @@
 
             <!-- Panel de Control (Mockup Dashboard) -->
             <div class="w-full md:w-2/3 flex flex-col gap-6">
-                <!-- Header del Dashboard -->
                 <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h3 class="text-2xl font-heading font-black text-white">Central de Comando</h3>
@@ -445,10 +234,8 @@
                     <img src="logo.png" alt="Logo" class="h-8 opacity-50 filter grayscale">
                 </div>
 
-                <!-- Grid de Estadísticas / Herramientas -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                    
-                    <!-- Bóveda de CVs -->
+                    <!-- Bóveda -->
                     <div class="glass-card rounded-2xl p-6 border-l-4 border-l-blue-500 hover:-translate-y-1 transition-transform cursor-pointer">
                         <div class="flex justify-between items-start mb-4">
                             <div class="p-3 rounded-lg bg-blue-500/10 text-blue-400"><i class="fa-solid fa-file-pdf text-xl"></i></div>
@@ -458,7 +245,7 @@
                         <p class="text-xs text-slate-400">Acceda a sus borradores guardados en caché y PDFs finales.</p>
                     </div>
 
-                    <!-- Billetera NYX -->
+                    <!-- IA -->
                     <div class="glass-card rounded-2xl p-6 border-l-4 border-l-purple-500 hover:-translate-y-1 transition-transform cursor-pointer">
                         <div class="flex justify-between items-start mb-4">
                             <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400"><i class="fa-solid fa-brain-circuit text-xl"></i></div>
@@ -468,17 +255,16 @@
                         <p class="text-xs text-slate-400">Consultar saldo de tokens y ejecutar auditorías predictivas.</p>
                     </div>
 
-                    <!-- Distribution Hub -->
+                    <!-- Distribution -->
                     <div class="glass-card rounded-2xl p-6 border-l-4 border-l-amber-500 sm:col-span-2 hover:-translate-y-1 transition-transform cursor-pointer">
                         <div class="flex items-center gap-4">
                             <div class="p-4 rounded-full bg-amber-500/10 text-amber-400"><i class="fa-solid fa-rocket text-2xl"></i></div>
                             <div>
                                 <h4 class="text-lg font-bold text-white mb-1">Distribution Hub VIP</h4>
-                                <p class="text-xs text-slate-400">Configure los bots de envío masivo para el mercado oculto. (Requiere Plan Avanzado)</p>
+                                <p class="text-xs text-slate-400">Configure los bots de envío masivo para el mercado oculto.</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -486,14 +272,12 @@
     </main>
 
     <!-- ==============================================
-         LÓGICA DE FIREBASE Y UI
+         LÓGICA DE FIREBASE Y TRANSICIONES
          ============================================== -->
-    <!-- Importar Firebase Modular SDK desde CDN -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // 1. Configuración proporcionada por el usuario
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
             authDomain: "cv-studio33.firebaseapp.com",
@@ -504,17 +288,14 @@
             appId: "1:189453088234:web:639c130a6287ff34122e93"
         };
 
-        // 2. Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-        
-        // Solicitar información extra si es necesario (opcional)
         provider.addScope('profile');
         provider.addScope('email');
 
-        // Elementos de la UI
         const preloader = document.getElementById('preloader');
+        const postLoginLoader = document.getElementById('post-login-loader');
         const appContainer = document.getElementById('app-container');
         const loginView = document.getElementById('login-view');
         const profileView = document.getElementById('profile-view');
@@ -523,82 +304,89 @@
         const btnLogout = document.getElementById('btn-logout');
         const errorDiv = document.getElementById('login-error');
 
-        // Elementos del Perfil
         const uName = document.getElementById('user-name');
         const uEmail = document.getElementById('user-email');
         const uPhoto = document.getElementById('user-photo');
 
-        // Control de Animación de Carga (Forzar mínimo 3.5 segundos para mostrar el logo y la laptop completa)
-        const MIN_LOAD_TIME = 3500; 
+        const MIN_MACBOOK_TIME = 3500; 
         const initTime = Date.now();
         let authStateResolved = false;
         let currentUser = null;
 
-        // Función para revelar la App
-        function transitionToApp() {
+        // Función auxiliar para llenar el perfil
+        function populateProfile(user) {
+            uName.textContent = user.displayName || 'Usuario';
+            uEmail.textContent = user.email;
+            uPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + (user.displayName || 'U') + '&background=0D8ABC&color=fff';
+        }
+
+        // Ejecuta la animación Post-Login (3D Box)
+        function triggerPostLoginAnimation(callback) {
+            // Oculta lo que esté en pantalla
+            appContainer.classList.add('hidden');
+            preloader.classList.add('hidden');
+            
+            // Muestra el 3D Box
+            postLoginLoader.classList.remove('hidden');
+            void postLoginLoader.offsetWidth; // reflow
+            postLoginLoader.style.opacity = '1';
+
+            // Esperar 4.5 segundos para que la animacion se aprecie
+            setTimeout(() => {
+                postLoginLoader.style.opacity = '0';
+                setTimeout(() => {
+                    postLoginLoader.classList.add('hidden');
+                    callback();
+                }, 700);
+            }, 4500);
+        }
+
+        // Transición inicial al cargar la página
+        function transitionInitial() {
             const elapsed = Date.now() - initTime;
-            const remaining = Math.max(0, MIN_LOAD_TIME - elapsed);
+            const remaining = Math.max(0, MIN_MACBOOK_TIME - elapsed);
 
             setTimeout(() => {
-                // Desvanecer preloader
                 preloader.style.opacity = '0';
-                
                 setTimeout(() => {
                     preloader.classList.add('hidden');
-                    appContainer.classList.remove('hidden');
                     
-                    // Configurar vista según estado
                     if (currentUser) {
-                        loginView.classList.add('hidden');
-                        profileView.classList.remove('hidden');
-                        profileView.classList.add('flex');
-                        
-                        // Llenar datos
-                        uName.textContent = currentUser.displayName || 'Usuario';
-                        uEmail.textContent = currentUser.email;
-                        uPhoto.src = currentUser.photoURL || 'https://ui-avatars.com/api/?name=' + (currentUser.displayName || 'U') + '&background=0D8ABC&color=fff';
+                        // Usuario ya logueado al recargar la página -> Animación 3D Box -> Perfil
+                        triggerPostLoginAnimation(() => {
+                            loginView.classList.add('hidden');
+                            profileView.classList.remove('hidden');
+                            profileView.classList.add('flex');
+                            populateProfile(currentUser);
+                            
+                            appContainer.classList.remove('hidden');
+                            void appContainer.offsetWidth;
+                            appContainer.style.opacity = '1';
+                        });
                     } else {
+                        // No logueado -> Mostrar Login
                         profileView.classList.add('hidden');
                         profileView.classList.remove('flex');
                         loginView.classList.remove('hidden');
+                        
+                        appContainer.classList.remove('hidden');
+                        void appContainer.offsetWidth;
+                        appContainer.style.opacity = '1';
                     }
-
-                    // Forzar reflow y desvanecer hacia adentro
-                    void appContainer.offsetWidth;
-                    appContainer.style.opacity = '1';
-
-                }, 700); // Tiempo del CSS transition-opacity duration-700
+                }, 700); 
             }, remaining);
         }
 
-        // 3. Listener de Estado de Autenticación
+        // Listener de Estado
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (!authStateResolved) {
                 authStateResolved = true;
-                transitionToApp();
-            } else {
-                // Si cambia el estado después de cargar (ej. login exitoso)
-                appContainer.style.opacity = '0';
-                setTimeout(() => {
-                    if (user) {
-                        loginView.classList.add('hidden');
-                        profileView.classList.remove('hidden');
-                        profileView.classList.add('flex');
-                        uName.textContent = user.displayName;
-                        uEmail.textContent = user.email;
-                        uPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + user.displayName + '&background=0D8ABC&color=fff';
-                    } else {
-                        profileView.classList.add('hidden');
-                        profileView.classList.remove('flex');
-                        loginView.classList.remove('hidden');
-                    }
-                    appContainer.style.opacity = '1';
-                }, 500);
+                transitionInitial();
             }
         });
 
-        // 4. Iniciar Sesión
+        // Login Manual
         btnLogin.addEventListener('click', async () => {
             errorDiv.classList.add('hidden');
             const originalText = btnLogin.innerHTML;
@@ -606,8 +394,25 @@
             btnLogin.disabled = true;
 
             try {
-                await signInWithPopup(auth, provider);
-                // El listener onAuthStateChanged hará la transición automáticamente
+                const result = await signInWithPopup(auth, provider);
+                currentUser = result.user;
+                
+                // Login Exitoso -> Desvanecer App Container (Login view)
+                appContainer.style.opacity = '0';
+                
+                setTimeout(() => {
+                    triggerPostLoginAnimation(() => {
+                        loginView.classList.add('hidden');
+                        profileView.classList.remove('hidden');
+                        profileView.classList.add('flex');
+                        populateProfile(currentUser);
+                        
+                        appContainer.classList.remove('hidden');
+                        void appContainer.offsetWidth;
+                        appContainer.style.opacity = '1';
+                    });
+                }, 1000);
+
             } catch (error) {
                 console.error("Error de Auth:", error);
                 errorDiv.textContent = `Error [${error.code}]: ${error.message}`;
@@ -617,7 +422,7 @@
             }
         });
 
-        // 5. Cerrar Sesión
+        // Logout
         btnLogout.addEventListener('click', async () => {
             const originalText = btnLogout.innerHTML;
             btnLogout.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cerrando...';
@@ -625,10 +430,28 @@
 
             try {
                 await signOut(auth);
-                // El listener hará la transición
+                // Cerrar sesión solo desvanece y muestra login de nuevo
+                appContainer.style.opacity = '0';
+                setTimeout(() => {
+                    profileView.classList.add('hidden');
+                    profileView.classList.remove('flex');
+                    loginView.classList.remove('hidden');
+                    
+                    btnLogin.innerHTML = `
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        <span>Continuar con Google</span>
+                    `;
+                    btnLogin.disabled = false;
+
+                    appContainer.style.opacity = '1';
+                }, 1000);
             } catch (error) {
                 console.error("Error al cerrar sesión:", error);
-            } finally {
                 btnLogout.innerHTML = originalText;
                 btnLogout.disabled = false;
             }
@@ -637,4 +460,3 @@
     </script>
 </body>
 </html>
-

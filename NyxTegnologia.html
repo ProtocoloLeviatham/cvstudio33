@@ -1,1209 +1,959 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio33</title>
-       <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Documentación Oficial | NYX Systems</title>
+    <meta name="theme-color" content="#0a0a0a">
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FilmShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/FilmPass.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        },
+                        surface: {
+                            50: '#171717',
+                            100: '#111111',
+                            200: '#0a0a0a',
+                        }
+                    }
+                }
+            }
+        }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-
+        // Base de Datos del Buscador Inteligente
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('searchDocs', () => ({
+                query: '',
+                open: false,
+                items: [
+                    { id: 'vision', title: 'Visión General', desc: 'Introducción al ecosistema NYX y la ventaja enorme.' },
+                    { id: 'arquitectura', title: 'Arquitectura Colmena (Hive Mind)', desc: 'Modelo base y funcionamiento descentralizado' },
+                    { id: 'arquitectura', title: 'Orquestación Multi-Motor', desc: 'Integración simultánea de IA' },
+                    { id: 'arquitectura', title: 'Validación Descentralizada', desc: 'Peer Review AI entre agentes' },
+                    { id: 'arquitectura', title: 'Sinergia Operativa', desc: 'Trabajo simultáneo de agentes' },
+                    { id: 'arquitectura', title: 'RAM NYX: Latencia Cero', desc: 'Memoria compartida en tiempo real' },
+                    { id: 'arquitectura', title: 'Persistencia Eidética', desc: 'Memoria a largo plazo y aprendizaje' },
+                    { id: 'arquitectura', title: 'Buffer de Inferencia', desc: 'Anticipación de respuestas' },
+                    { id: 'entrenamiento', title: 'Entrenamiento y Autoaprendizaje', desc: 'Capacidad de adaptación y evolución' },
+                    { id: 'entrenamiento', title: 'Patrones de Reclutamiento', desc: 'Análisis de decisiones corporativas' },
+                    { id: 'entrenamiento', title: 'Ingeniería de Selección (ATS)', desc: 'Evasión de filtros automatizados' },
+                    { id: 'entrenamiento', title: 'Optimización Evolutiva', desc: 'Crecimiento mediante el uso de tokens' },
+                    { id: 'entrenamiento', title: 'Semántica Persuasiva', desc: 'Estructuración de logros e impacto' },
+                    { id: 'entrenamiento', title: 'Black Box Data', desc: 'Mapas de calor y rastreo ocular (Eye-tracking)' },
+                    { id: 'entrenamiento', title: 'Feedback Loop Global', desc: 'Aprendizaje en red mundial' },
+                    { id: 'mirror-cv', title: 'Módulo: Mirror CV', desc: 'Reescritura inteligente de CV para ATS' },
+                    { id: 'mirror-cv', title: 'Módulo: Eye Training', desc: 'Predicción biométrica de atención visual' },
+                    { id: 'chrono-hub', title: 'Módulo: Chrono Hub', desc: 'Envío diario automatizado de perfiles' },
+                    { id: 'jobby-scout', title: 'Módulo: Jobby Scout', desc: 'Buscador de vacantes con data fresca' },
+                    { id: 'email-harvest', title: 'Módulo: EmailHarvest', desc: 'Extracción de emails de reclutadores' },
+                    { id: 'distribution-hub', title: 'Módulo: Distribution Hub', desc: 'Motor de envíos masivos con alta entrega' },
+                    { id: 'distribution-hub', title: 'Módulo: Ghost Tracking', desc: 'Análisis de aperturas y geolocalización' },
+                    { id: 'tokens', title: 'Economía de Tokens NYX', desc: 'Sistema de facturación y créditos' },
+                    { id: 'tokens', title: 'Plan Starter (5 Tokens)', desc: 'Plan básico de recarga' },
+                    { id: 'tokens', title: 'Plan Advanced (10 Tokens)', desc: 'Plan avanzado de recarga' },
+                    { id: 'tokens', title: 'Plan Pro Tier (20 Tokens)', desc: 'El plan más elegido' },
+                    { id: 'tokens', title: 'Plan Elite (50 Tokens)', desc: 'Plan élite corporativo' },
+                    { id: 'tokens', title: 'Suscripción Mensual', desc: 'Acceso ilimitado a tokens' },
+                    { id: 'recursos', title: 'Tabla de Uso de Recursos Operativos', desc: 'Costo por módulo y protocolo' },
+                    { id: 'roadmap', title: 'Laboratorio de Futuro: Roadmap', desc: 'Nuevas funciones en desarrollo Alfa' },
+                    { id: 'roadmap', title: 'Scheduler Pro', desc: 'Programación milimétrica por zonas horarias' },
+                    { id: 'roadmap', title: 'Video Intro Generador', desc: 'Creación de video presentación con clonación IA' },
+                    { id: 'roadmap', title: 'Leads Bridge', desc: 'Inyección en tableros Notion/Trello/HubSpot' },
+                    { id: 'roadmap', title: 'Bots Especializados', desc: 'Delegación total de aplicaciones y llenado de datos' }
+                ],
+                get filteredItems() {
+                    if (this.query.trim() === '') return [];
+                    const q = this.query.toLowerCase().trim();
+                    return this.items.filter(i => 
+                        i.title.toLowerCase().includes(q) || 
+                        i.desc.toLowerCase().includes(q)
+                    );
+                },
+                goTo(id) {
+                    this.open = false;
+                    this.query = '';
+                    
+                    // Si estamos en movil, cerramos el menu principal
+                    if (document.querySelector('[x-data="{ mobileMenuOpen: false }"]')) {
+                        // Dispatch event or just let it scroll
+                        window.dispatchEvent(new CustomEvent('close-mobile-menu'));
+                    }
+                    
+                    const el = document.getElementById(id);
+                    if (el) {
+                        const y = el.getBoundingClientRect().top + window.scrollY - 100; // Offset para el header fijo
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    }
+                }
+            }))
+        })
+    </script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050508;
-            color: #e2e8f0;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
         }
-
-        h1, h2, h3, .brand-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* Canvas Background */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Intro Overlay Container */
-        #intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 50;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-
-        .intro-text-slide {
-            position: absolute;
-            width: 100%;
-            max-width: 1200px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease-out;
-            padding: 0 20px;
-            text-shadow: 0 0 20px rgba(0,0,0,0.8);
-        }
-
-        .intro-text-slide.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scroll-indicator {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #a78bfa;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            animation: bounce 2s infinite;
-            opacity: 0.8;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
-        }
-
-        #intro-spacer {
-            height: 450vh; 
-            width: 100%;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Main Content Wrapper */
-        #main-content {
-            position: relative;
-            z-index: 20;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            margin-top: -100vh;
-            padding-top: 100vh;
-            pointer-events: none;
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+        
+        .glass-header {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         
-        #main-content.visible {
-            pointer-events: auto;
+        .doc-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
-
-        /* Glassmorphism Card Style */
-        .glass-card {
-            background: rgba(10, 8, 20, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(139, 92, 246, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px) scale(1.01);
+        .doc-card:hover {
             border-color: rgba(139, 92, 246, 0.4);
-            box-shadow: 0 20px 50px rgba(109, 40, 217, 0.15);
-        }
-
-        /* Special R&D Panel Style */
-        .rnd-card {
-            background: linear-gradient(135deg, rgba(8, 20, 30, 0.8) 0%, rgba(5, 5, 8, 0.9) 100%);
-            border: 1px solid rgba(6, 182, 212, 0.2);
-            box-shadow: 0 0 40px rgba(6, 182, 212, 0.05);
-        }
-        .rnd-card:hover {
-            border-color: rgba(6, 182, 212, 0.5);
-            box-shadow: 0 0 50px rgba(6, 182, 212, 0.15);
-        }
-        .rnd-title {
-            background: linear-gradient(90deg, #22d3ee, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tech-glow {
-            text-shadow: 0 0 30px rgba(167, 139, 250, 0.6);
+            background: #141414;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.1);
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #fff 10%, #a78bfa 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .bullet-point i {
-            filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.5));
+        .gradient-border {
+            position: relative;
+            background: #111111;
+            background-clip: padding-box;
+            border: 1px solid transparent;
+            border-radius: 12px;
+        }
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -1px;
+            border-radius: inherit;
+            background: linear-gradient(to bottom right, rgba(139, 92, 246, 0.5), rgba(255, 255, 255, 0.05));
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        /* --- BUSCADOR PROFESIONAL --- */
+        .cir-search {
+          display: none; /* CORRECCIÓN DEL ERROR DE CSS (era hidden) */
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          max-width: 320px;
+          height: 40px;
+          padding: 0 8px 0 16px;
+          background: #111111; 
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 999px;
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 18px 36px -22px rgba(0, 0, 0, 0.5);
+          transition: border-color 220ms ease, box-shadow 220ms ease;
+          position: relative;
         }
-        ::-webkit-scrollbar-track {
-            background: #050508;
+
+        @media (min-width: 768px) {
+            .cir-search { display: inline-flex; }
         }
-        ::-webkit-scrollbar-thumb {
-            background: #4c1d95;
-            border-radius: 3px;
+
+        /* Modificador para que se vea siempre en móviles (sidebar) */
+        .cir-search--mobile {
+            display: inline-flex !important;
+            max-width: 100%;
+        }
+
+        .cir-search__icon {
+          width: 16px;
+          height: 16px;
+          color: #8a93a3;
+          flex-shrink: 0;
+        }
+
+        .cir-search__field {
+          flex: 1;
+          min-width: 0;
+          border: 0;
+          outline: 0;
+          background: transparent;
+          font: inherit;
+          font-size: 13px;
+          color: #ffffff;
+        }
+
+        .cir-search__field::placeholder {
+          color: #5b6472;
+        }
+
+        .cir-search__kbd {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 24px;
+          padding: 0 8px;
+          background: #1a1a1a;
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 999px;
+        }
+
+        .cir-search:focus-within {
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2), 0 18px 36px -22px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modificadores para el Buscador del Hero (Más Grande) */
+        .cir-search--hero {
+            display: inline-flex;
+            max-width: 100%;
+            height: 56px;
+            padding: 0 12px 0 20px;
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        .cir-search--hero .cir-search__icon {
+            width: 20px;
+            height: 20px;
+        }
+        .cir-search--hero .cir-search__field {
+            font-size: 16px;
+        }
+        .cir-search--hero .cir-search__kbd {
+            height: 32px;
+            padding: 0 12px;
+        }
+
+        .brand-icon-list {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.4));
         }
         
-        .feature-icon {
-            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
-            border: 1px solid rgba(139, 92, 246, 0.1);
+        /* Resultados de búsqueda */
+        .search-results-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: #3f3f46 transparent;
         }
-
-        /* Token Card Special */
-        .token-card {
-            background: linear-gradient(180deg, rgba(20, 15, 40, 0.8) 0%, rgba(10, 8, 20, 0.9) 100%);
-            border: 1px solid rgba(139, 92, 246, 0.2);
+        .search-results-dropdown::-webkit-scrollbar {
+            width: 4px;
         }
-        .token-card:hover {
-            border-color: #a78bfa;
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
-        }
-        .best-value {
-            border: 1px solid #a78bfa;
-            box-shadow: 0 0 20px rgba(167, 139, 250, 0.15);
+        .search-results-dropdown::-webkit-scrollbar-thumb {
+            background-color: #3f3f46;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-violet-500 selection:text-white">
+<body class="antialiased" x-data="{ mobileMenuOpen: false }" @close-mobile-menu.window="mobileMenuOpen = false">
 
-    <div id="canvas-container"></div>
-
-    <div id="intro-overlay">
-        <div id="intro-text-1" class="intro-text-slide active">
-            <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">Bienvenido a la era de contratación <br><span class="text-violet-400">automatizada por IA</span></h2>
-            <div class="scroll-indicator">
-                <i class="ph-bold ph-caret-down"></i> DESLIZA PARA DESCUBRIR <i class="ph-bold ph-caret-down"></i>
-            </div>
-        </div>
-        <div id="intro-text-2" class="intro-text-slide">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Con nuestra tecnología laboral de punta <br>obtendrás una <span class="text-cyan-400">ventaja enorme</span></h2>
-            <div class="scroll-indicator">
-                <i class="ph-bold ph-caret-down"></i> SIGUE DESLIZANDO <i class="ph-bold ph-caret-down"></i>
-            </div>
-        </div>
-        <div id="intro-text-3" class="intro-text-slide">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Un sistema de inteligencia creado para <br>obtener los <span class="text-violet-400">mayores resultados laborales</span></h2>
-            <div class="scroll-indicator">
-                <i class="ph-bold ph-caret-down"></i> PROFUNDIZA MÁS <i class="ph-bold ph-caret-down"></i>
-            </div>
-        </div>
-        <div id="intro-text-4" class="intro-text-slide">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">La última ventaja competitiva en un <br><span class="text-violet-500">mercado laboral saturado</span></h2>
-            <div class="scroll-indicator">
-                <i class="ph-bold ph-caret-down"></i> YA CASI ESTÁS DENTRO <i class="ph-bold ph-caret-down"></i>
-            </div>
-        </div>
-        <div id="intro-text-5" class="intro-text-slide">
-            <h2 class="text-3xl md:text-6xl font-bold text-white mb-6">¿Qué estás esperando para probar esta <br><span class="gradient-text">tecnología innovadora?</span></h2>
-            <div class="scroll-indicator">
-                <i class="ph-bold ph-rocket-launch"></i> DESPEGA AHORA <i class="ph-bold ph-rocket-launch"></i>
-            </div>
-        </div>
-    </div>
-
-    <div id="skip-container" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end transition-all duration-500">
-        <span class="text-xs text-violet-300/80 font-mono mb-2 bg-black/60 px-3 py-1.5 rounded-md backdrop-blur-md border border-violet-500/30">
-            ¿Ya conoces el potencial de NYX?
-        </span>
-        <button id="skip-btn" class="group relative px-6 py-3 bg-violet-900/30 hover:bg-violet-600/50 border border-violet-500/50 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all overflow-hidden backdrop-blur-md shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] cursor-pointer pointer-events-auto">
-            <span class="relative z-10 flex items-center gap-2">
-                Omitir Presentación <i class="ph-bold ph-fast-forward text-lg"></i>
-            </span>
-            <div class="absolute inset-0 bg-violet-500/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-        </button>
-    </div>
-
-    <div id="intro-spacer"></div>
-
-    <div id="main-content">
-        <nav class="fixed w-full z-50 top-0 pt-6 px-6 pointer-events-none">
-            <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <a href="MateriaNyx.html" class="glass-card rounded-full px-8 py-3 pointer-events-auto flex items-center justify-center hover:bg-white/5 transition-all group border-violet-500/30 hover:border-violet-500">
-                    <img src="logonyx.png" alt="NYX 3D Logo" class="h-10 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(139,92,246,0.5)] group-hover:drop-shadow-[0_0_15px_rgba(139,92,246,0.8)] transition-all">
-                </a>
-                <button class="pointer-events-auto bg-violet-900/20 hover:bg-violet-600/20 border border-violet-500/50 text-violet-200 px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(124,58,237,0.2)] hover:shadow-[0_0_30px_rgba(124,58,237,0.4)] backdrop-blur-md">
-                    Acceso Beta v.2.4
+    <!-- Navbar / Header (Sticky) -->
+    <header class="fixed top-0 w-full z-50 glass-header" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-4">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 -ml-2 text-gray-400 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
                 </button>
+                <!-- Logotipo Restaurado a NYX.docs -->
+                <a href="#" class="flex items-center group flex-shrink-0">
+                    <img src="logo.png" alt="NYX Logo" class="h-7 w-auto object-contain mr-2">
+                    <span class="font-display font-bold text-xl tracking-tight text-white group-hover:text-brand-400 transition-colors hidden sm:block">NYX<span class="text-brand-500">.docs</span></span>
+                </a>
+            </div>
+
+            <!-- Buscador Header (Minimizado) con Alpine -->
+            <div class="flex-1 max-w-lg hidden md:flex justify-center px-4 relative" x-data="searchDocs">
+                <label class="cir-search" @click.away="open = false">
+                    <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.34-4.34"></path>
+                    </svg>
+                    <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Buscar documentación..." autocomplete="off" />
+                    <kbd class="cir-search__kbd">
+                        <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </kbd>
+                </label>
+                
+                <!-- Resultados Header -->
+                <div x-show="open && query.length > 0" x-cloak class="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-[400px] mt-2 bg-[#171717] border border-white/10 rounded-xl shadow-2xl max-h-80 overflow-y-auto z-50 search-results-dropdown">
+                    <template x-for="item in filteredItems" :key="item.title">
+                        <button @click="goTo(item.id)" class="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-brand-500/10 transition-colors flex flex-col group cursor-pointer">
+                            <span class="text-white font-semibold text-sm group-hover:text-brand-400" x-text="item.title"></span>
+                            <span class="text-gray-400 text-xs mt-0.5" x-text="item.desc"></span>
+                        </button>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="px-4 py-6 text-center text-gray-500 text-sm">
+                        No se encontraron módulos o guías para "<span x-text="query" class="text-gray-300"></span>"
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 flex-shrink-0">
+                <a href="panel-de-recarga-nyx.html" class="px-5 py-2.5 bg-white text-black text-xs md:text-sm font-bold rounded-lg hover:bg-gray-200 transition-colors shadow-lg whitespace-nowrap">
+                    Adquirir Tokens
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar Navigation -->
+    <div x-show="mobileMenuOpen" class="fixed inset-0 z-40 lg:hidden" style="display: none;">
+        <div x-show="mobileMenuOpen" x-transition.opacity class="fixed inset-0 bg-black/80 backdrop-blur-sm" @click="mobileMenuOpen = false"></div>
+        <nav x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="-translate-x-full"
+             class="fixed top-0 left-0 bottom-0 w-4/5 max-w-sm bg-surface-100 border-r border-white/10 pt-20 pb-10 px-6 overflow-y-auto shadow-2xl flex flex-col">
+            
+            <!-- Buscador Mobile -->
+            <div class="mb-8 relative" x-data="searchDocs">
+                <label class="cir-search cir-search--mobile">
+                    <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.34-4.34"></path></svg>
+                    <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Buscar..." autocomplete="off"/>
+                </label>
+                
+                <!-- Resultados Mobile -->
+                <div x-show="open && query.length > 0" x-cloak class="mt-2 bg-[#171717] border border-white/10 rounded-xl shadow-xl max-h-60 overflow-y-auto search-results-dropdown absolute w-full z-50 left-0 top-full">
+                    <template x-for="item in filteredItems" :key="item.title">
+                        <button @click="goTo(item.id)" class="w-full text-left px-3 py-2 border-b border-white/5 hover:bg-white/5 flex flex-col">
+                            <span class="text-white font-medium text-xs" x-text="item.title"></span>
+                        </button>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="p-3 text-center text-gray-500 text-xs">
+                        Sin resultados.
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6 flex-1">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Introducción</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#vision" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Visión General</a></li>
+                        <li><a href="#arquitectura" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Arquitectura Colmena</a></li>
+                        <li><a href="#entrenamiento" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Autoaprendizaje</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Módulos Core (Arsenal)</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#mirror-cv" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Mirror CV</a></li>
+                        <li><a href="#chrono-hub" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Chrono Hub</a></li>
+                        <li><a href="#jobby-scout" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Jobby Scout</a></li>
+                        <li><a href="#email-harvest" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">EmailHarvest</a></li>
+                        <li><a href="#distribution-hub" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Distribution Hub</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Facturación & Futuro</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#tokens" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Economía de Tokens</a></li>
+                        <li><a href="#recursos" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Uso de Recursos</a></li>
+                        <li><a href="#roadmap" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Roadmap Confidencial</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-white/5 pb-4">
+                 <a href="#" class="flex items-center group">
+                    <img src="logo.png" alt="NYX Logo" class="h-6 w-auto object-contain mr-2 opacity-50">
+                    <span class="font-display font-bold text-sm tracking-tight text-gray-500">NYX<span class="text-brand-500">.docs</span></span>
+                </a>
             </div>
         </nav>
+    </div>
 
-        <section class="relative min-h-screen flex items-center justify-center pt-32 px-4">
-            <div class="max-w-7xl mx-auto text-center z-10">
-                <div class="inline-flex items-center gap-2 mb-8 px-4 py-2 border border-violet-500/30 rounded-full bg-black/40 backdrop-blur-md">
-                    <div class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></div>
-                    <span class="text-violet-300 text-xs font-bold tracking-[0.2em] uppercase">Sistema de Inteligencia de Carrera</span>
+    <!-- Layout Principal Desktop/Mobile -->
+    <div class="max-w-[1400px] mx-auto pt-20 flex relative z-20">
+        
+        <!-- Sidebar Fija Desktop -->
+        <aside class="hidden lg:block w-64 shrink-0 fixed h-[calc(100vh-5rem)] overflow-y-auto border-r border-white/5 pt-10 pb-20 pr-6 pl-4 xl:pl-0">
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Introducción</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#vision" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Visión General</a></li>
+                        <li><a href="#arquitectura" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Arquitectura Colmena</a></li>
+                        <li><a href="#entrenamiento" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Autoaprendizaje</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Módulos Core (Arsenal)</h4>
+                    <ul class="space-y-2 border-l border-white/10 ml-2 pl-4">
+                        <li><a href="#mirror-cv" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Mirror CV</a></li>
+                        <li><a href="#chrono-hub" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Chrono Hub</a></li>
+                        <li><a href="#jobby-scout" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Jobby Scout</a></li>
+                        <li><a href="#email-harvest" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">EmailHarvest</a></li>
+                        <li><a href="#distribution-hub" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Distribution Hub</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Facturación & Futuro</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#tokens" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Economía de Tokens</a></li>
+                        <li><a href="#recursos" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Uso de Recursos</a></li>
+                        <li><a href="#roadmap" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Roadmap Confidencial</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="w-full lg:pl-72 xl:pl-80 pt-10 pb-24 px-4 sm:px-6">
+            
+            <!-- Hero / Introducción Documentación -->
+            <section id="vision" class="mb-20 pt-6 flex flex-col items-start">
+                
+                <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-brand-900/30 border border-brand-500/30">
+                    <img src="logo.png" class="w-3.5 h-3.5 object-contain" alt="">
+                    <span class="text-brand-300 text-xs font-bold tracking-wide uppercase">NYX V.2.0 • Sistema Operativo Laboral</span>
                 </div>
                 
-                <h1 class="text-6xl md:text-8xl font-bold mb-8 leading-tight tracking-tight">
-                    <span class="block text-white opacity-90">La Inteligencia Colmena</span>
-                    <span class="gradient-text tech-glow block mt-2">Que Redefine el Mercado.</span>
+                <h2 class="text-brand-400 font-display font-medium text-lg md:text-xl mb-3">Bienvenido a la era de contratación automatizada por IA.</h2>
+                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
+                    La Inteligencia Colmena <br class="hidden sm:block"/>
+                    <span class="gradient-text">Que Redefine el Mercado.</span>
                 </h1>
                 
-                <div class="glass-card p-10 md:p-14 rounded-3xl max-w-5xl mx-auto mb-12 border-l-4 border-l-violet-500 text-left md:text-center transform hover:scale-[1.01] transition-transform shadow-2xl bg-gradient-to-b from-violet-900/10 to-transparent">
-                    <p class="text-xl md:text-2xl text-gray-200 leading-relaxed font-light mb-6">
-                        <strong class="text-violet-400 font-bold">NYX</strong> no es simplemente un generador de CVs ni un bot de envíos automatizados; es una anomalía en el sistema. Representa el primer <span class="text-white font-medium border-b border-violet-500/50">Ecosistema de Inteligencia de Carrera Descentralizado</span> diseñado específicamente para penetrar las defensas algorítmicas del mercado laboral corporativo moderno.
+                <p class="text-gray-400 text-lg md:text-xl mb-10 max-w-3xl leading-relaxed">
+                    Con nuestra tecnología laboral de punta obtendrás una <strong class="text-white">ventaja enorme</strong>. Un sistema de inteligencia creado para obtener los mayores resultados, convirtiéndose en la última ventaja competitiva en un mercado laboral saturado. <strong class="text-brand-300">¿Qué estás esperando para probar esta tecnología innovadora?</strong>
+                </p>
+
+                <!-- BUSCADOR HERO (Principal y Grande) CON ALPINE JS -->
+                <div class="w-full max-w-2xl mb-14 relative z-30" x-data="searchDocs">
+                    <label class="cir-search cir-search--hero w-full" @click.away="open = false">
+                        <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.34-4.34"></path>
+                        </svg>
+                        <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Busca módulos, guías de instalación o estrategias (Ej. Mirror CV)..." autocomplete="off"/>
+                        <kbd class="cir-search__kbd hidden sm:inline-flex">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </kbd>
+                    </label>
+
+                    <!-- Resultados Dropdown Hero -->
+                    <div x-show="open && query.length > 0" x-cloak class="absolute top-full left-0 w-full mt-2 bg-[#171717] border border-white/10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] max-h-80 overflow-y-auto search-results-dropdown">
+                        <template x-for="item in filteredItems" :key="item.title">
+                            <button @click="goTo(item.id)" class="w-full text-left px-5 py-4 border-b border-white/5 hover:bg-brand-500/10 transition-colors flex flex-col group cursor-pointer">
+                                <span class="text-white font-bold text-base group-hover:text-brand-400" x-text="item.title"></span>
+                                <span class="text-gray-400 text-sm mt-1" x-text="item.desc"></span>
+                            </button>
+                        </template>
+                        <div x-show="filteredItems.length === 0" class="px-5 py-8 text-center text-gray-500 text-base">
+                            El módulo o término "<span x-text="query" class="text-gray-300 font-bold"></span>" no se encuentra en la base de datos NYX.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hook Persuasivo B2B -->
+                <div class="p-6 md:p-8 rounded-xl bg-[#111111] border border-brand-500/30 mb-8 shadow-2xl relative overflow-hidden w-full max-w-4xl">
+                    <div class="absolute top-0 right-0 p-8 opacity-5">
+                        <img src="logo.png" class="w-32 h-32" alt="">
+                    </div>
+                    <h3 class="text-white font-semibold text-xl mb-3 flex items-center gap-3 relative z-10">
+                        <img src="logo.png" class="w-5 h-5 object-contain filter drop-shadow-[0_0_8px_rgba(139,92,246,0.8)]" alt="">
+                        Deja de perder tiempo en procesos obsoletos
+                    </h3>
+                    <p class="text-gray-300 text-base leading-relaxed relative z-10">
+                        El 98% de los currículums son descartados por algoritmos en menos de 3 segundos. <strong class="text-brand-300">NYX invierte las probabilidades a tu favor.</strong> Mientras otros candidatos envían solicitudes manualmente rogando por una oportunidad, nuestra infraestructura despliega tu perfil optimizado directamente a los tomadores de decisiones, 24/7. <strong>Multiplica tus entrevistas. Minimiza tu esfuerzo.</strong>
                     </p>
-                    <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
+                </div>
+
+                <div class="prose prose-invert max-w-none text-gray-300 text-sm md:text-base leading-relaxed">
+                    <p class="mb-4">
+                        <strong class="text-white">NYX</strong> no es simplemente un generador de CVs ni un bot de envíos automatizados; es una anomalía en el sistema. Representa el primer <span class="border-b border-brand-500/50">Ecosistema de Inteligencia de Carrera Descentralizado</span> diseñado específicamente para penetrar las defensas algorítmicas del mercado laboral corporativo moderno.
+                    </p>
+                    <p>
                         En una era donde sistemas ATS opacos y algoritmos de filtrado deciden arbitrariamente quién trabaja y quién es descartado en milisegundos, NYX nace como una contramedida ofensiva. Utilizamos ingeniería inversa sobre los procesos de selección para devolverle el control absoluto y la ventaja táctica al candidato. No pedimos oportunidades; las tomamos por asalto digital.
                     </p>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
-                    <a href="protocolonyx.html" class="inline-block group relative px-12 py-6 bg-white text-black font-bold text-lg rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.4)]">
-                        <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
-                            INICIAR PROTOCOLO NYX <i class="ph-bold ph-caret-right text-xl"></i>
-                        </span>
-                        <div class="absolute inset-0 bg-violet-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 relative z-20">
+                    <a href="protocolonyx.html" class="flex items-center justify-center gap-2 bg-white text-black px-8 py-3.5 rounded-lg font-bold hover:bg-gray-200 transition-colors w-full sm:w-auto text-sm">
+                        Iniciar Protocolo NYX
                     </a>
-
-                    <a href="Axon.html" class="inline-block group relative px-10 py-5 bg-black border border-green-500/50 text-green-400 font-bold text-sm rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.2)] hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]">
-                        <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
-                            <i class="ph-bold ph-brain text-lg"></i> PRUEBA NUESTRA TECNOLOGÍA AXON
-                        </span>
-                        <div class="absolute inset-0 bg-green-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                    <a href="Axon.html" class="flex items-center justify-center gap-2 bg-surface-100 border border-gray-700 text-white px-8 py-3.5 rounded-lg font-bold hover:border-gray-500 transition-colors w-full sm:w-auto text-sm">
+                        Prueba Tecnología AXON
                     </a>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-32 px-4 relative">
-            <div class="max-w-7xl mx-auto">
-                <div class="mb-20 border-l-4 border-violet-600 pl-8 py-2">
-                    <h2 class="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">Arquitectura de <span class="text-violet-400 tech-glow">Modelo Colmena (Hive Mind)</span></h2>
-                    <p class="text-xl text-gray-400 max-w-4xl leading-relaxed">
-                        A diferencia de las IAs convencionales monolíticas que dependen de un solo cerebro centralizado y limitado, NYX opera bajo un Modelo Colmena dinámico. Nuestra arquitectura no solo procesa datos estáticos; orquesta múltiples inteligencias en un flujo continuo de optimización.
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
-                        <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
-                            <i class="ph-fill ph-circuitry text-4xl text-violet-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Orquestación Multi-Motor</h3>
-                        <p class="text-gray-400 leading-relaxed text-sm flex-grow">
-                            Nuestra arquitectura integra simultáneamente los motores más potentes del mundo, incluyendo <span class="text-white font-medium">OpenAI, Google Gemini y Pollinations</span>. No dependemos de una sola fuente de verdad susceptible a alucinaciones; sintetizamos la mejor respuesta posible triangulando datos de múltiples supermodelos para obtener una precisión quirúrgica.
-                        </p>
-                    </div>
-                    <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
-                        <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
-                            <i class="ph-fill ph-gavel text-4xl text-violet-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Validación Descentralizada</h3>
-                        <p class="text-gray-400 leading-relaxed text-sm flex-grow">
-                            Esta estructura permite que cada decisión crítica —desde la redacción de una palabra clave de alto impacto hasta la elección de un horario de envío estratégico— sea validada por múltiples agentes especializados que trabajan en conjunto ("Peer Review AI") para garantizar la máxima eficacia estadística y reducir el margen de error a cero.
-                        </p>
-                    </div>
-                    <div class="glass-card p-8 rounded-2xl h-full flex flex-col group">
-                        <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors">
-                            <i class="ph-fill ph-strategy text-4xl text-violet-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Sinergia Operativa</h3>
-                        <p class="text-gray-400 leading-relaxed text-sm flex-grow">
-                            Mientras un agente analiza la cultura profunda de la empresa, otro optimiza la sintaxis para pasar los filtros ATS y un tercero calcula la probabilidad de apertura del correo basándose en datos históricos. El resultado es una estrategia de ataque laboral cohesiva, multidimensional e impenetrable.
-                        </p>
+            <hr class="border-white/5 my-16" />
+
+            <!-- Arquitectura de Modelo Colmena -->
+            <section id="arquitectura" class="mb-20">
+                <h2 class="font-display text-2xl md:text-3xl font-bold mb-4 text-white flex items-center gap-3">
+                    <img src="logo.png" class="w-6 h-6 object-contain" alt="">
+                    Arquitectura de <span class="text-brand-400">Modelo Colmena (Hive Mind)</span>
+                </h2>
+                <p class="text-gray-400 mb-10 leading-relaxed text-sm md:text-base">
+                    A diferencia de las IAs convencionales monolíticas que dependen de un solo cerebro centralizado y limitado, NYX opera bajo un Modelo Colmena dinámico. Nuestra arquitectura no solo procesa datos estáticos; orquesta múltiples inteligencias en un flujo continuo de optimización.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2">Orquestación Multi-Motor</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Nuestra arquitectura integra simultáneamente los motores más potentes del mundo, incluyendo <strong class="text-white font-medium">OpenAI, Google Gemini y Pollinations</strong>. No dependemos de una sola fuente de verdad susceptible a alucinaciones; sintetizamos la mejor respuesta posible triangulando datos de múltiples supermodelos para obtener una precisión quirúrgica.</p>
                     </div>
 
-                    <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-3 opacity-20">
-                            <i class="ph-duotone ph-memory text-8xl text-violet-500"></i>
-                        </div>
-                        <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors relative z-10">
-                            <i class="ph-fill ph-cpu text-4xl text-violet-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-4 relative z-10">RAM NYX: Latencia Cero</h3>
-                        <p class="text-gray-400 leading-relaxed text-sm flex-grow relative z-10">
-                            Implementación de memoria de corto plazo de alta velocidad. Los agentes comparten contexto en tiempo real sin cuellos de botella. La "Memoria Operativa NYX" permite que la adaptación del CV y el cuerpo del correo se generen en el mismo ciclo de reloj, asegurando coherencia narrativa absoluta.
-                        </p>
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2">Validación Descentralizada</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Esta estructura permite que cada decisión crítica —desde la redacción de una palabra clave de alto impacto hasta la elección de un horario de envío estratégico— sea validada por múltiples agentes especializados que trabajan en conjunto ("Peer Review AI") para garantizar la máxima eficacia estadística y reducir el margen de error a cero.</p>
                     </div>
-                    <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-3 opacity-20">
-                            <i class="ph-duotone ph-hard-drives text-8xl text-violet-500"></i>
-                        </div>
-                        <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors relative z-10">
-                            <i class="ph-fill ph-brain text-4xl text-violet-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Persistencia Eidética</h3>
-                        <p class="text-gray-400 leading-relaxed text-sm flex-grow relative z-10">
-                            NYX recuerda cada interacción pasada, cada rechazo y cada éxito. Esta memoria a largo plazo permite refinar estrategias futuras para el mismo usuario, evitando errores repetitivos y aprendiendo qué tono de voz funciona mejor para industrias específicas.
-                        </p>
+
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2">Sinergia Operativa</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Mientras un agente analiza la cultura profunda de la empresa, otro optimiza la sintaxis para pasar los filtros ATS y un tercero calcula la probabilidad de apertura del correo basándose en datos históricos. El resultado es una estrategia de ataque laboral cohesiva, multidimensional e impenetrable.</p>
                     </div>
-                    <div class="glass-card p-8 rounded-2xl h-full flex flex-col group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-3 opacity-20">
-                            <i class="ph-duotone ph-lightning text-8xl text-violet-500"></i>
-                        </div>
-                        <div class="mb-6 p-4 bg-violet-900/20 w-fit rounded-xl border border-violet-500/30 group-hover:border-violet-500 transition-colors relative z-10">
-                            <i class="ph-fill ph-share-network text-4xl text-violet-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Buffer de Inferencia</h3>
-                        <p class="text-gray-400 leading-relaxed text-sm flex-grow relative z-10">
-                            Algoritmos predictivos que cargan respuestas probables antes de que el reclutador termine de leer. NYX utiliza un buffer de anticipación para estructurar la información del candidato de tal manera que responde a las dudas del reclutador en el orden exacto en que surgen mentalmente.
-                        </p>
+
+                    <div class="doc-card p-6 border-brand-500/30">
+                        <h3 class="text-lg font-semibold text-brand-300 mb-2">RAM NYX: Latencia Cero</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Implementación de memoria de corto plazo de alta velocidad. Los agentes comparten contexto en tiempo real sin cuellos de botella. La "Memoria Operativa NYX" permite que la adaptación del CV y el cuerpo del correo se generen en el mismo ciclo de reloj, asegurando coherencia narrativa absoluta.</p>
+                    </div>
+                    
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2">Persistencia Eidética</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">NYX recuerda cada interacción pasada, cada rechazo y cada éxito. Esta memoria a largo plazo permite refinar estrategias futuras para el mismo usuario, evitando errores repetitivos y aprendiendo qué tono de voz funciona mejor para industrias específicas.</p>
+                    </div>
+
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2">Buffer de Inferencia</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Algoritmos predictivos que cargan respuestas probables antes de que el reclutador termine de leer. NYX utiliza un buffer de anticipación para estructurar la información del candidato de tal manera que responde a las dudas del reclutador en el orden exacto en que surgen mentalmente.</p>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-20 px-4">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-bold mb-10 text-center">Entrenamiento y <span class="gradient-text">Autoaprendizaje de Élite</span></h2>
-                <div class="glass-card p-8 rounded-2xl mb-12 border border-violet-500/20 bg-gradient-to-br from-black/80 to-violet-900/10">
-                    <p class="text-lg text-gray-300 text-center max-w-4xl mx-auto leading-relaxed">
+            <!-- Entrenamiento y Autoaprendizaje -->
+            <section id="entrenamiento" class="mb-20">
+                <h2 class="font-display text-2xl md:text-3xl font-bold mb-4 text-white">Entrenamiento y <span class="gradient-text">Autoaprendizaje de Élite</span></h2>
+                <div class="p-6 rounded-xl border border-white/10 bg-[#111111] mb-8">
+                    <p class="text-gray-300 text-sm md:text-base leading-relaxed">
                         NYX ha sido forjada mediante el procesamiento de bases de datos masivas y oscuras del sector de reclutamiento. No adivina; sabe. Su sistema de autoaprendizaje analiza el éxito de cada interacción, perfeccionando su capacidad de persuasión en tiempo real cada vez que un usuario consigue una entrevista.
                     </p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative p-8 glass-card rounded-xl h-full">
-                            <i class="ph-duotone ph-users-three text-4xl text-violet-400 mb-4"></i>
-                            <h3 class="text-xl font-bold mb-3">Patrones de Reclutamiento</h3>
-                            <p class="text-sm text-gray-400 leading-relaxed">
-                                Análisis profundo de miles de decisiones reales de reclutadores de alto nivel (Fortune 500). NYX replica los sesgos cognitivos que hacen que un humano diga "sí" a un candidato.
-                            </p>
-                        </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="border-l-2 border-brand-500 pl-4 py-1 bg-gradient-to-r from-brand-900/10 to-transparent">
+                        <h4 class="text-white font-semibold mb-1">Patrones de Reclutamiento</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">Análisis profundo de miles de decisiones reales de reclutadores de alto nivel (Fortune 500). NYX replica los sesgos cognitivos que hacen que un humano diga "sí" a un candidato.</p>
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative p-8 glass-card rounded-xl h-full">
-                            <i class="ph-duotone ph-funnel text-4xl text-violet-400 mb-4"></i>
-                            <h3 class="text-xl font-bold mb-3">Ingeniería de Selección (ATS)</h3>
-                            <p class="text-sm text-gray-400 leading-relaxed">
-                                Ingesta de bases de datos de sistemas ATS (Applicant Tracking Systems) como Workday y Taleo. Entendemos la lógica booleana interna para saber exactamente qué palabras activan la luz verde en los filtros automáticos.
-                            </p>
-                        </div>
+                    <div class="border-l-2 border-brand-500 pl-4 py-1 bg-gradient-to-r from-brand-900/10 to-transparent">
+                        <h4 class="text-white font-semibold mb-1">Ingeniería de Selección (ATS)</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">Ingesta de bases de datos de sistemas ATS (Applicant Tracking Systems) como Workday y Taleo. Entendemos la lógica booleana interna para saber exactamente qué palabras activan la luz verde en los filtros automáticos.</p>
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative p-8 glass-card rounded-xl h-full">
-                            <i class="ph-duotone ph-trend-up text-4xl text-violet-400 mb-4"></i>
-                            <h3 class="text-xl font-bold mb-3">Optimización Evolutiva</h3>
-                            <p class="text-sm text-gray-400 leading-relaxed">
-                                Cada vez que se utiliza un token para procesar una solicitud, NYX se vuelve más inteligente. Es un organismo vivo de datos que se adapta a las tendencias cambiantes del mercado laboral semanalmente.
-                            </p>
-                        </div>
+                    <div class="border-l-2 border-brand-500 pl-4 py-1 bg-gradient-to-r from-brand-900/10 to-transparent">
+                        <h4 class="text-white font-semibold mb-1">Optimización Evolutiva</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">Cada vez que se utiliza un token para procesar una solicitud, NYX se vuelve más inteligente. Es un organismo vivo de datos que se adapta a las tendencias cambiantes del mercado laboral semanalmente.</p>
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative p-8 glass-card rounded-xl h-full">
-                            <i class="ph-duotone ph-translate text-4xl text-violet-400 mb-4"></i>
-                            <h3 class="text-xl font-bold mb-3">Semántica Persuasiva</h3>
-                            <p class="text-sm text-gray-400 leading-relaxed">
-                                Modelado de lenguaje entrenado no solo para informar, sino para vender. NYX estructura tus logros utilizando verbos de acción y métricas de impacto que psicológicamente elevan el perfil percibido.
-                            </p>
-                        </div>
+                    <div class="border-l-2 border-brand-500 pl-4 py-1 bg-gradient-to-r from-brand-900/10 to-transparent">
+                        <h4 class="text-white font-semibold mb-1">Semántica Persuasiva</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">Modelado de lenguaje entrenado no solo para informar, sino para vender. NYX estructura tus logros utilizando verbos de acción y métricas de impacto que psicológicamente elevan el perfil percibido.</p>
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative p-8 glass-card rounded-xl h-full">
-                            <i class="ph-duotone ph-database text-4xl text-violet-400 mb-4"></i>
-                            <h3 class="text-xl font-bold mb-3">Black Box Data</h3>
-                            <p class="text-sm text-gray-400 leading-relaxed">
-                                Acceso a métricas de "tiempo de lectura" y "puntos de calor" en CVs exitosos. Sabemos en qué parte de la hoja se detiene el ojo del reclutador y optimizamos el diseño para capturar esa atención en 3 segundos.
-                            </p>
-                        </div>
+                    <div class="border-l-2 border-brand-500 pl-4 py-1 bg-gradient-to-r from-brand-900/10 to-transparent">
+                        <h4 class="text-white font-semibold mb-1">Black Box Data</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">Acceso a métricas de "tiempo de lectura" y "puntos de calor" en CVs exitosos. Sabemos en qué parte de la hoja se detiene el ojo del reclutador y optimizamos el diseño para capturar esa atención en 3 segundos.</p>
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                        <div class="relative p-8 glass-card rounded-xl h-full">
-                            <i class="ph-duotone ph-graph text-4xl text-violet-400 mb-4"></i>
-                            <h3 class="text-xl font-bold mb-3">Feedback Loop Global</h3>
-                            <p class="text-sm text-gray-400 leading-relaxed">
-                                Una red neuronal que conecta los resultados de miles de usuarios. Si una estrategia funciona en Nueva York para finanzas, se adapta instantáneamente para un usuario en Londres en el mismo sector.
-                            </p>
-                        </div>
+                    <div class="border-l-2 border-brand-500 pl-4 py-1 bg-gradient-to-r from-brand-900/10 to-transparent">
+                        <h4 class="text-white font-semibold mb-1">Feedback Loop Global</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">Una red neuronal que conecta los resultados de miles de usuarios. Si una estrategia funciona en Nueva York para finanzas, se adapta instantáneamente para un usuario en Londres en el mismo sector.</p>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-24 px-4 bg-black/30">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-5xl md:text-6xl font-bold mb-20 text-center">El Arsenal de <span class="text-violet-500 tech-glow">Dominación</span></h2>
-                
-                <div class="space-y-16">
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
-                                    <i class="ph-fill ph-mask-happy text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">Mirror CV</h3>
-                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Tecnología de Optimización Camaleónica</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    Utilizando agentes de la colmena, NYX analiza la descripción de la vacante, el sitio web y la cultura profunda de la empresa objetivo. Automáticamente, reescribe y adapta tus habilidades para que coincidan con precisión quirúrgica con lo que el algoritmo de búsqueda de la empresa está programado para encontrar. No mentimos; traducimos tu experiencia y logros al dialecto corporativo exacto que el reclutador necesita oír para validar su decisión de contratación.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Análisis semántico de cultura corporativa profunda.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Reescritura de Keywords y verbos de acción.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Alineación psicológica de "Soft Skills".</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Formato estructural compatible con ATS (ISO).</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Generación de múltiples versiones dinámicas.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Inyección de "Invisible Text" para indexación.</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <hr class="border-white/5 my-16" />
 
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 blur-[50px] rounded-full"></div>
-                        <div class="flex flex-col lg:flex-row gap-10 relative z-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)] bg-violet-900/20">
-                                    <i class="ph-fill ph-clock-countdown text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">Chrono Pulse</h3>
-                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Envío Diario Automatizado</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    A diferencia de los envíos masivos únicos, Chrono Pulse es un sistema de persistencia programada. NYX envía tu solicitud diariamente a todas las empresas seleccionadas, manteniendo una puntualidad exacta para aparecer siempre al tope de la bandeja de entrada. Soporta el envío conjunto de <strong>Video Presentación, Carta de Presentación y CV</strong> en un mismo paquete encriptado, incrementando drásticamente el % de entrevista.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Persistencia diaria automatizada.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Soporte Multi-MIME (Video/PDF/Docx).</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Análisis de tasa de rebote en tiempo real.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Priorización de "Hora Dorada" (9:00 AM).</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Rotación de asuntos para evitar fatiga.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Reporte semanal de impacto acumulado.</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-cyan-300 mb-6 shadow-[0_0_40px_rgba(34,211,238,0.2)] bg-cyan-900/20">
-                                    <i class="ph-fill ph-binoculars text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">Jobby Scout</h3>
-                                <p class="text-cyan-400 font-mono text-sm tracking-wider uppercase mb-4">Motor de Búsqueda Fresh-Data</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    Un motor de inteligencia de mercado diseñado para cazar oportunidades frescas. Tú defines el trabajo soñado, sector y puesto; NYX despliega "Scouts" digitales que extraen las vacantes <strong>MÁS NUEVAS</strong> (menos de 2 horas de publicación) a través de APIs privadas, cargando los datos limpios directamente a tu base de objetivos. Elimina la competencia llegando antes que nadie.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Filtrado de vacantes < 2 horas de antigüedad.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Eliminación de ofertas duplicadas o fantasma.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Extracción de rangos salariales ocultos.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Detección de oportunidades "Remote-First".</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Carga automática a Distribution Hub.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-cyan-500 text-xl"></i><span>Alertas de vacantes "Stealth".</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
-                                    <i class="ph-fill ph-crosshair text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">EmailHarvest</h3>
-                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Plugin de Extracción de Objetivos</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    Gracias a este plugin, el usuario solo necesita ingresar un dominio corporativo. NYX despliega bots de reconocimiento (scrapers éticos avanzados) para extraer correos directos y verificados de los departamentos de contratación y jefes de área, saltándose los formularios genéricos ("careers@" o "info@") donde mueren la mayoría de las solicitudes y llegando directamente a la bandeja de entrada personal del tomador de decisiones real.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Escaneo profundo recursivo de dominios.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Validación SMTP "Handshake".</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Identificación de jerarquías organizacionales.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Evasión sistemática de portales genéricos.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Actualización diaria de bases de datos.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Predicción de patrón de correos.</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
-                                    <i class="ph-fill ph-paper-plane-tilt text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">Distribution Hub</h3>
-                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Músculo de Envío Masivo-Selectivo</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    Mediante la integración estratégica con infraestructuras de alto nivel como Resend y Mailrelay, NYX es capaz de gestionar más de 50,000 envíos mensuales. Esta tecnología asegura una tasa de entrega superior al 98%, utilizando protocolos anti-spam avanzados, rotación de IPs dedicadas y "envíos inteligentes" con pausas aleatorias que imitan a la perfección el comportamiento humano para evitar bloqueos por volumen excesivo.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Infraestructura Enterprise dedicada.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Tasa de entrega en Bandeja Principal >98%.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Simulación algorítmica humana.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Rotación inteligente de IPs.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Capacidad de carga escalable +50k.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Optimización horaria por zona.</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
-                                    <i class="ph-fill ph-eye text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">Ghost Tracking</h3>
-                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Inteligencia y Visualización en Tiempo Real</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    NYX está conectada a una red de agentes de lectura invisibles (píxeles de seguimiento indetectables). Sabrás en tiempo real qué empresa abrió tu correo, cuántas veces lo vio y desde qué ubicación geográfica exacta. Se acabó la incertidumbre del "silencio del reclutador". Tendrás métricas precisas y accionables para saber exactamente cuándo hacer seguimiento telefónico o re-enviar información.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Geolocalización precisa de apertura.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Conteo de re-aperturas y tiempo.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Detección de dispositivo (Móvil vs Escritorio).</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Notificaciones push instantáneas.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Dashboard de analíticas de conversión.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Detección de reenvío interno.</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-8 md:p-12 rounded-3xl border border-violet-500/10 hover:border-violet-500/30 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="lg:w-1/3">
-                                <div class="feature-icon h-24 w-24 rounded-2xl flex items-center justify-center text-violet-300 mb-6 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
-                                    <i class="ph-fill ph-scan text-5xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-bold text-white mb-2">Eye Training</h3>
-                                <p class="text-violet-400 font-mono text-sm tracking-wider uppercase mb-4">Predicción Biométrica de Atención</p>
-                            </div>
-                            <div class="lg:w-2/3">
-                                <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                                    Basado en estudios de 'eye-tracking' masivos, NYX predice con un 96% de precisión dónde mirarán los ojos del reclutador durante los primeros 6 segundos críticos de escaneo. El sistema reestructura visualmente el documento para colocar tus logros más impactantes exactamente en los "puntos calientes" (F-pattern y Z-pattern), asegurando que tu valor sea percibido antes de que el cerebro consciente del lector decida descartar.
-                                </p>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Mapeo de calor (Heatmap) predictivo.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Optimización patrones 'F' y 'Z'.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Jerarquización visual de métricas.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Control de espacios en blanco.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Anclaje de atención tipográfico.</span></div>
-                                    <div class="bullet-point flex items-center gap-3 text-gray-400"><i class="ph-bold ph-check text-violet-500 text-xl"></i><span>Test A/B de distribución visual.</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rnd-card p-10 md:p-14 rounded-3xl mt-12 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
-                        <div class="relative z-10 text-center mb-10">
-                            <h3 class="text-3xl md:text-4xl font-bold rnd-title mb-4">Laboratorio de Futuro: Roadmap Confidencial</h3>
-                            <p class="text-cyan-200/70 max-w-2xl mx-auto">
-                                Nuestro equipo de desarrollo trabaja sin descanso para evolucionar NYX. Estos son los módulos en fase de prueba Alfa que cambiarán el sistema laboral para siempre.
-                            </p>
-                        </div>
-                        <div class="grid md:grid-cols-3 gap-8">
-                            <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
-                                <div class="text-cyan-400 mb-3 text-2xl"><i class="ph-duotone ph-calendar-check"></i></div>
-                                <h4 class="text-lg font-bold text-white mb-2">Scheduler Pro</h4>
-                                <p class="text-sm text-gray-400 leading-relaxed">
-                                    Bots de análisis de zonas horarias y ubicación de sucursales. NYX detecta cuándo están activos los reclutadores en su web oficial y programa el envío del CV en el milisegundo exacto para aparecer primero.
-                                </p>
-                            </div>
-                            <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
-                                <div class="text-cyan-400 mb-3 text-2xl"><i class="ph-duotone ph-video-camera"></i></div>
-                                <h4 class="text-lg font-bold text-white mb-2">Video Intro Generador</h4>
-                                <p class="text-sm text-gray-400 leading-relaxed">
-                                    Integración de APIs de video IA. Toma la foto de tu CV y genera una presentación en video hiperrealista con tu voz clonada y un guion estratégicamente diseñado con lo que la empresa quiere oír.
-                                </p>
-                            </div>
-                            <div class="p-6 bg-black/40 rounded-xl border border-cyan-500/10 hover:border-cyan-500/30 transition-all">
-                                <div class="text-cyan-400 mb-3 text-2xl"><i class="ph-duotone ph-plugs-connected"></i></div>
-                                <h4 class="text-lg font-bold text-white mb-2">Leads Bridge</h4>
-                                <p class="text-sm text-gray-400 leading-relaxed">
-                                    Detecta si la empresa usa Notion, Trello o HubSpot. En lugar de enviar un mail, "inyecta" tu perfil directamente en sus tableros de gestión de talento, convirtiéndote en una ficha de candidato ya aprobada.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="mt-8 text-center border-t border-cyan-500/10 pt-6">
-                            <p class="text-xs text-cyan-500/50 font-mono uppercase tracking-widest">
-                                * Herramientas de alto impacto en desarrollo. El objetivo es un sistema justo y dominante para todos.
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section class="py-24 px-4 relative z-10">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white">Economía de <span class="text-violet-500 tech-glow">Tokens NYX</span></h2>
-                    <p class="text-gray-400 max-w-2xl mx-auto">
-                        Sistema de créditos descentralizado para la ejecución de tareas de inteligencia. Adquiere potencia de cómputo según tus necesidades estratégicas.
+            <!-- Arsenal de Dominación (Módulos Core) -->
+            <section class="mb-20">
+                <div class="mb-10">
+                    <h2 class="font-display text-3xl font-bold mb-4 text-white">El Arsenal de Dominación</h2>
+                    <p class="text-gray-400 text-sm max-w-2xl">
+                        Documentación técnica de los módulos core. <strong class="text-white">Alcanza un nivel de exposición que sería humanamente imposible.</strong> Duplica tu pipeline de oportunidades en la mitad de tiempo.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-20">
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
-                        <div>
-                            <div class="text-violet-400 font-mono text-sm mb-2">STARTER</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">5 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-violet-500/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$5.000</div>
+                <div class="space-y-12">
+                    <!-- Mirror CV -->
+                    <div id="mirror-cv" class="pt-8 border-t border-white/5">
+                        <h3 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                            <img src="logo.png" class="brand-icon-list" alt="">
+                            Mirror CV
+                        </h3>
+                        <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-4">Tecnología de Optimización Camaleónica</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            Utilizando agentes de la colmena, NYX analiza la descripción de la vacante, el sitio web y la cultura profunda de la empresa objetivo. Automáticamente, reescribe y adapta tus habilidades para que coincidan con precisión quirúrgica con lo que el algoritmo de búsqueda de la empresa está programado para encontrar. No mentimos; traducimos tu experiencia y logros al dialecto corporativo exacto que el reclutador necesita oír para validar su decisión de contratación.
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-3 mb-6">
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Análisis semántico de cultura corporativa profunda.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Reescritura de Keywords y verbos de acción.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Alineación psicológica de "Soft Skills".</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Formato estructural compatible con ATS (ISO).</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Generación de múltiples versiones dinámicas.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Inyección de "Invisible Text" para indexación.</li>
+                        </ul>
+                        
+                        <div class="bg-[#111111] border border-brand-500/10 p-4 rounded-lg mt-4 border-l-2 border-l-brand-500">
+                            <h4 class="text-sm font-bold text-white mb-2">Eye Training <span class="text-gray-500 font-normal text-xs">(Módulo Integrado)</span></h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Predicción Biométrica de Atención. Basado en estudios de 'eye-tracking' masivos, NYX predice con un 96% de precisión dónde mirarán los ojos del reclutador durante los primeros 6 segundos críticos de escaneo. Reestructura visualmente el documento para colocar tus logros más impactantes exactamente en los "puntos calientes" (F-pattern y Z-pattern).</p>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
-                        <div>
-                            <div class="text-violet-400 font-mono text-sm mb-2">ADVANCED</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">10 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-violet-500/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$10.000</div>
-                        </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Advanced%20de%2010%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
+
+                    <!-- Chrono Hub -->
+                    <div id="chrono-hub" class="pt-8 border-t border-white/5">
+                        <h3 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                            <img src="logo.png" class="brand-icon-list" alt="">
+                            Chrono Hub
+                        </h3>
+                        <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-4">Envío Diario Automatizado</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            A diferencia de los envíos masivos únicos, Chrono Hub es un sistema de persistencia programada. NYX envía tu solicitud diariamente a todas las empresas seleccionadas, manteniendo una puntualidad exacta para aparecer siempre al tope de la bandeja de entrada. Soporta el envío conjunto de <strong>Video Presentación, Carta de Presentación y CV</strong> en un mismo paquete encriptado, incrementando drásticamente el % de entrevista.
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-3 mb-6">
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Persistencia diaria automatizada.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Soporte Multi-MIME (Video/PDF/Docx).</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Análisis de tasa de rebote en tiempo real.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Priorización de "Hora Dorada" (9:00 AM).</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Rotación de asuntos para evitar fatiga.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Reporte semanal de impacto acumulado.</li>
+                        </ul>
                     </div>
-                    <div class="token-card best-value p-6 rounded-xl text-center flex flex-col justify-between group relative transform md:-translate-y-4 bg-violet-900/10">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-violet-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Más Elegido</div>
-                        <div>
-                            <div class="text-violet-300 font-mono text-sm mb-2">PRO TIER</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">20 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-violet-500/50 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$20.000</div>
-                        </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20Tier%20de%2020%20Tokens" target="_blank" class="block w-full mt-6 py-2 bg-violet-600 hover:bg-violet-500 rounded transition-all text-sm font-bold text-white shadow-[0_0_15px_rgba(124,58,237,0.4)]">ADQUIRIR</a>
+
+                    <!-- Jobby Scout -->
+                    <div id="jobby-scout" class="pt-8 border-t border-white/5">
+                        <h3 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                            <img src="logo.png" class="brand-icon-list filter hue-rotate-180" alt="">
+                            Jobby Scout
+                        </h3>
+                        <p class="text-cyan-400 font-mono text-xs tracking-wider uppercase mb-4">Motor de Búsqueda Fresh-Data</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            Un motor de inteligencia de mercado diseñado para cazar oportunidades frescas. Tú defines el trabajo soñado, sector y puesto; NYX despliega "Scouts" digitales que extraen las vacantes <strong>MÁS NUEVAS</strong> (menos de 2 horas de publicación) a través de APIs privadas, cargando los datos limpios directamente a tu base de objetivos. Elimina la competencia llegando antes que nadie.
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-3">
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Filtrado de vacantes < 2 horas de antigüedad.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Eliminación de ofertas duplicadas o fantasma.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Extracción de rangos salariales ocultos.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Detección de oportunidades "Remote-First".</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Carga automática a Distribution Hub.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Alertas de vacantes "Stealth".</li>
+                        </ul>
                     </div>
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group">
-                        <div>
-                            <div class="text-violet-400 font-mono text-sm mb-2">ELITE</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">50 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-violet-500/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$40.000</div>
-                        </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Elite%20de%2050%20Tokens" target="_blank" class="block w-full mt-6 py-2 border border-violet-500/50 rounded hover:bg-violet-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
+
+                    <!-- EmailHarvest -->
+                    <div id="email-harvest" class="pt-8 border-t border-white/5">
+                        <h3 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                            <img src="logo.png" class="brand-icon-list" alt="">
+                            EmailHarvest
+                        </h3>
+                        <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-4">Plugin de Extracción de Objetivos</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            Gracias a este plugin, el usuario solo necesita ingresar un dominio corporativo. NYX despliega bots de reconocimiento (scrapers éticos avanzados) para extraer correos directos y verificados de los departamentos de contratación y jefes de área, saltándose los formularios genéricos ("careers@" o "info@") donde mueren la mayoría de las solicitudes y llegando directamente a la bandeja de entrada personal del tomador de decisiones real.
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-3">
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Escaneo profundo recursivo de dominios.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Validación SMTP "Handshake".</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Identificación de jerarquías organizacionales.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Evasión sistemática de portales genéricos.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Actualización diaria de bases de datos.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Predicción de patrón de correos.</li>
+                        </ul>
                     </div>
-                    <div class="token-card p-6 rounded-xl text-center flex flex-col justify-between group border-white/20">
-                        <div>
-                            <div class="text-white font-mono text-sm mb-2">SUBSCRIPCIÓN</div>
-                            <h3 class="text-2xl font-bold text-white mb-2">PLAN <br>MENSUAL</h3>
-                            <div class="h-px w-full bg-white/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$33.000</div>
-                            <div class="text-xs text-gray-400 mt-2">Tokens Ilimitados*</div>
+
+                    <!-- Distribution Hub -->
+                    <div id="distribution-hub" class="pt-8 border-t border-white/5">
+                        <h3 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                            <img src="logo.png" class="brand-icon-list" alt="">
+                            Distribution Hub
+                        </h3>
+                        <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-4">Músculo de Envío Masivo-Selectivo</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            Mediante la integración estratégica con infraestructuras de alto nivel como Resend y Mailrelay, NYX es capaz de gestionar más de 50,000 envíos mensuales. Esta tecnología asegura una tasa de entrega superior al 98%, utilizando protocolos anti-spam avanzados, rotación de IPs dedicadas y "envíos inteligentes" con pausas aleatorias que imitan a la perfección el comportamiento humano para evitar bloqueos por volumen excesivo.
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-3 mb-6">
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Infraestructura Enterprise dedicada.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Tasa de entrega en Bandeja Principal >98%.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Simulación algorítmica humana.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Rotación inteligente de IPs.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Capacidad de carga escalable +50k.</li>
+                            <li class="flex items-start gap-2 text-gray-400 text-xs"><img src="logo.png" class="w-3 h-3 mt-0.5 object-contain opacity-70" alt=""> Optimización horaria por zona.</li>
+                        </ul>
+
+                        <div class="bg-[#111111] border border-brand-500/10 p-4 rounded-lg mt-4 border-l-2 border-l-brand-500">
+                            <h4 class="text-sm font-bold text-white mb-2">Ghost Tracking <span class="text-gray-500 font-normal text-xs">(Módulo General Integrado)</span></h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Inteligencia y Visualización en Tiempo Real. NYX está conectada a una red de agentes de lectura invisibles (píxeles de seguimiento indetectables). Sabrás en tiempo real qué empresa abrió tu correo, cuántas veces lo vio y desde qué ubicación geográfica exacta.</p>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripción%20Mensual" target="_blank" class="block w-full mt-6 py-2 bg-white text-black hover:bg-gray-200 rounded transition-all text-sm font-bold">SUSCRIBIRSE</a>
+                    </div>
+
+                </div>
+            </section>
+
+            <hr class="border-white/5 my-16" />
+
+            <!-- Economía de Tokens y Facturación -->
+            <section id="tokens" class="mb-20">
+                <div class="mb-10">
+                    <h2 class="font-display text-3xl font-bold mb-4 text-white flex items-center gap-3">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="">
+                        Economía de Tokens NYX
+                    </h2>
+                    <p class="text-gray-400 text-sm max-w-2xl leading-relaxed">
+                        Sistema de créditos descentralizado para la ejecución de tareas de inteligencia. Adquiere potencia de cómputo según tus necesidades estratégicas y <strong>acelera tu contratación hoy mismo</strong>. Una pequeña inversión que se paga sola con tu primer mes de salario en la empresa de tus sueños.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
+                    <!-- Starter -->
+                    <div class="doc-card p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-brand-400 font-mono text-xs font-semibold tracking-wider uppercase bg-brand-500/10 px-2 py-1 rounded">Starter</span>
+                            <div class="mt-4 flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-white">5</span>
+                                <span class="text-gray-500 text-sm">Tokens</span>
+                            </div>
+                            <div class="text-lg font-semibold text-white mt-2">$5.000</div>
+                        </div>
+                        <a href="panel-de-recarga-nyx.html" class="block w-full text-center mt-6 py-2 rounded-lg bg-surface-50 border border-white/10 hover:bg-white/5 text-sm font-semibold text-white transition-colors">Seleccionar Plan</a>
+                    </div>
+
+                    <!-- Advanced -->
+                    <div class="doc-card p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-brand-400 font-mono text-xs font-semibold tracking-wider uppercase bg-brand-500/10 px-2 py-1 rounded">Advanced</span>
+                            <div class="mt-4 flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-white">10</span>
+                                <span class="text-gray-500 text-sm">Tokens</span>
+                            </div>
+                            <div class="text-lg font-semibold text-white mt-2">$10.000</div>
+                        </div>
+                        <a href="panel-de-recarga-nyx.html" class="block w-full text-center mt-6 py-2 rounded-lg bg-surface-50 border border-white/10 hover:bg-white/5 text-sm font-semibold text-white transition-colors">Seleccionar Plan</a>
+                    </div>
+
+                    <!-- Pro Tier (Best Value) -->
+                    <div class="gradient-border p-6 flex flex-col justify-between relative">
+                        <div class="absolute -top-3 left-6 bg-brand-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-lg">Más Elegido</div>
+                        <div>
+                            <span class="text-brand-300 font-mono text-xs font-semibold tracking-wider uppercase">Pro Tier</span>
+                            <div class="mt-4 flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-white">20</span>
+                                <span class="text-gray-500 text-sm">Tokens</span>
+                            </div>
+                            <div class="text-lg font-semibold text-white mt-2">$20.000</div>
+                        </div>
+                        <a href="panel-de-recarga-nyx.html" class="block w-full text-center mt-6 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-sm font-semibold text-white transition-colors shadow-lg">Seleccionar Plan</a>
+                    </div>
+
+                    <!-- Elite -->
+                    <div class="doc-card p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-brand-400 font-mono text-xs font-semibold tracking-wider uppercase bg-brand-500/10 px-2 py-1 rounded">Elite</span>
+                            <div class="mt-4 flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-white">50</span>
+                                <span class="text-gray-500 text-sm">Tokens</span>
+                            </div>
+                            <div class="text-lg font-semibold text-white mt-2">$40.000</div>
+                        </div>
+                        <a href="panel-de-recarga-nyx.html" class="block w-full text-center mt-6 py-2 rounded-lg bg-surface-50 border border-white/10 hover:bg-white/5 text-sm font-semibold text-white transition-colors">Seleccionar Plan</a>
+                    </div>
+
+                    <!-- Suscripción -->
+                    <div class="doc-card p-6 flex flex-col justify-between border-white/20">
+                        <div>
+                            <span class="text-white font-mono text-xs font-semibold tracking-wider uppercase bg-white/10 px-2 py-1 rounded">Suscripción</span>
+                            <div class="mt-4">
+                                <h3 class="text-2xl font-bold text-white leading-tight">Plan<br/>Mensual</h3>
+                            </div>
+                            <div class="text-lg font-semibold text-white mt-4">$33.000</div>
+                            <div class="text-xs text-gray-400 mt-1">Tokens Ilimitados*</div>
+                        </div>
+                        <a href="panel-de-recarga-nyx.html" class="block w-full text-center mt-6 py-2.5 rounded-lg bg-white text-black hover:bg-gray-200 text-sm font-bold transition-colors">Suscribirse</a>
                     </div>
                 </div>
 
-                <div class="glass-card p-8 rounded-2xl max-w-3xl mx-auto">
-                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                        <i class="ph-fill ph-fire text-orange-500"></i> Protocolo de Quema (Burn Rate)
+                <!-- Esquema Operativo de Consumo (Burn Rate) -->
+                <div id="recursos" class="doc-card p-6 md:p-8 max-w-3xl">
+                    <h3 class="text-lg font-semibold text-white mb-6 border-b border-white/10 pb-4">
+                        Tabla de Uso de Recursos Operativos
                     </h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Módulo "Mirror CV"</span>
-                            <span class="font-mono text-violet-400 font-bold">1.0 Token <span class="text-gray-600 text-xs font-normal">/ uso</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50"> Distribution Hub</span>
+                            <span class="font-mono text-brand-400 font-bold">22.0 Tokens <span class="text-gray-600 text-xs font-normal">/ carga</span></span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Módulo "EmailHarvest"</span>
-                            <span class="font-mono text-violet-400 font-bold">0.5 Tokens <span class="text-gray-600 text-xs font-normal">/ búsqueda</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50"> Plugin "Chrono Hub"</span>
+                            <span class="font-mono text-brand-400 font-bold">30.0 Tokens <span class="text-gray-600 text-xs font-normal">/ uso</span></span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Módulo "Distribution Hub"</span>
-                            <span class="font-mono text-violet-400 font-bold">5.0 Tokens <span class="text-gray-600 text-xs font-normal">/ sucursales cercanas</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50"> Módulo "Mirror CV"</span>
+                            <span class="font-mono text-brand-400 font-bold">10.0 Tokens <span class="text-gray-600 text-xs font-normal">/ uso</span></span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300 font-bold text-cyan-300">Módulo "Jobby Scout" (NUEVO)</span>
-                            <span class="font-mono text-cyan-400 font-bold">2.0 Tokens <span class="text-gray-600 text-xs font-normal">/ +50 vacantes frescas</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50"> Módulo "Jobby Scout"</span>
+                            <span class="font-mono text-cyan-400 font-bold">1.0 Token <span class="text-gray-600 text-xs font-normal">/ ejecución</span></span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300 font-bold text-violet-300">Módulo "Chrono Pulse" (NUEVO)</span>
-                            <span class="font-mono text-violet-400 font-bold">15.0 Tokens <span class="text-gray-600 text-xs font-normal">(10 Tokens 1ra vez)</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50"> Módulo "EmailHarvest"</span>
+                            <span class="font-mono text-brand-400 font-bold">1.0 Token <span class="text-gray-600 text-xs font-normal">/ búsqueda</span></span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Módulo "Ghost Tracking"</span>
-                            <span class="font-mono text-green-400 font-bold">GRATIS <span class="text-gray-600 text-xs font-normal">(Incluido en Hub)</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3 bg-white/5 p-2 rounded">
+                            <span class="text-gray-300">"Eye Training"</span>
+                            <span class="font-mono text-gray-400 text-xs uppercase tracking-wider">Incluido en Mirror CV / Chrono Hub</span>
                         </div>
-                        <div class="flex justify-between items-center pt-2">
-                            <span class="text-white font-bold">Módulo "RUN ALL" (Activación Total)</span>
-                            <span class="font-mono text-yellow-400 font-bold">20.0 Tokens <span class="text-gray-600 text-xs font-normal">(Pack Económico)</span></span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3 bg-white/5 p-2 rounded">
+                            <span class="text-gray-300">"Ghost Tracking"</span>
+                            <span class="font-mono text-green-400 text-xs uppercase tracking-wider">General Integrado</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-24 px-4 relative overflow-hidden bg-gradient-to-t from-violet-900/10 to-transparent">
-            <div class="max-w-5xl mx-auto relative z-10">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center text-white">El Futuro: <span class="text-violet-400">Ejecución mediante Bots Especializados</span></h2>
-                
-                <div class="glass-card p-10 rounded-2xl mb-12">
-                    <p class="text-lg text-gray-300 leading-8 mb-6">
-                        NYX es el centro de mando de una legión naciente de Bots de Ejecución Autónoma. No nos limitamos a la asesoría pasiva. Nuestros agentes de vanguardia son capaces de navegar por la web como si fueran un usuario humano, identificar formularios complejos de solicitud (Workday, Greenhouse, Lever), completarlos campo por campo y adjuntar documentación personalizada de forma totalmente autónoma.
+            <hr class="border-white/5 my-16" />
+
+            <!-- Roadmap Confidencial / Bots de Ejecución -->
+            <section id="roadmap" class="mb-20">
+                <div class="mb-10">
+                    <h2 class="font-display text-2xl font-bold mb-4 text-white flex items-center gap-2">
+                        <img src="logo.png" class="w-6 h-6 object-contain" alt="">
+                        Laboratorio de Futuro: Roadmap
+                    </h2>
+                    <p class="text-gray-400 text-sm max-w-2xl leading-relaxed">
+                        Nuestro equipo de desarrollo trabaja sin descanso para evolucionar NYX. Estos son los módulos en fase de prueba Alfa que cambiarán el sistema laboral para siempre.
                     </p>
-                    <p class="text-lg text-gray-300 leading-8">
-                        La visión final es la delegación total: <span class="text-white font-bold">No solo te dice qué hacer; NYX lo hace por ti.</span> Desde la búsqueda inicial hasta el clic final de "Enviar Solicitud", la intervención humana será opcional.
-                    </p>
                 </div>
-                
-                <div class="border-l-4 border-violet-500 pl-8 py-4 my-12 relative">
-                    <i class="ph-fill ph-quotes text-6xl text-violet-500/10 absolute -top-4 -left-4"></i>
-                    <h3 class="text-2xl font-bold text-white mb-4 font-serif italic">Manifiesto de los Desarrolladores</h3>
-                    <p class="text-xl text-gray-300 italic mb-6 leading-relaxed">
-                        "Nuestro equipo ha volcado meses de fe, código y desarrollo obsesivo en NYX. Entendemos que el mercado es una guerra asimétrica donde las corporaciones tienen todas las armas. NYX es el ecualizador. No es solo una herramienta, es tu ventaja competitiva definitiva. Mientras otros esperan una llamada junto al teléfono, los usuarios de NYX ya están en la bandeja de entrada de quienes toman las decisiones."
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="h-px w-12 bg-violet-500"></div>
-                        <span class="text-violet-400 text-sm font-bold uppercase tracking-widest">NYX Core Team</span>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div class="doc-card p-6 border-cyan-500/10 hover:border-cyan-500/30">
+                        <h4 class="text-base font-semibold text-white mb-2">Scheduler Pro</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">Bots de análisis de zonas horarias y ubicación de sucursales. NYX detecta cuándo están activos los reclutadores en su web oficial y programa el envío del CV en el milisegundo exacto para aparecer primero.</p>
+                    </div>
+                    <div class="doc-card p-6 border-cyan-500/10 hover:border-cyan-500/30">
+                        <h4 class="text-base font-semibold text-white mb-2">Video Intro Generador</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">Integración de APIs de video IA. Toma la foto de tu CV y genera una presentación en video hiperrealista con tu voz clonada y un guion estratégicamente diseñado con lo que la empresa quiere oír.</p>
+                    </div>
+                    <div class="doc-card p-6 border-cyan-500/10 hover:border-cyan-500/30">
+                        <h4 class="text-base font-semibold text-white mb-2">Leads Bridge</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">Detecta si la empresa usa Notion, Trello o HubSpot. En lugar de enviar un mail, "inyecta" tu perfil directamente en sus tableros de gestión de talento, convirtiéndote en una ficha de candidato ya aprobada.</p>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <footer class="border-t border-white/5 bg-[#020203] pt-20 pb-12 px-4 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto text-center relative z-10">
-                
-                <div class="mb-12 flex justify-center">
-                    <img src="logonyx.png" alt="NYX Logo" class="h-16 w-auto object-contain opacity-50 hover:opacity-100 transition-opacity duration-500">
-                </div>
-
-                <div class="mb-16">
-                    <a href="#" class="inline-flex items-center gap-4 bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] px-10 py-5 rounded-xl border border-[#229ED9]/30 transition-all hover:scale-105 group hover:shadow-[0_0_30px_rgba(34,158,217,0.3)]">
-                        <i class="ph-fill ph-telegram-logo text-3xl group-hover:rotate-12 transition-transform"></i>
-                        <div class="text-left">
-                            <div class="text-xs font-bold uppercase tracking-wider opacity-70">Comunidad Oficial</div>
-                            <span class="font-bold text-lg tracking-wide">UNIRSE AL CANAL NYX</span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-12 text-left text-xs text-gray-600 max-w-5xl mx-auto border-t border-white/5 pt-12">
-                    <div>
-                        <h4 class="text-gray-400 font-bold mb-3 uppercase tracking-widest border-l-2 border-violet-900 pl-3">Términos de Automatización</h4>
-                        <p class="leading-relaxed mb-4">
-                            El uso de herramientas de automatización de NYX (incluyendo EmailHarvest y Bots de Ejecución) está estrictamente regulado por los Términos de Servicio. NYX se provee como "Software as a Service" (SaaS) neutral; la responsabilidad legal sobre el contenido enviado, la frecuencia de contacto y la selección de destinatarios recae única y exclusivamente en el usuario final.
+                <!-- Bots Especializados -->
+                <div class="p-8 rounded-xl bg-surface-100 border border-white/5 relative overflow-hidden">
+                    <h3 class="text-xl font-bold text-white mb-4">Ejecución mediante Bots Especializados</h3>
+                    <div class="space-y-4 text-sm text-gray-300 leading-relaxed max-w-3xl relative z-10">
+                        <p>
+                            NYX es el centro de mando de una legión naciente de Bots de Ejecución Autónoma. No nos limitamos a la asesoría pasiva. Nuestros agentes de vanguardia son capaces de navegar por la web como si fueran un usuario humano, identificar formularios complejos de solicitud (Workday, Greenhouse, Lever), completarlos campo por campo y adjuntar documentación personalizada de forma totalmente autónoma.
                         </p>
-                        <p class="leading-relaxed">
-                            NYX implementa firewalls éticos y protocolos de "Rate Limiting" para proteger la integridad del dominio del usuario, pero no se hace responsable por suspensiones de servicios de terceros (LinkedIn, Gmail, Outlook) derivadas del mal uso de la plataforma.
+                        <p>
+                            La visión final es la delegación total: <strong class="text-white">No solo te dice qué hacer; NYX lo hace por ti.</strong> Desde la búsqueda inicial hasta el clic final de "Enviar Solicitud", la intervención humana será opcional.
                         </p>
                     </div>
-                    <div>
-                        <h4 class="text-gray-400 font-bold mb-3 uppercase tracking-widest border-l-2 border-violet-900 pl-3">Privacidad & Encriptación</h4>
-                        <p class="leading-relaxed mb-4">
-                            Todos los datos procesados por la Mente Colmena son anonimizados y fragmentados antes de ingresar al ciclo de entrenamiento neuronal. La Información Personal Identificable (PII) contenida en los CVs procesados por Mirror CV se encripta con estándares militares (AES-256) y se elimina de los servidores de procesamiento caliente inmediatamente después de completar la transacción.
-                        </p>
-                        <p class="leading-relaxed">
-                            &copy; 2024-2025 NYX Systems Inc. Todos los derechos reservados. El código fuente y la arquitectura de la Colmena son propiedad intelectual protegida. Prohibida su ingeniería inversa.
+
+                    <div class="mt-8 border-l-2 border-brand-500 pl-4 py-1">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-2">Manifiesto de los Desarrolladores</h4>
+                        <p class="text-gray-400 text-sm italic max-w-2xl leading-relaxed">
+                            "Nuestro equipo ha volcado meses de fe, código y desarrollo obsesivo en NYX. Entendemos que el mercado es una guerra asimétrica donde las corporaciones tienen todas las armas. NYX es el ecualizador. No es solo una herramienta, es tu ventaja competitiva definitiva. Mientras otros esperan una llamada junto al teléfono, los usuarios de NYX ya están en la bandeja de entrada de quienes toman las decisiones."
                         </p>
                     </div>
                 </div>
-            </div>
-        </footer>
+            </section>
+
+        </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!window.THREE) {
-                console.error("Three.js not loaded");
-                return;
-            }
-
-            const spacer = document.getElementById('intro-spacer');
-            const skipBtn = document.getElementById('skip-btn');
+    <!-- Footer Documentación Extendido -->
+    <footer class="border-t border-white/5 bg-[#0a0a0a] pt-16 pb-12 px-4 md:px-8 mt-auto relative z-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12 flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
+                <a href="#" class="flex items-center group flex-shrink-0">
+                    <img src="logo.png" alt="NYX Logo" class="h-8 w-auto object-contain mr-3 opacity-50 group-hover:opacity-100 transition-opacity">
+                    <span class="font-display font-bold text-2xl tracking-tight text-gray-500 group-hover:text-white transition-colors">NYX<span class="text-brand-500 group-hover:text-brand-400 transition-colors">.docs</span></span>
+                </a>
+            </div>
             
-            // GSAP Skip Button Logic (Millimetric Scroll FIX intacto)
-            skipBtn.addEventListener('click', () => {
-                const targetScroll = spacer.offsetHeight; 
-                gsap.to(window, {
-                    scrollTo: targetScroll,
-                    duration: 1.5,
-                    ease: "power3.inOut"
-                });
-            });
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-sm text-gray-500 mb-12">
+                <!-- Legal Block 1 -->
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-4 uppercase tracking-wider text-xs">Aviso Legal de Uso (SaaS)</h4>
+                    <p class="leading-relaxed mb-4 text-xs text-justify">
+                        NYX Systems ("la Plataforma") opera estrictamente como un proveedor neutral de Software as a Service. Toda la tecnología de inteligencia artificial, scraping de datos (EmailHarvest) y automatización de envíos (Chrono Hub) es ejecutada bajo la orden directa y responsabilidad absoluta del Usuario Final. NYX no actúa como agencia de reclutamiento.
+                    </p>
+                    <p class="leading-relaxed text-xs text-justify">
+                        La compra de Tokens NYX constituye la adquisición de poder de cómputo API no reembolsable. El usuario asume toda responsabilidad sobre los límites de "Rate Limiting" en plataformas de terceros (ej. bloqueos de cuenta en LinkedIn o suspensiones SMTP).
+                    </p>
+                </div>
 
-            const container = document.getElementById('canvas-container');
-            const mainContent = document.getElementById('main-content');
-            const skipContainer = document.getElementById('skip-container');
+                <!-- Legal Block 2 -->
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-4 uppercase tracking-wider text-xs">Cumplimiento de Privacidad (GDPR/CCPA)</h4>
+                    <p class="leading-relaxed mb-4 text-xs text-justify">
+                        Todo procesamiento algorítmico de PII (Información Personal Identificable) extraída de currículums y perfiles de LinkedIn se realiza en "Cold Storage" (almacenamiento temporal frío). La información es procesada mediante encriptación AES-256 y destruida automáticamente de la Memoria Operativa de NYX a las 72 horas de finalizado el ciclo de ejecución para cumplir con el derecho al olvido europeo.
+                    </p>
+                    <p class="leading-relaxed text-xs text-justify">
+                        Los "Agentes Invisibles" (Ghost Tracking) utilizan píxeles de seguimiento asíncronos autorizados únicamente para propósitos analíticos B2B, sin almacenar cookies persistentes en los dispositivos de los reclutadores objetivo.
+                    </p>
+                </div>
+
+                <!-- Links Legales y Contacto -->
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-4 uppercase tracking-wider text-xs">Documentos Oficiales & Contacto</h4>
+                    <ul class="space-y-3 text-xs">
+                        <li><a href="terminos-y-condiciones.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Términos y Condiciones de Servicio</a></li>
+                        <li><a href="politica-de-privacidad.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Política de Privacidad</a></li>
+                        <li><a href="politica-de-cookies.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Política de Cookies</a></li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <a href="#" class="inline-flex items-center gap-2 bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] px-4 py-2.5 rounded-lg transition-colors text-xs font-bold w-full justify-center">
+                            SOPORTE OFICIAL (TELEGRAM)
+                        </a>
+                    </div>
+                </div>
+            </div>
             
-            // Text Slides
-            const slides = [
-                document.getElementById('intro-text-1'),
-                document.getElementById('intro-text-2'),
-                document.getElementById('intro-text-3'),
-                document.getElementById('intro-text-4'),
-                document.getElementById('intro-text-5')
-            ];
+            <div class="flex flex-col border-t border-white/5 pt-8">
+                <p class="text-xs text-gray-600 text-center uppercase tracking-widest font-mono">
+                    &copy; 2026-2027 NYX Systems Inc. Todos los derechos reservados.
+                </p>
+                <p class="text-[10px] text-gray-700 text-center mt-2 max-w-3xl mx-auto">
+                    El código fuente, la arquitectura de la Colmena (Hive Mind), y las redes neuronales subyacentes son propiedad intelectual estrictamente protegida. Prohibida su ingeniería inversa, distribución no autorizada o reventa bajo pena de persecución legal internacional (DMCA y leyes de derechos de autor corporativo).
+                </p>
+            </div>
+        </div>
+    </footer>
 
-            // --- SCENE SETUP AVANZADO ---
-            const scene = new THREE.Scene();
-            // Niebla profunda cyber
-            scene.fog = new THREE.FogExp2(0x020204, 0.025);
-
-            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 25;
-
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            container.appendChild(renderer.domElement);
-
-            // --- COMPOSER: NEÓN + EFECTO CRT (SCANLINES) HACKING ---
-            const renderScene = new THREE.RenderPass(scene, camera);
-            const composer = new THREE.EffectComposer(renderer);
-            composer.addPass(renderScene);
-
-            // Neón extremo
-            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.2, 0.5, 0.7);
-            composer.addPass(bloomPass);
-
-            // Filtro CRT (Monitor Hacking Antiguo)
-            if (THREE.FilmPass) {
-                // Parámetros: noiseIntensity, scanlinesIntensity, scanlinesCount, grayscale
-                const filmPass = new THREE.FilmPass(0.35, 0.25, 800, false);
-                filmPass.renderToScreen = true;
-                composer.addPass(filmPass);
-            }
-
-            // --- ILUMINACIÓN CIBERNÉTICA ---
-            const ambientLight = new THREE.AmbientLight(0x050510, 0.8);
-            scene.add(ambientLight);
-
-            const violetLight = new THREE.PointLight(0x8b5cf6, 4, 60);
-            violetLight.position.set(-15, 5, 5);
-            scene.add(violetLight);
-
-            const cyanLight = new THREE.PointLight(0x22d3ee, 3, 60);
-            cyanLight.position.set(15, -10, 5);
-            scene.add(cyanLight);
-
-            // Luz dinámica del ratón
-            const mouseLight = new THREE.PointLight(0x00ffaa, 2.5, 40); // Luz verde interactiva
-            scene.add(mouseLight);
-
-            // --- MATERIALES PREMIUM HOLOGRÁFICOS ---
-            const glassMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0x8b5cf6,
-                metalness: 0.9,
-                roughness: 0.1,
-                transmission: 0.9,
-                thickness: 1.5,
-                ior: 2.0,
-                emissive: 0x2a0a5e,
-                emissiveIntensity: 0.4,
-                clearcoat: 1.0,
-                wireframe: true // Estructura de wireframe para aspecto técnico
-            });
-
-            const cyberMaterial = new THREE.MeshStandardMaterial({
-                color: 0x22d3ee,
-                emissive: 0x22d3ee,
-                emissiveIntensity: 2.0,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.7
-            });
-
-            // --- SISTEMA DE PARTÍCULAS: FIGURAS EVOLUCIONADAS ---
-            const shapesGroup = new THREE.Group();
-            scene.add(shapesGroup);
-
-            // 1. Red Neuronal Esférica (Data Globe)
-            const globeGroup = new THREE.Group();
-            const globeGeo = new THREE.IcosahedronGeometry(4.5, 3);
-            const globePoints = new THREE.Points(globeGeo, new THREE.PointsMaterial({color: 0x22d3ee, size: 0.1, transparent: true, blending: THREE.AdditiveBlending}));
-            const globeWire = new THREE.Mesh(new THREE.IcosahedronGeometry(4.6, 1), glassMaterial);
-            globeGroup.add(globePoints, globeWire);
-
-            // 2. ADN Cuántico (Torus Knot con Enjambre)
-            const torusGroup = new THREE.Group();
-            const torusGeo = new THREE.TorusKnotGeometry(3.5, 0.8, 150, 20);
-            const torusPoints = new THREE.Points(torusGeo, new THREE.PointsMaterial({color: 0x8b5cf6, size: 0.08, transparent: true, blending: THREE.AdditiveBlending}));
-            const torusCore = new THREE.Mesh(new THREE.TorusKnotGeometry(3.4, 0.5, 100, 16), cyberMaterial);
-            torusGroup.add(torusPoints, torusCore);
-
-            // 3. Estructura ATS (Cubo de Datos Holográficos)
-            const matrixGroup = new THREE.Group();
-            const matrixBox = new THREE.BoxGeometry(6, 6, 6, 4, 4, 4);
-            const matrixPoints = new THREE.Points(matrixBox, new THREE.PointsMaterial({color: 0x00ffaa, size: 0.15, blending: THREE.AdditiveBlending})); // Verde Hacking
-            const innerCube = new THREE.Mesh(new THREE.BoxGeometry(4,4,4), glassMaterial);
-            matrixGroup.add(matrixPoints, innerCube);
-
-            // 4. El Ojo de la Colmena (Hive Mind)
-            const hiveGroup = new THREE.Group();
-            const outerShell = new THREE.Mesh(new THREE.IcosahedronGeometry(5, 2), glassMaterial);
-            const innerEye = new THREE.Mesh(new THREE.OctahedronGeometry(2, 0), cyberMaterial);
-            const orbitRing = new THREE.Mesh(new THREE.TorusGeometry(6, 0.05, 16, 100), new THREE.MeshBasicMaterial({color: 0x00ffaa}));
-            orbitRing.rotation.x = Math.PI / 2;
-            hiveGroup.add(outerShell, innerEye, orbitRing);
-
-            // 5. Inyección de Código / Lanzamiento (Rocket Geométrico)
-            const rocketGroup = new THREE.Group();
-            const rocketBody = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 1.5, 6, 8), glassMaterial);
-            const rocketNose = new THREE.Mesh(new THREE.ConeGeometry(0.5, 2, 8), cyberMaterial);
-            rocketNose.position.y = 4;
-            // Partículas de "fuego" / propulsión
-            const fireGeo = new THREE.ConeGeometry(1.2, 4, 16);
-            const firePoints = new THREE.Points(fireGeo, new THREE.PointsMaterial({color: 0x8b5cf6, size: 0.1, blending: THREE.AdditiveBlending}));
-            firePoints.position.y = -4;
-            rocketGroup.add(rocketBody, rocketNose, firePoints);
-
-            // Setup inicial de las figuras
-            const allShapes = [globeGroup, torusGroup, matrixGroup, hiveGroup, rocketGroup];
-            allShapes.forEach(shape => {
-                shape.scale.set(0, 0, 0);
-                shapesGroup.add(shape);
-            });
-
-            // --- RED NEURONAL DE FONDO (GREEN/VIOLET HACKING) ---
-            const floatingBgGroup = new THREE.Group();
-            scene.add(floatingBgGroup);
-            
-            const particleCount = 200;
-            const floatingObjects = [];
-            
-            // Materiales mezclando el verde Matrix/Hacking y el Violeta de NYX
-            const pointGeo = new THREE.OctahedronGeometry(0.2);
-            const pointMatGreen = new THREE.MeshBasicMaterial({ color: 0x00ffaa, wireframe: true });
-            const pointMatViolet = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true });
-
-            for(let i=0; i<particleCount; i++) {
-                const mat = Math.random() > 0.7 ? pointMatGreen : pointMatViolet;
-                const mesh = new THREE.Mesh(pointGeo, mat);
-                mesh.position.set(
-                    (Math.random() - 0.5) * 60,
-                    (Math.random() - 0.5) * 60,
-                    (Math.random() - 0.5) * 30 - 10
-                );
-                mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
-                mesh.userData = {
-                    rx: (Math.random() - 0.5) * 0.02,
-                    ry: (Math.random() - 0.5) * 0.02,
-                    yOffset: Math.random() * Math.PI * 2,
-                    speed: Math.random() * 0.015 + 0.005
-                };
-                floatingBgGroup.add(mesh);
-                floatingObjects.push(mesh);
-            }
-
-            // Conexiones de la red (Líneas láser dinámicas)
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x4c1d95, 
-                transparent: true, 
-                opacity: 0.15,
-                blending: THREE.AdditiveBlending
-            });
-            const lineGeometry = new THREE.BufferGeometry();
-            const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-            floatingBgGroup.add(linesMesh);
-
-            // --- PARALLAX Y RATÓN ---
-            let targetCameraX = 0;
-            let targetCameraY = 0;
-
-            document.addEventListener('mousemove', (event) => {
-                const mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
-                const mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
-
-                mouseLight.position.x = mouseX * 25;
-                mouseLight.position.y = mouseY * 25;
-                mouseLight.position.z = 10;
-
-                targetCameraX = mouseX * 4;
-                targetCameraY = mouseY * 4;
-                
-                // Repulsión de red neuronal
-                floatingObjects.forEach(obj => {
-                    const dx = obj.position.x - mouseLight.position.x;
-                    const dy = obj.position.y - mouseLight.position.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 5) {
-                        obj.position.x += dx * 0.02;
-                        obj.position.y += dy * 0.02;
-                    }
-                });
-            });
-
-
-            // --- LÓGICA DE SCROLL Y ANIMACIÓN ---
-            let scrollProgress = 0;
-            let currentShapeIndex = 0;
-            
-            function updateScroll() {
-                const scrollY = window.scrollY;
-                const totalHeight = spacer.offsetHeight - window.innerHeight;
-                scrollProgress = Math.max(0, Math.min(scrollY / totalHeight, 1)); 
-
-                slides.forEach(s => s.classList.remove('active'));
-
-                if(scrollProgress < 0.15) { slides[0].classList.add('active'); currentShapeIndex = 0; } 
-                else if(scrollProgress < 0.35) { slides[1].classList.add('active'); currentShapeIndex = 1; } 
-                else if(scrollProgress < 0.55) { slides[2].classList.add('active'); currentShapeIndex = 2; } 
-                else if(scrollProgress < 0.75) { slides[3].classList.add('active'); currentShapeIndex = 3; } 
-                else if(scrollProgress < 0.90) { slides[4].classList.add('active'); currentShapeIndex = 4; }
-
-                // Reveal de Contenido Principal
-                if(scrollProgress > 0.92) {
-                    mainContent.style.opacity = 1;
-                    mainContent.classList.add('visible');
-                    document.getElementById('intro-overlay').style.pointerEvents = 'none';
-                    document.getElementById('intro-overlay').style.opacity = 0;
-                    
-                    skipContainer.style.opacity = '0';
-                    skipContainer.style.pointerEvents = 'none';
-                    skipContainer.style.transform = 'translateY(20px)';
-
-                    currentShapeIndex = -1; 
-                } else {
-                    mainContent.style.opacity = 0;
-                    mainContent.classList.remove('visible');
-                    document.getElementById('intro-overlay').style.opacity = 1;
-
-                    skipContainer.style.opacity = '1';
-                    skipContainer.style.pointerEvents = 'auto';
-                    skipContainer.style.transform = 'translateY(0)';
-                }
-            }
-
-            window.addEventListener('scroll', updateScroll);
-
-            const clock = new THREE.Clock();
-
-            function animate() {
-                requestAnimationFrame(animate);
-                const time = clock.getElapsedTime();
-
-                // Suavizado de Cámara
-                camera.position.x += (targetCameraX - camera.position.x) * 0.05;
-                camera.position.y += (targetCameraY - camera.position.y) * 0.05;
-                camera.lookAt(scene.position);
-
-                // Animación de la Red Neuronal Flotante
-                floatingObjects.forEach((obj) => {
-                    obj.rotation.x += obj.userData.rx;
-                    obj.rotation.y += obj.userData.ry;
-                    // Flotación más orgánica
-                    obj.position.y += Math.sin(time * obj.userData.speed + obj.userData.yOffset) * 0.03;
-                });
-
-                // Regenerar conexiones Láser (Hacking Data flow)
-                const positions = [];
-                for(let i=0; i<floatingObjects.length; i+=2) { // Optimizado (i+=2) para mejor rendimiento visual
-                    for(let j=i+1; j<floatingObjects.length; j+=2) {
-                        const dist = floatingObjects[i].position.distanceTo(floatingObjects[j].position);
-                        if(dist < 10) { 
-                            positions.push(
-                                floatingObjects[i].position.x, floatingObjects[i].position.y, floatingObjects[i].position.z,
-                                floatingObjects[j].position.x, floatingObjects[j].position.y, floatingObjects[j].position.z
-                            );
-                        }
-                    }
-                }
-                linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-
-                // Morphing Inteligente entre las 5 Figuras Sólidas
-                allShapes.forEach((shape, index) => {
-                    const targetScale = (index === currentShapeIndex) ? 1 : 0;
-                    
-                    // Escala elástica (Efecto tecnológico de despliegue)
-                    shape.scale.x += (targetScale - shape.scale.x) * 0.08;
-                    shape.scale.y += (targetScale - shape.scale.y) * 0.08;
-                    shape.scale.z += (targetScale - shape.scale.z) * 0.08;
-
-                    if(shape.scale.x > 0.01) {
-                        if(index === 0) { 
-                            shape.rotation.y += 0.003; 
-                            shape.children[0].rotation.y -= 0.005; // Puntos girando en reversa
-                        } 
-                        if(index === 1) { 
-                            shape.rotation.x += 0.005; 
-                            shape.rotation.y += 0.01; 
-                            shape.children[0].material.size = (Math.sin(time * 2) * 0.05) + 0.1; // Pulso cuántico
-                        } 
-                        if(index === 2) { 
-                            shape.rotation.y = time * 0.2; 
-                            shape.rotation.z = Math.sin(time * 0.5) * 0.2; 
-                            shape.children[1].scale.setScalar(1 + Math.sin(time * 4)*0.05); // Latido interno
-                        } 
-                        if(index === 3) { 
-                            shape.children[0].rotation.y -= 0.01; 
-                            shape.children[1].rotation.x += 0.05; 
-                            shape.children[2].rotation.z += 0.02; // Anillo orbital
-                            shape.rotation.y += 0.005; 
-                        } 
-                        if(index === 4) { 
-                            shape.rotation.y += 0.02; 
-                            shape.position.y = Math.sin(time * 3) * 0.5;
-                            shape.rotation.z = Math.sin(time * 2) * 0.1;
-                            shape.children[2].rotation.y -= 0.1; // Fuego rotando rápido
-                        } 
-                    }
-                });
-
-                violetLight.position.x = Math.sin(time * 0.5) * 20;
-                cyanLight.position.z = Math.cos(time * 0.3) * 15;
-
-                // Renderizamos con el Efecto Bloom y CRT
-                composer.render();
-            }
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                composer.setSize(window.innerWidth, window.innerHeight); 
-            });
-
-            updateScroll();
-            animate();
-        });
-    </script>
 </body>
 </html>
 

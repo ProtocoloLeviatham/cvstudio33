@@ -2,43 +2,39 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio33</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Soporte Elite | CV Studio33</title>
+    
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0b1120',
-                        secondary: '#3b82f6',
-                        accent: '#6366f1',
-                        dark: '#020617',
-                        textMain: '#cbd5e1',
+                        background: '#030508',
+                        surface: '#0a0d14',
+                        surfaceHover: '#111520',
+                        borderSubtle: 'rgba(255, 255, 255, 0.05)',
+                        textMain: '#8b95a5',
                         textHead: '#f8fafc',
-                        helpColor: '#10b981', 
-                        nyx: '#8b5cf6',
-                        axon: '#10b981',
-                        gold: '#f59e0b',
+                        accent: '#ffffff',
                     },
                     fontFamily: {
-                        heading: ['Montserrat', 'sans-serif'],
-                        sans: ['Open Sans', 'sans-serif']
+                        heading: ['"Manrope"', 'sans-serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif']
                     }
                 }
             }
@@ -46,370 +42,658 @@
     </script>
 
     <style>
-        body { 
-            font-family: 'Open Sans', sans-serif; 
-            background-color: #0b1120; 
-            color: #cbd5e1; 
-            overflow-x: hidden; 
+        html, body {
+            background-color: #030508;
+            color: #8b95a5;
+            overflow-x: hidden !important;
+            width: 100%;
+            position: relative;
             scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .viewport-wrapper {
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-        /* Contenedor Glass */
-        .glass-container {
-            background: rgba(30, 41, 59, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-card {
+            background: rgba(10, 13, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        /* Navegación Lateral Sticky */
-        .sidebar-nav {
-            position: sticky;
-            top: 120px;
+        .search-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .search-wrapper:focus-within {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .search-input {
+            background: transparent;
+            color: #ffffff;
+            width: 100%;
+            padding: 1.25rem 1.25rem 1.25rem 3rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 1.25rem;
         }
         
-        .nav-link {
+        .chip {
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            color: #8b95a5;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 0.75rem 1rem;
-            color: #64748b;
-            font-size: 0.9rem;
-            border-left: 2px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
+            gap: 0.5rem;
             cursor: pointer;
         }
-        .nav-link:hover, .nav-link.active {
-            color: #10b981;
-            border-left-color: #10b981;
-            background: rgba(16, 185, 129, 0.05);
+        .chip.active {
+            background: #ffffff;
+            color: #030508;
+            border-color: #ffffff;
         }
-        .nav-link i { width: 20px; text-align: center; }
 
-        /* Acordeón de Preguntas */
         .faq-item {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
+        .faq-item:last-child { border-bottom: none; }
         .faq-question {
             width: 100%;
-            padding: 1.5rem 0;
+            padding: 1.25rem 0;
             text-align: left;
             font-weight: 600;
-            color: #f8fafc;
+            color: #d1d5db;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
+            font-size: 0.95rem;
             transition: color 0.3s;
+            cursor: pointer;
         }
-        .faq-question:hover { color: #3b82f6; }
+        .faq-icon {
+            color: #475569;
+            transition: transform 0.4s ease;
+        }
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            color: #94a3b8;
+            transition: max-height 0.5s ease, opacity 0.3s ease;
+            opacity: 0;
+            color: #8b95a5;
             font-size: 0.9rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         .faq-item.active .faq-answer {
-            max-height: 800px; /* Aumentado para respuestas largas */
+            max-height: 3000px;
+            opacity: 1;
             padding-bottom: 1.5rem;
         }
-        .faq-item.active .faq-question i {
+        .faq-item.active .faq-question { color: #ffffff; }
+        .faq-item.active .faq-icon {
             transform: rotate(180deg);
-            color: #3b82f6;
+            color: #ffffff;
         }
 
-        /* Input de Búsqueda */
-        .search-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: 50px;
+        .ambient-light {
+            position: absolute;
             width: 100%;
-            transition: all 0.3s;
+            height: 400px;
+            background: radial-gradient(ellipse at top, rgba(255,255,255,0.03) 0%, rgba(3,5,8,0) 70%);
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: -1;
         }
-        .search-box:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        
+        mark {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-radius: 2px;
+            padding: 0 2px;
         }
-
-        /* Fondo sutil */
-        .bg-grid {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .spec-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
         }
     </style>
 </head>
 <body>
+    <div class="viewport-wrapper">
+        <div class="ambient-light"></div>
 
-    <div class="bg-grid"></div>
-
-    <!-- NAVBAR SIMPLE -->
-    <nav class="bg-primary/95 backdrop-blur-xl border-b border-white/5 h-20 sticky top-0 z-50">
-        <div class="container mx-auto px-6 h-full flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="CV Studio33" class="h-8 w-auto opacity-80">
-                <div class="h-6 w-px bg-gray-700"></div>
-                <span class="font-heading font-bold text-sm tracking-widest text-gray-400 uppercase">Centro de Ayuda</span>
-            </div>
-            <!-- CAMBIO SOLICITADO: Link a index.html y texto "Volver al inicio" -->
-            <a href="index.html" class="text-sm text-green-400 hover:text-white transition font-semibold flex items-center gap-2">
-                <i class="fa-solid fa-home"></i> Volver al inicio
-            </a>
-        </div>
-    </nav>
-
-    <!-- HEADER & BUSCADOR -->
-    <header class="py-20 bg-gradient-to-b from-primary to-dark border-b border-white/5 relative overflow-hidden">
-        <!-- Efecto de fondo -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-        
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <h1 class="text-3xl md:text-5xl font-heading font-black text-white mb-6">¿Cómo podemos ayudarte?</h1>
-            
-            <div class="max-w-2xl mx-auto relative group">
-                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500 group-hover:text-green-400 transition"></i>
-                <input type="text" class="search-box" placeholder="Buscar temas (ej: Tokens, Plantillas, Pagos, ATS...)" onkeyup="filterFAQ()">
-            </div>
-
-            <div class="flex justify-center gap-4 mt-6 text-xs text-gray-500">
-                <span><i class="fa-solid fa-fire text-orange-500 mr-1"></i> Popular:</span>
-                <a href="#ia-tokens" class="hover:text-white underline">¿Qué es un Token?</a>
-                <a href="#creador" class="hover:text-white underline">Descargar PDF</a>
-                <a href="#pagos" class="hover:text-white underline">Métodos de Pago</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="container mx-auto px-4 py-16 flex flex-col lg:flex-row gap-12">
-        
-        <!-- SIDEBAR DE NAVEGACIÓN -->
-        <aside class="hidden lg:block lg:w-1/4">
-            <div class="sidebar-nav">
-                <h4 class="text-white font-bold mb-6 px-4 uppercase tracking-widest text-xs">Categorías</h4>
-                <nav class="space-y-1">
-                    <a href="#general" class="nav-link active"><i class="fa-solid fa-rocket"></i> Primeros Pasos</a>
-                    <a href="#creador" class="nav-link"><i class="fa-solid fa-file-pen"></i> Creador y Plantillas</a>
-                    <a href="#ia-tokens" class="nav-link"><i class="fa-solid fa-robot"></i> NYX & AXON (IA)</a>
-                    <a href="#servicios-humanos" class="nav-link"><i class="fa-solid fa-user-tie"></i> Servicios Humanos</a>
-                    <a href="#pagos" class="nav-link"><i class="fa-solid fa-credit-card"></i> Pagos y Planes</a>
-                    <a href="#vip" class="nav-link"><i class="fa-solid fa-crown"></i> Bolsa VIP & Career Suite</a>
-                </nav>
-                
-                <div class="mt-8 p-6 glass-container border border-green-500/20">
-                    <h5 class="text-white font-bold text-sm mb-2">¿No encuentras respuesta?</h5>
-                    <p class="text-xs text-gray-400 mb-4">Nuestro equipo de soporte humano está disponible.</p>
-                    <a href="https://wa.me/1234567890" target="_blank" class="block w-full py-2 bg-green-600 hover:bg-green-500 text-white text-xs font-bold text-center rounded transition">
-                        <i class="fa-brands fa-whatsapp mr-1"></i> Contactar Soporte
-                    </a>
+        <!-- NAVBAR -->
+        <nav class="sticky top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-borderSubtle">
+            <div class="px-5 h-16 flex justify-between items-center max-w-4xl mx-auto">
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" alt="Logo CV Studio33" class="h-8 w-auto object-contain" onerror="this.src='https://via.placeholder.com/32x32?text=CV'">
+                    <span class="font-heading font-bold text-lg tracking-tight text-white uppercase">CV STUDIO33</span>
                 </div>
+                <a href="index.html" class="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-gray-400 active:scale-95 transition-transform">
+                    <i class="ph ph-x text-sm"></i>
+                </a>
             </div>
-        </aside>
+        </nav>
+
+        <!-- HEADER -->
+        <header class="pt-10 pb-6 px-5 relative z-10 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-heading font-bold text-white mb-3 tracking-tight">
+                Centro de Inteligencia <span class="font-serif italic text-gray-400 font-normal">y Soporte</span>
+            </h1>
+            <p class="text-sm text-gray-400 mb-8 leading-relaxed">Acceda a nuestra base de conocimiento clasificada. Documentación técnica del Ecosistema Propio, protocolos de infiltración y panel de Partners.</p>
+            
+            <div class="relative search-wrapper w-full">
+                <i class="ph ph-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar: Panel de Ventas, Mirror CV, AXON..." oninput="filterFAQ()">
+                <button id="clearSearch" onclick="clearSearchInput()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hidden p-2">
+                    <i class="ph-fill ph-x-circle text-lg"></i>
+                </button>
+            </div>
+
+            <!-- SIMULADOR DE BÚSQUEDAS POPULARES -->
+            <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+                <span class="text-gray-500 font-semibold uppercase tracking-widest text-[10px]">Frecuentes:</span>
+                <button onclick="setSearch('Partners')" class="text-gray-300 hover:text-white transition underline decoration-gray-700 hover:decoration-white underline-offset-4">Panel Ventas</button>
+                <button onclick="setSearch('Mirror CV')" class="text-gray-300 hover:text-white transition underline decoration-gray-700 hover:decoration-white underline-offset-4">Mirror CV</button>
+                <button onclick="setSearch('Bypass ATS')" class="text-gray-300 hover:text-white transition underline decoration-gray-700 hover:decoration-white underline-offset-4">Bypass ATS</button>
+                <button onclick="setSearch('Jobby Scout')" class="text-gray-300 hover:text-white transition underline decoration-gray-700 hover:decoration-white underline-offset-4">Jobby Scout</button>
+            </div>
+        </header>
+
+        <!-- NAVEGACIÓN CHIPS -->
+        <div class="sticky top-16 z-40 bg-background/95 backdrop-blur-md border-b border-borderSubtle pb-4 pt-3">
+            <div class="flex overflow-x-auto hide-scrollbar px-5 gap-3 max-w-2xl mx-auto" id="chipsNav">
+                <a href="#general" class="chip active" onclick="handleChipClick(event, this)">Ecosistema Base</a>
+                <a href="#creador" class="chip" onclick="handleChipClick(event, this)">Engine Creador</a>
+                <a href="#nyx" class="chip" onclick="handleChipClick(event, this)">NYX: Infiltración</a>
+                <a href="#axon" class="chip" onclick="handleChipClick(event, this)">AXON: Auditoría</a>
+                <a href="#bolsa" class="chip" onclick="handleChipClick(event, this)">Agencia & Bots</a>
+                <a href="#partners" class="chip" onclick="handleChipClick(event, this)">Panel Partners</a>
+            </div>
+        </div>
 
         <!-- CONTENIDO PRINCIPAL -->
-        <main class="lg:w-3/4">
+        <main class="px-5 py-10 pb-20 max-w-2xl mx-auto min-h-screen">
             
-            <!-- 1. GENERAL -->
-            <section id="general" class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-sm"><i class="fa-solid fa-rocket"></i></span>
-                    General y Primeros Pasos
-                </h2>
-                
-                <div class="glass-container px-6 py-2">
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué es CV Studio33? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Es una plataforma integral de ingeniería curricular. Fusionamos Inteligencia Artificial (NYX y AXON) con consultoría de RRHH para crear CVs optimizados para sistemas ATS y persuasivos para humanos.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Es gratis usar la plataforma? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Sí, ofrecemos un "Starter Pack" gratuito que incluye 3 plantillas básicas (Administrativo, Oxford Básico, Harvard Texto) y acceso al editor. Las funciones avanzadas de IA y las plantillas Premium requieren la compra de Tokens o Planes.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Necesito registrarme para empezar? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">No obligatoriamente. Nuestro sistema utiliza <strong>Almacenamiento Local (LocalStorage)</strong>, por lo que puedes empezar a editar tu CV inmediatamente y los datos se guardarán en tu navegador.</div>
-                    </div>
-                     <div class="faq-item">
-                        <div class="faq-question">¿Qué es el "Método 33"? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Es nuestra metodología propietaria de 5 pasos: Diagnóstico, Extracción de Logros, Redacción Persuasiva, Hackeo ATS y Diseño Arquitectónico. Garantiza que tu CV no sea solo una lista de tareas, sino una herramienta de venta.</div>
-                    </div>
-                </div>
-            </section>
+            <div id="no-results" class="hidden text-center py-16">
+                <i class="ph-duotone ph-shield-warning text-4xl text-gray-600 mb-4"></i>
+                <h3 class="text-white font-heading font-medium mb-2">Registro No Encontrado</h3>
+                <p class="text-sm text-gray-500 mb-6">El término no figura en nuestra base de datos desclasificada. Para auditorías personalizadas, contacte al Comando Central.</p>
+                <a href="#contacto" class="text-sm text-white underline decoration-gray-600 underline-offset-4">Iniciar protocolo de soporte</a>
+            </div>
 
-            <!-- 2. CREADOR Y PLANTILLAS -->
-            <section id="creador" class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-indigo-600 flex items-center justify-center text-sm"><i class="fa-solid fa-file-pen"></i></span>
-                    Creador de CV y Plantillas
+            <!-- 1. GENERAL (ECOSISTEMA) -->
+            <section id="general" class="mb-12 scroll-mt-36 section-block">
+                <h2 class="text-lg font-heading font-semibold text-white mb-4 uppercase tracking-widest text-xs flex items-center gap-2">
+                    <img src="logo.png" alt="Logo CV Studio33" class="h-4 w-auto"> Ecosistema Propietario CV Studio33
                 </h2>
-                
-                <div class="glass-container px-6 py-2">
-                    <div class="faq-item">
-                        <div class="faq-question">¿Cómo guardo mi progreso? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">El editor guarda automáticamente cada cambio en tiempo real en la memoria de tu navegador (LocalStorage). Si cierras la pestaña y vuelves a entrar, tu información seguirá ahí.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Cómo funcionan las diferentes Plantillas (Oxford, MIT, etc.)? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+                <div class="glass-card px-5">
+                    <div class="faq-item" data-keywords="que es cv studio33 definicion agencia plataforma integracion ecosistema propio independiente">
+                        <div class="faq-question">Un Ecosistema 100% Independiente <i class="ph ph-caret-down faq-icon"></i></div>
                         <div class="faq-answer">
-                            <ul class="list-disc pl-5 mt-2 space-y-1">
-                                <li><strong>Oxford/Cambridge:</strong> Diseños clásicos con barra lateral, ideales para perfiles ejecutivos y tradicionales.</li>
-                                <li><strong>MIT/Stanford:</strong> Diseños modernos/tech, optimizados para el sector tecnológico y startups.</li>
-                                <li><strong>Harvard:</strong> Formato de texto puro, sin fotos, estándar legal y académico en EE.UU.</li>
-                            </ul>
-                            Puedes cambiar de plantilla en la Biblioteca sin perder tus datos.
+                            CV Studio33 no es un intermediario que utiliza herramientas de terceros. Hemos construido una infraestructura completa y cerrada ("End-to-End") para dominar el ciclo de empleabilidad.
+                            <br><br>
+                            Poseemos nuestro <strong>propio Engine Creador de CVs</strong>, desarrollado in-house para asegurar la arquitectura perfecta. Operamos nuestra <strong>propia Agencia de Trabajo Privada</strong> conectada a redes cerradas, desarrollando <strong>bots ATS propios</strong> de postulación automática, y lideramos el mercado con nuestras <strong>Inteligencias Artificiales Propietarias</strong> (NYX y AXON). Dependencia cero de terceros; control total sobre sus resultados.
                         </div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿En qué formato se descarga el CV? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">El CV se descarga en formato <strong>PDF de Alta Resolución</strong>, optimizado para mantener el diseño intacto y ser legible por sistemas ATS.</div>
+                    <div class="faq-item" data-keywords="metodo 33 5 pasos protocolo sistema metodologia">
+                        <div class="faq-question">El "Método 33": Arquitectura de Empleabilidad <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            El protocolo maestro que une todas nuestras herramientas en 5 fases:
+                            <br><br>1. <strong>Diagnóstico Ciego:</strong> Análisis del mercado objetivo usando nuestra red.
+                            <br>2. <strong>Extracción de Logros Cuantificables:</strong> Conversión de tareas en métricas (ROI).
+                            <br>3. <strong>Neuro-Copywriting:</strong> Redacción de alto impacto psicológico gestionado por NYX.
+                            <br>4. <strong>Evasión ATS:</strong> Estructuración invisible validada por AXON.
+                            <br>5. <strong>Diseño Arquitectónico:</strong> Guiado ocular renderizado por nuestro Engine Creador.
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 3. IA (NYX & AXON) -->
-            <section id="ia-tokens" class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-purple-600 flex items-center justify-center text-sm"><i class="fa-solid fa-robot"></i></span>
-                    Tecnología NYX y AXON
-                </h2>
-                
-                <div class="glass-container px-6 py-2">
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué diferencia hay entre NYX y AXON? <i class="fa-solid fa-chevron-down text-xs"></i></div>
+            <!-- 2. CREADOR -->
+            <section id="creador" class="mb-12 scroll-mt-36 section-block">
+                <h2 class="text-lg font-heading font-semibold text-white mb-4 uppercase tracking-widest text-xs">Engine Creador Propietario</h2>
+                <div class="glass-card px-5">
+                    <div class="faq-item" data-keywords="plantillas modelos diseños oxford mit harvard formatos constructor">
+                        <div class="faq-question">Arquitecturas Estructurales Nativas <i class="ph ph-caret-down faq-icon"></i></div>
                         <div class="faq-answer">
-                            <ul class="list-disc pl-5 mt-2 space-y-2">
-                                <li><strong>NYX (Generativa):</strong> Es el motor creativo. Redacta textos, mejora descripciones, optimiza keywords para ATS y gestiona la distribución masiva.</li>
-                                <li><strong>AXON (Analítica):</strong> Es el auditor forense. Lee tu CV terminado, simula filtros ATS, te da un "Score de Compatibilidad" (0-100%) y genera mapas de calor visuales.</li>
+                            Nuestro Engine Creador no utiliza "plantillas" genéricas descargables, sino matrices de renderizado dinámico diseñadas para maximizar el CVR (Conversion Rate):
+                            <ul class="list-disc pl-5 mt-4 space-y-3 text-gray-400">
+                                <li><strong class="text-gray-200">Matriz Oxford:</strong> Estructura corporativa conservadora. Requerido en Banca de Inversión y MBB.</li>
+                                <li><strong class="text-gray-200">Matriz MIT/Stanford:</strong> Alta densidad asimétrica. Exclusiva para Ingeniería de Software y Startups.</li>
+                                <li><strong class="text-gray-200">Matriz Harvard:</strong> Texto puro. Estándar dorado para sistemas ATS rigurosos y jurisdicciones internacionales.</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué es el Semáforo de Habilidades de AXON? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">AXON analiza tus skills y las clasifica: <strong class="text-green-400">Verde</strong> (Alta demanda/Impacto), <strong class="text-yellow-400">Amarillo</strong> (Estándar) y <strong class="text-red-400">Rojo</strong> (Obsoletas o irrelevantes para tu puesto objetivo).</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué es el "Bypass ATS 3.0" de NYX? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Es una tecnología de estructuración de datos invisible. NYX organiza el código de tu CV para que los robots de lectura (Taleo, Workday) puedan extraer tu información sin errores, aumentando tu probabilidad de pasar el filtro en un 87%.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Cómo funcionan los Tokens? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Son créditos de uso. 1 Token AXON = 1 Análisis completo. 1 Token NYX = 1 Distribución masiva o mejora profunda de perfil. Los tokens no caducan y vienen incluidos en los Planes Combo.</div>
+                    <div class="faq-item" data-keywords="descargar pdf formato word exportar archivo extension seguridad persistencia autoguardado">
+                        <div class="faq-question">Persistencia Local y Exportación Vectorial <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            El Engine compila en tiempo real sobre caché local (LocalStorage), garantizando la privacidad absoluta. La exportación final está estrictamente controlada y forzada a <strong>PDF Vectorial (Estándar ISO 32000)</strong>. Esto inyecta directamente el código necesario para que los Bots ATS lean su información sin romper la estética visual.
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. SERVICIOS HUMANOS -->
-            <section id="servicios-humanos" class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-sm"><i class="fa-solid fa-user-tie"></i></span>
-                    Servicios Profesionales Humanos
+            <!-- 3. NYX -->
+            <section id="nyx" class="mb-12 scroll-mt-36 section-block">
+                <h2 class="text-lg font-heading font-semibold text-white mb-4 uppercase tracking-widest text-xs flex items-center gap-2">
+                    <img src="logonyx.png" alt="NYX" class="h-4 w-auto" onerror="this.outerHTML='NYX'"> Ecosistema NYX: Infiltración
                 </h2>
-                
-                <div class="glass-container px-6 py-2">
-                    <div class="faq-item">
-                        <div class="faq-question">¿En qué consiste el CV Personalizado? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Es un servicio de consultoría 1 a 1. Un Headhunter Senior te entrevista, extrae tus logros ocultos y redacta tu CV desde cero usando técnicas de Neuro-Copywriting. No es una plantilla automática, es una artesanía estratégica.</div>
+                <div class="glass-card px-5">
+                    <div class="faq-item" data-keywords="nyx n mirror cv tecnologia optimizacion camaleonica reescribir cultura vacante">
+                        <div class="faq-question">Plugin: Mirror CV (Optimización Camaleónica) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Utilizando agentes de la colmena, NYX analiza la descripción de la vacante, el sitio web y la cultura profunda de la empresa objetivo. Automáticamente, reescribe y adapta tus habilidades para que coincidan con precisión quirúrgica con lo que el algoritmo de búsqueda de la empresa está programado para encontrar. No mentimos; traducimos tu experiencia y logros al dialecto corporativo exacto que el reclutador necesita oír.
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Para qué sirve la Carta de Presentación Narrativa? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">El CV muestra tu pasado; la carta vende tu futuro. Nuestros redactores crean una narrativa que conecta emocionalmente con la cultura de la empresa, demostrando investigación y "Culture Fit".</div>
+                    <div class="faq-item" data-keywords="nyx n chrono hub envio diario automatizado persistencia programada">
+                        <div class="faq-question">Plugin: Chrono Hub (Envío Automatizado) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Sistema de persistencia programada. NYX envía tu solicitud diariamente a todas las empresas seleccionadas, manteniendo una puntualidad exacta para aparecer siempre al tope de la bandeja de entrada. Soporta el envío conjunto de Video Presentación, Carta y CV en un paquete encriptado.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="nyx n jobby scout motor busqueda fresh data vacantes nuevas cazar ofertas">
+                        <div class="faq-question">Plugin: Jobby Scout (Motor Fresh-Data) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Motor de inteligencia de mercado. NYX despliega "Scouts" digitales que extraen las vacantes MÁS NUEVAS (menos de 2 horas de publicación) a través de APIs privadas, cargando los datos limpios directamente a tu base. Elimina la competencia llegando el primero.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="nyx n emailharvest plugin extraccion objetivos scrape correos directos tomadores decision">
+                        <div class="faq-question">Plugin: EmailHarvest (Extracción de Objetivos) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            NYX despliega scrapers éticos avanzados para extraer correos directos y verificados de los departamentos de contratación y Jefes de Área, saltándose los agujeros negros genéricos ("careers@") y llegando directamente a la bandeja del tomador de decisiones real.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="nyx n distribution hub envio masivo selectivo infraestructura mailrelay resend anti spam">
+                        <div class="faq-question">Core: Distribution Hub (Músculo de Envío) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Integración con Resend y Mailrelay. NYX gestiona más de 50,000 envíos mensuales asegurando una tasa de entrega superior al 98%, utilizando protocolos anti-spam avanzados y rotación de IPs que imitan el comportamiento humano.
+                            <div class="spec-grid">
+                                <div class="spec-item"><i class="ph-bold ph-server text-purple-400 mt-1"></i> <div><span class="text-white font-bold block text-xs">Enterprise</span>Infraestructura dedicada.</div></div>
+                                <div class="spec-item"><i class="ph-bold ph-paper-plane-tilt text-purple-400 mt-1"></i> <div><span class="text-white font-bold block text-xs">Inbox >98%</span>Entrega en principal.</div></div>
+                                <div class="spec-item"><i class="ph-bold ph-robot text-purple-400 mt-1"></i> <div><span class="text-white font-bold block text-xs">Ghosting</span>Simulación algorítmica humana.</div></div>
+                                <div class="spec-item"><i class="ph-bold ph-arrows-clockwise text-purple-400 mt-1"></i> <div><span class="text-white font-bold block text-xs">IP Rotation</span>Evita bloqueos por volumen.</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="nyx n ghost tracking seguimiento tiempo real analiticas apertura lectura geo">
+                        <div class="faq-question">Módulo: Ghost Tracking (Inteligencia Real) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Red de agentes de lectura invisibles (píxeles de seguimiento). Sabrás en tiempo real qué empresa abrió tu correo, cuántas veces lo vio y desde qué ubicación geográfica exacta se realizó la apertura.
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 5. PAGOS -->
-            <section id="pagos" class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-green-600 flex items-center justify-center text-sm"><i class="fa-solid fa-credit-card"></i></span>
-                    Pagos y Planes
+            <!-- 4. AXON -->
+            <section id="axon" class="mb-12 scroll-mt-36 section-block">
+                <h2 class="text-lg font-heading font-semibold text-white mb-4 uppercase tracking-widest text-xs flex items-center gap-2">
+                    <img src="logoaxon.png" alt="AXON" class="h-4 w-auto" onerror="this.outerHTML='AXON'"> Auditoría AXON: Riesgo Cero
                 </h2>
-                
-                <div class="glass-container px-6 py-2">
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué métodos de pago aceptan? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Procesamos pagos seguros a través de <strong>Mercado Pago</strong> (Tarjetas, Débito, Efectivo) y Transferencia Bancaria para clientes corporativos.</div>
+                <div class="glass-card px-5">
+                    <div class="faq-item" data-keywords="axon a modulo analitico auditoria ats simulador probabilidad riesgo cero lectura profunda">
+                        <div class="faq-question">AXON Core: Módulo Analítico & Auditoría <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Simulador propio de entornos ATS. Elimina la incertidumbre proporcionando un cálculo de probabilidad matemática de éxito antes de postular.
+                            <div class="mt-4 border-l-2 border-green-500/30 pl-4 space-y-2 text-sm">
+                                <p><strong class="text-white">1. Lectura Profunda:</strong> Escaneo de metadatos para asegurar integridad.</p>
+                                <p><strong class="text-white">2. Simulación Viva:</strong> Emulación de algoritmos (Workday, Taleo) para mitigar rechazos.</p>
+                                <p><strong class="text-white">3. Métricas Numéricas:</strong> Índice de compatibilidad (0-100%) vs vacante objetivo.</p>
+                                <p><strong class="text-white">4. Auditoría de Sesgo:</strong> Neutralización proactiva de patrones lingüísticos negativos.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Por qué contactar por WhatsApp para comprar? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Para servicios Premium y Elite, realizamos una validación de perfil previa. Queremos asegurarnos de que el plan elegido (ej: $50.000) sea el correcto para tus objetivos antes de que pagues.</div>
+                    <div class="faq-item" data-keywords="axon a motor parsing avanzado descompone json legibilidad ats legacy">
+                        <div class="faq-question">Motor de Parsing Avanzado <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Garantiza legibilidad perfecta ante cualquier sistema ATS Legacy.
+                            <div class="spec-grid">
+                                <div class="spec-item"><i class="ph-bold ph-file-code text-green-400 mt-1"></i> <div class="text-xs">Procesa PDFs y JSON.</div></div>
+                                <div class="spec-item"><i class="ph-bold ph-bug text-green-400 mt-1"></i> <div class="text-xs">Corrección de sintaxis corrupta capa 0.</div></div>
+                                <div class="spec-item"><i class="ph-bold ph-shield-check text-green-400 mt-1"></i> <div class="text-xs">Validación contra 50+ ATS.</div></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué incluye el Plan Mensual de $50.000? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Acceso ILIMITADO a todas las herramientas IA (NYX + AXON), consultoría continua y acceso total a la Career Suite durante 30 días. Ideal para búsquedas intensivas.</div>
+                    <div class="faq-item" data-keywords="axon a multi database sync sincronizacion global algoritmos filtrado jobby reglas">
+                        <div class="faq-question">Multi-Database Sync <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Sincronización global para anticipar cambios silenciosos en algoritmos de filtrado. Conexión en tiempo real con JOBBY, aprendizaje heurístico de nuevos algoritmos y trazabilidad de políticas HR.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="axon a mapa calor retencion prediccion vista eyetracking biometria lectura 6 segundos">
+                        <div class="faq-question">Mapa de Calor Predictivo de Retención <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Modelos basados en eye-tracking que simulan con un 96% de precisión el recorrido visual de un reclutador en los primeros 6 segundos. Optimiza patrones "F" y "Z", balancea espacios y simula fatiga visual.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="axon a salary range intelligence salario datos compensacion negociacion low ball bonos">
+                        <div class="faq-question">Salary Range Intelligence <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Acceso a datos confidenciales de compensación actualizados semanalmente. Detección de bonos ocultos y alertas automáticas de ofertas "Low-Ball" (Baja remuneración) para asegurar la máxima ventaja en negociación.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="axon a protocolo mirroring nlp huella digital comunicacion cultura tono vocabulario">
+                        <div class="faq-question">Protocolo Mirroring Psicológico <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Algoritmos NLP que analizan la huella comunicativa de la empresa y alinean tu vocabulario, tono y estilo para crear una resonancia psicológica total con la cultura corporativa objetivo.
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 6. VIP -->
-            <section id="vip" class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-yellow-600 flex items-center justify-center text-sm"><i class="fa-solid fa-crown"></i></span>
-                    Bolsa VIP y Career Suite
-                </h2>
-                
-                <div class="glass-container px-6 py-2">
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué es el "Mercado Oculto"? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">El 70-80% de las vacantes ejecutivas no se publican. Nuestra Career Suite te da acceso a este mercado mediante bases de datos de Headhunters privados y alertas confidenciales.</div>
+            <!-- 5. AGENCIA & BOTS (BOLSA) -->
+            <section id="bolsa" class="mb-12 scroll-mt-36 section-block">
+                <h2 class="text-lg font-heading font-semibold text-white mb-4 uppercase tracking-widest text-xs">Agencia Propietaria & Operativa Bot</h2>
+                <div class="glass-card px-5">
+                    <div class="faq-item" data-keywords="agencia trabajo privada bolsa ofertas frescas postular ayuda c level headhunter">
+                        <div class="faq-question">Operamos nuestra propia Agencia de Trabajo <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            CV Studio33 ha trascendido la creación de documentos para convertirse en una <strong>Agencia de Trabajo de ciclo completo</strong>. No solo optimizamos su perfil; contamos con repositorios privados de extracción donde obtenemos ofertas de empleo "frescas" antes de que se saturen en portales públicos. Además, nuestros consultores y tecnología le ayudan activamente a postularse, asegurando que su perfil llegue a las manos correctas.
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">¿Qué son los Bots de Aplicación? <i class="fa-solid fa-chevron-down text-xs"></i></div>
-                        <div class="faq-answer">Son scripts automatizados que rellenan formularios complejos en portales de empleo externos por ti, trabajando en conjunto con NYX para ahorrarte horas de trabajo manual.</div>
+                    <div class="faq-item" data-keywords="bots ats postulacion automatica formularios scripts mercado oculto sombras vip">
+                        <div class="faq-question">Bots ATS y Operaciones de Mercado Oculto <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Contamos con una flota de <strong>Bots ATS propios</strong>. Estos scripts automatizados asumen la carga operativa por usted, rellenando formularios complejos y tediosos en miles de portales corporativos de forma simultánea. Combinado con nuestro acceso al "Mercado Oculto" (posiciones confidenciales no publicadas), garantizamos una saturación táctica en su mercado objetivo sin que usted invierta un solo minuto en tareas manuales repetitivas.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. PARTNERS Y VENTAS -->
+            <section id="partners" class="mb-12 scroll-mt-36 section-block">
+                <h2 class="text-lg font-heading font-semibold text-white mb-4 uppercase tracking-widest text-xs flex items-center gap-2">
+                    <img src="logo.png" alt="CV Studio33 Ventas Logo" class="h-4 w-auto"> División Comercial: Panel de Partners
+                </h2>
+                <div class="glass-card px-5">
+                    <div class="faq-item" data-keywords="panel de ventas referidos programa partners ingresos extras ganar dinero comisiones monetizar cvstudio33 ventas logo">
+                        <div class="faq-question">Programa de Partners (CVStudio33 Ventas) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            ¿No llegas a fin de mes o buscas escalar tus ingresos de forma inteligente? CVStudio33 ya pensó en eso. Hemos desarrollado un <strong>Panel de Ventas de Referidos</strong> de alto rendimiento.
+                            <br><br>No se requiere experiencia previa en reclutamiento. Monetizando el tráfico de su red profesional y dedicando únicamente de <strong>1 a 2 horas al día</strong> desde su dispositivo móvil, nuestra red de partners está generando actualmente rentabilidades operativas entre <strong>$200K y $500K mensuales</strong> de forma recurrente. Nosotros ponemos la tecnología y el servicio; usted, la conexión.
+                        </div>
+                    </div>
+                    <div class="faq-item" data-keywords="sistema 5ta venta garantizada comision 80% ganancias rentabilidad retiros rapidos pagar cobro">
+                        <div class="faq-question">Sistema Exclusivo de la "5ta Venta" (80% Comisión) <i class="ph ph-caret-down faq-icon"></i></div>
+                        <div class="faq-answer">
+                            Destrozamos los estándares raquíticos de afiliación tradicionales (que pagan 5% o 10%). Nuestra infraestructura comercial está diseñada bajo el algoritmo del <strong>"Sistema de la 5ta Venta Garantizada"</strong>.
+                            <br><br>
+                            Este sistema exponencial permite a los partners activos escalar sus dividendos agresivamente, asegurando **hasta un 80% de comisión líquida** sobre el valor total del producto de inteligencia vendido a partir del quinto cierre.
+                            
+                            <div class="mt-4 border-t border-white/10 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-money text-green-500 text-xl"></i>
+                                    <div>
+                                        <span class="text-white font-bold block text-sm">Comisiones Ultra-Altas</span>
+                                        <span class="text-xs text-gray-400">Escalables hasta el 80% del ticket.</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-chart-line-up text-green-500 text-xl"></i>
+                                    <div>
+                                        <span class="text-white font-bold block text-sm">Sistema 5ta Venta</span>
+                                        <span class="text-xs text-gray-400">Algoritmo de bonificación garantizada.</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-clock text-green-500 text-xl"></i>
+                                    <div>
+                                        <span class="text-white font-bold block text-sm">1-2 hs/día de dedicación</span>
+                                        <span class="text-xs text-gray-400">Operativa 100% remota y flexible.</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <i class="ph-fill ph-bank text-green-500 text-xl"></i>
+                                    <div>
+                                        <span class="text-white font-bold block text-sm">Retiros Rápidos</span>
+                                        <span class="text-xs text-gray-400">Panel financiero para liquidaciones 24/7.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
         </main>
+        
+        <!-- FOOTER -->
+        <footer id="contacto" class="bg-[#050911] border-t border-white/5 pt-16 pb-8">
+            <div class="container mx-auto px-6 max-w-5xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                    
+                    <div class="col-span-1 lg:col-span-1">
+                        <div class="flex items-center gap-3 mb-6 text-white">
+                            <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-auto object-contain" onerror="this.src='https://via.placeholder.com/100x30?text=Logo'">
+                            <span class="font-heading font-bold text-lg tracking-tight uppercase">CV STUDIO33</span>
+                        </div>
+                        <p class="text-gray-500 text-xs leading-6 mb-6 text-justify">
+                            En CV Studios33, nuestra misión es democratizar el éxito profesional. Entendemos que el mercado laboral moderno es un campo de batalla dominado por algoritmos. Por eso, no solo escribimos currículums; diseñamos armas de empleabilidad masiva. Fusionamos la psicología humana con nuestra IA (NYX/AXON) para dominar tu sector.
+                        </p>
+                        <div class="flex space-x-3">
+                            <a href="https://wa.me/5491121937867" class="w-8 h-8 rounded bg-white/5 flex items-center justify-center hover:bg-white/10 transition text-gray-400 hover:text-white"><i class="ph-fill ph-whatsapp-logo"></i></a>
+                            <a href="#" class="w-8 h-8 rounded bg-white/5 flex items-center justify-center hover:bg-white/10 transition text-gray-400 hover:text-white"><i class="ph-fill ph-telegram-logo"></i></a>
+                            <a href="#" class="w-8 h-8 rounded bg-white/5 flex items-center justify-center hover:bg-white/10 transition text-gray-400 hover:text-white"><i class="ph-fill ph-instagram-logo"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-sm mb-5 tracking-wider uppercase">Arquitectura</h4>
+                        <ul class="space-y-3 text-sm text-gray-500">
+                            <li><a href="index.html" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-caret-right text-xs"></i> Portal Base</a></li>
+                            <li><a href="Servicios.html" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-caret-right text-xs"></i> División Servicios</a></li>
+                            <li><a href="Creandotucv.html" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-caret-right text-xs"></i> Engine Creador</a></li>
+                            <li><a href="Centro-de-ayuda.html" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-caret-right text-xs text-white"></i> Inteligencia / Ayuda</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-sm mb-5 tracking-wider uppercase">Bases Operativas</h4>
+                        <ul class="space-y-3 text-sm text-gray-500">
+                            <li><a href="biblioteca-de-plantillas.html" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-files text-xs"></i> Matrices de Plantillas</a></li>
+                            <li><a href="#bolsa" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-scan text-xs"></i> Agencia Propia & Bots</a></li>
+                            <li><a href="#partners" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-currency-circle-dollar text-xs"></i> Panel de Ventas (Partners)</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-sm mb-5 tracking-wider uppercase">Legal & Soporte</h4>
+                        <ul class="space-y-2 text-xs text-gray-500 mb-6">
+                            <li><a href="terminos-y-condiciones.html" class="hover:text-white transition">Términos de Servicio</a></li>
+                            <li><a href="politica-de-privacidad.html" class="hover:text-white transition">Privacidad y LocalStorage</a></li>
+                            <li><a href="politica-de-cookies.html" class="hover:text-white transition">Protocolo de Cookies</a></li>
+                        </ul>
+                        
+                        <div class="p-4 bg-white/5 border border-white/5 rounded-lg">
+                            <p class="text-[10px] text-gray-500 mb-1 uppercase tracking-widest">Canal Central</p>
+                            <a href="https://wa.me/5491121937867" class="block text-white font-semibold text-sm mb-1 hover:text-green-400 transition">+54 9 11 2193-7867</a>
+                            <a href="mailto:CvStudio33@gmail.com" class="block text-gray-400 text-xs hover:text-white transition">CvStudio33@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+                    <p>&copy; 2026 CV Studios33 Intelligence Agency. Propiedad Intelectual Registrada.</p>
+                    <div class="mt-4 md:mt-0 flex items-center gap-4">
+                        <span class="flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></div> 
+                            Mainframe Status: Online
+                        </span>
+                        <span>v5.0.0 Global Node</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-black/50 py-8 text-center text-xs text-gray-500 border-t border-white/5">
-        <p>© 2026 CV Studio33. Todos los derechos reservados.</p>
-    </footer>
-
     <script>
-        // Lógica de Acordeón
         const items = document.querySelectorAll('.faq-item');
-
         items.forEach(item => {
-            item.addEventListener('click', () => {
-                // Cerrar otros (opcional, activado para limpieza visual)
-                /* items.forEach(other => {
-                    if (other !== item) other.classList.remove('active');
-                }); */
-                // Toggle actual
-                item.classList.toggle('active');
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                items.forEach(other => other.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
             });
         });
 
-        // Lógica de Búsqueda
+        const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearch');
+        const noResults = document.getElementById('no-results');
+
+        // Función auxiliar para simulador de búsquedas
+        window.setSearch = function(term) {
+            searchInput.value = term;
+            filterFAQ();
+            // Hacer scroll suave hacia el buscador por si hicieron click muy abajo
+            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
+
         function filterFAQ() {
-            const input = document.querySelector('.search-box');
-            const filter = input.value.toUpperCase();
+            const filterRaw = searchInput.value;
+            const filter = normalizeText(filterRaw).trim();
             const faqs = document.querySelectorAll('.faq-item');
+            const sections = document.querySelectorAll('.section-block');
+            let totalMatches = 0;
+
+            if(filterRaw.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
 
             faqs.forEach(faq => {
-                const question = faq.querySelector('.faq-question').innerText;
-                const answer = faq.querySelector('.faq-answer').innerText;
-                // Buscar tanto en pregunta como en respuesta
-                if (question.toUpperCase().indexOf(filter) > -1 || answer.toUpperCase().indexOf(filter) > -1) {
+                const questionEl = faq.querySelector('.faq-question');
+                const answerEl = faq.querySelector('.faq-answer');
+                const keywords = faq.dataset.keywords || "";
+                
+                if(!faq.dataset.originalQ) faq.dataset.originalQ = questionEl.innerHTML;
+                if(!faq.dataset.originalA) faq.dataset.originalA = answerEl.innerHTML;
+
+                const qText = normalizeText(questionEl.textContent);
+                const aText = normalizeText(answerEl.textContent);
+                const kText = normalizeText(keywords);
+
+                if (filter === '') {
                     faq.style.display = "";
+                    questionEl.innerHTML = faq.dataset.originalQ;
+                    answerEl.innerHTML = faq.dataset.originalA;
+                    faq.classList.remove('active');
+                    totalMatches++;
                 } else {
-                    faq.style.display = "none";
+                    let isMatch = false;
+                    
+                    if (filter.length <= 2) {
+                        const regex = new RegExp("\\b" + filter, "i");
+                        if (regex.test(kText) || regex.test(qText)) {
+                            isMatch = true;
+                        }
+                    } else {
+                        if (qText.includes(filter) || aText.includes(filter) || kText.includes(filter)) {
+                            isMatch = true;
+                        }
+                    }
+
+                    if (isMatch) {
+                        faq.style.display = "";
+                        totalMatches++;
+                        faq.classList.add('active'); 
+                    } else {
+                        faq.style.display = "none";
+                        faq.classList.remove('active');
+                    }
                 }
             });
+
+            sections.forEach(section => {
+                const visibleItems = section.querySelectorAll('.faq-item[style=""]').length;
+                section.style.display = (filter === '' || visibleItems > 0) ? "" : "none";
+            });
+
+            if (totalMatches === 0 && filter !== '') noResults.classList.remove('hidden');
+            else noResults.classList.add('hidden');
         }
+
+        function clearSearchInput() {
+            searchInput.value = '';
+            filterFAQ();
+            searchInput.focus();
+        }
+
+        const chipsContainer = document.getElementById('chipsNav');
+
+        function handleChipClick(event, clickedChip) {
+            document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+            clickedChip.classList.add('active');
+            
+            const scrollLeft = clickedChip.offsetLeft - (chipsContainer.offsetWidth / 2) + (clickedChip.offsetWidth / 2);
+            chipsContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            
+            const targetId = clickedChip.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            let maxRatio = 0;
+            let targetId = null;
+            
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+                    maxRatio = entry.intersectionRatio;
+                    targetId = entry.target.getAttribute('id');
+                }
+            });
+
+            if (targetId) {
+                const correspondingChip = document.querySelector(`.chip[href="#${targetId}"]`);
+                if (correspondingChip && !correspondingChip.classList.contains('active')) {
+                    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                    correspondingChip.classList.add('active');
+                    
+                    const scrollLeft = correspondingChip.offsetLeft - (chipsContainer.offsetWidth / 2) + (correspondingChip.offsetWidth / 2);
+                    chipsContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                }
+            }
+        }, { rootMargin: '-20% 0px -60% 0px', threshold: [0, 0.2, 0.5, 1] });
+
+        document.querySelectorAll('.section-block').forEach(section => observer.observe(section));
     </script>
 </body>
 </html>

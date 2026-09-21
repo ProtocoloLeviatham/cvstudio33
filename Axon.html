@@ -1,1014 +1,847 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXON | Ingeniería de Contratación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Documentación Oficial | AXON</title>
+    <meta name="theme-color" content="#000000">
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            900: '#14532d',
+                        },
+                        surface: {
+                            50: '#111111',
+                            100: '#0a0a0a',
+                            200: '#000000',
+                        }
+                    }
+                }
+            }
+        }
 
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FilmShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/FilmPass.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-
+        // Base de Datos del Buscador Inteligente AXON
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('searchDocs', () => ({
+                query: '',
+                open: false,
+                items: [
+                    { id: 'vision', title: 'Inteligencia Analítica', desc: 'La diferencia matemática entre En revisión y Contratado.' },
+                    { id: 'auditoria', title: 'Módulo Analítico', desc: 'Simulación ATS, Lectura profunda y Predicción visual.' },
+                    { id: 'capacidades', title: 'Capacidades del Núcleo', desc: 'Funciones principales del motor de análisis y sincronización.' },
+                    { id: 'parsing', title: 'Motor de Parsing Avanzado', desc: 'Procesamiento de PDFs y validación ATS.' },
+                    { id: 'sync', title: 'Multi-Database Sync', desc: 'Sincronización con redes globales y JOBBY.' },
+                    { id: 'calor', title: 'Mapa de Calor de Retención', desc: 'Predicción biométrica de atención visual (Eye-tracking).' },
+                    { id: 'salary', title: 'Salary Range Intelligence', desc: 'Inteligencia salarial e información de compensación.' },
+                    { id: 'mirroring', title: 'Protocolo Mirroring', desc: 'Alineación psicológica y semántica corporativa.' },
+                    { id: 'metricas', title: 'Métricas de Decisión AXON', desc: 'Índices predictivos y diagnósticos avanzados de legibilidad.' },
+                    { id: 'score', title: 'Score de Compatibilidad', desc: 'Evaluación algorítmica de encaje entre CV y vacante.' },
+                    { id: 'health', title: 'Parsing Health', desc: 'Diagnóstico de legibilidad técnica y errores binarios.' },
+                    { id: 'gap', title: 'Skills Gap', desc: 'Identificación de brechas de habilidades y certificaciones.' },
+                    { id: 'certificacion', title: 'Certificación AXON', desc: 'Garantía algorítmica de calidad para despliegue masivo.' },
+                    { id: 'tokens', title: 'Economía de Tokens AXON', desc: 'Adquisición de potencia de cálculo y planes operativos.' },
+                    { id: 'tokens', title: 'Plan Starter (5 Tokens)', desc: 'Plan básico de análisis.' },
+                    { id: 'tokens', title: 'Plan Pro (20 Tokens)', desc: 'Plan recomendado para optimización continua.' },
+                    { id: 'tokens', title: 'Suscripción Unlimited', desc: 'Plan de acceso mensual ilimitado.' },
+                    { id: 'recursos', title: 'Guía de Gasto por Herramienta', desc: 'Costos operativos de Escaneo Completo y Salary Range.' }
+                ],
+                get filteredItems() {
+                    if (this.query.trim() === '') return [];
+                    const q = this.query.toLowerCase().trim();
+                    return this.items.filter(i => 
+                        i.title.toLowerCase().includes(q) || 
+                        i.desc.toLowerCase().includes(q)
+                    );
+                },
+                goTo(id) {
+                    this.open = false;
+                    this.query = '';
+                    
+                    if (document.querySelector('[x-data="{ mobileMenuOpen: false }"]')) {
+                        window.dispatchEvent(new CustomEvent('close-mobile-menu'));
+                    }
+                    
+                    const el = document.getElementById(id);
+                    if (el) {
+                        const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    }
+                }
+            }))
+        })
+    </script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #020502; /* Very dark green/black */
+            background-color: #000000;
             color: #e2e8f0;
+            -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
         }
-
-        h1, h2, h3, .brand-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .mono-font {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* ----- SCROLL REVEAL ANIMATIONS ----- */
-        .reveal {
-            opacity: 0; transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .reveal.active {
-            opacity: 1; transform: translateY(0);
-        }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-
-
-        /* Canvas Background */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Intro Overlay */
-        #intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 50;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-
-        .intro-text-slide {
-            position: absolute;
-            width: 100%;
-            max-width: 1000px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease-out;
-            padding: 0 20px;
-            text-shadow: 0 0 30px rgba(0,0,0,0.9);
-        }
-
-        .intro-text-slide.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scroll-indicator {
-            margin-top: 2rem;
-            font-size: 0.75rem;
-            color: #4ade80;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            animation: bounce 1.5s infinite;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-        }
-
-        @keyframes bounce {
-            0%, 100% {transform: translateY(0);}
-            50% {transform: translateY(5px);}
-        }
-
-        #intro-spacer {
-            height: 350vh; 
-            width: 100%;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Main Content */
-        #main-content {
-            position: relative;
-            z-index: 20;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-            margin-top: -100vh;
-            padding-top: 100vh;
-            pointer-events: none;
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #22c55e; }
+        
+        .glass-header {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        #main-content.visible {
-            pointer-events: auto;
+        .doc-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
-
-        /* Green Glassmorphism */
-        .glass-card {
-            background: rgba(2, 10, 5, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(34, 197, 94, 0.15); /* Green border */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(34, 197, 94, 0.5);
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.1);
-        }
-
-        /* Token Card */
-        .token-card {
-            background: linear-gradient(180deg, rgba(5, 20, 10, 0.8) 0%, rgba(2, 10, 5, 0.9) 100%);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-        }
-        .token-card:hover {
-            border-color: #4ade80;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.2);
-        }
-        .best-value {
-            border: 1px solid #4ade80;
-            box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+        .doc-card:hover {
+            border-color: rgba(34, 197, 94, 0.4);
+            background: #0f0f0f;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.05);
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #fff 20%, #4ade80 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #4ade80 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .tech-glow {
-            text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+        .gradient-border {
+            position: relative;
+            background: #0a0a0a;
+            background-clip: padding-box;
+            border: 1px solid transparent;
+            border-radius: 12px;
+        }
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -1px;
+            border-radius: inherit;
+            background: linear-gradient(to bottom right, rgba(34, 197, 94, 0.5), rgba(255, 255, 255, 0.05));
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #020502; }
-        ::-webkit-scrollbar-thumb { background: #15803d; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #22c55e; }
+        /* --- BUSCADOR PROFESIONAL --- */
+        .cir-search {
+          display: none;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          max-width: 320px;
+          height: 40px;
+          padding: 0 8px 0 16px;
+          background: #0a0a0a; 
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 999px;
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 18px 36px -22px rgba(0, 0, 0, 0.5);
+          transition: border-color 220ms ease, box-shadow 220ms ease;
+          position: relative;
+        }
 
-        .feature-icon {
-            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
-            border: 1px solid rgba(34, 197, 94, 0.2);
+        @media (min-width: 768px) {
+            .cir-search { display: inline-flex; }
+        }
+
+        .cir-search--mobile {
+            display: inline-flex !important;
+            max-width: 100%;
+        }
+
+        .cir-search__icon {
+          width: 16px;
+          height: 16px;
+          color: #8a93a3;
+          flex-shrink: 0;
+        }
+
+        .cir-search__field {
+          flex: 1;
+          min-width: 0;
+          border: 0;
+          outline: 0;
+          background: transparent;
+          font: inherit;
+          font-size: 13px;
+          color: #ffffff;
+        }
+
+        .cir-search__field::placeholder {
+          color: #4b5563;
+        }
+
+        .cir-search__kbd {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 24px;
+          padding: 0 8px;
+          background: #111111;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 999px;
+        }
+
+        .cir-search:focus-within {
+          border-color: #22c55e;
+          box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1), 0 18px 36px -22px rgba(0, 0, 0, 0.5);
+        }
+
+        .cir-search--hero {
+            display: inline-flex;
+            max-width: 100%;
+            height: 56px;
+            padding: 0 12px 0 20px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        .cir-search--hero .cir-search__icon {
+            width: 20px;
+            height: 20px;
+        }
+        .cir-search--hero .cir-search__field {
+            font-size: 16px;
+        }
+        .cir-search--hero .cir-search__kbd {
+            height: 32px;
+            padding: 0 12px;
+        }
+
+        .brand-icon-list {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.4));
         }
         
-        .bullet-point {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: #d1d5db;
-            margin-bottom: 0.5rem;
+        .search-results-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: #16a34a transparent;
         }
-        .bullet-point i {
-            color: #4ade80;
-            margin-top: 0.2rem;
-            flex-shrink: 0;
+        .search-results-dropdown::-webkit-scrollbar {
+            width: 4px;
+        }
+        .search-results-dropdown::-webkit-scrollbar-thumb {
+            background-color: #16a34a;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-green-500 selection:text-black">
+<body class="antialiased" x-data="{ mobileMenuOpen: false }" @close-mobile-menu.window="mobileMenuOpen = false">
 
-    <div id="canvas-container"></div>
+    <!-- Navbar / Header (Sticky) -->
+    <header class="fixed top-0 w-full z-50 glass-header" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-4">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 -ml-2 text-gray-400 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <a href="#" class="flex items-center group flex-shrink-0">
+                    <img src="logo.png" alt="AXON Logo" class="h-7 w-auto object-contain mr-2">
+                    <span class="font-display font-bold text-xl tracking-tight text-white group-hover:text-brand-400 transition-colors hidden sm:block">AXON<span class="text-brand-500">.docs</span></span>
+                </a>
+            </div>
 
-    <div id="intro-overlay">
-        <div id="intro-text-1" class="intro-text-slide active">
-            <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                Bienvenido, Estás a punto de ver lo que la tecnología de <span class="text-green-400">AXON</span><br>puede hacer por vos.
-            </h2>
-            <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
+            <!-- Buscador Header (Minimizado) -->
+            <div class="flex-1 max-w-lg hidden md:flex justify-center px-4 relative" x-data="searchDocs">
+                <label class="cir-search" @click.away="open = false">
+                    <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.34-4.34"></path>
+                    </svg>
+                    <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Buscar módulos AXON..." autocomplete="off" />
+                    <kbd class="cir-search__kbd">
+                        <svg class="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </kbd>
+                </label>
+                
+                <div x-show="open && query.length > 0" x-cloak class="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-[400px] mt-2 bg-[#0f0f0f] border border-white/10 rounded-xl shadow-2xl max-h-80 overflow-y-auto z-50 search-results-dropdown">
+                    <template x-for="item in filteredItems" :key="item.title">
+                        <button @click="goTo(item.id)" class="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-colors flex flex-col group cursor-pointer">
+                            <span class="text-white font-semibold text-sm group-hover:text-brand-400" x-text="item.title"></span>
+                            <span class="text-gray-400 text-xs mt-0.5" x-text="item.desc"></span>
+                        </button>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="px-4 py-6 text-center text-gray-500 text-sm">
+                        No se encontraron resultados para "<span x-text="query" class="text-gray-300"></span>"
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 flex-shrink-0">
+                <a href="panel-de-recarga-axon.html" class="px-5 py-2.5 bg-white hover:bg-gray-200 text-black text-xs md:text-sm font-bold rounded-lg transition-colors shadow-lg whitespace-nowrap">
+                    Adquirir Tokens
+                </a>
+            </div>
         </div>
-        
-        <div id="intro-text-2" class="intro-text-slide">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
-                Un sistema de inteligencia alimentado por múltiples bases de datos,<br>
-                <span class="text-green-400">para ayudarte a encontrar el trabajo de tus sueños.</span>
-            </h2>
-            <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
-        </div>
+    </header>
 
-        <div id="intro-text-3" class="intro-text-slide">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
-                Deja de perder el tiempo enviando CVs básicos<br>
-                <span class="text-red-400">que no pasarán los filtros ATS.</span>
-            </h2>
-            <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
-        </div>
+    <!-- Mobile Sidebar Navigation -->
+    <div x-show="mobileMenuOpen" class="fixed inset-0 z-40 lg:hidden" style="display: none;">
+        <div x-show="mobileMenuOpen" x-transition.opacity class="fixed inset-0 bg-black/80 backdrop-blur-sm" @click="mobileMenuOpen = false"></div>
+        <nav x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="-translate-x-full"
+             class="fixed top-0 left-0 bottom-0 w-4/5 max-w-sm bg-surface-100 border-r border-white/10 pt-20 pb-10 px-6 overflow-y-auto shadow-2xl flex flex-col">
+            
+            <div class="mb-8 relative" x-data="searchDocs">
+                <label class="cir-search cir-search--mobile">
+                    <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.34-4.34"></path></svg>
+                    <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Buscar..." autocomplete="off"/>
+                </label>
+                
+                <div x-show="open && query.length > 0" x-cloak class="mt-2 bg-[#0f0f0f] border border-white/10 rounded-xl shadow-xl max-h-60 overflow-y-auto search-results-dropdown absolute w-full z-50 left-0 top-full">
+                    <template x-for="item in filteredItems" :key="item.title">
+                        <button @click="goTo(item.id)" class="w-full text-left px-3 py-2 border-b border-white/5 hover:bg-white/5 flex flex-col">
+                            <span class="text-white font-medium text-xs" x-text="item.title"></span>
+                        </button>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="p-3 text-center text-gray-500 text-xs">
+                        Sin resultados.
+                    </div>
+                </div>
+            </div>
 
-        <div id="intro-text-4" class="intro-text-slide">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
-                Nuestro agente <span class="text-green-400">AXON</span> cuenta con múltiples PLUGINs<br>
-                que te apoyarán en tu carrera profesional.
-            </h2>
-            <div class="scroll-indicator">No dejes de deslizar hacia abajo</div>
-        </div>
-
-        <div id="intro-text-5" class="intro-text-slide">
-            <h2 class="text-4xl md:text-6xl font-bold text-white mb-6">
-                ¿Qué estás esperando para probar a nuestro<br>
-                <span class="gradient-text">agente económico AXON?</span>
-            </h2>
-            <div class="scroll-indicator"><i class="ph-bold ph-rocket-launch"></i> INICIANDO SISTEMA...</div>
-        </div>
-    </div>
-
-    <div id="skip-container" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end transition-all duration-500">
-        <span class="text-xs text-green-300/80 font-mono mb-2 bg-black/60 px-3 py-1.5 rounded-md backdrop-blur-md border border-green-500/30">
-            ¿Ya conoces el potencial de AXON?
-        </span>
-        <button id="skip-btn" class="group relative px-6 py-3 bg-green-900/30 hover:bg-green-600/50 border border-green-500/50 text-white rounded-full text-sm font-bold tracking-widest uppercase transition-all overflow-hidden backdrop-blur-md shadow-[0_0_15px_rgba(34,197,94,0.2)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] cursor-pointer pointer-events-auto">
-            <span class="relative z-10 flex items-center gap-2">
-                Omitir Presentación <i class="ph-bold ph-fast-forward text-lg"></i>
-            </span>
-            <div class="absolute inset-0 bg-green-500/20 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-        </button>
-    </div>
-
-    <div id="intro-spacer"></div>
-
-    <div id="main-content">
-        
-        <nav class="fixed w-full z-50 top-0 pt-6 px-6 pointer-events-none reveal">
-            <div class="max-w-7xl mx-auto flex justify-end items-center">
-                <a href="Servicios.html" class="pointer-events-auto bg-green-900/20 hover:bg-green-600/20 border border-green-500/50 text-green-200 px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(34,197,94,0.2)] backdrop-blur-md flex items-center gap-2 hover:scale-105">
-                    <i class="ph-bold ph-arrow-left"></i> Volver a Servicios
+            <div class="space-y-6 flex-1">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Introducción</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#vision" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Inteligencia Analítica</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Módulo Analítico</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#auditoria" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Auditoría Predictiva</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Análisis de Motor</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#capacidades" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Capacidades del Núcleo</a></li>
+                        <li><a href="#parsing" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Motor de Parsing</a></li>
+                        <li><a href="#sync" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Multi-Database Sync</a></li>
+                        <li><a href="#calor" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Mapa de Retención</a></li>
+                        <li><a href="#salary" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Salary Intelligence</a></li>
+                        <li><a href="#mirroring" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Protocolo Mirroring</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Métricas</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#metricas" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Métricas de Decisión</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Facturación</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#tokens" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Economía AXON</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-white/10 pb-4">
+                 <a href="#" class="flex items-center group">
+                    <img src="logo.png" alt="AXON Logo" class="h-6 w-auto object-contain mr-2 opacity-50">
+                    <span class="font-display font-bold text-sm tracking-tight text-gray-500">AXON<span class="text-brand-500">.docs</span></span>
                 </a>
             </div>
         </nav>
+    </div>
 
-        <section class="relative min-h-screen flex items-center justify-center pt-32 px-4">
-            <div class="max-w-6xl mx-auto text-center z-10">
-                <div class="reveal inline-flex items-center gap-2 mb-8 px-4 py-2 border border-green-500/30 rounded-full bg-black/60 backdrop-blur-md">
-                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <span class="text-green-300 text-xs font-bold tracking-[0.2em] uppercase">Módulo de Ingeniería Inversa</span>
+    <!-- Layout Principal Desktop/Mobile -->
+    <div class="max-w-[1400px] mx-auto pt-20 flex relative z-20">
+        
+        <!-- Sidebar Fija Desktop -->
+        <aside class="hidden lg:block w-64 shrink-0 fixed h-[calc(100vh-5rem)] overflow-y-auto border-r border-white/5 pt-10 pb-20 pr-6 pl-4 xl:pl-0">
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Introducción</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#vision" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Inteligencia Analítica</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Auditoría Predictiva</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#auditoria" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Módulo Analítico</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Análisis de Motor</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#capacidades" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Capacidades del Núcleo</a></li>
+                    </ul>
+                    <ul class="space-y-2 border-l border-white/10 ml-2 pl-4 mt-2">
+                        <li><a href="#parsing" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Motor de Parsing</a></li>
+                        <li><a href="#sync" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Multi-Database Sync</a></li>
+                        <li><a href="#calor" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Mapa de Retención</a></li>
+                        <li><a href="#salary" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Salary Intelligence</a></li>
+                        <li><a href="#mirroring" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Protocolo Mirroring</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Métricas AXON</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#metricas" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Métricas de Decisión</a></li>
+                    </ul>
+                    <ul class="space-y-2 border-l border-white/10 ml-2 pl-4 mt-2">
+                        <li><a href="#score" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Score Compatibilidad</a></li>
+                        <li><a href="#health" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Parsing Health</a></li>
+                        <li><a href="#gap" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Skills Gap</a></li>
+                        <li><a href="#certificacion" class="block text-sm text-gray-400 hover:text-white transition-colors py-1">Certificación AXON</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Facturación</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#tokens" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Economía de Tokens</a></li>
+                        <li><a href="#recursos" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Guía de Gastos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="w-full lg:pl-72 xl:pl-80 pt-10 pb-24 px-4 sm:px-6">
+            
+            <section id="vision" class="mb-20 pt-6 flex flex-col items-start">
+                
+                <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/5 border border-white/10">
+                    <img src="logo.png" class="w-3.5 h-3.5 object-contain" alt="">
+                    <span class="text-gray-300 text-xs font-bold tracking-wide uppercase">AXON • Ingeniería Predictiva</span>
                 </div>
                 
-                <h1 class="reveal reveal-delay-1 text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">
-                    <span class="block text-white">Ingeniería Inversa de</span>
-                    <span class="gradient-text tech-glow">Algoritmos de Contratación</span>
+                <h2 class="text-brand-400 font-display font-medium text-lg md:text-xl mb-3">Inteligencia Analítica.</h2>
+                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
+                    Ingeniería Inversa de <br class="hidden sm:block"/>
+                    <span class="gradient-text">Algoritmos de Contratación.</span>
                 </h1>
                 
-                <div class="reveal reveal-delay-2 glass-card p-10 md:p-14 rounded-3xl max-w-5xl mx-auto mb-12 border-l-4 border-l-green-500 text-left md:text-center transform hover:scale-[1.01] transition-transform shadow-2xl bg-gradient-to-b from-green-900/10 to-transparent">
-                    <p class="text-xl text-gray-200 leading-relaxed font-light mb-6">
-                        <strong class="text-green-400 font-bold">AXON</strong> no es un lector de texto; es un motor de ingeniería inversa de algoritmos de contratación. Mientras que los ATS tradicionales buscan palabras clave, AXON utiliza <strong>Deep Learning</strong> para entender la intención, el impacto y la jerarquía de la información.
-                    </p>
-                    <p class="text-lg text-gray-400 leading-relaxed font-light">
-                        Se integra con la red de NYX para absorber datos de ofertas reales en tiempo real, permitiéndole saber qué están buscando las empresas hoy, no hace seis meses. AXON descompone un perfil profesional en vectores matemáticos y los compara con los "Perfiles de Oro" (candidatos contratados) de su base de datos global. Su propósito es eliminar el factor de "suerte" y sustituirlo por <strong>certeza estadística</strong>.
-                    </p>
-                </div>
+                <p class="text-gray-400 text-lg md:text-xl mb-10 max-w-3xl leading-relaxed">
+                    <span class="text-white font-medium">"La diferencia entre 'En revisión' y 'Contratado' radica en la precisión matemática de tus datos."</span><br><br>
+                    AXON constituye el componente de auditoría avanzada del ecosistema. Mediante técnicas de Deep Learning, este sistema compara su perfil contra una base de datos dinámica de casos de éxito en su sector específico.
+                </p>
 
-                <div class="reveal reveal-delay-3">
-                    <a href="protocoloaxon.html" class="inline-block group relative px-12 py-6 bg-black border border-green-500 text-green-400 font-bold text-lg rounded-none skew-x-[-10deg] hover:skew-x-0 transition-transform duration-300 overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-                        <span class="relative z-10 flex items-center gap-3 skew-x-[10deg] group-hover:skew-x-0 tracking-wider">
-                            <i class="ph-bold ph-cpu text-2xl"></i> INICIAR PROTOCOLO AXON
-                        </span>
-                        <div class="absolute inset-0 bg-green-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out"></div>
+                <!-- BUSCADOR HERO -->
+                <div class="w-full max-w-2xl mb-14 relative z-30" x-data="searchDocs">
+                    <label class="cir-search cir-search--hero w-full" @click.away="open = false">
+                        <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.34-4.34"></path>
+                        </svg>
+                        <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Busca métricas, análisis o herramientas..." autocomplete="off"/>
+                        <kbd class="cir-search__kbd hidden sm:inline-flex">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </kbd>
+                    </label>
+
+                    <div x-show="open && query.length > 0" x-cloak class="absolute top-full left-0 w-full mt-2 bg-[#0f0f0f] border border-white/10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] max-h-80 overflow-y-auto search-results-dropdown">
+                        <template x-for="item in filteredItems" :key="item.title">
+                            <button @click="goTo(item.id)" class="w-full text-left px-5 py-4 border-b border-white/5 hover:bg-white/5 transition-colors flex flex-col group cursor-pointer">
+                                <span class="text-white font-bold text-base group-hover:text-brand-400" x-text="item.title"></span>
+                                <span class="text-gray-400 text-sm mt-1" x-text="item.desc"></span>
+                            </button>
+                        </template>
+                        <div x-show="filteredItems.length === 0" class="px-5 py-8 text-center text-gray-500 text-base">
+                            El registro "<span x-text="query" class="text-gray-300 font-bold"></span>" no se encuentra en AXON.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex relative z-20">
+                    <a href="protocoloaxon.html" class="flex items-center justify-center gap-2 bg-white text-black px-8 py-3.5 rounded-lg font-bold hover:bg-gray-200 transition-colors text-sm uppercase tracking-wider">
+                        Iniciar Protocolo AXON
                     </a>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-24 px-4 relative">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="reveal text-4xl md:text-5xl font-bold mb-16 text-center text-white">Capacidades del <span class="text-green-500 tech-glow">Núcleo</span></h2>
+            <hr class="border-white/5 my-16" />
+
+            <section id="auditoria" class="mb-20">
+                <h2 class="font-display text-2xl md:text-3xl font-bold mb-4 text-white flex items-center gap-3">
+                    <img src="logo.png" class="w-6 h-6 object-contain filter grayscale" alt="">
+                    Módulo Analítico & Auditoría
+                </h2>
+                <p class="text-gray-400 text-base mb-10 max-w-3xl leading-relaxed">
+                    Funciona como un simulador de entornos ATS, detectando discrepancias de competencias y errores de formato críticos. Su función es eliminar la incertidumbre, proporcionando un cálculo de probabilidad matemática de éxito basado en evidencia histórica antes de iniciar cualquier proceso de aplicación. Operamos bajo el paradigma de riesgo cero, sustentando cada iteración en auditorías predictivas infalibles.
+                </p>
                 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="reveal glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
-                        <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
-                            <i class="ph-fill ph-file-code text-3xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Motor de Parsing Avanzado</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
-                            Nuestro motor de análisis sintáctico de última generación descompone documentos complejos en sus constituyentes atómicos, garantizando una legibilidad perfecta ante cualquier sistema ATS, sin importar su antigüedad o configuración de seguridad.
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Lectura Profunda</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Escaneo exhaustivo de metadatos y capas ocultas en archivos PDF/Docx para asegurar la integridad de la información y la compatibilidad con parsers antiguos.
                         </p>
-                        <div class="space-y-2">
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Procesa estructuras complejos de PDFs y JSON.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Detecta errores de capa 0 invisibles.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Corrección automática de sintaxis corrupta.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Estandarización ISO-27001 de formato.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Validación contra 50+ tipos de ATS Legacy.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Reconstrucción de metadatos del archivo.</div>
-                        </div>
                     </div>
-
-                    <div class="reveal reveal-delay-1 glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
-                        <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
-                            <i class="ph-fill ph-database text-3xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Multi-Database Sync</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
-                            Sincronización en tiempo real con una red global de bases de datos de reclutamiento, permitiendo a AXON anticipar y adaptarse a cambios silenciosos en los algoritmos de filtrado de las grandes corporaciones antes que nadie.
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Simulación ATS Viva</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Emulación precisa de los algoritmos de filtrado utilizados por proveedores líderes (Workday, Taleo, Greenhouse) para predecir y mitigar rechazos automáticos.
                         </p>
-                        <div class="space-y-2">
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Conexión en tiempo real con JOBBY.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Detección de patrones de rechazo (Workday/Taleo).</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Auto-actualización de reglas de filtrado.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Sincronización con 5 bases de datos globales.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Aprendizaje heurístico de nuevos algoritmos.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Trazabilidad de cambios en políticas.</div>
-                        </div>
                     </div>
-
-                    <div class="reveal reveal-delay-2 glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
-                        <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
-                            <i class="ph-fill ph-eye text-3xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Mapa de Calor de Retención</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
-                            Utilizando modelos predictivos basados en miles de sesiones de eye-tracking reales, AXON reestructura visualmente tu información para maximizar la retención en los puntos focales críticos durante los primeros 6 segundos de escaneo humano.
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Velocidad de Procesamiento</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Capacidad de realizar una auditoría completa del perfil profesional y generar informes tácticos detallados en milisegundos, permitiendo iteraciones rápidas.
                         </p>
-                        <div class="space-y-2">
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Predicción biométrica de mirada (6 segs).</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Optimización de patrones de lectura "F" y "Z".</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Jerarquización visual de logros clave.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Balanceo matemático de espacios en blanco.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Anclaje de atención mediante tipografía.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Simulación de fatiga visual del reclutador.</div>
-                        </div>
                     </div>
-
-                    <div class="reveal glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
-                        <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
-                            <i class="ph-fill ph-currency-dollar text-3xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Salary Range Intelligence</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
-                            Acceso privilegiado a datos de compensación confidenciales en tiempo real, cruzando información de mercado, ubicación y nivel de seniority para ofrecerte una ventaja táctica invaluable durante la fase de negociación.
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Predicción de Vista</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Generación de mapas de calor que simulan con un 96% de precisión el recorrido visual de un reclutador humano en los primeros 6 segundos de lectura.
                         </p>
-                        <div class="space-y-2">
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Datos salariales reales actualizados semanalmente.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Desglose por sucursal y nivel de experiencia.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Comparativa con media del mercado local.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Detección de bonos y beneficios ocultos.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Predicción de margen de negociación.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Alerta de ofertas "Low-Ball" (Baja remuneración).</div>
-                        </div>
                     </div>
-
-                    <div class="reveal reveal-delay-1 glass-card p-8 rounded-xl h-full hover:bg-green-900/10 transition-colors group">
-                        <div class="feature-icon h-14 w-14 rounded-full flex items-center justify-center text-green-300 mb-6 bg-black/40">
-                            <i class="ph-fill ph-users-three text-3xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Protocolo Mirroring</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
-                            Algoritmos de procesamiento de lenguaje natural que analizan la huella digital comunicativa de la empresa y alinean tu tono, vocabulario y estilo para crear una resonancia psicológica inmediata con el reclutador.
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Métricas de Decisión</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Cálculo de un índice de compatibilidad numérico (0-100%) respecto a vacantes objetivo, basado en densidad de keywords y estructura de competencias.
                         </p>
-                        <div class="space-y-2">
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Análisis semántico de cultura corporativa.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Adaptación de tono (Formal/Creativo/Técnico).</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Inyección de vocabulario interno de la empresa.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Alineación de valores y misión.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Reescritura de "Soft Skills" contextuales.</div>
-                            <div class="bullet-point"><i class="ph-bold ph-check"></i> Mimetización psicológica del candidato ideal.</div>
-                        </div>
+                    </div>
+                    <div class="doc-card p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Auditoría de Sesgo</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Detección y neutralización proactiva de patrones lingüísticos o estructurales que podrían activar sesgos algorítmicos negativos en sistemas de IA de selección.
+                        </p>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-24 px-4 bg-green-900/5 border-y border-green-900/20">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="reveal text-3xl font-bold mb-12 text-center">Métricas de Decisión <span class="text-green-400">AXON</span></h2>
+            <hr class="border-white/5 my-16" />
+
+            <section id="capacidades" class="mb-20">
+                <h2 class="font-display text-2xl md:text-3xl font-bold mb-4 text-white flex items-center gap-3">
+                    <img src="logo.png" class="w-6 h-6 object-contain" alt="">
+                    Capacidades del <span class="text-brand-500">Núcleo</span>
+                </h2>
                 
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div class="reveal glass-card p-6 rounded-xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 border-b border-white/10 pb-4">
-                            <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-chart-bar"></i></div>
-                            <h4 class="text-white font-bold text-xl">Score de Compatibilidad</h4>
+                <div class="grid md:grid-cols-2 gap-6 mt-10">
+                    <div id="parsing" class="doc-card p-8 group relative overflow-hidden">
+                        <h3 class="text-xl font-bold text-white mb-3">Motor de Parsing Avanzado</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
+                            Nuestro motor descompone documentos complejos en sus constituyentes atómicos, garantizando una legibilidad perfecta ante cualquier sistema ATS, sin importar su antigüedad o configuración de seguridad.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Procesa estructuras complejas de PDFs y JSON.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Detecta errores de capa 0 invisibles.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Corrección automática de sintaxis corrupta.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Estandarización ISO-27001 de formato.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Validación contra 50+ tipos de ATS Legacy.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Reconstrucción de metadatos del archivo.</li>
+                        </ul>
+                    </div>
+
+                    <div id="sync" class="doc-card p-8 group relative overflow-hidden">
+                        <h3 class="text-xl font-bold text-white mb-3">Multi-Database Sync</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
+                            Sincronización en tiempo real con una red global de bases de datos de reclutamiento, permitiendo a AXON anticipar y adaptarse a cambios silenciosos en los algoritmos de filtrado.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Conexión en tiempo real con JOBBY.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Detección de patrones de rechazo (Workday/Taleo).</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Auto-actualización de reglas de filtrado.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Sincronización con 5 bases de datos globales.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Aprendizaje heurístico de nuevos algoritmos.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Trazabilidad de cambios en políticas.</li>
+                        </ul>
+                    </div>
+
+                    <div id="calor" class="doc-card p-8 group relative overflow-hidden">
+                        <h3 class="text-xl font-bold text-white mb-3">Mapa de Calor de Retención</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
+                            Modelos predictivos basados en miles de sesiones de eye-tracking reales. Reestructura visualmente tu información para maximizar retención en puntos focales críticos.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Predicción biométrica de mirada (6 segs).</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Optimización de patrones de lectura "F" y "Z".</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Jerarquización visual de logros clave.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Balanceo matemático de espacios en blanco.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Anclaje de atención mediante tipografía.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Simulación de fatiga visual del reclutador.</li>
+                        </ul>
+                    </div>
+
+                    <div id="salary" class="doc-card p-8 group relative overflow-hidden">
+                        <h3 class="text-xl font-bold text-white mb-3">Salary Range Intelligence</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
+                            Acceso privilegiado a datos de compensación confidenciales en tiempo real, cruzando información para ofrecerte una ventaja táctica invaluable durante la negociación.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Datos salariales reales actualizados semanalmente.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Desglose por sucursal y nivel de experiencia.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Comparativa con media del mercado local.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Detección de bonos y beneficios ocultos.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Predicción de margen de negociación.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Alerta de ofertas "Low-Ball" (Baja remuneración).</li>
+                        </ul>
+                    </div>
+
+                    <div id="mirroring" class="doc-card p-8 group relative overflow-hidden md:col-span-2 lg:col-span-1">
+                        <h3 class="text-xl font-bold text-white mb-3">Protocolo Mirroring</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4 border-b border-white/10 pb-4">
+                            Algoritmos de procesamiento de lenguaje natural que analizan la huella digital comunicativa de la empresa y alinean tu tono, vocabulario y estilo para crear una resonancia.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Análisis semántico de cultura corporativa.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Adaptación de tono (Formal/Creativo/Técnico).</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Inyección de vocabulario interno de la empresa.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Alineación de valores y misión.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Reescritura de "Soft Skills" contextuales.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-70 filter grayscale"> Mimetización psicológica del candidato ideal.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5 my-16" />
+
+            <section id="metricas" class="mb-20">
+                <div class="mb-10 text-center md:text-left">
+                    <h2 class="font-display text-3xl font-bold mb-4 text-white">Métricas de Decisión <span class="text-brand-500">AXON</span></h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div id="score" class="doc-card p-6 rounded-xl flex flex-col gap-4">
+                        <div class="border-b border-white/10 pb-4">
+                            <h4 class="text-white font-bold text-xl flex items-center gap-2"><img src="logo.png" class="w-4 h-4 filter grayscale"> Score de Compatibilidad</h4>
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">
                             Un índice compuesto que evalúa la probabilidad estadística de éxito basándose en la coincidencia semántica, densidad de palabras clave y estructura técnica en comparación con la descripción del puesto.
                         </p>
-                        <ul class="space-y-2 text-sm text-gray-400">
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Probabilidad matemática de superar filtro inicial.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Análisis vectorial de palabras clave.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Comparación con "Perfiles de Oro".</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Predicción de ranking en la pila de CVs.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Detección de "Deal Breakers" automáticos.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Simulación de puntaje ATS en tiempo real.</li>
+                        <ul class="space-y-2 text-sm text-gray-400 mt-2">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Probabilidad matemática de superar filtro inicial.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Análisis vectorial de palabras clave.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Comparación con "Perfiles de Oro".</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Predicción de ranking en la pila de CVs.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Detección de "Deal Breakers" automáticos.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Simulación de puntaje ATS en tiempo real.</li>
                         </ul>
                     </div>
 
-                    <div class="reveal reveal-delay-1 glass-card p-6 rounded-xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 border-b border-white/10 pb-4">
-                            <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-first-aid"></i></div>
-                            <h4 class="text-white font-bold text-xl">Parsing Health</h4>
+                    <div id="health" class="doc-card p-6 rounded-xl flex flex-col gap-4">
+                        <div class="border-b border-white/10 pb-4">
+                            <h4 class="text-white font-bold text-xl flex items-center gap-2"><img src="logo.png" class="w-4 h-4 filter grayscale"> Parsing Health</h4>
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">
                             Diagnóstico profundo de la legibilidad técnica del archivo, identificando y neutralizando elementos corruptos, fuentes no estándar o gráficos complejos que podrían causar un rechazo automático por error de lectura.
                         </p>
-                        <ul class="space-y-2 text-sm text-gray-400">
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Integridad técnica del archivo binario.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Detección de fuentes o gráficos ilegibles.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Validación de estructura de encabezados.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Compatibilidad con sistemas legacy (pre-2010).</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Verificación de metadatos limpios.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Test de extracción de texto plano.</li>
+                        <ul class="space-y-2 text-sm text-gray-400 mt-2">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Integridad técnica del archivo binario.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Detección de fuentes o gráficos ilegibles.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Validación de estructura de encabezados.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Compatibilidad con sistemas legacy (pre-2010).</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Verificación de metadatos limpios.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Test de extracción de texto plano.</li>
                         </ul>
                     </div>
 
-                    <div class="reveal glass-card p-6 rounded-xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 border-b border-white/10 pb-4">
-                            <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-target"></i></div>
-                            <h4 class="text-white font-bold text-xl">Skills Gap</h4>
+                    <div id="gap" class="doc-card p-6 rounded-xl flex flex-col gap-4">
+                        <div class="border-b border-white/10 pb-4">
+                            <h4 class="text-white font-bold text-xl flex items-center gap-2"><img src="logo.png" class="w-4 h-4 filter grayscale"> Skills Gap</h4>
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">
                             Análisis diferencial avanzado que identifica las competencias críticas y certificaciones exactas que están ausentes en tu perfil al compararlo con los candidatos exitosos históricos para ese rol específico.
                         </p>
-                        <ul class="space-y-2 text-sm text-gray-400">
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Mapa de calor de habilidades faltantes.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Identificación de certificaciones requeridas.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Sugerencia de micro-credenciales rápidas.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Análisis de densidad de keywords técnicas.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Comparativa con el "Match Perfecto".</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Estrategia de compensación de brechas.</li>
+                        <ul class="space-y-2 text-sm text-gray-400 mt-2">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Mapa de calor de habilidades faltantes.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Identificación de certificaciones requeridas.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Sugerencia de micro-credenciales rápidas.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Análisis de densidad de keywords técnicas.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Comparativa con el "Match Perfecto".</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Estrategia de compensación de brechas.</li>
                         </ul>
                     </div>
 
-                    <div class="reveal reveal-delay-1 glass-card p-6 rounded-xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 border-b border-white/10 pb-4">
-                            <div class="text-green-500 text-4xl bg-green-900/20 p-3 rounded-lg"><i class="ph-duotone ph-seal-check"></i></div>
-                            <h4 class="text-white font-bold text-xl">Certificación AXON</h4>
+                    <div id="certificacion" class="doc-card p-6 rounded-xl flex flex-col gap-4">
+                        <div class="border-b border-white/10 pb-4">
+                            <h4 class="text-white font-bold text-xl flex items-center gap-2"><img src="logo.png" class="w-4 h-4 filter grayscale"> Certificación AXON</h4>
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">
                             Sello de garantía algorítmica que confirma que el perfil ha superado los estándares de calidad más rigurosos, habilitando su distribución masiva segura a través de la red NYX con una tasa de éxito proyectada superior al 50%.
                         </p>
-                        <ul class="space-y-2 text-sm text-gray-400">
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Sello de calidad algorítmica.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Habilitación para envío masivo en NYX.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Garantía de superación de filtro técnico.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Validación de tasa de éxito >50%.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Firma criptográfica de optimización.</li>
-                            <li class="bullet-point"><i class="ph-bold ph-check"></i> Prioridad en colas de procesamiento.</li>
+                        <ul class="space-y-2 text-sm text-gray-400 mt-2">
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Sello de calidad algorítmica.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Habilitación para envío masivo en NYX.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Garantía de superación de filtro técnico.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Validación de tasa de éxito >50%.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Firma criptográfica de optimización.</li>
+                            <li class="flex items-start gap-2"><img src="logo.png" class="w-3 h-3 mt-1 opacity-50 filter grayscale"> Prioridad en colas de procesamiento.</li>
                         </ul>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="py-24 px-4 bg-black">
-            <div class="max-w-7xl mx-auto">
-                <div class="reveal text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white">Economía de <span class="text-green-500 tech-glow">Tokens AXON</span></h2>
-                    <p class="text-gray-400 max-w-2xl mx-auto">
-                        Inversión estratégica en potencia de cálculo.
+            <hr class="border-white/5 my-16" />
+
+            <section id="tokens" class="mb-20">
+                <div class="mb-10">
+                    <h2 class="font-display text-3xl font-bold mb-4 text-white flex items-center gap-3">
+                        <img src="logo.png" class="w-8 h-8 object-contain filter grayscale" alt="">
+                        Economía de Tokens AXON
+                    </h2>
+                    <p class="text-gray-400 text-sm max-w-2xl leading-relaxed">
+                        Inversión estratégica en potencia de cálculo para análisis forense laboral. Adquiere el paquete que mejor se adapte a tu nivel de postulación.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-20">
-                    <div class="reveal token-card p-6 rounded-xl text-center flex flex-col justify-between group">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+                    <!-- Starter -->
+                    <div class="doc-card p-6 text-center flex flex-col justify-between">
                         <div>
-                            <div class="text-green-400 font-mono text-sm mb-2">STARTER</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">5 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-green-500/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$2.000</div>
+                            <div class="text-gray-400 font-mono text-xs mb-2 tracking-wider">STARTER</div>
+                            <h3 class="text-2xl font-bold text-white mb-2">5 <span class="text-sm font-normal text-gray-500">Tokens</span></h3>
+                            <div class="text-lg font-semibold text-white mt-4">$2.000</div>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Starter%20de%205%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 border border-green-500/50 rounded hover:bg-green-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
+                        <a href="panel-de-recarga-axon.html" class="block w-full mt-6 py-2 border border-white/10 rounded hover:bg-white/5 transition-all text-xs font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <div class="reveal reveal-delay-1 token-card p-6 rounded-xl text-center flex flex-col justify-between group">
+                    <!-- Basic -->
+                    <div class="doc-card p-6 text-center flex flex-col justify-between">
                         <div>
-                            <div class="text-green-400 font-mono text-sm mb-2">BASIC</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">10 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-green-500/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$3.500</div>
+                            <div class="text-gray-400 font-mono text-xs mb-2 tracking-wider">BASIC</div>
+                            <h3 class="text-2xl font-bold text-white mb-2">10 <span class="text-sm font-normal text-gray-500">Tokens</span></h3>
+                            <div class="text-lg font-semibold text-white mt-4">$3.500</div>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Basic%20de%2010%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 border border-green-500/50 rounded hover:bg-green-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
+                        <a href="panel-de-recarga-axon.html" class="block w-full mt-6 py-2 border border-white/10 rounded hover:bg-white/5 transition-all text-xs font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <div class="reveal reveal-delay-2 token-card best-value p-6 rounded-xl text-center flex flex-col justify-between group relative transform md:-translate-y-4 bg-green-900/10">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Recomendado</div>
+                    <!-- Pro -->
+                    <div class="gradient-border p-6 text-center flex flex-col justify-between relative bg-[#0f0f0f] transform md:-translate-y-2 shadow-[0_0_30px_rgba(34,197,94,0.05)]">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-500 text-black text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Recomendado</div>
                         <div>
-                            <div class="text-green-300 font-mono text-sm mb-2">PRO</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">20 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-green-500/50 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$6.500</div>
+                            <div class="text-brand-400 font-mono text-xs mb-2 tracking-wider">PRO</div>
+                            <h3 class="text-2xl font-bold text-white mb-2">20 <span class="text-sm font-normal text-gray-400">Tokens</span></h3>
+                            <div class="text-lg font-semibold text-white mt-4">$6.500</div>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Pro%20de%2020%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 bg-green-600 hover:bg-green-500 rounded transition-all text-sm font-bold text-white shadow-[0_0_15px_rgba(34,197,94,0.4)]">ADQUIRIR</a>
+                        <a href="panel-de-recarga-axon.html" class="block w-full mt-6 py-2 bg-brand-600 hover:bg-brand-500 rounded transition-all text-xs font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <div class="reveal reveal-delay-3 token-card p-6 rounded-xl text-center flex flex-col justify-between group">
+                    <!-- Expert -->
+                    <div class="doc-card p-6 text-center flex flex-col justify-between">
                         <div>
-                            <div class="text-green-400 font-mono text-sm mb-2">EXPERT</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">50 <span class="text-lg font-normal text-gray-400">Tokens</span></h3>
-                            <div class="h-px w-full bg-green-500/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$15.000</div>
+                            <div class="text-gray-400 font-mono text-xs mb-2 tracking-wider">EXPERT</div>
+                            <h3 class="text-2xl font-bold text-white mb-2">50 <span class="text-sm font-normal text-gray-500">Tokens</span></h3>
+                            <div class="text-lg font-semibold text-white mt-4">$15.000</div>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20el%20Pack%20Expert%20de%2050%20Tokens%20AXON" target="_blank" class="block w-full mt-6 py-2 border border-green-500/50 rounded hover:bg-green-500/20 transition-all text-sm font-bold text-white">ADQUIRIR</a>
+                        <a href="panel-de-recarga-axon.html" class="block w-full mt-6 py-2 border border-white/10 rounded hover:bg-white/5 transition-all text-xs font-bold text-white">ADQUIRIR</a>
                     </div>
-                    <div class="reveal reveal-delay-3 token-card p-6 rounded-xl text-center flex flex-col justify-between group border-white/20">
+                    <!-- Unlimited -->
+                    <div class="doc-card p-6 text-center flex flex-col justify-between border-white/20">
                         <div>
-                            <div class="text-white font-mono text-sm mb-2">UNLIMITED</div>
-                            <h3 class="text-2xl font-bold text-white mb-2">PLAN <br>MENSUAL</h3>
-                            <div class="h-px w-full bg-white/20 my-4"></div>
-                            <div class="text-2xl font-bold text-white">$20.000</div>
+                            <div class="text-white font-mono text-xs mb-2 tracking-wider">UNLIMITED</div>
+                            <h3 class="text-xl font-bold text-white mb-2">PLAN<br/>MENSUAL</h3>
+                            <div class="text-lg font-semibold text-white mt-4">$20.000</div>
                         </div>
-                        <a href="https://wa.me/1234567890?text=Hola,%20me%20interesa%20la%20Suscripción%20Mensual%20AXON" target="_blank" class="block w-full mt-6 py-2 bg-white text-black hover:bg-gray-200 rounded transition-all text-sm font-bold">SUSCRIBIRSE</a>
+                        <a href="panel-de-recarga-axon.html" class="block w-full mt-6 py-2 bg-white text-black hover:bg-gray-200 rounded transition-all text-xs font-bold">SUSCRIBIRSE</a>
                     </div>
                 </div>
 
-                <div class="reveal glass-card p-8 rounded-2xl max-w-3xl mx-auto border border-green-500/30">
-                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                        <i class="ph-fill ph-coin-vertical text-yellow-400"></i> Guía de Gasto por Herramienta
+                <div id="recursos" class="doc-card p-8 max-w-3xl border border-white/10 bg-[#050505]">
+                    <h3 class="text-lg font-semibold text-white mb-6 border-b border-white/5 pb-4 flex items-center gap-2">
+                        Guía de Gasto Operativo
                     </h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Escaneo Completo</span>
-                            <span class="font-mono text-green-400 font-bold">5 Tokens</span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50 filter grayscale"> Escaneo Completo AXON</span>
+                            <span class="font-mono text-gray-300 font-bold">5 Tokens</span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                            <span class="text-gray-300">Escaneo Básico</span>
-                            <span class="font-mono text-green-400 font-bold">3 Tokens</span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50 filter grayscale"> Escaneo Básico (Health Check)</span>
+                            <span class="font-mono text-gray-300 font-bold">3 Tokens</span>
                         </div>
-                        <div class="flex justify-between items-center pt-2">
-                            <span class="text-gray-300">Salary Range Intelligence</span>
-                            <span class="font-mono text-green-400 font-bold">1 Token</span>
+                        <div class="flex justify-between items-center text-sm border-b border-white/5 pb-3">
+                            <span class="text-gray-300 font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50 filter grayscale"> Salary Range Intelligence</span>
+                            <span class="font-mono text-gray-300 font-bold">1 Token</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <footer class="reveal bg-[#010201] py-16 px-4 border-t border-green-900/30 relative">
-            <div class="max-w-7xl mx-auto relative z-10">
-                <div class="flex justify-center mb-12">
-                    <img src="logoaxon.png" alt="AXON Logo" class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-500">
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-12 text-left text-xs text-gray-600 mb-12">
-                    <div>
-                        <h4 class="text-gray-400 font-bold mb-3 uppercase tracking-widest border-l-2 border-green-900 pl-3">Responsabilidad Civil</h4>
-                        <p class="leading-relaxed mb-4">
-                            AXON es una herramienta de análisis estadístico y optimización de datos. No garantiza la contratación final, ya que esta depende de factores humanos y corporativos externos a nuestro algoritmo. El uso de técnicas de "Mirroring" y "Invisible Text" debe realizarse bajo discreción del usuario. AXON no se hace responsable por descalificaciones derivadas del mal uso de la información proporcionada.
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="text-gray-400 font-bold mb-3 uppercase tracking-widest border-l-2 border-green-900 pl-3">Protección de Datos & Confidencialidad</h4>
-                        <p class="leading-relaxed mb-4">
-                            Los datos personales procesados por el motor de parsing son encriptados (AES-256) y eliminados de los servidores de procesamiento tras 24 horas. AXON no comparte perfiles de usuarios con terceros ni vende metadatos a reclutadores. La base de datos de "Perfiles de Oro" es anónima y agregada.
-                        </p>
-                        <p class="leading-relaxed">
-                            &copy; 2025 AXON Engineering. Una división de NYX Systems. Todos los derechos reservados.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
+        </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!window.THREE) {
-                console.error("Three.js not loaded");
-                return;
-            }
-
-            // --- SCROLL REVEAL INTACTO ---
-            const revealElements = document.querySelectorAll('.reveal');
-            const revealOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            };
+    <footer class="border-t border-white/5 bg-[#000000] pt-16 pb-12 px-4 md:px-8 mt-auto relative z-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12 flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
+                <a href="#" class="flex items-center group flex-shrink-0">
+                    <img src="logoaxon.png" alt="AXON Logo" class="h-10 w-auto object-contain mr-3 opacity-70 group-hover:opacity-100 transition-opacity">
+                </a>
+            </div>
             
-            const revealObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, revealOptions);
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-sm text-gray-500 mb-12">
+                <div>
+                    <h4 class="text-gray-400 font-bold mb-4 uppercase tracking-wider text-xs">Aviso Legal & SaaS Liability</h4>
+                    <p class="leading-relaxed mb-4 text-xs text-justify text-gray-500">
+                        AXON opera como una herramienta de inteligencia forense e ingeniería inversa de algoritmos de reclutamiento (ATS). No constituye garantía absoluta de contratación, sujeta a evaluación humana posterior al filtrado automatizado. El uso agresivo de técnicas de "Deep Mirroring", inyección de palabras clave o manipulación de capa 0 de PDFs se realiza estrictamente bajo la discreción del usuario. AXON Engineering, bajo el conglomerado de NYX, se desliga de cualquier responsabilidad por baneo en plataformas corporativas de terceros derivado de la detección de manipulación de archivos.
+                    </p>
+                </div>
 
-            revealElements.forEach(el => revealObserver.observe(el));
+                <div>
+                    <h4 class="text-gray-400 font-bold mb-4 uppercase tracking-wider text-xs">Compliance GDPR & Privacidad IA</h4>
+                    <p class="leading-relaxed mb-4 text-xs text-justify text-gray-500">
+                        Todo archivo procesado por nuestro motor de parsing pasa por un túnel de fragmentación criptográfica bajo estándares AES-256. AXON NO entrena sus modelos LLM base con los datos personales de los clientes, previniendo fuga de datos (Data Leakage). Toda información personal identificable (PII) es destruida de los clústeres temporales tras 24 horas operativas. La base heurística de "Perfiles de Oro" se nutre exclusivamente de metadatos anonimizados para evitar sesgos discriminatorios.
+                    </p>
+                </div>
 
-            // --- SKIP BUTTON LOGIC FIX INTACTO ---
-            const spacer = document.getElementById('intro-spacer');
-            const skipBtn = document.getElementById('skip-btn');
+                <div>
+                    <h4 class="text-gray-400 font-bold mb-4 uppercase tracking-wider text-xs">Cláusulas Oficiales & Legal</h4>
+                    <ul class="space-y-3 text-xs">
+                        <li><a href="terminos-y-condiciones.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Términos y Condiciones de Servicio</a></li>
+                        <li><a href="politica-de-privacidad.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Política de Privacidad</a></li>
+                        <li><a href="politica-de-cookies.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Política de Cookies</a></li>
+                        <li><a href="#" class="hover:text-gray-600 transition-colors flex items-center gap-2 cursor-not-allowed"><span>→</span> Política Anti-Lavado y KYC (Tokens)</a></li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/5">
+                        <a href="#" class="inline-flex items-center gap-2 bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] px-4 py-2.5 rounded-lg transition-colors text-xs font-bold w-full justify-center shadow-inner">
+                            SOPORTE OFICIAL (TELEGRAM)
+                        </a>
+                    </div>
+                </div>
+            </div>
             
-            skipBtn.addEventListener('click', () => {
-                const targetScroll = spacer.offsetHeight; 
-                gsap.to(window, {
-                    scrollTo: targetScroll,
-                    duration: 1.5,
-                    ease: "power3.inOut"
-                });
-            });
+            <div class="flex flex-col border-t border-white/5 pt-8">
+                <p class="text-xs text-gray-600 text-center uppercase tracking-widest font-mono">
+                    &copy; 2025 AXON Engineering. Una división de NYX Systems.
+                </p>
+                <p class="text-[10px] text-gray-700 text-center mt-2 max-w-3xl mx-auto">
+                    El código fuente y las redes neuronales subyacentes son propiedad intelectual protegida.
+                </p>
+            </div>
+        </div>
+    </footer>
 
-            const container = document.getElementById('canvas-container');
-            const mainContent = document.getElementById('main-content');
-            const skipContainer = document.getElementById('skip-container');
-            
-            // Text Slides
-            const slides = [
-                document.getElementById('intro-text-1'),
-                document.getElementById('intro-text-2'),
-                document.getElementById('intro-text-3'),
-                document.getElementById('intro-text-4'),
-                document.getElementById('intro-text-5')
-            ];
-
-            // --- SCENE SETUP PROFESIONAL AXON ---
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x020502, 0.022); // Deep Green/Black Fog
-
-            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 25;
-
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            container.appendChild(renderer.domElement);
-
-            // --- COMPOSER: NEÓN + EFECTO CRT (SCANLINES) HACKING ---
-            const renderScene = new THREE.RenderPass(scene, camera);
-            const composer = new THREE.EffectComposer(renderer);
-            composer.addPass(renderScene);
-
-            // Neón Verde Extremo
-            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.2, 0.5, 0.8);
-            composer.addPass(bloomPass);
-
-            // Filtro CRT (Monitor Matrix)
-            if (THREE.FilmPass) {
-                const filmPass = new THREE.FilmPass(0.35, 0.25, 900, false);
-                filmPass.renderToScreen = true;
-                composer.addPass(filmPass);
-            }
-
-            // --- ILUMINACIÓN MATRIX / AXON ---
-            const ambientLight = new THREE.AmbientLight(0x021005, 1.2);
-            scene.add(ambientLight);
-
-            const greenLight1 = new THREE.PointLight(0x4ade80, 5, 70);
-            greenLight1.position.set(-15, 5, 5);
-            scene.add(greenLight1);
-
-            const greenLight2 = new THREE.PointLight(0x22c55e, 4, 70);
-            greenLight2.position.set(15, -10, 5);
-            scene.add(greenLight2);
-
-            const mouseLight = new THREE.PointLight(0x86efac, 3.5, 50); // Verde más claro/brillante interactivo
-            scene.add(mouseLight);
-
-            // --- MATERIALES PREMIUM AXON (CRISTAL Y ENERGÍA) ---
-            const glassMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0x22c55e,
-                metalness: 0.9,
-                roughness: 0.1,
-                transmission: 0.95, 
-                thickness: 1.5,
-                ior: 2.0,
-                emissive: 0x022c22, 
-                emissiveIntensity: 0.5,
-                clearcoat: 1.0,
-                wireframe: true // Estilo plano esquemático
-            });
-
-            const cyberMaterial = new THREE.MeshStandardMaterial({
-                color: 0x4ade80,
-                emissive: 0x16a34a, 
-                emissiveIntensity: 2.0, 
-                wireframe: true,
-                transparent: true,
-                opacity: 0.8
-            });
-
-            // --- CONSTRUCCIÓN DE LAS 5 FORMAS 3D SÓLIDAS DE AXON (EVOLUCIONADAS) ---
-            const shapesGroup = new THREE.Group();
-            scene.add(shapesGroup);
-
-            // 1. Átomo Neuronal (IA Core) - Ahora con núcleo de enjambre de datos
-            const atomGroup = new THREE.Group();
-            const atomCoreGeo = new THREE.IcosahedronGeometry(1.8, 2);
-            const atomCorePoints = new THREE.Points(atomCoreGeo, new THREE.PointsMaterial({color: 0x4ade80, size: 0.1, transparent: true, blending: THREE.AdditiveBlending}));
-            const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3.5, 0.05, 16, 100), glassMaterial);
-            const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.5, 0.05, 16, 100), glassMaterial);
-            const ring3 = new THREE.Mesh(new THREE.TorusGeometry(3.5, 0.05, 16, 100), cyberMaterial);
-            ring1.rotation.x = Math.PI / 2;
-            ring2.rotation.y = Math.PI / 3;
-            ring2.rotation.x = Math.PI / 4;
-            ring3.rotation.y = -Math.PI / 3;
-            ring3.rotation.x = Math.PI / 4;
-            atomGroup.add(atomCorePoints, ring1, ring2, ring3);
-
-            // 2. Torre de Datos (Bases de Datos) - Con discos holográficos y pulso
-            const dbGroup = new THREE.Group();
-            const disc1 = new THREE.Mesh(new THREE.CylinderGeometry(2.8, 2.8, 0.2, 32), cyberMaterial);
-            disc1.position.y = 2.5;
-            const disc2 = new THREE.Mesh(new THREE.CylinderGeometry(2.8, 2.8, 0.2, 32), glassMaterial);
-            disc2.position.y = 0;
-            const disc3 = new THREE.Mesh(new THREE.CylinderGeometry(2.8, 2.8, 0.2, 32), cyberMaterial);
-            disc3.position.y = -2.5;
-            const dbCore = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 6, 16), glassMaterial);
-            const wireShell = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 6, 16), new THREE.MeshBasicMaterial({color: 0x22c55e, wireframe: true, transparent: true, opacity: 0.15}));
-            dbGroup.add(disc1, disc2, disc3, dbCore, wireShell);
-
-            // 3. Escáner Radar (Bypass ATS) - Esfera central y ondas de propagación suaves
-            const radarGroup = new THREE.Group();
-            const radarCore = new THREE.Mesh(new THREE.SphereGeometry(1.8, 32, 32), glassMaterial);
-            const radarInnerGlow = new THREE.Mesh(new THREE.SphereGeometry(1.2, 16, 16), cyberMaterial);
-            const scanRing1 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.05, 16, 100), cyberMaterial);
-            scanRing1.rotation.x = Math.PI / 2;
-            const scanRing2 = new THREE.Mesh(new THREE.TorusGeometry(4.5, 0.05, 16, 100), glassMaterial);
-            scanRing2.rotation.x = Math.PI / 2;
-            radarGroup.add(radarCore, radarInnerGlow, scanRing1, scanRing2);
-
-            // 4. Prisma Cuántico / Merkabah (Plugins)
-            const prismGroup = new THREE.Group();
-            const tet1 = new THREE.Mesh(new THREE.TetrahedronGeometry(3.5), glassMaterial);
-            const tet2 = new THREE.Mesh(new THREE.TetrahedronGeometry(3.5), cyberMaterial);
-            tet2.rotation.x = Math.PI; 
-            const prismCore = new THREE.Mesh(new THREE.OctahedronGeometry(1.5), cyberMaterial);
-            prismGroup.add(tet1, tet2, prismCore);
-
-            // 5. Monolito Gateway (Lanzamiento) - Elevando los datos
-            const gatewayGroup = new THREE.Group();
-            const pillar1 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 7, 1.2), glassMaterial);
-            pillar1.position.x = -3;
-            const pillar2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 7, 1.2), glassMaterial);
-            pillar2.position.x = 3;
-            const gateCore = new THREE.Mesh(new THREE.OctahedronGeometry(1.8), cyberMaterial);
-            // Partículas flotando entre los pilares
-            const gateParticlesGeo = new THREE.BufferGeometry();
-            const gateParticlesPos = [];
-            for(let i=0; i<50; i++) {
-                gateParticlesPos.push((Math.random()-0.5)*4, (Math.random()-0.5)*6, (Math.random()-0.5)*2);
-            }
-            gateParticlesGeo.setAttribute('position', new THREE.Float32BufferAttribute(gateParticlesPos, 3));
-            const gateParticles = new THREE.Points(gateParticlesGeo, new THREE.PointsMaterial({color: 0x4ade80, size: 0.15, transparent: true, blending: THREE.AdditiveBlending}));
-            
-            gatewayGroup.add(pillar1, pillar2, gateCore, gateParticles);
-
-            const allShapes = [atomGroup, dbGroup, radarGroup, prismGroup, gatewayGroup];
-            allShapes.forEach(shape => {
-                shape.scale.set(0, 0, 0);
-                shapesGroup.add(shape);
-            });
-
-            // --- RED NEURONAL DE FONDO (STREAM DE DATOS MATRIX) ---
-            const floatingBgGroup = new THREE.Group();
-            scene.add(floatingBgGroup);
-            
-            const particleCount = 150;
-            const floatingObjects = [];
-            
-            const pointGeo = new THREE.OctahedronGeometry(0.25);
-            // Tonos de verdes para el fondo
-            const pointMatDarkGreen = new THREE.MeshBasicMaterial({ color: 0x15803d, wireframe: true });
-            const pointMatLightGreen = new THREE.MeshBasicMaterial({ color: 0x4ade80, wireframe: true });
-
-            for(let i=0; i<particleCount; i++) {
-                const mat = Math.random() > 0.5 ? pointMatDarkGreen : pointMatLightGreen;
-                const mesh = new THREE.Mesh(pointGeo, mat);
-                mesh.position.set(
-                    (Math.random() - 0.5) * 70,
-                    (Math.random() - 0.5) * 70,
-                    (Math.random() - 0.5) * 40 - 15
-                );
-                mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
-                mesh.userData = {
-                    rx: (Math.random() - 0.5) * 0.02,
-                    ry: (Math.random() - 0.5) * 0.02,
-                    yOffset: Math.random() * Math.PI * 2,
-                    speed: Math.random() * 0.015 + 0.005
-                };
-                floatingBgGroup.add(mesh);
-                floatingObjects.push(mesh);
-            }
-
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x22c55e, 
-                transparent: true, 
-                opacity: 0.2, // Conexiones de datos
-                blending: THREE.AdditiveBlending
-            });
-            const lineGeometry = new THREE.BufferGeometry();
-            const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-            floatingBgGroup.add(linesMesh);
-
-            // --- PARALLAX Y RATÓN (LÓGICA REPULSIÓN AXON) ---
-            let targetCameraX = 0;
-            let targetCameraY = 0;
-
-            document.addEventListener('mousemove', (event) => {
-                const mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
-                const mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
-
-                mouseLight.position.x = mouseX * 25;
-                mouseLight.position.y = mouseY * 25;
-                mouseLight.position.z = 10;
-
-                targetCameraX = mouseX * 4;
-                targetCameraY = mouseY * 4;
-                
-                // Repulsión de red neuronal estilo magnético
-                floatingObjects.forEach(obj => {
-                    const dx = obj.position.x - mouseLight.position.x;
-                    const dy = obj.position.y - mouseLight.position.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 6) {
-                        obj.position.x += dx * 0.03;
-                        obj.position.y += dy * 0.03;
-                    }
-                });
-            });
-
-
-            // --- LÓGICA DE SCROLL Y ANIMACIÓN ---
-            let scrollProgress = 0;
-            let currentShapeIndex = 0;
-            
-            function updateScroll() {
-                const scrollY = window.scrollY;
-                const totalHeight = spacer.offsetHeight - window.innerHeight;
-                scrollProgress = Math.max(0, Math.min(scrollY / totalHeight, 1)); 
-
-                slides.forEach(s => s.classList.remove('active'));
-
-                if(scrollProgress < 0.15) { slides[0].classList.add('active'); currentShapeIndex = 0; } 
-                else if(scrollProgress < 0.35) { slides[1].classList.add('active'); currentShapeIndex = 1; } 
-                else if(scrollProgress < 0.55) { slides[2].classList.add('active'); currentShapeIndex = 2; } 
-                else if(scrollProgress < 0.75) { slides[3].classList.add('active'); currentShapeIndex = 3; } 
-                else if(scrollProgress < 0.90) { slides[4].classList.add('active'); currentShapeIndex = 4; }
-
-                if(scrollProgress > 0.92) {
-                    mainContent.style.opacity = 1;
-                    mainContent.classList.add('visible');
-                    document.getElementById('intro-overlay').style.pointerEvents = 'none';
-                    document.getElementById('intro-overlay').style.opacity = 0;
-                    
-                    skipContainer.style.opacity = '0';
-                    skipContainer.style.pointerEvents = 'none';
-                    skipContainer.style.transform = 'translateY(20px)';
-
-                    currentShapeIndex = -1; 
-                } else {
-                    mainContent.style.opacity = 0;
-                    mainContent.classList.remove('visible');
-                    document.getElementById('intro-overlay').style.opacity = 1;
-
-                    skipContainer.style.opacity = '1';
-                    skipContainer.style.pointerEvents = 'auto';
-                    skipContainer.style.transform = 'translateY(0)';
-                }
-            }
-
-            window.addEventListener('scroll', updateScroll);
-
-            const clock = new THREE.Clock();
-
-            function animate() {
-                requestAnimationFrame(animate);
-                const time = clock.getElapsedTime();
-
-                // Parallax suave
-                camera.position.x += (targetCameraX - camera.position.x) * 0.05;
-                camera.position.y += (targetCameraY - camera.position.y) * 0.05;
-                camera.lookAt(scene.position);
-
-                // Nodos orgánicos flotantes
-                floatingObjects.forEach((obj) => {
-                    obj.rotation.x += obj.userData.rx;
-                    obj.rotation.y += obj.userData.ry;
-                    obj.position.y += Math.sin(time * obj.userData.speed + obj.userData.yOffset) * 0.03;
-                });
-
-                // Laser dinámico de red
-                const positions = [];
-                for(let i=0; i<floatingObjects.length; i+=2) {
-                    for(let j=i+1; j<floatingObjects.length; j+=2) {
-                        const dist = floatingObjects[i].position.distanceTo(floatingObjects[j].position);
-                        if(dist < 12) { 
-                            positions.push(
-                                floatingObjects[i].position.x, floatingObjects[i].position.y, floatingObjects[i].position.z,
-                                floatingObjects[j].position.x, floatingObjects[j].position.y, floatingObjects[j].position.z
-                            );
-                        }
-                    }
-                }
-                linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-                lineMaterial.opacity = 0.15 + Math.sin(time * 2.5) * 0.05; // Latido en las conexiones de red
-
-                // Animación HIPER-FLUIDA Específica de cada forma
-                allShapes.forEach((shape, index) => {
-                    const targetScale = (index === currentShapeIndex) ? 1 : 0;
-                    
-                    shape.scale.x += (targetScale - shape.scale.x) * 0.08;
-                    shape.scale.y += (targetScale - shape.scale.y) * 0.08;
-                    shape.scale.z += (targetScale - shape.scale.z) * 0.08;
-
-                    if(shape.scale.x > 0.01) {
-                        if(index === 0) { // Átomo Neuronal
-                            shape.children[0].rotation.y -= 0.005; // Core clouds
-                            shape.children[0].rotation.x -= 0.002;
-                            shape.children[1].rotation.z += 0.01;
-                            shape.children[2].rotation.x += 0.015;
-                            shape.children[3].rotation.y += 0.012;
-                        } 
-                        if(index === 1) { // Torre de Datos
-                            shape.rotation.x = 0.2; 
-                            shape.rotation.y += 0.005;
-                            shape.children[0].rotation.y += 0.02; // Discos
-                            shape.children[1].rotation.y -= 0.03;
-                            shape.children[2].rotation.y += 0.02;
-                            shape.children[3].rotation.y += 0.01;
-                            shape.children[4].rotation.y -= 0.01; // Wireframe shell
-                            shape.position.y = Math.sin(time * 1.5) * 0.4; 
-                        } 
-                        if(index === 2) { // Escáner Radar
-                            shape.rotation.x = 0.4; 
-                            shape.rotation.y += 0.005;
-                            shape.children[0].rotation.y += 0.01;
-                            shape.children[1].scale.setScalar(1 + Math.sin(time * 5)*0.03); // Core pulse
-                            
-                            // Ondas expansivas de radar suavizadas
-                            const pulse1 = 1 + (time * 1.5 % 3);
-                            shape.children[2].scale.set(pulse1, pulse1, pulse1);
-                            shape.children[2].material.opacity = Math.max(0, 1 - (pulse1-1)/3);
-                            
-                            const pulse2 = 1 + ((time * 1.5 + 1.5) % 3);
-                            shape.children[3].scale.set(pulse2, pulse2, pulse2);
-                            shape.children[3].material.opacity = Math.max(0, 1 - (pulse2-1)/3);
-                        } 
-                        if(index === 3) { // Prisma Cuántico
-                            shape.rotation.y += 0.01;
-                            shape.rotation.z += 0.005;
-                            shape.children[0].rotation.x += 0.01;
-                            shape.children[1].rotation.x -= 0.015;
-                            shape.children[2].rotation.y -= 0.03; 
-                        } 
-                        if(index === 4) { // Monolito Gateway
-                            shape.rotation.y += 0.005;
-                            shape.children[2].position.y = Math.sin(time * 2) * 1.5; // Bouncing core
-                            shape.children[2].rotation.y += 0.05;
-                            shape.children[2].rotation.x += 0.02;
-                            // Data flow particles moving up
-                            const pAttr = shape.children[3].geometry.attributes.position;
-                            for(let i=1; i<pAttr.array.length; i+=3) {
-                                pAttr.array[i] += 0.05;
-                                if(pAttr.array[i] > 3) pAttr.array[i] = -3;
-                            }
-                            shape.children[3].geometry.attributes.position.needsUpdate = true;
-                        } 
-                    }
-                });
-
-                greenLight1.position.x = Math.sin(time * 0.5) * 15;
-                greenLight2.position.z = Math.cos(time * 0.3) * 10;
-
-                // Render Composer para efecto CRT + Neón
-                composer.render();
-            }
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                composer.setSize(window.innerWidth, window.innerHeight); 
-            });
-
-            updateScroll();
-            animate();
-        });
-    </script>
 </body>
 </html>
-

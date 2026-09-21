@@ -102,36 +102,16 @@
             color: #FFFFFF;
         }
 
-        .check-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            color: #52525B;
-            line-height: 1.6;
-        }
-        .check-list li::before {
-            content: '';
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            background-image: url('logo.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            margin-top: 4px;
-            flex-shrink: 0;
-            opacity: 0.8;
-        }
-
-        /* Form Floating Labels Ultra-Modern */
+        /* Form Floating Labels Ultra-Modern Fixed */
         .relative-input {
             position: relative;
             margin-bottom: 2.5rem;
             width: 100%;
         }
         .floating-input {
+            display: block;
             width: 100%;
+            height: 3.5rem;
             padding: 1.5rem 0 0.5rem 0;
             background: transparent;
             border: none;
@@ -141,53 +121,93 @@
             font-weight: 500;
             transition: border-color 0.4s ease;
             border-radius: 0;
+            box-sizing: border-box;
         }
         .floating-input:focus {
             border-color: #0A0A0A;
             outline: none;
         }
+        /* Label flotante default (abajo) */
         .floating-label {
             position: absolute;
-            top: 1.5rem;
+            top: 1.2rem;
             left: 0;
             font-size: 0.95rem;
             color: #A1A1AA;
             pointer-events: none;
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1) all;
         }
+        /* Label flotante activo (arriba) */
         .floating-input:focus ~ .floating-label,
-        .floating-input:not(:placeholder-shown) ~ .floating-label {
-            top: -0.5rem;
+        .floating-input:not(:placeholder-shown) ~ .floating-label,
+        .custom-select-wrapper.has-value .floating-label {
+            top: -0.2rem;
             font-size: 0.7rem;
             font-weight: 800;
             color: #0A0A0A;
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
-        
-        /* Personalización de Selectores CV Studio33 */
-        select.floating-input {
-            appearance: none;
-            -webkit-appearance: none;
+
+        /* CUSTOM SELECTORS (Dropdowns personalizados para no usar paneles nativos de SO) */
+        .custom-select-wrapper {
             cursor: pointer;
-            background-color: transparent;
         }
-        select.floating-input option {
-            background-color: #ffffff;
-            color: #0A0A0A;
-            font-weight: 500;
-            padding: 15px;
+        .custom-select-display {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 2rem;
+            line-height: 1.5rem;
+        }
+        .custom-select-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            border-top: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .custom-select-wrapper.open .custom-select-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .custom-select-option {
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #52525B;
+            transition: background 0.2s, color 0.2s;
+        }
+        .custom-select-option:hover {
+            background: #0A0A0A;
+            color: #FFFFFF;
         }
         .select-arrow {
             position: absolute;
             right: 0;
-            top: 1.8rem;
+            top: 1.5rem;
             pointer-events: none;
             color: #0A0A0A;
             transition: transform 0.3s ease;
         }
-        select.floating-input:focus ~ .select-arrow {
+        .custom-select-wrapper.open .select-arrow {
             transform: rotate(180deg);
+        }
+        
+        textarea.floating-input {
+            height: auto;
+            min-height: 6rem;
         }
 
         .file-upload-wrapper {
@@ -246,6 +266,15 @@
             padding: 1rem 2rem;
         }
 
+        /* Icon Fixes */
+        .native-logo {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
     </style>
 </head>
 <body class="antialiased selection:bg-corporate-900 selection:text-white">
@@ -254,7 +283,7 @@
     <nav class="h-24 flex items-center sticky top-0 z-[60] nav-premium">
         <div class="container mx-auto px-6 flex justify-center md:justify-start items-center">
             <a href="#" class="flex items-center gap-4">
-                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-auto object-contain" onerror="this.src='https://ui-avatars.com/api/?name=C+V&background=000&color=fff&rounded=false'">
+                <img src="logo.png" alt="CV Studio33 Logo Oficial" class="h-12 w-auto object-contain" onerror="this.src='https://ui-avatars.com/api/?name=C+S&background=000&color=fff&rounded=false'">
                 <div class="flex flex-col border-l-2 border-gray-900 pl-4">
                     <span class="font-black text-xl tracking-widest uppercase text-corporate-900">CV Studio33</span>
                     <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.25em]">Consultoría Corporativa</span>
@@ -286,10 +315,14 @@
             </div>
 
             <div class="relative w-full max-w-lg mx-auto" data-aos="fade-left" data-aos-delay="200">
-                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Ejecutivo Corporativo" class="w-full h-[500px] object-cover shadow-[0_20px_50px_rgba(0,0,0,0.2)] grayscale hover:grayscale-0 transition duration-700">
+                <!-- Se actualizó a serviciocvfoto.png con fallback a unsplash si no se encuentra -->
+                <img src="serviciocvfoto.png" 
+                     alt="Servicio CV Studio33" 
+                     class="w-full h-auto max-h-[500px] object-cover shadow-[0_20px_50px_rgba(0,0,0,0.2)]" 
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80';">
                 
                 <div class="absolute -bottom-8 -left-4 md:-left-12 bg-white p-6 shadow-2xl border border-gray-100 flex items-center gap-5">
-                    <img src="logo.png" class="w-10 h-10 opacity-90" onerror="this.outerHTML='<i class=\'fa-solid fa-gem text-2xl text-black\'></i>'">
+                    <img src="logo.png" class="w-10 h-10" onerror="this.outerHTML='<i class=\'fa-solid fa-gem text-2xl text-black\'></i>'">
                     <div>
                         <p class="text-[9px] text-gray-500 uppercase tracking-widest font-black mb-1">Certificación Institucional</p>
                         <p class="text-black font-bold text-sm tracking-wide">100% Optimizado para Filtros ATS</p>
@@ -413,27 +446,27 @@
                     </div>
                     <div class="lg:col-span-7 p-10 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-6 bg-corporate-50">
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Autoaprendizaje Evolutivo</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Autoaprendizaje Evolutivo</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Algoritmos recursivos que analizan y refinan las estrategias de inserción basándose en el feedback de procesos de selección exitosos a nivel global, adaptándose a los cambios de algoritmo en tiempo real.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Infraestructura Dedicada</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Infraestructura Dedicada</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Implementación en servidores de alta disponibilidad optimizados para el procesamiento de lenguaje natural (NLP) con latencia cero, asegurando análisis sintácticos complejos en milisegundos.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Ecosistema Modular</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Ecosistema Modular</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Arquitectura abierta que permite la integración fluida de plugins especializados (como EmailHarvest o Jobby Scout), ampliando exponencialmente la capacidad de alcance y penetración de su perfil.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Agente Autónomo</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Agente Autónomo</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Más que una herramienta pasiva, NYX funciona como un agente activo que interactúa dinámicamente con los parámetros de búsqueda booleanos utilizados por los reclutadores corporativos.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Suite Híbrida</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Suite Híbrida</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Sinergia perfecta entre potencia computacional bruta para el análisis de datos masivos y principios avanzados de psicología organizacional aplicada a la selección de personal.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Integración API Global</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Integración API Global</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Conectividad directa mediante APIs privadas con motores de búsqueda de empleo internacionales, permitiendo una distribución de datos eficiente y segmentada por región geográfica.</p>
                         </div>
                     </div>
@@ -464,27 +497,27 @@
                     </div>
                     <div class="lg:col-span-7 p-10 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-6 bg-corporate-50 order-2 lg:order-1">
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Lectura Profunda</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Lectura Profunda</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Escaneo exhaustivo de metadatos y capas ocultas en archivos PDF/Docx para asegurar la integridad de la información y la compatibilidad con parsers antiguos.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Simulación ATS Viva</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Simulación ATS Viva</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Emulación precisa de los algoritmos de filtrado utilizados por proveedores líderes (Workday, Taleo, Greenhouse) para predecir y mitigar rechazos automáticos.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Velocidad de Procesamiento</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Velocidad de Procesamiento</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Capacidad de realizar una auditoría completa del perfil profesional y generar informes tácticos detallados en milisegundos, permitiendo iteraciones rápidas.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Predicción de Vista</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Predicción de Vista</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Generación de mapas de calor que simulan con un 96% de precisión el recorrido visual de un reclutador humano en los primeros 6 segundos de lectura.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Métricas de Decisión</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Métricas de Decisión</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Cálculo de un índice de compatibilidad numérico (0-100%) respecto a vacantes objetivo, basado en densidad de keywords y estructura de competencias.</p>
                         </div>
                         <div class="tech-box">
-                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Auditoría de Sesgo</h4>
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Auditoría de Sesgo</h4>
                             <p class="text-[13px] text-gray-600 font-light leading-relaxed">Detección y neutralización proactiva de patrones lingüísticos o estructurales que podrían activar sesgos algorítmicos negativos en sistemas de IA de selección.</p>
                         </div>
                     </div>
@@ -504,7 +537,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="luxury-card p-8" data-aos="fade-up">
-                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5"> Base de Datos Global</h3>
+                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Base de Datos Global</h3>
                     <p class="text-sm text-gray-500 font-light mb-6">
                         Acceso privilegiado a métricas de contratación y requerimientos semánticos de más de 100 sectores industriales de élite.
                     </p>
@@ -516,7 +549,7 @@
                 </div>
 
                 <div class="luxury-card p-8" data-aos="fade-up" data-aos-delay="50">
-                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5"> Velocidad de Ejecución</h3>
+                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Velocidad de Ejecución</h3>
                     <p class="text-sm text-gray-500 font-light mb-6">
                         Reducimos drásticamente el tiempo de redacción y mapeo de formatos. Usted concéntrese en la entrevista final.
                     </p>
@@ -528,7 +561,7 @@
                 </div>
 
                 <div class="luxury-card p-8" data-aos="fade-up" data-aos-delay="100">
-                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5"> Conversión Científica</h3>
+                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="native-logo"> Conversión Científica</h3>
                     <p class="text-sm text-gray-500 font-light mb-6">
                         Respaldado estadísticamente: un aumento del 300% en captación de entrevistas iniciales durante el primer mes de despliegue.
                     </p>
@@ -557,7 +590,7 @@
                 <div class="inline-flex items-center gap-3 bg-black text-white px-6 py-3 shadow-lg">
                     <i class="fa-solid fa-bolt text-yellow-400"></i>
                     <p class="text-xs font-medium tracking-wide">
-                        <span class="font-bold uppercase">Aviso de Alta Demanda:</span> Contamos con Servicio Exprés por $5.000 - $15.000 adicionales (sujeto a la cola de trabajo del equipo). Destacamos que cumplimos de forma rigurosa las fechas de entrega estándar establecidas al pie de la letra.
+                        <span class="font-bold uppercase">Aviso de Alta Demanda:</span> Contamos con Servicio Exprés por $5.000 - $15.000 adicionales (sujeto a la cola de trabajo del equipo). Destacamos que cumplimos de forma rigurosa las fechas de entrega estándar establecidas.
                     </p>
                 </div>
             </div>
@@ -572,19 +605,19 @@
                     <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">Arquitectura del Plan</p>
                     <ul class="space-y-5 mb-10 flex-grow">
                         <li class="flex gap-4 text-[13px] text-black font-bold items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-90 flex-shrink-0" alt="icon"> CV profesional escrito por expertos (Optimización ATS Nivel 1)
+                            <img src="logo.png" class="native-logo" alt="icon"> CV profesional escrito por expertos (Optimización ATS Nivel 1)
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> Diagnóstico forense y detección de brechas
+                            <img src="logo.png" class="native-logo opacity-60" alt="icon"> Diagnóstico forense y detección de brechas
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> +20 plantillas de CV corporativas atractivas
+                            <img src="logo.png" class="native-logo opacity-60" alt="icon"> +20 plantillas de CV corporativas atractivas
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> 1 revisión profunda para correcciones y añadidos
+                            <img src="logo.png" class="native-logo opacity-60" alt="icon"> 1 revisión profunda para correcciones y añadidos
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start font-medium">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-80 flex-shrink-0" alt="icon"> 2 semanas GRATIS de cuenta NYX/AXON Premium
+                            <img src="logo.png" class="native-logo opacity-80" alt="icon"> 2 semanas GRATIS de cuenta NYX/AXON Premium
                         </li>
                         <li class="flex gap-4 text-[13px] text-black font-bold items-start pt-4 border-t border-gray-100">
                             <i class="fa-regular fa-clock text-gray-500 mt-0.5 flex-shrink-0"></i> Entrega Rápida: Listo en 1 día hábil
@@ -604,21 +637,21 @@
                     <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-black mb-6">Todos los beneficios Básico, y además:</p>
                     <ul class="space-y-5 mb-10 flex-grow">
                         <li class="flex gap-4 text-[13px] text-black font-bold items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-90 flex-shrink-0" alt="icon"> Carta de presentación a juego personalizada
+                            <img src="logo.png" class="native-logo" alt="icon"> Carta de presentación a juego personalizada
                         </li>
                         <li class="text-[11px] text-gray-500 italic ml-8 -mt-3 mb-2 leading-tight">Estadística: Existe un 90% más de probabilidades de que RRHH lea en profundidad un CV con carta adjunta.</li>
                         
                         <li class="flex gap-4 text-[13px] text-black font-bold items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-90 flex-shrink-0" alt="icon"> Filtros ATS sofisticados (Prueba de Estrés Estructural)
+                            <img src="logo.png" class="native-logo" alt="icon"> Filtros ATS sofisticados (Prueba de Estrés Estructural)
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> Optimización pasiva para motores de búsqueda (SEO en PDF)
+                            <img src="logo.png" class="native-logo opacity-60" alt="icon"> Optimización pasiva para motores de búsqueda (SEO en PDF)
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> 3 revisiones estratégicas completas
+                            <img src="logo.png" class="native-logo opacity-60" alt="icon"> 3 revisiones estratégicas completas
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-600 items-start font-medium">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-80 flex-shrink-0" alt="icon"> 1 mes GRATIS de cuenta NYX/AXON Premium
+                            <img src="logo.png" class="native-logo opacity-80" alt="icon"> 1 mes GRATIS de cuenta NYX/AXON Premium
                         </li>
                         <li class="flex gap-4 text-[13px] text-black font-bold items-start pt-4 border-t border-gray-100">
                             <i class="fa-regular fa-clock text-gray-500 mt-0.5 flex-shrink-0"></i> Entrega: Listo en 3 días hábiles
@@ -635,21 +668,21 @@
                     <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-300 mb-6">Todos los beneficios Profesional, y además:</p>
                     <ul class="space-y-5 mb-10 flex-grow">
                         <li class="flex gap-4 text-[13px] text-white font-bold items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-100 filter brightness-0 invert flex-shrink-0" alt="icon"> Reescritura total del perfil de LinkedIn (Algoritmo Recruiter)
+                            <img src="logo.png" class="native-logo filter invert brightness-0" alt="icon"> Reescritura total del perfil de LinkedIn (Algoritmo Recruiter)
                         </li>
                         <li class="text-[11px] text-gray-400 italic ml-8 -mt-3 mb-2 leading-tight">El 97% del headhunting corporativo se ejecuta en LinkedIn. Reescribiremos y blindaremos su presencia digital.</li>
                         
                         <li class="flex gap-4 text-[13px] text-gray-300 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-70 filter brightness-0 invert flex-shrink-0" alt="icon"> Tácticas de networking de élite (La Deep Web laboral)
+                            <img src="logo.png" class="native-logo opacity-70 filter invert brightness-0" alt="icon"> Tácticas de networking de élite (La Deep Web laboral)
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-300 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-70 filter brightness-0 invert flex-shrink-0" alt="icon"> Guía confidencial de simulación de entrevistas C-Level
+                            <img src="logo.png" class="native-logo opacity-70 filter invert brightness-0" alt="icon"> Guía confidencial de simulación de entrevistas C-Level
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-300 items-start">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-70 filter brightness-0 invert flex-shrink-0" alt="icon"> 5 iteraciones y revisiones de máximo detalle
+                            <img src="logo.png" class="native-logo opacity-70 filter invert brightness-0" alt="icon"> 5 iteraciones y revisiones de máximo detalle
                         </li>
                         <li class="flex gap-4 text-[13px] text-gray-300 items-start font-medium">
-                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-100 filter brightness-0 invert flex-shrink-0" alt="icon"> 3 meses GRATIS de cuenta NYX/AXON Premium
+                            <img src="logo.png" class="native-logo filter invert brightness-0" alt="icon"> 3 meses GRATIS de cuenta NYX/AXON Premium
                         </li>
                         <li class="flex gap-4 text-[13px] text-white font-bold items-start pt-4 border-t border-gray-800">
                             <i class="fa-regular fa-clock text-gray-400 mt-0.5 flex-shrink-0"></i> Entrega: Listo en 3 a 5 días hábiles
@@ -659,6 +692,24 @@
                 </div>
 
             </div>
+            
+            <!-- SECCIÓN DE PRESUPUESTO PERSONALIZADO -->
+            <div class="mt-20 max-w-5xl mx-auto bg-white border border-gray-200 shadow-xl p-8 md:p-12" data-aos="fade-up">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h3 class="text-2xl font-black text-black mb-3">¿Sus necesidades no encajan en estos planes?</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Los planes pre-diseñados no son nuestra única modalidad de trabajo. El usuario siempre tiene la ventaja: envíenos su petición detallada y el equipo de CV Studio33 estructurará un <strong>Presupuesto Personalizado</strong> utilizando nuestro generador a medida con acceso a absolutamente todos los productos, servicios tecnológicos y ofertas exclusivas de nuestro arsenal. Usted diseña el servicio; nosotros ejecutamos con precisión matemática.
+                        </p>
+                    </div>
+                    <div class="md:w-1/3 w-full">
+                        <button onclick="selectPlan('Personalizado')" class="btn-luxury w-full py-5 text-xs tracking-[0.2em] font-black uppercase shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-transform">
+                            Solicitar Presupuesto A Medida
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -670,7 +721,7 @@
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-16 items-start mb-16">
             <div class="md:col-span-7 text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-5 mb-8">
-                    <img src="logo.png" alt="CV Studio33 Logo Oficial" class="h-14 opacity-90 filter brightness-0 invert">
+                    <img src="logo.png" alt="CV Studio33 Logo Oficial" class="h-14 opacity-90 filter invert brightness-0">
                     <div class="flex flex-col border-l-2 border-gray-700 pl-4 text-left">
                         <span class="font-black text-2xl tracking-widest uppercase text-white leading-none mb-1">CV Studio33</span>
                         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.25em]">Consultoría Corporativa Global</span>
@@ -707,7 +758,7 @@
     <!-- Botón Flotante Mobile Permanente -->
     <div class="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-black text-white border-t border-gray-800 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
         <button onclick="openPanel()" class="w-full py-4 text-xs tracking-[0.2em] font-black uppercase flex justify-center items-center gap-3">
-            <img src="logo.png" class="w-4 h-4 filter invert brightness-0"> Iniciar Auditoría Corporativa
+            <img src="logo.png" class="native-logo filter invert brightness-0"> Iniciar Auditoría Corporativa
         </button>
     </div>
 
@@ -754,15 +805,19 @@
                     </button>
 
                     <form id="tramiteForm" onsubmit="event.preventDefault(); submitForm();">
-                        <div class="relative-input">
-                            <select id="t-plan" class="floating-input" required placeholder=" ">
-                                <option value="" disabled selected></option>
-                                <option value="Básico ($33.000)">Plan de Inversión Básico ($33.000 ARS)</option>
-                                <option value="Profesional ($65.000)">Plan de Inversión Profesional ($65.000 ARS)</option>
-                                <option value="Completo ($85.000)">Plan de Inversión Completo ($85.000 ARS)</option>
-                            </select>
+                        
+                        <!-- Custom Select: Plan -->
+                        <div class="custom-select-wrapper relative-input" id="cs-plan-wrapper" onclick="toggleSelect('cs-plan-wrapper')">
+                            <div class="custom-select-display floating-input" id="cs-plan-display"></div>
                             <label class="floating-label">Selección de Nivel de Auditoría</label>
                             <i class="fa-solid fa-chevron-down select-arrow text-sm text-black"></i>
+                            <div class="custom-select-options">
+                                <div class="custom-select-option" onclick="setSelectValue('cs-plan', 'Plan Básico ($33.000 ARS)', 'cs-plan-display', 'cs-plan-wrapper')">Plan de Inversión Básico ($33.000 ARS)</div>
+                                <div class="custom-select-option" onclick="setSelectValue('cs-plan', 'Plan Profesional ($65.000 ARS)', 'cs-plan-display', 'cs-plan-wrapper')">Plan de Inversión Profesional ($65.000 ARS)</div>
+                                <div class="custom-select-option" onclick="setSelectValue('cs-plan', 'Plan Completo ($85.000 ARS)', 'cs-plan-display', 'cs-plan-wrapper')">Plan de Inversión Completo ($85.000 ARS)</div>
+                                <div class="custom-select-option" onclick="setSelectValue('cs-plan', 'Presupuesto Personalizado / A Medida', 'cs-plan-display', 'cs-plan-wrapper')">Presupuesto Personalizado / A Medida</div>
+                            </div>
+                            <input type="hidden" id="t-plan" required>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10">
@@ -781,16 +836,18 @@
                                 <input type="tel" id="t-phone" class="floating-input" required placeholder=" ">
                                 <label class="floating-label">Número de Contacto Móvil</label>
                             </div>
-                            <div class="relative-input">
-                                <select id="t-experience" class="floating-input" required placeholder=" ">
-                                    <option value="" disabled selected></option>
-                                    <option value="Trainee / Inicial">Trainee / Nivel Inicial</option>
-                                    <option value="Semi-Senior">Nivel Medio / Semi-Senior</option>
-                                    <option value="Senior / Especialista">Especialista / Senior</option>
-                                    <option value="C-Level / Director">Alta Dirección / C-Level</option>
-                                </select>
+                            <!-- Custom Select: Seniority -->
+                            <div class="custom-select-wrapper relative-input" id="cs-exp-wrapper" onclick="toggleSelect('cs-exp-wrapper')">
+                                <div class="custom-select-display floating-input" id="cs-exp-display"></div>
                                 <label class="floating-label">Clasificación Seniority</label>
                                 <i class="fa-solid fa-chevron-down select-arrow text-sm text-black"></i>
+                                <div class="custom-select-options">
+                                    <div class="custom-select-option" onclick="setSelectValue('t-experience', 'Trainee / Nivel Inicial', 'cs-exp-display', 'cs-exp-wrapper')">Trainee / Nivel Inicial</div>
+                                    <div class="custom-select-option" onclick="setSelectValue('t-experience', 'Nivel Medio / Semi-Senior', 'cs-exp-display', 'cs-exp-wrapper')">Nivel Medio / Semi-Senior</div>
+                                    <div class="custom-select-option" onclick="setSelectValue('t-experience', 'Especialista / Senior', 'cs-exp-display', 'cs-exp-wrapper')">Especialista / Senior</div>
+                                    <div class="custom-select-option" onclick="setSelectValue('t-experience', 'Alta Dirección / C-Level', 'cs-exp-display', 'cs-exp-wrapper')">Alta Dirección / C-Level</div>
+                                </div>
+                                <input type="hidden" id="t-experience" required>
                             </div>
                         </div>
 
@@ -799,16 +856,18 @@
                                 <input type="text" id="t-sector" class="floating-input" required placeholder=" ">
                                 <label class="floating-label">Industria Objetivo / Sector</label>
                             </div>
-                            <div class="relative-input">
-                                <select id="t-mode" class="floating-input" required placeholder=" ">
-                                    <option value="" disabled selected></option>
-                                    <option value="Remoto Global">Contratación Remota Global</option>
-                                    <option value="Híbrido">Modelo de Trabajo Híbrido</option>
-                                    <option value="Presencial Corp.">Presencia Corporativa Física</option>
-                                    <option value="Relocación">Disponibilidad para Relocación</option>
-                                </select>
+                            <!-- Custom Select: Mode -->
+                            <div class="custom-select-wrapper relative-input" id="cs-mode-wrapper" onclick="toggleSelect('cs-mode-wrapper')">
+                                <div class="custom-select-display floating-input" id="cs-mode-display"></div>
                                 <label class="floating-label">Modalidad de Contratación de Interés</label>
                                 <i class="fa-solid fa-chevron-down select-arrow text-sm text-black"></i>
+                                <div class="custom-select-options">
+                                    <div class="custom-select-option" onclick="setSelectValue('t-mode', 'Contratación Remota Global', 'cs-mode-display', 'cs-mode-wrapper')">Contratación Remota Global</div>
+                                    <div class="custom-select-option" onclick="setSelectValue('t-mode', 'Modelo de Trabajo Híbrido', 'cs-mode-display', 'cs-mode-wrapper')">Modelo de Trabajo Híbrido</div>
+                                    <div class="custom-select-option" onclick="setSelectValue('t-mode', 'Presencia Corporativa Física', 'cs-mode-display', 'cs-mode-wrapper')">Presencia Corporativa Física</div>
+                                    <div class="custom-select-option" onclick="setSelectValue('t-mode', 'Disponibilidad para Relocación', 'cs-mode-display', 'cs-mode-wrapper')">Disponibilidad para Relocación</div>
+                                </div>
+                                <input type="hidden" id="t-mode" required>
                             </div>
                         </div>
                         
@@ -823,14 +882,16 @@
                             <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-black"></div>
 
                             <img src="logo.png" class="w-10 h-10 opacity-30 mx-auto mb-4 grayscale">
-                            <p class="text-[11px] font-black tracking-[0.25em] uppercase text-black mb-3">Requisito Obligatorio de Auditoría</p>
-                            <p class="text-[13px] text-gray-500 mb-8 font-medium max-w-md mx-auto leading-relaxed">Para proceder de manera corporativa vía email, su cliente de correo requerirá que usted <strong class="text-black">adjunte manualmente</strong> su documento PDF actual al borrador generado.</p>
+                            <p class="text-[11px] font-black tracking-[0.25em] uppercase text-black mb-3">Auditoría PDF Opcional</p>
+                            <p class="text-[12px] text-gray-500 mb-8 font-medium max-w-lg mx-auto leading-relaxed">
+                                <strong class="text-black">Aviso de seguridad del navegador:</strong> Al procesar su solicitud vía Gmail, el navegador no permite la inyección automática de archivos locales en el borrador por restricciones globales de seguridad web. Si desea que analicemos su documento actual, <strong>puede adjuntarlo usted mismo de manera manual</strong> directamente en el correo que se abrirá, o bien enviarlo posteriormente.
+                            </p>
                             
                             <div class="file-upload-wrapper border-2 border-black p-5 bg-white hover:bg-black hover:text-white transition-all cursor-pointer">
                                 <span class="text-[11px] font-black tracking-[0.2em] uppercase inline-block pointer-events-none flex items-center justify-center gap-3">
-                                    <i class="fa-solid fa-upload"></i> Seleccionar Archivo Local PDF
+                                    <i class="fa-solid fa-upload"></i> Seleccionar Archivo Local (Opcional)
                                 </span>
-                                <input type="file" accept=".pdf" onchange="document.getElementById('file-name').innerHTML = '<i class=\'fa-solid fa-check text-green-500 mr-2\'></i><span class=\'text-black font-bold uppercase tracking-widest text-[10px]\'>Documento Encriptado y Validado:</span> <br><span class=\'text-gray-500 text-xs mt-2 inline-block\'>' + this.files[0].name + '</span>'">
+                                <input type="file" accept=".pdf" onchange="document.getElementById('file-name').innerHTML = '<i class=\'fa-solid fa-check text-green-500 mr-2\'></i><span class=\'text-black font-bold uppercase tracking-widest text-[10px]\'>Archivo en caché:</span> <br><span class=\'text-gray-500 text-xs mt-2 inline-block\'>' + this.files[0].name + ' (Recuerde adjuntarlo en su cliente de correo al abrirse)</span>'">
                             </div>
                             <p id="file-name" class="mt-6"></p>
                         </div>
@@ -852,6 +913,28 @@
         const panel = document.getElementById('admission-panel');
         const overlay = document.getElementById('admission-overlay');
         const content = document.getElementById('admission-content');
+
+        // Lógica de Dropdowns Personalizados (Custom Select)
+        function toggleSelect(wrapperId) {
+            // Cerrar otros primero
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+                if(w.id !== wrapperId) w.classList.remove('open');
+            });
+            document.getElementById(wrapperId).classList.toggle('open');
+        }
+
+        function setSelectValue(inputId, value, displayId, wrapperId) {
+            document.getElementById(inputId).value = value;
+            document.getElementById(displayId).innerText = value;
+            document.getElementById(wrapperId).classList.add('has-value');
+        }
+
+        // Cerrar dropdowns si se hace click afuera
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-select-wrapper')) {
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            }
+        });
 
         function openPanel() {
             panel.classList.add('active');
@@ -877,12 +960,15 @@
         function selectPlan(planKey) {
             openPanel();
             setTimeout(() => {
-                const select = document.getElementById('t-plan');
-                for(let i=0; i<select.options.length; i++) {
-                    if(select.options[i].value.includes(planKey)) {
-                        select.selectedIndex = i;
-                        break;
-                    }
+                // Selecciona el plan específico en el Custom Select si coincide
+                const optionsMap = {
+                    'Básico': 'Plan Básico ($33.000 ARS)',
+                    'Profesional': 'Plan Profesional ($65.000 ARS)',
+                    'Completo': 'Plan Completo ($85.000 ARS)',
+                    'Personalizado': 'Presupuesto Personalizado / A Medida'
+                };
+                if(optionsMap[planKey]) {
+                    setSelectValue('t-plan', optionsMap[planKey], 'cs-plan-display', 'cs-plan-wrapper');
                 }
             }, 500);
         }
@@ -921,6 +1007,15 @@
             const form = document.getElementById('tramiteForm');
             if (!form.checkValidity()) {
                 form.reportValidity();
+                
+                // Marcar selects custom no completados visualmente si es necesario
+                ['t-plan', 't-experience', 't-mode'].forEach(id => {
+                    if(!document.getElementById(id).value) {
+                        const disp = document.getElementById(id).parentElement.querySelector('.custom-select-display');
+                        disp.style.borderBottomColor = 'red';
+                        setTimeout(() => disp.style.borderBottomColor = '', 3000);
+                    }
+                });
                 return;
             }
 
@@ -936,7 +1031,7 @@
             };
 
             if(currentChannel === 'whatsapp') {
-                const text = `🏛️ *MESA DE ADMISIÓN TÉCNICA*%0A*CV STUDIO33 - CONSULTORÍA CORPORATIVA*%0A%0AEstimada mesa ejecutiva, solicito el alta en el sistema para la optimización de mi perfil bajo la Metodología 33.%0A%0A💎 *INVERSIÓN:*%0A${data.plan}%0A%0A📊 *PERFIL EJECUTIVO:*%0A• Nombre Legal: ${data.name}%0A• Email Verificado: ${data.email}%0A• Contacto Directo: ${data.phone}%0A• Seniority: ${data.exp}%0A• Industria Objetivo: ${data.sector}%0A• Modalidad Requerida: ${data.mode}%0A%0A🎯 *DECLARACIÓN DE IMPACTO:*%0A"${data.goal}"%0A%0A>> Aguardo instrucciones operativas para la remisión de mi documento actual.%0A%0A*${data.name}*`;
+                const text = `🏛️ *MESA DE ADMISIÓN TÉCNICA*%0A*CV STUDIO33 - CONSULTORÍA CORPORATIVA*%0A%0AEstimada mesa ejecutiva, solicito evaluación comercial para la optimización de mi perfil bajo la Metodología 33.%0A%0A💎 *NIVEL REQUERIDO:*%0A${data.plan}%0A%0A📊 *PERFIL EJECUTIVO:*%0A• Nombre Legal: ${data.name}%0A• Email Verificado: ${data.email}%0A• Contacto Directo: ${data.phone}%0A• Seniority: ${data.exp}%0A• Industria Objetivo: ${data.sector}%0A• Modalidad Requerida: ${data.mode}%0A%0A🎯 *DECLARACIÓN DE IMPACTO:*%0A"${data.goal}"%0A%0A>> Aguardo instrucciones operativas para proceder.%0A%0A*${data.name}*`;
                 
                 Swal.fire({
                     title: 'Verificación de Seguridad',
@@ -951,14 +1046,14 @@
                 
             } else if(currentChannel === 'gmail') {
                 const subject = encodeURIComponent(`ALTA DE PERFIL EJECUTIVO - ${data.plan.toUpperCase()} - ${data.name.toUpperCase()}`);
-                const body = encodeURIComponent(`ASUNTO: Solicitud de Auditoría y Optimización Algorítmica ATS
+                const body = encodeURIComponent(`ASUNTO: Solicitud de Evaluación / Optimización Algorítmica ATS
 A LA ATENCIÓN DE: Mesa de Admisiones - CV Studio33
 
 Estimados directivos y consultores,
 
-Por la presente, formalizo mi solicitud de ingreso al programa de consultoría ejecutiva bajo el siguiente esquema estructural:
+Por la presente, formalizo mi solicitud de ingreso al ecosistema de consultoría bajo el siguiente esquema:
 
-💎 PLAN DE INVERSIÓN: ${data.plan}
+💎 SELECCIÓN: ${data.plan}
 
 ---------------------------------------------------------------------
 🏛️ PERFIL EJECUTIVO E IDENTIDAD
@@ -974,18 +1069,18 @@ Por la presente, formalizo mi solicitud de ingreso al programa de consultoría e
 "${data.goal}"
 ---------------------------------------------------------------------
 
-[>>> ALERTA DEL SISTEMA: EL USUARIO DEBE ADJUNTAR EL DOCUMENTO PDF ACTUAL EN ESTE CORREO ANTES DE PRESIONAR "ENVIAR" PARA PROCEDER CON LA AUDITORÍA INICIAL <<<]
+[NOTA DEL SISTEMA: SI DESEA ADJUNTAR SU CV ACTUAL PARA REVISIÓN FORENSE, POR FAVOR ADJÚNTELO MANUALMENTE EN ESTE CORREO ANTES DE ENVIARLO.]
 
-Quedo a la espera de sus indicaciones para dar comienzo al despliegue algorítmico y revisión.
+Quedo a la espera de sus indicaciones para dar comienzo a la auditoría.
 
 Atentamente,
 ${data.name}`);
 
                 Swal.fire({
                     title: 'Borrador Institucional Generado',
-                    html: '<p style="color:#666; font-size:14px; line-height:1.6;">El sistema lo está redirigiendo a su cliente de correo electrónico local.</p><br><p style="color:#000; font-weight:bold; font-size:12px; background:#f0f0f0; padding:15px; border-left:4px solid #000;">⚠️ REQUISITO OBLIGATORIO: Por favor, recuerde adjuntar su documento PDF actual en el borrador de correo que está a punto de abrirse para que nuestro equipo técnico pueda procesarlo.</p>',
-                    icon: 'warning',
-                    confirmButtonText: 'ENTENDIDO, PROCEDER',
+                    html: '<p style="color:#666; font-size:14px; line-height:1.6;">El sistema lo está redirigiendo a su cliente de correo electrónico corporativo.</p><br><p style="color:#000; font-weight:bold; font-size:12px; background:#f0f0f0; padding:15px; border-left:4px solid #000;">⚠️ ATENCIÓN AL DETALLE: Por restricciones de seguridad del navegador, no es posible auto-adjuntar archivos. Si desea que auditemos su documento, recuerde adjuntarlo manualmente en la ventana de correo que está por abrirse.</p>',
+                    icon: 'info',
+                    confirmButtonText: 'ENTENDIDO, ABRIR CORREO',
                     customClass: { popup: 'cvstudio-swal' }
                 }).then((result) => {
                     if(result.isConfirmed) {

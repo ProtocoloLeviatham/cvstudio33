@@ -1,67 +1,48 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio33</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CV Studio33 | Consultoría Corporativa</title>
+    <meta name="theme-color" content="#ffffff">
     
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- FontAwesome para íconos estructurales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- AOS Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 para Alertas Personalizadas CV Studio33 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#0f172a', /* Slate 900 */
-                        secondary: '#3b82f6',
-                        accent: '#6366f1',
-                        dark: '#020617',
-                        light: '#f8fafc',
-                        gold: '#fbbf24',
-                        success: '#10b981',
-                        neonPurple: '#b026ff',
-                        neonGreen: '#00ff9d',
-                        neonCyan: '#06b6d4', /* Nuevo para AXON */
-                    },
                     fontFamily: {
-                        heading: ['Montserrat', 'sans-serif'],
-                        sans: ['Open Sans', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        corporate: {
+                            900: '#0A0A0A',
+                            800: '#171717',
+                            700: '#262626',
+                            100: '#F5F5F5',
+                            50: '#FAFAFA'
+                        },
+                        accent: '#000000',
                     },
                     boxShadow: {
-                        'glow': '0 0 20px rgba(59, 130, 246, 0.5)',
-                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.3)',
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'scan-line': 'scanLine 3s linear infinite',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        scanLine: {
-                            '0%': { top: '0%' },
-                            '100%': { top: '100%' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                        'luxury': '0 20px 40px -15px rgba(0,0,0,0.05)',
+                        'panel': '0 -10px 40px rgba(0,0,0,0.1)',
                     }
                 }
             }
@@ -69,325 +50,330 @@
     </script>
 
     <style>
-        body { font-family: 'Open Sans', sans-serif; overflow-x: hidden; }
-        
-        /* Scrollbar Personalizada */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #3b82f6, #6366f1); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-
-        .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-
-        /* SECCIONES ALTERNAS */
-        .section-dark {
-            background-color: #0f172a;
-            background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
-            color: white;
-            position: relative;
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #FFFFFF;
+            color: #0A0A0A;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
         
-        .section-light {
-            background-color: #f8fafc;
-            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #1e293b;
-            position: relative;
+        /* Custom Scrollbar CV Studio33 */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #FFFFFF; }
+        ::-webkit-scrollbar-thumb { background: #0A0A0A; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #333333; }
+
+        .luxury-card {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            transition: all 0.3s ease;
+        }
+        .luxury-card:hover {
+            border-color: #0A0A0A;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
         }
 
-        /* Hero Image Effect */
-        .hero-img-container {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transform: perspective(1000px) rotateY(-5deg);
-            transition: transform 0.5s ease;
-        }
-        .hero-img-container:hover { transform: perspective(1000px) rotateY(0deg); }
-        .hero-img-container::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to top, #0f172a 0%, transparent 40%);
-        }
-
-        /* Feature Cards */
-        .feature-card {
-            padding: 2.5rem;
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .section-dark .feature-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
+        .nav-premium {
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-        }
-        .section-dark .feature-card:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-10px);
-            border-color: #3b82f6;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-        }
-        .section-light .feature-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-        .section-light .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            border-color: #3b82f6;
+            border-bottom: 1px solid #F0F0F0;
         }
 
-        /* Check list */
-        .check-list { list-style: none; padding: 0; margin-top: auto; }
+        .btn-luxury {
+            background: #0A0A0A;
+            color: #FFFFFF;
+            border: 1px solid #0A0A0A;
+            transition: all 0.3s ease;
+        }
+        .btn-luxury:hover {
+            background: #FFFFFF;
+            color: #0A0A0A;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #0A0A0A;
+            border: 1px solid #0A0A0A;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background: #0A0A0A;
+            color: #FFFFFF;
+        }
+
         .check-list li {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            color: #94a3b8;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            color: #52525B;
+            line-height: 1.6;
         }
-        .check-list li i { color: #10b981; }
-
-        /* SLIDER TESTIMONIOS (Rehecho para Google Reviews) */
-        .testimonial-slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding: 2rem 1rem;
-            cursor: grab;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .testimonial-slider::-webkit-scrollbar { display: none; }
-        .testimonial-slider:active { cursor: grabbing; }
-        
-        /* Nuevas tarjetas estilo Google */
-        .t-card {
-            flex: 0 0 350px;
-            background: #ffffff;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            user-select: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-        .t-card:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+        .check-list li::before {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background-image: url('logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-top: 4px;
+            flex-shrink: 0;
+            opacity: 0.8;
         }
 
-        /* MODAL */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .modal-overlay.open { display: flex; opacity: 1; }
-        
-        .modal-content {
-            background: #ffffff;
-            width: 90%; max-width: 530px;
-            border-radius: 24px;
-            padding: 2.2rem;
+        /* Form Floating Labels Ultra-Modern */
+        .relative-input {
             position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .modal-overlay.open .modal-content { transform: scale(1); }
-
-        .form-input {
+            margin-bottom: 2.5rem;
             width: 100%;
-            padding: 12px 14px;
-            margin-bottom: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            background: #f8fafc;
-            color: #334155;
+        }
+        .floating-input {
+            width: 100%;
+            padding: 1.5rem 0 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #E5E5E5;
             font-size: 0.95rem;
-            transition: border-color 0.3s;
+            color: #0A0A0A;
+            font-weight: 500;
+            transition: border-color 0.4s ease;
+            border-radius: 0;
         }
-        .form-input:focus { outline: none; border-color: #3b82f6; background: white; }
+        .floating-input:focus {
+            border-color: #0A0A0A;
+            outline: none;
+        }
+        .floating-label {
+            position: absolute;
+            top: 1.5rem;
+            left: 0;
+            font-size: 0.95rem;
+            color: #A1A1AA;
+            pointer-events: none;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1) all;
+        }
+        .floating-input:focus ~ .floating-label,
+        .floating-input:not(:placeholder-shown) ~ .floating-label {
+            top: -0.5rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #0A0A0A;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        /* Personalización de Selectores CV Studio33 */
+        select.floating-input {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+        select.floating-input option {
+            background-color: #ffffff;
+            color: #0A0A0A;
+            font-weight: 500;
+            padding: 15px;
+        }
+        .select-arrow {
+            position: absolute;
+            right: 0;
+            top: 1.8rem;
+            pointer-events: none;
+            color: #0A0A0A;
+            transition: transform 0.3s ease;
+        }
+        select.floating-input:focus ~ .select-arrow {
+            transform: rotate(180deg);
+        }
 
-        /* ESTILOS PARA LA SECCIÓN DE LABORATORIO/TESTING */
-        .lab-grid {
-            background-image: linear-gradient(rgba(0, 255, 157, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 157, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
         }
-        .scan-beam {
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
             position: absolute;
             left: 0;
-            right: 0;
-            height: 2px;
-            background: #00ff9d;
-            box-shadow: 0 0 15px #00ff9d, 0 0 30px #00ff9d;
-            animation: scan-line 2s ease-in-out infinite;
-            z-index: 10;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
         }
 
-        /* CERTIFICADOS REDONDOS */
-        .cert-round {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.2);
+        /* Panel Flotante Bottom Sheet / Offcanvas */
+        #admission-panel { transition: visibility 0.4s; }
+        #admission-panel.active { visibility: visible; }
+        #admission-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        .tech-box {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            padding: 1.5rem;
             transition: all 0.3s ease;
-            background-color: white; 
-            padding: 5px;
         }
-        .cert-round:hover {
-            transform: scale(1.1) rotate(5deg);
-            border-color: #fbbf24;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+        .tech-box:hover {
+            border-color: #0A0A0A;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08);
         }
         
-        /* ESTILOS PARA NYX & AXON */
-        .ai-card {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
+        /* Personalización de SweetAlert CV Studio33 */
+        .swal2-popup.cvstudio-swal {
+            border-radius: 0 !important;
+            border: 1px solid #000;
+            font-family: 'Montserrat', sans-serif;
+            padding: 2rem;
         }
-        .ai-card:hover { transform: translateY(-5px); }
-        .ai-card.nyx:hover { border-color: #b026ff; box-shadow: 0 0 20px rgba(176, 38, 255, 0.2); }
-        .ai-card.axon:hover { border-color: #06b6d4; box-shadow: 0 0 20px rgba(6, 182, 212, 0.2); }
+        .cvstudio-swal .swal2-title {
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: #000;
+            font-size: 1.2rem;
+        }
+        .cvstudio-swal .swal2-confirm {
+            background-color: #000 !important;
+            border-radius: 0 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 1rem 2rem;
+        }
+
     </style>
 </head>
-<body>
+<body class="antialiased selection:bg-corporate-900 selection:text-white">
 
-    <nav class="h-24 flex items-center border-b border-white/10 sticky top-0 z-50 bg-primary/95 backdrop-blur-md">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="index.html" class="text-sm font-bold tracking-widest text-gray-300 hover:text-white transition flex items-center gap-2 group">
-                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform text-secondary"></i> VOLVER AL INICIO
+    <!-- NAV - Solo Header con Logo CV Studio33 -->
+    <nav class="h-24 flex items-center sticky top-0 z-[60] nav-premium">
+        <div class="container mx-auto px-6 flex justify-center md:justify-start items-center">
+            <a href="#" class="flex items-center gap-4">
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-auto object-contain" onerror="this.src='https://ui-avatars.com/api/?name=C+V&background=000&color=fff&rounded=false'">
+                <div class="flex flex-col border-l-2 border-gray-900 pl-4">
+                    <span class="font-black text-xl tracking-widest uppercase text-corporate-900">CV Studio33</span>
+                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.25em]">Consultoría Corporativa</span>
+                </div>
             </a>
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="CV Studio33" class="h-12 w-auto object-contain">
-                <div class="hidden md:block h-6 w-px bg-white/20"></div>
-                <span class="hidden md:block font-heading font-bold text-sm tracking-wide text-white">SOLUCIONES CORPORATIVAS</span>
-            </div>
         </div>
     </nav>
 
-    <header class="section-dark py-28 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-blue-900/20 to-transparent pointer-events-none"></div>
-        
-        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
-            <div data-aos="fade-right" data-aos-duration="1000">
-                <span class="text-blue-400 font-bold uppercase tracking-[0.2em] text-xs mb-6 block animate-pulse">Consultoría de Élite</span>
-                <h1 class="text-5xl md:text-7xl font-heading font-black mb-8 leading-tight">
-                    ¿Necesitas ayuda para <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">crear tu CV?</span>
+    <!-- HERO CORPORATIVO -->
+    <header class="relative pt-20 pb-24 md:pt-32 md:pb-40 bg-corporate-50">
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-up" class="text-center lg:text-left">
+                <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-gray-500 mb-6 border-b border-gray-300 pb-4 inline-block">Consultoría Tecnológica de Élite</p>
+                
+                <h1 class="text-4xl md:text-6xl font-black text-corporate-900 mb-8 tracking-tighter leading-[1.1]">
+                    Reescribiendo las reglas del <br class="hidden md:block">
+                    <span class="italic font-light">posicionamiento ejecutivo.</span>
                 </h1>
-                <p class="text-gray-300 text-xl mb-12 leading-relaxed font-light">
-                    Nosotros te damos una mano. Fusionamos estrategia humana con inteligencia artificial para posicionarte en el top 1% de candidatos.
+                
+                <p class="text-gray-600 text-base md:text-lg mb-10 leading-relaxed font-light max-w-xl mx-auto lg:mx-0">
+                    ¿Necesita posicionar su trayectoria en la élite empresarial? En <strong>CV Studio33</strong> operamos en la intersección exacta entre la psicología organizacional de alto nivel y la inteligencia artificial algorítmica. No nos limitamos a "diseñar currículums"; <span class="font-bold text-black">estructuramos su identidad corporativa para garantizar matemáticamente su presencia en la mesa de decisiones de las firmas más exigentes del mercado global.</span>
                 </p>
 
-                <button onclick="openModal()" class="group bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(59,130,246,0.4)] transition transform hover:-translate-y-1 flex items-center gap-3">
-                    Empezar el trámite <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                </button>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <button onclick="document.getElementById('planes').scrollIntoView()" class="btn-luxury px-10 py-5 text-sm font-bold tracking-[0.2em] uppercase w-full sm:w-auto shadow-2xl">
+                        Auditar Perfil Ahora
+                    </button>
+                </div>
             </div>
 
-            <div class="hero-img-container" data-aos="zoom-in" data-aos-duration="1200">
-                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Análisis Profesional de CV" class="w-full h-auto object-cover transform hover:scale-105 transition duration-700">
+            <div class="relative w-full max-w-lg mx-auto" data-aos="fade-left" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Ejecutivo Corporativo" class="w-full h-[500px] object-cover shadow-[0_20px_50px_rgba(0,0,0,0.2)] grayscale hover:grayscale-0 transition duration-700">
                 
-                <div class="absolute bottom-8 right-8 bg-black/80 backdrop-blur-xl p-4 rounded-xl border border-white/10 shadow-2xl flex items-center gap-4 animate-bounce">
-                    <div class="bg-green-500/20 p-2 rounded-full text-green-400"><i class="fa-solid fa-check-circle text-2xl"></i></div>
+                <div class="absolute -bottom-8 -left-4 md:-left-12 bg-white p-6 shadow-2xl border border-gray-100 flex items-center gap-5">
+                    <img src="logo.png" class="w-10 h-10 opacity-90" onerror="this.outerHTML='<i class=\'fa-solid fa-gem text-2xl text-black\'></i>'">
                     <div>
-                        <p class="text-xs text-gray-400 uppercase font-bold">Estado</p>
-                        <p class="text-white font-bold">100% Optimizado ATS</p>
+                        <p class="text-[9px] text-gray-500 uppercase tracking-widest font-black mb-1">Certificación Institucional</p>
+                        <p class="text-black font-bold text-sm tracking-wide">100% Optimizado para Filtros ATS</p>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="section-light py-28 relative">
+    <!-- METODOLOGÍA -->
+    <section id="proceso" class="py-24 bg-white border-t border-gray-100">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-24" data-aos="fade-up">
-                <span class="text-blue-600 font-bold tracking-widest text-sm uppercase mb-2 block">Nuestro Proceso Exclusivo</span>
-                <h2 class="text-4xl md:text-5xl font-heading font-black text-primary mb-6">Te contamos cómo funciona</h2>
-                <p class="text-gray-500 text-lg">Implementamos la <strong>Metodología 33</strong>: Precisión, Estrategia y Tecnología.</p>
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-black text-corporate-900 mb-6 tracking-tight">Metodología CV Studio33</h2>
+                <p class="text-gray-500 text-lg max-w-2xl mx-auto font-light">Nuestro flujo de trabajo auditable. Precisión semántica, arquitectura de datos y tecnología de vanguardia combinadas para dominar el algoritmo.</p>
             </div>
 
-            <div class="relative">
-                <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-gray-200 -translate-x-1/2 z-0"></div>
-
-                <div class="flex flex-col lg:flex-row items-center justify-between mb-20 relative z-10 group" data-aos="fade-up">
-                    <div class="lg:w-5/12 text-center lg:text-right order-2 lg:order-1 px-6 mt-8 lg:mt-0">
-                        <h3 class="text-2xl font-bold text-primary mb-1">1. Diagnóstico Forense</h3>
-                        <h4 class="text-blue-600 font-bold mb-3 text-sm tracking-wide">¿Tu CV actual es invisible? Lo sometemos a rayos X.</h4>
-                        <p class="text-gray-600 leading-relaxed">No trabajamos a ciegas. Realizamos una auditoría técnica profunda de tu trayectoria actual para detectar brechas, ausencias de palabras clave y errores estructurales que están bloqueando tu visibilidad ante los filtros automatizados (ATS).</p>
-                    </div>
-                    <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold border-4 border-white shadow-xl order-1 lg:order-2 group-hover:scale-110 transition duration-300 z-10 relative">01</div>
-                    <div class="lg:w-5/12 order-3 lg:order-3 px-6 mt-8 lg:mt-0">
-                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="rounded-lg shadow-lg opacity-80 hover:opacity-100 transition w-full h-48 object-cover" alt="Diagnóstico">
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Paso 1 -->
+                <div class="luxury-card p-8 md:p-10" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="text-4xl font-black text-gray-200 tracking-tighter">01</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-black mb-2">Diagnóstico Forense</h3>
+                            <p class="text-gray-600 font-light leading-relaxed text-sm">Realizamos una auditoría técnica profunda de tu trayectoria actual para detectar brechas, ausencias de palabras clave y errores estructurales que están bloqueando tu visibilidad ante los filtros automatizados (ATS).</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col lg:flex-row items-center justify-between mb-20 relative z-10 group" data-aos="fade-up">
-                    <div class="lg:w-5/12 text-center lg:text-left order-2 lg:order-3 px-6 mt-8 lg:mt-0">
-                        <h3 class="text-2xl font-bold text-primary mb-1">2. Estrategia de Mercado</h3>
-                        <h4 class="text-blue-600 font-bold mb-3 text-sm tracking-wide">Alineación quirúrgica con el puesto de tus sueños.</h4>
-                        <p class="text-gray-600 leading-relaxed">Definimos tu "Target" con precisión milimétrica. Analizamos minuciosamente las vacantes corporativas que persigues y moldeamos tu perfil semánticamente para encajar a la perfección con la mentalidad del reclutador.</p>
-                    </div>
-                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold border-4 border-white shadow-xl order-1 lg:order-2 group-hover:scale-110 transition duration-300 z-10 relative">02</div>
-                    <div class="lg:w-5/12 text-right order-3 lg:order-1 px-6 mt-8 lg:mt-0">
-                         <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="rounded-lg shadow-lg opacity-80 hover:opacity-100 transition w-full h-48 object-cover ml-auto" alt="Estrategia">
-                    </div>
-                </div>
-
-                <div class="flex flex-col lg:flex-row items-center justify-between mb-20 relative z-10 group" data-aos="fade-up">
-                    <div class="lg:w-5/12 text-center lg:text-right order-2 lg:order-1 px-6 mt-8 lg:mt-0">
-                        <h3 class="text-2xl font-bold text-primary mb-1">3. Redacción Persuasiva</h3>
-                        <h4 class="text-blue-600 font-bold mb-3 text-sm tracking-wide">Transformamos tareas aburridas en logros irresistibles.</h4>
-                        <p class="text-gray-600 leading-relaxed">Aplicamos neuro-copywriting estratégico corporativo. Dejamos atrás las descripciones monótonas y construimos declaraciones de alto impacto con métricas (KPIs) comprobables que demuestran autoridad y valor inmediato.</p>
-                    </div>
-                    <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold border-4 border-white shadow-xl order-1 lg:order-2 group-hover:scale-110 transition duration-300 z-10 relative">03</div>
-                    <div class="lg:w-5/12 order-3 lg:order-3 px-6 mt-8 lg:mt-0">
-                         <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="rounded-lg shadow-lg opacity-80 hover:opacity-100 transition w-full h-48 object-cover" alt="Redacción">
+                <!-- Paso 2 -->
+                <div class="luxury-card p-8 md:p-10" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="text-4xl font-black text-gray-200 tracking-tighter">02</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-black mb-2">Estrategia de Mercado</h3>
+                            <p class="text-gray-600 font-light leading-relaxed text-sm">Analizamos minuciosamente las vacantes corporativas que persigues y moldeamos tu perfil semánticamente para encajar a la perfección con la mentalidad del reclutador e indexador automatizado.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col lg:flex-row items-center justify-between mb-20 relative z-10 group" data-aos="fade-up">
-                    <div class="lg:w-5/12 text-center lg:text-left order-2 lg:order-3 px-6 mt-8 lg:mt-0">
-                        <h3 class="text-2xl font-bold text-primary mb-1">4. Arquitectura Visual</h3>
-                        <h4 class="text-blue-600 font-bold mb-3 text-sm tracking-wide">Diseño híbrido: Atractivo para humanos, legible para algoritmos.</h4>
-                        <p class="text-gray-600 leading-relaxed">Implementamos una maquetación inteligente. Estéticamente minimalista e impecable para capturar la atención del gerente de RRHH en 6 segundos, pero estrictamente estructurado en código limpio para que los robots ATS lo procesen sin romper el formato.</p>
-                    </div>
-                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold border-4 border-white shadow-xl order-1 lg:order-2 group-hover:scale-110 transition duration-300 z-10 relative">04</div>
-                    <div class="lg:w-5/12 text-right order-3 lg:order-1 px-6 mt-8 lg:mt-0">
-                         <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="rounded-lg shadow-lg opacity-80 hover:opacity-100 transition w-full h-48 object-cover ml-auto" alt="Diseño">
+                <!-- Paso 3 -->
+                <div class="luxury-card p-8 md:p-10" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="text-4xl font-black text-gray-200 tracking-tighter">03</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-black mb-2">Redacción Persuasiva en Código</h3>
+                            <p class="text-gray-600 font-light leading-relaxed text-sm">Aplicamos neuro-copywriting estratégico corporativo. Construimos declaraciones de alto impacto con métricas (KPIs) comprobables que demuestran autoridad absoluta y valor inmediato para el empleador.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col lg:flex-row items-center justify-between relative z-10 group" data-aos="fade-up">
-                    <div class="lg:w-5/12 text-center lg:text-right order-2 lg:order-1 px-6 mt-8 lg:mt-0">
-                        <h3 class="text-2xl font-bold text-primary mb-1">5. Certificación NYX</h3>
-                        <h4 class="text-green-600 font-bold mb-3 text-sm tracking-wide">La prueba de fuego. Si la IA no lo aprueba, no se entrega.</h4>
-                        <p class="text-gray-600 leading-relaxed">Antes de enviar el producto final, tu CV atraviesa nuestro simulador propietario de Inteligencia Artificial (NYX). Nos aseguramos de que supere el score mínimo del 90%; si no lo logra, el equipo lo re-optimiza hasta garantizar la excelencia.</p>
+                <!-- Paso 4 -->
+                <div class="luxury-card p-8 md:p-10" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="text-4xl font-black text-gray-200 tracking-tighter">04</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-black mb-2">Arquitectura Visual Dual</h3>
+                            <p class="text-gray-600 font-light leading-relaxed text-sm">Maquetación estéticamente minimalista e impecable para capturar la atención humana en 6 segundos, pero estrictamente estructurada en código backend limpio para que los robots ATS lo procesen sin romper el formato ni descartar datos.</p>
+                        </div>
                     </div>
-                    <div class="w-16 h-16 bg-success text-white rounded-full flex items-center justify-center text-2xl font-bold border-4 border-white shadow-xl order-1 lg:order-2 group-hover:scale-110 transition duration-300 z-10 relative">05</div>
-                    <div class="lg:w-5/12 order-3 lg:order-3 px-6 mt-8 lg:mt-0">
-                         <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="rounded-lg shadow-lg opacity-80 hover:opacity-100 transition w-full h-48 object-cover" alt="Certificación">
+                </div>
+
+                <!-- Paso 5 -->
+                <div class="luxury-card p-8 md:p-10" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="text-4xl font-black text-gray-200 tracking-tighter">05</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-black mb-2">Certificación Institucional</h3>
+                            <p class="text-gray-600 font-light leading-relaxed text-sm">Antes de enviar el producto final, tu CV atraviesa nuestro simulador propietario. Nos aseguramos de que supere el score de empleabilidad mínimo del 90%; de lo contrario, el equipo de CV Studio33 lo re-optimiza desde cero.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 6 NUEVO: Prueba de Estrés ATS -->
+                <div class="luxury-card p-8 md:p-10 border-l-4 border-l-black bg-gray-50" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="text-4xl font-black text-black tracking-tighter">06</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-black mb-2 flex items-center gap-3">
+                                <img src="logo.png" class="w-5 h-5"> Prueba de Estrés ATS (Stress Test)
+                            </h3>
+                            <h4 class="text-gray-700 font-semibold mb-4 text-sm tracking-wide">Inmunidad garantizada frente a cualquier algoritmo corporativo.</h4>
+                            <p class="text-gray-600 font-light leading-relaxed text-sm">Además de la creación del CV, sometemos tu documento a pruebas de estrés extremas y entornos hostiles de lectura algorítmica. Bombardeamos el archivo contra los filtros y parsers ATS más agresivos del mercado (Workday, Taleo, Greenhouse) usando nuestra tecnología avanzada para verificar su total legibilidad, extracción de keywords correcta e inmunidad algorítmica ante descartes silenciosos. <strong class="font-bold text-black">Te garantizamos un perfil blindado que supera barreras técnicas.</strong></p>
+                        </div>
                     </div>
                 </div>
 
@@ -395,471 +381,551 @@
         </div>
     </section>
 
-    <section class="section-dark py-28 relative overflow-hidden border-t border-white/5">
-        <div class="absolute inset-0 lab-grid opacity-10"></div>
-        <div class="scan-beam"></div> 
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-16" data-aos="zoom-in">
-                <span class="text-neonGreen font-mono tracking-widest text-xs uppercase mb-3 block">Laboratorio de Alta Precisión</span>
-                <h2 class="text-4xl md:text-5xl font-heading font-black text-white mb-6">
-                    Validación Tecnológica de Punta <span class="text-neonPurple">>90%</span>
-                </h2>
-                <p class="text-gray-300 max-w-3xl mx-auto font-light leading-relaxed">
-                    No nos basamos en suposiciones. Utilizamos un entorno de "Sandboxing" aislado donde simulamos los algoritmos de filtrado de las mayores corporaciones (Amazon, Google, Deloitte). Sometemos tu CV a pruebas de estrés digital para garantizar su inmunidad.
-                </p>
+    <!-- MÓDULO TECNOLÓGICO NYX & AXON -->
+    <section id="tecnologia" class="py-24 bg-corporate-50 border-t border-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 border-b border-gray-200 pb-2 inline-block">Módulo Tecnológico de CV Studio33</p>
+                <h2 class="text-3xl md:text-5xl font-black text-corporate-900 mb-6 tracking-tight">Infraestructura Propietaria</h2>
+            </div>
+
+            <!-- NYX SECTION -->
+            <div class="bg-white border border-gray-200 shadow-[0_20px_50px_rgba(0,0,0,0.08)] mb-16 overflow-hidden" data-aos="fade-up">
+                <div class="grid grid-cols-1 lg:grid-cols-12">
+                    <div class="lg:col-span-5 bg-black text-white p-10 md:p-14 flex flex-col justify-center relative overflow-hidden">
+                        <!-- Watermark -->
+                        <div class="absolute -right-20 -bottom-20 opacity-5 pointer-events-none">
+                            <img src="logonyx.png" class="w-96 h-96 filter invert brightness-0">
+                        </div>
+                        
+                        <img src="logonyx.png" alt="NYX Technology" class="h-12 mb-8 w-auto object-contain self-start invert brightness-0 filter" onerror="this.outerHTML='<h3 class=\'text-3xl font-black mb-4\'>NYX</h3>'">
+                        <h3 class="text-3xl font-black tracking-tighter mb-4">NYX Technology</h3>
+                        <p class="text-lg italic text-gray-400 mb-6 border-l-2 border-gray-600 pl-4 font-light">"El 98% de las postulaciones son descartadas por algoritmos (ATS). No seas parte de la estadística."</p>
+                        <p class="text-sm font-light leading-relaxed text-gray-300 mb-6">
+                            NYX opera como una red neuronal ofensiva, calibrada con más de 10 millones de puntos de datos de contratación. No se limita a corregir; reestructura la arquitectura de sus datos profesionales (XML/JSON) para optimizar la indexación en sistemas ATS globales como Taleo y Workday.
+                        </p>
+                        <p class="text-sm font-light leading-relaxed text-gray-300 mb-10">
+                            En un entorno saturado por filtros automatizados, NYX despliega ingeniería inversa para identificar carencias semánticas y aplicar terminología de alto impacto, asegurando que su perfil profesional obtenga una ventaja técnica y estadística significativa sobre la competencia. Esta supremacía garantiza que su perfil sea categorizado ineludiblemente como 'Candidato Óptimo' en bases de datos de Nivel 1.
+                        </p>
+                        <a href="NyxTegnologia.html" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white hover:text-gray-300 transition w-max border-b border-white pb-1 relative z-10">
+                            Ver Documentación Oficial NYX <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="lg:col-span-7 p-10 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-6 bg-corporate-50">
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Autoaprendizaje Evolutivo</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Algoritmos recursivos que analizan y refinan las estrategias de inserción basándose en el feedback de procesos de selección exitosos a nivel global, adaptándose a los cambios de algoritmo en tiempo real.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Infraestructura Dedicada</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Implementación en servidores de alta disponibilidad optimizados para el procesamiento de lenguaje natural (NLP) con latencia cero, asegurando análisis sintácticos complejos en milisegundos.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Ecosistema Modular</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Arquitectura abierta que permite la integración fluida de plugins especializados (como EmailHarvest o Jobby Scout), ampliando exponencialmente la capacidad de alcance y penetración de su perfil.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Agente Autónomo</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Más que una herramienta pasiva, NYX funciona como un agente activo que interactúa dinámicamente con los parámetros de búsqueda booleanos utilizados por los reclutadores corporativos.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Suite Híbrida</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Sinergia perfecta entre potencia computacional bruta para el análisis de datos masivos y principios avanzados de psicología organizacional aplicada a la selección de personal.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Integración API Global</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Conectividad directa mediante APIs privadas con motores de búsqueda de empleo internacionales, permitiendo una distribución de datos eficiente y segmentada por región geográfica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AXON SECTION -->
+            <div class="bg-white border border-gray-200 shadow-[0_20px_50px_rgba(0,0,0,0.08)] overflow-hidden" data-aos="fade-up">
+                <div class="grid grid-cols-1 lg:grid-cols-12">
+                    <div class="lg:col-span-5 bg-white border-r border-gray-200 p-10 md:p-14 flex flex-col justify-center order-1 lg:order-2 relative overflow-hidden">
+                        <!-- Watermark -->
+                        <div class="absolute -right-20 -bottom-20 opacity-[0.03] pointer-events-none">
+                            <img src="logoaxon.png" class="w-96 h-96">
+                        </div>
+
+                        <img src="logoaxon.png" alt="AXON Inteligencia Analítica" class="h-12 mb-8 w-auto object-contain self-start" onerror="this.outerHTML='<h3 class=\'text-3xl font-black mb-4\'>AXON</h3>'">
+                        <h3 class="text-3xl font-black tracking-tighter text-black mb-4">AXON Inteligencia Analítica</h3>
+                        <p class="text-lg italic text-gray-600 mb-6 border-l-2 border-gray-300 pl-4 font-light">"La diferencia entre 'En revisión' y 'Contratado' radica en la precisión matemática de tus datos."</p>
+                        <p class="text-sm font-light leading-relaxed text-gray-600 mb-6">
+                            AXON constituye el componente de auditoría avanzada del ecosistema. Mediante técnicas de Deep Learning, este sistema compara su perfil contra una base de datos dinámica de casos de éxito en su sector específico.
+                        </p>
+                        <p class="text-sm font-light leading-relaxed text-gray-600 mb-10">
+                            Funciona como un simulador de entornos ATS, detectando discrepancias de competencias y errores de formato críticos. Su función es eliminar la incertidumbre, proporcionando un cálculo de probabilidad matemática de éxito basado en evidencia histórica antes de iniciar cualquier aplicación. Operamos bajo el paradigma de riesgo cero, sustentando cada iteración en auditorías predictivas infalibles.
+                        </p>
+                        <a href="Axon.html" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-black hover:text-gray-500 transition w-max border-b border-black pb-1 relative z-10">
+                            Ver Documentación Oficial AXON <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="lg:col-span-7 p-10 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-6 bg-corporate-50 order-2 lg:order-1">
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Lectura Profunda</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Escaneo exhaustivo de metadatos y capas ocultas en archivos PDF/Docx para asegurar la integridad de la información y la compatibilidad con parsers antiguos.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Simulación ATS Viva</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Emulación precisa de los algoritmos de filtrado utilizados por proveedores líderes (Workday, Taleo, Greenhouse) para predecir y mitigar rechazos automáticos.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Velocidad de Procesamiento</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Capacidad de realizar una auditoría completa del perfil profesional y generar informes tácticos detallados en milisegundos, permitiendo iteraciones rápidas.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Predicción de Vista</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Generación de mapas de calor que simulan con un 96% de precisión el recorrido visual de un reclutador humano en los primeros 6 segundos de lectura.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Métricas de Decisión</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Cálculo de un índice de compatibilidad numérico (0-100%) respecto a vacantes objetivo, basado en densidad de keywords y estructura de competencias.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4 class="text-sm font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-4 h-4"> Auditoría de Sesgo</h4>
+                            <p class="text-[13px] text-gray-600 font-light leading-relaxed">Detección y neutralización proactiva de patrones lingüísticos o estructurales que podrían activar sesgos algorítmicos negativos en sistemas de IA de selección.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VENTAJAS COMPETITIVAS -->
+    <section id="ventajas" class="py-24 bg-white border-t border-gray-200">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-down">
+                <h2 class="text-3xl md:text-5xl font-black text-corporate-900 mb-4 tracking-tight">Supremacía Competitiva</h2>
+                <p class="text-gray-600 text-lg font-light">Datos duros y ventajas reales. La razón estadística para elegir a CV Studio33.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-8 border border-neonPurple/30 bg-primary/80 backdrop-blur-xl rounded-xl hover:border-neonPurple transition duration-500 group" data-aos="fade-up" data-aos-delay="0">
-                    <div class="w-16 h-16 rounded-full bg-neonPurple/10 flex items-center justify-center text-neonPurple text-3xl mb-6 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-microscope"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Parsing Semántico</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        Analizamos cómo el robot "despieza" tu CV. Verificamos que tu nombre, experiencia y habilidades se extraigan en los campos correctos de la base de datos, evitando el temido "Formato irreconocible".
+                <div class="luxury-card p-8" data-aos="fade-up">
+                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5"> Base de Datos Global</h3>
+                    <p class="text-sm text-gray-500 font-light mb-6">
+                        Acceso privilegiado a métricas de contratación y requerimientos semánticos de más de 100 sectores industriales de élite.
                     </p>
-                    <div class="h-1 w-full bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-neonPurple w-[98%]"></div>
-                    </div>
-                    <p class="text-[10px] text-right text-neonPurple mt-1">Precisión: 98.7%</p>
+                    <ul class="check-list border-t border-gray-100 pt-4">
+                        <li>Salarios en tiempo real</li>
+                        <li>Benchmarking de competencia</li>
+                        <li>Tendencias de contratación</li>
+                    </ul>
                 </div>
 
-                <div class="p-8 border border-neonGreen/30 bg-primary/80 backdrop-blur-xl rounded-xl hover:border-neonGreen transition duration-500 group" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-16 h-16 rounded-full bg-neonGreen/10 flex items-center justify-center text-neonGreen text-3xl mb-6 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Target Matching</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        Comparamos tu documento contra la descripción de la vacante (JD). Nuestro algorithm calcula la densidad de palabras clave y te dice exactamente qué términos faltan para alcanzar el "Match Perfecto".
+                <div class="luxury-card p-8" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5"> Velocidad de Ejecución</h3>
+                    <p class="text-sm text-gray-500 font-light mb-6">
+                        Reducimos drásticamente el tiempo de redacción y mapeo de formatos. Usted concéntrese en la entrevista final.
                     </p>
-                    <div class="h-1 w-full bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-neonGreen w-[92%] animate-pulse-fast"></div>
-                    </div>
-                    <p class="text-[10px] text-right text-neonGreen mt-1">Score Objetivo: >92%</p>
+                    <ul class="check-list border-t border-gray-100 pt-4">
+                        <li>Arquitecturas comprobadas</li>
+                        <li>Entregas desde 24 horas</li>
+                        <li>Cero fricción de formato PDF</li>
+                    </ul>
                 </div>
 
-                <div class="p-8 border border-blue-500/30 bg-primary/80 backdrop-blur-xl rounded-xl hover:border-blue-500 transition duration-500 group" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-3xl mb-6 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-shield-virus"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Blindaje de Formato</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        Verificamos la integridad del archivo PDF. Aseguramos que las capas ocultas (Invisible SEO), fuentes y márgenes sean compatibles con versiones antiguas y modernas de software ATS.
+                <div class="luxury-card p-8" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-lg font-bold text-black mb-3 flex items-center gap-2"><img src="logo.png" class="w-5 h-5"> Conversión Científica</h3>
+                    <p class="text-sm text-gray-500 font-light mb-6">
+                        Respaldado estadísticamente: un aumento del 300% en captación de entrevistas iniciales durante el primer mes de despliegue.
                     </p>
-                    <div class="h-1 w-full bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-blue-500 w-[100%]"></div>
-                    </div>
-                    <p class="text-[10px] text-right text-blue-400 mt-1">Integridad: 100%</p>
+                    <ul class="check-list border-t border-gray-100 pt-4">
+                        <li>Pruebas A/B exitosas masivas</li>
+                        <li>Score de probabilidad al 99%</li>
+                        <li>Casos de éxito documentados</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-dark py-24 relative overflow-hidden bg-primary">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
-        
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-16" data-aos="fade-down">
-                <span class="text-gray-400 font-bold tracking-widest text-sm uppercase mb-3 block">Motor Tecnológico</span>
-                <h2 class="text-4xl md:text-5xl font-heading font-black text-white mb-4">
-                    Poder Dual: <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonPurple to-neonCyan">NYX & AXON</span>
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Nuestra ventaja injusta. Dos IAs propietarias trabajando en sinergia para construir tu futuro profesional.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                
-                <div class="ai-card nyx p-6 rounded-xl relative group" data-aos="fade-up" data-aos-delay="0">
-                    <div class="absolute top-4 right-4 text-neonPurple text-xs font-bold border border-neonPurple/50 px-2 py-1 rounded">NYX CORE</div>
-                    <div class="text-neonPurple text-3xl mb-4"><i class="fa-solid fa-brain"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Simulación ATS</h4>
-                    <p class="text-sm text-gray-400">NYX ejecuta miles de simulaciones contra los filtros de Taleo y Workday para asegurar que tu CV nunca sea descartado por un robot.</p>
-                </div>
-
-                <div class="ai-card nyx p-6 rounded-xl relative group" data-aos="fade-up" data-aos-delay="100">
-                    <div class="absolute top-4 right-4 text-neonPurple text-xs font-bold border border-neonPurple/50 px-2 py-1 rounded">NYX WRITE</div>
-                    <div class="text-neonPurple text-3xl mb-4"><i class="fa-solid fa-pen-nib"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Reescritura Neural</h4>
-                    <p class="text-sm text-gray-400">Transforma frases pasivas en declaraciones de poder activas, utilizando patrones lingüísticos que denotan liderazgo y proactividad.</p>
-                </div>
-
-                <div class="ai-card nyx p-6 rounded-xl relative group" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute top-4 right-4 text-neonPurple text-xs font-bold border border-neonPurple/50 px-2 py-1 rounded">NYX SEO</div>
-                    <div class="text-neonPurple text-3xl mb-4"><i class="fa-brands fa-searchengin"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Densidad de Keywords</h4>
-                    <p class="text-sm text-gray-400">Calcula matemáticamente la frecuencia exacta de palabras clave para maximizar la relevancia sin caer en "keyword stuffing".</p>
-                </div>
-
-                <div class="ai-card axon p-6 rounded-xl relative group" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute top-4 right-4 text-neonCyan text-xs font-bold border border-neonCyan/50 px-2 py-1 rounded">AXON DATA</div>
-                    <div class="text-neonCyan text-3xl mb-4"><i class="fa-solid fa-chart-pie"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Benchmarking Salarial</h4>
-                    <p class="text-sm text-gray-400">AXON analiza bases de datos globales en tiempo real para decirte exactamente cuánto vale tu perfil en el mercado actual.</p>
-                </div>
-
-                <div class="ai-card axon p-6 rounded-xl relative group" data-aos="fade-up" data-aos-delay="400">
-                    <div class="absolute top-4 right-4 text-neonCyan text-xs font-bold border border-neonCyan/50 px-2 py-1 rounded">AXON PREDICT</div>
-                    <div class="text-neonCyan text-3xl mb-4"><i class="fa-solid fa-comments"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Simulador de Entrevistas</h4>
-                    <p class="text-sm text-gray-400">Predice con un 85% de acierto las preguntas técnicas y conductuales que te harán, basándose en la cultura de la empresa objetivo.</p>
-                </div>
-
-                <div class="ai-card axon p-6 rounded-xl relative group" data-aos="fade-up" data-aos-delay="500">
-                    <div class="absolute top-4 right-4 text-neonCyan text-xs font-bold border border-neonCyan/50 px-2 py-1 rounded">AXON INTEL</div>
-                    <div class="text-neonCyan text-3xl mb-4"><i class="fa-solid fa-chess"></i></div>
-                    <h4 class="text-lg font-bold text-white mb-2">Análisis de Competencia</h4>
-                    <p class="text-sm text-gray-400">Escanea perfiles similares en tu sector para identificar qué habilidades tienen ellos que tú necesitas destacar u obtener.</p>
-                </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md" data-aos="zoom-in-up">
-                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                    <i class="fa-solid fa-microchip text-gold animate-spin-slow"></i> Capacidades del Núcleo
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-check text-success mt-1"></i>
-                        <span class="text-gray-300 text-sm">Procesamiento de Lenguaje Natural (NLP) Avanzado.</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-check text-success mt-1"></i>
-                        <span class="text-gray-300 text-sm">Machine Learning Predictivo de tendencias de RRHH.</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-check text-success mt-1"></i>
-                        <span class="text-gray-300 text-sm">Base de datos entrenada con +10M de currículums exitosos.</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-check text-success mt-1"></i>
-                        <span class="text-gray-300 text-sm">Análisis de Sentimiento del Reclutador en tiempo real.</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-check text-success mt-1"></i>
-                        <span class="text-gray-300 text-sm">Actualización Algorítmica Semanal según cambios en Taleo.</span>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fa-solid fa-check text-success mt-1"></i>
-                        <span class="text-gray-300 text-sm">Encriptación de Datos Biométrica y Seguridad Militar.</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="section-dark py-28 relative">
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-20" data-aos="fade-down">
-                <h2 class="text-4xl font-heading font-bold text-white mb-4">¿Por qué elegir CV Studio33?</h2>
-                <p class="text-gray-400">Datos duros y ventajas competitivas reales.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="feature-card group" data-aos="fade-up" data-aos-delay="0">
-                    <i class="fa-solid fa-database text-4xl text-blue-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-xl font-bold text-white mb-4">Base de Datos Global</h3>
-                    <p class="text-sm text-gray-400 mb-6 leading-relaxed flex-grow">
-                        Acceso privilegiado a métricas de contratación de más de 100 sectores industriales. Sabemos exactamente qué buscan hoy.
-                    </p>
-                    <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> Salarios en tiempo real</li>
-                        <li><i class="fa-solid fa-check"></i> Benchmarking de competencia</li>
-                        <li><i class="fa-solid fa-check"></i> Tendencias de contratación</li>
-                        <li><i class="fa-solid fa-check"></i> Análisis de brechas</li>
-                        <li><i class="fa-solid fa-check"></i> Proyección de industria</li>
-                    </ul>
-                </div>
-
-                <div class="feature-card group" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fa-solid fa-stopwatch text-4xl text-purple-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-xl font-bold text-white mb-4">Velocidad de Ejecución</h3>
-                    <p class="text-sm text-gray-400 mb-6 leading-relaxed flex-grow">
-                        Reducimos en un 99% el tiempo de redacción y formato. Enfócate en prepararte para la entrevista, nosotros hacemos el resto.
-                    </p>
-                    <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> Borradores instantáneos</li>
-                        <li><i class="fa-solid fa-check"></i> Entrega en 24-48hs</li>
-                        <li><i class="fa-solid fa-check"></i> Cero fricción de formato</li>
-                        <li><i class="fa-solid fa-check"></i> Cartas automatizadas</li>
-                        <li><i class="fa-solid fa-check"></i> Sincronización LinkedIn</li>
-                    </ul>
-                </div>
-
-                <div class="feature-card group" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fa-solid fa-filter-circle-check text-4xl text-green-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-xl font-bold text-white mb-4">Garantía Anti-Filtro</h3>
-                    <p class="text-sm text-gray-400 mb-6 leading-relaxed flex-grow">
-                        Nuestros documentos están codificados para atravesar los firewalls de los sistemas de reclutamiento (Taleo, Workday) sin errores.
-                    </p>
-                    <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> Estándar UTF-8 Seguro</li>
-                        <li><i class="fa-solid fa-check"></i> Inyección de Metadatos</li>
-                        <li><i class="fa-solid fa-check"></i> Capas de texto oculto</li>
-                        <li><i class="fa-solid fa-check"></i> Validación de Parsing</li>
-                        <li><i class="fa-solid fa-check"></i> Multi-plataforma</li>
-                    </ul>
-                </div>
-
-                <div class="feature-card group" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fa-solid fa-chart-line text-4xl text-yellow-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-xl font-bold text-white mb-4">Tasa de Conversión</h3>
-                    <p class="text-sm text-gray-400 mb-6 leading-relaxed flex-grow">
-                        Estadísticamente comprobado: nuestros clientes consiguen un 300% más de entrevistas en el primer mes de uso.
-                    </p>
-                    <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> Pruebas A/B exitosas</li>
-                        <li><i class="fa-solid fa-check"></i> Optimización de clicks</li>
-                        <li><i class="fa-solid fa-check"></i> Tracking de engagement</li>
-                        <li><i class="fa-solid fa-check"></i> Score de probabilidad</li>
-                        <li><i class="fa-solid fa-check"></i> Casos de éxito reales</li>
-                    </ul>
-                </div>
-
-                <div class="feature-card group" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fa-solid fa-user-secret text-4xl text-red-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-xl font-bold text-white mb-4">Expertos Humanos</h3>
-                    <p class="text-sm text-gray-400 mb-6 leading-relaxed flex-grow">
-                        No solo IA. Un equipo de ex-reclutadores de Fortune 500 supervisa la estrategia final de tu perfil.
-                    </p>
-                    <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> Reclutadores Fortune 500</li>
-                        <li><i class="fa-solid fa-check"></i> Especialistas por industria</li>
-                        <li><i class="fa-solid fa-check"></i> Perfilado psicológico</li>
-                        <li><i class="fa-solid fa-check"></i> Coaching de negociación</li>
-                        <li><i class="fa-solid fa-check"></i> Estrategia de marca</li>
-                    </ul>
-                </div>
-
-                <div class="feature-card group" data-aos="fade-up" data-aos-delay="500">
-                    <i class="fa-solid fa-lock text-4xl text-cyan-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-xl font-bold text-white mb-4">Privacidad Blindada</h3>
-                    <p class="text-sm text-gray-400 mb-6 leading-relaxed flex-grow">
-                        Tus datos son tu activo más valioso. Garantizamos la máxima seguridad y confidencialidad en el tratamiento de tu carrera.
-                    </p>
-                    <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> Encriptación Extremo a Extremo</li>
-                        <li><i class="fa-solid fa-check"></i> Cumplimiento GDPR</li>
-                        <li><i class="fa-solid fa-check"></i> Procesamiento anónimo</li>
-                        <li><i class="fa-solid fa-check"></i> Auto-borrado opcional</li>
-                        <li><i class="fa-solid fa-check"></i> Nube privada segura</li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="section-light py-24 overflow-hidden">
+    <!-- PLANES DE INVERSIÓN CV STUDIO33 -->
+    <section id="planes" class="py-32 bg-corporate-50">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-heading font-bold text-primary mb-4">Nuestros clientes opinan</h2>
-                <p class="text-gray-600">Casos de éxito reales verificados. La comunidad respalda nuestra metodología.</p>
+            <div class="text-center mb-10" data-aos="fade-up">
+                <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 border-b border-gray-300 pb-2 inline-block">Portafolio de Servicios Corporativos</p>
+                <h2 class="text-3xl md:text-5xl font-black text-corporate-900 mb-6 tracking-tight">Planes de Inversión</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto font-light leading-relaxed">
+                    Soluciones definitivas de alto impacto. Combinamos la redacción neuro-persuasiva de nuestros expertos humanos con la potencia analítica inigualable de NYX y AXON.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto mb-16 text-center" data-aos="fade-up" data-aos-delay="50">
+                <div class="inline-flex items-center gap-3 bg-black text-white px-6 py-3 shadow-lg">
+                    <i class="fa-solid fa-bolt text-yellow-400"></i>
+                    <p class="text-xs font-medium tracking-wide">
+                        <span class="font-bold uppercase">Aviso de Alta Demanda:</span> Contamos con Servicio Exprés por $5.000 - $15.000 adicionales (sujeto a la cola de trabajo del equipo). Destacamos que cumplimos de forma rigurosa las fechas de entrega estándar establecidas al pie de la letra.
+                    </p>
+                </div>
             </div>
 
-            <div class="testimonial-slider pb-8" id="testimonialSlider">
-                <div class="t-card">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full object-cover">
-                            <div>
-                                <h5 class="font-bold text-gray-800 text-[14px] font-sans">Carlos M.</h5>
-                                <p class="text-[11px] text-gray-500 font-sans">Local Guide · 14 reseñas</p>
-                            </div>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px">
-                            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                        </svg>
-                    </div>
-                    <div class="flex items-center text-yellow-400 text-xs mb-3 gap-[2px]">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <span class="text-gray-500 ml-2 font-sans font-normal text-[12px]">Hace 2 días</span>
-                    </div>
-                    <p class="text-[14px] text-gray-700 font-sans leading-relaxed flex-grow">Pasé de 0 a 5 interviews en una semana. La optimización es cien por ciento real, entienden a la perfección cómo los ATS leen la información técnica. Muy recomendado para Ingenieros.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                
+                <!-- Plan 1 -->
+                <div class="luxury-card flex flex-col p-8 md:p-10 bg-white shadow-lg" data-aos="fade-up">
+                    <h3 class="text-2xl font-black text-black mb-2 uppercase tracking-tight">Básico</h3>
+                    <p class="text-[13px] text-gray-500 mb-8 min-h-[60px] leading-relaxed">Demuestre a las grandes corporaciones que va en serio con un perfil técnico estructurado por nuestros ingenieros en talento.</p>
+                    <div class="text-4xl font-black text-black mb-8 border-b border-gray-100 pb-8">$33.000 <span class="text-sm text-gray-400 font-medium">ARS</span></div>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">Arquitectura del Plan</p>
+                    <ul class="space-y-5 mb-10 flex-grow">
+                        <li class="flex gap-4 text-[13px] text-black font-bold items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-90 flex-shrink-0" alt="icon"> CV profesional escrito por expertos (Optimización ATS Nivel 1)
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> Diagnóstico forense y detección de brechas
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> +20 plantillas de CV corporativas atractivas
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> 1 revisión profunda para correcciones y añadidos
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start font-medium">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-80 flex-shrink-0" alt="icon"> 2 semanas GRATIS de cuenta NYX/AXON Premium
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-black font-bold items-start pt-4 border-t border-gray-100">
+                            <i class="fa-regular fa-clock text-gray-500 mt-0.5 flex-shrink-0"></i> Entrega Rápida: Listo en 1 día hábil
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('Básico')" class="btn-outline w-full py-4 text-xs tracking-[0.2em] font-bold uppercase mt-auto">Adquirir Básico</button>
                 </div>
 
-                <div class="t-card">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full object-cover">
-                            <div>
-                                <h5 class="font-bold text-gray-800 text-[14px] font-sans">Laura G.</h5>
-                                <p class="text-[11px] text-gray-500 font-sans">3 reseñas</p>
-                            </div>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                <!-- Plan 2 -->
+                <div class="luxury-card flex flex-col p-8 md:p-10 border-[3px] border-black relative transform md:-translate-y-4 shadow-2xl bg-white" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-black text-white text-[10px] uppercase tracking-[0.25em] px-8 py-2 font-black shadow-lg">
+                        El Estándar Corporativo
                     </div>
-                    <div class="flex items-center text-yellow-400 text-xs mb-3 gap-[2px]">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <span class="text-gray-500 ml-2 font-sans font-normal text-[12px]">Hace 1 semana</span>
-                    </div>
-                    <p class="text-[14px] text-gray-700 font-sans leading-relaxed flex-grow">El diseño es impecable. Los reclutadores notaron la diferencia al instante. Un trato sumamente personalizado que superó todas mis expectativas iniciales.</p>
+                    <h3 class="text-2xl font-black text-black mb-2 uppercase tracking-tight">Profesional</h3>
+                    <p class="text-[13px] text-gray-500 mb-8 min-h-[60px] leading-relaxed">Destaque drásticamente su candidatura superando los filtros automáticos y persuadiendo psicológicamente al reclutador.</p>
+                    <div class="text-4xl font-black text-black mb-8 border-b border-gray-100 pb-8">$65.000 <span class="text-sm text-gray-400 font-medium">ARS</span></div>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-black mb-6">Todos los beneficios Básico, y además:</p>
+                    <ul class="space-y-5 mb-10 flex-grow">
+                        <li class="flex gap-4 text-[13px] text-black font-bold items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-90 flex-shrink-0" alt="icon"> Carta de presentación a juego personalizada
+                        </li>
+                        <li class="text-[11px] text-gray-500 italic ml-8 -mt-3 mb-2 leading-tight">Estadística: Existe un 90% más de probabilidades de que RRHH lea en profundidad un CV con carta adjunta.</li>
+                        
+                        <li class="flex gap-4 text-[13px] text-black font-bold items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-90 flex-shrink-0" alt="icon"> Filtros ATS sofisticados (Prueba de Estrés Estructural)
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> Optimización pasiva para motores de búsqueda (SEO en PDF)
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-50 filter grayscale flex-shrink-0" alt="icon"> 3 revisiones estratégicas completas
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-600 items-start font-medium">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-80 flex-shrink-0" alt="icon"> 1 mes GRATIS de cuenta NYX/AXON Premium
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-black font-bold items-start pt-4 border-t border-gray-100">
+                            <i class="fa-regular fa-clock text-gray-500 mt-0.5 flex-shrink-0"></i> Entrega: Listo en 3 días hábiles
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('Profesional')" class="btn-luxury w-full py-5 text-xs tracking-[0.2em] font-black uppercase mt-auto shadow-xl">Adquirir Profesional</button>
                 </div>
 
-                <div class="t-card">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <img src="https://randomuser.me/api/portraits/men/85.jpg" class="w-10 h-10 rounded-full object-cover">
-                            <div>
-                                <h5 class="font-bold text-gray-800 text-[14px] font-sans">Javier P.</h5>
-                                <p class="text-[11px] text-gray-500 font-sans">Local Guide · 45 reseñas</p>
-                            </div>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                    </div>
-                    <div class="flex items-center text-yellow-400 text-xs mb-3 gap-[2px]">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <span class="text-gray-500 ml-2 font-sans font-normal text-[12px]">Hace 2 semanas</span>
-                    </div>
-                    <p class="text-[14px] text-gray-700 font-sans leading-relaxed flex-grow">Entendieron mi perfil técnico (Desarrollo Full Stack) perfectamente. Las keywords funcionaron, reescribieron mis experiencias para que se note mi impacto en el backend. 5 estrellas merecidas.</p>
+                <!-- Plan 3 -->
+                <div class="luxury-card flex flex-col p-8 md:p-10 bg-corporate-900 border-none text-white shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-black text-white mb-2 uppercase tracking-tight">Completo</h3>
+                    <p class="text-[13px] text-gray-400 mb-8 min-h-[60px] leading-relaxed">El ecosistema de dominio absoluto. Para candidatos que apuntan a la cima corporativa sin dejar margen de error.</p>
+                    <div class="text-4xl font-black text-white mb-8 border-b border-gray-800 pb-8">$85.000 <span class="text-sm text-gray-500 font-medium">ARS</span></div>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-300 mb-6">Todos los beneficios Profesional, y además:</p>
+                    <ul class="space-y-5 mb-10 flex-grow">
+                        <li class="flex gap-4 text-[13px] text-white font-bold items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-100 filter brightness-0 invert flex-shrink-0" alt="icon"> Reescritura total del perfil de LinkedIn (Algoritmo Recruiter)
+                        </li>
+                        <li class="text-[11px] text-gray-400 italic ml-8 -mt-3 mb-2 leading-tight">El 97% del headhunting corporativo se ejecuta en LinkedIn. Reescribiremos y blindaremos su presencia digital.</li>
+                        
+                        <li class="flex gap-4 text-[13px] text-gray-300 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-70 filter brightness-0 invert flex-shrink-0" alt="icon"> Tácticas de networking de élite (La Deep Web laboral)
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-300 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-70 filter brightness-0 invert flex-shrink-0" alt="icon"> Guía confidencial de simulación de entrevistas C-Level
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-300 items-start">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-70 filter brightness-0 invert flex-shrink-0" alt="icon"> 5 iteraciones y revisiones de máximo detalle
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-gray-300 items-start font-medium">
+                            <img src="logo.png" class="w-4 h-4 mt-0.5 opacity-100 filter brightness-0 invert flex-shrink-0" alt="icon"> 3 meses GRATIS de cuenta NYX/AXON Premium
+                        </li>
+                        <li class="flex gap-4 text-[13px] text-white font-bold items-start pt-4 border-t border-gray-800">
+                            <i class="fa-regular fa-clock text-gray-400 mt-0.5 flex-shrink-0"></i> Entrega: Listo en 3 a 5 días hábiles
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('Completo')" class="bg-white text-black hover:bg-gray-200 transition w-full py-4 text-xs tracking-[0.2em] font-black uppercase mt-auto shadow-xl">Adquirir Completo</button>
                 </div>
 
-                <div class="t-card">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="w-10 h-10 rounded-full object-cover">
-                            <div>
-                                <h5 class="font-bold text-gray-800 text-[14px] font-sans">Sofia L.</h5>
-                                <p class="text-[11px] text-gray-500 font-sans">8 reseñas</p>
-                            </div>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                    </div>
-                    <div class="flex items-center text-yellow-400 text-xs mb-3 gap-[2px]">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <span class="text-gray-500 ml-2 font-sans font-normal text-[12px]">Hace 3 semanas</span>
-                    </div>
-                    <p class="text-[14px] text-gray-700 font-sans leading-relaxed flex-grow">La inversión valió la pena solo por la optimización de métricas orientadas a ventas. Ahora mi CV luce y se lee como el de una verdadera Gerente.</p>
-                </div>
-
-                <div class="t-card">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <img src="https://randomuser.me/api/portraits/men/22.jpg" class="w-10 h-10 rounded-full object-cover">
-                            <div>
-                                <h5 class="font-bold text-gray-800 text-[14px] font-sans">Diego R.</h5>
-                                <p class="text-[11px] text-gray-500 font-sans">Local Guide · 112 reseñas</p>
-                            </div>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22px" height="22px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                    </div>
-                    <div class="flex items-center text-yellow-400 text-xs mb-3 gap-[2px]">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <span class="text-gray-500 ml-2 font-sans font-normal text-[12px]">Hace 1 mes</span>
-                    </div>
-                    <p class="text-[14px] text-gray-700 font-sans leading-relaxed flex-grow">Muy profesionales. El reporte de AXON fue clave para mejorar mi postura salarial en la entrevista. Altamente capacitados para rubros técnicos de arquitectura e ingeniería.</p>
-                </div>
             </div>
-            <p class="text-center text-xs text-gray-400 mt-6 animate-pulse"><i class="fa-solid fa-hand-pointer mr-2"></i> Desliza para ver más reseñas de Google</p>
         </div>
     </section>
 
-    <footer class="bg-primary border-t border-white/10 py-12 text-white">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <img src="logo.png" alt="CV Studio33" class="h-16 mb-6 opacity-70 grayscale hover:grayscale-0 transition">
-                <p class="text-xs text-gray-500 leading-relaxed mb-4 max-w-sm">
-                    CV Studio33 es una consultora de tecnología aplicada a recursos humanos. No garantizamos contratación directa, garantizamos la optimización matemática de tus probabilidades.
+    <!-- FOOTER CV STUDIO33 -->
+    <footer class="bg-corporate-900 pt-24 pb-12 text-white border-t border-black relative overflow-hidden">
+        <!-- Deco -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-30"></div>
+        
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-16 items-start mb-16">
+            <div class="md:col-span-7 text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start gap-5 mb-8">
+                    <img src="logo.png" alt="CV Studio33 Logo Oficial" class="h-14 opacity-90 filter brightness-0 invert">
+                    <div class="flex flex-col border-l-2 border-gray-700 pl-4 text-left">
+                        <span class="font-black text-2xl tracking-widest uppercase text-white leading-none mb-1">CV Studio33</span>
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.25em]">Consultoría Corporativa Global</span>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-gray-400 leading-relaxed max-w-lg mx-auto md:mx-0 font-light text-justify">
+                    <strong>AVISO LEGAL E INSTITUCIONAL:</strong> CV Studio33 provee herramientas de consultoría tecnológica, optimización algorítmica y redacción estratégica de élite. Nuestro ecosistema propietario está diseñado exhaustivamente para maximizar en términos matemáticos y semánticos su probabilidad de avance a través de los filtros automáticos ATS corporativos. Sin embargo, no constituimos una bolsa de trabajo ni garantizamos de manera absoluta y directa la contratación final, dado que las decisiones definitivas siempre recaen en el análisis y discreción del factor humano de los departamentos directivos y de recursos humanos de las empresas contratantes. Al usar nuestros servicios, el usuario asume y acepta estas condiciones.
                 </p>
-                <p class="text-xs text-gray-600">© 2026 CV Studio33. Todos los derechos reservados.</p>
             </div>
-            <div class="text-right">
-                <h5 class="font-bold text-sm mb-4 text-gray-300">LEGAL & SOPORTE</h5>
-                <div class="flex flex-col gap-2 text-xs text-gray-400">
-                    <a href="terminos-y-condiciones.html" class="hover:text-white transition">Términos y Condiciones</a>
-                    <a href="politica-de-privacidad.html" class="hover:text-white transition">Política de Privacidad</a>
-                    <a href="politica-de-cookies.html" class="hover:text-white transition">Cookies</a>
-                    <a href="Centro-de-ayuda.html" class="hover:text-white transition">Centro de Ayuda</a>
+            
+            <div class="md:col-span-5 text-center md:text-right flex flex-col justify-between h-full">
+                <div>
+                    <h5 class="font-black text-[10px] uppercase tracking-[0.3em] mb-8 text-gray-500 border-b border-gray-800 pb-3 inline-block">Área Legal & Cumplimiento</h5>
+                    <div class="flex flex-col gap-4 text-xs text-gray-400 font-medium tracking-wide">
+                        <a href="terminos-y-condiciones.html" class="hover:text-white hover:translate-x-1 transition transform inline-block">Términos y Condiciones Contractuales</a>
+                        <a href="politica-de-privacidad.html" class="hover:text-white hover:translate-x-1 transition transform inline-block">Política Estricta de Privacidad y Datos</a>
+                        <a href="politica-de-cookies.html" class="hover:text-white hover:translate-x-1 transition transform inline-block">Gestión y Política de Cookies</a>
+                    </div>
+                </div>
+                <div class="mt-10 md:mt-0">
+                    <p class="text-[10px] tracking-widest uppercase text-gray-600 font-bold">
+                        <i class="fa-solid fa-shield-halved mr-2"></i> Operaciones Protegidas
+                    </p>
                 </div>
             </div>
+        </div>
+        <div class="container mx-auto px-6 text-center border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-[10px] tracking-widest uppercase text-gray-600 font-bold">© 2026 CV STUDIO33. Todos los derechos reservados.</p>
+            <p class="text-[10px] tracking-widest uppercase text-gray-700">Infraestructura Tecnológica Privada</p>
         </div>
     </footer>
 
-    <div id="tramiteModal" class="modal-overlay">
-        <div class="modal-content">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
+    <!-- Botón Flotante Mobile Permanente -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-black text-white border-t border-gray-800 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
+        <button onclick="openPanel()" class="w-full py-4 text-xs tracking-[0.2em] font-black uppercase flex justify-center items-center gap-3">
+            <img src="logo.png" class="w-4 h-4 filter invert brightness-0"> Iniciar Auditoría Corporativa
+        </button>
+    </div>
+
+    <!-- PANEL FLOTANTE DE ADMISIÓN CV STUDIO33 -->
+    <div id="admission-panel" class="fixed inset-0 z-[100] flex items-end sm:items-center justify-center invisible">
+        <div id="admission-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-md opacity-0 transition-opacity duration-400" onclick="closePanel()"></div>
+        
+        <div id="admission-content" class="relative w-full max-w-3xl bg-white sm:rounded-none rounded-t-[2rem] h-[92vh] sm:h-[85vh] flex flex-col translate-y-full shadow-2xl border-t-4 border-black">
             
-            <h3 class="text-2xl font-heading font-bold text-primary mb-1 text-center">Formulario de Admisión Técnica</h3>
-            <p class="text-center text-xs text-gray-500 mb-5">Ingrese los parámetros de su perfil para iniciar la Metodología 33.</p>
-            
-            <form id="tramiteForm">
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nombre Completo</label>
-                <input type="text" id="t-name" class="form-input" required placeholder="Ej. Juan Carlos Pérez">
-                
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Correo Electrónico</label>
-                <input type="email" id="t-email" class="form-input" required placeholder="ejemplo@correo.com">
-                
-                <div class="grid grid-cols-2 gap-4">
+            <div class="flex justify-between items-center p-6 sm:p-10 border-b border-gray-100 bg-gray-50/50">
+                <div class="flex items-center gap-4">
+                    <img src="logo.png" class="w-8 h-8 opacity-90">
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Celular / WhatsApp</label>
-                        <input type="tel" id="t-phone" class="form-input" required placeholder="+54 9...">
+                        <h3 class="text-2xl font-black text-black tracking-tight uppercase">Mesa de Admisión</h3>
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mt-1">CV Studio33 Secure Portal</p>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nivel de Experiencia</label>
-                        <select id="t-experience" class="form-input" required>
-                            <option value="Junior / Trainee / Iniciante">Junior / Trainee / Inicial</option>
-                            <option value="Semi-Senior" selected>Semi-Senior</option>
-                            <option value="Senior / Especialista">Senior / Especialista</option>
-                            <option value="Gerente / Director / Ejecutivo">Gerente / Director / Ejecutivo</option>
-                        </select>
+                </div>
+                <button onclick="closePanel()" class="text-black hover:bg-black hover:text-white transition-all p-2 bg-white border border-gray-200 rounded-full w-12 h-12 flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 sm:p-12 overflow-y-auto flex-grow custom-scroll bg-white">
+                
+                <div id="channel-selection" class="mb-8 transition-all duration-300">
+                    <p class="text-sm font-bold text-gray-500 mb-8 text-center uppercase tracking-widest border-b border-gray-100 pb-6">Seleccione el canal de encriptación y transmisión corporativa</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <button onclick="showForm('whatsapp')" class="luxury-card flex flex-col items-center justify-center p-10 gap-5 hover:border-black group relative overflow-hidden">
+                            <div class="absolute inset-0 bg-green-50 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                            <i class="fa-brands fa-whatsapp text-5xl text-gray-300 group-hover:text-[#25D366] transition-colors relative z-10"></i>
+                            <span class="text-sm font-black uppercase tracking-[0.15em] text-black relative z-10">Conexión Directa WhatsApp</span>
+                        </button>
+                        <button onclick="showForm('gmail')" class="luxury-card flex flex-col items-center justify-center p-10 gap-5 hover:border-black group relative overflow-hidden">
+                            <div class="absolute inset-0 bg-red-50 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                            <i class="fa-brands fa-google text-5xl text-gray-300 group-hover:text-[#EA4335] transition-colors relative z-10"></i>
+                            <span class="text-sm font-black uppercase tracking-[0.15em] text-black relative z-10">Borrador Correo Oficial</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Área o Sector Profesional</label>
-                        <input type="text" id="t-sector" class="form-input" required placeholder="Ej. IT, Logística, Salud, Comercio">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Preferencia de Modalidad</label>
-                        <select id="t-mode" class="form-input" required>
-                            <option value="Remoto / Home Office">Remoto / Home Office</option>
-                            <option value="Híbrido">Híbrido</option>
-                            <option value="Presencial">Presencial</option>
-                            <option value="Indiferente / Abierto a opciones">Indiferente</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Objetivos y Logros Principales a Destacar</label>
-                <textarea id="t-goal" class="form-input custom-scroll h-20 resize-none" maxlength="1000" placeholder="Ej: Apuesto a un puesto directivo... / Quiero destacar mi manejo de equipos..." required></textarea>
-                
-                <p class="text-center text-[10px] text-gray-400 mb-4 font-bold uppercase tracking-wider">Seleccione el canal de despacho institucional:</p>
+                <div id="form-container" class="hidden opacity-0 transition-opacity duration-300">
+                    <button onclick="resetChannel()" class="text-[10px] uppercase tracking-widest font-black text-gray-500 hover:text-black mb-12 flex items-center gap-2 transition bg-gray-50 px-5 py-3 rounded-none border border-gray-200 hover:border-black inline-flex">
+                        <i class="fa-solid fa-arrow-left"></i> Modificar Canal
+                    </button>
 
-                <div class="flex gap-3">
-                    <button type="button" onclick="sendToWhatsApp(event)" class="w-1/2 bg-[#25D366] hover:bg-[#1DA851] text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/30 text-sm">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Vía WhatsApp
-                    </button>
-                    <button type="button" onclick="sendToGmail(event)" class="w-1/2 bg-[#EA4335] hover:bg-[#D93025] text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 shadow-lg shadow-[#EA4335]/30 text-sm">
-                        <i class="fa-brands fa-google text-base"></i> Vía Gmail
-                    </button>
+                    <form id="tramiteForm" onsubmit="event.preventDefault(); submitForm();">
+                        <div class="relative-input">
+                            <select id="t-plan" class="floating-input" required placeholder=" ">
+                                <option value="" disabled selected></option>
+                                <option value="Básico ($33.000)">Plan de Inversión Básico ($33.000 ARS)</option>
+                                <option value="Profesional ($65.000)">Plan de Inversión Profesional ($65.000 ARS)</option>
+                                <option value="Completo ($85.000)">Plan de Inversión Completo ($85.000 ARS)</option>
+                            </select>
+                            <label class="floating-label">Selección de Nivel de Auditoría</label>
+                            <i class="fa-solid fa-chevron-down select-arrow text-sm text-black"></i>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                            <div class="relative-input">
+                                <input type="text" id="t-name" class="floating-input" required placeholder=" ">
+                                <label class="floating-label">Nombre Legal Completo</label>
+                            </div>
+                            <div class="relative-input">
+                                <input type="email" id="t-email" class="floating-input" required placeholder=" ">
+                                <label class="floating-label">Correo Electrónico Verificado</label>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                            <div class="relative-input">
+                                <input type="tel" id="t-phone" class="floating-input" required placeholder=" ">
+                                <label class="floating-label">Número de Contacto Móvil</label>
+                            </div>
+                            <div class="relative-input">
+                                <select id="t-experience" class="floating-input" required placeholder=" ">
+                                    <option value="" disabled selected></option>
+                                    <option value="Trainee / Inicial">Trainee / Nivel Inicial</option>
+                                    <option value="Semi-Senior">Nivel Medio / Semi-Senior</option>
+                                    <option value="Senior / Especialista">Especialista / Senior</option>
+                                    <option value="C-Level / Director">Alta Dirección / C-Level</option>
+                                </select>
+                                <label class="floating-label">Clasificación Seniority</label>
+                                <i class="fa-solid fa-chevron-down select-arrow text-sm text-black"></i>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                            <div class="relative-input">
+                                <input type="text" id="t-sector" class="floating-input" required placeholder=" ">
+                                <label class="floating-label">Industria Objetivo / Sector</label>
+                            </div>
+                            <div class="relative-input">
+                                <select id="t-mode" class="floating-input" required placeholder=" ">
+                                    <option value="" disabled selected></option>
+                                    <option value="Remoto Global">Contratación Remota Global</option>
+                                    <option value="Híbrido">Modelo de Trabajo Híbrido</option>
+                                    <option value="Presencial Corp.">Presencia Corporativa Física</option>
+                                    <option value="Relocación">Disponibilidad para Relocación</option>
+                                </select>
+                                <label class="floating-label">Modalidad de Contratación de Interés</label>
+                                <i class="fa-solid fa-chevron-down select-arrow text-sm text-black"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="relative-input mb-12">
+                            <textarea id="t-goal" class="floating-input resize-none min-h-[100px]" maxlength="1500" placeholder=" " required></textarea>
+                            <label class="floating-label">Declaración de Impacto Profesional (Resuma sus objetivos)</label>
+                        </div>
+
+                        <div id="gmail-attachment" class="mb-14 hidden bg-gray-50 border border-gray-200 p-10 text-center rounded-none shadow-inner relative">
+                            <!-- Esquina decorativa -->
+                            <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-black"></div>
+                            <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-black"></div>
+
+                            <img src="logo.png" class="w-10 h-10 opacity-30 mx-auto mb-4 grayscale">
+                            <p class="text-[11px] font-black tracking-[0.25em] uppercase text-black mb-3">Requisito Obligatorio de Auditoría</p>
+                            <p class="text-[13px] text-gray-500 mb-8 font-medium max-w-md mx-auto leading-relaxed">Para proceder de manera corporativa vía email, su cliente de correo requerirá que usted <strong class="text-black">adjunte manualmente</strong> su documento PDF actual al borrador generado.</p>
+                            
+                            <div class="file-upload-wrapper border-2 border-black p-5 bg-white hover:bg-black hover:text-white transition-all cursor-pointer">
+                                <span class="text-[11px] font-black tracking-[0.2em] uppercase inline-block pointer-events-none flex items-center justify-center gap-3">
+                                    <i class="fa-solid fa-upload"></i> Seleccionar Archivo Local PDF
+                                </span>
+                                <input type="file" accept=".pdf" onchange="document.getElementById('file-name').innerHTML = '<i class=\'fa-solid fa-check text-green-500 mr-2\'></i><span class=\'text-black font-bold uppercase tracking-widest text-[10px]\'>Documento Encriptado y Validado:</span> <br><span class=\'text-gray-500 text-xs mt-2 inline-block\'>' + this.files[0].name + '</span>'">
+                            </div>
+                            <p id="file-name" class="mt-6"></p>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="btn-luxury w-full py-6 text-sm tracking-[0.2em] font-black uppercase shadow-[0_20px_40px_rgba(0,0,0,0.2)] flex items-center justify-center gap-4 hover:-translate-y-1 transition-transform">
+                            Autorizar Transmisión de Expediente
+                        </button>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ once: true, duration: 800 });
+        AOS.init({ once: true, duration: 800, offset: 50, easing: 'ease-out-cubic' });
 
-        // Modal Logic
-        const modal = document.getElementById('tramiteModal');
-        function openModal() { modal.classList.add('open'); }
-        function closeModal() { modal.classList.remove('open'); }
+        const panel = document.getElementById('admission-panel');
+        const overlay = document.getElementById('admission-overlay');
+        const content = document.getElementById('admission-content');
 
-        // Recolección y validación interna estricta
-        function getValidatedData() {
+        function openPanel() {
+            panel.classList.add('active');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+                content.classList.remove('translate-y-full');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePanel() {
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+            content.classList.add('translate-y-full');
+            
+            setTimeout(() => {
+                panel.classList.remove('active');
+                document.body.style.overflow = '';
+            }, 400);
+        }
+
+        function selectPlan(planKey) {
+            openPanel();
+            setTimeout(() => {
+                const select = document.getElementById('t-plan');
+                for(let i=0; i<select.options.length; i++) {
+                    if(select.options[i].value.includes(planKey)) {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+            }, 500);
+        }
+
+        let currentChannel = '';
+
+        function showForm(channel) {
+            currentChannel = channel;
+            document.getElementById('channel-selection').style.display = 'none';
+            const formContainer = document.getElementById('form-container');
+            const submitBtn = document.getElementById('submit-btn');
+            const gmailAttachment = document.getElementById('gmail-attachment');
+            
+            formContainer.classList.remove('hidden');
+            setTimeout(() => formContainer.classList.add('opacity-100'), 10);
+
+            if(channel === 'whatsapp') {
+                gmailAttachment.classList.add('hidden');
+                submitBtn.innerHTML = '<i class="fa-brands fa-whatsapp text-2xl"></i> Contactar Consultor Asignado';
+            } else {
+                gmailAttachment.classList.remove('hidden');
+                submitBtn.innerHTML = '<i class="fa-solid fa-envelope-open-text text-xl"></i> Generar Borrador Institucional';
+            }
+        }
+
+        function resetChannel() {
+            const formContainer = document.getElementById('form-container');
+            formContainer.classList.remove('opacity-100');
+            setTimeout(() => {
+                formContainer.classList.add('hidden');
+                document.getElementById('channel-selection').style.display = 'block';
+            }, 300);
+        }
+
+        function submitForm() {
             const form = document.getElementById('tramiteForm');
             if (!form.checkValidity()) {
                 form.reportValidity();
-                return null;
+                return;
             }
-            return {
+
+            const data = {
+                plan: document.getElementById('t-plan').value,
                 name: document.getElementById('t-name').value,
                 email: document.getElementById('t-email').value,
                 phone: document.getElementById('t-phone').value,
@@ -868,83 +934,66 @@
                 mode: document.getElementById('t-mode').value,
                 goal: document.getElementById('t-goal').value
             };
-        }
 
-        // WhatsApp: Mensaje con Maquetación e Ingeniería Semántica Profesional
-        function sendToWhatsApp(e) {
-            e.preventDefault();
-            const data = getValidatedData();
-            if(!data) return;
+            if(currentChannel === 'whatsapp') {
+                const text = `🏛️ *MESA DE ADMISIÓN TÉCNICA*%0A*CV STUDIO33 - CONSULTORÍA CORPORATIVA*%0A%0AEstimada mesa ejecutiva, solicito el alta en el sistema para la optimización de mi perfil bajo la Metodología 33.%0A%0A💎 *INVERSIÓN:*%0A${data.plan}%0A%0A📊 *PERFIL EJECUTIVO:*%0A• Nombre Legal: ${data.name}%0A• Email Verificado: ${data.email}%0A• Contacto Directo: ${data.phone}%0A• Seniority: ${data.exp}%0A• Industria Objetivo: ${data.sector}%0A• Modalidad Requerida: ${data.mode}%0A%0A🎯 *DECLARACIÓN DE IMPACTO:*%0A"${data.goal}"%0A%0A>> Aguardo instrucciones operativas para la remisión de mi documento actual.%0A%0A*${data.name}*`;
+                
+                Swal.fire({
+                    title: 'Verificación de Seguridad',
+                    text: 'CV Studio33 está conectando su solicitud de manera encriptada a la terminal de WhatsApp empresarial. Por favor aguarde.',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    customClass: { popup: 'cvstudio-swal' }
+                }).then(() => {
+                    window.open(`https://wa.me/5491121937867?text=${text}`, '_blank');
+                });
+                
+            } else if(currentChannel === 'gmail') {
+                const subject = encodeURIComponent(`ALTA DE PERFIL EJECUTIVO - ${data.plan.toUpperCase()} - ${data.name.toUpperCase()}`);
+                const body = encodeURIComponent(`ASUNTO: Solicitud de Auditoría y Optimización Algorítmica ATS
+A LA ATENCIÓN DE: Mesa de Admisiones - CV Studio33
 
-            const text = `🏛️ *SOLICITUD DE ADMISIÓN Y AUDITORÍA TÉCNICA*%0A*CV STUDIO33 - DEPARTAMENTO DE CONSULTORÍA*%0A%0AEstimado equipo técnico, por medio del presente mensaje formalizo mi solicitud para el ingreso al proceso de optimización curricular integral bajo la Metodología 33 y validación en entornos NYX %26 AXON.%0A%0A📊 *EXPEDIENTE PRELIMINAR DEL POSTULANTE:*%0A• *Nombre Completo:* ${data.name}%0A• *Correo Electrónico:* ${data.email}%0A• *Teléfono de Contacto:* ${data.phone}%0A• *Nivel de Experiencia:* ${data.exp}%0A• *Área / Sector de Enfoque:* ${data.sector}%0A• *Modalidad de Preferencia:* ${data.mode}%0A%0A🎯 *RESUMEN DE OBJETIVOS Y METAS DE CARRERA:*%0A"${data.goal}"%0A%0AQuedo a la total disposición de la mesa consultora para remitir mi documentación de respaldo actual y coordinar las fases correspondientes.%0A%0A*Atentamente,*%0A${data.name}`;
-            
-            // Redirección directa al canal internacional simulación corporativa
-            window.open(`https://wa.me/5491234567890?text=${text}`, '_blank');
-            closeModal();
-        }
+Estimados directivos y consultores,
 
-        // Gmail: Redacción Epistolar Formal e Institucional Exclusiva
-        function sendToGmail(e) {
-            e.preventDefault();
-            const data = getValidatedData();
-            if(!data) return;
+Por la presente, formalizo mi solicitud de ingreso al programa de consultoría ejecutiva bajo el siguiente esquema estructural:
 
-            const subject = encodeURIComponent(`SOLICITUD DE AUDITORÍA CURRICULAR - ALTA PRIORIDAD - ${data.name.toUpperCase()}`);
-            const body = encodeURIComponent(`ASUNTO: Solicitud de Apertura de Trámite de Optimización e Inmunidad ATS
-A LA ATENCIÓN DE: Departamento de Admisiones - CV Studio33
-
-Estimados Miembros de la Mesa Consultora,
-
-Por medio de la presente comunicación institucional, me dirijo formalmente a ustedes con el propósito de solicitar una vacante de auditoría avanzada para mi perfil laboral, con el fin de alinear mis competencias técnicas bajo los estándares de su metodología neural.
-
-A continuación, comparto el desglose de los parámetros declarados en su plataforma:
+💎 PLAN DE INVERSIÓN: ${data.plan}
 
 ---------------------------------------------------------------------
-🏛️ COMPENDIO DE AUDITORÍA PRELIMINAR
+🏛️ PERFIL EJECUTIVO E IDENTIDAD
 ---------------------------------------------------------------------
-• Nombre Completo: ${data.name}
-• Canal Telefónico de Contacto: ${data.phone}
-• Correo Electrónico Verificado: ${data.email}
-• Seniority / Nivel Técnico: ${data.exp}
-• Área o Sector Profesional: ${data.sector}
-• Modalidad de Trabajo Solicitada: ${data.mode}
+• Nombre Legal Completo: ${data.name}
+• Contacto Directo Seguro: ${data.phone}
+• Email Institucional/Verificado: ${data.email}
+• Nivel Seniority Identificado: ${data.exp}
+• Vertical / Industria Objetivo: ${data.sector}
+• Modalidad Contractual: ${data.mode}
 
-🎯 DECLARACIÓN DE OBJETIVOS E IMPACTO PROFESIONAL:
+🎯 DECLARACIÓN DE OBJETIVOS E IMPACTO:
 "${data.goal}"
 ---------------------------------------------------------------------
 
-Agradezco de antemano el tiempo dedicado al análisis semántico inicial de estos datos y quedo a la espera de sus directivas técnicas para enviar mi archivo actual y comenzar el sandbox de pruebas corporativas.
+[>>> ALERTA DEL SISTEMA: EL USUARIO DEBE ADJUNTAR EL DOCUMENTO PDF ACTUAL EN ESTE CORREO ANTES DE PRESIONAR "ENVIAR" PARA PROCEDER CON LA AUDITORÍA INICIAL <<<]
 
-Sin otro particular, los saluda atentamente,
+Quedo a la espera de sus indicaciones para dar comienzo al despliegue algorítmico y revisión.
 
-${data.name}
-Candidato en Proceso de Admisión`);
+Atentamente,
+${data.name}`);
 
-            window.open(`mailto:cvstudio33@gmail.com?subject=${subject}&body=${body}`, '_blank');
-            closeModal();
+                Swal.fire({
+                    title: 'Borrador Institucional Generado',
+                    html: '<p style="color:#666; font-size:14px; line-height:1.6;">El sistema lo está redirigiendo a su cliente de correo electrónico local.</p><br><p style="color:#000; font-weight:bold; font-size:12px; background:#f0f0f0; padding:15px; border-left:4px solid #000;">⚠️ REQUISITO OBLIGATORIO: Por favor, recuerde adjuntar su documento PDF actual en el borrador de correo que está a punto de abrirse para que nuestro equipo técnico pueda procesarlo.</p>',
+                    icon: 'warning',
+                    confirmButtonText: 'ENTENDIDO, PROCEDER',
+                    customClass: { popup: 'cvstudio-swal' }
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.open(`mailto:CvStudio33@gmail.com?subject=${subject}&body=${body}`, '_blank');
+                    }
+                });
+            }
         }
-
-        // Draggable Slider Logic
-        const slider = document.getElementById('testimonialSlider');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.style.cursor = 'grabbing';
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-        slider.addEventListener('mouseleave', () => { isDown = false; slider.style.cursor = 'grab'; });
-        slider.addEventListener('mouseup', () => { isDown = false; slider.style.cursor = 'grab'; });
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
-        });
     </script>
 </body>
 </html>

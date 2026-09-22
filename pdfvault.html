@@ -84,7 +84,6 @@
             position: relative; margin: 20px auto; 
             box-shadow: 0 15px 50px rgba(0,0,0,0.8);
             background: white;
-            /* Se define en JS para evitar bugs de coordenadas */
         }
         .canvas-core { display: block; width: 100%; height: 100%; }
 
@@ -117,26 +116,144 @@
         }
         .asset-container:hover .resize-handle, .asset-container.active-drag .resize-handle, .asset-container.is-selected .resize-handle { opacity: 1; }
 
-        /* Animación de Escáner Pulida (Infraestructura Limpia) */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .animate-slide-up { animation: slideUp 0.4s ease forwards; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-float { animation: float 3s ease-in-out infinite; }
 
-        .scanner-mesh {
-            position: absolute; inset: 0;
-            background: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 15px 15px; opacity: 0.5;
+        /* ========================================= */
+        /* From Uiverse.io by csozidev (3D Tower)    */ 
+        /* ========================================= */
+        .loader {
+          scale: 3;
+          height: 50px;
+          width: 40px;
         }
-        @keyframes scanSweep { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-        .scanner-laser {
-            position: absolute; top: 0; left: 0; right: 0; height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.4) 100%);
-            border-bottom: 1px solid #fff;
-            animation: scanSweep 2s ease-in-out infinite alternate;
+
+        .box {
+          position: relative;
+          opacity: 0;
+          left: 10px;
         }
+
+        .side-left {
+          position: absolute;
+          background-color: #286cb5;
+          width: 19px;
+          height: 5px;
+          transform: skew(0deg, -25deg);
+          top: 14px;
+          left: 10px;
+        }
+
+        .side-right {
+          position: absolute;
+          background-color: #2f85e0;
+          width: 19px;
+          height: 5px;
+          transform: skew(0deg, 25deg);
+          top: 14px;
+          left: -9px;
+        }
+
+        .side-top {
+          position: absolute;
+          background-color: #5fa8f5;
+          width: 20px;
+          height: 20px;
+          rotate: 45deg;
+          transform: skew(-20deg, -20deg);
+        }
+
+        .box-1 { animation: from-left 4s infinite; }
+        .box-2 { animation: from-right 4s infinite; animation-delay: 1s; }
+        .box-3 { animation: from-left 4s infinite; animation-delay: 2s; }
+        .box-4 { animation: from-right 4s infinite; animation-delay: 3s; }
+
+        @keyframes from-left {
+          0% { z-index: 20; opacity: 0; translate: -20px -6px; }
+          20% { z-index: 10; opacity: 1; translate: 0px 0px; }
+          40% { z-index: 9; translate: 0px 4px; }
+          60% { z-index: 8; translate: 0px 8px; }
+          80% { z-index: 7; opacity: 1; translate: 0px 12px; }
+          100% { z-index: 5; translate: 0px 30px; opacity: 0; }
+        }
+
+        @keyframes from-right {
+          0% { z-index: 20; opacity: 0; translate: 20px -6px; }
+          20% { z-index: 10; opacity: 1; translate: 0px 0px; }
+          40% { z-index: 9; translate: 0px 4px; }
+          60% { z-index: 8; translate: 0px 8px; }
+          80% { z-index: 7; opacity: 1; translate: 0px 12px; }
+          100% { z-index: 5; translate: 0px 30px; opacity: 0; }
+        }
+
+        /* ========================================= */
+        /* From Uiverse.io by Nawsome (3D Cubes)     */
+        /* ========================================= */
+        .boxes {
+          --size: 32px;
+          --duration: 800ms;
+          height: calc(var(--size) * 2);
+          width: calc(var(--size) * 3);
+          position: relative;
+          transform-style: preserve-3d;
+          transform-origin: 50% 50%;
+          margin-top: calc(var(--size) * 1.5 * -1);
+          transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+        }
+        .boxes .box { width: var(--size); height: var(--size); top: 0; left: 0; position: absolute; transform-style: preserve-3d; }
+        .boxes .box:nth-child(1) { transform: translate(100%, 0); -webkit-animation: box1 var(--duration) linear infinite; animation: box1 var(--duration) linear infinite; }
+        .boxes .box:nth-child(2) { transform: translate(0, 100%); -webkit-animation: box2 var(--duration) linear infinite; animation: box2 var(--duration) linear infinite; }
+        .boxes .box:nth-child(3) { transform: translate(100%, 100%); -webkit-animation: box3 var(--duration) linear infinite; animation: box3 var(--duration) linear infinite; }
+        .boxes .box:nth-child(4) { transform: translate(200%, 0); -webkit-animation: box4 var(--duration) linear infinite; animation: box4 var(--duration) linear infinite; }
+        
+        .boxes .box > div {
+          --background: #5C8DF6; --top: auto; --right: auto; --bottom: auto; --left: auto;
+          --translateZ: calc(var(--size) / 2); --rotateY: 0deg; --rotateX: 0deg;
+          position: absolute; width: 100%; height: 100%; background: var(--background);
+          top: var(--top); right: var(--right); bottom: var(--bottom); left: var(--left);
+          transform: rotateY(var(--rotateY)) rotateX(var(--rotateX)) translateZ(var(--translateZ));
+        }
+        .boxes .box > div:nth-child(1) { --top: 0; --left: 0; }
+        .boxes .box > div:nth-child(2) { --background: #145af2; --right: 0; --rotateY: 90deg; }
+        .boxes .box > div:nth-child(3) { --background: #447cf5; --rotateX: -90deg; }
+        .boxes .box > div:nth-child(4) { --background: #DBE3F4; --top: 0; --left: 0; --translateZ: calc(var(--size) * 3 * -1); }
+        
+        @-webkit-keyframes box1 { 0%, 50% { transform: translate(100%, 0); } 100% { transform: translate(200%, 0); } }
+        @keyframes box1 { 0%, 50% { transform: translate(100%, 0); } 100% { transform: translate(200%, 0); } }
+        @-webkit-keyframes box2 { 0% { transform: translate(0, 100%); } 50% { transform: translate(0, 0); } 100% { transform: translate(100%, 0); } }
+        @keyframes box2 { 0% { transform: translate(0, 100%); } 50% { transform: translate(0, 0); } 100% { transform: translate(100%, 0); } }
+        @-webkit-keyframes box3 { 0%, 50% { transform: translate(100%, 100%); } 100% { transform: translate(0, 100%); } }
+        @keyframes box3 { 0%, 50% { transform: translate(100%, 100%); } 100% { transform: translate(0, 100%); } }
+        @-webkit-keyframes box4 { 0% { transform: translate(200%, 0); } 50% { transform: translate(200%, 100%); } 100% { transform: translate(100%, 100%); } }
+        @keyframes box4 { 0% { transform: translate(200%, 0); } 50% { transform: translate(200%, 100%); } 100% { transform: translate(100%, 100%); } }
+
     </style>
 </head>
 <body class="flex flex-col min-h-screen relative" style="animation: fadeIn 0.4s ease forwards;">
+
+    <!-- Animacion del Inicio Modernizada -->
+    <div id="mobile-tutorial" class="fixed inset-0 z-[9999] hidden bg-[#030508]/95 backdrop-blur-md flex-col items-center justify-center p-6 text-center">
+        <div class="glass-card p-8 max-w-sm w-full relative overflow-hidden flex flex-col items-center animate-slide-up shadow-2xl">
+            <!-- Bot/Logo Flotante -->
+            <div class="relative w-24 h-24 mb-6 flex items-center justify-center animate-float">
+                <div class="absolute inset-0 bg-white/5 rounded-full blur-xl animate-pulse"></div>
+                <img src="logo.png" class="logo-icon-lg relative z-10 filter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+            </div>
+            
+            <h2 class="text-xl font-semibold text-white uppercase tracking-wider mb-3">Entorno Seguro</h2>
+            <p class="text-[13px] text-[#8b95a5] mb-8 leading-relaxed">
+                Estás a punto de acceder al <strong>Vault Multicapa</strong>. Toda la edición y exportación se realiza <strong>100% localmente</strong> en tu navegador.
+            </p>
+            
+            <button id="btn-close-tutorial" onclick="closeMobileTutorial()" class="w-full btn-primary opacity-50 cursor-not-allowed pointer-events-none transition-all duration-300" disabled>
+                Cargando Entorno (5s)...
+            </button>
+        </div>
+    </div>
 
     <!-- Toasts -->
     <div id="toast-container" class="fixed top-20 right-4 z-[250] flex flex-col gap-3 items-end pointer-events-none"></div>
@@ -174,15 +291,35 @@
                     <input type="file" id="file-input" accept="application/pdf" class="hidden">
                 </div>
 
-                <!-- Nueva Animación de Procesamiento Avanzada -->
+                <!-- From Uiverse.io (csozidev) - Upload Loader -->
                 <div id="upload-processing" class="hidden absolute inset-0 bg-[#030508]/95 flex-col items-center justify-center p-8 backdrop-blur-md z-30">
-                    <div class="relative w-32 h-32 mb-8 border border-white/10 rounded-2xl overflow-hidden bg-white/5 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.05)]">
-                        <div class="scanner-mesh"></div>
-                        <div class="scanner-laser"></div>
-                        <img src="logo.png" class="w-12 h-12 relative z-10 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                    <div class="flex-grow flex items-center justify-center w-full pb-8">
+                        <!-- Uiverse Loader -->
+                        <div class="loader">
+                          <div class="box box-1">
+                            <div class="side-left"></div>
+                            <div class="side-right"></div>
+                            <div class="side-top"></div>
+                          </div>
+                          <div class="box box-2">
+                            <div class="side-left"></div>
+                            <div class="side-right"></div>
+                            <div class="side-top"></div>
+                          </div>
+                          <div class="box box-3">
+                            <div class="side-left"></div>
+                            <div class="side-right"></div>
+                            <div class="side-top"></div>
+                          </div>
+                          <div class="box box-4">
+                            <div class="side-left"></div>
+                            <div class="side-right"></div>
+                            <div class="side-top"></div>
+                          </div>
+                        </div>
                     </div>
                     
-                    <div class="w-full max-w-xs text-center z-10 relative">
+                    <div class="w-full max-w-xs text-center z-10 relative mt-4">
                         <div class="flex justify-between text-[11px] font-mono text-white mb-3 uppercase tracking-widest">
                             <span>Extrayendo...</span>
                             <span id="processing-percent">0%</span>
@@ -249,13 +386,14 @@
     <!-- Global Footer -->
     <footer class="bg-black py-10 border-t border-white/10 text-[#8b95a5] text-xs mt-auto z-10">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
                 <div>
                     <div class="flex items-center gap-3 mb-3">
                         <img src="logo.png" class="h-8 w-8 object-contain">
                         <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
                     </div>
-                    <p class="leading-relaxed">Tecnología avanzada para documentos. Potenciamos tu perfil.</p>
+                    <p class="leading-relaxed">Tecnología avanzada para documentos profesionales.</p>
                 </div>
                 <div>
                     <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
@@ -279,9 +417,23 @@
                     </div>
                 </div>
             </div>
+
+            <!-- LEGAL PRIVACY SECTION -->
+            <div class="bg-white/5 border border-white/10 p-5 rounded-xl mb-8">
+                <h4 class="text-white font-bold mb-2 uppercase tracking-wider text-[11px] flex items-center gap-2">
+                    <img src="logo.png" class="w-3 h-3 opacity-80"> Aviso Legal y Procesamiento 100% Local
+                </h4>
+                <p class="text-[11px] text-[#8b95a5] leading-relaxed">
+                    El sistema CV Studio33 Vault opera con tecnología de arquitectura <strong>exclusivamente del lado del cliente (en tu navegador)</strong>. 
+                    Esto significa que al subir, visualizar, editar o exportar archivos PDF, <strong>ningún dato, documento ni información personal es enviada a servidores externos o bases de datos</strong>. 
+                    CV Studio33 no recopila, no almacena ni tiene acceso a los documentos manipulados en esta herramienta bajo ninguna circunstancia. 
+                    Toda la memoria caché de los vectores se purga automáticamente al recargar o cerrar esta ventana, garantizando confidencialidad y seguridad absoluta.
+                </p>
+            </div>
+
             <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[#8b95a5]">
                 <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
-                <div class="flex gap-6"><span>Procesamiento 100% Local</span></div>
+                <div class="flex gap-6"><span>Procesamiento Offline Nativo</span></div>
             </div>
         </div>
     </footer>
@@ -305,7 +457,6 @@
 
         <!-- Canvas Area (Infraestructura de Scroll Flawless) -->
         <div class="workspace-scroller" id="sig-workspace-container" onclick="deselectAsset(event)">
-            <!-- Wrapper calculado dinámicamente en JS para evitar bugs de caja pequeña -->
             <div id="canvas-wrapper" class="canvas-wrapper-box" onclick="e => e.stopPropagation()">
                 <canvas id="sig-pdf-canvas" class="canvas-core"></canvas>
                 <div id="assets-layer" class="absolute inset-0 z-10 overflow-hidden"></div>
@@ -357,8 +508,6 @@
     </div>
 
     <!-- ================= DIALOGS NATIVOS ================= -->
-    
-    <!-- Texto -->
     <div id="dialog-text" class="fixed inset-0 bg-[#030508]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <div class="glass-card w-full max-w-xs p-6 animate-slide-up">
             <h3 class="text-white text-[13px] font-medium mb-4 flex items-center gap-2"><img src="logo.png" class="w-4 h-4 opacity-80"> Inyectar Texto Libre</h3>
@@ -374,7 +523,6 @@
         </div>
     </div>
 
-    <!-- QR -->
     <div id="dialog-qr" class="fixed inset-0 bg-[#030508]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <div class="glass-card w-full max-w-xs p-6 animate-slide-up">
             <h3 class="text-white text-[13px] font-medium mb-4 flex items-center gap-2"><img src="logo.png" class="w-4 h-4 opacity-80"> Inyectar Código QR</h3>
@@ -387,7 +535,6 @@
         </div>
     </div>
 
-    <!-- Export -->
     <div id="modal-export" class="fixed inset-0 bg-[#030508]/90 backdrop-blur-md z-[70] hidden items-center justify-center p-4">
         <div class="glass-card rounded-xl w-full max-w-sm relative overflow-hidden flex flex-col animate-slide-up">
             <div class="p-5 border-b border-white/5 text-center">
@@ -425,7 +572,47 @@
         </div>
     </div>
 
-    <!-- LOGIC SCRIPTS (Flawless Infrastructure) -->
+    <!-- From Uiverse.io (Nawsome) - Export Loader -->
+    <div id="export-processing" class="hidden fixed inset-0 bg-[#030508]/95 flex-col items-center justify-center p-8 backdrop-blur-md z-[200]">
+        <div class="flex-grow flex items-center justify-center w-full pb-8">
+            <div class="boxes">
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full max-w-xs text-center z-10 relative mt-8">
+            <div class="text-[12px] font-mono text-white mb-2 uppercase tracking-widest animate-pulse" id="export-processing-text">
+                Compilando Documento...
+            </div>
+            <div class="text-[10px] text-[#8b95a5] font-mono uppercase tracking-widest">
+                Por favor, no cierres esta ventana.
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC SCRIPTS -->
     <script>
         let originalPdfBytes = null;
         let originalPdfDoc = null; 
@@ -441,6 +628,7 @@
             dropZone: document.getElementById('drop-zone'),
             uploadContainer: document.getElementById('upload-container'),
             uploadProcessing: document.getElementById('upload-processing'),
+            exportProcessing: document.getElementById('export-processing'),
             processingBar: document.getElementById('processing-bar'),
             processingPercent: document.getElementById('processing-percent'),
             grid: document.getElementById('pdf-pages-grid'),
@@ -452,6 +640,33 @@
             workspaceContainer: document.getElementById('sig-workspace-container'),
             toastContainer: document.getElementById('toast-container')
         };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const tutorialModal = document.getElementById('mobile-tutorial');
+            tutorialModal.classList.remove('hidden');
+            tutorialModal.classList.add('flex');
+            
+            const btnTutorial = document.getElementById('btn-close-tutorial');
+            let timeLeft = 5; 
+            
+            const timer = setInterval(() => {
+                timeLeft--;
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    btnTutorial.disabled = false;
+                    btnTutorial.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+                    btnTutorial.innerHTML = 'Ingresar al Vault';
+                } else {
+                    btnTutorial.innerHTML = `Cargando Entorno (${timeLeft}s)...`;
+                }
+            }, 1000);
+        });
+
+        function closeMobileTutorial() {
+            const tutorialModal = document.getElementById('mobile-tutorial');
+            tutorialModal.classList.add('hidden');
+            tutorialModal.classList.remove('flex');
+        }
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -586,7 +801,6 @@
             pagesState[idx].isDeleted = true; renderGrid(); showToast("Hoja desvinculada del documento");
         }
 
-        // Editor Engine Fix (Perfect Bounding Box)
         async function openSignatureModal(pageId) {
             currentSigPageId = pageId;
             const p = pagesState.find(x => x.id === pageId);
@@ -596,20 +810,16 @@
             try {
                 const page = await originalPdfDoc.getPage(p.refIndex + 1);
                 
-                // Native Mobile Priority: Fit EXACTLY to screen to avoid scrolling cutoff
                 const containerWidth = DOM.workspaceContainer.clientWidth;
-                // Margen de 40px en total para que respire
                 let targetWidth = containerWidth - 40; 
                 let baseViewport = page.getViewport({ scale: 1.0 });
                 let computedScale = targetWidth / baseViewport.width;
                 
-                // Cap en escritorio para que no sea inmenso
                 if(computedScale > 1.3) computedScale = 1.3;
                 
                 const viewport = page.getViewport({ scale: computedScale });
                 const cw = viewport.width; const ch = viewport.height;
                 
-                // Forzar medidas absolutas en pixeles para mapeo perfecto
                 DOM.canvasWrapper.style.width = cw + 'px';
                 DOM.canvasWrapper.style.height = ch + 'px';
                 DOM.sigCanvas.width = cw; DOM.sigCanvas.height = ch;
@@ -658,7 +868,7 @@
             if(type === 'eraser') { div.style.backgroundColor = '#ffffff'; }
             if(type === 'highlight') {
                 div.style.backgroundColor = color; div.style.opacity = size;
-                div.style.mixBlendMode = 'multiply'; // Efecto visual nativo
+                div.style.mixBlendMode = 'multiply';
                 div.dataset.color = color; div.dataset.size = size;
             }
             if(type === 'redbox') {
@@ -777,7 +987,6 @@
             document.addEventListener('mouseup', end); document.addEventListener('touchend', end);
         }
 
-        // Export Engine
         function openExportModal() { DOM.modalExport.classList.add('modal-active'); }
         function closeExportModal() { DOM.modalExport.classList.remove('modal-active'); }
         function hexToRgb(hex) {
@@ -789,74 +998,74 @@
 
         async function executeFinalCompilation() {
             closeExportModal(); 
-            DOM.uploadProcessing.classList.remove('hidden'); DOM.uploadProcessing.classList.add('flex');
-            document.getElementById('processing-percent').innerText = "EXPORTANDO";
-            document.getElementById('processing-text').innerText = "> Inyectando vectores finales...";
+            DOM.exportProcessing.classList.remove('hidden'); 
+            DOM.exportProcessing.classList.add('flex');
             
-            try {
-                const newPdf = await PDFLib.PDFDocument.create();
-                const originalLibDoc = await PDFLib.PDFDocument.load(originalPdfBytes.slice());
-                const wm = document.getElementById('global-watermark').value.trim();
-                const doPageNums = document.getElementById('export-pagenums').checked;
-                
-                const fontNorm = await newPdf.embedFont(PDFLib.StandardFonts.Helvetica);
-                const fontBold = await newPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+            setTimeout(async () => {
+                try {
+                    const newPdf = await PDFLib.PDFDocument.create();
+                    const originalLibDoc = await PDFLib.PDFDocument.load(originalPdfBytes.slice());
+                    const wm = document.getElementById('global-watermark').value.trim();
+                    const doPageNums = document.getElementById('export-pagenums').checked;
+                    
+                    const fontNorm = await newPdf.embedFont(PDFLib.StandardFonts.Helvetica);
+                    const fontBold = await newPdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
 
-                let pageCounter = 1;
-                const totalPages = pagesState.filter(p => !p.isDeleted).length;
+                    let pageCounter = 1;
+                    const totalPages = pagesState.filter(p => !p.isDeleted).length;
 
-                for (const p of pagesState) {
-                    if (p.isDeleted) continue;
-                    const [page] = await newPdf.copyPages(originalLibDoc, [p.refIndex]);
-                    if (p.rotation !== 0) page.setRotation(PDFLib.degrees(page.getRotation().angle + p.rotation));
+                    for (const p of pagesState) {
+                        if (p.isDeleted) continue;
+                        const [page] = await newPdf.copyPages(originalLibDoc, [p.refIndex]);
+                        if (p.rotation !== 0) page.setRotation(PDFLib.degrees(page.getRotation().angle + p.rotation));
 
-                    const { width, height } = page.getSize();
+                        const { width, height } = page.getSize();
 
-                    if (p.assets.length > 0) {
-                        for(const asset of p.assets) {
-                            const fW = width * asset.widthPct; const fH = height * asset.heightPct;
-                            const fX = width * asset.xPct; const fY = height - (height * asset.yPct) - fH;
+                        if (p.assets.length > 0) {
+                            for(const asset of p.assets) {
+                                const fW = width * asset.widthPct; const fH = height * asset.heightPct;
+                                const fX = width * asset.xPct; const fY = height - (height * asset.yPct) - fH;
 
-                            if(asset.type === 'eraser') {
-                                page.drawRectangle({ x: fX, y: fY, width: fW, height: fH, color: PDFLib.rgb(1, 1, 1) });
-                            } else if(asset.type === 'highlight') {
-                                const rgb = hexToRgb(asset.color);
-                                page.drawRectangle({ x: fX, y: fY, width: fW, height: fH, color: PDFLib.rgb(rgb.r, rgb.g, rgb.b), opacity: parseFloat(asset.size) });
-                            } else if(asset.type === 'redbox') {
-                                page.drawRectangle({ x: fX, y: fY, width: fW, height: fH, borderColor: PDFLib.rgb(1, 0, 0), borderWidth: 2 });
-                            } else if(asset.type === 'text') {
-                                const rgb = hexToRgb(asset.color);
-                                page.drawText(asset.content, { x: fX + 5, y: fY + (fH * 0.25), size: parseInt(asset.size), font: fontNorm, color: PDFLib.rgb(rgb.r, rgb.g, rgb.b) });
-                            } else if(asset.type === 'image') {
-                                const imgBytes = Uint8Array.from(atob(asset.src.split(',')[1]), c => c.charCodeAt(0));
-                                const pdfImg = asset.src.includes('png') ? await newPdf.embedPng(imgBytes) : await newPdf.embedJpg(imgBytes);
-                                page.drawImage(pdfImg, { x: fX, y: fY, width: fW, height: fH });
+                                if(asset.type === 'eraser') {
+                                    page.drawRectangle({ x: fX, y: fY, width: fW, height: fH, color: PDFLib.rgb(1, 1, 1) });
+                                } else if(asset.type === 'highlight') {
+                                    const rgb = hexToRgb(asset.color);
+                                    page.drawRectangle({ x: fX, y: fY, width: fW, height: fH, color: PDFLib.rgb(rgb.r, rgb.g, rgb.b), opacity: parseFloat(asset.size) });
+                                } else if(asset.type === 'redbox') {
+                                    page.drawRectangle({ x: fX, y: fY, width: fW, height: fH, borderColor: PDFLib.rgb(1, 0, 0), borderWidth: 2 });
+                                } else if(asset.type === 'text') {
+                                    const rgb = hexToRgb(asset.color);
+                                    page.drawText(asset.content, { x: fX + 5, y: fY + (fH * 0.25), size: parseInt(asset.size), font: fontNorm, color: PDFLib.rgb(rgb.r, rgb.g, rgb.b) });
+                                } else if(asset.type === 'image') {
+                                    const imgBytes = Uint8Array.from(atob(asset.src.split(',')[1]), c => c.charCodeAt(0));
+                                    const pdfImg = asset.src.includes('png') ? await newPdf.embedPng(imgBytes) : await newPdf.embedJpg(imgBytes);
+                                    page.drawImage(pdfImg, { x: fX, y: fY, width: fW, height: fH });
+                                }
                             }
                         }
+                        if (wm) { page.drawText(wm, { x: 40, y: 40, size: 16, font: fontBold, color: PDFLib.rgb(0.5,0.5,0.5), opacity: 0.3 }); }
+                        if (doPageNums) { page.drawText(`${pageCounter} / ${totalPages}`, { x: width - 50, y: 30, size: 9, font: fontNorm, color: PDFLib.rgb(0.5,0.5,0.5) }); }
+                        newPdf.addPage(page); pageCounter++;
                     }
-                    if (wm) { page.drawText(wm, { x: 40, y: 40, size: 16, font: fontBold, color: PDFLib.rgb(0.5,0.5,0.5), opacity: 0.3 }); }
-                    if (doPageNums) { page.drawText(`${pageCounter} / ${totalPages}`, { x: width - 50, y: 30, size: 9, font: fontNorm, color: PDFLib.rgb(0.5,0.5,0.5) }); }
-                    newPdf.addPage(page); pageCounter++;
-                }
 
-                const finalBytes = await newPdf.save();
-                const blob = new Blob([finalBytes], { type: 'application/pdf' });
-                const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-                
-                let fname = document.getElementById('export-filename').value.trim() || 'CV_Editado';
-                if(!fname.toLowerCase().endsWith('.pdf')) fname += '.pdf';
-                a.download = fname;
-                
-                document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                
-                DOM.uploadProcessing.classList.add('hidden'); DOM.uploadProcessing.classList.remove('flex');
-                showToast("Fichero exportado exitosamente");
-            } catch(e) { 
-                DOM.uploadProcessing.classList.add('hidden'); DOM.uploadProcessing.classList.remove('flex');
-                showToast("Error crítico durante ensamblaje final."); 
-            }
+                    const finalBytes = await newPdf.save();
+                    const blob = new Blob([finalBytes], { type: 'application/pdf' });
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+                    
+                    let fname = document.getElementById('export-filename').value.trim() || 'CV_Editado';
+                    if(!fname.toLowerCase().endsWith('.pdf')) fname += '.pdf';
+                    a.download = fname;
+                    
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                    
+                    DOM.exportProcessing.classList.add('hidden'); DOM.exportProcessing.classList.remove('flex');
+                    showToast("Fichero exportado exitosamente");
+                } catch(e) { 
+                    DOM.exportProcessing.classList.add('hidden'); DOM.exportProcessing.classList.remove('flex');
+                    showToast("Error crítico durante ensamblaje final."); 
+                }
+            }, 500);
         }
     </script>
 </body>
 </html>
-

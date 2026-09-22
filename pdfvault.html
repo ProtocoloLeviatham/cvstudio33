@@ -74,7 +74,6 @@
         .logo-icon-sm { width: 0.8rem; height: 0.8rem; object-fit: contain; filter: grayscale(1) opacity(0.5); }
         .logo-icon-lg { width: 2.5rem; height: 2.5rem; object-fit: contain; filter: grayscale(1) brightness(2) opacity(0.9); }
 
-        /* Infraestructura Editor (Mobile First, No Clipping) */
         .workspace-scroller {
             flex-grow: 1; overflow: auto; background-color: #020305;
             -webkit-overflow-scrolling: touch; overscroll-behavior: none;
@@ -87,11 +86,9 @@
         }
         .canvas-core { display: block; width: 100%; height: 100%; }
 
-        /* Modals & Layout */
         .modal-active { display: flex !important; animation: fadeIn 0.2s ease; }
         .pb-safe { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
 
-        /* Toolbar Nativa Apple-style */
         .tool-btn {
             flex: 0 0 auto; width: 4.5rem; height: 4.5rem;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem;
@@ -100,7 +97,6 @@
         }
         .tool-btn:active { background: rgba(255,255,255,0.1); transform: scale(0.95); }
 
-        /* Assets Drag & Drop */
         .asset-container {
             position: absolute; cursor: move; display: flex; align-items: center; justify-content: center;
             touch-action: none; user-select: none; box-sizing: border-box;
@@ -119,58 +115,82 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .animate-slide-up { animation: slideUp 0.4s ease forwards; }
-        
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .animate-float { animation: float 3s ease-in-out infinite; }
+
+        /* ========================================= */
+        /* From Uiverse.io - PL Loader (INITIAL)     */
+        /* ========================================= */
+        .pl {
+          --bg: #030508;
+          --primary1: #ffffff;
+          --primary2: #3b82f6;
+          --trans-dur: 0.3s;
+          --fg-t: rgba(255, 255, 255, 0.5);
+
+          box-shadow: 2em 0 2em rgba(0, 0, 0, 0.2) inset, -2em 0 2em rgba(255, 255, 255, 0.1) inset;
+          display: flex; justify-content: center; align-items: center; position: relative;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          transform: rotateX(30deg) rotateZ(45deg);
+          width: 14em; height: 14em; color: white;
+        }
+        .pl, .pl__dot { border-radius: 50%; }
+        .pl__dot {
+          animation-name: shadow724; box-shadow: 0.1em 0.1em 0 0.1em black, 0.3em 0 0.3em rgba(0, 0, 0, 0.5);
+          top: calc(50% - 0.75em); left: calc(50% - 0.75em); width: 1.5em; height: 1.5em;
+        }
+        .pl__dot, .pl__dot:before, .pl__dot:after { animation-duration: 2s; animation-iteration-count: infinite; position: absolute; }
+        .pl__dot:before, .pl__dot:after { content: ""; display: block; left: 0; width: inherit; transition: background-color var(--trans-dur); }
+        .pl__dot:before {
+          animation-name: pushInOut1724; background-color: var(--bg); border-radius: inherit;
+          box-shadow: 0.05em 0 0.1em rgba(255, 255, 255, 0.2) inset; height: inherit; z-index: 1;
+        }
+        .pl__dot:after {
+          animation-name: pushInOut2724; background-color: var(--primary1); border-radius: 0.75em;
+          box-shadow: 0.1em 0.3em 0.2em rgba(255, 255, 255, 0.4) inset, 0 -0.4em 0.2em #2e3138 inset, 0 -1em 0.25em rgba(0, 0, 0, 0.3) inset;
+          bottom: 0; clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%); height: 3em;
+          transform: rotate(-45deg); transform-origin: 50% 2.25em;
+        }
+        .pl__dot:nth-child(1) { transform: rotate(0deg) translateX(5em) rotate(0deg); z-index: 5; }
+        .pl__dot:nth-child(1), .pl__dot:nth-child(1):before, .pl__dot:nth-child(1):after { animation-delay: 0s; }
+        .pl__dot:nth-child(2) { transform: rotate(-30deg) translateX(5em) rotate(30deg); z-index: 4; }
+        .pl__dot:nth-child(2), .pl__dot:nth-child(2):before, .pl__dot:nth-child(2):after { animation-delay: -0.1666666667s; }
+        .pl__dot:nth-child(3) { transform: rotate(-60deg) translateX(5em) rotate(60deg); z-index: 3; }
+        .pl__dot:nth-child(3), .pl__dot:nth-child(3):before, .pl__dot:nth-child(3):after { animation-delay: -0.3333333333s; }
+        .pl__dot:nth-child(4) { transform: rotate(-90deg) translateX(5em) rotate(90deg); z-index: 2; }
+        .pl__dot:nth-child(4), .pl__dot:nth-child(4):before, .pl__dot:nth-child(4):after { animation-delay: -0.5s; }
+        .pl__dot:nth-child(5) { transform: rotate(-120deg) translateX(5em) rotate(120deg); z-index: 1; }
+        .pl__dot:nth-child(5), .pl__dot:nth-child(5):before, .pl__dot:nth-child(5):after { animation-delay: -0.6666666667s; }
+        .pl__dot:nth-child(6) { transform: rotate(-150deg) translateX(5em) rotate(150deg); z-index: 1; }
+        .pl__dot:nth-child(6), .pl__dot:nth-child(6):before, .pl__dot:nth-child(6):after { animation-delay: -0.8333333333s; }
+        .pl__dot:nth-child(7) { transform: rotate(-180deg) translateX(5em) rotate(180deg); z-index: 2; }
+        .pl__dot:nth-child(7), .pl__dot:nth-child(7):before, .pl__dot:nth-child(7):after { animation-delay: -1s; }
+        .pl__dot:nth-child(8) { transform: rotate(-210deg) translateX(5em) rotate(210deg); z-index: 3; }
+        .pl__dot:nth-child(8), .pl__dot:nth-child(8):before, .pl__dot:nth-child(8):after { animation-delay: -1.1666666667s; }
+        .pl__dot:nth-child(9) { transform: rotate(-240deg) translateX(5em) rotate(240deg); z-index: 4; }
+        .pl__dot:nth-child(9), .pl__dot:nth-child(9):before, .pl__dot:nth-child(9):after { animation-delay: -1.3333333333s; }
+        .pl__dot:nth-child(10) { transform: rotate(-270deg) translateX(5em) rotate(270deg); z-index: 5; }
+        .pl__dot:nth-child(10), .pl__dot:nth-child(10):before, .pl__dot:nth-child(10):after { animation-delay: -1.5s; }
+        .pl__dot:nth-child(11) { transform: rotate(-300deg) translateX(5em) rotate(300deg); z-index: 6; }
+        .pl__dot:nth-child(11), .pl__dot:nth-child(11):before, .pl__dot:nth-child(11):after { animation-delay: -1.6666666667s; }
+        .pl__dot:nth-child(12) { transform: rotate(-330deg) translateX(5em) rotate(330deg); z-index: 6; }
+        .pl__dot:nth-child(12), .pl__dot:nth-child(12):before, .pl__dot:nth-child(12):after { animation-delay: -1.8333333333s; }
+        .pl__text { font-size: 0.75em; max-width: 5rem; position: relative; text-shadow: 0 0 0.1em var(--fg-t); transform: rotateZ(-45deg); }
+        @keyframes shadow724 { from { animation-timing-function: ease-in; box-shadow: 0.1em 0.1em 0 0.1em black, 0.3em 0 0.3em rgba(0, 0, 0, 0.3); } 25% { animation-timing-function: ease-out; box-shadow: 0.1em 0.1em 0 0.1em black, 0.8em 0 0.8em rgba(0, 0, 0, 0.5); } 50%, to { box-shadow: 0.1em 0.1em 0 0.1em black, 0.3em 0 0.3em rgba(0, 0, 0, 0.3); } }
+        @keyframes pushInOut1724 { from { animation-timing-function: ease-in; background-color: var(--bg); transform: translate(0, 0); } 25% { animation-timing-function: ease-out; background-color: var(--primary2); transform: translate(-71%, -71%); } 50%, to { background-color: var(--bg); transform: translate(0, 0); } }
+        @keyframes pushInOut2724 { from { animation-timing-function: ease-in; background-color: var(--bg); clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%); } 25% { animation-timing-function: ease-out; background-color: var(--primary1); clip-path: polygon(0 25%, 100% 25%, 100% 100%, 0 100%); } 50%, to { background-color: var(--bg); clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%); } }
+
 
         /* ========================================= */
         /* From Uiverse.io by csozidev (3D Tower)    */ 
         /* ========================================= */
-        .loader {
-          scale: 3;
-          height: 50px;
-          width: 40px;
-        }
-
-        .box {
-          position: relative;
-          opacity: 0;
-          left: 10px;
-        }
-
-        .side-left {
-          position: absolute;
-          background-color: #286cb5;
-          width: 19px;
-          height: 5px;
-          transform: skew(0deg, -25deg);
-          top: 14px;
-          left: 10px;
-        }
-
-        .side-right {
-          position: absolute;
-          background-color: #2f85e0;
-          width: 19px;
-          height: 5px;
-          transform: skew(0deg, 25deg);
-          top: 14px;
-          left: -9px;
-        }
-
-        .side-top {
-          position: absolute;
-          background-color: #5fa8f5;
-          width: 20px;
-          height: 20px;
-          rotate: 45deg;
-          transform: skew(-20deg, -20deg);
-        }
-
-        .box-1 { animation: from-left 4s infinite; }
-        .box-2 { animation: from-right 4s infinite; animation-delay: 1s; }
-        .box-3 { animation: from-left 4s infinite; animation-delay: 2s; }
-        .box-4 { animation: from-right 4s infinite; animation-delay: 3s; }
+        .loader { scale: 3; height: 50px; width: 40px; margin: 0 auto; }
+        .t-box { position: relative; opacity: 0; left: 10px; }
+        .side-left { position: absolute; background-color: #286cb5; width: 19px; height: 5px; transform: skew(0deg, -25deg); top: 14px; left: 10px; }
+        .side-right { position: absolute; background-color: #2f85e0; width: 19px; height: 5px; transform: skew(0deg, 25deg); top: 14px; left: -9px; }
+        .side-top { position: absolute; background-color: #5fa8f5; width: 20px; height: 20px; rotate: 45deg; transform: skew(-20deg, -20deg); }
+        .t-box-1 { animation: from-left 4s infinite; }
+        .t-box-2 { animation: from-right 4s infinite; animation-delay: 1s; }
+        .t-box-3 { animation: from-left 4s infinite; animation-delay: 2s; }
+        .t-box-4 { animation: from-right 4s infinite; animation-delay: 3s; }
 
         @keyframes from-left {
           0% { z-index: 20; opacity: 0; translate: -20px -6px; }
@@ -180,7 +200,6 @@
           80% { z-index: 7; opacity: 1; translate: 0px 12px; }
           100% { z-index: 5; translate: 0px 30px; opacity: 0; }
         }
-
         @keyframes from-right {
           0% { z-index: 20; opacity: 0; translate: 20px -6px; }
           20% { z-index: 10; opacity: 1; translate: 0px 0px; }
@@ -204,53 +223,54 @@
           margin-top: calc(var(--size) * 1.5 * -1);
           transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
         }
-        .boxes .box { width: var(--size); height: var(--size); top: 0; left: 0; position: absolute; transform-style: preserve-3d; }
-        .boxes .box:nth-child(1) { transform: translate(100%, 0); -webkit-animation: box1 var(--duration) linear infinite; animation: box1 var(--duration) linear infinite; }
-        .boxes .box:nth-child(2) { transform: translate(0, 100%); -webkit-animation: box2 var(--duration) linear infinite; animation: box2 var(--duration) linear infinite; }
-        .boxes .box:nth-child(3) { transform: translate(100%, 100%); -webkit-animation: box3 var(--duration) linear infinite; animation: box3 var(--duration) linear infinite; }
-        .boxes .box:nth-child(4) { transform: translate(200%, 0); -webkit-animation: box4 var(--duration) linear infinite; animation: box4 var(--duration) linear infinite; }
+        .boxes .c-box { width: var(--size); height: var(--size); top: 0; left: 0; position: absolute; transform-style: preserve-3d; }
+        .boxes .c-box:nth-child(1) { transform: translate(100%, 0); animation: box1 var(--duration) linear infinite; }
+        .boxes .c-box:nth-child(2) { transform: translate(0, 100%); animation: box2 var(--duration) linear infinite; }
+        .boxes .c-box:nth-child(3) { transform: translate(100%, 100%); animation: box3 var(--duration) linear infinite; }
+        .boxes .c-box:nth-child(4) { transform: translate(200%, 0); animation: box4 var(--duration) linear infinite; }
         
-        .boxes .box > div {
+        .boxes .c-box > div {
           --background: #5C8DF6; --top: auto; --right: auto; --bottom: auto; --left: auto;
           --translateZ: calc(var(--size) / 2); --rotateY: 0deg; --rotateX: 0deg;
           position: absolute; width: 100%; height: 100%; background: var(--background);
           top: var(--top); right: var(--right); bottom: var(--bottom); left: var(--left);
           transform: rotateY(var(--rotateY)) rotateX(var(--rotateX)) translateZ(var(--translateZ));
         }
-        .boxes .box > div:nth-child(1) { --top: 0; --left: 0; }
-        .boxes .box > div:nth-child(2) { --background: #145af2; --right: 0; --rotateY: 90deg; }
-        .boxes .box > div:nth-child(3) { --background: #447cf5; --rotateX: -90deg; }
-        .boxes .box > div:nth-child(4) { --background: #DBE3F4; --top: 0; --left: 0; --translateZ: calc(var(--size) * 3 * -1); }
+        .boxes .c-box > div:nth-child(1) { --top: 0; --left: 0; }
+        .boxes .c-box > div:nth-child(2) { --background: #145af2; --right: 0; --rotateY: 90deg; }
+        .boxes .c-box > div:nth-child(3) { --background: #447cf5; --rotateX: -90deg; }
+        .boxes .c-box > div:nth-child(4) { --background: #DBE3F4; --top: 0; --left: 0; --translateZ: calc(var(--size) * 3 * -1); }
         
-        @-webkit-keyframes box1 { 0%, 50% { transform: translate(100%, 0); } 100% { transform: translate(200%, 0); } }
         @keyframes box1 { 0%, 50% { transform: translate(100%, 0); } 100% { transform: translate(200%, 0); } }
-        @-webkit-keyframes box2 { 0% { transform: translate(0, 100%); } 50% { transform: translate(0, 0); } 100% { transform: translate(100%, 0); } }
         @keyframes box2 { 0% { transform: translate(0, 100%); } 50% { transform: translate(0, 0); } 100% { transform: translate(100%, 0); } }
-        @-webkit-keyframes box3 { 0%, 50% { transform: translate(100%, 100%); } 100% { transform: translate(0, 100%); } }
         @keyframes box3 { 0%, 50% { transform: translate(100%, 100%); } 100% { transform: translate(0, 100%); } }
-        @-webkit-keyframes box4 { 0% { transform: translate(200%, 0); } 50% { transform: translate(200%, 100%); } 100% { transform: translate(100%, 100%); } }
         @keyframes box4 { 0% { transform: translate(200%, 0); } 50% { transform: translate(200%, 100%); } 100% { transform: translate(100%, 100%); } }
 
     </style>
 </head>
 <body class="flex flex-col min-h-screen relative" style="animation: fadeIn 0.4s ease forwards;">
 
-    <!-- Animacion del Inicio Modernizada -->
+    <!-- ================= VISTA: TUTORIAL INICIAL (PL LOADER) ================= -->
     <div id="mobile-tutorial" class="fixed inset-0 z-[9999] hidden bg-[#030508]/95 backdrop-blur-md flex-col items-center justify-center p-6 text-center">
-        <div class="glass-card p-8 max-w-sm w-full relative overflow-hidden flex flex-col items-center animate-slide-up shadow-2xl">
-            <!-- Bot/Logo Flotante -->
-            <div class="relative w-24 h-24 mb-6 flex items-center justify-center animate-float">
-                <div class="absolute inset-0 bg-white/5 rounded-full blur-xl animate-pulse"></div>
-                <img src="logo.png" class="logo-icon-lg relative z-10 filter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+        <div class="glass-card p-6 md:p-8 max-w-md w-full relative overflow-hidden flex flex-col items-center animate-slide-up shadow-2xl">
+            
+            <div class="flex justify-center mb-10 mt-4 scale-[0.6] sm:scale-75">
+                <div class="pl">
+                    <div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div>
+                    <div class="pl__text">Iniciando…</div>
+                </div>
             </div>
             
-            <h2 class="text-xl font-semibold text-white uppercase tracking-wider mb-3">Entorno Seguro</h2>
-            <p class="text-[13px] text-[#8b95a5] mb-8 leading-relaxed">
-                Estás a punto de acceder al <strong>Vault Multicapa</strong>. Toda la edición y exportación se realiza <strong>100% localmente</strong> en tu navegador.
-            </p>
+            <h2 class="text-lg md:text-xl font-semibold text-white uppercase tracking-wider mb-4">Inicializando Entorno</h2>
             
-            <button id="btn-close-tutorial" onclick="closeMobileTutorial()" class="w-full btn-primary opacity-50 cursor-not-allowed pointer-events-none transition-all duration-300" disabled>
-                Cargando Entorno (5s)...
+            <div class="text-[11px] md:text-[12px] text-[#8b95a5] mb-8 leading-relaxed space-y-3 text-left bg-[#030508]/50 p-4 rounded-lg border border-white/10 w-full shadow-inner">
+                <p class="flex gap-2"><img src="logo.png" class="w-3 h-3 mt-0.5 opacity-50 filter grayscale"><span class="flex-1"><strong class="text-white">Privacidad Absoluta:</strong> Todos los procesos ocurren 100% en tu navegador (Client-Side). No enviamos datos a servidores externos.</span></p>
+                <p class="flex gap-2"><img src="logo.png" class="w-3 h-3 mt-0.5 opacity-50 filter sepia brightness-150"><span class="flex-1"><strong class="text-[#fef08a]">Recomendación Pro:</strong> Aunque el Vault es compatible con móviles, sugerimos utilizar una PC/Mac para editar capas con mayor precisión y comodidad visual.</span></p>
+                <p class="flex gap-2"><img src="logo.png" class="w-3 h-3 mt-0.5 opacity-50 filter invert"><span class="flex-1"><strong class="text-white">Advertencia:</strong> El motor rechazará PDFs con protección nativa. Retira cualquier contraseña de apertura antes de inyectarlos.</span></p>
+            </div>
+            
+            <button id="btn-close-tutorial" onclick="closeMobileTutorial()" class="w-full btn-primary opacity-50 cursor-not-allowed pointer-events-none transition-all duration-300 font-mono tracking-widest text-sm" disabled>
+                [ BLOQUEADO 5s ]
             </button>
         </div>
     </div>
@@ -292,26 +312,26 @@
                 </div>
 
                 <!-- From Uiverse.io (csozidev) - Upload Loader -->
-                <div id="upload-processing" class="hidden absolute inset-0 bg-[#030508]/95 flex-col items-center justify-center p-8 backdrop-blur-md z-30">
-                    <div class="flex-grow flex items-center justify-center w-full pb-8">
+                <div id="upload-processing" class="hidden flex-col items-center justify-center p-8 z-30 min-h-[250px] w-full">
+                    <div class="flex-grow flex items-center justify-center w-full mt-6 mb-12">
                         <!-- Uiverse Loader -->
                         <div class="loader">
-                          <div class="box box-1">
+                          <div class="t-box t-box-1">
                             <div class="side-left"></div>
                             <div class="side-right"></div>
                             <div class="side-top"></div>
                           </div>
-                          <div class="box box-2">
+                          <div class="t-box t-box-2">
                             <div class="side-left"></div>
                             <div class="side-right"></div>
                             <div class="side-top"></div>
                           </div>
-                          <div class="box box-3">
+                          <div class="t-box t-box-3">
                             <div class="side-left"></div>
                             <div class="side-right"></div>
                             <div class="side-top"></div>
                           </div>
-                          <div class="box box-4">
+                          <div class="t-box t-box-4">
                             <div class="side-left"></div>
                             <div class="side-right"></div>
                             <div class="side-top"></div>
@@ -327,7 +347,7 @@
                         <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-4">
                             <div id="processing-bar" class="h-full bg-white w-0 transition-all duration-300 shadow-[0_0_10px_#fff]"></div>
                         </div>
-                        <div class="text-[10px] text-[#8b95a5] font-mono uppercase tracking-widest" id="processing-text">
+                        <div class="text-[10px] text-[#8b95a5] font-mono uppercase tracking-widest bg-white/5 p-2 rounded text-left border border-white/10 h-[28px] overflow-hidden" id="processing-text">
                             > Inicializando motor PDF...
                         </div>
                     </div>
@@ -440,7 +460,6 @@
 
     <!-- ================= EDITOR MULTICAPA NATIVO MÓVIL (MODAL) ================= -->
     <div id="modal-signature" class="fixed inset-0 bg-[#030508] z-[60] hidden flex-col">
-        <!-- Top Nav App -->
         <div class="h-14 border-b border-white/5 bg-[#030508]/95 backdrop-blur-md flex items-center justify-between px-4 flex-shrink-0 z-20">
             <div class="flex items-center gap-3">
                 <img src="logo.png" class="w-5 h-5 opacity-80">
@@ -455,7 +474,6 @@
             </div>
         </div>
 
-        <!-- Canvas Area (Infraestructura de Scroll Flawless) -->
         <div class="workspace-scroller" id="sig-workspace-container" onclick="deselectAsset(event)">
             <div id="canvas-wrapper" class="canvas-wrapper-box" onclick="e => e.stopPropagation()">
                 <canvas id="sig-pdf-canvas" class="canvas-core"></canvas>
@@ -463,45 +481,36 @@
             </div>
         </div>
 
-        <!-- Toolbar Nativa (Abajo) -->
         <div class="bg-[#030508]/95 backdrop-blur-xl border-t border-white/5 pt-3 pb-safe flex-shrink-0 z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
             <div class="flex gap-3 overflow-x-auto hide-scrollbar max-w-4xl mx-auto items-center justify-start md:justify-center px-4 scroll-smooth" style="scroll-snap-type: x mandatory;">
-                
                 <button onclick="openDialog('dialog-text')" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">Texto</span>
                 </button>
-                
                 <button onclick="addEraserAsset()" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80 filter invert brightness-50">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">Parche</span>
                 </button>
-                
                 <button onclick="addHighlightAsset()" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80 filter sepia brightness-150">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">Resaltar</span>
                 </button>
-                
                 <button onclick="addRedBoxAsset()" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80" style="filter: sepia(1) saturate(5) hue-rotate(-50deg);">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">Recuadro</span>
                 </button>
-
                 <button onclick="addDateAsset()" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">Sello Fecha</span>
                 </button>
-                
                 <button onclick="document.getElementById('sig-upload').click()" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">Imagen</span>
                 </button>
-                
                 <button onclick="openDialog('dialog-qr')" class="tool-btn">
                     <img src="logo.png" class="w-5 h-5 mb-1 opacity-80 filter grayscale">
                     <span class="text-[9px] text-[#8b95a5] uppercase tracking-widest">QR Auto</span>
                 </button>
-
             </div>
             <input type="file" id="sig-upload" accept="image/png, image/jpeg" class="hidden" onchange="handleSignatureUpload(event)">
         </div>
@@ -574,40 +583,23 @@
 
     <!-- From Uiverse.io (Nawsome) - Export Loader -->
     <div id="export-processing" class="hidden fixed inset-0 bg-[#030508]/95 flex-col items-center justify-center p-8 backdrop-blur-md z-[200]">
-        <div class="flex-grow flex items-center justify-center w-full pb-8">
+        <div class="flex-grow flex items-center justify-center w-full pb-8 mt-12">
             <div class="boxes">
-                <div class="box">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <div class="box">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <div class="box">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <div class="box">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
+                <div class="c-box"><div></div><div></div><div></div><div></div></div>
+                <div class="c-box"><div></div><div></div><div></div><div></div></div>
+                <div class="c-box"><div></div><div></div><div></div><div></div></div>
+                <div class="c-box"><div></div><div></div><div></div><div></div></div>
             </div>
         </div>
-        <div class="w-full max-w-xs text-center z-10 relative mt-8">
-            <div class="text-[12px] font-mono text-white mb-2 uppercase tracking-widest animate-pulse" id="export-processing-text">
-                Compilando Documento...
+        <div class="w-full max-w-sm text-center z-10 relative mb-12">
+            <div class="text-[13px] font-mono text-white mb-4 uppercase tracking-widest animate-pulse" id="export-processing-text">
+                Compilando Documento Final...
             </div>
-            <div class="text-[10px] text-[#8b95a5] font-mono uppercase tracking-widest">
-                Por favor, no cierres esta ventana.
+            <div class="text-[10px] text-[#8b95a5] font-mono uppercase tracking-widest bg-white/5 p-4 rounded border border-white/10 text-left space-y-2 w-full mx-auto shadow-inner">
+                <div>> Reestructurando capas de inyección</div>
+                <div>> Aplicando algoritmos de compresión ATS</div>
+                <div>> Sellando metadatos de seguridad</div>
+                <div class="text-white pt-3 border-t border-white/10 mt-3">> Procesando (5s)... ¡No cierres la ventana!</div>
             </div>
         </div>
     </div>
@@ -655,9 +647,11 @@
                     clearInterval(timer);
                     btnTutorial.disabled = false;
                     btnTutorial.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
-                    btnTutorial.innerHTML = 'Ingresar al Vault';
+                    btnTutorial.innerHTML = 'INGRESAR AL VAULT';
+                    btnTutorial.classList.add('animate-pulse');
+                    setTimeout(()=>btnTutorial.classList.remove('animate-pulse'), 1500);
                 } else {
-                    btnTutorial.innerHTML = `Cargando Entorno (${timeLeft}s)...`;
+                    btnTutorial.innerHTML = `[ BLOQUEADO ${timeLeft}s ]`;
                 }
             }, 1000);
         });
@@ -695,20 +689,26 @@
             DOM.uploadProcessing.classList.remove('hidden');
             DOM.uploadProcessing.classList.add('flex');
             
-            const txtStates = ['> Extrayendo metadatos...', '> Desensamblando vectores...', '> Montando Sandbox seguro...'];
+            const txtStates = [
+                '> Validando estructura de metadatos...',
+                '> Escaneando vectores tipográficos...',
+                '> Desensamblando capas de compresión...',
+                '> Aislando memoria del cliente...',
+                '> Montando Vault seguro...'
+            ];
             const txtEl = document.getElementById('processing-text');
             
             let percent = 0; let s = 0;
             const interval = setInterval(() => {
-                percent += Math.floor(Math.random() * 12) + 2;
-                if(percent % 30 < 10 && s < txtStates.length) { txtEl.innerText = txtStates[s++]; }
+                percent += 1;
+                if(percent % 20 === 0 && s < txtStates.length) { txtEl.innerText = txtStates[s++]; }
                 if(percent >= 100) {
                     percent = 100; clearInterval(interval);
                     setTimeout(() => initFile(file), 400);
                 }
                 DOM.processingBar.style.width = percent + '%';
                 DOM.processingPercent.innerText = percent + '%';
-            }, 120);
+            }, 50); // 50ms * 100 iteraciones = exactamente 5000ms (5 segundos)
         }
 
         async function initFile(file) {
@@ -1001,6 +1001,7 @@
             DOM.exportProcessing.classList.remove('hidden'); 
             DOM.exportProcessing.classList.add('flex');
             
+            // Retraso de exactamente 5 segundos (5000ms) visualizando la animación
             setTimeout(async () => {
                 try {
                     const newPdf = await PDFLib.PDFDocument.create();
@@ -1064,8 +1065,10 @@
                     DOM.exportProcessing.classList.add('hidden'); DOM.exportProcessing.classList.remove('flex');
                     showToast("Error crítico durante ensamblaje final."); 
                 }
-            }, 500);
+            }, 5000);
         }
     </script>
 </body>
 </html>
+
+

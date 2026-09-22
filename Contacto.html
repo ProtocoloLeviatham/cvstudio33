@@ -279,14 +279,7 @@
                     </ul>
                 </div>
                 
-                <div>
-                    <h4 class="text-white font-bold text-sm mb-5 tracking-wider uppercase">Bases Operativas</h4>
-                    <ul class="space-y-3 text-sm text-gray-500">
-                        <li><a href="biblioteca-de-plantillas.html" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-files text-xs"></i> Matrices de Plantillas</a></li>
-                        <li><a href="#bolsa" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-scan text-xs"></i> Agencia Propia & Bots</a></li>
-                        <li><a href="#partners" class="hover:text-white transition flex items-center gap-2"><i class="ph ph-currency-circle-dollar text-xs"></i> Panel de Ventas</a></li>
-                    </ul>
-                </div>
+
                 
                 <div>
                     <h4 class="text-white font-bold text-sm mb-5 tracking-wider uppercase">Legal & Soporte</h4>
@@ -337,21 +330,18 @@
             <p id="tokenErrorMsg" class="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-2 text-xs mt-4 hidden">Token rechazado.</p>
         </div>
 
-        <!-- STEP 2: LOGIN FIREBASE -->
+        <!-- STEP 2: LOGIN FIREBASE (GOOGLE) -->
         <div id="stepAuth" class="bg-[#050911] border border-white/10 rounded-2xl p-8 w-full max-w-sm mx-4 text-center shadow-2xl relative overflow-hidden hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50"></div>
-            <i class="ph-fill ph-fingerprint text-4xl text-green-400 mb-4"></i>
+            <i class="ph-fill ph-google-logo text-4xl text-green-400 mb-4"></i>
             <h3 class="text-white font-semibold mb-2 text-lg">Identidad Requerida</h3>
-            <p class="text-app-muted text-xs mb-6">Inicia sesión con tu correo (CvStudio33@gmail.com) para desencriptar la base de datos.</p>
+            <p class="text-app-muted text-xs mb-6">Inicia sesión con tu cuenta de Google administrativa para desencriptar la base de datos.</p>
             
-            <input type="email" id="adminEmail" class="app-input mb-4 text-sm" placeholder="Correo Administrativo">
-            <input type="password" id="adminFbPwd" class="app-input mb-6 text-sm" placeholder="Contraseña de Firebase">
-            
-            <div class="flex gap-3">
-                <button onclick="closeAdminPanel()" class="flex-1 py-2.5 rounded-xl border border-white/10 text-app-muted hover:bg-white/5 transition text-sm">Cancelar</button>
-                <button id="btnLoginFirebase" onclick="loginFirebaseAdmin()" class="flex-1 py-2.5 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-500 transition text-sm">
-                    Entrar al Panel
+            <div class="flex flex-col gap-3">
+                <button id="btnLoginFirebase" onclick="loginFirebaseAdmin()" class="py-3 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition text-sm flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-google-logo text-lg"></i> Continuar con Google
                 </button>
+                <button onclick="closeAdminPanel()" class="py-3 rounded-xl border border-white/10 text-app-muted hover:bg-white/5 transition text-sm">Cancelar</button>
             </div>
             <p id="authErrorMsg" class="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-2 text-xs mt-4 hidden">Credenciales inválidas.</p>
         </div>
@@ -394,7 +384,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
@@ -514,23 +504,23 @@
         };
 
         window.loginFirebaseAdmin = async () => {
-            const email = document.getElementById('adminEmail').value;
-            const pwd = document.getElementById('adminFbPwd').value;
             const btn = document.getElementById('btnLoginFirebase');
             const err = document.getElementById('authErrorMsg');
 
-            btn.disabled = true; btn.innerHTML = '<span class="loader loader-light"></span>';
+            btn.disabled = true; btn.innerHTML = '<span class="loader border-black border-l-transparent"></span>';
             err.classList.add('hidden');
 
             try {
-                await signInWithEmailAndPassword(auth, email, pwd);
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
                 stepAuth.classList.add('hidden');
                 adminContent.classList.remove('hidden');
                 loadTickets();
             } catch (e) {
+                console.error(e);
+                err.innerText = "Acceso denegado o cancelado.";
                 err.classList.remove('hidden');
-            } finally {
-                btn.disabled = false; btn.innerText = 'Entrar al Panel';
+                btn.disabled = false; btn.innerHTML = '<i class="ph-bold ph-google-logo text-lg"></i> Continuar con Google';
             }
         };
 
@@ -637,3 +627,6 @@
     </script>
 </body>
 </html>
+
+
+

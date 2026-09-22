@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio33 | Centro de Ayuda Interactivo</title>
+    <title>CV Studio33 | Centro de Resolución</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     
     <!-- Tailwind CSS -->
@@ -23,9 +23,9 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         app: {
-                            bg: '#02040a',       /* Deep black-blue */
-                            card: '#0a0f1a',     /* Elevated dark */
-                            border: '#1f2937',   /* subtle border */
+                            bg: '#02040a',
+                            card: '#0a0f1a',
+                            border: '#1f2937',
                             muted: '#9ca3af',
                             text: '#f3f4f6',
                             accent: '#3b82f6',
@@ -38,7 +38,6 @@
     <style>
         body { background-color: #02040a; color: #f3f4f6; overflow-x: hidden; }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #02040a; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
@@ -46,16 +45,11 @@
 
         .app-input {
             width: 100%; padding: 0.875rem 1rem;
-            background-color: #050911;
-            border: 1px solid #1f2937;
-            border-radius: 0.75rem;
-            font-size: 0.875rem; color: #f3f4f6;
+            background-color: #050911; border: 1px solid #1f2937;
+            border-radius: 0.75rem; font-size: 0.875rem; color: #f3f4f6;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .app-input:focus {
-            outline: none; border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
+        .app-input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
         .app-input::placeholder { color: #4b5563; }
 
         .app-button {
@@ -75,14 +69,12 @@
         .loader-light { border-color: rgba(255,255,255,0.1); border-left-color: #fff; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Paneles */
         .glass-panel {
             background: linear-gradient(145deg, rgba(10, 15, 26, 0.8) 0%, rgba(5, 9, 17, 0.9) 100%);
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Admin Overlay */
         .admin-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(2, 4, 10, 0.95); backdrop-filter: blur(12px);
@@ -98,173 +90,167 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-blue-500/30 selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-blue-500/30 selection:text-white relative">
 
-    <main class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col xl:flex-row gap-8 lg:gap-12 mt-4 lg:mt-8 z-10 relative">
+    <!-- TOP HEADER PROFESIONAL -->
+    <header class="w-full border-b border-white/5 bg-[#02040a]/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="Logo CV Studio33" class="w-10 h-10 object-contain" onerror="this.src='https://via.placeholder.com/40'">
+                <div>
+                    <h1 class="text-white font-bold text-lg md:text-xl tracking-wide">Centro de Resolución Técnica</h1>
+                    <p class="text-app-muted text-xs uppercase tracking-widest font-semibold mt-0.5">Asistencia Nivel 3 para Clientes y Partners</p>
+                </div>
+            </div>
+            <a href="index.html" class="flex items-center gap-2 text-sm text-app-muted hover:text-white transition border border-white/10 rounded-lg px-5 py-2.5 hover:bg-white/5 font-medium">
+                <i class="ph-bold ph-arrow-left"></i> Volver a Inicio
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col xl:flex-row gap-8 lg:gap-12 mt-4 z-10 relative">
         
-        <!-- COLUMNA IZQUIERDA: Textos Humanos, Info y Ejemplos -->
+        <!-- COLUMNA IZQUIERDA -->
         <div class="xl:w-5/12 space-y-6" data-aos="fade-right">
             
             <div class="mb-10">
-                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Estamos aquí para ayudarte.</h1>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Estamos aquí para ayudarte.</h2>
                 <p class="text-app-muted text-sm leading-relaxed">
-                    Sabemos lo frustrante que puede ser cuando la tecnología falla. Por eso, hemos diseñado este espacio para escucharte y solucionar cualquier problema de forma rápida y humana. Completa el formulario de la derecha y nuestro equipo técnico se pondrá a trabajar en tu caso de inmediato.
+                    Completa el formulario de la derecha detallando tu situación. Nuestro equipo de ingenieros y especialistas de soporte analizará tu caso y te brindará una solución directa y humana.
                 </p>
             </div>
 
             <div class="glass-panel rounded-2xl p-6 md:p-8">
                 <h3 class="text-white font-semibold mb-6 flex items-center gap-3">
-                    <i class="ph ph-lightning text-xl text-yellow-400"></i> ¿Qué nivel de urgencia elijo?
+                    <i class="ph-fill ph-lightning text-xl text-yellow-400"></i> Niveles de Urgencia
                 </h3>
                 <div class="space-y-6 text-sm">
                     <div class="border-l-2 border-slate-700 pl-4">
-                        <strong class="text-white block mb-1">Baja (Tengo una duda)</strong>
-                        <p class="text-app-muted leading-relaxed mb-1">Úsalo si tienes preguntas sobre cómo usar la plataforma o dudas sobre tu suscripción.</p>
-                        <em class="text-slate-500 text-xs italic block mb-2">Ejemplo: "¿Cómo puedo descargar mi CV en PDF?" o "¿Qué incluye mi plan?".</em>
+                        <strong class="text-white block mb-1">Baja (Tengo una duda general)</strong>
+                        <p class="text-app-muted leading-relaxed mb-1">Si necesitas asesoramiento, preguntas sobre pagos, o dudas sobre cómo usar alguna herramienta.</p>
                         <span class="text-xs font-semibold text-green-400 bg-green-400/10 px-2 py-1 rounded">Respuesta: 1 a 2 días</span>
                     </div>
                     
                     <div class="border-l-2 border-slate-700 pl-4">
                         <strong class="text-white block mb-1">Media (Algo funciona mal)</strong>
-                        <p class="text-app-muted leading-relaxed mb-1">Ideal si encuentras un error molesto, pero aún puedes seguir usando la mayor parte de la web.</p>
-                        <em class="text-slate-500 text-xs italic block mb-2">Ejemplo: "Mi foto de perfil tarda en cargar" o "Un botón no responde".</em>
+                        <p class="text-app-muted leading-relaxed mb-1">Si encuentras un error molesto (ej. una imagen no carga), pero aún puedes seguir usando la web.</p>
                         <span class="text-xs font-semibold text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Respuesta: Menos de 24 horas</span>
                     </div>
                     
                     <div class="border-l-2 border-orange-500 pl-4">
                         <strong class="text-white block mb-1">Alta (No puedo avanzar)</strong>
-                        <p class="text-app-muted leading-relaxed mb-1">Selecciona esto si una función vital está rota y te impide usar un servicio por el que pagaste.</p>
-                        <em class="text-slate-500 text-xs italic block mb-2">Ejemplo: "Pagué pero mi cuenta sigue gratis" o "Al guardar me sale un error rojo y se borra todo".</em>
+                        <p class="text-app-muted leading-relaxed mb-1">Una función vital está rota y te impide usar un servicio por el que has pagado.</p>
                         <span class="text-xs font-semibold text-orange-400 bg-orange-400/10 px-2 py-1 rounded">Respuesta: En unas horas</span>
                     </div>
 
                     <div class="border-l-2 border-red-500 pl-4">
                         <strong class="text-red-400 block mb-1">Crítica (Caída Total)</strong>
-                        <p class="text-app-muted leading-relaxed mb-1">Únicamente para emergencias absolutas donde la plataforma entera ha dejado de funcionar.</p>
-                        <em class="text-slate-500 text-xs italic block mb-2">Ejemplo: "La página principal está en blanco" o "Nadie puede iniciar sesión".</em>
+                        <p class="text-app-muted leading-relaxed mb-1">La plataforma entera ha dejado de funcionar, está en blanco, o hay una brecha de seguridad.</p>
                         <span class="text-xs font-semibold text-red-400 bg-red-400/10 px-2 py-1 rounded animate-pulse">Atención Inmediata</span>
                     </div>
                 </div>
             </div>
-
-            <div class="glass-panel rounded-2xl p-6 md:p-8">
-                <h3 class="text-white font-semibold mb-4 flex items-center gap-3">
-                    <i class="ph ph-shield-check text-xl text-green-400"></i> Privacidad y Respeto
-                </h3>
-                <div class="space-y-4 text-sm text-app-muted leading-relaxed">
-                    <p>
-                        <strong class="text-white">Tus datos están seguros:</strong> Entendemos la confianza que depositas en nosotros. Todo lo que escribas aquí viaja de forma cifrada (encriptada). Nadie ajeno a nuestro equipo de ingenieros podrá leer tu mensaje ni ver tus datos de contacto.
-                    </p>
-                    <p>
-                        <strong class="text-white">Uso Responsable (Anti-Spam):</strong> Detrás de esta pantalla hay personas trabajando para ayudarte. Tenemos sistemas que detectan automáticamente el abuso. Si alguien envía muchísimos mensajes repetidos, usa insultos o hace spam, el sistema bloqueará su cuenta para proteger el tiempo de los demás usuarios que sí necesitan ayuda real.
-                    </p>
-                    <p>
-                        <strong class="text-white">Permiso de revisión:</strong> Al enviarnos tu caso, nos das permiso para mirar por dentro cómo está configurada tu cuenta. Esto es necesario para encontrar el error. Prometemos no cambiar nada de tu información personal sin preguntarte antes.
-                    </p>
-                </div>
-            </div>
-
         </div>
 
-        <!-- COLUMNA DERECHA: FORMULARIO -->
+        <!-- COLUMNA DERECHA: FORMULARIO MEJORADO -->
         <div class="xl:w-7/12" data-aos="fade-left" data-aos-delay="100">
             <div class="glass-panel rounded-3xl p-6 md:p-12 relative overflow-hidden">
-                <!-- Decoración sutil de fondo -->
                 <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-[80px] pointer-events-none"></div>
 
                 <div class="flex items-center gap-4 mb-8 border-b border-white/5 pb-6">
-                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                        <i class="ph ph-paper-plane-tilt text-2xl text-white"></i>
+                    <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                        <i class="ph-fill ph-paper-plane-tilt text-2xl text-blue-400"></i>
                     </div>
                     <div>
                         <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">Formulario de Asistencia</h2>
-                        <p class="text-sm text-app-muted mt-1">Envía tu caso al cerebro central (Worker).</p>
+                        <p class="text-sm text-app-muted mt-1">Conexión cifrada de extremo a extremo.</p>
                     </div>
                 </div>
                 
                 <form id="contactForm" class="space-y-6 relative z-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-user"></i> Tu Nombre o Empresa</label>
+                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-user"></i> Nombre / Empresa</label>
                             <input type="text" id="name" class="app-input" placeholder="Ej: Laura Gómez" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-envelope-simple"></i> ¿Dónde te respondemos?</label>
+                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-envelope-simple"></i> ¿A dónde te respondemos?</label>
                             <input type="text" id="contact_method" class="app-input" placeholder="Tu Email o WhatsApp" required>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-list-dashes"></i> ¿De qué trata el problema?</label>
-                            <select id="subject" class="app-input appearance-none cursor-pointer">
-                                <option value="Soporte General">Tengo una duda general / Ayuda</option>
-                                <option value="Negocios y Partners">Propuesta B2B o Alianza</option>
-                                <option value="Contratos y Legal">Asunto Legal o Contrato</option>
-                                <option value="Reporte Bug Web/Bot">Encontré un error en la web/bot</option>
-                                <option value="Problema Tokens/Pagos">Problemas con un pago / Tokens</option>
+                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-list-dashes"></i> ¿Sobre qué nos escribes?</label>
+                            <select id="subject" class="app-input appearance-none cursor-pointer text-sm">
+                                <option value="Soporte General">Tengo una duda general / Asesoramiento</option>
+                                <option value="Negocios y Partners">Propuesta B2B o Alianzas Estratégicas</option>
+                                <option value="Contratos y Legal">Asunto Legal, Privacidad o Contrato</option>
+                                <option value="Reporte Bug Web/Bot">Encontré un error técnico (Bug)</option>
+                                <option value="Problema Tokens/Pagos">Problemas con Pagos, Facturación o Tokens</option>
+                                <option value="Consultas IA">Consultas sobre integración de IA (NYX/AXON)</option>
+                                <option value="Reporte Spam">Reportar comportamiento abusivo / Spam</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-warning-circle"></i> Nivel de Urgencia</label>
-                            <select id="priority" class="app-input appearance-none cursor-pointer">
+                            <select id="priority" class="app-input appearance-none cursor-pointer text-sm">
                                 <option value="Baja">Baja (Es solo una consulta)</option>
                                 <option value="Media">Media (Falla pero puedo seguir)</option>
                                 <option value="Alta">Alta (No puedo usar una función clave)</option>
-                                <option value="Critica">Crítica (No me funciona absolutamente nada)</option>
+                                <option value="Critica">Crítica (La página entera está rota)</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-crosshair"></i> ¿Dónde ocurre?</label>
-                            <select id="service_related" class="app-input appearance-none cursor-pointer">
-                                <option value="General">En la página en general</option>
+                            <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-crosshair"></i> ¿Dónde ocurre el problema?</label>
+                            <select id="service_related" class="app-input appearance-none cursor-pointer text-sm">
+                                <option value="General">En la página en general (Navegación)</option>
                                 <option value="NYX IA">En el asistente NYX IA</option>
-                                <option value="AXON Bot">En el Bot AXON</option>
-                                <option value="Creador CV">En el creador de currículums</option>
+                                <option value="AXON Bot">En la automatización AXON Bot</option>
+                                <option value="Creador CV">En el Motor Creador de Currículums</option>
+                                <option value="Generador PDF">En la generación o descarga de PDFs</option>
                                 <option value="Bolsa VIP">En la sección Bolsa VIP</option>
+                                <option value="Panel Partners">En el Panel de Vendedores (Partners)</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-crown"></i> ¿Qué plan usas?</label>
-                            <select id="user_plan" class="app-input appearance-none cursor-pointer">
+                            <select id="user_plan" class="app-input appearance-none cursor-pointer text-sm">
                                 <option value="Gratis">Uso la cuenta Gratis</option>
                                 <option value="Basico">Plan Básico</option>
                                 <option value="Avanzado">Plan Avanzado</option>
                                 <option value="Profesional">Plan Profesional</option>
-                                <option value="Elite/Empresa">Plan Enterprise</option>
+                                <option value="Agencia">Plan Emprendedor / Agencia</option>
+                                <option value="Elite/Empresa">Plan Enterprise / Elite</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-receipt"></i> ID del Pago o Transacción (Solo si es un problema de cobros)</label>
+                        <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-receipt"></i> ID del Pago (Déjalo vacío si no es un tema de cobros)</label>
                         <input type="text" id="transaction_id" class="app-input font-mono" placeholder="Ej: #MP-987654321">
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-app-muted mb-2 flex items-center gap-2"><i class="ph ph-chat-text"></i> Cuéntanos exactamente qué pasó</label>
-                        <textarea id="message" rows="5" class="app-input resize-y" placeholder="Escribe aquí con mucho detalle. Si encontraste un error, dinos en qué pantalla estabas y qué botón tocaste antes de que pasara..." required></textarea>
+                        <textarea id="message" rows="5" class="app-input resize-y" placeholder="Explícanos tu situación con todo el detalle posible. Si encontraste un error, dinos qué botones tocaste antes de que pasara..." required></textarea>
                     </div>
 
                     <div id="statusMessage" class="hidden p-4 rounded-xl text-sm text-center border"></div>
 
                     <button type="submit" id="submitBtn" class="app-button w-full mt-2">
-                        <span>Enviar a los Ingenieros</span> <i class="ph-bold ph-arrow-right"></i>
+                        <span>Enviar Ticket Seguro</span> <i class="ph-bold ph-paper-plane-right"></i>
                     </button>
-                    
-                    <p class="text-center text-xs text-slate-500 mt-4 max-w-md mx-auto">
-                        Tus datos se enviarán directamente a nuestro cerebro en Cloudflare de forma segura.
-                    </p>
                 </form>
 
             </div>
         </div>
     </main>
 
-    <!-- FOOTER SOLICITADO EXACTAMENTE CON ESTILOS CORREGIDOS -->
+    <!-- FOOTER EXACTO SOLICITADO -->
     <footer id="contacto" class="bg-[#050911] border-t border-white/5 pt-16 pb-8 relative z-20 mt-12">
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -317,10 +303,8 @@
                 </div>
             </div>
             
-            <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
-                <!-- EL TRIGGER DEL ADMIN ESTÁ EN EL TEXTO DE COPYRIGHT -->
-                <p id="adminTrigger" class="cursor-pointer hover:text-gray-400 transition" title="Doble clic para Acceso Restringido">&copy; 2026 CV Studios33 Intelligence Agency. Propiedad Intelectual Registrada.</p>
-                
+            <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 relative">
+                <p id="adminTrigger" class="cursor-default select-none">&copy; 2026 CV Studios33 Intelligence Agency. Propiedad Intelectual Registrada.</p>
                 <div class="mt-4 md:mt-0 flex items-center gap-4">
                     <span class="flex items-center gap-2">
                         <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></div>
@@ -332,75 +316,72 @@
         </div>
     </footer>
 
-    <!-- SISTEMA ZERO TRUST (DOBLE AUTENTICACIÓN ADMIN) -->
+    <!-- SISTEMA ZERO TRUST (PANEL ADMIN) -->
     <div id="adminPanel" class="admin-overlay">
         
-        <!-- STEP 1: VERIFICACIÓN DEL CEREBRO (TOKEN_CLAVE_TICKET) -->
+        <!-- STEP 1: TOKEN -->
         <div id="stepToken" class="bg-[#050911] border border-white/10 rounded-2xl p-8 w-full max-w-sm mx-4 text-center shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
-            <i class="ph ph-lock-key text-4xl text-white mb-4"></i>
-            <h3 class="text-white font-semibold mb-2">Seguridad Zero Trust</h3>
-            <p class="text-app-muted text-xs mb-6 leading-relaxed">Conectando con el Cerebro (Worker). Ingresa tu Token de Seguridad para habilitar el inicio de sesión.</p>
+            <i class="ph-fill ph-shield-check text-4xl text-blue-500 mb-4"></i>
+            <h3 class="text-white font-semibold mb-2 text-lg">Seguridad Zero Trust</h3>
+            <p class="text-app-muted text-xs mb-6">Ingresa tu Token de Seguridad (TOKEN_CLAVE_TICKET) para habilitar el login.</p>
             
-            <input type="password" id="adminTokenInput" class="app-input text-center mb-6 tracking-widest font-mono" placeholder="TOKEN_CLAVE_TICKET">
+            <input type="password" id="adminTokenInput" class="app-input text-center mb-6 tracking-widest font-mono" placeholder="Ingresar Clave">
             
             <div class="flex gap-3">
-                <button onclick="closeAdminPanel()" class="flex-1 py-2.5 rounded-xl border border-white/10 text-app-muted hover:bg-white/5 transition text-sm">Abortar</button>
-                <button id="btnVerifyToken" onclick="verifyWorkerToken()" class="flex-1 py-2.5 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500 transition text-sm flex items-center justify-center gap-2">
-                    <i class="ph-bold ph-shield-check"></i> Verificar
+                <button onclick="closeAdminPanel()" class="flex-1 py-2.5 rounded-xl border border-white/10 text-app-muted hover:bg-white/5 transition text-sm">Cancelar</button>
+                <button id="btnVerifyToken" onclick="verifyWorkerToken()" class="flex-1 py-2.5 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500 transition text-sm">
+                    Verificar
                 </button>
             </div>
-            <p id="tokenErrorMsg" class="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-2 text-xs mt-4 hidden">Token rechazado por el Cerebro.</p>
+            <p id="tokenErrorMsg" class="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-2 text-xs mt-4 hidden">Token rechazado.</p>
         </div>
 
-        <!-- STEP 2: MINI LOGIN FIREBASE AUTH -->
+        <!-- STEP 2: LOGIN FIREBASE -->
         <div id="stepAuth" class="bg-[#050911] border border-white/10 rounded-2xl p-8 w-full max-w-sm mx-4 text-center shadow-2xl relative overflow-hidden hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50"></div>
-            <i class="ph ph-fingerprint text-4xl text-green-400 mb-4"></i>
-            <h3 class="text-white font-semibold mb-2">Identidad Autorizada</h3>
-            <p class="text-app-muted text-xs mb-6 leading-relaxed">Token válido. Inicia sesión con tus credenciales de Firebase para descifrar la base de datos.</p>
+            <i class="ph-fill ph-fingerprint text-4xl text-green-400 mb-4"></i>
+            <h3 class="text-white font-semibold mb-2 text-lg">Identidad Requerida</h3>
+            <p class="text-app-muted text-xs mb-6">Inicia sesión con tu correo (CvStudio33@gmail.com) para desencriptar la base de datos.</p>
             
-            <input type="email" id="adminEmail" class="app-input mb-4 text-sm" placeholder="Correo (ej: CvStudio33@gmail.com)">
+            <input type="email" id="adminEmail" class="app-input mb-4 text-sm" placeholder="Correo Administrativo">
             <input type="password" id="adminFbPwd" class="app-input mb-6 text-sm" placeholder="Contraseña de Firebase">
             
             <div class="flex gap-3">
                 <button onclick="closeAdminPanel()" class="flex-1 py-2.5 rounded-xl border border-white/10 text-app-muted hover:bg-white/5 transition text-sm">Cancelar</button>
-                <button id="btnLoginFirebase" onclick="loginFirebaseAdmin()" class="flex-1 py-2.5 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-500 transition text-sm flex items-center justify-center gap-2">
-                    <i class="ph-bold ph-sign-in"></i> Entrar
+                <button id="btnLoginFirebase" onclick="loginFirebaseAdmin()" class="flex-1 py-2.5 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-500 transition text-sm">
+                    Entrar al Panel
                 </button>
             </div>
             <p id="authErrorMsg" class="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-2 text-xs mt-4 hidden">Credenciales inválidas.</p>
         </div>
 
-        <!-- PANEL DE CONTROL (Se muestra solo si pasa ambos filtros) -->
+        <!-- DASHBOARD ADMIN (Modernizado) -->
         <div id="adminContent" class="admin-modal-full hidden">
             <!-- Header Panel -->
-            <div class="bg-[#02040a] p-4 border-b border-white/5 flex justify-between items-center px-6">
+            <div class="bg-[#02040a] p-5 border-b border-white/5 flex justify-between items-center px-8">
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                        <i class="ph-fill ph-database text-xl text-blue-400"></i>
-                    </div>
+                    <img src="logo.png" class="w-8 h-8 object-contain">
                     <div>
-                        <h3 class="font-bold text-white tracking-wide">Terminal Central de Soporte</h3>
-                        <p class="text-xs text-green-400 flex items-center gap-1 font-mono"><span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Firebase Auth Conectado</p>
+                        <h3 class="font-bold text-white text-lg tracking-wide">Panel de Tickets Nivel 3</h3>
+                        <p class="text-xs text-green-400 flex items-center gap-1 font-mono"><span class="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]"></span> Base de datos sincronizada</p>
                     </div>
                 </div>
                 <button onclick="logoutAdmin()" class="text-app-muted hover:text-red-400 transition flex items-center gap-2 text-sm border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5">
-                    <i class="ph ph-sign-out"></i> Desconectar
+                    <i class="ph-bold ph-power"></i> Cerrar Sesión
                 </button>
             </div>
             
-            <!-- Body Panel -->
             <div class="flex-1 flex overflow-hidden bg-[#050911]">
                 <!-- Lista Izquierda -->
-                <div class="w-1/3 border-r border-white/5 overflow-y-auto" id="ticketsList">
+                <div class="w-1/3 border-r border-white/5 overflow-y-auto bg-black/20" id="ticketsList">
                     <!-- Se carga dinámicamente -->
                 </div>
                 <!-- Detalle Derecha -->
                 <div class="w-2/3 p-10 overflow-y-auto relative" id="ticketDetail">
-                    <div class="flex flex-col items-center justify-center h-full text-app-muted">
-                        <i class="ph ph-envelope-open text-6xl opacity-20 mb-4"></i>
-                        <p class="text-sm">Selecciona un ticket de la lista para leerlo y responder.</p>
+                    <div class="flex flex-col items-center justify-center h-full text-app-muted opacity-50">
+                        <i class="ph-fill ph-tray text-6xl mb-4"></i>
+                        <p class="text-sm font-medium tracking-wide">Selecciona un ticket para visualizar los detalles.</p>
                     </div>
                 </div>
             </div>
@@ -409,7 +390,7 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- FIREBASE MODULES (Incluyendo Auth) -->
+    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
@@ -429,9 +410,7 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // ==========================================
-        // 1. ENVÍO AL CEREBRO (WORKER CLOUDFLARE)
-        // ==========================================
+        // FORMULARIO ENVÍO (AL WORKER)
         const form = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const statusMsg = document.getElementById('statusMessage');
@@ -440,7 +419,7 @@
             e.preventDefault();
             const originalBtnContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loader loader-light"></span> <span class="ml-2">Conectando al Cerebro...</span>';
+            submitBtn.innerHTML = '<span class="loader loader-light"></span> <span class="ml-2">Conectando...</span>';
             statusMsg.classList.add('hidden');
 
             const payload = {
@@ -455,25 +434,22 @@
             };
 
             try {
-                // LLAMADA AL WORKER EN VEZ DE A FIREBASE DIRECTAMENTE
                 const response = await fetch('https://contacto.lautybg22.workers.dev/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                if (!response.ok) throw new Error('El Cerebro rechazó la solicitud.');
-
-                // Asumimos que el worker nos devuelve el ID si fue exitoso
-                const data = await response.json().catch(() => ({}));
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Error del servidor');
 
                 statusMsg.className = 'p-5 rounded-xl text-sm text-center bg-green-500/10 text-green-400 border border-green-500/20 mb-4 block';
-                statusMsg.innerHTML = `<i class="ph-fill ph-check-circle text-lg mb-1"></i><br>¡Recibido por el Cerebro!<br>Tu ID seguro es: <strong class="font-mono bg-black/50 px-2 rounded ml-1">#${data.id ? data.id.slice(0,6).toUpperCase() : 'OK'}</strong>`;
+                statusMsg.innerHTML = `<i class="ph-fill ph-check-circle text-2xl mb-2"></i><br>¡Ticket creado exitosamente!<br>El ID seguro es: <strong class="font-mono bg-black/50 px-2 py-0.5 rounded ml-1">#${data.id ? data.id.slice(0,6).toUpperCase() : 'OK'}</strong>`;
                 form.reset();
             } catch (error) {
-                console.error("Error conectando al Worker:", error);
+                console.error("Error:", error);
                 statusMsg.className = 'p-5 rounded-xl text-sm text-center bg-red-500/10 text-red-400 border border-red-500/20 mb-4 block';
-                statusMsg.innerHTML = '<i class="ph ph-warning"></i> Ups, tuvimos un problema conectando con el servidor central. Intenta nuevamente.';
+                statusMsg.innerHTML = '<i class="ph-fill ph-warning-circle text-lg"></i> Error de conexión. Intenta nuevamente.';
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnContent;
@@ -481,48 +457,26 @@
         });
 
 
-        // ==========================================
-        // 2. SISTEMA ZERO TRUST (DOBLE AUTH ADMIN)
-        // ==========================================
-        let clickCount = 0;
-        let clickTimer;
+        // SISTEMA PANEL ADMIN ZERO TRUST
         const adminTrigger = document.getElementById('adminTrigger');
         const adminPanel = document.getElementById('adminPanel');
-        
-        // Modal Sections
         const stepToken = document.getElementById('stepToken');
         const stepAuth = document.getElementById('stepAuth');
         const adminContent = document.getElementById('adminContent');
 
-        // TRIGGER OCULTO EN EL COPYRIGHT DEL FOOTER
-        adminTrigger.addEventListener('dblclick', openZeroTrustFlow);
-        adminTrigger.addEventListener('click', () => {
-            clickCount++;
-            if(clickCount === 1) clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-            if(clickCount === 3) {
-                clearTimeout(clickTimer);
-                clickCount = 0;
-                openZeroTrustFlow();
-            }
-        });
-
-        function openZeroTrustFlow() {
+        // BOTÓN SECRETO (Doble clic en el texto de Copyright)
+        adminTrigger.addEventListener('dblclick', () => {
             adminPanel.classList.add('active');
             adminContent.classList.add('hidden');
-            
-            // Si Firebase ya detecta una sesión válida activa, saltamos el login de Firebase.
-            // Pero AÚN así debemos pedir el Token del Cerebro por Zero Trust.
             stepToken.classList.remove('hidden');
             stepAuth.classList.add('hidden');
-            
             document.getElementById('adminTokenInput').value = '';
             document.getElementById('tokenErrorMsg').classList.add('hidden');
             document.getElementById('authErrorMsg').classList.add('hidden');
-        }
+        });
 
         window.closeAdminPanel = () => { adminPanel.classList.remove('active'); };
 
-        // PASO 1: VERIFICAR EL TOKEN CON EL WORKER
         window.verifyWorkerToken = async () => {
             const token = document.getElementById('adminTokenInput').value;
             const btn = document.getElementById('btnVerifyToken');
@@ -532,7 +486,6 @@
             err.classList.add('hidden');
 
             try {
-                // VERIFICACIÓN REAL CON EL CEREBRO
                 const response = await fetch('https://contacto.lautybg22.workers.dev/auth', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -542,15 +495,11 @@
                 const data = await response.json();
 
                 if (response.ok && data.valid) {
-                    // Token Correcto. Pasamos al Login de Firebase (o directo si ya está logeado)
                     stepToken.classList.add('hidden');
-                    
                     if (auth.currentUser) {
-                        // Ya está logeado en Firebase con una sesión guardada
                         adminContent.classList.remove('hidden');
                         loadTickets();
                     } else {
-                        // Requiere Mini Login
                         stepAuth.classList.remove('hidden');
                     }
                 } else {
@@ -558,13 +507,12 @@
                 }
             } catch (e) {
                 err.classList.remove('hidden');
-                err.innerText = "Fallo al validar con el Cerebro.";
+                err.innerText = "Error de red al verificar token.";
             } finally {
-                btn.disabled = false; btn.innerHTML = '<i class="ph-bold ph-shield-check"></i> Verificar';
+                btn.disabled = false; btn.innerText = 'Verificar';
             }
         };
 
-        // PASO 2: MINI LOGIN FIREBASE (Si no había sesión activa)
         window.loginFirebaseAdmin = async () => {
             const email = document.getElementById('adminEmail').value;
             const pwd = document.getElementById('adminFbPwd').value;
@@ -575,60 +523,44 @@
             err.classList.add('hidden');
 
             try {
-                // Firebase Login Standard (esto encaja perfecto con users/cliente-xxxx si tu DB requiere Auth)
                 await signInWithEmailAndPassword(auth, email, pwd);
-                
-                // Login Exitoso!
                 stepAuth.classList.add('hidden');
                 adminContent.classList.remove('hidden');
                 loadTickets();
             } catch (e) {
-                console.error(e);
                 err.classList.remove('hidden');
-                err.innerText = "Credenciales de Firebase incorrectas.";
             } finally {
-                btn.disabled = false; btn.innerHTML = '<i class="ph-bold ph-sign-in"></i> Entrar';
+                btn.disabled = false; btn.innerText = 'Entrar al Panel';
             }
         };
 
-        window.logoutAdmin = () => {
-            signOut(auth).then(() => {
-                closeAdminPanel();
-            });
-        };
+        window.logoutAdmin = () => { signOut(auth).then(() => closeAdminPanel()); };
 
-        // ==========================================
-        // 3. CARGA DE TICKETS Y RESPUESTAS (OPTIMIZADO)
-        // ==========================================
         async function loadTickets() {
             const listContainer = document.getElementById('ticketsList');
-            listContainer.innerHTML = '<p class="text-center text-app-muted p-12 text-sm flex flex-col items-center gap-4"><span class="loader loader-light w-8 h-8"></span> Descifrando base de datos...</p>';
+            listContainer.innerHTML = '<div class="p-10 text-center text-app-muted"><span class="loader loader-light mb-4 block mx-auto"></span>Sincronizando Firebase...</div>';
 
             try {
-                // Aquí las Reglas de Firebase validarán que auth.currentUser.email sea admin
                 const q = query(collection(db, "tickets"), orderBy("timestamp", "desc"));
                 const querySnapshot = await getDocs(q);
                 
                 listContainer.innerHTML = ''; 
-                
                 if (querySnapshot.empty) {
-                    listContainer.innerHTML = '<p class="text-center text-app-muted p-12"><i class="ph-fill ph-check-circle text-4xl mb-2 text-zinc-700"></i><br>Bandeja limpia. No hay tickets.</p>';
+                    listContainer.innerHTML = '<div class="p-10 text-center text-app-muted"><i class="ph-fill ph-check-circle text-4xl mb-2 text-zinc-700"></i><p>No hay tickets pendientes.</p></div>';
                     return;
                 }
 
                 querySnapshot.forEach((doc) => {
                     const t = doc.data();
                     const date = t.timestamp ? new Date(t.timestamp.seconds * 1000).toLocaleDateString() : '';
-                    
                     let statusClass = t.status === 'Resuelto' ? 'text-green-400 bg-green-500/10' : (t.priority === 'Critica' ? 'text-red-400 bg-red-500/10' : 'text-zinc-300 bg-white/5');
                     let borderClass = t.priority === 'Critica' && t.status !== 'Resuelto' ? 'border-l-red-500' : 'border-l-transparent';
 
                     const div = document.createElement('div');
-                    div.className = `ticket-list-item border-l-4 ${borderClass}`;
-                    
+                    div.className = `p-4 border-b border-white/5 border-l-4 ${borderClass} cursor-pointer hover:bg-white/5 transition`;
                     div.innerHTML = `
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="text-sm font-bold text-white truncate w-3/4 pr-2">${t.subject}</span>
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-sm font-bold text-white truncate pr-2 w-3/4">${t.subject}</span>
                             <span class="text-[10px] text-app-muted">${date}</span>
                         </div>
                         <div class="text-xs text-app-muted mb-3 flex items-center gap-1"><i class="ph-fill ph-user"></i> ${t.name}</div>
@@ -640,88 +572,64 @@
                     div.onclick = () => showTicketDetail(doc.id, t, div);
                     listContainer.appendChild(div);
                 });
-
             } catch (error) {
-                console.error("Error loading tickets (Fallo de permisos probables):", error);
-                listContainer.innerHTML = `<div class="p-8 text-center text-red-400"><i class="ph-fill ph-warning-circle text-4xl mb-2"></i><p class="text-sm">Acceso Denegado por las Reglas de Firebase o error de red.</p></div>`;
+                listContainer.innerHTML = `<div class="p-8 text-center text-red-400"><i class="ph-fill ph-lock-key text-3xl mb-2"></i><p class="text-sm">Acceso Denegado por las Reglas de Firebase.</p></div>`;
             }
         }
 
-        window.showTicketDetail = (id, data, elementSelected) => {
-            // Remarcar el activo
-            document.querySelectorAll('.ticket-list-item').forEach(el => el.classList.remove('bg-white/5'));
-            if(elementSelected) elementSelected.classList.add('bg-white/5');
+        window.showTicketDetail = (id, data, el) => {
+            document.querySelectorAll('#ticketsList > div').forEach(d => d.classList.remove('bg-white/5'));
+            if(el) el.classList.add('bg-white/5');
 
             const container = document.getElementById('ticketDetail');
-            
             let actionBtn = '';
-            const contact = data.contact || '';
-            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.contact || '');
             
-            // BOTONES DE RESPUESTA ULTRA VISIBLES Y PROFESIONALES
             if (isEmail) {
-                actionBtn = `
-                <a href="mailto:${contact}?subject=CV Studio33: Respuesta a Ticket #${id.slice(0,6).toUpperCase()}&body=Hola ${data.name}, te hablamos del equipo de soporte..." 
-                   class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-xl font-bold transition flex items-center justify-center gap-3 w-full shadow-[0_0_20px_rgba(37,99,235,0.2)]">
-                   <i class="ph-fill ph-envelope-simple text-xl"></i> Redactar en Gmail
-                </a>`;
+                actionBtn = `<a href="mailto:${data.contact}?subject=Soporte Técnico - Ticket #${id.slice(0,6).toUpperCase()}" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(37,99,235,0.2)] w-full"><i class="ph-fill ph-envelope-simple text-xl"></i> Responder vía Email</a>`;
             } else {
-                const cleanNum = contact.replace(/[^0-9]/g, '');
-                actionBtn = `
-                <a href="https://wa.me/${cleanNum}?text=Hola%20${data.name},%20te%20escribimos%20del%20soporte%20técnico%20de%20CV%20Studio33%20sobre%20tu%20ticket." target="_blank" 
-                   class="bg-green-600 hover:bg-green-500 text-white px-6 py-4 rounded-xl font-bold transition flex items-center justify-center gap-3 w-full shadow-[0_0_20px_rgba(22,163,74,0.2)]">
-                   <i class="ph-fill ph-whatsapp-logo text-xl"></i> Abrir Chat en WhatsApp
-                </a>`;
+                const cleanNum = (data.contact || '').replace(/[^0-9]/g, '');
+                actionBtn = `<a href="https://wa.me/${cleanNum}?text=Hola%20${data.name},%20te%20escribimos%20de%20CV%20Studio33." target="_blank" class="bg-green-600 hover:bg-green-500 text-white px-6 py-4 rounded-xl font-bold transition flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(22,163,74,0.2)] w-full"><i class="ph-fill ph-whatsapp-logo text-xl"></i> Abrir WhatsApp</a>`;
             }
 
             container.innerHTML = `
-                <div class="border-b border-white/5 pb-6 mb-8 flex justify-between items-start">
-                    <div>
-                        <h2 class="text-3xl font-bold text-white mb-2 leading-tight">${data.subject}</h2>
-                        <span class="inline-flex items-center gap-2 bg-white/5 text-xs px-3 py-1.5 rounded-lg text-zinc-300 border border-white/10 font-mono">
-                            <i class="ph ph-hash"></i> ${id.toUpperCase()}
-                        </span>
-                    </div>
+                <div class="border-b border-white/5 pb-6 mb-6">
+                    <h2 class="text-3xl font-bold text-white mb-2">${data.subject}</h2>
+                    <span class="bg-white/5 text-xs px-3 py-1 rounded-md text-zinc-300 font-mono">ID: #${id.toUpperCase()}</span>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-6 text-sm mb-8 bg-black/40 p-6 rounded-2xl border border-white/5 shadow-inner">
-                    <div><p class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold mb-1">Nombre del Cliente</p><p class="text-white text-base">${data.name}</p></div>
-                    <div><p class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold mb-1">Contacto Registrado</p><p class="text-white text-base font-medium">${contact}</p></div>
-                    <div><p class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold mb-1">Prioridad</p><p class="text-base font-bold ${data.priority === 'Critica' ? 'text-red-400' : 'text-white'}">${data.priority}</p></div>
-                    <div><p class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold mb-1">Plan Actual</p><p class="text-white text-base">${data.userPlan || 'N/A'}</p></div>
-                    <div><p class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold mb-1">Sección del Problema</p><p class="text-white text-base">${data.serviceRelated || 'N/A'}</p></div>
-                    <div><p class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold mb-1">Transacción (TXN)</p><p class="text-white text-base font-mono">${data.transactionId || 'Ninguna'}</p></div>
+                <div class="grid grid-cols-2 gap-4 text-sm mb-8 bg-white/5 p-6 rounded-2xl">
+                    <div><p class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Cliente / Empresa</p><p class="text-white">${data.name}</p></div>
+                    <div><p class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Medio de Contacto</p><p class="text-white">${data.contact}</p></div>
+                    <div><p class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Nivel de Urgencia</p><p class="${data.priority === 'Critica' ? 'text-red-400 font-bold' : 'text-white'}">${data.priority}</p></div>
+                    <div><p class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Plan de Suscripción</p><p class="text-white">${data.userPlan || 'N/A'}</p></div>
+                    <div><p class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Módulo Afectado</p><p class="text-white">${data.serviceRelated || 'N/A'}</p></div>
+                    <div><p class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Pago Asociado</p><p class="text-white font-mono">${data.transactionId || 'Ninguno'}</p></div>
                 </div>
                 
-                <div class="mb-10">
-                    <h4 class="text-xs text-zinc-500 uppercase tracking-widest font-bold mb-3 flex items-center gap-2"><i class="ph-fill ph-chat-text text-lg text-zinc-400"></i> Lo que nos escribió:</h4>
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/10 text-white text-[15px] leading-relaxed whitespace-pre-wrap">${data.message}</div>
+                <div class="mb-8">
+                    <h4 class="text-xs text-zinc-500 uppercase font-bold mb-3 flex items-center gap-2"><i class="ph-fill ph-chat-text text-lg"></i> Descripción del Problema:</h4>
+                    <div class="bg-black/30 p-6 rounded-2xl border border-white/5 text-white text-[15px] leading-relaxed whitespace-pre-wrap">${data.message}</div>
                 </div>
                 
-                <div class="flex flex-col gap-4 p-6 bg-[#02040a] rounded-2xl border border-white/5">
+                <div class="flex flex-col gap-4">
                     ${actionBtn}
                     ${data.status !== 'Resuelto' ? 
-                        `<button class="bg-transparent border border-zinc-700 text-zinc-300 px-6 py-4 rounded-xl font-semibold hover:bg-white/5 hover:text-white transition flex items-center justify-center gap-2 w-full" onclick="markResolved('${id}')">
-                            <i class="ph ph-check-circle"></i> Terminé de ayudarlo, marcar como solucionado
-                        </button>` : 
-                        `<div class="bg-green-500/10 border border-green-500/20 text-green-400 px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 w-full text-center">
-                            <i class="ph-fill ph-check-circle"></i> Ya le respondiste a este usuario
-                        </div>`
+                        `<button class="border border-white/10 text-zinc-300 px-6 py-4 rounded-xl font-bold hover:bg-white/5 transition flex items-center justify-center gap-2 w-full" onclick="markResolved('${id}')"><i class="ph-bold ph-check"></i> Marcar Ticket como Resuelto</button>` : 
+                        `<div class="bg-green-500/10 text-green-400 px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-2 w-full"><i class="ph-fill ph-check-circle"></i> Ticket Solucionado</div>`
                     }
                 </div>
             `;
         };
 
         window.markResolved = async (id) => {
-            if(!confirm('¿Estás seguro que ya hablaste con el cliente y el problema está arreglado?')) return;
+            if(!confirm('¿Estás seguro de marcar este ticket como solucionado?')) return;
             try {
-                const ticketRef = doc(db, "tickets", id);
-                await updateDoc(ticketRef, { status: "Resuelto" });
+                await updateDoc(doc(db, "tickets", id), { status: "Resuelto" });
                 loadTickets(); 
-                document.getElementById('ticketDetail').innerHTML = '<div class="flex flex-col items-center justify-center h-full text-app-muted"><p class="text-sm">Selecciona otro mensaje para continuar.</p></div>';
+                document.getElementById('ticketDetail').innerHTML = '<div class="flex flex-col items-center justify-center h-full text-app-muted opacity-50"><i class="ph-fill ph-check-circle text-6xl mb-4"></i><p>Ticket resuelto exitosamente.</p></div>';
             } catch (e) {
-                console.error("Error updating:", e);
-                alert("Ocurrió un error (Probablemente reglas de seguridad).");
+                alert("Error de permisos.");
             }
         };
 
@@ -729,4 +637,3 @@
     </script>
 </body>
 </html>
-

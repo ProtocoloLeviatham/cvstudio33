@@ -2,661 +2,897 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>CV Studio33</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CV Studio33</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#0f172a',
-                        secondary: '#1e293b',
-                        accent: '#3b82f6',
-                        success: '#10b981',
-                        warning: '#ef4444',
-                        google: '#4285F4',
-                    },
-                    fontFamily: {
-                        sans: ['Open Sans', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
-                    },
-                    backgroundImage: {
-                        'tech-pattern': "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')",
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'float-delayed': 'float 6s ease-in-out 3s infinite',
-                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        'pulse-glow': {
-                            '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
-                            '50%': { opacity: .7, boxShadow: '0 0 10px rgba(59, 130, 246, 0.2)' },
-                        }
-                    }
+                    colors: { accent: '#ffffff' }
                 }
             }
         }
     </script>
 
     <style>
-        body {
-            background-color: #0f172a;
-            color: #e2e8f0;
-            overflow-x: hidden;
+        html, body {
+            background-color: #030508;
+            color: #8b95a5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden !important;
+            width: 100%;
+            position: relative;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- SCROLLBAR PERSONALIZADA (PC) --- */
-        .scrolling-wrapper {
-            -webkit-overflow-scrolling: touch;
+        .viewport-wrapper {
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-card {
+            background: rgba(10, 13, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .search-wrapper:focus-within {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 15px rgba(255,255,255,0.05);
+        }
+        .search-input {
+            background: transparent;
+            color: #ffffff;
+            width: 100%;
+            padding: 1.1rem 1.25rem 1.1rem 3rem;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .search-input::placeholder { color: #475569; }
+        
+        .search-icon {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        .chip-scroll {
             display: flex;
             overflow-x: auto;
-            gap: 1.5rem;
-            padding-bottom: 2rem;
-            padding-top: 1rem;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
             scroll-snap-type: x mandatory;
         }
 
-        @media (min-width: 768px) {
-            .scrolling-wrapper::-webkit-scrollbar {
-                height: 10px;
-                display: block;
-            }
-            .scrolling-wrapper::-webkit-scrollbar-track {
-                background: #0f172a;
-                border-radius: 10px;
-                border: 1px solid #1e293b;
-            }
-            .scrolling-wrapper::-webkit-scrollbar-thumb {
-                background: #3b82f6; 
-                border-radius: 10px;
-                transition: background 0.3s;
-            }
-            .scrolling-wrapper::-webkit-scrollbar-thumb:hover {
-                background: #60a5fa; 
-                box-shadow: 0 0 10px #3b82f6;
-            }
+        .chip {
+            white-space: nowrap;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            color: #8b95a5;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            scroll-snap-align: start;
+        }
+        
+        .chip.active {
+            background: #ffffff;
+            color: #030508;
+            border-color: #ffffff;
         }
 
-        @media (max-width: 767px) {
-            .scrolling-wrapper::-webkit-scrollbar { display: none; }
+        .ambient-light {
+            position: absolute;
+            width: 100%;
+            height: 500px;
+            background: radial-gradient(ellipse at top, rgba(255,255,255,0.03) 0%, rgba(3,5,8,0) 70%);
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .spec-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        /* Efecto 3D Tarjetas */
-        .card-3d {
-            transition: all 0.4s ease-out;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            scroll-snap-align: center;
-            flex-shrink: 0;
+        .btn-primary {
+            background: #ffffff;
+            color: #030508;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            width: 100%;
+            display: block;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 14px 0 rgba(255,255,255,0.1);
         }
-        .card-3d:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+        .btn-primary:active { opacity: 0.8; transform: scale(0.98); }
+        
+        .logo-icon {
+            width: 1.1rem;
+            height: 1.1rem;
+            object-fit: contain;
+            filter: grayscale(1) brightness(2) opacity(0.85);
+        }
+        
+        .logo-icon-sm {
+            width: 0.8rem;
+            height: 0.8rem;
+            object-fit: contain;
+            filter: grayscale(1) opacity(0.5);
         }
 
-        /* Estilo Blog Texto */
-        .prose-custom p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            font-size: 1rem;
-            color: #cbd5e1;
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
         }
-        .prose-custom h3 {
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Tabla Comparativa Mejorada */
-        .comparison-row {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
+        #search-results-indicator {
+            display: none;
         }
-        .comparison-row:nth-child(odd) { background-color: rgba(30, 41, 59, 0.3); }
-        .comparison-row:hover { 
-            background-color: rgba(59, 130, 246, 0.15); 
-            transform: scale(1.01);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        
+        .scrolling-wrapper {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-tech-pattern bg-fixed">
+<body class="fade-in">
+    <div class="viewport-wrapper">
+        <div class="ambient-light"></div>
 
-    <nav class="bg-primary/90 backdrop-blur-xl border-b border-white/10 h-20 sticky top-0 z-50">
-        <div class="container mx-auto px-4 h-full flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-12 object-contain">
-                <span class="font-heading font-bold text-xl tracking-wider text-white">CV STUDIO33</span>
+        <!-- Sticky Header Nativo -->
+        <nav class="sticky top-0 z-50 bg-[#030508]/85 backdrop-blur-xl border-b border-white/5 h-14 flex items-center justify-between px-5">
+            <div class="flex items-center gap-2.5">
+                <img src="logo.png" alt="Logo" class="logo-icon">
+                <span class="text-white font-medium text-sm tracking-wide">CV STUDIO33</span>
             </div>
-            <a href="index.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition group border border-white/10 px-4 py-2 rounded-full hover:bg-white/5">
-                <i class="fa-solid fa-house group-hover:text-accent"></i> <span class="hidden sm:inline">Inicio</span>
+            <a href="index.html" class="text-[#8b95a5] hover:text-white transition-colors">
+                <img src="logo.png" alt="Inicio" class="logo-icon-sm">
             </a>
-        </div>
-    </nav>
+        </nav>
 
-    <header class="py-20 px-4 bg-gradient-to-b from-secondary to-primary border-b border-white/5 relative overflow-hidden">
-        <i class="fa-solid fa-file-code absolute top-10 left-10 text-white/5 text-6xl animate-float"></i>
-        <i class="fa-solid fa-brain absolute bottom-10 right-10 text-white/5 text-8xl animate-float-delayed"></i>
-        <i class="fa-solid fa-check-double absolute top-20 right-1/4 text-accent/10 text-5xl animate-pulse"></i>
+        <main class="w-full max-w-xl mx-auto px-5 pb-16">
 
-        <div class="container mx-auto text-center max-w-4xl relative z-10">
-            <div class="inline-block mb-4 px-4 py-1 rounded-full bg-accent/10 border border-accent/30">
-                <span class="text-accent font-bold tracking-widest text-xs uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-graduation-cap"></i> Centro de Conocimiento
-                </span>
-            </div>
-            <h1 class="font-heading text-4xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-2xl">
-                La Ciencia Detrás del <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-purple-500 animate-pulse-glow">CV Perfecto</span>
-            </h1>
-            <p class="text-gray-400 text-lg leading-relaxed">
-                Bienvenido a la academia de CV Studio33. Descodificamos los algoritmos ATS, la psicología del reclutador y las tendencias 2026 para que tu perfil no solo sea leído, sino inolvidable.
-            </p>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-12">
-
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
-            <div class="lg:col-span-2 prose-custom">
+            <!-- Hero Section -->
+            <header class="pt-8 pb-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] text-white font-mono uppercase tracking-widest mb-6">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                    Centro de Conocimiento
+                </div>
                 
-                <article class="mb-12 border-b border-white/10 pb-12">
-                    <h2 class="font-heading text-3xl font-bold text-white mb-4 flex items-center gap-3">
-                        <span class="bg-blue-900/30 p-2 rounded-lg"><i class="fa-solid fa-robot text-accent"></i></span> 
-                        Dominando el ATS: El Portero Digital
-                    </h2>
-                    <p>
-                        En el ecosistema de contratación actual, el 75% de los CVs nunca son vistos por ojos humanos. Son filtrados por los Applicant Tracking Systems (ATS). Comprender cómo "piensan" estos algoritmos es vital. Un ATS no lee diseño; lee código y estructura.
-                    </p>
-                    <p>
-                        El error más común es utilizar gráficos complejos, columnas flotantes o iconos no estandarizados que el parser (el lector de código) interpreta como errores o espacios en blanco. En CV Studio33, utilizamos una estructura de datos lineal oculta bajo una capa visual atractiva. Esto asegura que sistemas como Taleo, Workday o Greenhouse indexen correctamente tus habilidades técnicas y experiencia, asignándote un "score" de relevancia superior al 85%.
-                    </p>
-                    <div class="bg-blue-900/20 p-4 rounded-lg border-l-4 border-accent flex gap-3">
-                        <i class="fa-solid fa-lightbulb text-yellow-400 mt-1"></i>
-                        <div>
-                            <strong>Clave del éxito:</strong> No se trata de rellenar con palabras clave (keyword stuffing), sino de inyectarlas semánticamente en el contexto de tus logros cuantificables.
+                <h1 class="text-[2.2rem] font-semibold text-white leading-[1.1] mb-4 tracking-tight">
+                    La Ciencia Detrás del<br>CV Perfecto
+                </h1>
+                
+                <p class="text-[#d1d5db] font-medium text-sm mb-6 leading-relaxed">
+                    Bienvenido a la academia de CV Studio33. Descodificamos los algoritmos ATS, la psicología del reclutador y las tendencias 2026 para que tu perfil no solo sea leído, sino inolvidable.
+                </p>
+
+                <!-- BARRA DE BÚSQUEDA INTERACTIVA -->
+                <div class="sticky top-14 z-40 bg-[#030508] pt-2 pb-4 mb-4 border-b border-white/5">
+                    <div class="search-wrapper mb-3">
+                        <img src="logo.png" class="search-icon w-4 h-4">
+                        <input type="text" id="global-search" class="search-input" placeholder="Buscar ATS, IA, roles...">
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                            <span id="search-results-indicator" class="text-[10px] text-white bg-white/10 px-2 py-1 rounded">0</span>
                         </div>
                     </div>
-                </article>
 
-                <article class="mb-12 border-b border-white/10 pb-12">
-                    <h2 class="font-heading text-3xl font-bold text-white mb-4 flex items-center gap-3">
-                        <span class="bg-purple-900/30 p-2 rounded-lg"><i class="fa-solid fa-brain text-purple-500"></i></span>
-                        Colaboración con IA: El Factor Humano
-                    </h2>
-                    <p>
-                        La Inteligencia Artificial ha democratizado la redacción perfecta, pero ha creado un nuevo problema: la homogeneización. Los reclutadores ahora detectan patrones de redacción de ChatGPT o Claude en segundos por su tono excesivamente formal y genérico.
-                    </p>
-                    <p>
-                        Nuestra filosofía "Human-in-the-Loop" (HITL) utiliza la IA (NYX) para estructurar y optimizar, pero requiere de tu input humano para la narrativa. La IA debe usarse para pulir la gramática, sugerir verbos de acción poderosos (ej: "Orquesté" en lugar de "Hice") y alinear tu experiencia con la descripción del puesto. Sin embargo, la "voz" única de tu liderazgo y tus soft skills debe permanecer auténticamente humana para conectar emocionalmente con el lector.
-                    </p>
-                </article>
+                    <!-- Chips Filtrado -->
+                    <div class="chip-scroll">
+                        <div class="chip active filter-chip" data-filter="all">Todos</div>
+                        <div class="chip filter-chip" data-filter="articulos">Artículos</div>
+                        <div class="chip filter-chip" data-filter="guias">Guías por Rol</div>
+                        <div class="chip filter-chip" data-filter="comparativa">Comparativa</div>
+                        <div class="chip filter-chip" data-filter="tecnologia">NYX + AXON</div>
+                        <div class="chip filter-chip" data-filter="testimonios">Testimonios</div>
+                    </div>
+                </div>
+            </header>
 
-                <article class="mb-12 border-b border-white/10 pb-12">
-                    <h2 class="font-heading text-3xl font-bold text-white mb-4 flex items-center gap-3">
-                        <span class="bg-green-900/30 p-2 rounded-lg"><i class="fa-solid fa-dna text-green-400"></i></span>
-                        Habilidades Híbridas y el CV Interactivo
-                    </h2>
-                    <p>
-                        El mercado de 2026 exige perfiles híbridos. Un diseñador que entiende de código, un vendedor que analiza datos SQL. Tu CV debe reflejar esta transversalidad no como una lista de tareas, sino como un portafolio de soluciones.
-                    </p>
-                    <p>
-                        El CV Interactivo es la evolución natural. Ya no es suficiente un PDF estático. Los reclutadores esperan hipervínculos funcionales a tus proyectos, códigos QR que lleven a un video de presentación o a un repositorio de GitHub, y métricas en tiempo real. Tu documento es ahora una puerta de entrada (Gateway) a tu ecosistema profesional digital.
-                    </p>
-                </article>
+            <!-- Contenedor Principal de Resultados -->
+            <div id="searchable-container" class="space-y-6">
 
-            </div>
+                <!-- ARTÍCULOS -->
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="ats portero digital algoritmos taleo workday greenhouse" data-category="articulos">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                            <img src="logo.png" class="logo-icon-sm"> Dominando el ATS: El Portero Digital
+                        </h2>
+                    </div>
+                    <div class="glass-card p-6">
+                        <p class="text-[13px] text-[#8b95a5] mb-4 leading-relaxed">
+                            En el ecosistema de contratación actual, el 75% de los CVs nunca son vistos por ojos humanos. Son filtrados por los Applicant Tracking Systems (ATS). Comprender cómo "piensan" estos algoritmos es vital. Un ATS no lee diseño; lee código y estructura.
+                        </p>
+                        <p class="text-[13px] text-[#8b95a5] mb-4 leading-relaxed">
+                            El error más común es utilizar gráficos complejos, columnas flotantes o iconos no estandarizados que el parser (el lector de código) interpreta como errores o espacios en blanco. En CV Studio33, utilizamos una estructura de datos lineal oculta bajo una capa visual atractiva. Esto asegura que sistemas como Taleo, Workday o Greenhouse indexen correctamente tus habilidades técnicas y experiencia, asignándote un "score" de relevancia superior al 85%.
+                        </p>
+                        <div class="bg-white/5 p-4 rounded-lg border-l-2 border-white">
+                            <div class="flex items-start gap-2 text-[12px] text-[#d1d5db]">
+                                <img src="logo.png" class="logo-icon-sm mt-1">
+                                <div><strong class="text-white">Clave del éxito:</strong> No se trata de rellenar con palabras clave (keyword stuffing), sino de inyectarlas semánticamente en el contexto de tus logros cuantificables.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <aside class="hidden lg:block space-y-8">
-                <div class="bg-secondary p-6 rounded-xl border border-white/10 sticky top-24 shadow-2xl shadow-blue-900/20">
-                    <h3 class="font-heading text-xl font-bold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-book-open text-white/50"></i> Micro-Guías por Rol
-                    </h3>
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="ia inteligencia artificial chatgpt claude humano hitl" data-category="articulos">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                            <img src="logo.png" class="logo-icon-sm"> Colaboración con IA: El Factor Humano
+                        </h2>
+                    </div>
+                    <div class="glass-card p-6">
+                        <p class="text-[13px] text-[#8b95a5] mb-4 leading-relaxed">
+                            La Inteligencia Artificial ha democratizado la redacción perfecta, pero ha creado un nuevo problema: la homogeneización. Los reclutadores ahora detectan patrones de redacción de ChatGPT o Claude en segundos por su tono excesivamente formal y genérico.
+                        </p>
+                        <p class="text-[13px] text-[#8b95a5] leading-relaxed">
+                            Nuestra filosofía "Human-in-the-Loop" (HITL) utiliza la IA (NYX) para estructurar y optimizar, pero requiere de tu input humano para la narrativa. La IA debe usarse para pulir la gramática, sugerir verbos de acción poderosos (ej: "Orquesté" en lugar de "Hice") y alinear tu experiencia con la descripción del puesto. Sin embargo, la "voz" única de tu liderazgo y tus soft skills debe permanecer auténticamente humana para conectar emocionalmente con el lector.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="habilidades hibridas interactivo portfolio sql diseño" data-category="articulos">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                            <img src="logo.png" class="logo-icon-sm"> Habilidades Híbridas y el CV Interactivo
+                        </h2>
+                    </div>
+                    <div class="glass-card p-6">
+                        <p class="text-[13px] text-[#8b95a5] mb-4 leading-relaxed">
+                            El mercado de 2026 exige perfiles híbridos. Un diseñador que entiende de código, un vendedor que analiza datos SQL. Tu CV debe reflejar esta transversalidad no como una lista de tareas, sino como un portafolio de soluciones.
+                        </p>
+                        <p class="text-[13px] text-[#8b95a5] leading-relaxed">
+                            El CV Interactivo es la evolución natural. Ya no es suficiente un PDF estático. Los reclutadores esperan hipervínculos funcionales a tus proyectos, códigos QR que lleven a un video de presentación o a un repositorio de GitHub, y métricas en tiempo real. Tu documento es ahora una puerta de entrada (Gateway) a tu ecosistema profesional digital.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- GUÍAS POR ROL -->
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="guias desarrolladores ventas marketing administrativos creativos" data-category="guias">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-white mb-1">Micro-Guías por Rol</h2>
+                        <p class="text-sm text-[#8b95a5]">Estrategias de optimización según tu sector.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="spec-item">
+                            <h4 class="text-[14px] text-white font-medium mb-1 flex items-center gap-2"><img src="logo.png" class="logo-icon-sm"> Desarrolladores</h4>
+                            <p class="text-[12px] text-[#8b95a5]">Stack tecnológico arriba. Github visible. Proyectos > Títulos.</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4 class="text-[14px] text-white font-medium mb-1 flex items-center gap-2"><img src="logo.png" class="logo-icon-sm"> Ventas / Marketing</h4>
+                            <p class="text-[12px] text-[#8b95a5]">Hitos de facturación en negrita. KPIs de conversión. Herramientas CRM.</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4 class="text-[14px] text-white font-medium mb-1 flex items-center gap-2"><img src="logo.png" class="logo-icon-sm"> Administrativos</h4>
+                            <p class="text-[12px] text-[#8b95a5]">Optimización de procesos. Ahorro de tiempo/costos. Software ERP.</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4 class="text-[14px] text-white font-medium mb-1 flex items-center gap-2"><img src="logo.png" class="logo-icon-sm"> Creativos</h4>
+                            <p class="text-[12px] text-[#8b95a5]">Link al Portafolio es vital. Premios y clientes reconocidos destacados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPARATIVA -->
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="comparativa evolucion estandar obsoleto pasado 2026" data-category="comparativa">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-white mb-1">Evolución del Estándar Profesional</h2>
+                        <p class="text-sm text-[#8b95a5]">CV del Pasado vs Estándar 2026</p>
+                    </div>
                     
                     <div class="space-y-4">
-                        <div class="group cursor-pointer hover:bg-white/5 p-2 rounded transition">
-                            <h4 class="font-bold text-accent group-hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-code"></i> Desarrolladores</h4>
-                            <p class="text-xs text-gray-400 mt-1">Stack tecnológico arriba. Github visible. Proyectos > Títulos.</p>
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Lista interminable de tareas y responsabilidades genéricas.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Logros cuantificables con métricas (KPIs, %, $).</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="group cursor-pointer hover:bg-white/5 p-2 rounded transition">
-                            <h4 class="font-bold text-accent group-hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-bullhorn"></i> Ventas / Marketing</h4>
-                            <p class="text-xs text-gray-400 mt-1">Hitos de facturación en negrita. KPIs de conversión. Herramientas CRM.</p>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Diseño sobrecargado de gráficos, barras de habilidad y fotos.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Diseño limpio, minimalista y 100% legible por ATS.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="group cursor-pointer hover:bg-white/5 p-2 rounded transition">
-                            <h4 class="font-bold text-accent group-hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-calculator"></i> Administrativos</h4>
-                            <p class="text-xs text-gray-400 mt-1">Optimización de procesos. Ahorro de tiempo/costos. Software ERP.</p>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">"Objetivo Profesional" centrado en lo que quieres ganar.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">"Perfil Profesional" de alto impacto centrado en lo que aportas.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="group cursor-pointer hover:bg-white/5 p-2 rounded transition">
-                            <h4 class="font-bold text-accent group-hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-pen-nib"></i> Creativos</h4>
-                            <p class="text-xs text-gray-400 mt-1">Link al Portafolio es vital. Premios y clientes reconocidos destacados.</p>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Foto informal, selfie recortada o pixelada.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Foto de estudio profesional o sin foto (según normativa país).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Un solo CV genérico enviado a 100 empresas.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">CV Modular adaptado con palabras clave de cada vacante.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Verbos pasivos ("Encargado de...", "Responsable de...").</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Verbos de Acción y Liderazgo ("Dirigí", "Incrementé").</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Formato imagen (.JPG) o PDF corrupto no seleccionable.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">PDF Nativo con capa de texto OCR optimizada o DOCX.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Bloques de texto densos sin espacio en blanco.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Uso estratégico de Bullet Points y espaciado negativo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">"Referencias a petición" ocupando espacio valioso.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Enlace directo a LinkedIn con recomendaciones validadas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4">
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-start gap-2 opacity-50">
+                                    <span class="text-[10px] text-white font-mono uppercase mt-0.5">PASADO:</span>
+                                    <p class="text-[12px] text-[#8b95a5]">Errores tipográficos o gramaticales ignorados.</p>
+                                </div>
+                                <div class="flex items-start gap-2 border-t border-white/5 pt-3">
+                                    <img src="logo.png" class="logo-icon-sm mt-0.5">
+                                    <div>
+                                        <span class="text-[10px] text-white font-bold uppercase tracking-wider block mb-1">2026:</span>
+                                        <p class="text-[13px] text-white font-medium">Revisión sintáctica y ortográfica asistida por IA.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </aside>
-        </section>
 
-        <section class="mb-24">
-            <h2 class="text-center font-heading text-3xl md:text-4xl font-bold mb-10 relative inline-block left-1/2 -translate-x-1/2">
-                Evolución del Estándar Profesional
-                <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent"></span>
-            </h2>
-            
-            <div class="overflow-hidden rounded-2xl shadow-2xl border border-white/10">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr>
-                            <th class="p-6 bg-red-950/40 text-red-400 font-heading text-xl border-b border-red-500/30 w-1/2">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-hourglass-end text-2xl animate-pulse"></i>
-                                    <div>
-                                        <span class="block text-xs text-red-300/70 uppercase tracking-widest">Obsoleto</span>
-                                        CV del Pasado
-                                    </div>
-                                </div>
-                            </th>
-                            <th class="p-6 bg-green-950/40 text-green-400 font-heading text-xl border-b border-green-500/30 w-1/2">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-rocket text-2xl animate-bounce"></i>
-                                    <div>
-                                        <span class="block text-xs text-green-300/70 uppercase tracking-widest">Estándar 2026</span>
-                                        CV STUDIO33
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm md:text-base">
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Lista interminable de tareas y responsabilidades genéricas.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Logros cuantificables con métricas (KPIs, %, $).</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Diseño sobrecargado de gráficos, barras de habilidad y fotos.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Diseño limpio, minimalista y 100% legible por ATS.</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> "Objetivo Profesional" centrado en lo que quieres ganar.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> "Perfil Profesional" de alto impacto centrado en lo que aportas.</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Foto informal, selfie recortada o pixelada.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Foto de estudio profesional o sin foto (según normativa país).</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Un solo CV genérico enviado a 100 empresas.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> CV Modular adaptado con palabras clave de cada vacante.</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Verbos pasivos ("Encargado de...", "Responsable de...").</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Verbos de Acción y Liderazgo ("Dirigí", "Incrementé").</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Formato imagen (.JPG) o PDF corrupto no seleccionable.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> PDF Nativo con capa de texto OCR optimizada o DOCX.</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Bloques de texto densos sin espacio en blanco.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Uso estratégico de Bullet Points y espaciado negativo.</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> "Referencias a petición" ocupando espacio valioso.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Enlace directo a LinkedIn con recomendaciones validadas.</td>
-                        </tr>
-                        <tr class="comparison-row">
-                            <td class="p-5 border-r border-white/5 text-gray-400 flex items-start gap-3"><i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i> Errores tipográficos o gramaticales ignorados.</td>
-                            <td class="p-5 text-white font-medium"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Revisión sintáctica y ortográfica asistida por IA.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+                <!-- GALERÍA -->
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="galeria ejemplos cv plantillas visual" data-category="all">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-semibold text-white mb-1">Galería de Ejemplos</h2>
+                        <p class="text-[11px] text-[#8b95a5] uppercase tracking-widest">Desliza para ver &rarr;</p>
+                    </div>
+                    <div class="scrolling-wrapper">
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV1.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+1'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV2.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+2'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV3.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+3'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV4.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+4'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV5.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+5'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV6.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+6'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV7.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+7'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV8.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+8'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV9.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+9'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV10.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+10'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV11.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+11'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV12.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+12'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV13.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+13'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV14.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+14'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                        <div class="shrink-0 w-[200px] h-[283px] rounded-lg overflow-hidden border border-white/10 glass-card">
+                            <img src="CV15.png" onerror="this.src='https://placehold.co/595x842/030508/ffffff?text=CV+15'" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                        </div>
+                    </div>
+                </div>
 
-        <section class="mb-24">
-            <h2 class="text-3xl font-heading font-bold mb-8 pl-4 border-l-4 border-accent flex items-center gap-3">
-                Galería de Ejemplos <span class="text-sm font-normal text-gray-400 bg-white/5 px-2 py-1 rounded-full"><i class="fa-solid fa-hand-pointer"></i> Desliza para ver</span>
-            </h2>
-            
-            <div class="scrolling-wrapper snap-x">
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV1.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+1'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV2.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+2'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV3.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+3'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV4.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+4'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV5.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+5'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV6.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+6'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV7.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+7'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV8.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+8'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV9.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+9'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV10.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+10'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV11.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+11'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV12.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+12'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV13.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+13'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV14.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+14'" class="w-full h-full object-cover"></div>
-                <div class="card-3d min-w-[250px] w-[250px] bg-white rounded-lg overflow-hidden shadow-xl relative group"><img src="CV15.png" onerror="this.src='https://placehold.co/595x842/e2e8f0/1e293b?text=CV+15'" class="w-full h-full object-cover"></div>
-            </div>
-        </section>
+                <!-- NYX + AXON -->
+                <div class="searchable-element border-b border-white/5 pb-8" data-tags="tecnologia nyx axon inteligencia plugins algoritmos heatmap" data-category="tecnologia">
+                    <div class="mb-6">
+                        <span class="text-[10px] font-bold text-white uppercase tracking-wider mb-2 block opacity-50">Inteligencia Aplicada</span>
+                        <h2 class="text-xl font-semibold text-white mb-2">Dominando la Ecuación de Contratación: NYX + AXON</h2>
+                        <p class="text-[13px] text-[#8b95a5] leading-relaxed">CV Studio33 no es solo un editor; es un ecosistema de ingeniería curricular. Al usar nuestras herramientas, activas una ventaja injusta en el mercado laboral:</p>
+                    </div>
 
-        <section class="mb-24 bg-gradient-to-r from-secondary to-primary p-8 md:p-12 rounded-2xl border border-accent/20 shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -ml-20 -mb-20"></div>
-
-            <div class="relative z-10 text-center md:text-left grid md:grid-cols-2 gap-10 items-center">
-                <div>
-                    <span class="text-accent font-bold tracking-wider text-xs uppercase mb-2 block"><i class="fa-solid fa-microchip"></i> Inteligencia Aplicada</span>
-                    <h2 class="font-heading text-3xl md:text-4xl font-extrabold mb-6 text-white leading-tight">
-                        Dominando la Ecuación de Contratación: <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">NYX + AXON</span>
-                    </h2>
-                    <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                        CV Studio33 no es solo un editor; es un ecosistema de ingeniería curricular. Al usar nuestras herramientas, activas una ventaja injusta en el mercado laboral:
-                    </p>
-                    <ul class="space-y-4 text-sm text-gray-400 mb-8">
-                        <li class="flex items-start gap-3">
-                            <div class="bg-purple-900/30 p-2 rounded text-purple-400"><i class="fa-solid fa-brain"></i></div>
-                            <div>
-                                <strong class="text-white block">Plugin NYX (El Cerebro):</strong>
-                                Analiza semánticamente tu experiencia, inyecta palabras clave invisibles para los bots y simula el escaneo ATS antes de que envíes nada. Es como tener las respuestas del examen antes de entrar.
+                    <div class="space-y-4 mb-6">
+                        <div class="glass-card p-5 border-l-2 border-white">
+                            <h4 class="text-[14px] text-white font-bold mb-2 flex items-center gap-2"><img src="logo.png" class="logo-icon-sm"> Plugin NYX (El Cerebro)</h4>
+                            <p class="text-[12px] text-[#8b95a5]">Analiza semánticamente tu experiencia, inyecta palabras clave invisibles para los bots y simula el escaneo ATS antes de que envíes nada. Es como tener las respuestas del examen antes de entrar.</p>
+                        </div>
+                        <div class="glass-card p-5 border-l-2 border-white">
+                            <h4 class="text-[14px] text-white font-bold mb-2 flex items-center gap-2"><img src="logo.png" class="logo-icon-sm"> Plugin AXON (El Ojo)</h4>
+                            <p class="text-[12px] text-[#8b95a5]">Estructura la jerarquía visual basándose en mapas de calor (Heatmaps) de reclutadores reales. Asegura que tus logros más impactantes sean lo primero que vean en los 6 segundos críticos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-[#05080e] border border-white/10 rounded-xl p-5 mb-6 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 border border-dashed border-white/10 rounded-xl"></div>
+                        <div class="relative z-10">
+                            <div class="text-4xl font-bold text-white mb-1">100%</div>
+                            <div class="text-[10px] text-[#8b95a5] uppercase tracking-widest mb-4">Optimización de Oportunidades</div>
+                            <div class="flex justify-center gap-3">
+                                <div class="bg-white/5 px-3 py-1.5 rounded text-[11px] text-white font-mono border border-white/10 flex items-center gap-1.5"><img src="logo.png" class="logo-icon-sm"> ATS OK</div>
+                                <div class="bg-white/5 px-3 py-1.5 rounded text-[11px] text-white font-mono border border-white/10 flex items-center gap-1.5"><img src="logo.png" class="logo-icon-sm"> RECRUITER OK</div>
                             </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <div class="bg-green-900/30 p-2 rounded text-green-400"><i class="fa-solid fa-eye"></i></div>
-                            <div>
-                                <strong class="text-white block">Plugin AXON (El Ojo):</strong>
-                                Estructura la jerarquía visual basándose en mapas de calor (Heatmaps) de reclutadores reales. Asegura que tus logros más impactantes sean lo primero que vean en los 6 segundos críticos.
-                            </div>
-                        </li>
-                    </ul>
-                    <a href="Selecionatuforma.html" class="inline-flex items-center gap-3 bg-gradient-to-r from-accent to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition transform hover:-translate-y-1">
-                        Iniciar Transformación Profesional <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <a href="Selecionatuforma.html" class="btn-primary">
+                        Iniciar Transformación Profesional
                     </a>
                 </div>
-                <div class="hidden md:flex justify-center relative">
-                    <div class="relative w-full max-w-sm aspect-square bg-gray-900/50 rounded-full border border-white/10 flex items-center justify-center">
-                        <div class="absolute inset-0 border border-dashed border-accent/30 rounded-full animate-spin-slow"></div>
-                        <div class="text-center p-8">
-                            <div class="text-5xl font-bold text-white mb-2">100%</div>
-                            <div class="text-accent text-sm uppercase tracking-widest">Optimización de Oportunidades</div>
-                            <div class="mt-6 flex justify-center gap-4">
-                                <div class="bg-secondary p-3 rounded-lg border border-white/10">
-                                    <i class="fa-solid fa-robot text-2xl text-gray-400"></i>
-                                    <div class="text-[10px] mt-1 text-gray-500">ATS OK</div>
+
+                <!-- TESTIMONIOS -->
+                <div class="searchable-element pb-4" data-tags="testimonios historias transformacion reviews exito" data-category="testimonios">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-white mb-1">Historias de Transformación</h2>
+                        <p class="text-sm text-[#8b95a5]">12 perfiles que cambiaron su trayectoria.</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">S</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Sofía G.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
                                 </div>
-                                <div class="bg-secondary p-3 rounded-lg border border-white/10">
-                                    <i class="fa-solid fa-user-tie text-2xl text-gray-400"></i>
-                                    <div class="text-[10px] mt-1 text-gray-500">Recruiter OK</div>
-                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
                             </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Trabajaba de cajera en un súper y nadie me llamaba para oficina. Usé la plantilla con AXON y me organizó el caos. Destaqué 'manejo de caja' como 'gestión de flujo de efectivo'. ¡A la semana conseguí puesto administrativo!"</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 2 semanas</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">L</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Lucas M.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Estudiante de sistemas sin experiencia laboral. El plugin NYX me sugirió keywords de proyectos académicos que ni yo valoraba. Pasé el filtro automático de una empresa grande. Increíble."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 1 mes</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">E</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Elena R.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Estuve 5 años fuera del mercado criando a mis hijos. El creador me ayudó a enfocar ese tiempo como 'gestión y logística'. No sabía que se podía hacer eso. Ya estoy trabajando."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 3 días</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">M</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Mateo D.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Soy vendedor pero mi CV era aburrido. La herramienta me obligó a poner números y porcentajes. El cambio visual es brutal, ahora sí parezco profesional."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 2 meses</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">V</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Valentina P.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Como diseñadora, odiaba los CVs planos. Las plantillas de CV Studio33 son lindas pero el código está limpio para que los bots no las rechacen. Eso es oro puro."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 5 días</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">J</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Juan C.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Trabajé de mozo 3 años. Pensé que no servía para nada más. El asistente me ayudó a vender 'manejo de quejas' y 'trabajo bajo presión'. Ahora estoy en atención al cliente de un banco."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 1 semana</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">A</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Ana S.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Salí de la facu con el CV en blanco. NYX me ayudó a resaltar mis voluntariados y pasantías. Conseguí mi primer empleo real en 20 días."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 3 semanas</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">D</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">David L.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Tenía un choclo de texto con mis proyectos de obra civil. La plantilla organizó todo en bloques técnicos. Muy prolijo y fácil de leer."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 2 días</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">C</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Carla M.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"El sector legal es muy anticuado, pero quería destacar. Usé una plantilla sobria con certificación ATS. Me llamaron de dos bufetes importantes."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 1 mes</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">P</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Pablo R.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"No sabía qué poner en 'resumen profesional'. La herramienta me lo escribió sola basándose en mi experiencia de depósito. Quedó genial."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 4 días</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">M</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Marta T.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Soy enfermera y me costaba poner mis certificaciones. El creador tiene una sección específica para eso que se ve súper clara."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 1 semana</div>
+                        </div>
+
+                        <div class="glass-card p-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xs">R</div>
+                                    <div>
+                                        <h4 class="font-bold text-[13px] text-white">Roberto K.</h4>
+                                        <div class="flex gap-1 text-[10px] text-white mt-0.5 opacity-80">★ ★ ★ ★ ★</div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest px-2 py-1 bg-white/5 rounded">VERIFIED</div>
+                            </div>
+                            <p class="text-[12px] text-[#8b95a5] leading-relaxed mb-3">"Pasé de ventas a programación a los 40 años. NYX me ayudó a resaltar las habilidades transferibles y disimular la falta de experiencia técnica directa."</p>
+                            <div class="text-[10px] text-white/40 uppercase tracking-widest">Hace 6 días</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Mensaje sin resultados -->
+                <div id="no-results" class="hidden text-center py-10">
+                    <img src="logo.png" class="w-8 h-8 opacity-20 mx-auto mb-3 filter grayscale">
+                    <p class="text-[#8b95a5] text-sm">No se encontraron resultados.</p>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- FOOTER EXACTO DEL USUARIO -->
+        <footer class="bg-black py-10 border-t border-white/10 text-gray-400 text-xs">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain">
+                            <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
+                        </div>
+                        <p class="leading-relaxed">Tecnología avanzada para la creación de documentos profesionales. Potenciamos tu perfil con datos y diseño.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><a href="terminos-y-condiciones.html" class="hover:text-accent transition">Términos y Condiciones</a></li>
+                            <li><a href="politica-de-privacidad.html" class="hover:text-accent transition">Política de Privacidad</a></li>
+                            <li><a href="politica-de-cookies.html" class="hover:text-accent transition">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Soporte</h4>
+                        <ul class="space-y-2">
+                            <li><a href="Centro-de-ayuda.html" class="hover:text-accent transition">Centro de Ayuda</a></li>
+                            <li><a href="Contacto.html" class="hover:text-accent transition">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Certificación</h4>
+                        <p class="mb-2">Nuestros packs premium cumplen con los estándares internacionales de lectura ATS.</p>
+                        <div class="flex gap-3 text-lg">
+                            <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
+                            <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
+                            <i class="fa-brands fa-paypal hover:text-white transition"></i>
                         </div>
                     </div>
                 </div>
+                <div class="border-t border-white/10 pt-6 flex flex-col justify-between items-center text-center">
+                    <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
+                </div>
             </div>
-        </section>
+        </footer>
+    </div>
 
-        <section>
-            <h2 class="text-center font-heading text-3xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-google to-white">
-                Historias de Transformación
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Script de Búsqueda y Filtros App-like -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('global-search');
+            const chips = document.querySelectorAll('.filter-chip');
+            const items = document.querySelectorAll('.searchable-element');
+            const noResults = document.getElementById('no-results');
+            const indicator = document.getElementById('search-results-indicator');
+
+            let currentCategory = 'all';
+
+            document.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+
+            const filterContent = () => {
+                const term = searchInput.value.toLowerCase().trim();
+                let visibleCount = 0;
+
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    const tags = (item.dataset.tags || '').toLowerCase();
+                    const category = item.dataset.category || 'all';
+                    
+                    const matchesSearch = text.includes(term) || tags.includes(term);
+                    const matchesCategory = currentCategory === 'all' || category === currentCategory;
+
+                    if (matchesSearch && matchesCategory) {
+                        item.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
                 
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">S</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Sofía G.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 14 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Trabajaba de cajera en un súper y nadie me llamaba para oficina. Usé la plantilla con **AXON** y me organizó el caos. Destaqué 'manejo de caja' como 'gestión de flujo de efectivo'. ¡A la semana conseguí puesto administrativo!"</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 2 semanas</div>
-                </div>
+                if (term.length > 0) {
+                    indicator.style.display = 'inline-block';
+                    indicator.textContent = visibleCount;
+                } else {
+                    indicator.style.display = 'none';
+                }
+            };
 
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">L</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Lucas M.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 3 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Estudiante de sistemas sin experiencia laboral. El plugin **NYX** me sugirió keywords de proyectos académicos que ni yo valoraba. Pasé el filtro automático de una empresa grande. Increíble."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 1 mes</div>
-                </div>
+            searchInput.addEventListener('input', filterContent);
 
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">E</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Elena R.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 22 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Estuve 5 años fuera del mercado criando a mis hijos. El creador me ayudó a enfocar ese tiempo como 'gestión y logística'. No sabía que se podía hacer eso. Ya estoy trabajando."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 3 días</div>
-                </div>
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => {
+                        c.classList.remove('active', 'text-white', 'border-white', 'bg-white');
+                        c.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
+                        c.style.color = '#8b95a5';
+                        c.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    });
+                    
+                    chip.classList.add('active');
+                    chip.style.backgroundColor = '#ffffff';
+                    chip.style.color = '#030508';
+                    chip.style.borderColor = '#ffffff';
 
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm">M</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Mateo D.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 8 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Soy vendedor pero mi CV era aburrido. La herramienta me obligó a poner números y porcentajes. El cambio visual es brutal, ahora sí parezco profesional."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 2 meses</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-sm">V</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Valentina P.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 1 reseña</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Como diseñadora, odiaba los CVs planos. Las plantillas de CV Studio33 son lindas pero el código está limpio para que los bots no las rechacen. Eso es oro puro."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 5 días</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-sm">J</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Juan C.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 45 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Trabajé de mozo 3 años. Pensé que no servía para nada más. El asistente me ayudó a vender 'manejo de quejas' y 'trabajo bajo presión'. Ahora estoy en atención al cliente de un banco."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 1 semana</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">A</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Ana S.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 10 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Salí de la facu con el CV en blanco. **NYX** me ayudó a resaltar mis voluntariados y pasantías. Conseguí mi primer empleo real en 20 días."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 3 semanas</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm">D</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">David L.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 5 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Tenía un choclo de texto con mis proyectos de obra civil. La plantilla organizó todo en bloques técnicos. Muy prolijo y fácil de leer."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 2 días</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-sm">C</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Carla M.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 7 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"El sector legal es muy anticuado, pero quería destacar. Usé una plantilla sobria con certificación **ATS**. Me llamaron de dos bufetes importantes."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 1 mes</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold text-sm">P</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Pablo R.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 12 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"No sabía qué poner en 'resumen profesional'. La herramienta me lo escribió sola basándose en mi experiencia de depósito. Quedó genial."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 4 días</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-fuchsia-600 rounded-full flex items-center justify-center text-white font-bold text-sm">M</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Marta T.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 9 reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Soy enfermera y me costaba poner mis certificaciones. El creador tiene una sección específica para eso que se ve súper clara."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 1 semana</div>
-                </div>
-
-                <div class="bg-white text-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-google relative font-sans transform transition hover:-translate-y-1">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex gap-3">
-                            <div class="w-10 h-10 bg-slate-600 rounded-full flex items-center justify-center text-white font-bold text-sm">R</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900">Roberto K.</h4>
-                                <div class="text-[10px] text-gray-500">Local Guide · 50+ reseñas</div>
-                                <div class="flex text-yellow-400 text-xs mt-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            </div>
-                        </div>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5 opacity-80" alt="Google">
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-600">"Pasé de ventas a programación a los 40 años. **NYX** me ayudó a resaltar las habilidades transferibles y disimular la falta de experiencia técnica directa."</p>
-                    <div class="mt-3 text-xs text-gray-400 font-medium">Hace 6 días</div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-black py-10 border-t border-white/10 text-gray-400 text-xs">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-3 mb-3">
-                        <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain">
-                        <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
-                    </div>
-                    <p class="leading-relaxed">Tecnología avanzada para la creación de documentos profesionales. Potenciamos tu perfil con datos y diseño.</p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="terminos-y-condiciones.html" class="hover:text-accent transition">Términos y Condiciones</a></li>
-                        <li><a href="politica-de-privacidad.html" class="hover:text-accent transition">Política de Privacidad</a></li>
-                        <li><a href="politica-de-cookies.html" class="hover:text-accent transition">Política de Cookies</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Soporte</h4>
-                    <ul class="space-y-2">
-                        <li><a href="Centro-de-ayuda.html" class="hover:text-accent transition">Centro de Ayuda</a></li>
-                        <li><a href="Contacto.html" class="hover:text-accent transition">Contacto</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Certificación</h4>
-                    <p class="mb-2">Nuestros packs premium cumplen con los estándares internacionales de lectura ATS.</p>
-                    <div class="flex gap-3 text-lg">
-                        <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
-                        <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
-                        <i class="fa-brands fa-paypal hover:text-white transition"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
+                    currentCategory = chip.dataset.filter;
+                    filterContent();
+                });
+            });
+        });
+    </script>
 </body>
 </html>

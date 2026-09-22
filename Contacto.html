@@ -531,23 +531,16 @@
             err.classList.add('hidden');
 
             try {
-                // AQUI VERIFICAS CON EL CEREBRO SI EL TOKEN ES CORRECTO
-                // Como el worker aún no está hecho, dejaremos la lógica lista para cuando reciba {valid: true}
-                
-                /*
+                // VERIFICACIÓN REAL CON EL CEREBRO
                 const response = await fetch('https://contacto.lautybg22.workers.dev/auth', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token: token })
                 });
-                if (!response.ok) throw new Error('Token inválido');
-                */
-               
-                // TEMPORAL HASTA QUE HAGAS EL WORKER: Si el token es la palabra de ejemplo
-                // Reemplaza esto con el fetch real cuando el worker esté listo.
-                const simulatedValid = (token === 'TOKEN_CLAVE_TICKET' || token === '#33#'); 
+                
+                const data = await response.json();
 
-                if (simulatedValid) {
+                if (response.ok && data.valid) {
                     // Token Correcto. Pasamos al Login de Firebase (o directo si ya está logeado)
                     stepToken.classList.add('hidden');
                     

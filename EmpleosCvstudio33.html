@@ -26,7 +26,6 @@
             --shadow-sm: 0 4px 10px rgba(30, 41, 59, 0.04);
             --shadow-md: 0 15px 35px rgba(30, 41, 59, 0.08);
             --shadow-lg: 0 30px 60px rgba(30, 41, 59, 0.12);
-            --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
             --radius-md: 20px;
             --radius-lg: 32px;
             --radius-pill: 60px;
@@ -40,7 +39,19 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* FIX ENLACES GLOBALES */
+        /* PROTECCIÓN DE IMÁGENES Y TEXTO GLOBALES */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
         a { text-decoration: none; }
 
         body {
@@ -51,6 +62,7 @@
             display: flex;
             flex-direction: column;
             line-height: 1.6;
+            -webkit-touch-callout: none;
         }
 
         /* --- NAVBAR FLOTANTE --- */
@@ -204,22 +216,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.2rem;
             position: relative;
             z-index: 1;
-        }
-        
-        .hero-title img {
-            height: 64px;
-            width: 64px;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
         }
 
         .hero-desc {
@@ -240,37 +238,61 @@
             z-index: 10;
         }
 
-        .search-ai-badge {
-            display: inline-flex;
+        /* --- NUEVO MÓDULO DE PARTNERS (LOGOS COLABORADORES) --- */
+        .partners-badge {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(10px);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--primary);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
-            animation: pulse-green 2s infinite;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
         }
 
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        .partners-text {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+
+        .partners-logos {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .partners-logos img {
+            height: 24px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.4s ease;
+        }
+
+        .partners-logos img.main-partner {
+            height: 34px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); /* CVStudio mantiene color */
+            transform: scale(1.1);
+        }
+
+        .partners-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+        
+        .partners-logos img.main-partner:hover {
+            transform: scale(1.15);
+        }
+
+        .partners-logos i {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0.4;
         }
 
         .filter-tabs {
@@ -552,7 +574,7 @@
         }
 
         .results-wrapper {
-            max-width: 1250px;
+            max-width: 1350px; /* Ampliado para mejor lectura de las tarjetas ricas */
             margin: 0 auto;
         }
 
@@ -580,7 +602,7 @@
             border: 1px solid var(--border);
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
             padding: 2.5rem;
-            height: 800px; 
+            height: 850px; /* Un poco más alto para las tarjetas nuevas */
             overflow-y: auto; 
             position: relative;
             scrollbar-width: thin;
@@ -598,10 +620,11 @@
 
         .jobs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 1.8rem;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Tarjetas más anchas para que entre todo */
+            gap: 2rem;
         }
 
+        /* --- TARJETAS DE TRABAJO RICAS (RICH CARDS) ARREGLADAS PARA NO DESBORDAR --- */
         .job-card {
             background-color: var(--bg-surface);
             border: 1px solid var(--border);
@@ -609,7 +632,6 @@
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -629,25 +651,145 @@
         .job-card:hover {
             border-color: var(--border-focus);
             box-shadow: var(--shadow-md);
-            transform: translateY(-5px);
-            cursor: pointer;
+            transform: translateY(-4px);
         }
-
         .job-card:hover::before { opacity: 1; }
 
-        .job-header { display: flex; gap: 1.5rem; align-items: flex-start; }
-        .job-logo { width: 56px; height: 56px; object-fit: contain; background-color: transparent; padding: 0; border: none; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06)); }
-        .job-info { flex: 1; }
-        .job-title { font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.4rem; line-height: 1.3; transition: color 0.2s; }
-        .job-card:hover .job-title { color: var(--primary); }
-        .job-company { font-size: 1rem; color: var(--text-secondary); font-weight: 700; margin-bottom: 0.3rem; display: flex; align-items: center; }
-        .job-location { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
-        .job-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; white-space: nowrap; }
-        .job-snippet { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
-        .job-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-        .badge { background-color: var(--bg-page-start); color: var(--text-secondary); padding: 0.5rem 0.8rem; border-radius: 10px; font-size: 0.8rem; font-weight: 800; border: 1px solid var(--border); display: flex; align-items: center; }
+        /* Estructura Interna de la Tarjeta */
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.2rem;
+            gap: 1rem;
+        }
 
-        /* --- SECCIONES EXTRA --- */
+        .job-title-wrapper {
+            flex: 1;
+            min-width: 0; /* Previene desbordamiento en flexbox */
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+            /* Evita que el título empuje la caja si es larguísimo */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .job-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            white-space: nowrap;
+            background: rgba(241, 245, 249, 1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .job-company-row {
+            display: flex;
+            flex-wrap: wrap; /* Si no entra, baja de línea */
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .job-company, .job-location {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .job-company i, .job-location i {
+            color: var(--text-muted);
+            margin-right: 6px;
+        }
+
+        .job-body {
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-snippet {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            /* Permite hasta 3 líneas, si sobra pone puntos suspensivos */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .job-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .job-badges {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background-color: var(--bg-page-start);
+            color: var(--text-secondary);
+            padding: 0.5rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-apply {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            width: 100%;
+            background: var(--bg-surface);
+            color: var(--primary);
+            border: 2px solid var(--border);
+            padding: 0.9rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-apply img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .job-card:hover .btn-apply {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        
+        .job-card:hover .btn-apply img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* --- SECCIONES EXTRA (MÓDULOS VIP Y REFERIDOS MEJORADOS) --- */
         .info-sections-wrapper {
             background-color: var(--bg-page-start);
             border-top: 1px solid var(--border);
@@ -664,14 +806,29 @@
         }
 
         .info-grid { max-width: 1250px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; position: relative; z-index: 1; }
-        .info-card { background: var(--bg-surface); padding: 4rem; border-radius: var(--radius-lg); border: 1px solid var(--border); display: flex; flex-direction: column; box-shadow: var(--shadow-md); transition: transform 0.3s; }
-        .info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        
+        .info-card { 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(20px);
+            padding: 4rem; 
+            border-radius: var(--radius-lg); 
+            border: 1px solid rgba(255,255,255,0.9); 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: var(--shadow-md); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .info-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg); 
+            background: rgba(255, 255, 255, 0.95);
+        }
 
         .info-card.premium {
-            background: linear-gradient(145deg, #ffffff, #fffbeb);
-            border-color: #fde047;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,251,235,0.9));
+            border: 1px solid rgba(253, 224, 71, 0.5);
         }
         
         .info-card.premium::after {
@@ -679,13 +836,22 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 6px;
             background: linear-gradient(90deg, #facc15, #ca8a04);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
 
         .info-card-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 1rem; }
         .info-card-title img { width: 40px; height: 40px; object-fit: contain; }
         .info-card p { color: var(--text-secondary); margin-bottom: 1.8rem; line-height: 1.8; font-size: 1.1rem; }
         .info-card strong { color: var(--text-primary); }
-        .premium-features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin: 2rem 0 3rem; flex-grow: 1; }
+        
+        .premium-features-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0 3rem; flex-grow: 1; 
+            background: rgba(248, 250, 252, 0.6);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        
         .feature-item h4 { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
         .feature-item h4 img { width: 22px; height: 22px; }
         .feature-item p { font-size: 0.95rem; margin: 0; line-height: 1.6; color: var(--text-secondary); }
@@ -696,10 +862,10 @@
         .btn-primary-card { display: inline-block; background: linear-gradient(135deg, #eab308, #ca8a04); color: white; border: none; padding: 1.2rem 2.5rem; border-radius: 16px; font-weight: 800; text-decoration: none; transition: all 0.3s; text-align: center; margin-top: auto; box-shadow: 0 8px 20px rgba(202, 138, 4, 0.3); font-size: 1.05rem; }
         .btn-primary-card:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(202, 138, 4, 0.4); }
 
-        /* --- ESTILOS DEL NUEVO FOOTER --- */
+        /* --- FOOTER SITE --- */
         .footer-site {
-            background-color: #0f172a; /* Slate 900 oscuro profesional */
-            color: #cbd5e1; /* Slate 300 */
+            background-color: #0f172a; 
+            color: #cbd5e1; 
             padding: 5rem 2rem 2rem;
             border-top: 1px solid var(--border);
             font-family: 'Inter', sans-serif;
@@ -849,13 +1015,18 @@
                 border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-lg);
             }
             .nav-links.active { display: flex; }
+            
+            .partners-logos { padding: 0.8rem 1.5rem; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            
             .search-pill-wrapper { flex-direction: column; border-radius: 30px; padding: 1.5rem; gap: 1rem; }
             .search-divider { display: none; }
             .search-field { width: 100%; padding: 1rem; background: var(--bg-page-start); }
             .btn-search-pill { width: 100%; justify-content: center; margin: 0; }
             .info-grid { grid-template-columns: 1fr; }
-            .premium-features-grid { grid-template-columns: 1fr; }
+            .premium-features-grid { grid-template-columns: 1fr; padding: 1rem; }
+            
             .jobs-grid { grid-template-columns: 1fr; }
+            .job-card-header { flex-direction: column; }
             
             .footer-wrapper {
                 grid-template-columns: 1fr;
@@ -864,7 +1035,7 @@
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- Previente clic derecho global -->
 
     <!-- MENÚ FLOTANTE NATIVO -->
     <div class="navbar-container">
@@ -894,8 +1065,8 @@
     </div>
 
     <header class="hero-section">
+        <!-- Título principal SIN logo.png para evitar desbordes -->
         <h1 class="hero-title">
-            <img src="logo.png" alt="Logo">
             Impulsamos tu Próximo Desafío
         </h1>
         <p class="hero-desc">
@@ -904,8 +1075,17 @@
 
         <!-- BUSCADOR INTELIGENTE -->
         <div class="search-container">
-            <div class="search-ai-badge">
-                <span class="pulse-dot"></span> Motor IA NYX/AXON Activo
+            
+            <!-- MÓDULO DE PARTNERS PROFESIONAL -->
+            <div class="partners-badge">
+                <span class="partners-text">Red Global de Contratación en Alianza con</span>
+                <div class="partners-logos">
+                    <img src="jooble.png" alt="Jooble">
+                    <i class="fas fa-times"></i>
+                    <img src="logo.png" alt="CVStudio33" class="main-partner">
+                    <i class="fas fa-times"></i>
+                    <img src="adzuna.png" alt="Adzuna">
+                </div>
             </div>
             
             <div class="filter-tabs">
@@ -1062,7 +1242,6 @@
                 <div class="support-box">
                     <p class="lbl">Soporte 24/7</p>
                     <p class="phone"><i class="fa-solid fa-phone"></i> +1 234 567 890</p>
-                    <!-- Email limpio y funcional -->
                     <p class="email"><a href="mailto:soporte@cvstudio33.com.ar">soporte@cvstudio33.com.ar</a></p>
                 </div>
             </div>
@@ -1229,6 +1408,7 @@
             }
         }
 
+        // RENDERIZADO AVANZADO (RICH CARDS) PARA EVITAR DESBORDES
         function renderUnifiedJobs(jobs) {
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '';
@@ -1239,7 +1419,7 @@
             }
 
             jobs.forEach(job => {
-                let snippetClean = (job.snippet || '').replace(/<[^>]*>?/gm, '').substring(0, 150) + '...';
+                let snippetClean = (job.snippet || '').replace(/<[^>]*>?/gm, '').trim();
                 
                 let badgesHTML = '';
                 if (job.salary) badgesHTML += `<span class="badge"><i class="fas fa-money-bill-wave" style="margin-right:6px; color: #10b981;"></i>${job.salary}</span>`;
@@ -1248,23 +1428,32 @@
                 const card = document.createElement('div');
                 card.className = 'job-card';
                 
-                // Redirección directa
-                card.onclick = () => window.open(job.link, '_blank');
-
+                // Estructura limpia y robusta (No se desborda y tiene botón de acción)
                 card.innerHTML = `
-                    <div class="job-header">
-                        <img src="logo.png" alt="Logo Empresa" class="job-logo" onerror="this.src='logo.png'">
-                        
-                        <div class="job-info">
-                            <h3 class="job-title">${job.title}</h3>
-                            <div class="job-company"><i class="far fa-building" style="margin-right: 6px; color: var(--text-muted);"></i>${job.company}</div>
-                            <div class="job-location"><i class="fas fa-map-marker-alt" style="margin-right: 6px; color: var(--text-muted);"></i>${job.location}</div>
+                    <div class="job-card-header">
+                        <div class="job-title-wrapper">
+                            <h3 class="job-title" title="${job.title}">${job.title}</h3>
                         </div>
-                        <div class="job-date">${job.datePosted}</div>
+                        <div class="job-date" title="Publicado el ${job.datePosted}">${job.datePosted}</div>
                     </div>
-                    <p class="job-snippet">${snippetClean}</p>
-                    <div class="job-badges">
-                        ${badgesHTML}
+                    
+                    <div class="job-company-row">
+                        <span class="job-company"><i class="far fa-building"></i> ${job.company}</span>
+                        <span class="job-location"><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                    </div>
+
+                    <div class="job-body">
+                        <p class="job-snippet">${snippetClean}</p>
+                    </div>
+
+                    <div class="job-footer">
+                        <div class="job-badges">
+                            ${badgesHTML}
+                        </div>
+                        <button class="btn-apply" onclick="window.open('${job.link}', '_blank')">
+                            <img src="logo.png" alt="CVStudio33" onerror="this.style.display='none'">
+                            Ver y Postularse
+                        </button>
                     </div>
                 `;
                 resultsDiv.appendChild(card);
@@ -1277,3 +1466,4 @@
     </script>
 </body>
 </html>
+

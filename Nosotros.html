@@ -20,12 +20,11 @@
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
             --shadow-lg: 0 20px 40px -5px rgba(0,0,0,0.1);
-            --money: #059669;
-            --money-bg: #ecfdf5;
             --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body { font-family: var(--font); background-color: var(--bg); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
         a { text-decoration: none; color: inherit; }
 
@@ -36,7 +35,7 @@
             background-size: 24px 24px; opacity: 0.4; z-index: -1;
         }
 
-        /* === FLOATING NAVBAR === */
+        /* === FLOATING NAVBAR (Minimalista) === */
         .navbar-wrapper {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 95%; max-width: 1000px; z-index: 9999;
@@ -45,78 +44,22 @@
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255,255,255,0.4); box-shadow: var(--shadow-md);
             border-radius: 100px; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
-            position: relative;
         }
         .nav-brand { display: flex; align-items: center; gap: 10px; }
         .nav-brand img { height: 28px; width: 28px; object-fit: contain; }
         .nav-brand span { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.5px; }
         
-        .nav-links { display: flex; gap: 24px; align-items: center; }
-        .nav-link { font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); transition: color 0.2s; }
-        .nav-link:hover, .nav-link.active { color: var(--text-primary); }
-        
-        .btn-money {
-            background: var(--money-bg); color: var(--money); padding: 10px 20px; border-radius: 100px;
-            font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px;
-            box-shadow: inset 0 0 0 1px rgba(5, 150, 105, 0.2); transition: all 0.2s;
-            display: flex; align-items: center; gap: 6px;
+        .btn-volver {
+            background: #fff; color: var(--text-primary); padding: 8px 20px; border-radius: 100px;
+            font-weight: 700; font-size: 0.95rem; border: 1px solid var(--border);
+            transition: all 0.2s; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow-sm);
         }
-        .btn-money img { width: 14px; }
-        .btn-money:hover { background: var(--money); color: #fff; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); }
-        .btn-money:hover img { filter: brightness(0) invert(1); }
+        .btn-volver:hover { background: #f9fafb; transform: translateY(-1px); box-shadow: var(--shadow-md); border-color: #d1d5db; color: var(--text-primary); }
 
-        .menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-
-        @media (max-width: 900px) {
-            .nav-links { display: none; }
-            .menu-btn { display: block; }
+        @media (max-width: 600px) {
+            .btn-volver span { display: none; }
+            .btn-volver { padding: 10px 12px; }
         }
-
-        /* === DROPDOWN MOBILE MENU === */
-        .mobile-menu {
-            position: absolute;
-            top: calc(100% + 12px);
-            right: 0;
-            width: 260px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            padding: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px) scale(0.95);
-            transform-origin: top right;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 10000;
-        }
-        .navbar-wrapper.menu-open .mobile-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-        .mobile-menu a {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: 12px 16px;
-            border-radius: 12px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .mobile-menu a img { width: 18px; opacity: 0.6; object-fit: contain; }
-        .mobile-menu a:hover {
-            background: var(--bg);
-            color: var(--accent);
-        }
-        .mobile-menu .btn-money { justify-content: center; margin-top: 10px; padding: 14px; }
 
         /* === HERO === */
         .hero { padding: 180px 24px 60px; text-align: center; max-width: 1000px; margin: 0 auto; }
@@ -129,48 +72,56 @@
         .hero h1 { font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 24px; color: var(--text-primary); }
         .hero p { font-size: 1.2rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 24px; font-weight: 500; }
         
-        /* === INTERACTIVE SEARCH === */
-        .search-wrapper { position: relative; max-width: 650px; margin: 40px auto; z-index: 10; text-align: left; }
-        .search-bar {
-            background: #fff; border-radius: 100px; padding: 8px 8px 8px 24px;
-            display: flex; align-items: center; box-shadow: var(--shadow-md);
-            border: 1px solid var(--border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* === PANEL FLOTANTE (Dropdown Modal) === */
+        .hero-actions {
+            position: relative;
+            display: inline-block;
+            margin: 40px auto 0;
         }
-        .search-bar.focused { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1), var(--shadow-lg); border-color: var(--accent); transform: scale(1.02); }
-        .search-bar img { width: 24px; height: 24px; opacity: 0.5; margin-right: 16px; object-fit: contain; }
-        .search-bar input { flex: 1; border: none; outline: none; font-size: 1.1rem; color: var(--text-primary); background: transparent; font-weight: 500; }
-        .search-bar button {
-            background: var(--text-primary); color: #fff; border: none; padding: 16px 36px; border-radius: 100px;
-            font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s;
+        .btn-modal-trigger {
+            background: #fff; color: var(--text-primary); padding: 16px 32px; border-radius: 100px;
+            font-size: 1.1rem; font-weight: 800; border: 1px solid var(--border); cursor: pointer; display: inline-flex;
+            align-items: center; gap: 12px; transition: all 0.3s; box-shadow: var(--shadow-md);
+            margin: 0;
         }
-        .search-bar button:hover { background: var(--accent); transform: translateY(-1px); }
+        .btn-modal-trigger:hover { background: #f9fafb; transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--accent); color: var(--accent); }
+        .btn-modal-trigger img { width: 24px; height: 24px; object-fit: contain; transition: transform 0.3s; }
         
-        .search-dropdown {
-            position: absolute; top: calc(100% + 16px); left: 0; width: 100%;
-            background: #fff; border-radius: 24px; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-            padding: 16px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s;
+        .floating-panel {
+            position: absolute; top: calc(100% + 16px); left: 50%; transform: translateX(-50%) translateY(-10px) scale(0.95);
+            width: 300px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05);
+            padding: 12px; opacity: 0; visibility: hidden; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100; text-align: left;
         }
-        .search-wrapper.focused .search-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-        .search-dropdown-title { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 12px; padding-left: 12px; letter-spacing: 1px;}
-        .search-item { display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 16px; cursor: pointer; transition: background 0.2s; }
-        .search-item:hover { background: #f3f4f6; }
-        .search-item img { width: 24px; height: 24px; object-fit: contain; } /* LOGOS SUELTOS SIN FONDO */
-        .search-item span { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
+        .hero-actions.active .floating-panel { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) scale(1); }
+
+        .panel-header { 
+            font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; 
+            letter-spacing: 1px; padding: 8px 12px 12px; border-bottom: 1px solid var(--border); margin-bottom: 8px; 
+        }
+
+        .panel-links { display: flex; flex-direction: column; gap: 4px; }
+        .panel-links a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; transition: background 0.2s; }
+        .panel-links a:hover { background: #f3f4f6; }
+        .panel-icon { width: 28px; height: 28px; object-fit: contain; background: #fff; border-radius: 8px; padding: 4px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .panel-text strong { display: block; color: var(--text-primary); font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
+        .panel-text span { display: block; color: var(--text-secondary); font-size: 0.8rem; font-weight: 500; }
 
         /* === BENTO GRIDS (NOSOTROS CONTEXT) === */
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
         
         .bento-intro {
             background: #fff; border-radius: 32px; padding: 60px 40px; box-shadow: var(--shadow-md);
-            border: 1px solid var(--border); margin-bottom: 80px; text-align: center;
+            border: 1px solid var(--border); margin-bottom: 80px; text-align: center; scroll-margin-top: 120px;
         }
-        .bento-intro img { width: 56px; height: 56px; margin-bottom: 24px; object-fit: contain; } /* LOGOS SUELTOS */
+        .bento-intro img { width: 56px; height: 56px; margin-bottom: 24px; object-fit: contain; }
         .bento-intro h2 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 24px; }
         .bento-intro p { font-size: 1.15rem; color: var(--text-secondary); max-width: 800px; margin: 0 auto 16px; line-height: 1.6; }
         
-        .module-block { margin-bottom: 100px; }
+        .module-block { margin-bottom: 100px; scroll-margin-top: 120px; }
         .module-header { text-align: center; margin-bottom: 48px; }
-        .module-header img { width: 72px; height: 72px; margin-bottom: 20px; object-fit: contain; } /* LOGOS SUELTOS */
+        .module-header img { width: 72px; height: 72px; margin-bottom: 20px; object-fit: contain; }
         .module-header h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; color: var(--text-primary); }
         .module-header .quote { font-size: 1.3rem; font-weight: 700; color: var(--accent); margin-bottom: 20px; font-style: italic; }
         .module-header .desc { font-size: 1.15rem; color: var(--text-secondary); max-width: 900px; margin: 0 auto; line-height: 1.7; }
@@ -181,12 +132,12 @@
             box-shadow: var(--shadow-sm); transition: all 0.3s ease;
         }
         .bento-item:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: rgba(37, 99, 235, 0.4); }
-        .bento-item img { width: 40px; height: 40px; margin-bottom: 20px; object-fit: contain; } /* LOGOS SUELTOS */
+        .bento-item img { width: 40px; height: 40px; margin-bottom: 20px; object-fit: contain; }
         .bento-item h4 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); letter-spacing: -0.5px; }
         .bento-item p { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
 
         /* === FAQ === */
-        .faq-box { max-width: 850px; margin: 0 auto; background: #fff; border-radius: 32px; padding: 48px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .faq-box { max-width: 850px; margin: 0 auto; background: #fff; border-radius: 32px; padding: 48px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); scroll-margin-top: 120px; }
         .faq-box h2 { text-align: center; font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 40px; }
         .faq-item { border-bottom: 1px solid var(--border); }
         .faq-item:last-child { border-bottom: none; }
@@ -231,11 +182,8 @@
         @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; }
             .hero { padding: 140px 20px 40px; }
-            .search-bar { flex-direction: column; border-radius: 24px; padding: 16px; gap: 16px; }
-            .search-bar input { text-align: center; font-size: 1.1rem; width: 100%; }
-            .search-bar button { width: 100%; }
-            .search-dropdown { position: static; visibility: visible; opacity: 1; transform: none; box-shadow: none; border: none; padding: 16px 0 0; display: none; }
-            .search-wrapper.focused .search-dropdown { display: block; }
+            .btn-modal-trigger { font-size: 1rem; padding: 16px 24px; width: 100%; justify-content: center; }
+            .floating-panel { width: calc(100vw - 40px); }
             .bento-intro { padding: 32px 20px; }
             .founder-section { padding: 40px 20px; }
         }
@@ -243,41 +191,21 @@
 </head>
 <body>
 
-    <!-- MENÚ NATIVO FLOTANTE CON DROPDOWN -->
-    <div class="navbar-wrapper" id="navWrapper">
+    <!-- MENÚ NATIVO FLOTANTE (Solo Volver) -->
+    <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="nav-brand">
                 <img src="logo.png" alt="CVStudio33">
                 <span>CVSTUDIO33</span>
             </div>
             
-            <div class="nav-links">
-                <a href="Nosotros.html" class="nav-link active">Quiénes Somos</a>
-                <a href="Servicios.html" class="nav-link">Infraestructura</a>
-                <a href="EmpleosCvstudio33.html" class="nav-link">Empleos</a>
-                <a href="LoginCvStudio33.html" class="nav-link">Acceso</a>
-                <a href="PanelDeGestion-Ventas.html" class="btn-money">
-                    <img src="logo.png" alt="Dinero">
-                    GANA DINERO
-                </a>
-            </div>
-
-            <button class="menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir Menú">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
+            <a href="EmpleosCvstudio33.html" class="btn-volver">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
-            </button>
-
-            <!-- DROPDOWN MODERNO PARA MÓVILES -->
-            <div class="mobile-menu">
-                <a href="Nosotros.html"><img src="logo.png" alt="Icono"> Quiénes Somos</a>
-                <a href="Servicios.html"><img src="logonyx.png" alt="Icono"> Infraestructura SaaS</a>
-                <a href="EmpleosCvstudio33.html"><img src="logo.png" alt="Icono"> Bolsa de Empleos</a>
-                <a href="LoginCvStudio33.html"><img src="logoaxon.png" alt="Icono"> Acceso Cliente</a>
-                <a href="PanelDeGestion-Ventas.html" class="btn-money">GANA DINERO</a>
-            </div>
+                <span>Volver a Empleos</span>
+            </a>
         </nav>
     </div>
 
@@ -289,26 +217,54 @@
             
             <p>Nacimos en Argentina como una respuesta directa a un sistema de reclutamiento roto. En un entorno donde la Inteligencia Artificial corporativa descarta al 80% del talento, decidimos construir la primera infraestructura SaaS de nueva generación. Nuestra meta es ser la plataforma número 1 del país, brindándote el mismo arsenal tecnológico que usan las empresas para que nunca más seas ignorado.</p>
             
-            <div class="search-wrapper" id="searchWrapper">
-                <div class="search-bar" id="searchBar">
-                    <img src="logo.png" alt="Buscar">
-                    <input type="text" id="searchInput" placeholder="Búsqueda inteligente sobre nuestra tecnología...">
-                    <button onclick="ejecutarBusqueda()">Explorar</button>
-                </div>
-                
-                <div class="search-dropdown">
-                    <div class="search-dropdown-title">Conoce nuestro Ecosistema</div>
-                    <div class="search-item" data-value="Tecnología NYX">
-                        <img src="logonyx.png" alt="NYX">
-                        <span>Descubre cómo NYX inyecta semántica</span>
+            <!-- CONTENEDOR DEL PANEL FLOTANTE -->
+            <div class="hero-actions" id="heroActions">
+                <button class="btn-modal-trigger" onclick="toggleFloatingPanel()">
+                    <img src="logo.png" alt="Explorar">
+                    Explorar Ecosistema
+                </button>
+
+                <!-- PANEL FLOTANTE MODERNO COMPACTO -->
+                <div class="floating-panel" id="floatingPanel">
+                    <div class="panel-header">
+                        <span>Navegación Rápida</span>
                     </div>
-                    <div class="search-item" data-value="Auditorías AXON">
-                        <img src="logoaxon.png" alt="AXON">
-                        <span>Aprende sobre las auditorías con AXON</span>
-                    </div>
-                    <div class="search-item" data-value="Mercado VIP">
-                        <img src="logo.png" alt="VIP">
-                        <span>Por qué apostamos al Mercado Oculto</span>
+                    <div class="panel-links">
+                        <a href="#valores" onclick="closeFloatingPanel()">
+                            <img src="logo.png" class="panel-icon" alt="Valores">
+                            <div class="panel-text">
+                                <strong>Principios Operativos</strong>
+                                <span>Nuestra filosofía</span>
+                            </div>
+                        </a>
+                        <a href="#nyx" onclick="closeFloatingPanel()">
+                            <img src="logonyx.png" class="panel-icon" alt="NYX">
+                            <div class="panel-text">
+                                <strong>Módulo NYX</strong>
+                                <span>Ingeniería ATS</span>
+                            </div>
+                        </a>
+                        <a href="#axon" onclick="closeFloatingPanel()">
+                            <img src="logoaxon.png" class="panel-icon" alt="AXON">
+                            <div class="panel-text">
+                                <strong>Módulo AXON</strong>
+                                <span>Auditoría predictiva</span>
+                            </div>
+                        </a>
+                        <a href="#elite" onclick="closeFloatingPanel()">
+                            <img src="logo.png" class="panel-icon" alt="Elite">
+                            <div class="panel-text">
+                                <strong>Consultoría Elite</strong>
+                                <span>Estrategia humana</span>
+                            </div>
+                        </a>
+                        <a href="#faq" onclick="closeFloatingPanel()">
+                            <img src="logo.png" class="panel-icon" alt="FAQ">
+                            <div class="panel-text">
+                                <strong>Autoridad (FAQ)</strong>
+                                <span>Preguntas clave</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -316,15 +272,15 @@
 
         <div class="container">
             <!-- POR QUÉ EXISTIMOS -->
-            <div class="bento-intro">
+            <div class="bento-intro" id="intro">
                 <img src="logo.png" alt="Icono">
                 <h2>Por qué creamos CVStudio33</h2>
                 <p>Nos dimos cuenta de una injusticia técnica: el reclutamiento cambió para siempre, pero las herramientas para los candidatos seguían siendo las mismas. Las corporaciones implementaron Sistemas de Seguimiento de Candidatos (ATS) que actúan como murallas implacables, juzgando bases de datos, no talentos reales.</p>
                 <p><strong>Decidimos no ser un simple editor de currículums.</strong> Nos conformamos como una agencia de tecnología profunda. Construimos una infraestructura de inteligencia artificial diseñada por y para el talento, con el objetivo de auditar, reescribir y posicionar perfiles con precisión matemática, asegurando que tu historia llegue a la mesa de decisiones.</p>
             </div>
 
-            <!-- NUESTRA SECCIÓN DE VALORES (Adaptada al ecosistema SaaS) -->
-            <div class="module-block">
+            <!-- NUESTRA SECCIÓN DE VALORES -->
+            <div class="module-block" id="valores">
                 <div class="module-header">
                     <img src="logo.png" alt="Valores">
                     <h2>Nuestros Principios Operativos</h2>
@@ -356,8 +312,8 @@
                 </div>
             </div>
 
-            <!-- MÓDULO 1: NYX (Nuestra Tecnología Principal) -->
-            <div class="module-block">
+            <!-- MÓDULO 1: NYX -->
+            <div class="module-block" id="nyx">
                 <div class="module-header">
                     <img src="logonyx.png" alt="NYX">
                     <h2>Nuestra Tecnología Principal: NYX</h2>
@@ -389,8 +345,8 @@
                 </div>
             </div>
 
-            <!-- MÓDULO 2: AXON (Nuestro Pilar Analítico) -->
-            <div class="module-block">
+            <!-- MÓDULO 2: AXON -->
+            <div class="module-block" id="axon">
                 <div class="module-header">
                     <img src="logoaxon.png" alt="AXON">
                     <h2>Nuestro Pilar Analítico: AXON</h2>
@@ -422,8 +378,8 @@
                 </div>
             </div>
 
-            <!-- MÓDULO 3: CONSULTORÍA ELITE (Nuestro Equipo) -->
-            <div class="module-block">
+            <!-- MÓDULO 3: CONSULTORÍA ELITE -->
+            <div class="module-block" id="elite">
                 <div class="module-header">
                     <img src="logo.png" alt="Equipo">
                     <h2>Nuestro Factor Humano: Consultoría Elite</h2>
@@ -456,7 +412,7 @@
             </div>
 
             <!-- PREGUNTAS FRECUENTES -->
-            <div class="faq-box">
+            <div class="faq-box" id="faq">
                 <h2>Transparencia y Autoridad (FAQ)</h2>
                 
                 <div class="faq-item">
@@ -592,55 +548,21 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Funcionalidad del Menú Desplegable Móvil
-        function toggleMobileMenu() {
-            document.getElementById('navWrapper').classList.toggle('menu-open');
+        // Panel Flotante de Navegación Rápida
+        function toggleFloatingPanel() {
+            document.getElementById('heroActions').classList.toggle('active');
         }
 
-        // Funcionalidad de Búsqueda con Redirección Simulada y Real
-        const searchInput = document.getElementById('searchInput');
-        const searchWrapper = document.getElementById('searchWrapper');
-        const searchBar = document.getElementById('searchBar');
-
-        searchInput.addEventListener('focus', () => {
-            searchWrapper.classList.add('focused');
-            searchBar.classList.add('focused');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!searchWrapper.contains(e.target)) {
-                searchWrapper.classList.remove('focused');
-                searchBar.classList.remove('focused');
-            }
-        });
-
-        function ejecutarBusqueda() {
-            if(searchInput.value.trim() !== "") {
-                searchWrapper.classList.remove('focused');
-                searchBar.classList.remove('focused');
-                const textoOriginal = searchInput.value;
-                searchInput.value = "Conectando ecosistema...";
-                
-                // Hace que el buscador ande visualmente y luego redirija o limpie
-                setTimeout(() => { 
-                    window.location.href = "EmpleosCvstudio33.html"; 
-                }, 1000);
-            }
+        function closeFloatingPanel() {
+            document.getElementById('heroActions').classList.remove('active');
         }
 
-        searchInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                ejecutarBusqueda();
+        // Cierra el panel si se hace click fuera del contenedor
+        document.addEventListener('click', function(e) {
+            const heroActions = document.getElementById('heroActions');
+            if (heroActions && !heroActions.contains(e.target)) {
+                heroActions.classList.remove('active');
             }
-        });
-
-        // Opciones del Dropdown de Búsqueda
-        const searchItems = document.querySelectorAll('.search-item');
-        searchItems.forEach(item => {
-            item.addEventListener('click', () => {
-                searchInput.value = item.getAttribute('data-value') || item.querySelector('span').innerText;
-                ejecutarBusqueda();
-            });
         });
 
         // FAQ Interactivo
@@ -656,3 +578,7 @@
     </script>
 </body>
 </html>
+
+
+
+

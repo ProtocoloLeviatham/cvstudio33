@@ -117,6 +117,7 @@
             color: var(--text-primary); box-shadow: var(--shadow-sm); border: 1px solid var(--border); 
             margin-bottom: 32px; text-transform: uppercase; letter-spacing: 1.5px;
         }
+        .badge-modern img { width: 20px; height: 20px; object-fit: contain; }
         .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 24px; }
         .hero p { font-size: 1.25rem; line-height: 1.6; color: var(--text-secondary); max-width: 900px; margin: 0 auto; font-weight: 500; }
 
@@ -243,8 +244,10 @@
         .single-block-content p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; }
         
         @media (max-width: 768px) {
-            .single-module-card { padding: 32px 24px; }
-            .single-block-item { flex-direction: column; gap: 16px; }
+            .single-module-card { padding: 24px 16px; }
+            .single-block-item { flex-direction: column; gap: 12px; padding-bottom: 24px; }
+            .single-block-list { gap: 24px; }
+            .section-margin { margin-bottom: 80px; }
         }
 
         /* Estilos mejorados para proyecciones */
@@ -277,13 +280,47 @@
         
         .donation-destinations { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
         .dest-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 24px; text-align: center; }
-        .dest-card img { width: 32px; height: 32px; filter: brightness(0) invert(1); margin-bottom: 16px; opacity: 0.8; }
+        .dest-card img { width: 32px; height: 32px; margin-bottom: 16px; object-fit: contain; }
         .dest-card h4 { font-size: 1.1rem; font-weight: 700; color: #fff; }
 
         @media (max-width: 768px) {
-            .philanthropy-section { padding: 40px 24px; border-radius: 24px; }
-            .philanthropy-header h2 { font-size: 2.5rem; }
-            .donation-destinations { grid-template-columns: 1fr; }
+            .philanthropy-section { padding: 32px 20px; border-radius: 24px; margin-bottom: 40px; }
+            .philanthropy-header h2 { font-size: 2.2rem; }
+            .philanthropy-text-block { padding: 24px 16px; margin-bottom: 16px; }
+            .philanthropy-content { gap: 20px; }
+            .donation-destinations { grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
+        }
+
+        /* Menú Circular Interactivo */
+        .circular-menu-wrapper {
+            position: relative; width: 100%; height: 260px; display: flex; justify-content: center; align-items: center; margin: 0 auto 40px;
+        }
+        .menu-item, .menu-open-button {
+            background: var(--surface); border-radius: 100%; width: 70px; height: 70px; position: absolute;
+            text-align: center; line-height: 70px; transform: translate3d(0, 0, 0); transition: transform ease-out 200ms;
+            box-shadow: var(--shadow-md); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center;
+        }
+        .menu-item img { width: 28px; height: 28px; object-fit: contain; }
+        .menu-open { display: none; }
+        .hamburger-lines { width: 24px; height: 3px; background: var(--text-primary); display: block; position: absolute; top: 50%; left: 50%; margin-left: -12px; margin-top: -1.5px; transition: transform 200ms; border-radius: 4px; }
+        .line-1 { transform: translate3d(0, -8px, 0); }
+        .line-2 { transform: translate3d(0, 0, 0); }
+        .line-3 { transform: translate3d(0, 8px, 0); }
+        .menu-open:checked + .menu-open-button .line-1 { transform: translate3d(0, 0, 0) rotate(45deg); }
+        .menu-open:checked + .menu-open-button .line-2 { transform: translate3d(0, 0, 0) scale(0.1, 1); }
+        .menu-open:checked + .menu-open-button .line-3 { transform: translate3d(0, 0, 0) rotate(-45deg); }
+        .menu-item:hover { background: #f8fafc; transform: scale(1.1); box-shadow: var(--shadow-lg); }
+        .menu-open-button { z-index: 2; transition: transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+        .menu-open-button:hover { transform: scale(1.15) translate3d(0, 0, 0); }
+        .menu-open:checked + .menu-open-button { transition: transform 200ms linear; transform: scale(0.85) translate3d(0, 0, 0); }
+        .menu-open:checked ~ .menu-item { transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33); }
+        .menu-open:checked ~ .menu-item:nth-child(3) { transition-duration: 180ms; transform: translate3d(-85px, -85px, 0); }
+        .menu-open:checked ~ .menu-item:nth-child(4) { transition-duration: 280ms; transform: translate3d(85px, -85px, 0); }
+        .menu-open:checked ~ .menu-item:nth-child(5) { transition-duration: 380ms; transform: translate3d(-85px, 85px, 0); }
+        .menu-open:checked ~ .menu-item:nth-child(6) { transition-duration: 480ms; transform: translate3d(85px, 85px, 0); }
+        .menu-item::after {
+            content: attr(data-title); position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; font-weight: 700;
+            color: var(--text-primary); white-space: nowrap; opacity: 1; transition: opacity 0.2s; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 8px; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
         }
     </style>
 </head>
@@ -303,10 +340,6 @@
                     <span>Navegar</span>
                 </button>
                 <a href="Nosotros.html" class="btn-volver">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
                     <span>Volver</span>
                 </a>
             </div>
@@ -334,36 +367,37 @@
 
         <div class="container">
 
-            <!-- MÓDULO DE NAVEGACIÓN EJECUTIVA -->
-            <div class="executive-summary" style="background: #fff; border-radius: 32px; padding: 48px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 40px; margin-top: -40px; position: relative; z-index: 10;">
-                <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 24px; text-align: center; letter-spacing: -0.5px;">Estructura Operativa del Ecosistema</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
-                    <a href="#portafolio" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; text-align: left;">
-                        <img src="logo.png" style="width: 28px; height: 28px;">
-                        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Portafolio B2B y B2C</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Tecnología NYX, AXON y APIs listas para monetizar.</p>
-                    </a>
-                    <a href="#comisiones" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; text-align: left;">
-                        <img src="logo.png" style="width: 28px; height: 28px;">
-                        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Esquema Financiero</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Comisiones del 45%, bonos del 80% y escalabilidad.</p>
-                    </a>
-                    <a href="#proyecciones" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; text-align: left;">
-                        <img src="logo.png" style="width: 28px; height: 28px;">
-                        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Proyecciones</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Estimaciones de ingresos en ARS y USD según rendimiento.</p>
-                    </a>
-                    <a href="#filantropia" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: #0f172a; border-radius: 20px; transition: all 0.3s; text-align: left;">
-                        <img src="logo.png" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
-                        <h4 style="font-size: 1.1rem; font-weight: 800; color: #fff;">Impacto Social</h4>
-                        <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.5;">Fondo filantrópico y donaciones transparentes del 3% al 50%.</p>
-                    </a>
-                </div>
+            <!-- MÓDULO DE NAVEGACIÓN EJECUTIVA CIRCULAR -->
+            <div style="text-align: center; margin-top: -20px;">
+                <h3 style="font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px;">Estructura Operativa del Ecosistema</h3>
+                <p style="color: var(--text-secondary); margin-top: 8px; font-size: 1.05rem;">Presione para explorar los módulos.</p>
+            </div>
+            
+            <div class="circular-menu-wrapper">
+                <input id="menu-open" name="menu-open" class="menu-open" type="checkbox" />
+                <label for="menu-open" class="menu-open-button">
+                    <span class="hamburger-lines line-1"></span>
+                    <span class="hamburger-lines line-2"></span>
+                    <span class="hamburger-lines line-3"></span>
+                </label>
+
+                <a class="menu-item" href="#portafolio" data-title="Portafolio">
+                    <img src="logo.png" alt="Portafolio">
+                </a>
+                <a class="menu-item" href="#comisiones" data-title="Comisiones">
+                    <img src="logo.png" alt="Comisiones">
+                </a>
+                <a class="menu-item" href="#proyecciones" data-title="Proyecciones">
+                    <img src="logo.png" alt="Proyecciones">
+                </a>
+                <a class="menu-item" href="#filantropia" data-title="Impacto">
+                    <img src="logo.png" alt="Impacto Social">
+                </a>
             </div>
 
             <div style="text-align: center; margin-bottom: 120px;">
-                <a href="PanelDeGestion-Ventas.html" class="executive-card" style="display: inline-flex; align-items: center; gap: 12px; background: var(--text-primary); color: #fff; padding: 16px 32px; border-radius: 100px; font-weight: 800; font-size: 1.1rem; box-shadow: var(--shadow-md); transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1);">
-                    <img src="logo.png" style="width: 24px; height: 24px; filter: brightness(0) invert(1);">
+                <a href="PanelDeGestion-Ventas.html" style="display: inline-flex; align-items: center; gap: 12px; background: var(--text-primary); color: #fff; padding: 16px 32px; border-radius: 100px; font-weight: 800; font-size: 1.1rem; box-shadow: var(--shadow-md); transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1); text-decoration: none;">
+                    <img src="logo.png" style="width: 24px; height: 24px; object-fit: contain;">
                     Ingresar al Panel de Gestión
                 </a>
             </div>
@@ -618,7 +652,7 @@
             </div>
         </div>
         <div class="cookie-banner" style="margin: 40px auto; max-width: 1100px; padding: 24px; background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; display: flex; gap: 16px; align-items: flex-start;">
-            <img src="logo.png" alt="Cookies" style="width: 24px; height: 24px; flex-shrink: 0; filter: grayscale(100%);">
+            <img src="logo.png" alt="Cookies" style="width: 24px; height: 24px; flex-shrink: 0; object-fit: contain;">
             <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin: 0;">
                 <strong style="color: var(--text-primary);">Consentimiento Legal, Privacidad y Cookies:</strong><br>
                 Para garantizar la operatividad de nuestra infraestructura SaaS, el blindaje de sus datos bajo estándares internacionales de ciberseguridad y evitar responsabilidades legales, CVStudio33 utiliza cookies. Al utilizar la plataforma, usted emite un consentimiento legalmente vinculante aceptando nuestros Términos de Servicio y nuestra exención de responsabilidad absoluta. <a href="politica-de-cookies.html" style="color: var(--accent); text-decoration: underline; font-weight: 600;">Saber más</a>.
@@ -698,6 +732,7 @@
     </script>
 </body>
 </html>
+
 
 
 

@@ -229,6 +229,62 @@
         .footer-grid { display: grid; grid-template-columns: 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; }
         .footer-brand img { height: 32px; margin-bottom: 24px; }
         .legal-text { font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 16px; }
+
+        /* Nuevos Estilos para Bloques Unidos y Donaciones */
+        .single-module-card {
+            background: #fff; border-radius: 32px; padding: 48px; border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm); transition: all 0.3s;
+        }
+        .single-block-list { display: flex; flex-direction: column; gap: 32px; }
+        .single-block-item { display: flex; align-items: flex-start; gap: 24px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+        .single-block-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .single-block-item img { width: 48px; height: 48px; flex-shrink: 0; object-fit: contain; }
+        .single-block-content h4 { font-size: 1.35rem; font-weight: 800; margin-bottom: 12px; color: var(--text-primary); letter-spacing: -0.5px; }
+        .single-block-content p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; }
+        
+        @media (max-width: 768px) {
+            .single-module-card { padding: 32px 24px; }
+            .single-block-item { flex-direction: column; gap: 16px; }
+        }
+
+        /* Estilos mejorados para proyecciones */
+        .proj-value { text-align: right; background: #f8fafc; padding: 24px 32px; border-radius: 20px; border: 1px solid var(--border); min-width: 300px; }
+        .proj-value h4 { font-size: 1.4rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+        .usd-value { font-size: 1.1rem; color: var(--text-secondary); font-weight: 600; margin-top: 8px; display: block; }
+        
+        /* Sección Donaciones (Impacto Social) */
+        .philanthropy-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff; border-radius: 40px; padding: 80px 60px; margin-bottom: 80px;
+            box-shadow: 0 40px 80px -20px rgba(15, 23, 42, 0.3);
+            position: relative; overflow: hidden;
+        }
+        .philanthropy-section::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .philanthropy-header { text-align: center; max-width: 900px; margin: 0 auto 60px; position: relative; z-index: 1; }
+        .philanthropy-header h2 { font-size: 3.5rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 24px; color: #fff; }
+        .philanthropy-header p { font-size: 1.25rem; color: #cbd5e1; line-height: 1.8; font-weight: 400; }
+        .philanthropy-content { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .philanthropy-text-block { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 48px; }
+        .philanthropy-text-block h3 { font-size: 1.85rem; font-weight: 800; margin-bottom: 24px; color: #ffffff; letter-spacing: -0.5px; }
+        .philanthropy-text-block p { font-size: 1.15rem; color: #94a3b8; line-height: 1.85; margin-bottom: 20px; font-weight: 400; }
+        .philanthropy-text-block p strong { color: #f8fafc; font-weight: 700; }
+        
+        .executive-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(15,23,42,0.1); }
+        
+        .donation-destinations { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+        .dest-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 24px; text-align: center; }
+        .dest-card img { width: 32px; height: 32px; filter: brightness(0) invert(1); margin-bottom: 16px; opacity: 0.8; }
+        .dest-card h4 { font-size: 1.1rem; font-weight: 700; color: #fff; }
+
+        @media (max-width: 768px) {
+            .philanthropy-section { padding: 40px 24px; border-radius: 24px; }
+            .philanthropy-header h2 { font-size: 2.5rem; }
+            .donation-destinations { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -266,15 +322,6 @@
         </div>
     </div>
 
-    <!-- MINI BOTTOM PILL (CTA) -->
-    <div class="bottom-cta-pill">
-        <div class="bottom-cta-text">
-            <img src="logo.png" alt="Logo">
-            <p>Comienza a trabajar para CVStudio33 sin experiencia</p>
-        </div>
-        <a href="#unete" class="bottom-cta-btn">Únete Ahora</a>
-    </div>
-
     <main>
         <!-- HERO (TEXTO ORIGINAL RESTAURADO) -->
         <section class="hero">
@@ -287,12 +334,38 @@
 
         <div class="container">
 
-            <!-- POR QUÉ EXISTIMOS / FUSIÓN COMERCIAL (TEXTO ORIGINAL RESTAURADO) -->
-            <div class="bento-intro" id="intro">
-                <img src="logo.png" alt="Icono">
-                <h2>La Fusión del Rol de Revendedor y Closer de Ventas</h2>
-                <p>El mercado corporativo actual exige inmediatez y solvencia técnica. Por ello, en CVStudio33 hemos unificado la flexibilidad logística del Revendedor Autónomo con el rigor de conversión del Cerrador de Ventas. Esta combinación estratégica le otorga la potestad absoluta sobre todo el ciclo comercial, erradicando intermediarios y elevando los márgenes de ganancia neta.</p>
-                <p><strong>Control Absoluto:</strong> Como partner, usted no actúa como un simple intermediario; opera como un consultor tecnológico de soluciones de empleabilidad. Su función abarca desde la distribución masiva de herramientas de optimización hasta la negociación y el cierre de licencias corporativas críticas, garantizando una monetización catastrófica y exponencial desde el primer día.</p>
+            <!-- MÓDULO DE NAVEGACIÓN EJECUTIVA -->
+            <div class="executive-summary" style="background: #fff; border-radius: 32px; padding: 48px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 40px; margin-top: -40px; position: relative; z-index: 10;">
+                <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 24px; text-align: center; letter-spacing: -0.5px;">Estructura Operativa del Ecosistema</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+                    <a href="#portafolio" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; text-align: left;">
+                        <img src="logo.png" style="width: 28px; height: 28px;">
+                        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Portafolio B2B y B2C</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Tecnología NYX, AXON y APIs listas para monetizar.</p>
+                    </a>
+                    <a href="#comisiones" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; text-align: left;">
+                        <img src="logo.png" style="width: 28px; height: 28px;">
+                        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Esquema Financiero</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Comisiones del 45%, bonos del 80% y escalabilidad.</p>
+                    </a>
+                    <a href="#proyecciones" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; text-align: left;">
+                        <img src="logo.png" style="width: 28px; height: 28px;">
+                        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Proyecciones</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Estimaciones de ingresos en ARS y USD según rendimiento.</p>
+                    </a>
+                    <a href="#filantropia" class="executive-card" style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: #0f172a; border-radius: 20px; transition: all 0.3s; text-align: left;">
+                        <img src="logo.png" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
+                        <h4 style="font-size: 1.1rem; font-weight: 800; color: #fff;">Impacto Social</h4>
+                        <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.5;">Fondo filantrópico y donaciones transparentes del 3% al 50%.</p>
+                    </a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 120px;">
+                <a href="PanelDeGestion-Ventas.html" class="executive-card" style="display: inline-flex; align-items: center; gap: 12px; background: var(--text-primary); color: #fff; padding: 16px 32px; border-radius: 100px; font-weight: 800; font-size: 1.1rem; box-shadow: var(--shadow-md); transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1);">
+                    <img src="logo.png" style="width: 24px; height: 24px; filter: brightness(0) invert(1);">
+                    Ingresar al Panel de Gestión
+                </a>
             </div>
 
             <!-- MÓDULO 1: PORTAFOLIO TECNOLÓGICO -->
@@ -300,54 +373,39 @@
                 <div class="section-header">
                     <img src="logo.png" alt="Portafolio">
                     <h2>Portafolio Tecnológico Integrado</h2>
-                    <p>Soluciones Disponibles para Comercialización: Tienes acceso a distribuir todo nuestro ecosistema.</p>
+                    <p>Soluciones Disponibles para Comercialización: Tienes acceso a distribuir todo nuestro ecosistema avanzado.</p>
                 </div>
                 
-                <div class="bento-grid-3">
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>CVs Básicos a Profesionales</h4>
-                        <p>Diseños optimizados para superar algoritmos y filtros ATS corporativos.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Tecnología NYX</h4>
-                        <p>Motor avanzado de procesamiento semántico corporativo para perfiles gerenciales.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Tecnología AXON</h4>
-                        <p>Red neuronal especializada en reestructurar perfiles de extrema competitividad.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Módulo de Creación</h4>
-                        <p>Flujo interactivo bajo demanda para usuarios finales.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Bolsa VIP de Trabajo</h4>
-                        <p>Repositorio premium de vacantes emparejadas por IA.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Planes Corporativos B2B</h4>
-                        <p>Paquetes estructurales exclusivos para organizaciones y agencias.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>API Global CVStudio33</h4>
-                        <p>Conector para empresas que deseen embeber nuestra tecnología.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Bots ATS Propietarios</h4>
-                        <p>Agentes automatizados de preselección técnica y filtrado.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Herramientas a Medida</h4>
-                        <p>Modificaciones de software personalizadas según demanda B2B.</p>
+                <div class="single-module-card">
+                    <div class="single-block-list">
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>CVs y Perfiles Optimizados por IA</h4>
+                                <p>Ofrecemos desde diseños de currículums de nivel inicial hasta formatos ejecutivos profesionales. Cada documento está rigurosamente estructurado para eludir y superar los estrictos algoritmos de los sistemas de seguimiento de candidatos (Filtros ATS) utilizados por corporaciones globales.</p>
+                            </div>
+                        </div>
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>Tecnologías Propietarias NYX y AXON</h4>
+                                <p><strong>NYX:</strong> Nuestro motor semántico avanzado, diseñado exclusivamente para el análisis y estructuración de perfiles gerenciales, adaptando jergas técnicas y directivas al estándar de la industria.<br><br><strong>AXON:</strong> Una red neuronal especializada que audita perfiles hipercompetitivos, reestructurando habilidades y trayectorias para resaltar frente a la competencia de élite.</p>
+                            </div>
+                        </div>
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>Módulo de Creación Interactiva y Bolsa VIP</h4>
+                                <p>Un flujo bajo demanda que permite a los usuarios finales autogestionar su material. Se complementa con nuestra Bolsa VIP de Trabajo, un repositorio premium que utiliza algoritmos de emparejamiento (matchmaking) por IA para conectar directamente las competencias del talento con las vacantes ocultas del mercado.</p>
+                            </div>
+                        </div>
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>Infraestructura Corporativa (B2B, APIs y Bots ATS)</h4>
+                                <p>Para el sector empresarial, comercializamos planes corporativos que incluyen acceso a nuestra <strong>API Global CVStudio33</strong> (ideal para organizaciones que desean embeber nuestra tecnología en su propio software) y <strong>Bots ATS Propietarios</strong>: agentes automatizados que realizan preselección técnica en milisegundos, junto a herramientas modulares desarrolladas a medida para agencias de Recursos Humanos.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -379,151 +437,155 @@
                 </div>
             </div>
 
-            <!-- MÓDULO 3: PROYECCIONES REALES (TEXTOS EXACTOS) -->
+            <!-- MÓDULO 3: PROYECCIONES REALES -->
             <div class="section-margin" id="proyecciones">
                 <div class="section-header">
                     <img src="logo.png" alt="Proyecciones">
-                    <h2>Proyección Realista de Ingresos</h2>
-                    <p>El mercado laboral está quebrado. Hay miles enviando CVs a la basura diariamente. Si dedica 1 a 2 horas al día subiendo contenido a TikTok/Reels usando nuestro Motor IA y responde de forma profesional por WhatsApp, un flujo estándar orgánico es de 1 a 2 ventas diarias.</p>
+                    <h2>Proyección Comercial de Ingresos</h2>
+                    <p>El mercado laboral tradicional está saturado y obsoleto. Miles de candidatos pierden oportunidades por falta de adaptación algorítmica. Nuestro sistema le permite capturar esa demanda. Con una gestión táctica de contenido orgánico y respuestas protocolizadas, el cierre de 1 a 2 transacciones diarias es el estándar operativo mínimo.</p>
                 </div>
 
                 <div class="projection-stack">
                     <div class="proj-row">
                         <div class="proj-info">
-                            <span class="tag">Flujo Estándar Orgánico</span>
-                            <h3>Básico (1 - 2 horas al día)</h3>
-                            <p>10 Ventas Semanales del Paquete Corporativo ($10.500 ARS).<br>Comisión limpia en Panel (45% + Bonos del 80%): Aprox. $55.000 ARS Semanales.</p>
+                            <span class="tag">Operativa Inicial</span>
+                            <h3>Gestión Básica (1 - 2 horas/día)</h3>
+                            <p>Orientado a la generación de flujo orgánico mediante distribución de contenido en redes de ciclo corto. Ideal para concretar un volumen base de 10 ventas semanales, con una utilidad neta predecible gracias a nuestra estructura de comisiones base (45%) y multiplicadores.</p>
                         </div>
                         <div class="proj-value">
-                            <p>Proyección Mensual Conservadora</p>
-                            <h4>$220.000 a $300.000 ARS</h4>
+                            <p>Estimación Mensual Base</p>
+                            <h4>$220.000 - $300.000 ARS</h4>
+                            <span class="usd-value" id="usd-basico">Calculando USD...</span>
                         </div>
                     </div>
 
                     <div class="proj-row">
                         <div class="proj-info">
-                            <span class="tag">Crecimiento Constante</span>
-                            <h3>Escala Media (4 - 6 horas diarias)</h3>
-                            <p>Implementando contenido estructurado diario, seguimiento activo de leads y networking en grupos.</p>
+                            <span class="tag">Crecimiento Sostenido</span>
+                            <h3>Escala Intermedia (4 - 6 horas/día)</h3>
+                            <p>Fase de profesionalización. Requiere la implementación de estrategias de contenido calendarizado, seguimiento estructurado de prospectos (Lead Nurturing) y prospección activa mediante networking avanzado en ecosistemas profesionales.</p>
                         </div>
                         <div class="proj-value">
-                            <p>Proyección Mensual</p>
-                            <h4>$600.000 a $900.000 ARS reales</h4>
+                            <p>Estimación Mensual Media</p>
+                            <h4>$600.000 - $900.000 ARS</h4>
+                            <span class="usd-value" id="usd-medio">Calculando USD...</span>
                         </div>
                     </div>
 
                     <div class="proj-row">
                         <div class="proj-info">
-                            <span class="tag">Compromiso Total</span>
-                            <h3>Jornada Entera (Dedicación Exclusiva 8hs)</h3>
-                            <p>Operando automatizaciones con NYX, explotando LinkedIn Premium y aplicando pauta mínima en Meta Ads.</p>
+                            <span class="tag">Dedicación Exclusiva</span>
+                            <h3>Jornada Ejecutiva (8 horas/día)</h3>
+                            <p>Operativa de alto rendimiento. Implica la ejecución de automatizaciones avanzadas apoyadas en tecnología NYX, prospección corporativa directa a través de herramientas premium (como LinkedIn Sales Navigator) e inyección de pauta publicitaria hipersegmentada.</p>
                         </div>
                         <div class="proj-value">
-                            <p>Proyección Mensual</p>
-                            <h4>$1.500.000 a $2.500.000 ARS reales</h4>
+                            <p>Estimación Mensual Alta</p>
+                            <h4>$1.500.000 - $2.500.000 ARS</h4>
+                            <span class="usd-value" id="usd-jornada">Calculando USD...</span>
                         </div>
                     </div>
 
                     <div class="proj-row" style="background: #0f172a; color: #fff;">
                         <div class="proj-info">
-                            <span class="tag" style="color: #60a5fa;">Escala Corporativa</span>
-                            <h3 style="color: #fff;">Infraestructura de Equipo (Nivel Agencia)</h3>
-                            <p style="color: #94a3b8;">Contratando 1 o 2 setters para responder DMs básicos mientras usted se encarga de los cierres ejecutivos de alto valor (Tier 1 + NYX anual).</p>
+                            <span class="tag" style="color: #60a5fa;">Despliegue Corporativo</span>
+                            <h3 style="color: #fff;">Infraestructura Nivel Agencia</h3>
+                            <p style="color: #94a3b8;">El grado máximo de escalabilidad. Supone la delegación de la primera línea de contacto a perfiles de prospección (Setters), reservando su tiempo exclusivamente para el cierre de acuerdos ejecutivos B2B de alto margen operativo y licencias anuales masivas.</p>
                         </div>
                         <div class="proj-value" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);">
-                            <p style="color: #cbd5e1;">Proyección Mensual</p>
-                            <h4 style="color: #60a5fa;">Cifras superiores a $4.000.000 ARS reales</h4>
+                            <p style="color: #cbd5e1;">Rendimiento Proyectado</p>
+                            <h4 style="color: #fff;">+ $4.000.000 ARS</h4>
+                            <span class="usd-value" id="usd-agencia" style="color: #93c5fd;">Calculando USD...</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MÓDULO 4: BENEFICIOS TÉCNICOS (LOS 8 COMPLETOS RESTAURADOS) -->
+            <!-- MÓDULO 4: BENEFICIOS TÉCNICOS -->
             <div class="section-margin" id="beneficios">
                 <div class="section-header">
                     <img src="logo.png" alt="Herramientas">
                     <h2>Estructura Tecnológica de Respaldo</h2>
-                    <p>Proporcionamos los recursos e infraestructura de software necesarios para garantizar operaciones comerciales fluidas y escalables.</p>
+                    <p>Desplegamos todos los recursos operativos y técnicos necesarios para asegurar que su flujo de ventas sea escalable, seguro y altamente rentable.</p>
                 </div>
                 
-                <div class="bento-grid-4">
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Herramientas Especializadas</h4>
-                        <p>Si sus estrategias comerciales requieren entornos dedicados o integraciones API, nuestro equipo técnico aprovisionará las herramientas a medida sin costo operativo.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Monetización Inmediata</h4>
-                        <p>Eliminamos los periodos de retención. Sus utilidades son liquidadas con absoluta transparencia a partir de la primera transacción efectiva y verificada en el sistema.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Canal Táctico Exclusivo</h4>
-                        <p>Acceso inmediato al grupo privado de comunicación estratégica de WhatsApp para debatir tácticas, compartir scripts de alta conversión y coordinar cierres corporativos.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Contratos Flexibles</h4>
-                        <p>Fomentamos alianzas a largo plazo. Cada contrato comercial es 100% charlable con el comité directivo, adaptando las condiciones operativas según su rendimiento continuo.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Sandbox de Pruebas B2B</h4>
-                        <p>Dispondrá de entornos de demostración completamente habilitados para mostrar en tiempo real la potencia de las Tecnologías NYX y Bots ATS a prospectos de empresas.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Auditorías Mensuales</h4>
-                        <p>Sesiones analíticas individuales y privadas para evaluar sus métricas de conversión, optimizar embudos de captación y acelerar su promoción al rango Senior.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Material de Marketing</h4>
-                        <p>Acceso directo a dossiers corporativos, PDFs de presentación comercial y plantillas de correo persuasivas redactadas mediante IA listas para impactar a directivos.</p>
-                    </div>
-                    <div class="bento-card">
-                        <img src="logo.png" alt="Icono">
-                        <h4>Sistema de Referidos</h4>
-                        <p>Obtenga regalías y bonificaciones pasivas si logra introducir a otro cerrador de ventas de alto rendimiento a nuestra red operativa. Crecemos y escalamos en equipo.</p>
+                <div class="single-module-card">
+                    <div class="single-block-list">
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>Provisión de Entornos de Alta Conversión</h4>
+                                <p>Suministramos <strong>Material de Marketing Avanzado</strong>, desde dossiers corporativos hasta plantillas persuasivas generadas por IA. Adicionalmente, habilitamos un <strong>Sandbox de Pruebas B2B</strong>, un entorno de demostración en tiempo real donde podrá ejecutar auditorías con la Tecnología NYX frente a prospectos corporativos.</p>
+                            </div>
+                        </div>
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>Gestión Financiera Transparente y Rápida</h4>
+                                <p>Garantizamos <strong>Monetización Inmediata</strong>, eliminando por completo los periodos burocráticos de retención; sus utilidades se liquidan tan pronto la transacción es validada en sistema. Asimismo, ofrecemos <strong>Contratos Flexibles</strong> y un esquema agresivo de <strong>Sistema de Referidos</strong>, permitiéndole obtener regalías pasivas al incorporar a otros perfiles comerciales de alto rendimiento a nuestra red.</p>
+                            </div>
+                        </div>
+                        <div class="single-block-item">
+                            <img src="logo.png" alt="Icono">
+                            <div class="single-block-content">
+                                <h4>Acompañamiento Estratégico y Técnico</h4>
+                                <p>Ingresará a nuestro <strong>Canal Táctico Exclusivo</strong> para el intercambio de inteligencia comercial y scripts probados en combate. Cada mes, participará en <strong>Auditorías Mensuales</strong> privadas para refinar embudos y métricas de cierre. Si el volumen de sus negocios lo requiere, nuestro equipo desplegará <strong>Herramientas Especializadas</strong> e integraciones a medida para sus grandes cuentas, asumiendo nosotros el costo operativo.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MÓDULO ESTRELLA: FILANTROPÍA Y HACKEO COLECTIVO -->
+            <!-- MÓDULO ESTRELLA: ECOSISTEMA DE IMPACTO Y RESPONSABILIDAD SOCIAL -->
             <div class="section-margin" id="filantropia">
-                <div class="impact-module">
-                    <div class="impact-header">
-                        <h2>Hackeando la Mente Colectiva</h2>
-                        <p>Por cada transacción hecha en CvStudio33, el <strong>3% de ese dinero se irá a donaciones</strong> de hospitales, santuarios de animales, etc. Todo se hará públicamente a fin de mes y se mostrará el monto y a quiénes se le donaron transparentemente.</p>
+                <div class="philanthropy-section">
+                    <div class="philanthropy-header">
+                        <h2>Ecosistema de Impacto: Inversión con Propósito</h2>
+                        <p>Nuestra misión central es doble: impulsar la carrera profesional de miles de personas mediante la plataforma de empleabilidad y tecnología ATS más vanguardista del mercado, y al mismo tiempo, canalizar esa transformación en ayuda directa para la sociedad. En CVStudio33, la evolución profesional de cada usuario financia un futuro mejor para todos.</p>
                     </div>
                     
-                    <div class="impact-grid">
-                        <div class="impact-card">
-                            <h4><img src="logo.png" style="width:16px; filter:brightness(0) invert(1); margin-bottom:4px; display:block;"> Hospitales Públicos</h4>
-                            <p>Aportamos insumos médicos críticos, asegurando que la ayuda llegue donde la burocracia no alcanza.</p>
+                    <div class="philanthropy-content">
+                        <div class="philanthropy-text-block">
+                            <h3>Un Ecosistema Económico donde Todos Evolucionan</h3>
+                            <p>CVStudio33 trasciende el concepto tradicional de agencia de empleo corporativa o plataforma de currículums. Hemos desarrollado un ecosistema de crecimiento simbiótico integral. Al acceder a nuestra suite, el usuario invierte directamente en su propia evolución profesional; adquiere herramientas ATS de última generación, sistemas de inteligencia artificial para redacción y análisis, automatizaciones de envíos masivos y postulaciones preferenciales a través de nuestros convenios empresariales exclusivos. Al elevar su perfil, el talento nacional se fortalece y el mercado laboral se nutre de profesionales altamente competentes.</p>
+                            <p>Pero el ciclo no termina allí. Esta inversión en uno mismo tiene un efecto multiplicador inmediato: <strong>estás invirtiendo en tu país y en las causas que más lo necesitan</strong>. De manera rigurosa y sistemática, <strong>destinaremos un 3% base de absolutamente todas las transacciones procesadas</strong> en la plataforma a un fondo fiduciario social.</p>
+                            <p>Para maximizar este impacto, implementaremos de forma recurrente las <strong>"Semanas de Recolecta Excepcional"</strong>. Durante estos periodos promocionales estratégicos, el aporte del ecosistema <strong>se elevará drásticamente hasta un 50% de los ingresos netos</strong>, inyectando capital directo e inmediato a las fundaciones en momentos de emergencia o campañas específicas.</p>
                         </div>
-                        <div class="impact-card">
-                            <h4><img src="logo.png" style="width:16px; filter:brightness(0) invert(1); margin-bottom:4px; display:block;"> Santuarios de Animales</h4>
-                            <p>Financiamos alimento y medicina para rescates y refugios en situación de emergencia.</p>
-                        </div>
-                        <div class="impact-card">
-                            <h4><img src="logo.png" style="width:16px; filter:brightness(0) invert(1); margin-bottom:4px; display:block;"> 100% Transparente</h4>
-                            <p>A fin de mes, publicamos la auditoría completa mostrando los montos exactos y el destino de cada donación.</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="social-proof-grid">
-                    <div class="proof-card">
-                        <h3>La Comunidad Habla</h3>
-                        <p>Tiktoks de gente apoyando la causa y compartiendo mi contenido. Miles de usuarios ya están viralizando nuestro ecosistema, no solo por el software, sino porque estamos uniendo al pueblo apoyando las causas que realmente importan.</p>
-                        <p style="font-weight: 700; color: var(--text-primary);">Tú puedes ser parte de la solución.</p>
-                    </div>
-                    <div class="proof-card" id="unete">
-                        <h3>Sección de Donación</h3>
-                        <p>Si deseas potenciar el impacto sin ser Partner Comercial, o aportar a la causa para acelerar el apoyo a santuarios y hospitales, puedes realizar un aporte público directamente al fondo.</p>
-                        <a href="#" class="btn-donate">Contribuir a la Causa</a>
+                        <div class="philanthropy-text-block">
+                            <h3>Democracia Participativa y Transparencia Criptográfica</h3>
+                            <p>Creemos que el impacto debe ser medible, auditable y, sobre todo, dirigido por quienes lo hacen posible. Todo el capital del fondo será gestionado bajo un protocolo de <strong>transparencia operativa al 100%</strong>. Al finalizar cada ciclo trimestral (cada 3 meses), abriremos canales de <strong>votación pública en nuestra web y redes sociales</strong>. Nuestra comunidad de usuarios, desarrolladores y partners elegirá democráticamente hasta tres (3) organizaciones o destinos críticos como beneficiarios finales.</p>
+                            <p>Rechazamos las donaciones silenciosas que se pierden en la burocracia. Dependiendo del volumen del fondo, ejecutaremos transferencias institucionales verificables con comprobantes públicos, o movilizaremos a nuestro equipo directivo para <strong>realizar las entregas presencialmente</strong>. Todo el proceso será documentado exhaustivamente mediante material audiovisual de alta calidad y publicado sin restricciones en nuestras redes, asegurando que cada usuario sepa exactamente en qué hospital, refugio o escuela impactó su inversión.</p>
+                        </div>
+
+                        <div class="philanthropy-text-block" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+                            <h3 style="color: #fff; text-align: center; font-size: 1.4rem; margin-bottom: 24px;">Nuestros Objetivos de Impacto:</h3>
+                            <div class="donation-destinations">
+                                <div class="dest-card">
+                                    <img src="logo.png" alt="Hospitales">
+                                    <h4>Hospitales Públicos y Salud</h4>
+                                </div>
+                                <div class="dest-card">
+                                    <img src="logo.png" alt="Refugios">
+                                    <h4>Refugios y Rescate Animal</h4>
+                                </div>
+                                <div class="dest-card">
+                                    <img src="logo.png" alt="Educación">
+                                    <h4>Escuelas y Educación</h4>
+                                </div>
+                                <div class="dest-card">
+                                    <img src="logo.png" alt="Salud">
+                                    <h4>Lucha contra Enfermedades</h4>
+                                </div>
+                                <div class="dest-card">
+                                    <img src="logo.png" alt="Sociedad">
+                                    <h4>Asistencia a Población Vulnerable</h4>
+                                </div>
+                                <div class="dest-card" style="border-color: #60a5fa;">
+                                    <img src="logo.png" alt="Próximamente" style="filter: none;">
+                                    <h4 style="color: #60a5fa;">Afiliaciones Próximas</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -531,60 +593,112 @@
         </div>
     </main>
 
-    <!-- FOOTER LEGAL (RESTAURADO COMPLETO) -->
+    <!-- FOOTER LEGAL -->
     <footer>
         <div class="footer-grid">
-            
-            <div style="margin-bottom: 40px;">
+            <div class="footer-brand">
                 <img src="logo.png" alt="CVStudio33" style="height: 32px; margin-bottom: 24px;">
-                <p class="legal-text"><span style="font-weight: 800; color: var(--text-primary); text-transform: uppercase;">1. Naturaleza Jurídica de la Relación Comercial:</span> La incorporación al programa oficial de revendedores y cerradores de ventas constituye un acuerdo de distribución mercantil estrictamente independiente y autónomo. Bajo ninguna circunstancia se interpretará relación de dependencia laboral con CVStudio33.</p>
-                <p class="legal-text"><span style="font-weight: 800; color: var(--text-primary); text-transform: uppercase;">2. Esquema de Retornos y Bonos:</span> Los márgenes de comisión se devengan de forma neta únicamente sobre transacciones efectivamente cobradas, liquidadas y validadas por el sistema interno. El Partner Comercial asume la responsabilidad legal y fiscal aplicable en su jurisdicción.</p>
-                <p class="legal-text"><span style="font-weight: 800; color: var(--text-primary); text-transform: uppercase;">3. Blindaje de Propiedad Intelectual:</span> Queda estrictamente prohibido cualquier tipo de uso no autorizado, ingeniería inversa o explotación de código fuente, metodologías, o algoritmos asociados a CVStudio33 (Tecnología NYX, AXON, APIs, Bots). Cualquier transgresión facultará a iniciar acciones legales y penales inmediatas.</p>
+                <p class="legal-text" style="font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary);">
+                    <strong>Aviso Legal, Cláusula de Indemnidad y Exención Absoluta de Responsabilidad:</strong><br><br>
+                    CVStudio33 opera única y estrictamente como un motor de búsqueda tecnológico y agregador algorítmico de ofertas laborales y SaaS de creación de perfiles. Toda la información es indexada de forma automatizada mediante APIs de terceros y tecnología de rastreo corporativo. CVStudio33 y sus representantes legales declinan expresa y totalmente cualquier responsabilidad civil, penal, comercial o laboral sobre la veracidad, legitimidad o disponibilidad de las ofertas listadas. No garantizamos contrataciones ni representamos a las empresas ofertantes. Al navegar por CVStudio33, usted renuncia irrevocablemente a iniciar cualquier tipo de acción legal, litigio, reclamo de daños o demanda colectiva contra la plataforma por pérdidas financieras, disputas laborales o daños derivados del uso del sitio. Todo el código, diseño y algoritmos de IA están protegidos por estrictas leyes de Propiedad Intelectual.
+                </p>
             </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; border-top: 1px solid var(--border); padding-top: 40px;">
+            <div class="footer-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; border-top: 1px solid var(--border); padding-top: 40px;">
                 <div>
-                    <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 20px; color: var(--text-primary); text-transform: uppercase;">Corporativo</h4>
-                    <a href="Nosotros.html" style="display: block; margin-bottom: 12px; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Sobre Nosotros</a>
-                    <a href="EmpleosCvstudio33.html" style="display: block; margin-bottom: 12px; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Carreras / Empleos</a>
-                    <a href="#" style="display: block; margin-bottom: 12px; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Documentación Técnica</a>
+                    <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 20px; color: var(--text-primary); text-transform: uppercase;">Legal & Soporte</h4>
+                    <a href="terminos-y-condiciones.html" style="display: block; margin-bottom: 12px; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Términos y Condiciones</a>
+                    <a href="politica-de-privacidad.html" style="display: block; margin-bottom: 12px; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Política de Privacidad</a>
+                    <a href="politica-de-cookies.html" style="display: block; margin-bottom: 12px; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Política de Cookies</a>
                 </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 20px; color: var(--text-primary); text-transform: uppercase;">Contacto de Control</h4>
-                    <p style="margin-bottom: 12px; color: var(--text-secondary); font-weight: 600;">cvstudio33@gmail.com</p>
-                    <p style="margin-bottom: 12px; color: var(--text-secondary); font-weight: 600;">Buenos Aires, Argentina</p>
-                </div>
-                <div>
-                    <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 20px; color: var(--text-primary); text-transform: uppercase;">Políticas de Retiro</h4>
-                    <p class="legal-text" style="margin-bottom: 12px;"><strong>Retiros Mensuales Oficiales:</strong> Los retiros en CvStudio33 son 1 vez al mes el <strong>día 03 de cada mes</strong>.</p>
-                    <p class="legal-text"><strong>Fondo de Emergencia:</strong> Hasta 3 días antes de solicitud y con un tope de <strong>2 retiros por mes</strong>.</p>
+                <div style="margin-top: 0px;">
+                    <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 20px; color: var(--text-primary); text-transform: uppercase;">Soporte Corporativo 24/7</h4>
+                    <p style="color: var(--text-secondary); font-weight: 600; margin-bottom: 12px;">+1 234 567 890</p>
+                    <p style="color: var(--text-secondary); font-weight: 600;"><a href="mailto:soporte@cvstudio33.com" style="color: inherit; text-decoration: none;">soporte@cvstudio33.com</a></p>
                 </div>
             </div>
-
         </div>
-        
-        <div style="text-align: center; font-size: 0.9rem; color: var(--text-secondary); font-weight: 600; margin-top: 60px; border-top: 1px solid var(--border); padding-top: 32px;">
-            © 2026 CVStudio33. Todos los derechos reservados.
+        <div class="cookie-banner" style="margin: 40px auto; max-width: 1100px; padding: 24px; background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; display: flex; gap: 16px; align-items: flex-start;">
+            <img src="logo.png" alt="Cookies" style="width: 24px; height: 24px; flex-shrink: 0; filter: grayscale(100%);">
+            <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin: 0;">
+                <strong style="color: var(--text-primary);">Consentimiento Legal, Privacidad y Cookies:</strong><br>
+                Para garantizar la operatividad de nuestra infraestructura SaaS, el blindaje de sus datos bajo estándares internacionales de ciberseguridad y evitar responsabilidades legales, CVStudio33 utiliza cookies. Al utilizar la plataforma, usted emite un consentimiento legalmente vinculante aceptando nuestros Términos de Servicio y nuestra exención de responsabilidad absoluta. <a href="politica-de-cookies.html" style="color: var(--accent); text-decoration: underline; font-weight: 600;">Saber más</a>.
+            </p>
+        </div>
+        <div class="copyright" style="text-align: center; font-size: 0.9rem; color: var(--text-secondary); font-weight: 600; border-top: 1px solid var(--border); padding-top: 32px;">
+            © 2026 CVStudio33 Agencia Laboral SaaS. Todos los derechos reservados.
         </div>
     </footer>
 
-    <!-- LÓGICA DEL POPOVER MODAL -->
+    <!-- LÓGICA DEL POPOVER MODAL Y API DÓLAR -->
     <script>
-        function togglePopover(event) {
-            event.stopPropagation();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica robusta para el Nav
+            const btnNav = document.querySelector('.btn-nav');
             const popover = document.getElementById('navPopover');
-            popover.classList.toggle('active');
-        }
-        function closePopover() {
-            document.getElementById('navPopover').classList.remove('active');
-        }
-        document.addEventListener('click', function(event) {
-            const popover = document.getElementById('navPopover');
-            const btn = document.querySelector('.btn-nav');
-            if (popover && popover.classList.contains('active') && !popover.contains(event.target) && !btn.contains(event.target)) {
-                closePopover();
+            
+            btnNav.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                popover.classList.toggle('active');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (popover && popover.classList.contains('active') && !popover.contains(e.target) && !btnNav.contains(e.target)) {
+                    popover.classList.remove('active');
+                }
+            });
+
+            const navLinks = popover.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    popover.classList.remove('active');
+                });
+            });
+
+            // API Dólar
+            async function fetchDolar() {
+                try {
+                    const response = await fetch('https://dolarapi.com/v1/dolares/blue');
+                    const data = await response.json();
+                    const valorDolar = data.venta; // Precio de venta del dólar blue
+
+                    // Proyecciones (valores base en ARS)
+                    const valoresARS = {
+                        'basico': [220000, 300000],
+                        'medio': [600000, 900000],
+                        'jornada': [1500000, 2500000],
+                        'agencia': [4000000]
+                    };
+
+                    function formatUSD(ars) {
+                        return (ars / valorDolar).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+                    }
+
+                    const elBasico = document.getElementById('usd-basico');
+                    if (elBasico) elBasico.textContent = `~ ${formatUSD(valoresARS.basico[0])} a ${formatUSD(valoresARS.basico[1])}`;
+                    
+                    const elMedio = document.getElementById('usd-medio');
+                    if (elMedio) elMedio.textContent = `~ ${formatUSD(valoresARS.medio[0])} a ${formatUSD(valoresARS.medio[1])}`;
+                    
+                    const elJornada = document.getElementById('usd-jornada');
+                    if (elJornada) elJornada.textContent = `~ ${formatUSD(valoresARS.jornada[0])} a ${formatUSD(valoresARS.jornada[1])}`;
+                    
+                    const elAgencia = document.getElementById('usd-agencia');
+                    if (elAgencia) elAgencia.textContent = `+ ${formatUSD(valoresARS.agencia[0])}`;
+
+                } catch (error) {
+                    console.error('Error fetching dolar API:', error);
+                    const usdElements = document.querySelectorAll('.usd-value');
+                    usdElements.forEach(el => el.textContent = 'USD no disponible');
+                }
             }
+
+            fetchDolar();
         });
     </script>
 </body>
 </html>
+
+
+
+

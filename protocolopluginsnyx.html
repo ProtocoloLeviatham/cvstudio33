@@ -41,10 +41,6 @@
         .premium-border {
             border: 1px solid #1F1F1F;
         }
-        .card-hover:hover {
-            border-color: #333333;
-            background-color: #0A0A0A;
-        }
         .glass-nav {
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(16px);
@@ -60,32 +56,49 @@
             background: #333;
             border-radius: 4px;
         }
+        
+        /* Animación Fade Out del Loader */
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-out;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col relative">
 
-    <!-- Navegación -->
-    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 flex justify-between items-center transition-all duration-300">
-        <div class="flex items-center space-x-4">
+    <!-- Carga Inicial (Previene fallas visuales) -->
+    <div id="auth-loading" class="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center">
+        <div class="w-8 h-8 border-t-2 border-white border-r-2 border-transparent rounded-full animate-spin mb-6"></div>
+        <div class="flex items-center space-x-2 text-xs tracking-widest text-nyx-textMuted uppercase font-semibold">
+            <i class="fas fa-shield-alt"></i>
+            <span>Verificando Integridad de Sesión</span>
+        </div>
+    </div>
+
+    <!-- Navegación Refinada -->
+    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-5">
             <img src="logo.png" alt="CvStudio33" class="h-6 object-contain" onerror="this.style.display='none';">
-            <div class="h-5 w-px bg-nyx-border"></div>
+            <div class="h-4 w-px bg-nyx-border"></div>
             <img src="logonyx.png" alt="NYX" class="h-6 object-contain" onerror="this.style.display='none';">
-            <span class="text-lg font-bold tracking-tight text-white ml-2">CHRONO HUB</span>
+            <span class="text-xl font-bold tracking-tight text-white ml-2 hidden sm:block">CHRONO HUB</span>
         </div>
         
-        <div class="flex items-center space-x-6">
-            <div class="flex flex-col items-end">
-                <span class="text-[10px] text-nyx-textMuted uppercase tracking-widest font-semibold mb-0.5">Identificador</span>
-                <span id="user-id-display" class="font-mono text-sm text-gray-200 bg-nyx-surface px-2 py-0.5 rounded border border-nyx-border">Cargando...</span>
+        <!-- Dashboard Minimalista -->
+        <div class="flex items-center bg-[#080808] border border-nyx-border rounded-full py-1.5 px-2 shadow-inner">
+            <div class="flex items-center space-x-2 px-3 border-r border-nyx-border">
+                <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                <span id="user-id-display" class="font-mono text-[13px] text-gray-300">--</span>
             </div>
-            <div class="flex flex-col items-end">
-                <span class="text-[10px] text-nyx-textMuted uppercase tracking-widest font-semibold mb-0.5">Balance</span>
-                <span class="font-bold text-nyx-gold flex items-center text-sm">
-                    <i class="fas fa-coins text-[10px] mr-1.5"></i> 
-                    <span id="token-display">--</span>
-                </span>
+            
+            <div class="flex items-center px-4 space-x-2" title="Tus Tokens Nyx">
+                <img src="coinnyx.png" alt="Tokens" class="h-4 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                <i class="fas fa-coins text-nyx-gold text-sm hidden"></i>
+                <span id="token-display" class="font-bold text-white text-[15px]">--</span>
             </div>
-            <button id="logout-btn" class="text-nyx-textMuted hover:text-white transition-colors">
+            
+            <button id="logout-btn" class="pr-3 pl-2 py-1 text-nyx-textMuted hover:text-white transition-colors" title="Cerrar sesión">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
@@ -94,14 +107,14 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-4xl mx-auto w-full px-4 py-16">
         
-        <!-- Hero Minimalista -->
-        <header class="mb-16">
+        <!-- Hero -->
+        <header class="mb-14">
             <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
                 Chrono Hub. <span class="text-nyx-textMuted">Persistencia Programada.</span>
             </h1>
             <div class="max-w-3xl">
-                <p class="text-base text-gray-400 leading-relaxed font-light">
-                    A diferencia de los envíos masivos únicos, NYX ejecuta tu solicitud diariamente hacia las empresas seleccionadas, garantizando puntualidad matemática para liderar la bandeja de entrada. Soporte Multi-MIME nativo (PDF/Docx), análisis de rebote y priorización de la <em>Hora Dorada</em> (9:00 AM) para maximizar drásticamente la tasa de entrevistas.
+                <p class="text-[15px] text-gray-400 leading-relaxed font-light">
+                    A diferencia de los envíos masivos únicos, NYX ejecuta tu solicitud diariamente hacia las empresas seleccionadas, garantizando puntualidad matemática para liderar la bandeja de entrada. Soporte nativo para PDFs, análisis inteligente y priorización de la <em>Hora Dorada</em> (9:00 AM) para maximizar tus entrevistas.
                 </p>
             </div>
         </header>
@@ -115,44 +128,40 @@
                     <h2 class="text-xl font-semibold text-white tracking-tight">Estructura del Paquete</h2>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <!-- CV -->
-                    <div class="premium-border bg-nyx-surface rounded-xl p-6 hover:border-gray-600 transition-colors cursor-pointer group relative" id="cv-container">
+                    <div class="premium-border bg-[#0A0A0A] rounded-xl p-8 hover:bg-[#111] transition-all cursor-pointer group relative text-center flex flex-col items-center justify-center h-full" id="cv-container">
                         <label class="absolute inset-0 w-full h-full cursor-pointer z-10">
+                            <!-- El CV es obligatorio -->
                             <input type="file" id="cv-upload" accept=".pdf,.doc,.docx" class="hidden" required>
                         </label>
-                        <div class="flex flex-col items-start pointer-events-none relative z-0">
-                            <i class="fas fa-file-pdf text-2xl text-nyx-textMuted mb-4 group-hover:text-white transition-colors"></i>
-                            <h3 class="text-sm font-medium text-white mb-1">Currículum Vitae *</h3>
-                            <p class="text-xs text-nyx-textMuted">Soporta PDF, DOCX</p>
-                            <p id="cv-filename" class="mt-4 text-sm text-nyx-blue font-medium hidden truncate w-full"></p>
+                        <div class="pointer-events-none relative z-0 flex flex-col items-center w-full">
+                            <div class="w-14 h-14 rounded-full bg-gray-900 border border-nyx-border flex items-center justify-center mb-4 group-hover:border-nyx-blue transition-colors">
+                                <i class="fas fa-file-pdf text-2xl text-gray-500 group-hover:text-nyx-blue transition-colors"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-white mb-2">Subir Currículum Vitae <span class="text-nyx-blue">*</span></h3>
+                            <p class="text-sm text-gray-400 mb-4 px-4 leading-snug">Haz clic aquí para buscar el archivo en tu dispositivo.</p>
+                            <span class="text-[9px] uppercase tracking-widest font-bold text-white bg-nyx-blue/20 border border-nyx-blue/50 px-3 py-1 rounded">Obligatorio</span>
+                            <p id="cv-filename" class="mt-4 text-sm text-nyx-blue font-medium hidden truncate w-full px-4"></p>
                         </div>
                     </div>
                     
                     <!-- Cover Letter -->
-                    <div class="premium-border bg-nyx-surface rounded-xl p-6 hover:border-gray-600 transition-colors cursor-pointer group relative" id="cover-container">
+                    <div class="premium-border bg-[#0A0A0A] rounded-xl p-8 hover:bg-[#111] transition-all cursor-pointer group relative text-center flex flex-col items-center justify-center h-full" id="cover-container">
                         <label class="absolute inset-0 w-full h-full cursor-pointer z-10">
-                            <input type="file" id="cover-upload" accept=".pdf,.doc,.docx" class="hidden" required>
+                            <!-- La carta de presentación NO es obligatoria -->
+                            <input type="file" id="cover-upload" accept=".pdf,.doc,.docx" class="hidden">
                         </label>
-                        <div class="flex flex-col items-start pointer-events-none relative z-0">
-                            <i class="fas fa-envelope-open-text text-2xl text-nyx-textMuted mb-4 group-hover:text-white transition-colors"></i>
-                            <h3 class="text-sm font-medium text-white mb-1">Carta de Presentación *</h3>
-                            <p class="text-xs text-nyx-textMuted">Soporta PDF, DOCX</p>
-                            <p id="cover-filename" class="mt-4 text-sm text-nyx-purple font-medium hidden truncate w-full"></p>
+                        <div class="pointer-events-none relative z-0 flex flex-col items-center w-full">
+                            <div class="w-14 h-14 rounded-full bg-gray-900 border border-nyx-border flex items-center justify-center mb-4 group-hover:border-nyx-purple transition-colors">
+                                <i class="fas fa-envelope-open-text text-2xl text-gray-500 group-hover:text-nyx-purple transition-colors"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-white mb-2">Carta de Presentación</h3>
+                            <p class="text-sm text-gray-400 mb-4 px-4 leading-snug">Opcional. Haz clic si deseas adjuntar un documento extra.</p>
+                            <span class="text-[9px] uppercase tracking-widest font-bold text-gray-400 bg-gray-900 border border-nyx-border px-3 py-1 rounded">Opcional</span>
+                            <p id="cover-filename" class="mt-4 text-sm text-nyx-purple font-medium hidden truncate w-full px-4"></p>
                         </div>
                     </div>
-                </div>
-
-                <!-- Beta Notice -->
-                <div class="bg-nyx-surface premium-border rounded-lg p-4 flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <i class="fas fa-video text-nyx-textMuted"></i>
-                        <div>
-                            <p class="text-sm text-white font-medium">Video Presentación</p>
-                            <p class="text-xs text-nyx-textMuted">Soporte nativo encriptado próximamente.</p>
-                        </div>
-                    </div>
-                    <span class="px-2.5 py-1 text-[10px] font-bold tracking-wider text-nyx-textMuted bg-nyx-border rounded uppercase">Beta</span>
                 </div>
             </section>
 
@@ -163,14 +172,14 @@
                     <h2 class="text-xl font-semibold text-white tracking-tight">Ciclo de Persistencia</h2>
                 </div>
                 
-                <p class="text-sm text-nyx-textMuted font-light">Selecciona la duración de la automatización. El algoritmo de NYX mantendrá tu candidatura en lo más alto de las bandejas de entrada, rotando asuntos de forma inteligente para evitar la fatiga y optimizar aperturas.</p>
+                <p class="text-[14px] text-nyx-textMuted font-light">Selecciona la duración de la automatización. El algoritmo de NYX mantendrá tu candidatura en lo más alto de las bandejas de entrada, rotando asuntos de forma inteligente para evitar la fatiga y optimizar aperturas.</p>
                 
                 <div class="grid grid-cols-1 gap-4 mt-6">
                     
                     <!-- 7 Días -->
                     <label class="relative cursor-pointer group">
                         <input type="radio" name="plan" value="7" class="peer sr-only" required>
-                        <div class="premium-border bg-nyx-surface rounded-xl p-6 transition-all duration-200 hover:border-gray-600 peer-checked:border-white peer-checked:bg-[#050505]">
+                        <div class="premium-border bg-[#050505] rounded-xl p-6 transition-all duration-200 hover:border-gray-600 peer-checked:border-white peer-checked:bg-[#0A0A0A]">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="flex items-center space-x-4">
                                     <div class="w-4 h-4 rounded-full border border-nyx-textMuted peer-checked:border-[5px] peer-checked:border-white transition-all flex-shrink-0"></div>
@@ -195,7 +204,7 @@
                     <!-- 14 Días -->
                     <label class="relative cursor-pointer group">
                         <input type="radio" name="plan" value="14" class="peer sr-only">
-                        <div class="border border-nyx-border bg-nyx-surface rounded-xl p-6 transition-all duration-200 hover:border-gray-500 peer-checked:border-nyx-blue peer-checked:bg-[#00102A]/30 relative overflow-hidden">
+                        <div class="border border-nyx-border bg-[#050505] rounded-xl p-6 transition-all duration-200 hover:border-gray-500 peer-checked:border-nyx-blue peer-checked:bg-[#00102A]/30 relative overflow-hidden">
                             <div class="absolute top-0 right-0 bg-nyx-blue text-white text-[9px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
                                 Recomendado
                             </div>
@@ -223,7 +232,7 @@
                     <!-- 33 Días -->
                     <label class="relative cursor-pointer group">
                         <input type="radio" name="plan" value="33" class="peer sr-only">
-                        <div class="premium-border bg-nyx-surface rounded-xl p-6 transition-all duration-200 hover:border-gray-600 peer-checked:border-white peer-checked:bg-[#050505]">
+                        <div class="premium-border bg-[#050505] rounded-xl p-6 transition-all duration-200 hover:border-gray-600 peer-checked:border-white peer-checked:bg-[#0A0A0A]">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="flex items-center space-x-4">
                                     <div class="w-4 h-4 rounded-full border border-nyx-textMuted peer-checked:border-[5px] peer-checked:border-white transition-all flex-shrink-0"></div>
@@ -251,13 +260,13 @@
             <!-- Submit -->
             <div class="pt-8">
                 <button type="submit" id="submit-btn" class="w-full bg-white text-black hover:bg-gray-200 font-semibold py-4 px-8 rounded-lg transition-colors flex justify-center items-center group">
-                    <span>Iniciar Secuencia Automatizada</span>
+                    <span>Transmisión Zero Trust</span>
                     <i class="fas fa-arrow-right ml-2 text-sm group-hover:translate-x-1 transition-transform"></i>
                 </button>
                 <div class="mt-4 text-center">
                     <p class="text-[11px] text-nyx-textMuted flex items-center justify-center">
                         <i class="fas fa-lock mr-1.5 opacity-50"></i>
-                        Procesamiento seguro. Los tokens se descuentan automáticamente de Firestore.
+                        Conexión segura hacia Infraestructura Cloudflare. Autenticación delegada en Firebase.
                     </p>
                 </div>
             </div>
@@ -271,7 +280,7 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut, getIdToken } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -291,17 +300,16 @@
         let userTokens = 0;
         const uidDisplay = document.getElementById('user-id-display');
         const tokenDisplay = document.getElementById('token-display');
+        const loadingScreen = document.getElementById('auth-loading');
         
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 
-                // Formato exigido: cliente-xxxx (xxxx son los últimos 4 dígitos del uid/auth_signature)
                 const signatureLast4 = user.uid.slice(-4);
                 const customerId = `cliente-${signatureLast4}`;
                 uidDisplay.textContent = customerId;
                 
-                // Leer datos desde Firestore (Cloud Documentos): users/cliente-xxxx
                 const userDocRef = doc(db, "users", customerId);
                 
                 onSnapshot(userDocRef, (docSnap) => {
@@ -313,9 +321,14 @@
                     }
                     
                     tokenDisplay.textContent = userTokens;
+                    
+                    // Remover pantalla de carga al tener todos los datos
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(() => { loadingScreen.style.display = 'none'; }, 600);
                 }, (error) => {
                     console.error("Error leyendo Firestore:", error);
                     tokenDisplay.textContent = "??"; 
+                    loadingScreen.classList.add('fade-out');
                 });
                 
             } else {
@@ -339,11 +352,18 @@
                     display.textContent = input.files[0].name;
                     display.classList.remove('hidden');
                     
-                    // Modificar iconos para mostrar éxito
-                    const icon = display.parentElement.parentElement.querySelector('i');
-                    icon.classList.remove('text-nyx-textMuted');
-                    if(inputId === 'cv-upload') icon.classList.add('text-nyx-blue');
-                    if(inputId === 'cover-upload') icon.classList.add('text-nyx-purple');
+                    const iconContainer = display.parentElement.querySelector('.rounded-full');
+                    const icon = iconContainer.querySelector('i');
+                    
+                    icon.classList.remove('text-gray-500');
+                    if(inputId === 'cv-upload') {
+                        iconContainer.classList.replace('border-nyx-border', 'border-nyx-blue');
+                        icon.classList.add('text-nyx-blue');
+                    }
+                    if(inputId === 'cover-upload') {
+                        iconContainer.classList.replace('border-nyx-border', 'border-nyx-purple');
+                        icon.classList.add('text-nyx-purple');
+                    }
                 }
             });
         };
@@ -351,13 +371,13 @@
         setupFileUpload('cv-upload', 'cv-filename');
         setupFileUpload('cover-upload', 'cover-filename');
 
-        // Form Submit
-        document.getElementById('chrono-form').addEventListener('submit', (e) => {
+        // Envío hacia Cloudflare Worker
+        document.getElementById('chrono-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const selectedPlan = document.querySelector('input[name="plan"]:checked');
             if(!selectedPlan) {
-                alert("Por favor selecciona un plan.");
+                alert("Por favor selecciona un plan de persistencia.");
                 return;
             }
 
@@ -385,16 +405,65 @@
                 return;
             }
 
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
+            // Validar archivos
+            const cvFile = document.getElementById('cv-upload').files[0];
+            const coverFile = document.getElementById('cover-upload').files[0];
+
+            if(!cvFile) {
+                alert("El Currículum Vitae es obligatorio.");
+                return;
+            }
+
+            // UX: Botón cargando
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando Zero Trust...';
             submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
             
-            setTimeout(() => {
-                alert(`Validación de plan completa.\nPlan seleccionado: ${planValue} Días\nTokens requeridos: ${requiredTokens}\nTokens disponibles: ${userTokens}`);
-                submitBtn.innerHTML = 'Secuencia Iniciada';
-                submitBtn.classList.replace('bg-white', 'bg-green-600');
-                submitBtn.classList.replace('text-black', 'text-white');
-            }, 1000);
+            try {
+                // Preparar payload Multipart (Archivos + Datos)
+                const formData = new FormData();
+                formData.append('plan', planValue);
+                formData.append('userId', document.getElementById('user-id-display').textContent);
+                formData.append('cv', cvFile);
+                if (coverFile) {
+                    formData.append('cover', coverFile);
+                }
+
+                // Generar token JWT de Firebase para validación segura en el Backend
+                if (currentUser) {
+                    const idToken = await getIdToken(currentUser, true);
+                    formData.append('authorization', idToken);
+                }
+
+                // POST a Cloudflare Worker
+                const response = await fetch('https://pluginsnyx.lautybg22.workers.dev/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Éxito
+                    alert('✅ Secuencia Iniciada con éxito. El Cerebro NYX ha recibido tu paquete y encriptado los datos.');
+                    submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Secuencia Activa';
+                    submitBtn.classList.replace('bg-white', 'bg-green-600');
+                    submitBtn.classList.replace('text-black', 'text-white');
+                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Error de conexión con la infraestructura.');
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('Fallo en la red Nyx: ' + error.message);
+                
+                // Reset UX si falla
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
         });
     </script>
 </body>
 </html>
+
+

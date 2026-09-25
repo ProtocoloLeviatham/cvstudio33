@@ -127,6 +127,11 @@
                     <div class="bg-white text-black w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</div>
                     <h2 class="text-xl font-semibold text-white tracking-tight">Estructura del Paquete</h2>
                 </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Nombre Completo del Profesional <span class="text-nyx-blue">*</span></label>
+                    <input type="text" id="candidate-name" required placeholder="Ej. Juan Pérez" class="w-full bg-[#0A0A0A] border border-nyx-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-nyx-blue transition-colors shadow-inner">
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <!-- CV -->
@@ -405,9 +410,16 @@
                 return;
             }
 
-            // Validar archivos
+            // Validar archivos y datos
+            const candidateNameInput = document.getElementById('candidate-name');
+            const candidateName = candidateNameInput ? candidateNameInput.value.trim() : "";
             const cvFile = document.getElementById('cv-upload').files[0];
             const coverFile = document.getElementById('cover-upload').files[0];
+
+            if(!candidateName) {
+                alert("El nombre completo del profesional es obligatorio.");
+                return;
+            }
 
             if(!cvFile) {
                 alert("El Currículum Vitae es obligatorio.");
@@ -423,6 +435,7 @@
                 // Preparar payload Multipart (Archivos + Datos)
                 const formData = new FormData();
                 formData.append('plan', planValue);
+                formData.append('candidateName', candidateName);
                 formData.append('userId', document.getElementById('user-id-display').textContent);
                 formData.append('cv', cvFile);
                 if (coverFile) {
@@ -465,5 +478,3 @@
     </script>
 </body>
 </html>
-
-

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYX Chrono Hub - CvStudio33</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        nyx: {
+                            900: '#0a0a0a',
+                            800: '#151515',
+                            700: '#232323',
+                            blue: '#3b82f6',
+                            purple: '#8b5cf6',
+                            gold: '#fbbf24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .glass-panel {
+            background: rgba(21, 21, 21, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Efecto de fondo sutil -->
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900 rounded-full blur-[150px] opacity-20 pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-900 rounded-full blur-[150px] opacity-20 pointer-events-none"></div>
+
+    <!-- Barra de Navegación -->
+    <nav class="glass-panel sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-lg border-b border-gray-800">
+        <div class="flex items-center space-x-5">
+            <img src="logo.png" alt="CvStudio33" class="h-8 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="font-bold text-white hidden">CvStudio33</span>
+            
+            <div class="h-6 w-px bg-gray-700"></div>
+            
+            <img src="logonyx.png" alt="NYX" class="h-8 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="font-bold text-white hidden">NYX</span>
+            
+            <span class="text-xl font-black tracking-widest text-white ml-2">CHRONO<span class="text-nyx-blue">HUB</span></span>
+        </div>
+        
+        <div class="flex items-center space-x-8">
+            <div class="text-sm flex flex-col items-end">
+                <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Cliente</p>
+                <p id="user-id-display" class="font-mono text-gray-300">Autenticando...</p>
+            </div>
+            <div class="text-sm flex flex-col items-end">
+                <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Tokens</p>
+                <p class="font-bold text-nyx-gold text-lg flex items-center">
+                    <i class="fas fa-coins mr-2 text-sm"></i> 
+                    <span id="token-display">--</span>
+                </p>
+            </div>
+            <button id="logout-btn" class="text-gray-400 hover:text-white transition-colors bg-nyx-800 hover:bg-gray-800 p-2 rounded-lg border border-gray-700">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow container mx-auto px-4 py-10 max-w-6xl relative z-10">
+        
+        <!-- Sección Hero -->
+        <section class="mb-14 text-center space-y-6">
+            <div class="inline-flex items-center space-x-2 bg-nyx-800 border border-gray-700 rounded-full px-4 py-1 mb-4">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-xs text-gray-300 font-medium tracking-wide">SISTEMA NYX ACTIVO</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight">
+                Envío Diario <span class="gradient-text">Automatizado</span>
+            </h1>
+            <p class="text-lg text-gray-400 max-w-4xl mx-auto leading-relaxed">
+                A diferencia de los envíos masivos únicos, <strong class="text-white">Chrono Hub</strong> es un sistema de 
+                <span class="text-nyx-blue">persistencia programada</span>. NYX envía tu solicitud diariamente a las empresas seleccionadas, manteniendo puntualidad exacta para dominar la bandeja de entrada.
+            </p>
+        </section>
+
+        <!-- Grid de Características -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+            <div class="glass-panel p-6 rounded-2xl border-t-2 border-t-blue-500 hover:-translate-y-1 transition-transform">
+                <div class="bg-blue-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-clock text-blue-400 text-xl"></i>
+                </div>
+                <h3 class="text-md font-bold text-white mb-2">Persistencia Diaria</h3>
+                <p class="text-xs text-gray-400">Automatización con priorización de "Hora Dorada" (9:00 AM) para asegurar visibilidad.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border-t-2 border-t-purple-500 hover:-translate-y-1 transition-transform">
+                <div class="bg-purple-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-file-archive text-purple-400 text-xl"></i>
+                </div>
+                <h3 class="text-md font-bold text-white mb-2">Soporte Multi-MIME</h3>
+                <p class="text-xs text-gray-400">Envío conjunto de CV, Carta y Video (BETA) en un mismo paquete encriptado.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border-t-2 border-t-green-500 hover:-translate-y-1 transition-transform">
+                <div class="bg-green-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-chart-pie text-green-400 text-xl"></i>
+                </div>
+                <h3 class="text-md font-bold text-white mb-2">Análisis de Rebote</h3>
+                <p class="text-xs text-gray-400">Monitoreo de tasa de rebote en tiempo real para mantener la salud del envío.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border-t-2 border-t-yellow-500 hover:-translate-y-1 transition-transform">
+                <div class="bg-yellow-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-sync-alt text-yellow-400 text-xl"></i>
+                </div>
+                <h3 class="text-md font-bold text-white mb-2">Rotación Inteligente</h3>
+                <p class="text-xs text-gray-400">Rotación de asuntos para evitar fatiga y reporte semanal de impacto acumulado.</p>
+            </div>
+        </section>
+
+        <!-- Formulario de Configuración Principal -->
+        <section class="glass-panel p-8 md:p-10 rounded-3xl mb-12 shadow-2xl relative overflow-hidden">
+            <!-- Decorative blur -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex items-center mb-8 border-b border-gray-800 pb-6">
+                <div class="bg-gray-800 p-3 rounded-lg mr-4">
+                    <i class="fas fa-sliders-h text-white text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Configurar Módulo de Envío</h2>
+                    <p class="text-sm text-gray-400 mt-1">Prepara tus documentos y define el ciclo de ataque</p>
+                </div>
+            </div>
+            
+            <form id="chrono-form" class="space-y-10">
+                
+                <!-- Subida de Archivos -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4 flex items-center"><span class="bg-gray-800 text-gray-400 w-6 h-6 rounded-full flex items-center justify-center text-xs mr-3">1</span> Carga de Documentos</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- CV -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300">Currículum Vitae (PDF/Docx) *</label>
+                            <div class="border-2 border-dashed border-gray-700 rounded-xl p-8 text-center hover:border-nyx-blue hover:bg-gray-800/50 transition-all cursor-pointer bg-nyx-800 group relative">
+                                <div class="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none"></div>
+                                <i class="fas fa-file-pdf text-3xl text-gray-500 mb-3 group-hover:text-nyx-blue transition-colors"></i>
+                                <p class="text-sm text-gray-400">Clic para subir CV</p>
+                                <input type="file" id="cv-upload" accept=".pdf,.doc,.docx" class="hidden" required>
+                                <p id="cv-filename" class="mt-3 text-sm text-nyx-blue font-semibold hidden bg-blue-900/30 py-1 px-3 rounded-md inline-block truncate max-w-full"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Carta -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300">Carta de Presentación (PDF/Docx) *</label>
+                            <div class="border-2 border-dashed border-gray-700 rounded-xl p-8 text-center hover:border-nyx-purple hover:bg-gray-800/50 transition-all cursor-pointer bg-nyx-800 group relative">
+                                <div class="absolute inset-0 bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none"></div>
+                                <i class="fas fa-envelope-open-text text-3xl text-gray-500 mb-3 group-hover:text-nyx-purple transition-colors"></i>
+                                <p class="text-sm text-gray-400">Clic para subir Carta</p>
+                                <input type="file" id="cover-upload" accept=".pdf,.doc,.docx" class="hidden" required>
+                                <p id="cover-filename" class="mt-3 text-sm text-nyx-purple font-semibold hidden bg-purple-900/30 py-1 px-3 rounded-md inline-block truncate max-w-full"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Beta Banner -->
+                    <div class="mt-6 bg-gradient-to-r from-gray-900 to-nyx-800 border border-gray-700 p-4 rounded-xl flex items-start space-x-4">
+                        <div class="bg-gray-800 p-2 rounded-lg">
+                            <i class="fas fa-video text-gray-400"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center">
+                                <p class="text-sm text-white font-semibold">Video Presentación</p>
+                                <span class="bg-blue-600/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold px-2 py-0.5 rounded ml-3 tracking-wider">BETA</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Soporte para incluir video presentaciones en el paquete encriptado estará disponible próximamente en la v2.0.</p>
+                        </div>
+                        <button type="button" class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded transition" disabled>Próximamente</button>
+                    </div>
+                </div>
+
+                <!-- Selección de Plan -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4 flex items-center"><span class="bg-gray-800 text-gray-400 w-6 h-6 rounded-full flex items-center justify-center text-xs mr-3">2</span> Ciclo de Persistencia</h3>
+                    <p class="text-sm text-gray-400 mb-4">Selecciona cuántos días consecutivos se ejecutará el algoritmo de envío.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        
+                        <!-- Plan 7 -->
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="plan" value="7" class="peer sr-only" required>
+                            <div class="rounded-2xl border border-gray-700 bg-nyx-900 p-6 hover:border-gray-500 peer-checked:border-nyx-blue peer-checked:bg-blue-900/10 transition-all h-full flex flex-col relative">
+                                <div class="absolute top-4 right-4 text-gray-600 peer-checked:text-nyx-blue">
+                                    <i class="far fa-circle text-xl peer-checked:hidden"></i>
+                                    <i class="fas fa-check-circle text-xl hidden peer-checked:block"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white mb-1">7 Días</h4>
+                                <p class="text-xs text-blue-400 font-medium mb-3">Impacto Corto</p>
+                                <p class="text-sm text-gray-400 flex-grow">Ideal para pruebas de respuesta rápida en sectores dinámicos.</p>
+                                <div class="mt-5 pt-4 border-t border-gray-800 flex items-end justify-between">
+                                    <div>
+                                        <span class="text-2xl font-black text-white">15</span>
+                                        <span class="text-gray-500 text-xs font-semibold ml-1">TOKENS</span>
+                                    </div>
+                                    <i class="fas fa-bolt text-gray-600 peer-checked:text-nyx-gold"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Plan 14 -->
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="plan" value="14" class="peer sr-only">
+                            <div class="rounded-2xl border-2 border-gray-700 bg-nyx-900 p-6 hover:border-gray-500 peer-checked:border-nyx-purple peer-checked:bg-purple-900/10 transition-all h-full flex flex-col relative transform peer-checked:scale-[1.02] shadow-lg">
+                                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-nyx-blue to-nyx-purple text-white text-[10px] font-black px-3 py-1 rounded-full tracking-widest shadow-md">
+                                    RECOMENDADO
+                                </div>
+                                <div class="absolute top-4 right-4 text-gray-600 peer-checked:text-nyx-purple">
+                                    <i class="far fa-circle text-xl peer-checked:hidden"></i>
+                                    <i class="fas fa-check-circle text-xl hidden peer-checked:block"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white mb-1 mt-1">14 Días</h4>
+                                <p class="text-xs text-purple-400 font-medium mb-3">Penetración Óptima</p>
+                                <p class="text-sm text-gray-400 flex-grow">Equilibrio perfecto. Aumenta drásticamente el % de entrevista.</p>
+                                <div class="mt-5 pt-4 border-t border-gray-800 flex items-end justify-between">
+                                    <div>
+                                        <span class="text-2xl font-black text-white">25</span>
+                                        <span class="text-gray-500 text-xs font-semibold ml-1">TOKENS</span>
+                                    </div>
+                                    <i class="fas fa-fire text-gray-600 peer-checked:text-nyx-gold"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Plan 33 -->
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="plan" value="33" class="peer sr-only">
+                            <div class="rounded-2xl border border-gray-700 bg-nyx-900 p-6 hover:border-gray-500 peer-checked:border-nyx-gold peer-checked:bg-yellow-900/10 transition-all h-full flex flex-col relative">
+                                <div class="absolute top-4 right-4 text-gray-600 peer-checked:text-nyx-gold">
+                                    <i class="far fa-circle text-xl peer-checked:hidden"></i>
+                                    <i class="fas fa-check-circle text-xl hidden peer-checked:block"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white mb-1">33 Días</h4>
+                                <p class="text-xs text-yellow-500 font-medium mb-3">Máxima Autoridad</p>
+                                <p class="text-sm text-gray-400 flex-grow">El Método Nyx Completo. Visibilidad garantizada en base de datos RRHH.</p>
+                                <div class="mt-5 pt-4 border-t border-gray-800 flex items-end justify-between">
+                                    <div>
+                                        <span class="text-2xl font-black text-white">50</span>
+                                        <span class="text-gray-500 text-xs font-semibold ml-1">TOKENS</span>
+                                    </div>
+                                    <i class="fas fa-crown text-gray-600 peer-checked:text-nyx-gold"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="pt-8 border-t border-gray-800">
+                    <button type="submit" id="submit-btn" class="w-full bg-white text-black hover:bg-gray-200 font-bold py-4 px-8 rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transform transition-all hover:scale-[1.01] flex justify-center items-center group">
+                        <span class="tracking-wide">INICIAR CRONJOB CLOUDFLARE</span>
+                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    
+                    <div class="flex items-center justify-center space-x-2 mt-4 text-xs text-gray-500">
+                        <i class="fas fa-shield-alt text-gray-400"></i>
+                        <span>Los tokens serán deducidos directamente de Firestore / Realtime DB. Backend 100% Serverless.</span>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 bg-nyx-900/80 py-8 text-center text-gray-500 text-xs relative z-10 backdrop-blur-md">
+        <div class="flex justify-center space-x-4 mb-3">
+            <a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-white transition"><i class="fas fa-globe"></i></a>
+        </div>
+        <p>&copy; 2026 CvStudio33. Engine by NYX Protocol.</p>
+        <p class="mt-1 opacity-50">Cloudflare Workers | Firebase Auth</p>
+    </footer>
+
+    <!-- Firebase SDKs Modulares -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // Configuración Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
+            authDomain: "cv-studio33.firebaseapp.com",
+            projectId: "cv-studio33",
+            storageBucket: "cv-studio33.firebasestorage.app",
+            messagingSenderId: "189453088234",
+            appId: "1:189453088234:web:639c130a6287ff34122e93"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let userTokens = 0;
+        const uidDisplay = document.getElementById('user-id-display');
+        const tokenDisplay = document.getElementById('token-display');
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                
+                uidDisplay.textContent = `cliente-${user.uid.substring(0,6)}`;
+                
+                // Frontend SOLO LEE datos. Ruta Firestore: users/cliente-xxxx
+                const userNode = `cliente-${user.uid}`;
+                const userDocRef = doc(db, "users", userNode);
+                
+                onSnapshot(userDocRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        userTokens = data.tokens_nyx !== undefined ? data.tokens_nyx : 0;
+                    } else {
+                        userTokens = 0;
+                    }
+                    
+                    tokenDisplay.style.transform = 'scale(1.2)';
+                    tokenDisplay.style.color = '#fff';
+                    setTimeout(() => {
+                        tokenDisplay.textContent = userTokens;
+                        tokenDisplay.style.transform = 'scale(1)';
+                        tokenDisplay.style.color = '';
+                    }, 150);
+                }, (error) => {
+                    console.error("Error leyendo tokens:", error);
+                    tokenDisplay.textContent = "??"; 
+                });
+                
+            } else {
+                console.warn("No hay sesión activa. Redirigiendo a protocolonyx.html...");
+                window.location.replace('protocolonyx.html');
+            }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            const btn = document.getElementById('logout-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            signOut(auth).then(() => {
+                window.location.replace('protocolonyx.html');
+            }).catch(error => {
+                console.error("Error al cerrar sesión", error);
+                btn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+            });
+        });
+
+        const setupFileUpload = (inputId, displayId, containerSelector) => {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            const container = input.closest(containerSelector);
+
+            container.addEventListener('click', () => input.click());
+            
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                container.classList.add('border-white', 'bg-gray-800');
+            });
+            container.addEventListener('dragleave', () => {
+                container.classList.remove('border-white', 'bg-gray-800');
+            });
+            container.addEventListener('drop', (e) => {
+                e.preventDefault();
+                container.classList.remove('border-white', 'bg-gray-800');
+                if (e.dataTransfer.files.length) {
+                    input.files = e.dataTransfer.files;
+                    updateDisplay();
+                }
+            });
+
+            const updateDisplay = () => {
+                if(input.files.length > 0) {
+                    display.textContent = input.files[0].name;
+                    display.classList.remove('hidden');
+                    container.classList.add('border-gray-500');
+                    container.classList.remove('border-gray-700', 'border-dashed');
+                    container.querySelector('i').classList.add('text-white');
+                }
+            };
+
+            input.addEventListener('change', updateDisplay);
+        };
+
+        setupFileUpload('cv-upload', 'cv-filename', 'div.border-2');
+        setupFileUpload('cover-upload', 'cover-filename', 'div.border-2');
+
+        document.getElementById('chrono-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            let requiredTokens = 0;
+            if(selectedPlan === '7') requiredTokens = 15;
+            if(selectedPlan === '14') requiredTokens = 25;
+            if(selectedPlan === '33') requiredTokens = 50;
+
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if(userTokens < requiredTokens) {
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> TOKENS INSUFICIENTES';
+                submitBtn.classList.replace('bg-white', 'bg-red-600');
+                submitBtn.classList.replace('text-black', 'text-white');
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.classList.replace('bg-red-600', 'bg-white');
+                    submitBtn.classList.replace('text-white', 'text-black');
+                }, 3000);
+                
+                alert(`Requiere ${requiredTokens} tokens.\nTienes actualmente: ${userTokens}`);
+                return;
+            }
+
+            submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> CONECTANDO CON CLOUDFLARE...';
+            submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+            
+            setTimeout(() => {
+                alert(`✅ Payload preparado para Plan de ${selectedPlan} días.\n\nEn el siguiente paso conectaremos este frontend estático con el cerebro Cloudflare Workers.`);
+                
+                submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i> SECUENCIA INICIADA';
+                submitBtn.classList.replace('bg-white', 'bg-green-500');
+                submitBtn.classList.replace('text-black', 'text-white');
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

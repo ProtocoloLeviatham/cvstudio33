@@ -626,11 +626,20 @@
             const originalContent = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             try {
-                const docRef = doc(db, "users", currentCustomerId, "campaigns", campaignToCancel);
-                await deleteDoc(docRef);
+                const idToken = await getIdToken(window.currentUser, true);
+                const workerUrl = `https://visorpdfs.lautybg22.workers.dev/?userId=${currentCustomerId}&campaignId=${campaignToCancel}`;
+                
+                const response = await fetch(workerUrl, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${idToken}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error("No se pudo purgar la campaña desde la infraestructura.");
+                }
                 
                 document.getElementById('cancel-modal').classList.add('hidden');
-                window.showNyxModal("Campaña Purgada", "La campaña ha sido eliminada y los datos encolados para su destrucción segura.");
+                window.showNyxModal("Campaña Purgada", "La campaña y sus documentos han sido eliminados y destruidos de manera segura de todos los nodos.");
                 btn.innerHTML = originalContent;
             } catch(e) {
                 window.showNyxModal("Error de Red", e.message);
@@ -669,8 +678,25 @@
                 const campaignsRef = collection(db, "users", customerId, "campaigns");
                 if(unsubscribeCampaigns) unsubscribeCampaigns(); 
                 
+                let firstLoad = true;
                 unsubscribeCampaigns = onSnapshot(campaignsRef, (snapshot) => {
                     const campaigns = [];
+                    let hasUpdates = false;
+                    
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === "modified" && !firstLoad) {
+                            hasUpdates = true;
+                        }
+                    });
+                    
+                    if (hasUpdates && Notification.permission === "granted") {
+                        new Notification("Actualización NYX Protocol", {
+                            body: "¡El Motor detectó nueva telemetría! Revise sus campañas para visualizar las estadísticas actualizadas.",
+                            icon: "logonyx.png"
+                        });
+                    }
+                    firstLoad = false;
+
                     snapshot.forEach((docSnap) => {
                         const data = docSnap.data();
                         if (data.campaign_active) {
@@ -1288,6 +1314,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 

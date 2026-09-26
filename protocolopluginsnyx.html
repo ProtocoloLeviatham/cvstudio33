@@ -7,6 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- PDF.js para renderizado nativo sin iframe -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -490,12 +495,13 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="flex-grow bg-[#000] relative md:rounded-b-2xl overflow-hidden">
+            <div class="flex-grow bg-[#000] relative md:rounded-b-2xl overflow-y-auto overflow-x-hidden p-4 md:p-8" id="pdf-modal-container">
                 <div id="pdf-loading-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-[#000] z-10 transition-opacity duration-500">
                     <div class="w-10 h-10 border-t-2 border-nyx-blue border-r-2 border-transparent rounded-full animate-spin mb-4"></div>
-                    <p class="text-nyx-textMuted text-sm font-mono tracking-widest">RENDERIZANDO...</p>
+                    <p class="text-nyx-textMuted text-sm font-mono tracking-widest">RENDERIZANDO IA...</p>
                 </div>
-                <iframe id="pdf-iframe-fullscreen" class="w-full h-full border-none opacity-0 transition-opacity duration-500" src="" title="Visor PDF"></iframe>
+                <!-- Las páginas del PDF se insertarán aquí como <canvas> -->
+                <div id="pdf-canvas-wrapper" class="w-full max-w-4xl mx-auto flex flex-col items-center gap-6 opacity-0 transition-opacity duration-500"></div>
             </div>
         </div>
     </div>
@@ -598,6 +604,8 @@
             return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
         }
 
+        window.pdfArrayBuffers = {};
+
         async function loadCampaignPDF(campaignId, userId, idToken) {
             try {
                 const workerUrl = `https://visorpdfs.lautybg22.workers.dev/?userId=${userId}&campaignId=${campaignId}`;
@@ -606,35 +614,41 @@
                     headers: { 'Authorization': `Bearer ${idToken}` }
                 });
 
-                if (!response.ok) throw new Error("Fallo en la red");
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(errText || "Error HTTP " + response.status);
+                }
 
                 const blob = await response.blob();
-                const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-                const blobUrl = URL.createObjectURL(pdfBlob);
-                window.pdfBlobs[campaignId] = blobUrl;
+                const arrayBuffer = await blob.arrayBuffer();
+                window.pdfArrayBuffers[campaignId] = arrayBuffer;
 
-                const iframe = document.getElementById(`iframe-${campaignId}`);
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                const pdf = await loadingTask.promise;
+                const page = await pdf.getPage(1);
+
+                const canvas = document.getElementById(`pdf-canvas-${campaignId}`);
                 const loader = document.getElementById(`loader-${campaignId}`);
-                if(iframe) {
-                    iframe.src = blobUrl;
-                    iframe.onload = () => {
-                        if(loader) loader.style.display = 'none';
-                        iframe.classList.remove('opacity-0');
-                    };
-                    setTimeout(() => {
-                        if(loader) loader.style.display = 'none';
-                        iframe.classList.remove('opacity-0');
-                    }, 1000);
+                if(canvas) {
+                    const ctx = canvas.getContext('2d');
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    const renderContext = { canvasContext: ctx, viewport: viewport };
+                    await page.render(renderContext).promise;
+                    
+                    if(loader) loader.style.display = 'none';
+                    canvas.classList.remove('opacity-0');
                 }
             } catch (e) {
                 const loader = document.getElementById(`loader-${campaignId}`);
                 if(loader) {
-                    // El error CORS actual o errores de R2 se mostrarán con elegancia
                     loader.innerHTML = `
                         <div class="flex flex-col items-center text-center px-4">
-                            <i class="fas fa-exclamation-triangle text-nyx-gold text-2xl mb-3"></i>
-                            <span class="text-[10px] text-nyx-gold font-mono uppercase tracking-widest font-bold mb-1">CORS BLAZING BLOCK</span>
-                            <span class="text-[9px] text-gray-500 font-mono">Esperando actualización del Cerebro 2...</span>
+                            <i class="fas fa-shield-alt text-nyx-gold text-2xl mb-3"></i>
+                            <span class="text-[10px] text-nyx-gold font-mono uppercase tracking-widest font-bold mb-1">DENEGADO / ERROR</span>
+                            <span class="text-[9px] text-gray-500 font-mono">${e.message}</span>
                         </div>
                     `;
                 }
@@ -709,12 +723,12 @@
                         </div>` : '<div class="h-[52px]"></div>'}
                     </div>
 
-                    <div class="md:w-[55%] bg-[#020202] relative min-h-[350px] flex flex-col z-10">
+                    <div class="md:w-[55%] bg-[#020202] relative min-h-[350px] flex flex-col z-10 items-center justify-center p-2">
                         <div class="absolute inset-0 flex flex-col items-center justify-center z-0" id="loader-${camp.id}">
                             <div class="w-10 h-10 border-t-2 border-nyx-blue border-r-2 border-transparent rounded-full animate-spin mb-4"></div>
-                            <span class="text-[10px] text-nyx-textMuted font-mono uppercase tracking-widest">Estableciendo Túnel R2...</span>
+                            <span class="text-[10px] text-nyx-textMuted font-mono uppercase tracking-widest text-center px-4">Estableciendo Túnel R2...</span>
                         </div>
-                        <iframe id="iframe-${camp.id}" class="w-full h-full border-none z-10 opacity-0 transition-opacity duration-700" src="" style="background: transparent;"></iframe>
+                        <canvas id="pdf-canvas-${camp.id}" class="max-w-full max-h-full object-contain z-10 opacity-0 transition-opacity duration-700 pointer-events-none" style="filter: drop-shadow(0 0 10px rgba(255,255,255,0.05));"></canvas>
                         
                         <div class="absolute bottom-5 right-5 z-20">
                             <button onclick="window.openFullscreenPDF('${camp.id}')" class="bg-[#050505]/80 hover:bg-nyx-blue border border-nyx-border hover:border-nyx-blue text-gray-300 hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.5)] group/btn" title="Expandir Documento">
@@ -731,40 +745,56 @@
             });
         }
 
-        // =========================================================
-        // LÓGICA DEL VISOR PDF EXTENDIDO
-        // =========================================================
+        // ============================================================================
+        // LÓGICA DEL VISOR PDF EXTENDIDO (PDF.JS)
+        // ============================================================================
         const pdfModal = document.getElementById('pdf-modal');
-        const pdfIframeFullscreen = document.getElementById('pdf-iframe-fullscreen');
+        const pdfModalContainer = document.getElementById('pdf-canvas-wrapper');
         const pdfModalClose = document.getElementById('pdf-modal-close');
         const pdfLoadingOverlay = document.getElementById('pdf-loading-overlay');
 
-        window.openFullscreenPDF = (campaignId) => {
-            const blobUrl = window.pdfBlobs[campaignId];
-            if(!blobUrl) {
-                window.showNyxModal("Documento en Proceso", "El túnel R2 aún se está estableciendo o hubo un bloqueo de CORS. Por favor espera o verifica el Cerebro 2.");
+        window.openFullscreenPDF = async (campaignId) => {
+            const arrayBuffer = window.pdfArrayBuffers[campaignId];
+            if(!arrayBuffer) {
+                window.showNyxModal("Documento en Proceso", "El túnel R2 aún se está estableciendo o hubo un error al cargar el documento. Por favor espera.");
                 return;
             }
             
-            pdfIframeFullscreen.src = blobUrl;
-            pdfIframeFullscreen.classList.add('opacity-0');
+            pdfModalContainer.innerHTML = '';
+            pdfModalContainer.classList.add('opacity-0');
             pdfLoadingOverlay.classList.remove('opacity-0', 'hidden');
 
             pdfModal.classList.remove('hidden');
             pdfModal.classList.add('flex');
 
-            setTimeout(() => {
-                pdfIframeFullscreen.onload = () => {
-                    pdfLoadingOverlay.classList.add('opacity-0');
-                    setTimeout(() => pdfLoadingOverlay.classList.add('hidden'), 500);
-                    pdfIframeFullscreen.classList.remove('opacity-0');
-                };
-                setTimeout(() => {
-                    pdfLoadingOverlay.classList.add('opacity-0');
-                    setTimeout(() => pdfLoadingOverlay.classList.add('hidden'), 500);
-                    pdfIframeFullscreen.classList.remove('opacity-0');
-                }, 800);
-            }, 100);
+            try {
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
+                const pdf = await loadingTask.promise;
+                
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 2.0 }); // Alta resolución
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.className = "w-full h-auto object-contain shadow-[0_0_20px_rgba(255,255,255,0.05)] rounded-sm";
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    const ctx = canvas.getContext('2d');
+                    const renderContext = { canvasContext: ctx, viewport: viewport };
+                    
+                    pdfModalContainer.appendChild(canvas);
+                    await page.render(renderContext).promise;
+                }
+                
+                pdfLoadingOverlay.classList.add('opacity-0');
+                setTimeout(() => pdfLoadingOverlay.classList.add('hidden'), 500);
+                pdfModalContainer.classList.remove('opacity-0');
+
+            } catch (err) {
+                console.error("Error al renderizar PDF en modal", err);
+                pdfLoadingOverlay.innerHTML = `<p class="text-red-500 font-mono text-sm">Error al generar PDF: ${err.message}</p>`;
+            }
         };
 
         pdfModalClose.addEventListener('click', () => {

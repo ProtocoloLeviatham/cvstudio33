@@ -681,6 +681,21 @@
 
         window.pdfArrayBuffers = {};
 
+        window.toggleTelemetry = (campaignId) => {
+            const telemetryPanel = document.getElementById(`telemetry-${campaignId}`);
+            if (telemetryPanel.classList.contains('hidden')) {
+                telemetryPanel.classList.remove('hidden');
+                setTimeout(() => {
+                    telemetryPanel.classList.remove('opacity-0', '-translate-y-4');
+                }, 10);
+            } else {
+                telemetryPanel.classList.add('opacity-0', '-translate-y-4');
+                setTimeout(() => {
+                    telemetryPanel.classList.add('hidden');
+                }, 300);
+            }
+        };
+
         async function loadCampaignPDF(campaignId, userId, idToken) {
             try {
                 const workerUrl = `https://visorpdfs.lautybg22.workers.dev/?userId=${userId}&campaignId=${campaignId}`;
@@ -698,7 +713,7 @@
                 const arrayBuffer = await blob.arrayBuffer();
                 window.pdfArrayBuffers[campaignId] = arrayBuffer;
 
-                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
                 const pdf = await loadingTask.promise;
                 const page = await pdf.getPage(1);
 

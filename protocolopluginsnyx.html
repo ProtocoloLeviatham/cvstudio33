@@ -622,31 +622,19 @@
         fetchDollarBlue();
 
         function generateTelemetryData(camp) {
-            // Simulador Dinámico de Telemetría (Hasta que el backend lo envíe)
-            // Calculamos días desde la creación
-            const created = new Date(camp.createdAt);
-            const now = new Date();
-            const daysActive = Math.max(0, Math.floor((now - created) / (1000 * 60 * 60 * 24)));
-            
-            // Si el backend ya envía metrics, las usamos. Si no, generamos.
             const metrics = camp.metrics || {};
             
-            // Lógica realista: Se envían aprox 5-10 CVs por día a diferentes empresas de la DB.
-            const baseSent = daysActive * 7;
-            const sent = metrics.emailsSent !== undefined ? metrics.emailsSent : baseSent + Math.floor(Math.random() * 3);
-            
-            // Probabilidad realista de rebotes (10% aprox por correos inactivos en HR)
-            const bounces = metrics.bounces !== undefined ? metrics.bounces : Math.floor(sent * 0.1);
-            const delivered = sent - bounces;
-            
-            // Activaciones Mirror CV (Se activa si el CV original fue rechazado o para adaptar a un job específico)
-            const hasMirror = camp.mirrorPlugin_activate || camp.mirrorPlugin_active;
-            const mirrorActivations = hasMirror ? (metrics.mirrorActivations !== undefined ? metrics.mirrorActivations : Math.floor(delivered * 0.3)) : 0;
-            
-            // Auto Postulación Jooble (1 a 3 diarias)
-            const jooble = metrics.joobleApplications !== undefined ? metrics.joobleApplications : daysActive * 2 + Math.floor(Math.random() * 2);
+            // Lectura Estricta desde el Cerebro (Backend)
+            const sent = metrics.emailsSent || 0;
+            const read = metrics.emailsRead || 0;
+            const rejections = metrics.atsRejections || 0;
+            const mirrorActivations = metrics.mirrorActivations || 0;
+            const jooble = metrics.joobleApplications || 0;
 
-            // Calcular Tokens invertidos (Cálculo Inverso desde la duración del plan)
+            const hasMirror = camp.mirrorPlugin_activate || camp.mirrorPlugin_active;
+
+            // Calcular Tokens (Esto sí puede quedar en frontend ya que depende de la fecha de la campaña)
+            const created = new Date(camp.createdAt);
             let durationDays = 7;
             if (camp.campaign_expiration) {
                 const exp = new Date(camp.campaign_expiration);
@@ -659,13 +647,11 @@
             else tokens = 50;
             
             if (hasMirror) {
-                if (durationDays <= 7) tokens += 20; // 35
-                else if (durationDays <= 14) tokens += 35; // 60
-                else tokens += 45; // 95
+                if (durationDays <= 7) tokens += 20;
+                else if (durationDays <= 14) tokens += 35;
+                else tokens += 45;
             }
             
-            // Calcular Costo ARS y USD
-            // 50 tokens = 40.000 (Bulk). Regla general: 1 token = 1000 ARS.
             let priceARS = tokens * 1000;
             if (tokens === 50) priceARS = 40000;
             const priceUSD = (priceARS / dollarValue).toFixed(2);
@@ -674,11 +660,11 @@
                 tokens,
                 priceARS: priceARS.toLocaleString('es-AR'),
                 priceUSD,
-                sent,
-                bounces,
-                delivered,
-                mirrorActivations,
-                jooble
+                sent: sent.toLocaleString('es-AR'),
+                read: read.toLocaleString('es-AR'),
+                rejections: rejections.toLocaleString('es-AR'),
+                mirrorActivations: mirrorActivations.toLocaleString('es-AR'),
+                jooble: jooble.toLocaleString('es-AR')
             };
         }
 
@@ -853,16 +839,16 @@
                                     <span class="text-sm font-bold text-white">${tData.sent}</span>
                                 </div>
                                 <div class="flex justify-between items-center bg-[#0A0A0A] border border-nyx-border rounded-xl p-4">
-                                    <span class="text-sm text-gray-300 font-medium">Entregas Exitosas (Leídos)</span>
-                                    <span class="text-sm font-bold text-white">${tData.delivered}</span>
+                                    <span class="text-sm text-gray-300 font-medium">Lecturas Confirmadas</span>
+                                    <span class="text-sm font-bold text-white">${tData.read}</span>
                                 </div>
                                 <div class="flex justify-between items-center bg-[#0A0A0A] border border-nyx-border rounded-xl p-4">
-                                    <span class="text-sm text-gray-300 font-medium">Rebotes (Bounce)</span>
-                                    <span class="text-sm font-bold text-red-400">${tData.bounces}</span>
+                                    <span class="text-sm text-gray-300 font-medium">Rechazos / Filtro ATS</span>
+                                    <span class="text-sm font-bold text-red-400">${tData.rejections}</span>
                                 </div>
                                 ${hasMirror ? `
                                 <div class="flex justify-between items-center bg-white/5 border border-white/10 rounded-xl p-4 shadow-[0_0_15px_rgba(255,255,255,0.02)]">
-                                    <span class="text-sm text-white font-medium">Adaptaciones ATS Dinámicas</span>
+                                    <span class="text-sm text-white font-medium">Mirror CV (Adaptación)</span>
                                     <span class="text-sm font-bold text-white">${tData.mirrorActivations}</span>
                                 </div>
                                 ` : ''}
@@ -1170,5 +1156,4 @@
     </script>
 </body>
 </html>
-
 

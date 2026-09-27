@@ -33,7 +33,7 @@
     <style>
         /* Variables CV */
         :root {
-            --cv-primary: #4A5568; /* Azul grisáceo de la nueva plantilla */
+            --cv-primary: #2563eb; /* Azul brillante de la nueva plantilla 3 */
             --cv-body-font: 'Arial', sans-serif;
             --cv-header-font: 'Arial', sans-serif;
             --cv-scale: 1; 
@@ -275,7 +275,7 @@
         .axon-btn img { filter: drop-shadow(0 0 3px rgba(255,255,255,0.4)); width: 18px; height: 18px; object-fit: contain; }
         .axon-loading { opacity: 0.7; pointer-events: none; animation: pulse 1.5s infinite; }
 
-        /* Estructura A4 (Render PDF) NUEVA PLANTILLA */
+        /* Estructura A4 (Render PDF) NUEVA PLANTILLA 3 */
         #preview-wrapper {
             transform-origin: top center;
             transition: transform 0.2s ease;
@@ -286,135 +286,158 @@
             min-height: 1123px;
             background-color: white;
             box-sizing: border-box;
+            padding: 60px 75px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             font-family: var(--cv-body-font);
-            color: #111;
+            color: #333;
             display: flex;
             flex-direction: column;
             border-radius: 4px;
         }
 
         /* Header Nuevo */
-        .cv-header {
-            background-color: var(--cv-primary);
-            color: white;
-            padding: 50px 40px;
+        .cv3-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .cv-header-left h1 {
-            font-size: calc(32pt * var(--cv-scale));
-            margin: 0;
-            font-weight: 400;
-            letter-spacing: 1px;
-            font-family: var(--cv-header-font);
-            line-height: 1.2;
-            text-transform: uppercase;
-        }
-        .cv-header-left h2 {
-            font-size: calc(12pt * var(--cv-scale));
-            margin: 5px 0 0 0;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: var(--cv-header-font);
-        }
-        .cv-header-right {
-            text-align: right;
-            font-size: calc(10pt * var(--cv-scale));
-            line-height: 1.6;
-        }
-        .cv-header-right p { margin: 0; }
-        .cv-header-right .header-group { margin-bottom: 15px; }
-
-        /* Cuerpo Nuevo */
-        .cv-body {
+        .cv3-header-left {
             display: flex;
-            flex: 1;
+            align-items: center;
+            gap: 20px;
         }
-        .cv-col-left {
-            width: 38%;
-            padding: 30px 20px 30px 40px;
+        .cv3-name-block h1 {
+            font-size: calc(20pt * var(--cv-scale));
+            margin: 0 0 4px 0;
+            font-weight: 400;
+            color: #333;
+            text-transform: uppercase;
+            font-family: var(--cv-header-font);
+            letter-spacing: 1px;
         }
-        .cv-col-right {
-            width: 62%;
-            padding: 30px 40px 30px 20px;
+        .cv3-name-block h2 {
+            font-size: calc(11pt * var(--cv-scale));
+            margin: 0;
+            color: var(--cv-primary);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        /* Section Titles Nuevo */
-        .cv-section-title {
+        .cv3-header-right-box {
+            width: 75px;
+            height: 75px;
             background-color: var(--cv-primary);
             color: white;
-            display: inline-block;
-            padding: 6px 30px 6px 15px;
-            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24pt;
             font-weight: bold;
-            font-size: calc(10pt * var(--cv-scale));
-            clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
-            margin-bottom: 15px;
             font-family: var(--cv-header-font);
+            overflow: hidden;
         }
 
-        .cv-divider {
+        /* Contact Info */
+        .cv3-contact-row {
+            display: flex;
+            gap: 40px;
+            font-size: calc(9pt * var(--cv-scale));
+            color: #666;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Divider */
+        .cv3-divider {
             border: none;
-            border-top: 2px solid #222;
-            margin: 20px 0;
+            border-top: 1px solid #e5e7eb;
+            margin: 15px 0;
+            width: 100%;
         }
 
-        .cv-text {
+        /* Profile */
+        .cv3-profile {
             font-size: calc(9.5pt * var(--cv-scale));
-            line-height: 1.5;
+            line-height: 1.6;
             text-align: justify;
-            margin: 0;
+            color: #555;
+            margin: 0 0 15px 0;
             white-space: pre-wrap;
         }
 
-        /* Skills */
-        .cv-skill-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: calc(9pt * var(--cv-scale));
-            align-items: center;
-        }
-        .cv-skill-name {
+        /* Section Titles */
+        .cv3-section-title {
+            font-size: calc(11pt * var(--cv-scale));
+            color: #444;
             text-transform: uppercase;
-            width: 70%;
-            font-weight: 600;
-        }
-        .cv-skill-level {
-            width: 30%;
-            text-align: right;
-            color: #555;
-            font-weight: bold;
-            font-size: calc(8pt * var(--cv-scale));
+            letter-spacing: 1.5px;
+            margin: 20px 0 15px 0;
+            padding-left: 12px;
+            border-left: 4px solid var(--cv-primary);
+            font-family: var(--cv-header-font);
+            font-weight: 500;
         }
 
         /* Entries */
-        .cv-entry { margin-bottom: 25px; page-break-inside: avoid; }
-        .cv-entry-header {
+        .cv3-entry { margin-bottom: 20px; page-break-inside: avoid; }
+        .cv3-entry-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
-        .cv-entry-title {
+        .cv3-entry-title {
             font-weight: bold;
             font-size: calc(10.5pt * var(--cv-scale));
+            color: #333;
             text-transform: uppercase;
         }
-        .cv-entry-date {
+        .cv3-entry-date {
             font-size: calc(9.5pt * var(--cv-scale));
-            color: #333;
+            color: #666;
+            font-style: italic;
         }
-        .cv-entry-subtitle {
+        .cv3-entry-subtitle {
             font-weight: bold;
             font-size: calc(9.5pt * var(--cv-scale));
+            color: var(--cv-primary);
             text-transform: uppercase;
-            color: #444;
             margin-bottom: 8px;
             display: block;
+        }
+        .cv3-entry-desc {
+            font-size: calc(9.5pt * var(--cv-scale));
+            line-height: 1.6;
+            text-align: justify;
+            color: #555;
+            margin: 0;
+        }
+
+        /* Skills Grid */
+        .cv3-skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 40px;
+            row-gap: 12px;
+        }
+        .cv3-skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: calc(9.5pt * var(--cv-scale));
+            border-bottom: 1px dashed #e5e7eb;
+            padding-bottom: 4px;
+        }
+        .cv3-skill-name {
+            font-weight: bold;
+            color: #444;
+            text-transform: uppercase;
+        }
+        .cv3-skill-level {
+            color: var(--cv-primary);
+            font-weight: bold;
         }
 
         .draggable-item { cursor: grab; }
@@ -427,11 +450,9 @@
                 padding: 0; 
                 background: white !important; 
             }
-            /* Ocultar elementos de UI */
             .top-navbar, .editor-panel, .bottom-nav-container, .no-print { 
                 display: none !important; 
             }
-            /* Restaurar flujo del documento para asegurar renderizado */
             .app-container, .main-content, .preview-panel, #preview-wrapper {
                 display: block !important;
                 height: auto !important;
@@ -443,13 +464,12 @@
                 width: 100% !important;
                 transform: none !important;
             }
-            /* Formatear página A4 sin forzar padding lateral para permitir cabecera full width */
             .a4-page {
                 position: static !important;
                 box-shadow: none !important; 
                 width: 100% !important;
                 max-width: 100% !important;
-                padding: 0 !important;
+                padding: 15mm 20mm !important;
                 margin: 0 !important;
                 background: white !important;
             }
@@ -720,10 +740,10 @@
 
                     <label class="cv-label">Color de Acento</label>
                     <div class="flex gap-4 mt-2 mb-2">
-                        <!-- Nuevo color base agregado a los botones -->
+                        <!-- Color base actualizado a la nueva plantilla (#2563eb azul) -->
+                        <button onclick="setPalette('#2563eb')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-blue-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#4A5568')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-slate-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#000000')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-black hover:scale-110 transition shadow-lg"></button>
-                        <button onclick="setPalette('#2563eb')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-blue-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#059669')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-emerald-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#7c3aed')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-violet-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#dc2626')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-red-600 hover:scale-110 transition shadow-lg"></button>
@@ -738,6 +758,15 @@
                     <i class="fa-solid fa-chevron-down text-gray-500 text-xs transition-transform"></i>
                 </div>
                 <div class="accordion-content">
+                    <label class="cv-label mb-2">Foto de Perfil (Opcional)</label>
+                    <div class="flex items-center gap-2 mb-4">
+                        <input type="file" id="input-photo" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                        <label for="input-photo" class="cursor-pointer bg-dark-800 border border-dark-700 px-4 py-2 rounded-xl text-xs text-gray-300 hover:bg-dark-600 transition flex items-center gap-2 w-full justify-center">
+                            <i class="fa-solid fa-camera"></i> Subir Foto
+                        </label>
+                        <button id="btn-remove-photo" class="hidden text-red-400 bg-red-400/10 p-2 px-3 rounded-xl text-xs transition hover:bg-red-400/20" onclick="removePhoto()"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-3">
                         <div><label class="cv-label">Nombre</label><input type="text" class="cv-input" id="input-name" placeholder="Juan" oninput="updateCV()"></div>
                         <div><label class="cv-label">Apellido</label><input type="text" class="cv-input" id="input-lastname" placeholder="Pérez" oninput="updateCV()"></div>
@@ -829,50 +858,49 @@
                 
                 <div id="cv-preview" class="a4-page">
                     <!-- Header -->
-                    <div class="cv-header">
-                        <div class="cv-header-left">
-                            <h1 id="display-fullname">NOMBRE APELLIDO</h1>
-                            <h2 id="display-jobtitle">TÍTULO PROFESIONAL</h2>
-                        </div>
-                        <div class="cv-header-right">
-                            <div class="header-group">
-                                <p id="display-address">Ciudad, País</p>
-                            </div>
-                            <div class="header-group" style="margin-bottom:0;">
-                                <p id="display-phone">+00 000 000</p>
-                                <p id="display-email">correo@ejemplo.com</p>
+                    <div class="cv3-header">
+                        <div class="cv3-header-left">
+                            <div class="cv3-name-block">
+                                <h1 id="display-fullname">NOMBRE APELLIDO</h1>
+                                <h2 id="display-jobtitle">TÍTULO PROFESIONAL</h2>
                             </div>
                         </div>
+                        <div class="cv3-header-right-box" id="display-photo-box">CV</div>
                     </div>
 
-                    <!-- Body -->
-                    <div class="cv-body">
-                        <!-- Left Column -->
-                        <div class="cv-col-left">
-                            <div class="cv-section-title">Perfil</div>
-                            <p class="cv-text" id="display-profile">Su resumen profesional aparecerá aquí.</p>
-
-                            <hr class="cv-divider">
-
-                            <div class="cv-section-title">Habilidades</div>
-                            <div id="display-skills"></div>
-                            
-                            <div id="extra-left-container"></div>
-                        </div>
-
-                        <!-- Right Column -->
-                        <div class="cv-col-right">
-                            <div class="cv-section-title">Experiencia Laboral</div>
-                            <div id="display-experience"></div>
-
-                            <hr class="cv-divider">
-
-                            <div class="cv-section-title">Educación</div>
-                            <div id="display-education"></div>
-
-                            <div id="extra-sections-container"></div>
-                        </div>
+                    <!-- Contact Row -->
+                    <div class="cv3-contact-row">
+                        <span id="display-address">Ciudad, País</span>
+                        <span id="display-phone">+00 000 000</span>
+                        <span id="display-email">correo@ejemplo.com</span>
                     </div>
+
+                    <hr class="cv3-divider">
+
+                    <!-- Profile -->
+                    <p class="cv3-profile" id="display-profile">Su resumen profesional aparecerá aquí...</p>
+
+                    <hr class="cv3-divider">
+
+                    <!-- Experience -->
+                    <div class="cv3-section-title">Experiencia Laboral</div>
+                    <div id="display-experience"></div>
+
+                    <hr class="cv3-divider">
+
+                    <!-- Education -->
+                    <div class="cv3-section-title">Educación</div>
+                    <div id="display-education"></div>
+
+                    <!-- Skills -->
+                    <hr class="cv3-divider">
+                    <div id="skills-container-wrapper">
+                        <div class="cv3-section-title">Habilidades</div>
+                        <div class="cv3-skills-grid" id="display-skills"></div>
+                    </div>
+
+                    <!-- Extra Sections (Cursos) -->
+                    <div id="extra-sections-container"></div>
                 </div>
 
             </div>
@@ -1042,6 +1070,24 @@
         new Sortable(document.getElementById('display-skills'), opt);
     }
 
+    function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('cvPhoto', e.target.result);
+                updateCV();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePhoto() {
+        localStorage.removeItem('cvPhoto');
+        document.getElementById('input-photo').value = '';
+        updateCV();
+    }
+
     // --- MANEJO DE DATOS LOCALES ---
     function saveData() {
         const data = {
@@ -1100,6 +1146,20 @@
         txt('display-address', val('input-address') || 'Ciudad, País');
         txt('display-profile', val('input-profile') || 'Su resumen profesional aparecerá aquí.');
         
+        const photoData = localStorage.getItem('cvPhoto');
+        const photoBox = document.getElementById('display-photo-box');
+        const btnRemovePhoto = document.getElementById('btn-remove-photo');
+
+        if (photoData) {
+            photoBox.innerHTML = `<img src="${photoData}" style="width:100%; height:100%; object-fit:cover; display:block;">`;
+            photoBox.style.backgroundColor = 'transparent';
+            if(btnRemovePhoto) btnRemovePhoto.classList.remove('hidden');
+        } else {
+            photoBox.innerHTML = 'CV';
+            photoBox.style.backgroundColor = 'var(--cv-primary)';
+            if(btnRemovePhoto) btnRemovePhoto.classList.add('hidden');
+        }
+
         renderExperience(); renderEducation(); renderSkills(); renderExtras();
     }
 
@@ -1127,13 +1187,13 @@
             const role = val(`exp-role-${i}`); const comp = val(`exp-comp-${i}`);
             if(role || comp) {
                 html += `
-                <div class="cv-entry draggable-item">
-                    <div class="cv-entry-header">
-                        <span class="cv-entry-title">${role}</span>
-                        <span class="cv-entry-date">${val(`exp-start-${i}`)} - ${val(`exp-end-${i}`)}</span>
+                <div class="cv3-entry draggable-item">
+                    <div class="cv3-entry-header">
+                        <span class="cv3-entry-title">${role}</span>
+                        <span class="cv3-entry-date">${val(`exp-start-${i}`)} - ${val(`exp-end-${i}`)}</span>
                     </div>
-                    <span class="cv-entry-subtitle">${comp}</span>
-                    <p class="cv-text">${val(`exp-desc-${i}`)}</p>
+                    <span class="cv3-entry-subtitle">${comp}</span>
+                    <p class="cv3-entry-desc">${val(`exp-desc-${i}`)}</p>
                 </div>`;
             }
         }
@@ -1162,12 +1222,12 @@
             const degree = val(`edu-degree-${i}`); const inst = val(`edu-inst-${i}`);
             if(degree || inst) {
                 html += `
-                <div class="cv-entry draggable-item">
-                    <div class="cv-entry-header">
-                        <span class="cv-entry-title">${degree}</span>
-                        <span class="cv-entry-date">${val(`edu-start-${i}`)} - ${val(`edu-end-${i}`)}</span>
+                <div class="cv3-entry draggable-item">
+                    <div class="cv3-entry-header">
+                        <span class="cv3-entry-title">${degree}</span>
+                        <span class="cv3-entry-date">${val(`edu-start-${i}`)} - ${val(`edu-end-${i}`)}</span>
                     </div>
-                    <span class="cv-entry-subtitle" style="color: #000;">${inst}</span>
+                    <span class="cv3-entry-subtitle">${inst}</span>
                 </div>`;
             }
         }
@@ -1196,9 +1256,9 @@
             if(name) {
                 const textLevel = levelMap[level] || 'EXPERTO';
                 html += `
-                <div class="cv-skill-item draggable-item">
-                    <span class="cv-skill-name">${name}</span>
-                    <span class="cv-skill-level">${textLevel}</span>
+                <div class="cv3-skill-item draggable-item">
+                    <span class="cv3-skill-name">${name}</span>
+                    <span class="cv3-skill-level">${textLevel}</span>
                 </div>`;
             }
         }
@@ -1224,18 +1284,18 @@
             const title = val(`course-title-${i}`); const issuer = val(`course-issuer-${i}`); const desc = val(`course-desc-${i}`);
             if(title) {
                 coursesHtml += `
-                <div class="cv-entry">
-                    <div class="cv-entry-header">
-                        <span class="cv-entry-title">${title}</span>
+                <div class="cv3-entry">
+                    <div class="cv3-entry-header">
+                        <span class="cv3-entry-title">${title}</span>
                     </div>
-                    <span class="cv-entry-subtitle" style="margin-top: 2px;">${issuer}</span>
-                    <p class="cv-text">${desc}</p>
+                    <span class="cv3-entry-subtitle">${issuer}</span>
+                    <p class="cv3-entry-desc">${desc}</p>
                 </div>`;
             }
         }
         const container = document.getElementById('extra-sections-container');
         if(coursesHtml) {
-            container.innerHTML = `<hr class="cv-divider"><div class="cv-section-title">Certificaciones</div><div>${coursesHtml}</div>`;
+            container.innerHTML = `<hr class="cv3-divider"><div class="cv3-section-title">Certificaciones / Cursos</div><div>${coursesHtml}</div>`;
         } else {
             container.innerHTML = '';
         }
@@ -1244,8 +1304,6 @@
     function removeEl(id) { document.getElementById(id).remove(); updateCV(); }
 
     // --- EXPORTAR PDF PARA BOTS ATS ---
-    // En lugar de renderizar en imagen con html2pdf, lanzamos impresión nativa.
-    // Esto asegura que se genere un PDF vectorial con texto 100% seleccionable.
     function downloadNativePDF() {
         window.print();
     }
@@ -1559,6 +1617,3 @@
 </script>
 </body>
 </html>
-
-
-

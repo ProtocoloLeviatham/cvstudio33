@@ -388,6 +388,74 @@
                 transform: rotate(360deg);
             }
         }
+        
+        /* Motor NYX Inteligencia */
+        .nyx-card {
+            background: linear-gradient(145deg, #2e1065, #09090b);
+            border: 1px solid #7c3aed;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15);
+        }
+        .nyx-header {
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+        }
+        .nyx-btn {
+            background: #4c1d95;
+            border: 1px solid #8b5cf6;
+            color: #ede9fe;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(76, 29, 149, 0.3);
+        }
+        .nyx-btn:active { transform: scale(0.97); }
+        .nyx-loading { opacity: 0.7; pointer-events: none; animation: pulse 1.5s infinite; }
+
+        .nyx-score-container {
+            width: 100%;
+            background-color: #18181b;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 12px;
+            margin-top: 10px;
+            border: 1px solid #3f3f46;
+        }
+        .nyx-score-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #7c3aed, #c084fc);
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nyx-spinner {
+            background-image: linear-gradient(rgb(124, 58, 237) 35%,rgb(236, 72, 153));
+            width: 100px;
+            height: 100px;
+            animation: spinning82341 1.7s linear infinite;
+            text-align: center;
+            border-radius: 50px;
+            filter: blur(1px);
+            box-shadow: 0px -5px 20px 0px rgb(124, 58, 237), 0px 5px 20px 0px rgb(236, 72, 153);
+            margin: 0 auto;
+        }
+        .nyx-spinner1 {
+            background-color: rgb(36, 36, 36);
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            filter: blur(10px);
+        }
     </style>
 </head>
 <body>
@@ -428,6 +496,62 @@
         
         <!-- Tab: Editor -->
         <div class="editor-panel custom-scrollbar" id="tab-editor">
+
+            <!-- Asistente Inteligente NYX -->
+            <div class="nyx-card">
+                <div class="nyx-header">
+                    <img src="logonyx.png" class="icon-logo" alt="Nyx">
+                    <div>
+                        <h3 class="font-bold text-sm text-violet-300 tracking-wide">ASISTENTE NYX</h3>
+                        <p class="text-[10px] text-violet-400/70 uppercase">IA Avanzada ATS y Score</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <p class="text-xs text-gray-300 mb-4 leading-relaxed border-l-2 border-violet-500/50 pl-3">
+                        Evalúa tu compatibilidad ATS, predice la vista del reclutador, inyecta keywords invisibles y optimiza para empresas específicas.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <button onclick="triggerNyx('ats_test')" class="nyx-btn nyx-action-btn">
+                            <img src="logonyx.png" class="w-4 h-4" alt="Icon"> EMPEZAR PRUEBA DE ATS
+                        </button>
+                        <button onclick="triggerNyx('view_prediction')" class="nyx-btn nyx-action-btn">
+                            <img src="logonyx.png" class="w-4 h-4" alt="Icon"> PREDICCIÓN DE VISTA
+                        </button>
+                        <button onclick="triggerNyx('ats_injection')" class="nyx-btn nyx-action-btn col-span-2">
+                            <img src="logonyx.png" class="w-4 h-4" alt="Icon"> INYECCIÓN ATS (MAX 3)
+                        </button>
+                        <button onclick="openCompanyModal()" class="nyx-btn nyx-action-btn col-span-2">
+                            <img src="logonyx.png" class="w-4 h-4" alt="Icon"> OPTIMIZAR PARA EMPRESA (ARG)
+                        </button>
+                    </div>
+
+                    <!-- Sección de Score -->
+                    <div class="mt-5 p-4 bg-black/30 rounded-xl border border-violet-900/50">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold text-violet-300">PRUEBA DE SCORE CV</span>
+                            <button onclick="triggerNyx('score')" class="nyx-btn nyx-action-btn !py-1 !px-3 !text-[10px]">CALCULAR</button>
+                        </div>
+                        <div class="nyx-score-container">
+                            <div id="nyx-score-bar" class="nyx-score-bar"></div>
+                        </div>
+                        <div class="text-right mt-1">
+                            <span id="nyx-score-text" class="text-xs font-bold text-violet-400">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Loader Animado NYX -->
+                    <div id="nyx-loader-container" class="hidden mt-6 mb-2 flex justify-center">
+                        <div class="nyx-spinner">
+                            <div class="nyx-spinner1"></div>
+                        </div>
+                    </div>
+
+                    <div id="nyx-result-container" class="hidden mt-4 pt-4 border-t border-violet-900/50">
+                        <label class="text-[10px] text-violet-400 font-semibold uppercase mb-2 block tracking-wider">Resultado de NYX:</label>
+                        <textarea id="nyx-output" class="cv-textarea h-32 bg-black/40 border-violet-500/30 text-violet-100 text-sm" readonly></textarea>
+                    </div>
+                </div>
+            </div>
             
             <!-- Asistente Inteligente Axon -->
             <div class="axon-card">
@@ -693,6 +817,32 @@
                 <span>Preview</span>
             </button>
         </nav>
+    </div>
+
+    <!-- Modal Empresa ARG -->
+    <div id="company-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-violet-500/50 rounded-2xl p-6 w-full max-w-md shadow-2xl transform transition-all">
+            <h3 class="text-lg font-bold text-violet-300 mb-2 flex items-center gap-2"><img src="logonyx.png" class="w-5 h-5"> Seleccionar Empresa</h3>
+            <p class="text-xs text-gray-400 mb-4">Elige una empresa para optimizar tu CV hacia sus criterios ATS específicos.</p>
+            
+            <select id="company-select" class="cv-select mb-4 border-violet-500/30 bg-black/50 text-violet-100 focus:border-violet-500">
+                <option value="Mostaza">Mostaza</option>
+                <option value="KFC">KFC</option>
+                <option value="Visa">Visa</option>
+                <option value="Mercado Libre">Mercado Libre</option>
+                <option value="Globant">Globant</option>
+                <option value="YPF">YPF</option>
+                <option value="Banco Galicia">Banco Galicia</option>
+                <option value="Despegar">Despegar</option>
+                <option value="Ualá">Ualá</option>
+                <option value="Telecom">Telecom</option>
+            </select>
+            
+            <div class="flex gap-3 justify-end mt-2">
+                <button onclick="closeCompanyModal()" class="px-4 py-2 rounded-lg text-xs font-semibold text-gray-400 hover:text-white hover:bg-dark-700 transition">Cancelar</button>
+                <button onclick="triggerNyx('optimize_company', document.getElementById('company-select').value)" class="nyx-btn !mb-0 !py-2">Optimizar</button>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -1071,9 +1221,149 @@
         showToast(msg);
         if(container) container.classList.add('hidden');
         if(loader) loader.classList.add('hidden');
-        buttons.forEach(b => b.classList.remove('axon-loading'));
+        buttons.forEach(b => { b.classList.remove('axon-loading'); b.classList.remove('nyx-loading'); });
+    }
+
+    // --- INTEGRACIÓN ASISTENTE NYX ---
+    function openCompanyModal() {
+        document.getElementById('company-modal').classList.remove('hidden');
+    }
+
+    function closeCompanyModal() {
+        document.getElementById('company-modal').classList.add('hidden');
+    }
+
+    function getFullCVContext() {
+        let ctx = `Nombre: ${val('input-name')} ${val('input-lastname')}\n`;
+        ctx += `Cargo: ${val('input-title')}\n`;
+        ctx += `Perfil: ${val('input-profile')}\n\n`;
+        
+        ctx += `Experiencia:\n`;
+        document.querySelectorAll('[id^="exp-role-"]').forEach(el => {
+            const id = el.id.split('-')[2];
+            ctx += `- ${el.value} en ${val(`exp-comp-${id}`)} (${val(`exp-start-${id}`)} - ${val(`exp-end-${id}`)})\n  ${val(`exp-desc-${id}`)}\n`;
+        });
+        
+        ctx += `\nEducación:\n`;
+        document.querySelectorAll('[id^="edu-degree-"]').forEach(el => {
+            const id = el.id.split('-')[2];
+            ctx += `- ${el.value} en ${val(`edu-inst-${id}`)} (${val(`edu-start-${id}`)} - ${val(`edu-end-${id}`)})\n`;
+        });
+        
+        ctx += `\nHabilidades:\n`;
+        document.querySelectorAll('[id^="skill-name-"]').forEach(el => {
+            ctx += `- ${el.value} (Nivel: ${val(`skill-level-${el.id.split('-')[2]}`)})\n`;
+        });
+
+        ctx += `\nCursos/Certificaciones:\n`;
+        document.querySelectorAll('[id^="course-title-"]').forEach(el => {
+            const id = el.id.split('-')[2];
+            ctx += `- ${el.value} por ${val(`course-issuer-${id}`)}\n  ${val(`course-desc-${id}`)}\n`;
+        });
+        
+        return ctx;
+    }
+
+    async function triggerNyx(mode, extraData = null) {
+        if(mode === 'optimize_company') {
+            closeCompanyModal();
+        }
+
+        const output = document.getElementById('nyx-output');
+        const container = document.getElementById('nyx-result-container');
+        const loader = document.getElementById('nyx-loader-container');
+        const buttons = document.querySelectorAll('.nyx-action-btn');
+        
+        const promptContext = getFullCVContext();
+
+        container.classList.add('hidden');
+        loader.classList.remove('hidden');
+        buttons.forEach(b => b.classList.add('nyx-loading'));
+
+        let promptInstruction = "";
+        
+        if (mode === 'ats_test') {
+            promptInstruction = "Realiza una prueba de compatibilidad ATS sobre este CV e indica qué tan bien estructurado está para los parsers automáticos.";
+        } else if (mode === 'view_prediction') {
+            promptInstruction = "Genera una predicción de vista: ¿cómo vería un reclutador humano este CV en los primeros 6 segundos de lectura? Destaca lo que más llamará su atención.";
+        } else if (mode === 'ats_injection') {
+            promptInstruction = "Genera una Inyección ATS (máximo 3 frases estratégicas) con las palabras clave más fuertes e invisibles para incluir en el perfil o descripción de este CV basado en el cargo.";
+        } else if (mode === 'optimize_company') {
+            promptInstruction = `Optimiza este CV específicamente para aplicar a la empresa: ${extraData} (Argentina). Analiza qué busca esta empresa y sugiere los cambios necesarios.`;
+        } else if (mode === 'score') {
+            promptInstruction = "Analiza todos los datos de este CV y calcula un Score numérico del 0 al 99.1% evaluando su impacto, formato y contenido. Responde obligatoriamente con un JSON que contenga un campo 'score' numérico, por ejemplo {\"score\": 85.5}, y opcionalmente un campo 'text' con justificación breve.";
+        }
+
+        try {
+            const response = await fetch("https://motor-cv-nyx.lautybg22.workers.dev/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mode, context: promptContext, instruction: promptInstruction, extraData })
+            });
+
+            if (!response.ok) throw new Error("Error de comunicación con el Asistente NYX.");
+
+            const data = await response.json();
+            
+            if (mode === 'score') {
+                let scoreValue = 0;
+                if (data.score !== undefined) {
+                    scoreValue = parseFloat(data.score);
+                } else {
+                    const text = data.result || data.text || data.response || "";
+                    const match = text.match(/(\d+(\.\d+)?)/);
+                    if(match) scoreValue = parseFloat(match[0]);
+                }
+                
+                if(isNaN(scoreValue)) scoreValue = 0;
+                if(scoreValue > 99.1) scoreValue = 99.1;
+                if(scoreValue < 0) scoreValue = 0;
+
+                const bar = document.getElementById('nyx-score-bar');
+                const textEl = document.getElementById('nyx-score-text');
+                bar.style.width = '0%';
+                
+                setTimeout(() => {
+                    bar.style.width = scoreValue + '%';
+                    
+                    let start = 0;
+                    const duration = 1500;
+                    const stepTime = 20;
+                    const steps = duration / stepTime;
+                    const increment = scoreValue / steps;
+                    
+                    let counter = setInterval(() => {
+                        start += increment;
+                        if(start >= scoreValue) {
+                            start = scoreValue;
+                            clearInterval(counter);
+                        }
+                        textEl.innerText = start.toFixed(1) + '%';
+                    }, stepTime);
+                }, 100);
+
+                const resultText = data.text || data.result || data.response || `Se ha calculado el Score: ${scoreValue.toFixed(1)}%`;
+                output.value = resultText;
+            } else {
+                const resultText = data.result || data.text || data.response || "No se obtuvieron sugerencias. Intenta nuevamente.";
+                output.value = resultText;
+            }
+            
+            showToast("Acción NYX completada exitosamente.");
+
+        } catch (error) {
+            console.error(error);
+            output.value = "Aviso: No se pudo completar la operación en este momento. " + error.message;
+            showToast("Falla de conexión con el nodo NYX.");
+        } finally {
+            loader.classList.add('hidden');
+            container.classList.remove('hidden');
+            buttons.forEach(b => b.classList.remove('nyx-loading'));
+        }
     }
 
 </script>
 </body>
 </html>
+
+

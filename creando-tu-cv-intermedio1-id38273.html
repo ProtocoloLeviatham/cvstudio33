@@ -394,6 +394,12 @@
 
 <div class="app-container">
     
+    <!-- Notificaciones Custom (Toast) -->
+    <div id="custom-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] transform transition-all duration-300 opacity-0 -translate-y-4 pointer-events-none flex items-center gap-3 bg-dark-800 border border-emerald-500/30 shadow-2xl rounded-2xl px-5 py-3">
+        <img src="logo.png" class="w-5 h-5 object-contain" alt="Aviso">
+        <span id="toast-message" class="text-sm font-medium text-emerald-100 tracking-wide"></span>
+    </div>
+
     <!-- Top App Bar -->
     <header class="top-navbar">
         <div class="flex items-center gap-3">
@@ -401,10 +407,20 @@
             <span class="font-bold text-lg tracking-tight">CvStudio33</span>
         </div>
         <div class="flex gap-3 items-center">
+            <!-- Botón de Plantillas en PC -->
+            <a href="biblioteca-de-plantillas.html" class="hidden md:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 px-4 py-2 rounded-full text-xs font-bold transition">
+                <img src="logo.png" class="w-4 h-4" alt="Plantillas">
+                Biblioteca de Plantillas
+            </a>
+            
             <div class="hidden md:flex items-center gap-2 bg-dark-800 border border-dark-700 px-4 py-2 rounded-full text-xs text-gray-400">
                 <img src="logo.png" class="w-4 h-4 opacity-70" alt="Info">
                 <span>Ve a Previsualización para Exportar PDF</span>
             </div>
+            
+            <button class="md:hidden bg-dark-800 p-2 rounded-full border border-dark-700 text-gray-300" onclick="document.querySelector('.preview-panel').classList.add('active');">
+                <i class="fa-solid fa-eye"></i>
+            </button>
         </div>
     </header>
 
@@ -944,13 +960,49 @@
         window.print();
     }
 
+    // --- SISTEMA DE NOTIFICACIONES CUSTOM ---
+    function showToast(message) {
+        const toast = document.getElementById('custom-toast');
+        document.getElementById('toast-message').innerText = message;
+        
+        toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        
+        setTimeout(() => {
+            toast.classList.remove('opacity-100', 'translate-y-0');
+            toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+        }, 4500);
+    }
+
     // --- INTEGRACIÓN ASISTENTE AXON ---
+    const COOLDOWN_MINUTES = 5;
+    const COOLDOWN_MS = COOLDOWN_MINUTES * 60 * 1000;
+
+    function checkCooldown(mode) {
+        const lastUsed = localStorage.getItem(`axon_cooldown_${mode}`);
+        if (lastUsed) {
+            const timePassed = Date.now() - parseInt(lastUsed);
+            if (timePassed < COOLDOWN_MS) {
+                const timeLeft = Math.ceil((COOLDOWN_MS - timePassed) / 1000 / 60);
+                showToast(`Por seguridad de la infraestructura, debes esperar ${timeLeft} minutos para re-auditar esta sección.`);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function setCooldown(mode) {
+        localStorage.setItem(`axon_cooldown_${mode}`, Date.now().toString());
+    }
+
     async function triggerAxonCloudflare(mode) {
         const output = document.getElementById('axon-output');
         const container = document.getElementById('axon-result-container');
         const loader = document.getElementById('axon-loader-container');
         const buttons = document.querySelectorAll('.axon-btn');
         
+        if (!checkCooldown(mode)) return;
+
         container.classList.add('hidden');
         loader.classList.remove('hidden');
         buttons.forEach(b => b.classList.add('axon-loading'));
@@ -959,18 +1011,18 @@
 
         if (mode === 'profile') {
             promptContext = val('input-profile');
-            if(!promptContext) return handleError("Escribe tu perfil primero para analizarlo.", buttons, loader, container);
+            if(!promptContext) return handleError("Por favor, escribe tu perfil primero para poder analizarlo.", buttons, loader, container);
             promptInstruction = "Mejora este perfil para que sea ejecutivo y pase filtros ATS.";
         } else if (mode === 'experience') {
             document.querySelectorAll('[id^="exp-role-"]').forEach(el => {
                 const id = el.id.split('-')[2];
                 promptContext += `Puesto: ${el.value}, Empresa: ${val(`exp-comp-${id}`)}, Detalle: ${val(`exp-desc-${id}`)}\n`;
             });
-            if(!promptContext.trim()) return handleError("Añade experiencia laboral primero.", buttons, loader, container);
+            if(!promptContext.trim()) return handleError("Añade al menos una experiencia laboral primero.", buttons, loader, container);
             promptInstruction = "Reescribe estas experiencias destacando logros y usando verbos de acción fuertes.";
         } else if (mode === 'skills') {
             document.querySelectorAll('[id^="skill-name-"]').forEach(el => promptContext += `- ${el.value}\n`);
-            if(!promptContext.trim()) return handleError("Añade habilidades clave primero.", buttons, loader, container);
+            if(!promptContext.trim()) return handleError("Añade habilidades clave primero para que pueda optimizarlas.", buttons, loader, container);
             promptInstruction = "Mejora los nombres de estas habilidades a términos profesionales de alto impacto (lista).";
         } else if (mode === 'courses') {
             document.querySelectorAll('[id^="course-title-"]').forEach(el => {
@@ -999,10 +1051,15 @@
             
             const resultText = data.result || data.text || data.response || "No se obtuvieron sugerencias. Intenta nuevamente.";
             output.value = resultText;
+            
+            // Establecer el cooldown SOLO si la IA respondió con éxito
+            setCooldown(mode);
+            showToast("Análisis completado exitosamente.");
 
         } catch (error) {
             console.error(error);
             output.value = "Aviso: No se pudo completar el análisis en este momento. " + error.message;
+            showToast("Falla de conexión con el nodo Axon.");
         } finally {
             loader.classList.add('hidden');
             container.classList.remove('hidden');
@@ -1011,7 +1068,7 @@
     }
 
     function handleError(msg, buttons, loader, container) {
-        alert(msg);
+        showToast(msg);
         if(container) container.classList.add('hidden');
         if(loader) loader.classList.add('hidden');
         buttons.forEach(b => b.classList.remove('axon-loading'));
@@ -1020,5 +1077,3 @@
 </script>
 </body>
 </html>
-
-

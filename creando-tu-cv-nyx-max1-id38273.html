@@ -33,7 +33,7 @@
     <style>
         /* Variables CV */
         :root {
-            --cv-primary: #000000;
+            --cv-primary: #4A5568; /* Azul grisáceo de la nueva plantilla */
             --cv-body-font: 'Arial', sans-serif;
             --cv-header-font: 'Arial', sans-serif;
             --cv-scale: 1; 
@@ -275,7 +275,7 @@
         .axon-btn img { filter: drop-shadow(0 0 3px rgba(255,255,255,0.4)); width: 18px; height: 18px; object-fit: contain; }
         .axon-loading { opacity: 0.7; pointer-events: none; animation: pulse 1.5s infinite; }
 
-        /* Estructura A4 (Render PDF) */
+        /* Estructura A4 (Render PDF) NUEVA PLANTILLA */
         #preview-wrapper {
             transform-origin: top center;
             transition: transform 0.2s ease;
@@ -285,7 +285,6 @@
             width: 794px;
             min-height: 1123px;
             background-color: white;
-            padding: 60px 75px;
             box-sizing: border-box;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             font-family: var(--cv-body-font);
@@ -294,37 +293,129 @@
             flex-direction: column;
             border-radius: 4px;
         }
-        
-        /* Contenido CV */
-        .cv-header-area { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 25px; }
-        .cv-header-left h1 { font-size: calc(28pt * var(--cv-scale)); text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: -1px; line-height: 1.1; color: var(--cv-primary); font-family: var(--cv-header-font); }
-        .cv-header-left h2 { font-size: calc(11pt * var(--cv-scale)); text-transform: uppercase; margin: 8px 0 0 0; font-weight: 500; color: #444; font-family: var(--cv-header-font); }
-        .cv-header-right { display: flex; gap: 35px; font-size: calc(9pt * var(--cv-scale)); text-align: left; }
-        .cv-contact-item h3 { margin: 0; text-transform: uppercase; font-size: calc(8pt * var(--cv-scale)); font-weight: bold; margin-bottom: 4px; color: #777; }
-        .cv-contact-item p { margin: 0; font-weight: bold; color: #000; }
 
-        .section-divider { border: 0; border-top: 2px solid var(--cv-primary); margin: 0 0 25px 0; width: 100%; }
-        .section-row { display: flex; margin-bottom: 25px; }
-        .section-title { width: 30%; font-size: calc(10pt * var(--cv-scale)); font-weight: bold; text-transform: uppercase; padding-right: 20px; flex-shrink: 0; color: #000; font-family: var(--cv-header-font); }
-        .section-content { width: 70%; font-size: calc(10pt * var(--cv-scale)); line-height: 1.5; color: #111; }
+        /* Header Nuevo */
+        .cv-header {
+            background-color: var(--cv-primary);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .cv-header-left h1 {
+            font-size: calc(32pt * var(--cv-scale));
+            margin: 0;
+            font-weight: 400;
+            letter-spacing: 1px;
+            font-family: var(--cv-header-font);
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        .cv-header-left h2 {
+            font-size: calc(12pt * var(--cv-scale));
+            margin: 5px 0 0 0;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--cv-header-font);
+        }
+        .cv-header-right {
+            text-align: right;
+            font-size: calc(10pt * var(--cv-scale));
+            line-height: 1.6;
+        }
+        .cv-header-right p { margin: 0; }
+        .cv-header-right .header-group { margin-bottom: 15px; }
 
-        .address-block p { margin: 0; font-weight: bold; }
-        .address-label { font-weight: bold; display: block; margin-bottom: 2px; color: #666; text-transform: uppercase; font-size: calc(8pt * var(--cv-scale)); }
-        .profile-text { text-align: justify; margin: 0; white-space: pre-wrap; }
+        /* Cuerpo Nuevo */
+        .cv-body {
+            display: flex;
+            flex: 1;
+        }
+        .cv-col-left {
+            width: 38%;
+            padding: 30px 20px 30px 40px;
+        }
+        .cv-col-right {
+            width: 62%;
+            padding: 30px 40px 30px 20px;
+        }
 
-        .job-entry, .edu-entry { margin-bottom: 22px; page-break-inside: avoid; }
-        .entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
-        .entry-title { font-weight: bold; font-size: calc(11pt * var(--cv-scale)); color: #000; }
-        .entry-date { font-weight: 600; font-size: calc(9.5pt * var(--cv-scale)); color: #000; }
-        .entry-subtitle { font-size: calc(10pt * var(--cv-scale)); font-weight: bold; margin-bottom: 8px; display: block; color: #555; }
-        .entry-desc { margin: 0; white-space: pre-wrap; }
+        /* Section Titles Nuevo */
+        .cv-section-title {
+            background-color: var(--cv-primary);
+            color: white;
+            display: inline-block;
+            padding: 6px 30px 6px 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: calc(10pt * var(--cv-scale));
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+            margin-bottom: 15px;
+            font-family: var(--cv-header-font);
+        }
 
-        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; row-gap: 12px; }
-        .skill-item { display: flex; justify-content: space-between; align-items: center; }
-        .skill-name { font-weight: 600; font-size: calc(10pt * var(--cv-scale)); }
-        .skill-dots { display: flex; gap: 5px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--cv-primary); }
-        .dot.empty { background-color: #e4e4e7; }
+        .cv-divider {
+            border: none;
+            border-top: 2px solid #222;
+            margin: 20px 0;
+        }
+
+        .cv-text {
+            font-size: calc(9.5pt * var(--cv-scale));
+            line-height: 1.5;
+            text-align: justify;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* Skills */
+        .cv-skill-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: calc(9pt * var(--cv-scale));
+            align-items: center;
+        }
+        .cv-skill-name {
+            text-transform: uppercase;
+            width: 70%;
+            font-weight: 600;
+        }
+        .cv-skill-level {
+            width: 30%;
+            text-align: right;
+            color: #555;
+            font-weight: bold;
+            font-size: calc(8pt * var(--cv-scale));
+        }
+
+        /* Entries */
+        .cv-entry { margin-bottom: 25px; page-break-inside: avoid; }
+        .cv-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+        .cv-entry-title {
+            font-weight: bold;
+            font-size: calc(10.5pt * var(--cv-scale));
+            text-transform: uppercase;
+        }
+        .cv-entry-date {
+            font-size: calc(9.5pt * var(--cv-scale));
+            color: #333;
+        }
+        .cv-entry-subtitle {
+            font-weight: bold;
+            font-size: calc(9.5pt * var(--cv-scale));
+            text-transform: uppercase;
+            color: #444;
+            margin-bottom: 8px;
+            display: block;
+        }
 
         .draggable-item { cursor: grab; }
         .sortable-ghost { opacity: 0.3; background: rgba(0,0,0,0.05); border-radius: 8px; }
@@ -352,13 +443,13 @@
                 width: 100% !important;
                 transform: none !important;
             }
-            /* Formatear página A4 */
+            /* Formatear página A4 sin forzar padding lateral para permitir cabecera full width */
             .a4-page {
                 position: static !important;
                 box-shadow: none !important; 
                 width: 100% !important;
                 max-width: 100% !important;
-                padding: 15mm 20mm !important;
+                padding: 0 !important;
                 margin: 0 !important;
                 background: white !important;
             }
@@ -629,6 +720,8 @@
 
                     <label class="cv-label">Color de Acento</label>
                     <div class="flex gap-4 mt-2 mb-2">
+                        <!-- Nuevo color base agregado a los botones -->
+                        <button onclick="setPalette('#4A5568')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-slate-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#000000')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-black hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#2563eb')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-blue-600 hover:scale-110 transition shadow-lg"></button>
                         <button onclick="setPalette('#059669')" class="w-10 h-10 rounded-full border-2 border-dark-600 bg-emerald-600 hover:scale-110 transition shadow-lg"></button>
@@ -735,66 +828,51 @@
             <div id="preview-wrapper">
                 
                 <div id="cv-preview" class="a4-page">
-                    <div class="cv-header-area">
+                    <!-- Header -->
+                    <div class="cv-header">
                         <div class="cv-header-left">
                             <h1 id="display-fullname">NOMBRE APELLIDO</h1>
-                            <h2 id="display-jobtitle">TITULO PROFESIONAL</h2>
+                            <h2 id="display-jobtitle">TÍTULO PROFESIONAL</h2>
                         </div>
                         <div class="cv-header-right">
-                            <div class="cv-contact-item">
-                                <h3>Email</h3>
+                            <div class="header-group">
+                                <p id="display-address">Ciudad, País</p>
+                            </div>
+                            <div class="header-group" style="margin-bottom:0;">
+                                <p id="display-phone">+00 000 000</p>
                                 <p id="display-email">correo@ejemplo.com</p>
                             </div>
-                            <div class="cv-contact-item">
-                                <h3>Teléfono</h3>
-                                <p id="display-phone">+00 000 000</p>
-                            </div>
                         </div>
                     </div>
 
-                    <hr class="section-divider">
+                    <!-- Body -->
+                    <div class="cv-body">
+                        <!-- Left Column -->
+                        <div class="cv-col-left">
+                            <div class="cv-section-title">Perfil</div>
+                            <p class="cv-text" id="display-profile">Su resumen profesional aparecerá aquí.</p>
 
-                    <div class="section-row">
-                        <div class="section-title">Datos Extra</div>
-                        <div class="section-content address-block">
-                            <span class="address-label">Ubicación</span>
-                            <div id="display-address">Ciudad, País</div>
+                            <hr class="cv-divider">
+
+                            <div class="cv-section-title">Habilidades</div>
+                            <div id="display-skills"></div>
+                            
+                            <div id="extra-left-container"></div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="cv-col-right">
+                            <div class="cv-section-title">Experiencia Laboral</div>
+                            <div id="display-experience"></div>
+
+                            <hr class="cv-divider">
+
+                            <div class="cv-section-title">Educación</div>
+                            <div id="display-education"></div>
+
+                            <div id="extra-sections-container"></div>
                         </div>
                     </div>
-
-                    <hr class="section-divider">
-
-                    <div class="section-row">
-                        <div class="section-title">Perfil</div>
-                        <div class="section-content">
-                            <p class="profile-text" id="display-profile">Su resumen profesional aparecerá aquí.</p>
-                        </div>
-                    </div>
-
-                    <hr class="section-divider">
-
-                    <div class="section-row">
-                        <div class="section-title">Experiencia</div>
-                        <div class="section-content" id="display-experience"></div>
-                    </div>
-
-                    <hr class="section-divider">
-
-                    <div class="section-row">
-                        <div class="section-title">Educación</div>
-                        <div class="section-content" id="display-education"></div>
-                    </div>
-
-                    <hr class="section-divider">
-
-                    <div class="section-row">
-                        <div class="section-title">Habilidades</div>
-                        <div class="section-content">
-                            <div class="skills-grid" id="display-skills"></div>
-                        </div>
-                    </div>
-
-                    <div id="extra-sections-container"></div>
                 </div>
 
             </div>
@@ -1049,13 +1127,13 @@
             const role = val(`exp-role-${i}`); const comp = val(`exp-comp-${i}`);
             if(role || comp) {
                 html += `
-                <div class="job-entry draggable-item">
-                    <div class="entry-header">
-                        <span class="entry-title">${role}</span>
-                        <span class="entry-date">${val(`exp-start-${i}`)} - ${val(`exp-end-${i}`)}</span>
+                <div class="cv-entry draggable-item">
+                    <div class="cv-entry-header">
+                        <span class="cv-entry-title">${role}</span>
+                        <span class="cv-entry-date">${val(`exp-start-${i}`)} - ${val(`exp-end-${i}`)}</span>
                     </div>
-                    <span class="entry-subtitle">${comp}</span>
-                    <p class="entry-desc">${val(`exp-desc-${i}`)}</p>
+                    <span class="cv-entry-subtitle">${comp}</span>
+                    <p class="cv-text">${val(`exp-desc-${i}`)}</p>
                 </div>`;
             }
         }
@@ -1084,12 +1162,12 @@
             const degree = val(`edu-degree-${i}`); const inst = val(`edu-inst-${i}`);
             if(degree || inst) {
                 html += `
-                <div class="edu-entry draggable-item">
-                    <div class="entry-header">
-                        <span class="entry-title">${degree}</span>
-                        <span class="entry-date">${val(`edu-start-${i}`)} - ${val(`edu-end-${i}`)}</span>
+                <div class="cv-entry draggable-item">
+                    <div class="cv-entry-header">
+                        <span class="cv-entry-title">${degree}</span>
+                        <span class="cv-entry-date">${val(`edu-start-${i}`)} - ${val(`edu-end-${i}`)}</span>
                     </div>
-                    <span class="entry-subtitle">${inst}</span>
+                    <span class="cv-entry-subtitle" style="color: #000;">${inst}</span>
                 </div>`;
             }
         }
@@ -1111,13 +1189,17 @@
 
     function renderSkills() {
         let html = '';
+        const levelMap = {1: 'BÁSICO', 2: 'JUNIOR', 3: 'INTERMEDIO', 4: 'AVANZADO', 5: 'EXPERTO'};
         for(let i=1; i<=skillCount; i++) {
             if(!document.getElementById(`skill-name-${i}`)) continue;
             const name = val(`skill-name-${i}`); const level = parseInt(val(`skill-level-${i}`));
             if(name) {
-                let dots = '';
-                for(let j=0; j<5; j++) dots += `<div class="dot ${j < level ? '' : 'empty'}"></div>`;
-                html += `<div class="skill-item draggable-item"><span class="skill-name">${name}</span><div class="skill-dots">${dots}</div></div>`;
+                const textLevel = levelMap[level] || 'EXPERTO';
+                html += `
+                <div class="cv-skill-item draggable-item">
+                    <span class="cv-skill-name">${name}</span>
+                    <span class="cv-skill-level">${textLevel}</span>
+                </div>`;
             }
         }
         document.getElementById('display-skills').innerHTML = html;
@@ -1141,12 +1223,19 @@
             if(!document.getElementById(`course-title-${i}`)) continue;
             const title = val(`course-title-${i}`); const issuer = val(`course-issuer-${i}`); const desc = val(`course-desc-${i}`);
             if(title) {
-                coursesHtml += `<div class="job-entry"><span class="entry-title">${title}</span><br><span class="entry-subtitle">${issuer}</span><p class="entry-desc">${desc}</p></div>`;
+                coursesHtml += `
+                <div class="cv-entry">
+                    <div class="cv-entry-header">
+                        <span class="cv-entry-title">${title}</span>
+                    </div>
+                    <span class="cv-entry-subtitle" style="margin-top: 2px;">${issuer}</span>
+                    <p class="cv-text">${desc}</p>
+                </div>`;
             }
         }
         const container = document.getElementById('extra-sections-container');
         if(coursesHtml) {
-            container.innerHTML = `<hr class="section-divider"><div class="section-row"><div class="section-title">Certificaciones</div><div class="section-content">${coursesHtml}</div></div>`;
+            container.innerHTML = `<hr class="cv-divider"><div class="cv-section-title">Certificaciones</div><div>${coursesHtml}</div>`;
         } else {
             container.innerHTML = '';
         }
@@ -1470,5 +1559,6 @@
 </script>
 </body>
 </html>
+
 
 

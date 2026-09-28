@@ -877,22 +877,22 @@
             <div class="grid grid-cols-4 gap-5 w-full mb-8 z-10 px-4">
                 <button onclick="shareLink('whatsapp')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#25D366] group-hover:shadow-[0_0_15px_rgba(37,211,102,0.3)] transition-all duration-300">
-                        <img src="whatsApp.png" class="w-8 h-8 object-contain" alt="WhatsApp">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="WhatsApp">
                     </div>
                 </button>
                 <button onclick="shareLink('telegram')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#0088cc] group-hover:shadow-[0_0_15px_rgba(0,136,204,0.3)] transition-all duration-300">
-                        <img src="telegram.png" class="w-8 h-8 object-contain" alt="Telegram">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="Telegram">
                     </div>
                 </button>
                 <button onclick="shareLink('instagram')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#E1306C] group-hover:shadow-[0_0_15px_rgba(225,48,108,0.3)] transition-all duration-300">
-                        <img src="instagram.png" class="w-8 h-8 object-contain" alt="Instagram">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="Instagram">
                     </div>
                 </button>
                 <button onclick="shareLink('tiktok')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300">
-                        <img src="tiktok.png" class="w-8 h-8 object-contain" alt="TikTok">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="TikTok">
                     </div>
                 </button>
             </div>
@@ -923,12 +923,12 @@
 
     // --- INICIALIZACIÓN ---
     window.onload = function() {
-        addExperience(); addEducation(); addSkill(); addLanguage(); addInterest();
         loadData();
         updateCV();
         updateDesign();
         initSortables();
         resizePreview();
+        checkUnlockState();
     };
 
     window.addEventListener('resize', resizePreview);
@@ -984,14 +984,72 @@
     }
 
     // --- MANEJO DE DATOS LOCALES ---
+    function getDynamicData() {
+        const exps = [];
+        for(let i=1; i<=experienceCount; i++) {
+            if(document.getElementById(`exp-role-${i}`)) {
+                exps.push({
+                    role: val(`exp-role-${i}`), comp: val(`exp-comp-${i}`),
+                    start: val(`exp-start-${i}`), end: val(`exp-end-${i}`),
+                    desc: val(`exp-desc-${i}`)
+                });
+            }
+        }
+        const edus = [];
+        for(let i=1; i<=educationCount; i++) {
+            if(document.getElementById(`edu-degree-${i}`)) {
+                edus.push({
+                    degree: val(`edu-degree-${i}`), inst: val(`edu-inst-${i}`),
+                    start: val(`edu-start-${i}`), end: val(`edu-end-${i}`)
+                });
+            }
+        }
+        const sks = [];
+        for(let i=1; i<=skillCount; i++) {
+            if(document.getElementById(`skill-name-${i}`)) {
+                sks.push({
+                    name: val(`skill-name-${i}`), level: val(`skill-level-${i}`)
+                });
+            }
+        }
+        const crs = [];
+        for(let i=1; i<=courseCount; i++) {
+            if(document.getElementById(`course-title-${i}`)) {
+                crs.push({
+                    title: val(`course-title-${i}`), issuer: val(`course-issuer-${i}`),
+                    desc: val(`course-desc-${i}`)
+                });
+            }
+        }
+        const lngs = [];
+        for(let i=1; i<=languageCount; i++) {
+            if(document.getElementById(`lang-name-${i}`)) {
+                lngs.push({
+                    name: val(`lang-name-${i}`), level: val(`lang-level-${i}`)
+                });
+            }
+        }
+        const ints = [];
+        for(let i=1; i<=interestCount; i++) {
+            if(document.getElementById(`int-name-${i}`)) {
+                ints.push({
+                    name: val(`int-name-${i}`)
+                });
+            }
+        }
+        return { experiences: exps, education: edus, skills: sks, courses: crs, languages: lngs, interests: ints };
+    }
+
     function saveData() {
+        const dynData = getDynamicData();
         const data = {
             name: val('input-name'), lastname: val('input-lastname'), title: val('input-title'),
             email: val('input-email'), phone: val('input-phone'), address: val('input-address'), profile: val('input-profile'),
             linkedin: val('input-linkedin'), website: val('input-website'), birth: val('input-birth'), nationality: val('input-nationality'),
             marital: val('input-marital'), license: val('input-license'), photo: currentPhoto,
             designBody: val('design-font-body'), designHeader: val('design-font-header'), designScale: val('design-scale'),
-            designColor: document.documentElement.style.getPropertyValue('--cv-primary')
+            designColor: document.documentElement.style.getPropertyValue('--cv-primary'),
+            ...dynData
         };
         localStorage.setItem('cvDataNativa', JSON.stringify(data));
     }
@@ -1018,6 +1076,77 @@
             if(data.designHeader) document.getElementById('design-font-header').value = data.designHeader;
             if(data.designScale) document.getElementById('design-scale').value = data.designScale;
             if(data.designColor) setPalette(data.designColor);
+
+            document.getElementById('experience-container').innerHTML = '';
+            document.getElementById('education-container').innerHTML = '';
+            document.getElementById('skills-container').innerHTML = '';
+            document.getElementById('courses-container').innerHTML = '';
+            document.getElementById('languages-container').innerHTML = '';
+            document.getElementById('interests-container').innerHTML = '';
+            
+            experienceCount = 0; educationCount = 0; skillCount = 0; courseCount = 0; languageCount = 0; interestCount = 0;
+
+            if(data.experiences && data.experiences.length > 0) {
+                data.experiences.forEach(e => {
+                    addExperience();
+                    const i = experienceCount;
+                    document.getElementById(`exp-role-${i}`).value = e.role || '';
+                    document.getElementById(`exp-comp-${i}`).value = e.comp || '';
+                    document.getElementById(`exp-start-${i}`).value = e.start || '';
+                    document.getElementById(`exp-end-${i}`).value = e.end || '';
+                    document.getElementById(`exp-desc-${i}`).value = e.desc || '';
+                });
+            } else { addExperience(); }
+
+            if(data.education && data.education.length > 0) {
+                data.education.forEach(e => {
+                    addEducation();
+                    const i = educationCount;
+                    document.getElementById(`edu-degree-${i}`).value = e.degree || '';
+                    document.getElementById(`edu-inst-${i}`).value = e.inst || '';
+                    document.getElementById(`edu-start-${i}`).value = e.start || '';
+                    document.getElementById(`edu-end-${i}`).value = e.end || '';
+                });
+            } else { addEducation(); }
+
+            if(data.skills && data.skills.length > 0) {
+                data.skills.forEach(e => {
+                    addSkill();
+                    const i = skillCount;
+                    document.getElementById(`skill-name-${i}`).value = e.name || '';
+                    document.getElementById(`skill-level-${i}`).value = e.level || '4';
+                });
+            } else { addSkill(); }
+
+            if(data.courses && data.courses.length > 0) {
+                data.courses.forEach(e => {
+                    addCourse();
+                    const i = courseCount;
+                    document.getElementById(`course-title-${i}`).value = e.title || '';
+                    document.getElementById(`course-issuer-${i}`).value = e.issuer || '';
+                    document.getElementById(`course-desc-${i}`).value = e.desc || '';
+                });
+            }
+
+            if(data.languages && data.languages.length > 0) {
+                data.languages.forEach(e => {
+                    addLanguage();
+                    const i = languageCount;
+                    document.getElementById(`lang-name-${i}`).value = e.name || '';
+                    document.getElementById(`lang-level-${i}`).value = e.level || '';
+                });
+            } else { addLanguage(); }
+
+            if(data.interests && data.interests.length > 0) {
+                data.interests.forEach(e => {
+                    addInterest();
+                    const i = interestCount;
+                    document.getElementById(`int-name-${i}`).value = e.name || '';
+                });
+            } else { addInterest(); }
+
+        } else {
+            addExperience(); addEducation(); addSkill(); addLanguage(); addInterest();
         }
     }
 
@@ -1307,6 +1436,38 @@
         document.getElementById('share-modal').classList.add('hidden');
     }
 
+    function unlockDownloadButton() {
+        shareCount = 5; // Desbloqueo total simulado
+        document.getElementById('share-progress-bar').style.width = '100%';
+        document.getElementById('share-status-text').innerText = 'Envíos completados: 5/5 personas';
+        document.getElementById('share-status-text').classList.add('text-emerald-400');
+        document.getElementById('share-status-text').classList.remove('text-gray-500');
+        
+        const btn = document.getElementById('btn-final-download');
+        btn.disabled = false;
+        btn.classList.remove('bg-dark-700', 'text-gray-500', 'cursor-not-allowed');
+        btn.classList.add('bg-brand', 'text-white', 'hover:bg-blue-600', 'shadow-xl', 'shadow-blue-500/30');
+        btn.innerHTML = '<img src="logo.png" class="w-4 h-4 opacity-90" alt="PDF"> Descargar PDF (Desbloqueado)';
+        btn.onclick = () => {
+            closeShareModal();
+            downloadNativePDF();
+        };
+    }
+
+    function checkUnlockState() {
+        const unlockTime = localStorage.getItem('cvUnlockTime');
+        if (unlockTime) {
+            const now = Date.now();
+            const timeDiff = now - parseInt(unlockTime);
+            // 5 minutos = 5 * 60 * 1000 = 300000 ms
+            if (timeDiff < 300000) {
+                unlockDownloadButton();
+            } else {
+                localStorage.removeItem('cvUnlockTime');
+            }
+        }
+    }
+
     function shareLink(platform) {
         const text = encodeURIComponent(
 "🚀 CVSTUDIO33 | TECNOLOGÍA LÍDER EN EMPLEABILIDAD\n\n" +
@@ -1322,7 +1483,6 @@
 
 "■ TECNOLOGÍA PROPIA INSUPERABLE\n\n" +
 "• IA NYX: Distribución masiva inteligente a más de 200 corporaciones en minutos. 🔗 https://CvStudio33.com.ar/protocolonyx.html\n\n" +
-
 "• IA AXÓN: Auditoría algorítmica para asegurar el paso perfecto de filtros corporativos. 🔗 https://CvStudio33.com.ar/protocoloaxon.html\n\n" +
 
 "■ EL MEJOR PROGRAMA DE SOCIOS E IMPACTO GLOBAL\n\n" +
@@ -1347,33 +1507,13 @@
         
         if(!sharing && shareCount < 5) {
             sharing = true;
-            // Simulamos la verificación con una cuenta regresiva de 5 segundos
-            let timeLeft = 5;
-            const interval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-                    shareCount = 5; // Desbloqueo total simulado
-                    document.getElementById('share-progress-bar').style.width = '100%';
-                    document.getElementById('share-status-text').innerText = 'Envíos completados: 5/5 personas';
-                    document.getElementById('share-status-text').classList.add('text-emerald-400');
-                    document.getElementById('share-status-text').classList.remove('text-gray-500');
-                    
-                    const btn = document.getElementById('btn-final-download');
-                    btn.disabled = false;
-                    btn.classList.remove('bg-dark-700', 'text-gray-500', 'cursor-not-allowed');
-                    btn.classList.add('bg-brand', 'text-white', 'hover:bg-blue-600', 'shadow-xl', 'shadow-blue-500/30');
-                    btn.innerHTML = '<img src="logo.png" class="w-4 h-4 opacity-90" alt="PDF"> Descargar PDF (Desbloqueado)';
-                    btn.onclick = () => {
-                        closeShareModal();
-                        downloadNativePDF();
-                    };
-                    showToast("¡Gracias por compartir! Tu descarga está desbloqueada.");
-                }
-            }, 1000);
+            localStorage.setItem('cvUnlockTime', Date.now());
+            unlockDownloadButton();
+            showToast("¡Gracias por compartir! Tu descarga está desbloqueada por 5 minutos.");
         }
     }
 
 </script>
 </body>
 </html>
+

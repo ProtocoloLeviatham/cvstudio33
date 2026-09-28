@@ -445,6 +445,21 @@
             background-color: var(--cv-primary);
         }
 
+        .interests-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .interest-pill {
+            background-color: #f3f4f6;
+            color: #374151;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: calc(10.5px * var(--cv-scale));
+            font-weight: 600;
+            border: 1px solid #e5e7eb;
+        }
+
         .draggable-item { cursor: grab; }
         .sortable-ghost { opacity: 0.3; background: rgba(0,0,0,0.05); border-radius: 8px; }
         /* Impresión (PDF real ATS) */
@@ -821,6 +836,9 @@
 
                     <div class="section-title">INFORMÁTICA / HABILIDADES</div>
                     <div class="skills-container" id="display-skills"></div>
+
+                    <div class="section-title" id="title-interests" style="display:none;">INTERESES</div>
+                    <div class="interests-container" id="display-interests"></div>
                 </div>
             </div>
         </div>
@@ -879,21 +897,25 @@
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#25D366] group-hover:shadow-[0_0_15px_rgba(37,211,102,0.3)] transition-all duration-300">
                         <img src="logo.png" class="w-8 h-8 object-contain" alt="WhatsApp">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-white transition-colors">WhatsApp</span>
                 </button>
                 <button onclick="shareLink('telegram')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#0088cc] group-hover:shadow-[0_0_15px_rgba(0,136,204,0.3)] transition-all duration-300">
                         <img src="logo.png" class="w-8 h-8 object-contain" alt="Telegram">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-white transition-colors">Telegram</span>
                 </button>
                 <button onclick="shareLink('instagram')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#E1306C] group-hover:shadow-[0_0_15px_rgba(225,48,108,0.3)] transition-all duration-300">
                         <img src="logo.png" class="w-8 h-8 object-contain" alt="Instagram">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-white transition-colors">Instagram</span>
                 </button>
                 <button onclick="shareLink('tiktok')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300">
                         <img src="logo.png" class="w-8 h-8 object-contain" alt="TikTok">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-white transition-colors">TikTok</span>
                 </button>
             </div>
             
@@ -1400,6 +1422,8 @@
             }
         }
         document.getElementById('display-interests').innerHTML = html;
+        const title = document.getElementById('title-interests');
+        if (title) title.style.display = html ? 'block' : 'none';
     }
 
     function removeEl(id) { document.getElementById(id).remove(); updateCV(); }
@@ -1516,4 +1540,5 @@
 </script>
 </body>
 </html>
+
 

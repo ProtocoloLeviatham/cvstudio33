@@ -724,23 +724,27 @@
             <div class="grid grid-cols-4 gap-5 w-full mb-8 z-10 px-4">
                 <button onclick="shareLink('whatsapp')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#25D366] group-hover:shadow-[0_0_15px_rgba(37,211,102,0.3)] transition-all duration-300">
-                        <img src="whatsApp.png" class="w-8 h-8 object-contain" alt="WhatsApp">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="WhatsApp">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-[#25D366] transition-colors tracking-wide">WhatsApp</span>
                 </button>
                 <button onclick="shareLink('telegram')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#0088cc] group-hover:shadow-[0_0_15px_rgba(0,136,204,0.3)] transition-all duration-300">
-                        <img src="telegram.png" class="w-8 h-8 object-contain" alt="Telegram">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="Telegram">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-[#0088cc] transition-colors tracking-wide">Telegram</span>
                 </button>
                 <button onclick="shareLink('instagram')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-[#E1306C] group-hover:shadow-[0_0_15px_rgba(225,48,108,0.3)] transition-all duration-300">
-                        <img src="instagram.png" class="w-8 h-8 object-contain" alt="Instagram">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="Instagram">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-[#E1306C] transition-colors tracking-wide">Instagram</span>
                 </button>
                 <button onclick="shareLink('tiktok')" class="group flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-2xl bg-dark-900 border border-dark-700 flex items-center justify-center group-hover:scale-110 group-hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all duration-300">
-                        <img src="tiktok.png" class="w-8 h-8 object-contain" alt="TikTok">
+                        <img src="logo.png" class="w-8 h-8 object-contain" alt="TikTok">
                     </div>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-white transition-colors tracking-wide">TikTok</span>
                 </button>
             </div>
             
@@ -772,6 +776,7 @@
     window.onload = function() {
         addExperience(); addEducation(); addSkill(); addLanguage(); addInterest();
         loadData();
+        checkUnlockStatus();
         updateCV();
         updateDesign();
         initSortables();
@@ -832,13 +837,51 @@
 
     // --- MANEJO DE DATOS LOCALES ---
     function saveData() {
+        let exps = [];
+        for(let i=1; i<=experienceCount; i++) {
+            if(document.getElementById(`exp-role-${i}`)) {
+                exps.push({ role: val(`exp-role-${i}`), comp: val(`exp-comp-${i}`), start: val(`exp-start-${i}`), end: val(`exp-end-${i}`), desc: val(`exp-desc-${i}`) });
+            }
+        }
+        let edus = [];
+        for(let i=1; i<=educationCount; i++) {
+            if(document.getElementById(`edu-degree-${i}`)) {
+                edus.push({ degree: val(`edu-degree-${i}`), inst: val(`edu-inst-${i}`), start: val(`edu-start-${i}`), end: val(`edu-end-${i}`) });
+            }
+        }
+        let skls = [];
+        for(let i=1; i<=skillCount; i++) {
+            if(document.getElementById(`skill-name-${i}`)) {
+                skls.push({ name: val(`skill-name-${i}`), level: val(`skill-level-${i}`) });
+            }
+        }
+        let crs = [];
+        for(let i=1; i<=courseCount; i++) {
+            if(document.getElementById(`course-title-${i}`)) {
+                crs.push({ title: val(`course-title-${i}`), issuer: val(`course-issuer-${i}`), desc: val(`course-desc-${i}`) });
+            }
+        }
+        let lngs = [];
+        for(let i=1; i<=languageCount; i++) {
+            if(document.getElementById(`lang-name-${i}`)) {
+                lngs.push({ name: val(`lang-name-${i}`), level: val(`lang-level-${i}`) });
+            }
+        }
+        let ints = [];
+        for(let i=1; i<=interestCount; i++) {
+            if(document.getElementById(`int-name-${i}`)) {
+                ints.push({ name: val(`int-name-${i}`) });
+            }
+        }
+
         const data = {
             name: val('input-name'), lastname: val('input-lastname'), title: val('input-title'),
             email: val('input-email'), phone: val('input-phone'), address: val('input-address'), profile: val('input-profile'),
             linkedin: val('input-linkedin'), website: val('input-website'), birth: val('input-birth'), nationality: val('input-nationality'),
             marital: val('input-marital'), license: val('input-license'), photo: currentPhoto,
             designBody: val('design-font-body'), designHeader: val('design-font-header'), designScale: val('design-scale'),
-            designColor: document.documentElement.style.getPropertyValue('--cv-primary')
+            designColor: document.documentElement.style.getPropertyValue('--cv-primary'),
+            experiences: exps, educations: edus, skills: skls, courses: crs, languages: lngs, interests: ints
         };
         localStorage.setItem('cvDataNativa', JSON.stringify(data));
     }
@@ -865,6 +908,66 @@
             if(data.designHeader) document.getElementById('design-font-header').value = data.designHeader;
             if(data.designScale) document.getElementById('design-scale').value = data.designScale;
             if(data.designColor) setPalette(data.designColor);
+
+            if (data.experiences && data.experiences.length > 0) {
+                document.getElementById('experience-container').innerHTML = '';
+                experienceCount = 0;
+                data.experiences.forEach(ex => {
+                    addExperience();
+                    document.getElementById(`exp-role-${experienceCount}`).value = ex.role;
+                    document.getElementById(`exp-comp-${experienceCount}`).value = ex.comp;
+                    document.getElementById(`exp-start-${experienceCount}`).value = ex.start;
+                    document.getElementById(`exp-end-${experienceCount}`).value = ex.end;
+                    document.getElementById(`exp-desc-${experienceCount}`).value = ex.desc;
+                });
+            }
+            if (data.educations && data.educations.length > 0) {
+                document.getElementById('education-container').innerHTML = '';
+                educationCount = 0;
+                data.educations.forEach(ed => {
+                    addEducation();
+                    document.getElementById(`edu-degree-${educationCount}`).value = ed.degree;
+                    document.getElementById(`edu-inst-${educationCount}`).value = ed.inst;
+                    document.getElementById(`edu-start-${educationCount}`).value = ed.start;
+                    document.getElementById(`edu-end-${educationCount}`).value = ed.end;
+                });
+            }
+            if (data.skills && data.skills.length > 0) {
+                document.getElementById('skills-container').innerHTML = '';
+                skillCount = 0;
+                data.skills.forEach(sk => {
+                    addSkill();
+                    document.getElementById(`skill-name-${skillCount}`).value = sk.name;
+                    document.getElementById(`skill-level-${skillCount}`).value = sk.level;
+                });
+            }
+            if (data.courses && data.courses.length > 0) {
+                document.getElementById('courses-container').innerHTML = '';
+                courseCount = 0;
+                data.courses.forEach(cr => {
+                    addCourse();
+                    document.getElementById(`course-title-${courseCount}`).value = cr.title;
+                    document.getElementById(`course-issuer-${courseCount}`).value = cr.issuer;
+                    document.getElementById(`course-desc-${courseCount}`).value = cr.desc;
+                });
+            }
+            if (data.languages && data.languages.length > 0) {
+                document.getElementById('languages-container').innerHTML = '';
+                languageCount = 0;
+                data.languages.forEach(ln => {
+                    addLanguage();
+                    document.getElementById(`lang-name-${languageCount}`).value = ln.name;
+                    document.getElementById(`lang-level-${languageCount}`).value = ln.level;
+                });
+            }
+            if (data.interests && data.interests.length > 0) {
+                document.getElementById('interests-container').innerHTML = '';
+                interestCount = 0;
+                data.interests.forEach(int => {
+                    addInterest();
+                    document.getElementById(`int-name-${interestCount}`).value = int.name;
+                });
+            }
         }
     }
 
@@ -1148,7 +1251,62 @@
 
     // --- LÓGICA DE COMPARTIR PARA DESCARGAR ---
     let shareCount = 0;
-    let sharing = false;
+    let unlockTimeout = null;
+
+    function checkUnlockStatus() {
+        const unlockTime = localStorage.getItem('cvUnlockTime');
+        if (unlockTime) {
+            const diff = Date.now() - parseInt(unlockTime);
+            const timeLimit = 3 * 60 * 1000; // 3 minutos
+            if (diff < timeLimit) {
+                unlockDownload(timeLimit - diff);
+            } else {
+                lockDownload();
+            }
+        }
+    }
+
+    function unlockDownload(timeLeftMs) {
+        shareCount = 5;
+        document.getElementById('share-progress-bar').style.width = '100%';
+        document.getElementById('share-status-text').innerText = 'Envíos completados: 5/5 personas';
+        document.getElementById('share-status-text').classList.add('text-emerald-400');
+        document.getElementById('share-status-text').classList.remove('text-gray-500');
+        
+        const btn = document.getElementById('btn-final-download');
+        btn.disabled = false;
+        btn.classList.remove('bg-dark-700', 'text-gray-500', 'cursor-not-allowed');
+        btn.classList.add('bg-brand', 'text-white', 'hover:bg-blue-600', 'shadow-xl', 'shadow-blue-500/30');
+        btn.innerHTML = '<img src="logo.png" class="w-4 h-4 opacity-90" alt="PDF"> Descargar PDF (Desbloqueado)';
+        btn.onclick = () => {
+            closeShareModal();
+            downloadNativePDF();
+        };
+
+        if (unlockTimeout) clearTimeout(unlockTimeout);
+        unlockTimeout = setTimeout(() => {
+            lockDownload();
+            showToast("El tiempo de desbloqueo ha expirado (3 minutos).");
+        }, timeLeftMs);
+    }
+
+    function lockDownload() {
+        shareCount = 0;
+        localStorage.removeItem('cvUnlockTime');
+        if (unlockTimeout) clearTimeout(unlockTimeout);
+        
+        document.getElementById('share-progress-bar').style.width = '0%';
+        document.getElementById('share-status-text').innerText = '0/5';
+        document.getElementById('share-status-text').classList.remove('text-emerald-400');
+        document.getElementById('share-status-text').classList.add('text-gray-500');
+        
+        const btn = document.getElementById('btn-final-download');
+        btn.disabled = true;
+        btn.classList.add('bg-dark-700', 'text-gray-500', 'cursor-not-allowed');
+        btn.classList.remove('bg-brand', 'text-white', 'hover:bg-blue-600', 'shadow-xl', 'shadow-blue-500/30');
+        btn.innerHTML = '<i class="fa-solid fa-lock group-disabled:text-gray-600"></i> Descargar Documento';
+        btn.onclick = null;
+    }
 
     function openShareModal() {
         document.getElementById('share-modal').classList.remove('hidden');
@@ -1172,7 +1330,6 @@
 
 "■ TECNOLOGÍA PROPIA INSUPERABLE\n\n" +
 "• IA NYX: Distribución masiva inteligente a más de 200 corporaciones en minutos. 🔗 https://CvStudio33.com.ar/protocolonyx.html\n\n" +
-
 "• IA AXÓN: Auditoría algorítmica para asegurar el paso perfecto de filtros corporativos. 🔗 https://CvStudio33.com.ar/protocoloaxon.html\n\n" +
 
 "■ EL MEJOR PROGRAMA DE SOCIOS E IMPACTO GLOBAL\n\n" +
@@ -1195,38 +1352,13 @@
         
         if(url) window.open(url, '_blank');
         
-        if(!sharing && shareCount < 5) {
-            sharing = true;
-            // Simulamos la verificación con una cuenta regresiva de 5 segundos
-            let timeLeft = 5;
-            const interval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-                    shareCount = 5; // Desbloqueo total simulado
-                    document.getElementById('share-progress-bar').style.width = '100%';
-                    document.getElementById('share-status-text').innerText = 'Envíos completados: 5/5 personas';
-                    document.getElementById('share-status-text').classList.add('text-emerald-400');
-                    document.getElementById('share-status-text').classList.remove('text-gray-500');
-                    
-                    const btn = document.getElementById('btn-final-download');
-                    btn.disabled = false;
-                    btn.classList.remove('bg-dark-700', 'text-gray-500', 'cursor-not-allowed');
-                    btn.classList.add('bg-brand', 'text-white', 'hover:bg-blue-600', 'shadow-xl', 'shadow-blue-500/30');
-                    btn.innerHTML = '<img src="logo.png" class="w-4 h-4 opacity-90" alt="PDF"> Descargar PDF (Desbloqueado)';
-                    btn.onclick = () => {
-                        closeShareModal();
-                        downloadNativePDF();
-                    };
-                    showToast("¡Gracias por compartir! Tu descarga está desbloqueada.");
-                }
-            }, 1000);
-        }
+        // Desbloqueo inmediato
+        localStorage.setItem('cvUnlockTime', Date.now());
+        unlockDownload(3 * 60 * 1000);
+        showToast("¡Gracias por compartir! Tu descarga está desbloqueada por 3 minutos.");
     }
 
 </script>
 </body>
 </html>
-
-
 

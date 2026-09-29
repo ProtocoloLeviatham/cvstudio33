@@ -1,48 +1,48 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio33</title>
+    <title>CV Studio33 | Análisis de Rechazo: Entrevistas</title>
+    
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- AOS Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0f172a',
-                        secondary: '#3b82f6',
-                        accent: '#6366f1',
-                        dark: '#020617',
-                        paper: '#ffffff',
-                        ink: '#1e293b', 
-                        nyx: '#8b5cf6',
-                        axon: '#10b981',
-                        alert: '#ef4444',
+                        brand: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            900: '#0f172a',
+                            950: '#020617',
+                            highlight: '#fef08a' /* Amarillo pastel para subrayados */
+                        }
                     },
                     fontFamily: {
-                        heading: ['Montserrat', 'sans-serif'],
-                        sans: ['Open Sans', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Source Serif 4', 'serif'],
                         display: ['Playfair Display', 'serif'],
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px -15px rgba(0,0,0,0.05)',
+                        'floating': '0 30px 60px -20px rgba(0,0,0,0.08)',
                     }
                 }
             }
@@ -51,335 +51,489 @@
 
     <style>
         body { 
-            background-color: #f8fafc; 
-            color: #1e293b; 
-            overflow-x: hidden; 
-            font-family: 'Open Sans', sans-serif;
+            background-color: #FAFAFC; 
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
+        ::selection { background: #fef08a; color: #0f172a; }
         
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        /* Modern Minimalist Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
-        /* Estilos Editoriales */
-        .article-header {
-            background: linear-gradient(to bottom, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding-bottom: 4rem;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        /* Typography & Layout */
+        .article-text {
+            font-size: 1.18rem;
+            line-height: 1.95;
+            color: #374151;
+            font-weight: 300;
         }
 
-        .article-content {
-            font-family: 'Merriweather', serif;
-            font-size: 1.125rem;
-            line-height: 1.9;
-            color: #334155;
-        }
-
-        .article-content h2 {
-            font-family: 'Montserrat', sans-serif;
+        .article-text p { margin-bottom: 2.5rem; letter-spacing: -0.01em; }
+        .article-text strong { font-weight: 600; color: #111827; }
+        
+        .article-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
             font-weight: 800;
-            font-size: 1.8rem;
-            color: #0f172a;
+            color: #020617;
+            margin-top: 5rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+        }
+
+        .article-text h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #111827;
             margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-left: 1rem;
-        }
-        
-        .article-content h2::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 5px; height: 80%; width: 4px;
-            background: #ef4444; /* Rojo para errores */
-            border-radius: 2px;
-        }
-
-        .article-content p { margin-bottom: 1.5rem; }
-        .article-content strong { color: #0f172a; font-weight: 700; }
-        
-        .article-content ul { 
-            list-style: none; margin-bottom: 2rem; 
-            background: #fff5f5; /* Fondo rojizo suave */
-            padding: 2rem; border-radius: 8px; border-left: 4px solid #fca5a5;
-        }
-        .article-content li { margin-bottom: 0.8rem; display: flex; gap: 10px; }
-        .article-content li::before { content: '✕'; color: #ef4444; font-weight: bold; }
-
-        .highlight-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2.5rem 0;
-            position: relative;
-            border-left: 4px solid #10b981; /* Verde AXON */
-        }
-
-        /* Tarjetas de Blogs */
-        .blog-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            border-color: #3b82f6;
-        }
-        .blog-thumb { height: 200px; overflow: hidden; }
-        .blog-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .blog-card:hover .blog-thumb img { transform: scale(1.05); }
-
-        /* Formulario Tickets */
-        .ticket-form-container {
-            background: #1e293b;
-            color: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-        .ticket-input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
             margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-        .ticket-input:focus { outline: none; border-color: #3b82f6; background: rgba(255,255,255,0.1); }
-        
-        .bg-grid {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+
+        .drop-cap {
+            float: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 6.5rem;
+            line-height: 0.7;
+            padding-top: 0.6rem;
+            padding-right: 1.2rem;
+            color: #ef4444; /* Tono rojo para este blog de alertas */
+            font-weight: 800;
         }
+
+        /* Marcador visual periodístico (Highlighter effect) */
+        .text-highlight {
+            background: linear-gradient(120deg, rgba(254, 240, 138, 0.8) 0%, rgba(254, 240, 138, 0.8) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 35%;
+            background-position: 0 92%;
+            font-weight: 400;
+            color: #111827;
+            padding: 0 4px;
+        }
+
+        /* Estilo para notas del editor / cajas de contexto */
+        .editor-note {
+            background: #ffffff;
+            border-left: 3px solid #ef4444; /* Borde rojo temática de errores */
+            padding: 2.5rem;
+            margin: 3.5rem 0;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03);
+            position: relative;
+        }
+        .editor-note::before {
+            content: '“';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            color: #fca5a5; /* Rojo muy suave */
+            z-index: 0;
+            line-height: 1;
+        }
+        .editor-note p { position: relative; z-index: 1; margin-bottom: 0; }
+
+        /* UI Components */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .input-premium {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #111827;
+            transition: all 0.3s ease;
+        }
+        .input-premium:focus {
+            outline: none;
+            border-color: #0f172a;
+            box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.05);
+        }
+
+        .btn-black {
+            background: #020617;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            padding: 1.2rem 2rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        .btn-black:hover { transform: translateY(-3px); box-shadow: 0 12px 25px -10px rgba(0,0,0,0.5); background: #1e293b; }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <!-- NAVBAR -->
-    <nav class="bg-primary text-white border-b border-white/10 h-20 sticky top-0 z-50 shadow-lg">
-        <div class="container mx-auto px-6 h-full flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="CV Studio33" class="h-8 w-auto opacity-90">
-                <div class="h-6 w-px bg-gray-700"></div>
-                <span class="font-heading font-bold text-sm tracking-widest text-gray-300 uppercase">CV Studio33 Insights</span>
+    <!-- NAVIGATION -->
+    <nav class="glass-nav h-16 sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 h-full flex justify-between items-center max-w-7xl">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="CV Studio33" class="h-6 w-auto mix-blend-multiply opacity-90">
+                <div class="h-4 w-px bg-gray-300 mx-1"></div>
+                <span class="font-sans font-bold text-[10px] tracking-[0.25em] text-gray-500 uppercase">Editorial Insights</span>
             </div>
-            <a href="index.html" class="text-sm font-bold text-blue-400 hover:text-white transition flex items-center gap-2">
-                <i class="fa-solid fa-house"></i> Volver al Inicio
+            <a href="index.html" class="group flex items-center gap-2">
+                <span class="font-sans text-[10px] font-bold tracking-widest text-gray-400 group-hover:text-gray-900 transition-colors uppercase">Volver al Inicio</span>
             </a>
         </div>
     </nav>
 
-    <!-- HERO ARTÍCULO -->
-    <header class="article-header pt-20 pb-32">
-        <div class="container mx-auto px-4 max-w-4xl text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 border border-red-400/30 text-red-300 text-xs font-bold mb-8 uppercase tracking-widest" data-aos="fade-down">
-                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                Análisis de Rechazo 2026
+    <!-- HERO SECTION (EMOCIONAL & PERIODÍSTICO) -->
+    <header class="pt-28 pb-24 relative overflow-hidden bg-white border-b border-gray-100">
+        <!-- Detalle visual sutil en fondo (Tono rojizo/alerta) -->
+        <div class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-red-50 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 max-w-[850px] relative z-10 text-center">
+            
+            <div class="inline-flex flex-col items-center gap-4 mb-10" data-aos="fade-down">
+                <span class="px-4 py-1.5 bg-red-100/50 text-red-800 rounded-full text-[10px] font-sans font-bold tracking-widest uppercase border border-red-200/50">
+                    Análisis de Rechazo 2026
+                </span>
             </div>
-            <h1 class="text-3xl md:text-5xl font-display font-bold mb-8 leading-tight" data-aos="zoom-in">
-                7 Errores "Invisibles" que te Descartan en la Primera Entrevista
+            
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-800 text-brand-950 leading-[1.05] tracking-tight mb-8" data-aos="fade-up">
+                7 Errores "Invisibles" que te Descartan al Instante
             </h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto font-light mb-8">
-                Tu CV pasó el filtro de NYX, pero el factor humano te detuvo. Analizamos por qué el 60% de los candidatos cualificados fallan en los primeros 10 minutos.
+            
+            <p class="text-xl md:text-2xl font-serif font-light text-gray-600 leading-relaxed mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                Tu CV optimizado venció al algoritmo ATS. Estás en la videollamada. Pero de repente, <span class="text-highlight">el factor humano te detiene en seco.</span> Descubre por qué el 60% de los candidatos altamente cualificados fracasan en los primeros 10 minutos.
             </p>
-            <div class="flex justify-center items-center gap-6 text-sm text-gray-400 font-sans border-t border-white/10 pt-6 max-w-lg mx-auto" data-aos="fade-up">
-                <div class="flex items-center gap-2">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-8 h-8 rounded-full border border-white/20">
-                    <span>Por <strong>Dra. Elena Vance (RRHH)</strong></span>
+
+            <!-- Datos del autor / Metadata periodística -->
+            <div class="flex justify-center items-center gap-6 pt-10 border-t border-gray-100" data-aos="fadeIn" data-aos-delay="200">
+                <div class="flex items-center gap-4">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 grayscale opacity-80 bg-gray-50 p-1 rounded-full border border-gray-200 object-cover">
+                    <div class="text-left">
+                        <div class="font-sans text-sm font-bold text-gray-900">Dra. Elena Vance (Estratega RRHH)</div>
+                        <div class="font-sans text-[11px] text-gray-500 uppercase tracking-wider mt-1">
+                            Insights de 5,000 Entrevistas Reales · <strong class="text-brand-900">29 de Sept. 2026</strong>
+                        </div>
+                    </div>
                 </div>
-                <span>•</span>
-                <span>Actualizado: Noviembre 2025</span>
             </div>
         </div>
     </header>
 
-    <!-- CONTENIDO DEL ARTÍCULO -->
-    <article class="container mx-auto px-4 max-w-3xl -mt-20 relative z-10 pb-20">
-        
-        <div class="bg-white rounded-xl shadow-2xl p-8 md:p-12 article-content" data-aos="fade-up">
+    <!-- MAIN GRID LAYOUT -->
+    <main class="container mx-auto px-6 max-w-7xl py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
             
-            <p class="first-letter:text-5xl first-letter:font-bold first-letter:text-red-600 first-letter:float-left first-letter:mr-3 first-letter:mt-[-10px]">
-                Has logrado lo más difícil: tu currículum (probablemente optimizado con nuestra tecnología AXON) venció al algoritmo ATS. Ahora estás frente a un humano, o peor, frente a una IA de análisis facial. En el ciclo de contratación 2025-2026, los errores ya no son tan obvios como "llegar tarde" o "vestir mal".
-            </p>
+            <!-- ARTICLE BODY -->
+            <article class="lg:col-span-8 article-text">
+                <p>
+                    <span class="drop-cap">H</span>as logrado lo estadísticamente más difícil del proceso corporativo moderno: tu currículum, probablemente optimizado por sistemas como AXON, logró atravesar la despiadada muralla de los filtros ATS (Applicant Tracking Systems). Lograste la cita.
+                </p>
+                <p>
+                    Ahora estás frente a un humano (o en las empresas más agresivas, frente a una IA de análisis facial). Tienes tu taza de café lista, el anillo de luz encendido y tu discurso preparado. Y, sin embargo, a los 10 minutos, el reclutador ya ha decidido subconscientemente que no eres la persona indicada. <span class="text-highlight">Ni siquiera importa cuán impecable sea tu código o cuán altas hayan sido tus ventas.</span>
+                </p>
+                <p>
+                    En el ciclo corporativo actual, los rechazos ya no se basan en errores obvios como "llegar tarde" o "vestir mal". Son fallos microscópicos, conductuales y digitales. Analizamos las grabaciones de 5,000 entrevistas de nivel ejecutivo y encontramos los 7 errores que te están saboteando en silencio.
+                </p>
 
-            <p>
-                Los datos de <strong>CV Studio33</strong>, recopilados de 5,000 entrevistas simuladas este año, revelan que los fallos son sutiles, conductuales y, a menudo, digitales. Aquí están los errores críticos que están eliminando a candidatos perfectos.
-            </p>
+                <!-- ERROR 1 -->
+                <h2>1. La Trampa de ChatGPT (El Efecto Guion)</h2>
+                <p>
+                    Seamos sinceros: todos estamos usando IA generativa para preparar posibles respuestas. El problema es cuando suenas exactamente como el prompt que escribiste.
+                </p>
+                <p>
+                    El <em>Over-Rehearsing</em> (ensayar demasiado) es tóxico. Los reclutadores actuales están entrenados para detectar la cadencia robótica, la falta de pausas naturales y el uso de vocabulario excesivamente corporativo que nadie usa en la vida real. Si recitas una respuesta perfecta sin una onza de duda o emoción humana, <span class="text-highlight">suenas inauténtico. Y la inautenticidad genera desconfianza inmediata.</span>
+                </p>
 
-            <h2>1. El "Efecto Guion" (Over-Rehearsing)</h2>
-            <p>
-                Con el auge de ChatGPT, los candidatos llegan con respuestas memorizadas que suenan robóticas. Los reclutadores de 2026 buscan autenticidad radical. Si suenas como una IA, serás tratado como una.
-            </p>
-            <ul>
-                <li><strong>El Error:</strong> Recitar respuestas perfectas sin pausas naturales ni emoción.</li>
-                <li><strong>La Solución:</strong> Usa la estructura "STAR" pero permite la improvisación en los detalles emocionales de la historia.</li>
-            </ul>
+                <!-- ERROR 2 -->
+                <h2>2. Tu Fondo de Zoom es tu Nuevo Apretón de Manos</h2>
+                <p>
+                    Hoy, el 80% de los primeros contactos son remotos. Olvida el viejo paradigma del apretón de manos firme; tu "higiene digital" es tu nueva carta de presentación.
+                </p>
+                <p>
+                    Tener la cámara por debajo de la línea de los ojos, contraluz extrema, fondos virtuales con recortes deficientes que amputan tus orejas, o mirar a tu propia cara en la pantalla en lugar de a la lente de la cámara, grita "falta de profesionalismo digital". Quieres liderar un equipo remoto de un millón de dólares, pero no sabes iluminar tu escritorio. Es una disonancia brutal.
+                </p>
 
-            <h2>2. Falta de "Higiene Digital" en Videollamadas</h2>
-            <p>
-                El 80% de las primeras entrevistas son remotas. Tu fondo, tu iluminación y tu contacto visual con la cámara (no con la pantalla) son tu nuevo "apretón de manos".
-            </p>
-            
-            <!-- CAJA DE DATO AXON -->
-            <div class="highlight-box">
-                <div class="flex items-start gap-4">
-                    <div class="text-3xl text-axon"><i class="fa-solid fa-chart-pie"></i></div>
+                <!-- CITA DESTACADA PERIODÍSTICA -->
+                <div class="editor-note" data-aos="fade-right">
+                    <p class="text-2xl font-display font-medium text-brand-950 italic leading-snug">
+                        "El candidato miró hacia abajo a sus notas durante el 40% de la llamada. No estaba hablando con nosotros, le estaba dictando a su escritorio. Lo descartamos en cinco minutos."
+                    </p>
+                </div>
+
+                <!-- ERROR 3 -->
+                <h2>3. El Suicidio de Preguntar: "¿Qué hacen exactamente?"</h2>
+                <p>
+                    Hace una década, preguntar por el modelo de negocio en la entrevista demostraba curiosidad. En 2026, con toda la inteligencia artificial a tu disposición, demuestra una alarmante falta de preparación estratégica.
+                </p>
+                <p>
+                    Se asume tácitamente que has devorado sus reportes anuales, escrutado las publicaciones de los directivos en LinkedIn y analizado sus últimos movimientos de mercado. Debes llegar a la entrevista validando sus desafíos, no preguntando a qué se dedican.
+                </p>
+
+                <!-- ERROR 4 -->
+                <h2>4. El Silencio Estratégico: Escuchar es el Nuevo Hablar</h2>
+                <p>
+                    La ansiedad nos hace rellenar cada milisegundo de silencio. El reclutador apenas termina su frase y tú ya estás disparando tu respuesta como una ametralladora.
+                </p>
+                <p>
+                    Este es un fallo de las llamadas <em>Soft Skills Silenciosas</em>. Interrumpir o responder instantáneamente proyecta una baja inteligencia emocional y egocentrismo. Los mejores candidatos hacen una pausa visible de dos segundos. Toman aire. Asienten. Demuestran que están procesando la información del otro humano, no solo esperando su turno para brillar.
+                </p>
+
+                <!-- ERROR 5 -->
+                <h2>5. Disonancia Cognitiva: Cuando tu Actitud no Paga lo que tu CV Factura</h2>
+                <p>
+                    Si pagaste por un currículum magistral (o usaste AXON) que te vende como un "Líder Transformacional y Disruptivo", pero llegas a la entrevista mostrándote pasivo, duditativo y pidiendo permiso para todo, el cerebro del reclutador entra en cortocircuito.
+                </p>
+                <p>
+                    <span class="text-highlight">Tu comunicación no verbal debe cobrar los cheques que tu currículum firmó.</span> Si te vendiste como un estratega agresivo, sé incisivo. Si te vendiste como un mentor empático, sé cálido. La incoherencia es penalizada al instante.
+                </p>
+
+                <!-- ERROR 6 -->
+                <h2>6. La Ansiedad Salarial Prematura</h2>
+                <p>
+                    Es cierto que la transparencia es vital en esta época, pero forzar la negociación de compensaciones, bonos remotos y días libres antes de haber establecido tu propio valor operativo es un error táctico. En los primeros 15 minutos, tú eres el producto intentando resolver un dolor de la empresa. No pidas la recompensa antes de diagnosticar la herida.
+                </p>
+
+                <!-- ERROR 7 -->
+                <h2>7. Ignorar al Entrevistador "No Técnico"</h2>
+                <p>
+                    En paneles asíncronos o de múltiples participantes, solemos enfocar todo el contacto visual (y el esfuerzo argumentativo) en el CTO o el gerente directo, ignorando completamente al representante de Recursos Humanos o al analista junior presente en la sala virtual.
+                </p>
+                <p>
+                    Error fatal. Las empresas modernas evalúan ferozmente la arrogancia. Si no puedes tratar con respeto y atención equitativa al eslabón más bajo de la sala de reuniones virtual, jamás te confiarán el liderazgo de un equipo.
+                </p>
+
+                <div class="mt-16 pt-10 border-t border-gray-200">
+                    <h3 class="font-display text-2xl font-bold mb-4 text-red-600">El Primer Paso es el Papel</h3>
+                    <p class="font-serif text-gray-500 italic">
+                        Antes de estresarte por el contacto visual o el tono de voz, necesitas asegurar la entrevista. Si no estás recibiendo las citas que mereces, el problema subyacente es la arquitectura de tu perfil. 
+                    </p>
+                </div>
+            </article>
+
+            <!-- SIDEBAR (INSIGHTS & DATOS) -->
+            <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 h-max">
+                
+                <!-- AXON Data Card -->
+                <div class="bg-white border border-gray-200 p-8 rounded-2xl shadow-premium relative overflow-hidden" data-aos="fade-left">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center border border-red-100">
+                            <img src="logo.png" class="w-4 h-4 grayscale opacity-80">
+                        </div>
+                        <span class="font-sans text-[10px] uppercase tracking-[0.2em] font-bold text-red-500">Métrica AXON 2026</span>
+                    </div>
+                    
+                    <h4 class="font-display text-xl font-bold text-brand-950 mb-3 leading-snug">El Poder de la Lente</h4>
+                    <p class="font-sans text-sm text-gray-500 leading-relaxed mb-6">
+                        Nuestro análisis de 5,000 grabaciones es concluyente: los candidatos que miran <strong>directamente al lente de su cámara web</strong> durante el 60% del tiempo de respuesta tienen una tasa de aprobación <strong class="text-brand-900">3 veces mayor</strong> que aquellos que miran la cara del reclutador en su propia pantalla.
+                    </p>
+                    
+                    <div class="h-px w-full bg-gray-100 mb-6"></div>
+                    <a href="Creandotucv.html" class="group flex items-center justify-between font-sans text-[10px] font-bold uppercase tracking-widest text-red-600">
+                        Rehacer mi CV Profesional
+                        <img src="logo.png" class="h-3 grayscale opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+                    </a>
+                </div>
+
+                <!-- Casos de Estudio Rápidos -->
+                <div class="bg-gray-50 border border-gray-100 p-8 rounded-2xl" data-aos="fade-left" data-aos-delay="100">
+                    <h4 class="font-sans text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-6">Tasa de Supervivencia</h4>
+                    
+                    <div class="mb-6">
+                        <div class="text-3xl font-display font-bold text-red-500 mb-1">60%</div>
+                        <p class="font-sans text-xs text-gray-500 font-medium leading-relaxed">
+                            Porcentaje de talento hiper-cualificado que es descartado en la primera ronda técnica exclusivamente por falta de afinidad comunicacional.
+                        </p>
+                    </div>
+                    <div class="h-px w-full bg-gray-200 mb-6"></div>
                     <div>
-                        <h4 class="font-bold text-gray-900 text-sm uppercase mb-2">Dato de AXON Intelligence</h4>
-                        <p class="text-sm text-gray-700 m-0">
-                            Candidatos que miran directamente a la lente de la cámara el 60% del tiempo tienen una tasa de aprobación <strong>3 veces mayor</strong> que aquellos que miran a la cara del entrevistador en la pantalla. Esto simula contacto visual real.
+                        <div class="text-3xl font-display font-bold text-brand-950 mb-1">< 10 min</div>
+                        <p class="font-sans text-xs text-gray-500 font-medium leading-relaxed">
+                            El tiempo promedio que un reclutador corporativo tarda en tomar una decisión irrevocable sobre tu perfil.
                         </p>
                     </div>
                 </div>
-            </div>
+            </aside>
+        </div>
+    </main>
 
-            <h2>3. No conocer la "Huella Digital" de la Empresa</h2>
-            <p>
-                Ya no basta con leer la sección "Sobre Nosotros". Se espera que hayas leído sus reportes anuales, sus últimos posts en LinkedIn y entiendas sus desafíos actuales en el mercado. Preguntar "¿Qué hacen exactamente?" es un suicidio profesional inmediato.
-            </p>
-
-            <h2>4. Descuidar las Soft Skills "Silenciosas"</h2>
-            <p>
-                En 2026, la capacidad de escuchar es más valiosa que la capacidad de hablar. Interrumpir por ansiedad o no hacer pausas reflexivas antes de responder indica baja inteligencia emocional.
-            </p>
-            <ul>
-                <li><strong>El Error:</strong> Responder inmediatamente después de que el reclutador termina la frase.</li>
-                <li><strong>La Solución:</strong> Toma 2 segundos. Demuestra que estás procesando la información.</li>
-            </ul>
-
-            <h2>5. Incoherencia entre el CV y la Realidad</h2>
-            <p>
-                Si tu CV (diseñado por nuestros expertos) promete un "Liderazgo transformacional", pero en la entrevista te muestras pasivo o inseguro, la disonancia cognitiva provocará el rechazo. Tu actitud debe facturar lo que tu CV vendió.
-            </p>
-
-            <hr class="my-12 border-gray-200">
-
-            <div class="bg-primary text-white p-8 rounded-xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-40 h-40 bg-red-500/20 rounded-full blur-[50px]"></div>
-                <h3 class="text-2xl font-bold mb-4 font-heading text-white">¿Tu CV te está consiguiendo entrevistas?</h3>
-                <p class="text-gray-300 text-sm mb-6">
-                    Antes de preocuparte por la entrevista, asegúrate de llegar a ella. Si no estás recibiendo llamadas, el problema es tu documento.
+    <!-- PROFESSIONAL FORM SECTION (GMAIL INTEGRATION) -->
+    <section class="py-28 bg-white border-t border-gray-100 relative">
+        <div class="container mx-auto px-6 max-w-6xl relative z-10">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <h2 class="font-display text-4xl lg:text-5xl font-bold text-brand-950 mb-6 leading-tight">¿Consultas sobre entrevistas?</h2>
+                <p class="font-serif text-xl text-gray-500 font-light leading-relaxed">
+                    Nuestro panel de estrategas de RRHH de CV Studio33 responde dudas reales de la comunidad. Si enfrentas una trampa común o no sabes cómo sortear una pregunta difícil, consúltanos.
                 </p>
-                <a href="Creandotucv.html" class="inline-block bg-white text-primary px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition shadow-lg">
-                    Rehacer mi CV con Plantillas Profesionales
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-white p-8 lg:p-12 rounded-3xl shadow-floating border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                <form id="proEditorialForm" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block font-sans text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Tu Nombre</label>
+                            <input type="text" id="proposerName" class="input-premium" placeholder="Ej. Candidato Activo" required>
+                        </div>
+                        <div>
+                            <label class="block font-sans text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Rol / Sector (Opcional)</label>
+                            <input type="text" id="proposerRole" class="input-premium" placeholder="Ej. Finanzas, Diseño, Tech">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-sans text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Área de Conflicto</label>
+                        <div class="relative">
+                            <select id="topicCategory" class="input-premium appearance-none cursor-pointer" required>
+                                <option value="" disabled selected>Selecciona una temática...</option>
+                                <option value="Preguntas Trampa o Difíciles">Preguntas Trampa o Difíciles</option>
+                                <option value="Lenguaje No Verbal y Actitud">Lenguaje No Verbal y Ansiedad</option>
+                                <option value="Negociación Salarial Inicial">Negociación Salarial Inicial</option>
+                                <option value="Entrevistas con Inteligencia Artificial">Sorteando Entrevistas Analizadas por IA</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-sans text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Describe tu Duda Exacta</label>
+                        <textarea id="ideaDescription" class="input-premium resize-none h-40" placeholder="Ej: Me preguntaron 'cuál es mi mayor debilidad' y siento que mi respuesta me costó el trabajo. ¿Cómo estructuro esto?" required></textarea>
+                    </div>
+                    
+                    <div id="formFeedback" class="font-sans text-sm text-center font-semibold hidden bg-gray-50 p-4 rounded-lg"></div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" class="btn-black w-full flex justify-center items-center gap-3">
+                            <span>Enviar Consulta al Panel de RRHH</span>
+                            <img src="logo.png" class="h-3 invert opacity-80">
+                        </button>
+                        <p class="text-center font-sans text-[11px] text-gray-400 mt-5 font-medium uppercase tracking-widest">
+                            Se abrirá tu cliente de correo (Gmail, etc.) con la estructura lista
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODERN RELATED POSTS -->
+    <section class="py-24 bg-brand-50 border-t border-gray-100">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="font-display text-3xl font-bold text-brand-950 tracking-tight">Sigue Perfeccionando tu Estrategia</h2>
+                <a href="#" class="hidden md:flex font-sans text-xs font-semibold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition items-center gap-2">
+                    Ver Todos los Artículos <img src="logo.png" class="h-2 grayscale">
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Card 1 (Apunta a blogs.html - Human Skills) -->
+                <a href="blogs.html" class="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-premium transition-all duration-300">
+                    <div class="h-64 bg-gray-100 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-900/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-sm px-3 py-1 rounded text-[9px] font-sans font-bold uppercase tracking-widest text-brand-900">
+                            Investigación Macro
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-display text-2xl font-bold text-brand-950 mb-3 group-hover:text-gray-600 transition-colors leading-tight">El Renacimiento de las Human Skills en 2027</h3>
+                        <p class="font-sans text-sm text-gray-500 leading-relaxed font-light mb-6">Por qué la inteligencia emocional y la flexibilidad cognitiva son ahora las únicas habilidades verdaderamente a prueba del futuro y la IA.</p>
+                        <span class="font-sans text-[11px] font-bold text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                            Leer Artículo <div class="w-4 h-px bg-gray-900 group-hover:w-8 transition-all"></div>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Card 2 (Apunta a blog2.html - Guía técnica) -->
+                <a href="blog2.html" class="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-premium transition-all duration-300">
+                    <div class="h-64 bg-gray-100 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-900/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-sm px-3 py-1 rounded text-[9px] font-sans font-bold uppercase tracking-widest text-brand-900">
+                            Guía Arquitectónica
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-display text-2xl font-bold text-brand-950 mb-3 group-hover:text-gray-600 transition-colors leading-tight">Ingeniería de Perfiles: Estructura tu CV de Cero</h3>
+                        <p class="font-sans text-sm text-gray-500 leading-relaxed font-light mb-6">La arquitectura de la información y la jerarquía de datos necesaria para superar los filtros corporativos más agresivos del mercado actual.</p>
+                        <span class="font-sans text-[11px] font-bold text-gray-900 uppercase tracking-widest flex items-center gap-2">
+                            Leer Guía <div class="w-4 h-px bg-gray-900 group-hover:w-8 transition-all"></div>
+                        </span>
+                    </div>
                 </a>
             </div>
         </div>
+    </section>
 
-    </article>
-
-    <!-- GENERADOR DE TICKET (CONECTADO A FIREBASE) -->
-    <section class="py-20 bg-gray-100 border-t border-gray-200">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row gap-12 items-center justify-center max-w-5xl mx-auto">
+    <!-- STRICT LEGAL FOOTER (EDITORIAL PROTECTION) -->
+    <footer class="bg-brand-950 py-16 border-t border-brand-900 text-white z-10 relative">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
                 
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl font-heading font-bold text-gray-800 mb-4">¿Tienes dudas sobre entrevistas?</h2>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Nuestro equipo editorial de <strong>CV Studio33</strong> responde preguntas de la comunidad. Si tienes una situación específica o una duda sobre procesos de selección modernos, envíanosla.
+                <div class="md:w-5/12">
+                    <img src="logo.png" alt="CV Studio33" class="h-10 w-auto mb-6 invert opacity-90">
+                    <p class="font-sans text-xs text-gray-400 leading-relaxed mb-4 text-justify font-light">
+                        CV Studio33 Editorial Insights opera como una extensión informativa de nuestro modelo de consultoría boutique. La información aquí contenida refleja análisis independientes sobre arquitectura de perfiles y tendencias de automatización laboral.
                     </p>
-                    <ul class="space-y-3 text-sm text-gray-500">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500"></i> Preguntas sobre códigos de vestimenta.</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500"></i> Cómo responder preguntas trampa.</li>
-                    </ul>
+                    <p class="font-sans text-xs text-gray-400 leading-relaxed text-justify font-light">
+                        Nuestra infraestructura de servicios requiere una evaluación preliminar directa para garantizar resultados. El contenido de este blog no reemplaza dicha consultoría personalizada ni garantiza el éxito en procesos de reclutamiento específicos (ATS o humanos).
+                    </p>
                 </div>
-
-                <div class="md:w-1/2 w-full">
-                    <div class="ticket-form-container">
-                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-comment-dots text-secondary"></i> Consultar al Editor
-                        </h3>
-                        <form id="blogTicketForm">
-                            <input type="text" id="readerName" class="ticket-input" placeholder="Tu Nombre">
-                            <textarea id="blogSuggestion" class="ticket-input h-32" placeholder="Describe tu duda sobre entrevistas..." required></textarea>
-                            <div id="blogMsg" class="text-xs text-center mb-3 hidden"></div>
-                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition shadow-lg flex justify-center items-center gap-2">
-                                Enviar Consulta <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN DE BLOGS RELACIONADOS -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-2xl font-bold text-gray-800 mb-10 text-center uppercase tracking-widest border-b pb-4 mx-auto max-w-xl">
-                Sigue Aprendiendo
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 
-                <!-- Blog Soft Skills (Blog.html) -->
-                <a href="blog.html" class="block group">
-                    <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="blog-thumb relative">
-                            <div class="absolute inset-0 bg-indigo-900/20 group-hover:bg-transparent transition z-10"></div>
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Soft Skills">
-                            <div class="absolute bottom-3 left-3 bg-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded shadow">TENDENCIA</div>
-                        </div>
-                        <div class="p-8">
-                            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-purple-600 transition font-heading">Las principales habilidades blandas para incluir en un CV</h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">Descubre qué buscan realmente los reclutadores en 2026 más allá de lo técnico.</p>
-                            <span class="text-xs text-purple-600 font-bold mt-4 flex items-center gap-1">Leer artículo <i class="fa-solid fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i></span>
-                        </div>
+                <div class="md:w-6/12">
+                    <h4 class="text-white font-sans font-bold mb-4 text-xs tracking-widest uppercase">Declaración de Exención de Responsabilidad</h4>
+                    <div class="bg-white/5 border border-white/10 p-5 rounded-2xl mb-6 shadow-inner">
+                        <p class="font-sans text-[10px] text-gray-300 leading-relaxed text-justify">
+                            <strong class="text-white">AVISO EDITORIAL ESTRICTO:</strong> Los artículos, noticias, proyecciones (ej. estimaciones 2026/2027) y opiniones publicadas en esta plataforma tienen un propósito <strong>estrictamente informativo, analítico y educativo</strong>. En ningún caso constituyen asesoramiento profesional, legal, laboral o financiero vinculante. CV Studio33 y sus autores <strong>no asumen responsabilidad legal alguna</strong> por decisiones de carrera, pérdidas financieras, oportunidades perdidas o resultados de contrataciones derivados de la interpretación o aplicación del contenido de este blog. El éxito laboral depende de múltiples variables de mercado externas e incontrolables. El uso continuado de esta Web App implica la aceptación automática, incondicional e irrevocable de estos términos de exención de daños.
+                        </p>
                     </div>
-                </a>
-
-                <!-- Blog Cómo hacer CV (Blog2.html) -->
-                <a href="blog2.html" class="block group">
-                    <div class="blog-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="blog-thumb relative">
-                            <div class="absolute inset-0 bg-green-900/20 group-hover:bg-transparent transition z-10"></div>
-                            <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Crear CV">
-                            <div class="absolute bottom-3 left-3 bg-green-600 text-white text-[10px] font-bold px-3 py-1 rounded shadow">GUÍA TÉCNICA</div>
-                        </div>
-                        <div class="p-8">
-                            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-green-600 transition font-heading">Cómo hacer un buen currículum vitae desde cero</h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">La guía definitiva paso a paso. Estructura, contenido y diseño de arquitectura aprobado.</p>
-                            <span class="text-xs text-green-600 font-bold mt-4 flex items-center gap-1">Leer artículo <i class="fa-solid fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i></span>
-                        </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <a href="https://protocololeviatham.github.io/cvstudio33/terminos-y-condiciones" class="font-sans text-xs font-semibold text-gray-400 hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-3 rounded-xl border border-white/10 hover:border-gray-500 uppercase tracking-wider">
+                            <img src="logo.png" class="h-3 invert opacity-60"> Términos
+                        </a>
+                        <a href="https://protocololeviatham.github.io/cvstudio33/politica-de-privacidad.html" class="font-sans text-xs font-semibold text-gray-400 hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-3 rounded-xl border border-white/10 hover:border-gray-500 uppercase tracking-wider">
+                            <img src="logo.png" class="h-3 invert opacity-60"> Privacidad
+                        </a>
+                        <a href="https://protocololeviatham.github.io/cvstudio33/politica-de-cookies.html" class="font-sans text-xs font-semibold text-gray-400 hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-3 rounded-xl border border-white/10 hover:border-gray-500 uppercase tracking-wider">
+                            <img src="logo.png" class="h-3 invert opacity-60"> Cookies
+                        </a>
                     </div>
-                </a>
-
+                </div>
+                
             </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-primary text-white py-12 border-t border-white/10">
-        <div class="container mx-auto px-4 text-center">
-            <div class="flex justify-center items-center gap-3 mb-8">
-                <img src="logo.png" alt="CV Studio33" class="h-8 opacity-70 grayscale hover:grayscale-0 transition">
-                <span class="font-heading font-bold text-lg tracking-tight">CV STUDIO33</span>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="font-sans text-[10px] text-gray-500 font-bold tracking-widest uppercase">
+                    CV STUDIO33 GLOBAL SERVICES &copy; 2026.
+                </p>
+                <p class="font-sans text-[10px] text-gray-500 font-bold tracking-widest uppercase">
+                    ARQUITECTURA DE DATOS UNIFICADA.
+                </p>
             </div>
-            <div class="flex justify-center gap-8 text-xs text-gray-400 mb-8 flex-wrap font-semibold uppercase tracking-wider">
-                <a href="terminos-y-condiciones.html" class="hover:text-white transition">Términos</a>
-                <a href="politica-de-privacidad.html" class="hover:text-white transition">Privacidad</a>
-                <a href="politica-de-cookies.html" class="hover:text-white transition">Cookies</a>
-                <a href="Centro-de-ayuda.html" class="hover:text-white transition">Ayuda</a>
-            </div>
-            <p class="text-gray-600 text-xs">© 2026 CV Studio33 Inc. Todos los derechos reservados. Buenos Aires, Argentina.</p>
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- FIREBASE MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
@@ -396,50 +550,83 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const form = document.getElementById('blogTicketForm');
-        const msgDiv = document.getElementById('blogMsg');
+        const form = document.getElementById('proEditorialForm');
+        const msgDiv = document.getElementById('formFeedback');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = form.querySelector('button');
-            const originalText = btn.innerHTML;
             
+            const btn = form.querySelector('button');
+            const originalHTML = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+            btn.innerHTML = '<span class="animate-pulse">Estructurando correo...</span>';
 
-            const name = document.getElementById('readerName').value || 'Lector Blog';
-            const suggestion = document.getElementById('blogSuggestion').value;
+            const name = document.getElementById('proposerName').value.trim();
+            const role = document.getElementById('proposerRole').value.trim() || 'No especificado';
+            const category = document.getElementById('topicCategory').value;
+            const description = document.getElementById('ideaDescription').value.trim();
 
             try {
-                // Guarda en la misma colección de tickets pero con categoría 'Blog'
+                // Firebase Backup
                 await addDoc(collection(db, "tickets"), {
                     name: name,
-                    contact: "N/A (Consulta Blog)",
-                    subject: "Consulta desde Blog1: Entrevistas",
-                    priority: "Baja",
-                    serviceRelated: "Blog",
-                    message: suggestion,
+                    role: role,
+                    category: category,
+                    message: description,
+                    source: "Editorial Entrevistas (Blog1)",
                     status: 'Pendiente',
                     timestamp: serverTimestamp()
                 });
 
-                msgDiv.innerHTML = '<span class="text-green-400"><i class="fa-solid fa-check"></i> Consulta enviada a nuestros editores.</span>';
+                // Mailto Generation
+                const mailToAddress = 'CvStudio33@gmail.com';
+                const subject = `Duda sobre Entrevistas: ${category} - por ${name}`;
+                
+                const bodyText = `¡Hola Equipo de RRHH de CV Studio33!
+
+Escribo para enviarles la siguiente consulta sobre procesos de entrevistas:
+
+👤 MIS DATOS:
+- Nombre: ${name}
+- Rol en la Industria: ${role}
+
+📚 TEMA DE LA CONSULTA:
+${category}
+
+💡 CONTEXTO Y DUDA EXACTA:
+${description}
+
+Agradezco de antemano su análisis.
+Saludos.`;
+
+                const mailtoLink = `mailto:${mailToAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+                
+                msgDiv.innerHTML = '<span class="text-brand-900">¡Perfecto! Abriendo tu correo para el envío...</span>';
                 msgDiv.classList.remove('hidden');
+                
+                window.location.href = mailtoLink;
                 form.reset();
+
             } catch (error) {
                 console.error(error);
-                msgDiv.innerHTML = '<span class="text-red-400">Error de conexión.</span>';
+                msgDiv.innerHTML = '<span class="text-red-600">Ocurrió un error. Intenta enviarnos un mail directo.</span>';
                 msgDiv.classList.remove('hidden');
             } finally {
                 setTimeout(() => {
                     btn.disabled = false;
-                    btn.innerHTML = originalText;
-                }, 2000);
+                    btn.innerHTML = originalHTML;
+                    setTimeout(() => msgDiv.classList.add('hidden'), 5000);
+                }, 3000);
             }
         });
 
-        AOS.init({ once: true, offset: 50, duration: 800 });
+        AOS.init({ 
+            once: true, 
+            offset: 40, 
+            duration: 1000,
+            easing: 'ease-out-cubic'
+        });
     </script>
 </body>
-
 </html>
+

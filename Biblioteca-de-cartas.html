@@ -1,30 +1,50 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca de Cartas | CV Studio33</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>CV Studio33 | Premium Document Architecture</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0f172a', /* Slate 900 */
-                        secondary: '#1e293b', /* Slate 800 */
-                        accent: '#3b82f6', /* Blue 500 */
-                        premium: '#f59e0b', /* Amber 500 */
-                        mp: '#009ee3', /* Mercado Pago Blue */
+                        background: '#0a0a0c',
+                        surface: '#121215',
+                        surfaceBorder: '#27272a',
+                        surfaceHover: '#1c1c20',
+                        primary: '#ffffff',
+                        muted: '#a1a1aa',
+                        accent: '#3b82f6',
+                        axon: '#10b981', 
+                        axonLight: '#34d399',
+                        nyx: '#8b5cf6', 
+                        nyxLight: '#a78bfa',
+                        elite: '#eab308', 
+                        eliteLight: '#fde047',
+                        mp: '#009EE3',
                     },
                     fontFamily: {
-                        sans: ['Open Sans', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                         heading: ['Montserrat', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow-axon': '0 0 25px -5px rgba(16, 185, 129, 0.5)',
+                        'glow-nyx': '0 0 25px -5px rgba(139, 92, 246, 0.5)',
+                        'glow-elite': '0 0 25px -5px rgba(234, 179, 8, 0.5)',
+                        'floating': '0 20px 40px -10px rgba(0,0,0,0.8)',
                     }
                 }
             }
@@ -32,236 +52,393 @@
     </script>
 
     <style>
-        body {
-            background-color: #0f172a;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        /* Scrollbar personalizado para los sliders */
-        .scrolling-wrapper {
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE 10+ */
-        }
-        .scrolling-wrapper::-webkit-scrollbar { 
-            display: none; /* Chrome/Safari/Webkit */
-        }
-
-        /* Efecto 3D en las tarjetas */
-        .card-3d {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-            perspective: 1000px;
+        body { 
+            background-color: #0a0a0c; 
+            color: #fafafa; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: calc(env(safe-area-inset-bottom) + 40px); 
         }
         
-        .card-3d:hover {
-            transform: translateY(-10px) rotateX(2deg) rotateY(2deg) scale(1.02);
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4), 0 10px 20px -5px rgba(59, 130, 246, 0.2);
-            z-index: 10;
+        h1, h2, h3, h4, h5, h6 { letter-spacing: -0.02em; }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .glass { 
+            background: rgba(18, 18, 21, 0.65); 
+            backdrop-filter: saturate(200%) blur(24px); 
+            -webkit-backdrop-filter: saturate(200%) blur(24px); 
+        }
+        
+        .card-premium { 
+            background: #121215; 
+            border: 1px solid #27272a; 
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; 
         }
 
-        /* Gradiente de fondo sutil */
-        .bg-gradient-radial {
-            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+        .card-premium:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .capability-card {
+            background: linear-gradient(145deg, rgba(39, 39, 42, 0.4) 0%, rgba(18, 18, 21, 0) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .capability-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(145deg, rgba(39, 39, 42, 0.6) 0%, rgba(18, 18, 21, 0) 100%);
+        }
+        
+        .snap-carousel {
+            scroll-snap-type: x mandatory;
+            scroll-padding-left: 1.25rem;
+            scroll-padding-right: 1.25rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        .snap-item { scroll-snap-align: center; }
+        @media (min-width: 768px) { .snap-item { scroll-snap-align: start; } }
+        
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: slideDown .4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideDown { 
+            0% {opacity: 0; transform: translateY(-10px)} 
+            100% {opacity: 1; transform: translateY(0)} 
+        }
+
+        .btn-mp {
+            background-color: #009EE3;
+            color: #ffffff;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .btn-mp:hover {
+            background-color: #008cc9;
+        }
+        .btn-mp:active {
+            background-color: #007eb5;
+            transform: scale(0.98);
+        }
+
+        .swipe-indicator {
+            animation: swipe 2s ease-in-out infinite;
+        }
+        @keyframes swipe {
+            0%, 100% { transform: translateX(0); opacity: 0.4; }
+            50% { transform: translateX(-15px); opacity: 1; }
+        }
+
+        /* Styling for the custom slider track visual */
+        .slider-track {
+            width: 60px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .slider-thumb {
+            width: 30%;
+            height: 100%;
+            background: rgba(255,255,255,0.5);
+            border-radius: 10px;
+            animation: thumb-move 3s ease-in-out infinite;
+        }
+        @keyframes thumb-move {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(200%); }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="selection:bg-accent selection:text-white relative">
 
-    <nav class="bg-primary/90 backdrop-blur-md border-b border-white/10 h-20 sticky top-0 z-50">
-        <div class="container mx-auto px-4 h-full flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="CV Studio33 Logo" class="h-12 w-12 object-contain">
-                <span class="font-heading font-bold text-xl tracking-wider">CV STUDIO33</span>
-            </div>
-            <a href="index.html" class="text-sm text-gray-400 hover:text-white transition">
-                <i class="fa-solid fa-house"></i> Inicio
-            </a>
-        </div>
-    </nav>
-
-    <header class="py-12 text-center px-4 bg-gradient-radial border-b border-white/5">
-        <h1 class="font-heading text-3xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
-            Biblioteca de Cartas
-        </h1>
-        <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
-            Selecciona el diseño que mejor se adapte a tu perfil. Desde opciones básicas para empezar hasta diseños certificados de alto impacto.
+    <div class="bg-gradient-to-r from-accent/20 via-nyx/20 to-accent/20 border-b border-white/5 py-2 px-4 text-center z-50 relative">
+        <p class="text-[11px] font-medium text-zinc-200">
+            <span class="text-white font-bold uppercase tracking-wider">Líderes en Tecnología Estructural:</span> Únicos en el mercado. Cientos de profesionales aseguraron su presencia corporativa con nuestra infraestructura esta semana.
         </p>
+    </div>
+
+    <!-- MODERN FLOATING HEADER (App-like) -->
+    <header class="sticky top-4 z-40 w-full px-4 mb-4">
+        <div class="max-w-4xl mx-auto glass rounded-2xl border border-white/10 shadow-floating px-5 h-14 flex justify-center items-center backdrop-blur-xl">
+            <div class="flex items-center gap-2.5">
+                <img src="logo.png" alt="CV Studio33 Logo" class="h-6 w-6 object-contain">
+                <span class="font-heading font-extrabold text-base tracking-tight text-white">CV STUDIO33</span>
+            </div>
+        </div>
     </header>
 
-    <main class="flex-grow pb-20">
+    <main class="w-full max-w-6xl mx-auto -mt-6">
+        
+        <!-- CORPORATE HERO SECTION -->
+        <section class="px-5 pt-16 pb-12 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
 
-        <section class="mt-10 pl-4 md:pl-12">
-            <div class="mb-4 pr-4">
-                <h2 class="font-heading text-2xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-box-open text-gray-400"></i> Starter Pack
-                </h2>
-                <p class="text-gray-500 text-xs md:text-sm mt-1 max-w-3xl">
-                    Plantillas genéricas de uso libre. Ideales para postulaciones estándar. <span class="text-yellow-500 italic">Nota: No incluyen filtros ATS avanzados ni certificación de nuestra TECNOLOGÍA.</span>
-                </p>
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-surfaceBorder text-zinc-300 text-[11px] font-bold uppercase tracking-widest mb-8 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]"></span>
+                Web App Nativa Operativa
             </div>
+            
+            <span class="text-[10px] font-bold tracking-widest uppercase text-accent mb-4 flex items-center gap-2 bg-accent/10 px-3 py-1 rounded-full border border-accent/20">
+                <img src="logo.png" alt="Icon" class="w-3 h-3 object-contain">
+                Tecnología Documental Avanzada
+            </span>
+            
+            <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-br from-white via-zinc-200 to-zinc-500 tracking-tight leading-tight">
+                PLANTILLAS PREMIUM
+            </h1>
+            
+            <p class="text-zinc-400 text-base md:text-lg leading-relaxed mb-10 max-w-2xl font-medium">
+                Selecciona la estructura legal e institucional ideal. Modelos de Carta de Documento y Presentación diseñados con precisión jurídica y un formato profesional impecable.
+            </p>
 
-            <div class="scrolling-wrapper flex gap-6 overflow-x-auto pb-10 pt-4 pr-4 snap-x snap-mandatory">
+            <div class="bg-surface/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/5 text-sm text-zinc-300 leading-relaxed text-left w-full shadow-2xl max-w-3xl relative overflow-hidden group hover:border-white/10 transition-colors">
+                <div class="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
-                <div class="card-3d min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] bg-secondary rounded-xl overflow-hidden border border-white/10 snap-center flex-shrink-0 relative group">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Carta1.png" onerror="this.src='https://placehold.co/1024x1024/1e293b/FFF?text=Carta+1+Preview'" alt="Diseño Gurrett" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"></div>
-                        <span class="absolute top-3 right-3 bg-gray-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Básica</span>
-                    </div>
-                    <div class="p-5 relative">
-                        <h3 class="font-bold text-lg mb-1">Modelo "Gurrett"</h3>
-                        <p class="text-xs text-gray-400 mb-4">Diseño limpio y estructurado. Estilo clásico.</p>
-                        <a href="Creandotucarta.html" class="block w-full text-center bg-white text-primary font-bold py-2 rounded-lg hover:bg-gray-200 transition transform active:scale-95 shadow-lg shadow-white/10">
-                            Usar plantilla
-                        </a>
-                    </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="logo.png" class="w-6 h-6 object-contain" alt="Icon">
+                    <strong class="text-white text-xl font-heading">Posicionamiento Corporativo</strong>
                 </div>
-
-                <div class="card-3d min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] bg-secondary rounded-xl overflow-hidden border border-white/10 snap-center flex-shrink-0 relative group">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Carta2.png" onerror="this.src='https://placehold.co/1024x1024/334155/FFF?text=Carta+2+Preview'" alt="Diseño Pam" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"></div>
-                        <span class="absolute top-3 right-3 bg-gray-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Básica</span>
-                    </div>
-                    <div class="p-5 relative">
-                        <h3 class="font-bold text-lg mb-1">Modelo "Modern Side"</h3>
-                        <p class="text-xs text-gray-400 mb-4">Barra lateral informativa y diseño contemporáneo.</p>
-                        <a href="Creandotucarta2.html" class="block w-full text-center bg-white text-primary font-bold py-2 rounded-lg hover:bg-gray-200 transition transform active:scale-95 shadow-lg shadow-white/10">
-                            Usar plantilla
-                        </a>
-                    </div>
+                <p class="text-base text-zinc-400 mb-6">Un documento redactado con excelencia es tu mejor aval. Nuestra tecnología estructura tus textos estratégicamente para generar autoridad, confianza institucional y garantizar que tu mensaje sea recibido con la máxima seriedad.</p>
+                
+                <div class="pt-6 border-t border-surfaceBorder flex flex-wrap gap-4 items-center text-xs font-semibold text-zinc-500">
+                    <span class="flex items-center gap-1.5"><img src="logo.png" class="w-3.5 h-3.5 opacity-60"> Pago 100% Seguro</span>
+                    <span class="flex items-center gap-1.5"><img src="logo.png" class="w-3.5 h-3.5 opacity-60"> Acceso Inmediato de por vida</span>
+                    <span class="flex items-center gap-1.5"><img src="logo.png" class="w-3.5 h-3.5 opacity-60"> Formato HD Vectorial</span>
                 </div>
-
-                <div class="card-3d min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] bg-secondary rounded-xl overflow-hidden border border-white/10 snap-center flex-shrink-0 relative group">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Carta3.png" onerror="this.src='https://placehold.co/1024x1024/475569/FFF?text=Carta+3+Preview'" alt="Diseño Sukhmani" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-secondary to-transparent opacity-80"></div>
-                        <span class="absolute top-3 right-3 bg-gray-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Básica</span>
-                    </div>
-                    <div class="p-5 relative">
-                        <h3 class="font-bold text-lg mb-1">Modelo "Minimalist"</h3>
-                        <p class="text-xs text-gray-400 mb-4">Encabezado destacado y tipografía elegante.</p>
-                        <a href="Creandotucarta3.html" class="block w-full text-center bg-white text-primary font-bold py-2 rounded-lg hover:bg-gray-200 transition transform active:scale-95 shadow-lg shadow-white/10">
-                            Usar plantilla
-                        </a>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <section class="mt-4 pl-4 md:pl-12 border-t border-white/5 pt-10">
-            <div class="mb-4 pr-4">
-                <h2 class="font-heading text-2xl font-bold flex items-center gap-2 text-premium">
-                    <i class="fa-solid fa-certificate"></i> Pack Certificados
-                </h2>
-                <p class="text-gray-400 text-xs md:text-sm mt-1 max-w-3xl">
-                    Estas plantillas están <span class="text-white font-bold">optimizadas con nuestra TECNOLOGÍA</span>. Estructura probada para pasar filtros automáticos y destacar visualmente. <span class="text-green-400 font-bold">+85% probabilidad de lectura.</span>
-                </p>
+        <!-- SECCIÓN CARTAS DE DOCUMENTO -->
+        <section id="cartas" class="pt-8 pb-16 scroll-mt-24">
+            <div class="px-5 mb-6 max-w-4xl mx-auto text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+                        <img src="logo.png" alt="Cartas" class="w-8 h-8 object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+                        <h2 class="font-heading text-3xl md:text-4xl font-black text-white">Cartas Profesionales</h2>
+                        <span class="text-[10px] bg-white/10 text-white px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-white/20 ml-2 hidden sm:inline-block">OFICIAL</span>
+                    </div>
+                    
+                    <p class="text-zinc-400 text-base leading-relaxed">
+                        Formatos legales estructurados para la redacción de documentos formales e institucionales. 
+                    </p>
+                </div>
             </div>
 
-            <div class="scrolling-wrapper flex gap-6 overflow-x-auto pb-10 pt-4 pr-4 snap-x snap-mandatory">
-                
-                <div class="card-3d min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] bg-[#162032] rounded-xl overflow-hidden border border-premium/30 snap-center flex-shrink-0 relative group">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="https://placehold.co/1024x1024/1e1e1e/f59e0b?text=Premium+Tech" alt="Premium 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#162032] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-premium text-black text-[10px] font-extrabold px-2 py-1 rounded uppercase tracking-wider shadow-lg shadow-premium/50">
-                            <i class="fa-solid fa-crown"></i> Pro
-                        </span>
+            <!-- Slidebar visual indicator for Mobile -->
+            <div class="md:hidden flex flex-col items-center justify-center gap-2 mb-6">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+                    <svg class="w-4 h-4 swipe-indicator" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    Desliza las opciones
+                </div>
+                <div class="slider-track">
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+
+            <div class="flex overflow-x-auto hide-scrollbar snap-carousel gap-5 pb-8 px-5 lg:justify-center">
+                <div class="snap-item shrink-0 w-[85vw] max-w-[340px] card-premium flex flex-col group">
+                    <div class="p-4 flex justify-center bg-zinc-900/50 rounded-t-[1.25rem] border-b border-surfaceBorder relative">
+                        <div class="absolute top-4 right-4 bg-background/90 backdrop-blur-md border border-white/20 text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1.5 z-20 shadow-lg">JURÍDICA</div>
+                        <div class="w-full aspect-[210/297] rounded-lg shadow-lg overflow-hidden border border-zinc-800 transition-transform duration-500 group-hover:scale-[1.02]">
+                            <img src="CT.PNG" onerror="this.src='https://placehold.co/210x297/18181b/fafafa?text=CT.PNG'" class="w-full h-full object-cover">
+                        </div>
                     </div>
-                    <div class="p-5 relative">
-                        <h3 class="font-bold text-lg mb-1 text-white">Tech Lead Certified</h3>
-                        <p class="text-xs text-gray-400 mb-4">Formato optimizado para sector tecnológico y startups.</p>
-                        <a href="#" onclick="alert('Redirigiendo a Mercado Pago...')" class="block w-full text-center bg-mp text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition transform active:scale-95 shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-hand-holding-dollar"></i> Pagar con Mercado Pago
-                        </a>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-surface rounded-b-[1.25rem]">
+                        <h3 class="font-heading font-bold text-xl text-white mb-6">Estructura Formal Jurídica</h3>
+                        <a href="Creandotucarta.html" class="w-full py-3.5 bg-white hover:bg-zinc-200 text-black font-bold uppercase tracking-wider rounded-xl text-center transition text-[11px] flex items-center justify-center gap-2"><img src="logo.png" class="w-3 h-3 filter invert"> REDACTAR DOCUMENTO</a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] bg-[#162032] rounded-xl overflow-hidden border border-premium/30 snap-center flex-shrink-0 relative group">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="https://placehold.co/1024x1024/1e1e1e/f59e0b?text=Premium+Executive" alt="Premium 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#162032] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-premium text-black text-[10px] font-extrabold px-2 py-1 rounded uppercase tracking-wider shadow-lg shadow-premium/50">
-                            <i class="fa-solid fa-crown"></i> Pro
-                        </span>
+                <div class="snap-item shrink-0 w-[85vw] max-w-[340px] card-premium flex flex-col group">
+                    <div class="p-4 flex justify-center bg-zinc-900/50 rounded-t-[1.25rem] border-b border-surfaceBorder relative">
+                        <div class="absolute top-4 right-4 bg-background/90 backdrop-blur-md border border-white/20 text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1.5 z-20 shadow-lg">EMPRESA</div>
+                        <div class="w-full aspect-[210/297] rounded-lg shadow-lg overflow-hidden border border-zinc-800 transition-transform duration-500 group-hover:scale-[1.02]">
+                            <img src="CT2.PNG" onerror="this.src='https://placehold.co/210x297/18181b/fafafa?text=CT2.PNG'" class="w-full h-full object-cover">
+                        </div>
                     </div>
-                    <div class="p-5 relative">
-                        <h3 class="font-bold text-lg mb-1 text-white">Executive Suite</h3>
-                        <p class="text-xs text-gray-400 mb-4">Elegancia corporativa. Ideal para puestos directivos.</p>
-                        <a href="#" onclick="alert('Redirigiendo a Mercado Pago...')" class="block w-full text-center bg-mp text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition transform active:scale-95 shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-hand-holding-dollar"></i> Pagar con Mercado Pago
-                        </a>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-surface rounded-b-[1.25rem]">
+                        <h3 class="font-heading font-bold text-xl text-white mb-6">Redacción Corporativa</h3>
+                        <a href="Creandotucarta2.html" class="w-full py-3.5 bg-white hover:bg-zinc-200 text-black font-bold uppercase tracking-wider rounded-xl text-center transition text-[11px] flex items-center justify-center gap-2"><img src="logo.png" class="w-3 h-3 filter invert"> REDACTAR DOCUMENTO</a>
                     </div>
                 </div>
 
-                <div class="card-3d min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] bg-[#162032] rounded-xl overflow-hidden border border-premium/30 snap-center flex-shrink-0 relative group">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="https://placehold.co/1024x1024/1e1e1e/f59e0b?text=Premium+Creative" alt="Premium 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#162032] to-transparent"></div>
-                        <span class="absolute top-3 right-3 bg-premium text-black text-[10px] font-extrabold px-2 py-1 rounded uppercase tracking-wider shadow-lg shadow-premium/50">
-                            <i class="fa-solid fa-crown"></i> Pro
-                        </span>
+                <div class="snap-item shrink-0 w-[85vw] max-w-[340px] card-premium flex flex-col group">
+                    <div class="p-4 flex justify-center bg-zinc-900/50 rounded-t-[1.25rem] border-b border-surfaceBorder relative">
+                        <div class="absolute top-4 right-4 bg-background/90 backdrop-blur-md border border-white/20 text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1.5 z-20 shadow-lg">FORMAL</div>
+                        <div class="w-full aspect-[210/297] rounded-lg shadow-lg overflow-hidden border border-zinc-800 transition-transform duration-500 group-hover:scale-[1.02]">
+                            <img src="CT3.PNG" onerror="this.src='https://placehold.co/210x297/18181b/fafafa?text=CT3.PNG'" class="w-full h-full object-cover">
+                        </div>
                     </div>
-                    <div class="p-5 relative">
-                        <h3 class="font-bold text-lg mb-1 text-white">Creative Impact</h3>
-                        <p class="text-xs text-gray-400 mb-4">Diseño disruptivo validado para agencias y marketing.</p>
-                        <a href="#" onclick="alert('Redirigiendo a Mercado Pago...')" class="block w-full text-center bg-mp text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition transform active:scale-95 shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-hand-holding-dollar"></i> Pagar con Mercado Pago
-                        </a>
+                    <div class="p-6 flex-grow flex flex-col justify-end bg-surface rounded-b-[1.25rem]">
+                        <h3 class="font-heading font-bold text-xl text-white mb-6">Notificación Institucional</h3>
+                        <a href="Creandotucarta3.html" class="w-full py-3.5 bg-white hover:bg-zinc-200 text-black font-bold uppercase tracking-wider rounded-xl text-center transition text-[11px] flex items-center justify-center gap-2"><img src="logo.png" class="w-3 h-3 filter invert"> REDACTAR DOCUMENTO</a>
                     </div>
                 </div>
+            </div>
+        </section>
 
+        <!-- FAQ SECTION -->
+        <section id="faq" class="px-5 pt-16 pb-20 border-t border-surfaceBorder/40 scroll-mt-24">
+            <div class="mb-10 max-w-3xl mx-auto text-center">
+                <span class="text-[10px] font-bold tracking-widest uppercase text-accent mb-3 block flex justify-center items-center gap-2">
+                    <img src="logo.png" class="w-3 h-3 object-contain">
+                    Soporte Técnico
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black font-heading text-white tracking-tight">
+                    Preguntas Frecuentes
+                </h2>
+            </div>
+            
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <details class="group bg-surface rounded-2xl border border-surfaceBorder overflow-hidden shadow-sm hover:border-zinc-700 transition-colors">
+                    <summary class="flex justify-between items-center font-bold text-sm md:text-base text-zinc-100 p-5 cursor-pointer outline-none select-none">
+                        <span class="flex items-center gap-4">
+                            <img src="logo.png" class="w-5 h-5 opacity-70">
+                            ¿Por qué es fundamental usar una Carta de Presentación o Documento?
+                        </span>
+                        <svg class="w-5 h-5 text-zinc-500 group-open:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2 text-zinc-400 text-sm leading-relaxed border-t border-surfaceBorder/50 mt-1">
+                        <p>Una <strong class="text-white">Carta de Presentación</strong> o documento formal es la primera impresión que tienen las empresas e instituciones sobre ti. Demuestra profesionalidad, capacidad de comunicación y establece un marco de seriedad que un currículum o mensaje informal no pueden lograr por sí solos.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface rounded-2xl border border-surfaceBorder overflow-hidden shadow-sm hover:border-zinc-700 transition-colors">
+                    <summary class="flex justify-between items-center font-bold text-sm md:text-base text-zinc-100 p-5 cursor-pointer outline-none select-none">
+                        <span class="flex items-center gap-4">
+                            <img src="logo.png" class="w-5 h-5 opacity-70">
+                            ¿Puedo adaptar estas cartas a diferentes empresas o destinatarios?
+                        </span>
+                        <svg class="w-5 h-5 text-zinc-500 group-open:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2 text-zinc-400 text-sm leading-relaxed border-t border-surfaceBorder/50 mt-1">
+                        <p>¡Por supuesto! Al adquirir cualquier licencia, obtienes acceso a nuestro editor. Podrás modificar el contenido, adaptar el tono de tu carta para diferentes empresas, departamentos de RRHH o entidades jurídicas ilimitadas veces sin costo extra.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface rounded-2xl border border-surfaceBorder overflow-hidden shadow-sm hover:border-zinc-700 transition-colors">
+                    <summary class="flex justify-between items-center font-bold text-sm md:text-base text-zinc-100 p-5 cursor-pointer outline-none select-none">
+                        <span class="flex items-center gap-4">
+                            <img src="logo.png" class="w-5 h-5 opacity-70">
+                            ¿En qué formato recibiré mi carta finalizada?
+                        </span>
+                        <svg class="w-5 h-5 text-zinc-500 group-open:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2 text-zinc-400 text-sm leading-relaxed border-t border-surfaceBorder/50 mt-1">
+                        <p>Tu documento se compila y descarga instantáneamente en formato <strong class="text-white">PDF Vectorial de Alta Definición (HD)</strong>. Este formato asegura que tu diseño, la tipografía formal y la estructura se mantengan 100% inalterables e impecables al momento de imprimir o enviar por correo.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface rounded-2xl border border-surfaceBorder overflow-hidden shadow-sm hover:border-zinc-700 transition-colors">
+                    <summary class="flex justify-between items-center font-bold text-sm md:text-base text-zinc-100 p-5 cursor-pointer outline-none select-none">
+                        <span class="flex items-center gap-4">
+                            <img src="logo.png" class="w-5 h-5 opacity-70">
+                            ¿Es seguro el pago con Mercado Pago?
+                        </span>
+                        <svg class="w-5 h-5 text-zinc-500 group-open:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2 text-zinc-400 text-sm leading-relaxed border-t border-surfaceBorder/50 mt-1">
+                        <p>Totalmente. Utilizamos la pasarela de pagos oficial de <strong class="text-white">Mercado Pago</strong>, lo que significa que tu transacción está cifrada de extremo a extremo. Nosotros no almacenamos ni tenemos acceso a tus datos bancarios en ningún momento.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface rounded-2xl border border-surfaceBorder overflow-hidden shadow-sm hover:border-zinc-700 transition-colors">
+                    <summary class="flex justify-between items-center font-bold text-sm md:text-base text-zinc-100 p-5 cursor-pointer outline-none select-none">
+                        <span class="flex items-center gap-4">
+                            <img src="logo.png" class="w-5 h-5 opacity-70">
+                            ¿Qué sucede inmediatamente después de la compra?
+                        </span>
+                        <svg class="w-5 h-5 text-zinc-500 group-open:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2 text-zinc-400 text-sm leading-relaxed border-t border-surfaceBorder/50 mt-1">
+                        <p>La activación es instantánea. Una vez aprobada la transacción, serás redirigido automáticamente a tu editor de documentos donde la plantilla elegida estará desbloqueada de por vida para su uso inmediato.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface rounded-2xl border border-surfaceBorder overflow-hidden shadow-sm hover:border-zinc-700 transition-colors">
+                    <summary class="flex justify-between items-center font-bold text-sm md:text-base text-zinc-100 p-5 cursor-pointer outline-none select-none">
+                        <span class="flex items-center gap-4">
+                            <img src="logo.png" class="w-5 h-5 opacity-70">
+                            ¿Hay cargos ocultos o mensualidades?
+                        </span>
+                        <svg class="w-5 h-5 text-zinc-500 group-open:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2 text-zinc-400 text-sm leading-relaxed border-t border-surfaceBorder/50 mt-1">
+                        <p>De ninguna manera. Operamos con total transparencia: realizas un <strong class="text-white">pago único</strong> y el formato, junto con la herramienta de redacción, será tuyo para toda la vida. Cero mensualidades, cero membresías.</p>
+                    </div>
+                </details>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-black py-10 border-t border-white/10 text-gray-400 text-xs">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <!-- PREMIUM FOOTER -->
+    <footer class="bg-black pt-16 pb-12 border-t border-surfaceBorder px-5 relative z-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                 <div>
-                    <div class="flex items-center gap-3 mb-3">
-                        <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain">
-                        <h4 class="text-white font-bold uppercase tracking-wider">CV Studio33</h4>
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-8 object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+                        <h4 class="text-white font-black uppercase tracking-widest text-sm">CV Studio33</h4>
                     </div>
-                    <p class="leading-relaxed">Tecnología avanzada para la creación de documentos profesionales. Potenciamos tu perfil con datos y diseño.</p>
+                    <p class="text-sm text-zinc-500 leading-relaxed font-medium">
+                        Plataforma de ingeniería documental de alto impacto. Transformamos tu redacción en un ecosistema formal optimizado para la presentación corporativa y legal.
+                    </p>
                 </div>
+                
                 <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-accent transition">Términos de Servicio</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Política de Privacidad</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Política de Cookies</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Aviso Legal</a></li>
+                    <h4 class="text-white font-bold mb-5 text-xs uppercase tracking-widest">Legal & Seguridad</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/terminos-y-condiciones" class="text-zinc-500 hover:text-white transition-colors flex items-center gap-2"><img src="logo.png" class="w-3.5 h-3.5 opacity-50"> Términos y Condiciones</a></li>
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/politica-de-privacidad.html" class="text-zinc-500 hover:text-white transition-colors flex items-center gap-2"><img src="logo.png" class="w-3.5 h-3.5 opacity-50"> Política de Privacidad</a></li>
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/politica-de-cookies.html" class="text-zinc-500 hover:text-white transition-colors flex items-center gap-2"><img src="logo.png" class="w-3.5 h-3.5 opacity-50"> Política de Cookies</a></li>
+                        <li><a href="https://protocololeviatham.github.io/cvstudio33/Contacto.html" class="text-zinc-500 hover:text-white transition-colors flex items-center gap-2"><img src="logo.png" class="w-3.5 h-3.5 opacity-50"> Soporte de Ingeniería 24/7</a></li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Soporte</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-accent transition">Centro de Ayuda</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Contacto</a></li>
-                        <li><a href="#" class="hover:text-accent transition">Preguntas Frecuentes</a></li>
+                    <h4 class="text-white font-bold mb-5 text-xs uppercase tracking-widest">Red Operativa</h4>
+                    <ul class="space-y-3 text-sm text-zinc-500">
+                        <li class="flex items-center gap-3"><img src="logo.png" class="w-4 h-4 opacity-50"> +1 234 567 890</li>
+                        <li class="flex items-center gap-3"><img src="logo.png" class="w-4 h-4 opacity-50"> CvStudio33@gmail.com</li>
+                        <li class="mt-4 pt-4 border-t border-surfaceBorder/50 flex items-center gap-3 text-xs"><img src="logo.png" class="w-4 h-4 opacity-30"> Servidores Globales Protegidos</li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h4 class="text-white font-bold mb-3 uppercase tracking-wider">Certificación</h4>
-                    <p class="mb-2">Nuestros packs premium cumplen con los estándares internacionales de lectura ATS.</p>
-                    <div class="flex gap-3 text-lg">
-                        <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
-                        <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
-                        <i class="fa-brands fa-paypal hover:text-white transition"></i>
+                    <h4 class="text-white font-bold mb-4 text-xs uppercase tracking-widest">Certificación y Pagos</h4>
+                    <p class="mb-5 text-[11px] text-zinc-500 leading-relaxed font-medium">
+                        Operamos bajo estrictas normativas legales. Todas las transacciones son procesadas a través de <strong class="text-mp">Mercado Pago</strong>, garantizando un entorno de pago 100% seguro mediante encriptación SSL de 256 bits, tokenización de datos y cumplimiento riguroso de la normativa PCI-DSS.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="logopago.png" alt="Mercado Pago" class="h-6 object-contain filter grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                     </div>
                 </div>
             </div>
-            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p>&copy; 2026 CV Studio33. Todos los derechos reservados.</p>
-                </div>
+            
+            <div class="pt-8 border-t border-surfaceBorder/50 text-[10px] text-zinc-600 leading-relaxed text-justify mb-8">
+                <strong>Aviso de Transparencia Tecnológica:</strong> CV Studio33 desarrolla infraestructuras documentales de alta formalidad. Los formatos proveen una estructura visual y organizativa premium. Nuestro ecosistema opera bajo estrictos protocolos de integridad de datos. No almacenamos, compartimos ni comercializamos información personal, financiera o de contacto extraída. Todos los pagos son procesados externamente mediante la pasarela segura de Mercado Pago, la cual emplea encriptación SSL de 256 bits, asegurando que CV Studio33 jamás tenga acceso a sus credenciales bancarias. Al adquirir nuestras licencias, el usuario acepta de forma implícita nuestros Términos y Condiciones de Uso.
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-center text-zinc-500">
+                <p class="text-xs font-medium flex items-center gap-2"><img src="logo.png" class="w-3 h-3 opacity-50"> 2026 CV Studio33. Todos los derechos reservados.</p>
+                <p class="text-[10px] tracking-widest uppercase font-bold text-zinc-600">Engineered by NYX Systems</p>
+            </div>
         </div>
     </footer>
-
 </body>
 </html>
+
+
+
+
+
+
+
+

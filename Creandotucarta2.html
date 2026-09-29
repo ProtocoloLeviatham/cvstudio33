@@ -717,61 +717,64 @@
             </div>
             <div id="preview-wrapper">
                 
-                <div id="cv-preview" class="a4-page relative bg-white text-gray-800 font-sans p-[70px] box-border flex flex-col" style="font-family: var(--cv-body-font);">
-                    <!-- Cabecera -->
-                    <div class="mb-10">
-                        <h1 id="display-fullname" class="text-[40px] font-bold leading-none mb-3" style="font-family: var(--cv-header-font); color: var(--cv-primary);">NOMBRE APELLIDO</h1>
-                        <div id="display-jobtitle" class="text-[19px] text-gray-700 tracking-wide">TÍTULO PROFESIONAL</div>
-                    </div>
+                <div id="cv-preview" class="a4-page relative bg-white text-gray-800 font-sans box-border" style="font-family: var(--cv-body-font);">
+                    <!-- Inner Container to preserve padding during print -->
+                    <div class="w-full h-full p-[70px] flex flex-col box-border">
+                        <!-- Cabecera -->
+                        <div class="mb-10">
+                            <h1 id="display-fullname" class="text-[40px] font-bold leading-none mb-3" style="font-family: var(--cv-header-font); color: var(--cv-primary);">NOMBRE APELLIDO</h1>
+                            <div id="display-jobtitle" class="text-[19px] text-gray-700 tracking-wide">TÍTULO PROFESIONAL</div>
+                        </div>
 
-                    <!-- Info del Remitente (Grid) -->
-                    <div class="flex justify-between text-[13px] text-gray-700 mb-10 leading-relaxed">
-                        <!-- Columna Izquierda -->
-                        <div class="flex flex-col gap-1 w-[55%]">
-                            <div class="flex items-start gap-4">
-                                <span class="font-bold min-w-[65px] text-gray-900">Dirección</span>
-                                <span id="display-address" class="whitespace-pre-line text-gray-600">Ciudad, País</span>
+                        <!-- Info del Remitente (Grid) -->
+                        <div class="flex justify-between text-[13px] text-gray-700 mb-10 leading-relaxed">
+                            <!-- Columna Izquierda -->
+                            <div class="flex flex-col gap-1 w-[55%]">
+                                <div class="flex items-start gap-4">
+                                    <span class="font-bold min-w-[65px] text-gray-900">Dirección</span>
+                                    <span id="display-address" class="whitespace-pre-line text-gray-600">Ciudad, País</span>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <span class="font-bold min-w-[65px] text-gray-900">Teléfono</span>
+                                    <span id="display-phone" class="text-gray-600">+00 000 000 000</span>
+                                </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <span class="font-bold min-w-[65px] text-gray-900">Teléfono</span>
-                                <span id="display-phone" class="text-gray-600">+00 000 000 000</span>
+                            <!-- Columna Derecha -->
+                            <div class="flex flex-col gap-1 w-[45%]">
+                                <div class="flex items-start gap-4">
+                                    <span class="font-bold min-w-[65px] text-gray-900">E-mail</span>
+                                    <span id="display-email" class="text-gray-600">correo@ejemplo.com</span>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <span class="font-bold min-w-[65px] text-gray-900">LinkedIn</span>
+                                    <span id="display-website" class="text-gray-600">www.miweb.com</span>
+                                </div>
                             </div>
                         </div>
-                        <!-- Columna Derecha -->
-                        <div class="flex flex-col gap-1 w-[45%]">
-                            <div class="flex items-start gap-4">
-                                <span class="font-bold min-w-[65px] text-gray-900">E-mail</span>
-                                <span id="display-email" class="text-gray-600">correo@ejemplo.com</span>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <span class="font-bold min-w-[65px] text-gray-900">LinkedIn</span>
-                                <span id="display-website" class="text-gray-600">www.miweb.com</span>
-                            </div>
+
+                        <!-- Fecha -->
+                        <div class="text-[13px] text-gray-700 mb-8">
+                            <span id="display-date">Fecha, 10 Septiembre 2024</span>
                         </div>
-                    </div>
 
-                    <!-- Fecha -->
-                    <div class="text-[13px] text-gray-700 mb-8">
-                        <span id="display-date">Fecha, 10 Septiembre 2024</span>
-                    </div>
+                        <!-- Info del Destinatario -->
+                        <div class="text-[13px] text-gray-700 mb-10 flex flex-col leading-relaxed">
+                            <span id="display-recipient-title">Cargo del Destinatario</span>
+                            <span id="display-recipient-name">Nombre Destinatario</span>
+                            <span id="display-recipient-address" class="whitespace-pre-line">Dirección de la empresa, Ciudad</span>
+                        </div>
 
-                    <!-- Info del Destinatario -->
-                    <div class="text-[13px] text-gray-700 mb-10 flex flex-col leading-relaxed">
-                        <span id="display-recipient-title">Cargo del Destinatario</span>
-                        <span id="display-recipient-name">Nombre Destinatario</span>
-                        <span id="display-recipient-address" class="whitespace-pre-line">Dirección de la empresa, Ciudad</span>
-                    </div>
-
-                    <!-- Cuerpo de la Carta -->
-                    <div class="flex-1 flex flex-col text-[13px] text-gray-600 leading-[1.8] text-justify whitespace-pre-wrap">
-                        <div id="display-greeting" class="mb-6">Estimado/a Director/a,</div>
-                        <div id="display-body" class="flex-1">Su carta de presentación aparecerá aquí. Utilice el editor para redactar el cuerpo de este documento explicando su motivación y el valor que puede aportar a la compañía.</div>
-                        
-                        <!-- Despedida y Firma -->
-                        <div class="mt-8">
-                            <div id="display-signoff" class="mb-8">Atentamente,</div>
-                            <div id="display-signature-cursive" class="hidden"></div>
-                            <div id="display-fullname-signature" class="text-gray-900 font-bold">NOMBRE APELLIDO</div>
+                        <!-- Cuerpo de la Carta -->
+                        <div class="flex-1 flex flex-col text-[13px] text-gray-600 leading-[1.8] text-justify whitespace-pre-wrap">
+                            <div id="display-greeting" class="mb-6">Estimado/a Director/a,</div>
+                            <div id="display-body" class="flex-1">Su carta de presentación aparecerá aquí. Utilice el editor para redactar el cuerpo de este documento explicando su motivación y el valor que puede aportar a la compañía.</div>
+                            
+                            <!-- Despedida y Firma -->
+                            <div class="mt-8">
+                                <div id="display-signoff" class="mb-8">Atentamente,</div>
+                                <div id="display-signature-cursive" class="hidden"></div>
+                                <div id="display-fullname-signature" class="text-gray-900 font-bold">NOMBRE APELLIDO</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1134,6 +1137,3 @@
 </script>
 </body>
 </html>
-
-
-

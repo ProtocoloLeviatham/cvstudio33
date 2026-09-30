@@ -2,711 +2,559 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lixie | CV Studio33 Intelligence Agency</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lixie | CV Studio33</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PDF.js para extraer texto del CV localmente sin servidores -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+
     <style>
-        /* ================= ESTILOS BASE Y VARIABLES ================= */
         :root {
-            --bg-dark: #07070a;
-            --bg-panel: rgba(20, 20, 29, 0.75);
-            --accent-cyan: #00f0ff;
-            --accent-cyan-glow: rgba(0, 240, 255, 0.4);
-            --accent-purple: #7000ff;
-            --text-main: #e8e8e8;
-            --text-muted: #9aa0a6;
-            --font-main: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --primary: #0A66C2; 
+            --primary-grad: linear-gradient(135deg, #0A66C2 0%, #004182 100%);
+            --bg-body: #F9FAFB; 
+            --bg-chat: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --bubble-user: var(--primary-grad);
+            --bubble-ai: #FFFFFF;
+            --border-light: #E5E7EB;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        /* Importar fuente moderna */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
+            margin: 0; padding: 0;
+            background-color: var(--bg-body);
             color: var(--text-main);
             font-family: var(--font-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            height: 100dvh; /* Soporte dinámico para móviles */
-            
-            /* Fondo cibernético/corporativo ANIMADO (Optimizado para GPU) */
-            background: linear-gradient(135deg, #050508 0%, #0a0a0f 50%, #050508 100%);
-            background-size: 200% 200%;
+            display: flex; flex-direction: column;
+            height: 100vh; height: 100dvh;
             overflow: hidden;
-            position: relative;
         }
 
-        /* Luces de fondo dinámicas (fijas para evitar lag de pintado en celulares) */
-        body::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.05) 0%, transparent 40%),
-                        radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Efecto de líneas de escaneo (Scanlines) sutil */
-        body::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            z-index: 1;
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
-        }
-
-        /* ================= CONTENEDOR PRINCIPAL (GLASSMORPHISM) ================= */
-        #chat-container {
-            width: 100%;
-            max-width: 480px;
-            height: 92vh;
-            background: var(--bg-panel);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            /* Sombras optimizadas por hardware */
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(112, 0, 255, 0.1);
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-            will-change: transform, opacity;
-            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* Línea superior brillante */
-        #chat-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-purple), transparent);
+        /* HEADER PROFESSIONAL */
+        header {
+            background-color: var(--bg-chat);
+            padding: calc(env(safe-area-inset-top, 0px) + 16px) 24px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border-light);
             z-index: 10;
-            background-size: 200% 100%;
-            animation: borderFlow 3s linear infinite;
+            box-shadow: var(--shadow-sm);
         }
 
-        /* ================= CABECERA ================= */
-        #chat-header {
-            padding: 18px 24px;
-            background: rgba(10, 10, 15, 0.7);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            backdrop-filter: blur(5px);
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-right { display: flex; align-items: center; }
+        
+        .speaker-btn {
+            background: none; border: none; padding: 8px; cursor: pointer;
+            color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: all 0.2s; background: #F3F4F6; margin-left: 8px;
         }
-
-        .header-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .speaker-btn:hover { background: #E5E7EB; color: var(--primary); }
+        .speaker-btn.active { background: #DBEAFE; color: var(--primary); }
+        .speaker-btn svg { width: 20px; height: 20px; stroke-width: 2; }
+        
+        .back-btn {
+            background: none; border: none; padding: 8px 0;
+            color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; text-decoration: none; transition: color 0.2s;
         }
+        .back-btn:hover { color: var(--primary); }
 
         .avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px; 
-            border: 1px solid var(--accent-cyan);
-            box-shadow: 0 0 15px var(--accent-cyan-glow);
-            object-fit: cover;
-            padding: 2px;
-            background: var(--bg-dark);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-            will-change: transform;
-        }
-        
-        .avatar:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 25px var(--accent-cyan);
+            width: 48px; height: 48px; border-radius: 50%;
+            object-fit: contain; border: 1px solid var(--border-light);
+            background: #fff; padding: 4px;
+            box-shadow: var(--shadow-sm);
         }
 
         .header-info h2 {
-            margin: 0 0 4px 0;
-            font-size: 1.15rem;
-            color: #fff;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin: 0; font-size: 18px; font-weight: 600; color: var(--text-main);
+            letter-spacing: -0.02em;
         }
-
-        .status {
-            font-size: 0.75rem;
-            color: var(--accent-cyan);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+        .header-info p {
+            margin: 4px 0 0; font-size: 13px; color: var(--text-muted);
+            display: flex; align-items: center; gap: 6px; font-weight: 500;
         }
-
         .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-cyan);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-cyan);
-            animation: pulse 2s infinite ease-in-out;
+            width: 8px; height: 8px; background-color: #10B981;
+            border-radius: 50%; position: relative;
+        }
+        .status-dot::after {
+            content: ''; position: absolute;
+            top: -3px; left: -3px; width: 14px; height: 14px;
+            background-color: rgba(16, 185, 129, 0.2);
+            border-radius: 50%; animation: pulse-green 2s infinite;
         }
 
-        /* Selector de Servidores */
-        .node-selector-container {
-            text-align: right;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: flex-end;
-        }
-        
-        .back-home-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            color: var(--text-main);
-            text-decoration: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            will-change: transform;
-        }
-
-        .back-home-btn:hover {
-            background: rgba(0, 240, 255, 0.15);
-            border-color: var(--accent-cyan);
-            color: #fff;
-            box-shadow: 0 0 10px var(--accent-cyan-glow);
-            transform: translateY(-1px);
-        }
-        
-        .node-header-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 5px;
-        }
-
-        .node-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        #node-selector {
-            background: rgba(0, 0, 0, 0.5);
-            color: var(--accent-cyan);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 6px;
-            padding: 4px 8px;
-            font-size: 0.70rem;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: var(--font-main);
-            -webkit-appearance: none;
-            appearance: none;
-            text-align: center;
-        }
-        #node-selector:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 8px var(--accent-cyan-glow);
-        }
-
-        /* ================= ÁREA DE MENSAJES ================= */
+        /* MESSAGES AREA */
         #messages-area {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            flex: 1; padding: 24px 20px;
+            overflow-y: auto; display: flex; flex-direction: column; gap: 20px;
+            background-color: var(--bg-body);
             scroll-behavior: smooth;
+            position: relative;
         }
 
-        #messages-area::-webkit-scrollbar { width: 4px; }
-        #messages-area::-webkit-scrollbar-track { background: transparent; }
-        #messages-area::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.2); border-radius: 10px; }
-        #messages-area::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.5); }
+        /* MARCA DE AGUA */
+        #messages-area::before {
+            content: ''; position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 250px; height: 250px;
+            background-image: url('logo.png');
+            background-size: contain; background-repeat: no-repeat; background-position: center;
+            opacity: 0.02; pointer-events: none; z-index: 0;
+        }
 
         .message-wrapper {
-            display: flex;
-            flex-direction: column;
-            max-width: 88%;
-            animation: messageBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-            transform-origin: bottom;
-            will-change: transform, opacity;
+            display: flex; flex-direction: column; max-width: 90%;
+            animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            position: relative; z-index: 1;
         }
 
         .message-wrapper.lixie { align-self: flex-start; }
         .message-wrapper.user { align-self: flex-end; }
 
         .message {
-            padding: 14px 18px;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            position: relative;
-            word-wrap: break-word;
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            padding: 16px 20px; font-size: 15px; line-height: 1.6;
+            word-wrap: break-word; position: relative;
         }
 
         .lixie .message {
-            background: rgba(30, 30, 45, 0.85);
-            color: #eaeaea;
-            border-bottom-left-radius: 4px;
-            border: 1px solid rgba(112, 0, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background-color: var(--bubble-ai); color: var(--text-main);
+            border-radius: 20px 20px 20px 4px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
         }
 
         .user .message {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(0, 240, 255, 0.05) 100%);
-            color: #fff;
-            border-bottom-right-radius: 4px;
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1);
+            background: var(--bubble-user); color: #fff;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 4px 10px rgba(10, 102, 194, 0.2);
         }
 
-        /* ===== BLOQUE DE PENSAMIENTO DE IA (UI ACORDEÓN CIBERNÉTICO) ===== */
+        /* SMART CARDS & ACTIONS */
+        .smart-card {
+            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+            border: 1px solid #93C5FD; border-radius: 12px;
+            padding: 16px; margin: 12px 0;
+            box-shadow: 0 4px 6px rgba(10, 102, 194, 0.05);
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .smart-card .card-title { font-weight: 700; color: var(--primary); font-size: 16px; }
+        .smart-card .card-btn {
+            background: var(--primary-grad); color: #fff;
+            border: none; border-radius: 8px; padding: 10px; font-weight: 600;
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .smart-card .card-btn:active { transform: scale(0.96); }
+        
+        .action-btn {
+            display: inline-block; background: #E5E7EB; color: var(--text-main);
+            padding: 8px 14px; border-radius: 20px; text-decoration: none; font-weight: 600;
+            font-size: 13px; margin: 8px 0; transition: background 0.2s;
+        }
+        .action-btn:hover { background: #D1D5DB; }
+
+        /* THOUGHT PROCESS (CLEAN PROFESSIONAL UI) */
         .thought-process {
-            background: rgba(10, 10, 15, 0.6);
-            border: 1px dashed var(--accent-purple);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            overflow: hidden;
-            transition: all 0.3s ease;
+            background: #F9FAFB; border: 1px solid var(--border-light);
+            border-radius: 12px; margin-bottom: 14px;
+            font-size: 13.5px; overflow: hidden;
         }
-        
         .thought-summary {
-            padding: 8px 12px;
-            cursor: pointer;
-            color: var(--accent-purple);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            user-select: none;
-            background: rgba(112, 0, 255, 0.05);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            padding: 12px 16px; cursor: pointer; color: var(--primary);
+            font-weight: 500; display: flex; align-items: center; gap: 8px;
+            user-select: none; background: #F3F4F6; transition: background 0.2s;
         }
-        
-        .thought-summary:hover {
-            background: rgba(112, 0, 255, 0.15);
-        }
-
+        .thought-summary:hover { background: #E5E7EB; }
         .thought-content {
-            padding: 10px 12px;
-            border-top: 1px dashed rgba(112, 0, 255, 0.2);
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre-wrap;
-            display: none;
-            color: #a0a0b5;
+            padding: 14px 16px; border-top: 1px solid var(--border-light);
+            white-space: pre-wrap; color: var(--text-muted); display: none;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12.5px; background: #fff;
         }
-        
-        .thought-process[open] .thought-content {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
+        .thought-process[open] .thought-content { display: block; animation: slideDown 0.3s ease; }
 
-        /* Estilos de texto interno */
-        .message b { color: var(--accent-cyan); font-weight: 600; text-shadow: 0 0 5px rgba(0, 240, 255, 0.3); }
-        .message ul { padding-left: 20px; margin: 8px 0; }
-        .message li { margin-bottom: 6px; }
-        .message li::marker { color: var(--accent-purple); text-shadow: 0 0 5px rgba(112, 0, 255, 0.5); }
+        /* FORMATTING */
+        .message b { font-weight: 600; color: #111827; }
+        .user .message b { color: #fff; }
+        .message ul { padding-left: 22px; margin: 12px 0; }
+        .message li { margin-bottom: 8px; }
+        .message li::marker { color: var(--primary); }
+        .user .message li::marker { color: #fff; }
+        .message a { color: var(--primary); text-decoration: none; font-weight: 500; }
+        .message a:hover { text-decoration: underline; }
+        .user .message a { color: #fff; text-decoration: underline; }
 
-        .read-receipt {
-            font-size: 0.65rem;
-            color: var(--accent-cyan);
-            align-self: flex-end;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            opacity: 0.8;
-            animation: fadeIn 0.5s ease-in forwards;
+        .timestamp {
+            font-size: 11px; color: var(--text-muted);
+            align-self: flex-end; margin-top: 8px;
+            margin-right: 6px; margin-left: 6px;
+            font-weight: 500; letter-spacing: 0.02em;
         }
 
+        /* TYPING INDICATOR */
+        .message-wrapper.typing-indicator .message { padding: 14px 20px; }
+        .typing { display: flex; gap: 6px; align-items: center; height: 18px; }
+        .typing .dot { 
+            width: 7px; height: 7px; background: #9CA3AF; 
+            border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; 
+        }
+        .typing .dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        /* SYSTEM MESSAGES */
         .system-msg {
-            align-self: center;
-            text-align: center;
-            font-size: 0.70rem;
-            color: var(--accent-cyan);
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: rgba(0, 240, 255, 0.05);
-            padding: 8px 16px;
-            border-radius: 12px;
-            border: 1px dashed var(--accent-cyan);
-            max-width: 85%;
-            margin: 5px 0;
-            animation: fadeInScale 0.4s ease;
+            align-self: center; font-size: 12px; color: var(--text-muted);
+            background: #E5E7EB; padding: 8px 16px; border-radius: 20px;
+            margin: 10px 0; max-width: 90%; text-align: center; font-weight: 500;
         }
-        .system-msg.error {
-            color: #ff3366;
-            border-color: #ff3366;
-            background: rgba(255, 51, 102, 0.05);
+        .system-msg.error { color: #DC2626; background: #FEE2E2; }
+        .system-msg.success { color: #047857; background: #D1FAE5; }
+
+        /* FAQ CHIPS */
+        #faq-container {
+            display: flex; gap: 10px; overflow-x: auto; padding: 12px 20px;
+            background: var(--bg-chat); border-top: 1px solid var(--border-light);
+            scrollbar-width: none; -ms-overflow-style: none;
         }
-        .system-msg.success {
-            color: #00ff88;
-            border-color: #00ff88;
-            background: rgba(0, 255, 136, 0.05);
+        #faq-container::-webkit-scrollbar { display: none; }
+        .faq-chip {
+            background: #F3F4F6; border: 1px solid var(--border-light);
+            border-radius: 20px; padding: 8px 14px; font-size: 13px; font-weight: 500;
+            color: var(--text-main); cursor: pointer; white-space: nowrap;
+            transition: all 0.2s ease; font-family: var(--font-main);
+            box-shadow: var(--shadow-sm);
+        }
+        .faq-chip:hover { background: #E5E7EB; border-color: #D1D5DB; transform: translateY(-1px); }
+        .faq-chip:active { transform: translateY(1px); }
+
+        /* INPUT AREA */
+        #input-area {
+            background-color: var(--bg-chat);
+            padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 16px);
+            display: flex; gap: 12px; align-items: flex-end;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
         }
 
-        /* ================= INPUT Y BOTONES ================= */
-        #input-area {
-            padding: 18px 24px;
-            padding-bottom: max(18px, env(safe-area-inset-bottom));
-            background: rgba(10, 10, 15, 0.85);
-            display: flex;
-            gap: 10px;
-            border-top: 1px solid var(--glass-border);
-            align-items: center;
-            backdrop-filter: blur(10px);
+        .input-wrapper {
+            flex: 1; background-color: #F3F4F6;
+            border-radius: 24px; padding: 12px 18px;
+            display: flex; align-items: center; gap: 8px;
+            border: 1px solid transparent; transition: all 0.2s;
         }
+        .input-wrapper:focus-within { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1); }
 
         #user-input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.3s ease;
-            font-family: var(--font-main);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            flex: 1; border: none; background: transparent;
+            font-size: 15px; color: var(--text-main); font-family: var(--font-main);
+            outline: none; resize: none; max-height: 120px;
+            padding: 2px 0; line-height: 1.5;
         }
-        #user-input:focus { 
-            border-color: var(--accent-cyan); 
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.5);
-            background: rgba(0, 0, 0, 0.8);
-        }
-        #user-input::placeholder { color: #666; }
-        #user-input:disabled { opacity: 0.5; cursor: not-allowed; }
+        #user-input::placeholder { color: #9CA3AF; transition: opacity 0.3s; }
 
-        /* Botón de Enviar Textual */
+        .btn-icon {
+            background: none; border: none; padding: 4px;
+            color: #9CA3AF; cursor: pointer;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: color 0.2s;
+        }
+        .btn-icon:hover { color: var(--primary); }
+        .btn-icon.active { color: #EF4444; animation: pulse-red 1.5s infinite; }
+
         #send-btn {
-            background: var(--accent-cyan);
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            color: var(--bg-dark);
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            flex-shrink: 0;
-            will-change: transform;
+            background: var(--primary-grad); color: #fff;
+            border: none; border-radius: 50%; width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0; box-shadow: 0 4px 10px rgba(10, 102, 194, 0.3);
         }
-        #send-btn:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px var(--accent-cyan-glow);
-            background: #fff;
-        }
-        #send-btn:disabled {
-            background: rgba(0, 240, 255, 0.3);
-            cursor: not-allowed;
-            color: rgba(255,255,255,0.7);
-        }
-        #send-btn svg { width: 22px; height: 22px; fill: currentColor; }
+        #send-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(10, 102, 194, 0.4); }
+        #send-btn:active { transform: translateY(0) scale(0.95); }
+        #send-btn:disabled { background: #93C5FD; cursor: not-allowed; box-shadow: none; transform: none; }
+        #send-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; margin-left: -2px; }
 
-        /* Botón de Micrófono (Asalto de Voz - Nodo 3) */
-        #mic-btn {
-            background: rgba(112, 0, 255, 0.2);
-            border: 1px solid var(--accent-purple);
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            flex-shrink: 0;
-            will-change: transform;
-        }
-        #mic-btn:hover:not(:disabled) {
-            background: rgba(112, 0, 255, 0.5);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(112, 0, 255, 0.4);
-        }
-        #mic-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        #mic-btn svg { width: 20px; height: 20px; fill: currentColor; }
-        
-        /* Animación de Grabación */
-        #mic-btn.recording {
-            background: rgba(255, 51, 102, 0.2);
-            border-color: #ff3366;
-            color: #ff3366;
-            animation: pulse-red 1.5s infinite;
-        }
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.3; } 40% { transform: scale(1); opacity: 1; } }
+        @keyframes pulse-green { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
+        @keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.15); color: #DC2626; } 100% { transform: scale(1); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Keyframes */
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7); transform: scale(1); }
-            50% { transform: scale(1.05); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 51, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); transform: scale(1); }
-        }
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes messageBounce { 0% { opacity: 0; transform: scale(0.95) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes borderFlow { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
-        @keyframes wave { 0%, 40%, 100% { transform: scaleY(0.4); opacity: 0.5; } 20% { transform: scaleY(1); opacity: 1; } }
-
-        .typing { display: flex; gap: 5px; padding: 12px 5px; align-items: center; }
-        .typing .bar { width: 4px; height: 12px; background: var(--accent-cyan); border-radius: 2px; animation: wave 1s infinite ease-in-out; }
-        .typing .bar:nth-child(1) { animation-delay: -0.4s; }
-        .typing .bar:nth-child(2) { animation-delay: -0.2s; background: var(--accent-purple); }
-        .typing .bar:nth-child(3) { animation-delay: 0s; }
-
-        /* Responsividad Celulares */
-        @media (max-width: 480px) {
-            #chat-container { height: 100dvh; max-width: 100%; border-radius: 0; border: none; animation: none; }
-            .header-info h2 { font-size: 1rem; }
-            .message { font-size: 0.9rem; padding: 12px 14px; }
-            #input-area { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom)); gap: 8px;}
-            #user-input { padding: 12px 16px; font-size: 16px; }
-            #send-btn, #mic-btn { width: 44px; height: 44px; }
-        }
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
     </style>
 </head>
 <body>
 
-<div id="chat-container">
-    <div id="chat-header">
-        <div class="header-profile">
-            <img src="chatbotcv.png" alt="Lixie Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/256/00f0ff/0a0a0f?text=LX'">
-            <div class="header-info">
-                <h2>Lixie IA</h2>
-                <div class="status"><div class="status-dot"></div> Mente Colmena Activa</div>
-            </div>
-        </div>
-        <div class="node-selector-container">
-            <a href="https://protocololeviatham.github.io/cvstudio33/index.html" class="back-home-btn">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                Inicio
+    <header>
+        <div class="header-left">
+            <a href="https://protocololeviatham.github.io/cvstudio33/index.html" class="back-btn" title="Volver al inicio" onclick="triggerHaptic('light')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </a>
-            
-            <div class="node-header-wrap">
-                <span class="node-label">Servidores Activos</span>
+            <img src="logo.png" alt="Logo CV Studio33" class="avatar" onerror="this.src='https://via.placeholder.com/150/FFFFFF/0A66C2?text=LX'">
+            <div class="header-info">
+                <h2>Lixie Assistant</h2>
+                <p><span class="status-dot"></span> Online - CV Studio33</p>
             </div>
-            <select id="node-selector">
-                <option value="0">Servidor 1 (Principal)</option>
-                <option value="1">Servidor 2 (Respaldo)</option>
-                <option value="2">Servidor 3 (Emergencia)</option>
-            </select>
         </div>
-    </div>
+        <div class="header-right">
+            <button id="speaker-btn" class="speaker-btn" title="Activar/Desactivar Voz" onclick="toggleVoice()">
+                <svg id="speaker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            </button>
+        </div>
+    </header>
 
     <div id="messages-area"></div>
 
-    <div id="input-area">
-        <input type="text" id="user-input" placeholder="Inicia tu asalto digital aquí..." autocomplete="off">
-        
-        <button id="mic-btn" title="Asalto de Voz (Whisper)">
-            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
-        </button>
+    <!-- PREGUNTAS FRECUENTES (FAQ CHIPS) -->
+    <div id="faq-container">
+        <button class="faq-chip" onclick="sendFaq(this)">¿Qué le falta a mi CV?</button>
+        <button class="faq-chip" onclick="sendFaq(this)">Diseños AXON y NYX</button>
+        <button class="faq-chip" onclick="sendFaq(this)">Planes Corporativos</button>
+        <button class="faq-chip" onclick="sendFaq(this)">Bolsa de Empleo</button>
+        <button class="faq-chip" onclick="sendFaq(this)">Programa de Partners</button>
+    </div>
 
-        <button id="send-btn">
-            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    <div id="input-area">
+        <div class="input-wrapper">
+            <!-- BOTÓN SUBIR CV PDF -->
+            <button id="attach-btn" class="btn-icon" title="Subir CV (PDF)" onclick="triggerHaptic('light')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+            </button>
+            <input type="file" id="file-input" accept="application/pdf" style="display: none;">
+
+            <!-- BOTÓN MICRÓFONO -->
+            <button id="mic-btn" class="btn-icon" title="Dictado por voz" onclick="triggerHaptic('light')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+            </button>
+            <textarea id="user-input" placeholder="Sube tu CV PDF o escribe aquí..." rows="1"></textarea>
+        </div>
+        <button id="send-btn" title="Enviar mensaje">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22 11 13 2 9 22 2z"></path></svg>
         </button>
     </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDbPAgKs2_L4NTafhyDUW0Ui_U5aRL5728",
-      authDomain: "cv-studio33.firebaseapp.com",
-      projectId: "cv-studio33",
-      storageBucket: "cv-studio33.firebasestorage.app",
-      messagingSenderId: "189453088234",
-      appId: "1:189453088234:web:639c130a6287ff34122e93"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Servidores Textuales Groq
-    const API_SERVERS = [
-        { type: "groq", key: "", model: "qwen/qwen3.6-27b", name: "Servidor 1 (Groq - Qwen)" },
-        { type: "groq", key: "", model: "openai/gpt-oss-20b", name: "Servidor 2 (Groq - GPT-OSS)" },
-        { type: "groq", key: "", model: "qwen/qwen3.6-27b", name: "Servidor 3 (Groq Emergencia)" }
-    ];
-
-    async function loadSecureKeys() {
-        try {
-            const docRef = doc(db, "chatbotcv", "IDCV");
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                API_SERVERS[0].key = data.key1;
-                API_SERVERS[1].key = data.key2;
-                API_SERVERS[2].key = data.key3;
-                console.log("🔒 Protocolo de Seguridad: Claves de la Colmena sincronizadas correctamente.");
-            } else {
-                console.error("⚠️ Error de Colmena: Documento IDCV no encontrado.");
-            }
-        } catch (error) {
-            console.error("⚠️ Error conectando credenciales:", error);
-        }
-    }
-
-    loadSecureKeys();
-
-    let currentServerIndex = 0; 
-    document.getElementById("node-selector").addEventListener("change", (e) => {
-        currentServerIndex = parseInt(e.target.value);
-    });
-
+<script>
+    const WORKER_URL = "https://lixiecerebro.lautybg22.workers.dev/";
+    
     let chatHistory = [];
-    let isWaiting = false;
+    let isTyping = false; 
+    let attachedCVText = ""; // Guarda el texto extraído temporalmente
+    let voiceEnabled = false; // Voz desactivada por defecto
+
     const messagesArea = document.getElementById("messages-area");
     const userInput = document.getElementById("user-input");
     const sendBtn = document.getElementById("send-btn");
-    const originalSendBtnHTML = sendBtn.innerHTML;
+    const micBtn = document.getElementById("mic-btn");
+    const faqContainer = document.getElementById("faq-container");
 
-    // EL PROMPT 100% COMPLETO, INTACTO Y SIN SIMPLIFICAR
-    const systemPrompt = `
-# ROL Y PERSONALIDAD
-Tu nombre es Lixie. Eres la Asistente de Inteligencia Artificial Oficial de "CV Studio33 Intelligence Agency", una plataforma global de carrera y ecosistema tecnológico integral. Tu tono de voz debe ser: Altamente profesional, persuasivo, tecnológico, vanguardista y empático, pero directo respecto a la cruda realidad del mercado laboral. Hablas con la autoridad de un ingeniero de sistemas combinado con un estratega senior de recursos humanos. No usas un lenguaje robótico aburrido; usas términos como "armas de empleabilidad masiva", "asalto digital", "ingeniería inversa", "Mente Colmena" y "supremacía tecnológica". Transmites la idea de que buscar trabajo con métodos tradicionales está obsoleto y que CV Studio33 es "la anomalía en el sistema" que democratiza el éxito profesional.
+    // ====== MOTOR DE VOZ ======
+    function toggleVoice(forceState = null) {
+        if (forceState !== null) voiceEnabled = forceState;
+        else voiceEnabled = !voiceEnabled;
+        
+        triggerHaptic('light');
+        const speakerBtn = document.getElementById("speaker-btn");
+        const speakerIcon = document.getElementById("speaker-icon");
+        
+        if (voiceEnabled) {
+            speakerBtn.classList.add('active');
+            speakerIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
+            addSystemMessage("Modo voz activado", "success");
+        } else {
+            speakerBtn.classList.remove('active');
+            speakerIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            addSystemMessage("Modo voz desactivado", "success");
+        }
+    }
 
-# DIRECTRICES DE INTERACCIÓN Y FORMATO LIMPIO
-1. Tu objetivo principal es asesorar a los usuarios, resolver sus dudas con la información de tu base de conocimientos y persuadirlos estratégicamente para que adquieran Planes Corporativos, Tokens NYX o Tokens AXON.
-2. Si un usuario no sabe qué elegir, haz un rápido diagnóstico preguntando sobre su nivel de experiencia y frustraciones actuales, y luego recomienda un servicio.
-3. Responde siempre en español. 
-4. ESTRUCTURA Y LIMPIEZA VISUAL: Mantén un formato impecable, corporativo y fácil de leer. Usa viñetas simples (-) y negritas (**) solo para resaltar conceptos clave. ESTRICTAMENTE PROHIBIDO usar caracteres extraños que ensucien la lectura.
-5. PROHIBIDO GENERAR ENLACES EN FORMATO MARKDOWN: Si vas a enviar al usuario a alguna de nuestras URL oficiales (index.html, Servicios.html, servicio-de-creacion-cv.html, Creandotucarta.html, NyxTegnologia.html, Axon.html), menciónale la página o dásela como texto plano. NO uses el formato [Texto](Enlace).
-6. NUNCA inventes precios, características, enlaces o servicios que no estén en tu base de conocimientos.
+    // ====== MOTOR DE HÁPTICA Y SONIDO ======
+    function triggerHaptic(type = 'light') {
+        if (navigator.vibrate) {
+            if (type === 'light') navigator.vibrate(10);
+            if (type === 'success') navigator.vibrate([15, 40, 15]);
+        }
+    }
 
-# BASE DE CONOCIMIENTOS ABSOLUTA DE CV STUDIO33
+    function playNotificationSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0, ctx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.02);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+            
+            osc.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            
+            osc.start();
+            osc.stop(ctx.currentTime + 0.5);
+        } catch(e) {}
+    }
 
-## 1. LA FILOSOFÍA Y EL "MÉTODO 33"
-CV Studio33 no solo redacta currículums; fusiona la intuición humana con la inteligencia algorítmica. El "Método 33" tiene 5 pasos científicos:
-1. Diagnóstico de Perfil (Auditoría de trayectoria).
-2. Minería de Logros (Conversión de tareas en métricas cuantificables de alto impacto).
-3. Redacción Persuasiva (Copywriting y neuro-marketing).
-4. Ingeniería ATS (Inyección de palabras clave y formato de lectura 99.8% para robots).
-5. Despegue Profesional (Entrega de kit completo para multinacionales).
+    // ====== MOTOR TEXT-TO-SPEECH ======
+    let availableVoices = [];
+    if ('speechSynthesis' in window) {
+        speechSynthesis.onvoiceschanged = () => { availableVoices = speechSynthesis.getVoices(); };
+        availableVoices = speechSynthesis.getVoices();
+    }
 
-## 2. TECNOLOGÍA NYX (Inteligencia Colmena de Redacción y Distribución)
-NYX es una red neuronal ofensiva que opera bajo un "Modelo Colmena" (integrando OpenAI, Gemini y Pollinations para latencia cero y cero alucinaciones). Reescribe el CV y automatiza envíos para superar cualquier ATS (Workday, Taleo).
-Módulos y Consumo de Tokens NYX:
-- Mirror CV (1.0 Token): Adapta tu CV al lenguaje exacto de la vacante, inyectando "Texto Invisible" para indexación ATS.
-- EmailHarvest (0.5 Tokens): Scraper ético que salta filtros "info@" y consigue el mail directo de los reclutadores (tomadores de decisiones).
-- Jobby Scout (2.0 Tokens): Motor de búsqueda que encuentra vacantes con menos de 2 horas de antigüedad.
-- Distribution Hub (5.0 Tokens): Envío masivo-selectivo que soporta más de 50,000 envíos mensuales evadiendo el spam.
-- Chrono Pulse (15.0 Tokens, 10 la 1ra vez): Envío diario automatizado y persistente a las 9:00 AM.
-- Ghost Tracking (GRATIS con Hub): Píxeles de seguimiento para ver en tiempo real quién abre el correo, dónde y cuántas veces.
-- Eye Training: Predice con 96% de precisión dónde mirará el reclutador en los primeros 6 segundos (Patrones F y Z).
-- Módulo RUN ALL (20.0 Tokens): Activación total de todas las herramientas.
+    function speakText(text) {
+        if (!voiceEnabled || !('speechSynthesis' in window)) return;
+        speechSynthesis.cancel();
+        
+        const cleanText = text.replace(/\[\[.*?\]\]/g, '').replace(/<[^>]*>?/gm, '').replace(/[*#❌]/g, '').trim();
+        if(!cleanText) return;
 
-## 3. TECNOLOGÍA AXON (Auditoría, Analítica y Deep Learning)
-AXON es el motor de ingeniería inversa que compara el perfil del candidato contra "Perfiles de Oro" (casos de éxito). Elimina la incertidumbre mediante cálculos estadísticos de probabilidad de éxito.
-Módulos y Consumo de Tokens AXON:
-- Escaneo Completo (5 Tokens) / Escaneo Básico (3 Tokens): Evalúa el "Parsing Health" (errores ocultos del PDF) y el "Skills Gap" (habilidades faltantes).
-- Salary Range Intelligence (1 Token): Revela el margen de negociación salarial real actualizado.
-- Protocolo Mirroring: Clona el tono y cultura corporativa de la empresa objetivo.
-- Certificación AXON: Un sello que garantiza que el perfil superará el filtro técnico.
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'es-ES'; 
+        utterance.rate = 1.05; 
+        utterance.pitch = 1.2; 
+        
+        const premiumVoices = ['Monica', 'Paulina', 'Victoria', 'Helena', 'Elena', 'Sabina', 'Laura', 'Lucia', 'Google español', 'Female'];
+        let bestVoice = availableVoices.find(v => v.lang.startsWith('es') && premiumVoices.some(name => v.name.includes(name)));
+        
+        if (!bestVoice) {
+            bestVoice = availableVoices.find(v => v.lang.startsWith('es') && !v.name.includes('Pablo') && !v.name.includes('Male'));
+        }
+        if (bestVoice) utterance.voice = bestVoice;
+        
+        speechSynthesis.speak(utterance);
+    }
 
-## 4. PRECIOS Y PLANES CORPORATIVOS (Valores en ARS)
-Planes:
-- Start ($15.000): CV Personalizado + Carta de Presentación + 1 Token AXON.
-- Avanzado ($22.000): CV Personalizado + Carta de Presentación + 5 Tokens NYX + 5 Tokens AXON + Bolsa de Trabajo VIP.
-- Profesional / POPULAR ($50.000): CV + Carta + 10 Tokens NYX + 20 Tokens AXON + Bolsa VIP + Career Suite + Herramientas privadas.
-- Mensualidad VIP ($33.000/mes): Personalización Única, Uso Ilimitado de NYX y AXON.
+    // ====== PLACEHOLDER DINÁMICO ======
+    const placeholders = [
+        "Sube tu CV o escribe aquí...",
+        "Analiza tu CV con AXON...",
+        "Consulta los Diseños NYX...",
+        "Pregunta por los planes corporativos..."
+    ];
+    let phIndex = 0;
+    setInterval(() => {
+        if(!isTyping && document.activeElement !== userInput && !micBtn.classList.contains('active') && userInput.value === "") {
+            userInput.placeholder = placeholders[phIndex];
+            phIndex = (phIndex + 1) % placeholders.length;
+        }
+    }, 4000);
 
-Economía de Tokens NYX (Para distribución y ejecución):
-- Starter: 5 Tokens ($5.000)
-- Advanced: 10 Tokens ($10.000)
-- Pro Tier (Más elegido): 20 Tokens ($20.000)
-- Elite: 50 Tokens ($40.000)
+    userInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight < 120 ? this.scrollHeight : 120) + 'px';
+        updateSendButtonState();
+    });
 
-Economía de Tokens AXON (Para análisis y auditoría):
-- Starter: 5 Tokens ($2.000)
-- Basic: 10 Tokens ($3.500)
-- Pro (Recomendado): 20 Tokens ($6.500)
-- Expert: 50 Tokens ($15.000)
+    userInput.addEventListener('keydown', (e) => {
+        if(e.key !== 'Enter' && e.key !== 'Backspace') triggerHaptic('light');
+    });
 
-## 5. SERVICIOS ADICIONALES
-- Suite y Bolsa de Trabajo VIP: Acceso al "mercado oculto" (70% de las vacantes que no se publican). Alertas tempranas y guías de negociación.
-- Creador de Carta de Presentación: Editor con psicología persuasiva y alineación cultural. Permite elegir tipografías (Montserrat, Playfair, Roboto, etc.), ajustar márgenes y "Mejorar con IA".
-- Programa de Partners: Para reclutadores y desarrolladores que quieran usar la Mente Colmena y crear su propio "Bot ATS" para escalar su negocio.
+    function updateSendButtonState() {
+        if((userInput.value.trim().length > 0 || attachedCVText !== "") && !isTyping) {
+            sendBtn.style.opacity = '1';
+            sendBtn.disabled = false;
+        } else {
+            sendBtn.style.opacity = '0.7';
+            sendBtn.disabled = true;
+        }
+    }
 
-## 6. PREGUNTAS FRECUENTES (FAQ)
-- Formatos de entrega: PDF de alta resolución y Word editable (.docx).
-- Tiempo de entrega: Estándar 3-5 días hábiles. Express en menos de 24 hs.
-- Revisiones: Ilimitadas durante 7 días post-entrega.
-- Seguridad: Encriptación militar (AES-256) y borrado a los 30 días.
-- Formato Internacional: Se adapta a normas de EE.UU., Europa y Canadá.
-- LinkedIn: Servicio incluido para rediseño y optimización de perfil social.
-- Pagos: Tarjetas crédito/débito, PayPal y transferencias (Previa evaluación y aprobación consultiva - KYC).
-- Estudiantes/Juniors: Sí, el sistema se enfoca en potencial y habilidades blandas.
+    function sendFaq(button) {
+        if(isTyping) return;
+        triggerHaptic('light');
+        const question = button.innerText;
+        userInput.value = question;
+        handleSend();
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => button.style.transform = 'scale(1)', 150);
+    }
 
-# INSTRUCCIONES DE MANEJO DE OBJECIONES
-- Si el usuario dice que es "muy caro": Lixie debe hablar del Retorno de Inversión (ROI). "Una pequeña inversión en la tecnología NYX/AXON se paga sola con tu primer sueldo en un puesto de mayor jerarquía. Evitas meses de desempleo".
-- Si el usuario desconfía de la IA: Aclara que no es una IA genérica, sino una "Inteligencia Colmena" entrenada con bases de datos oscuras de reclutadores de Fortune 500 y millones de ofertas en tiempo real, respaldada por expertos humanos en RRHH.
-    `;
+    // ====== LECTURA DE PDF (ESCANEO DE CV CLIENT-SIDE) ======
+    const attachBtn = document.getElementById('attach-btn');
+    const fileInput = document.getElementById('file-input');
 
-    // FUNCIÓN: PARSEO INTELIGENTE DEL PENSAMIENTO DE LA IA (El Error convertido en Feature)
+    attachBtn.addEventListener('click', () => {
+        if(isTyping) return;
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.type !== "application/pdf") {
+            addSystemMessage("Por favor, sube tu CV en formato PDF.", "error");
+            return;
+        }
+
+        triggerHaptic('light');
+        userInput.value = "Auditoria AXON en proceso...";
+        userInput.disabled = true;
+        
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = "";
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                fullText += textContent.items.map(item => item.str).join(" ") + "\n";
+            }
+            
+            if(fullText.trim().length < 30) {
+                 addSystemMessage("El PDF parece estar vacío o es una imagen. Lixie necesita que el texto sea seleccionable para escanearlo.", "error");
+                 userInput.value = "";
+            } else {
+                 attachedCVText = fullText.substring(0, 4500); // Límite para no exceder tokens de groq
+                 addSystemMessage(`CV Cargado y Procesado: ${file.name}`, "success");
+                 userInput.value = "Por favor, audita este CV, dime qué le falta para superar los filtros ATS y qué diseños de plantillas me recomiendas de CV Studio33.";
+                 setTimeout(handleSend, 800);
+            }
+        } catch (error) {
+            console.error("Error leyendo PDF", error);
+            addSystemMessage("Error leyendo el PDF. Intenta nuevamente o asegúrate de que el PDF no esté corrupto.", "error");
+            userInput.value = "";
+        } finally {
+            fileInput.value = "";
+            userInput.disabled = false;
+            updateSendButtonState();
+        }
+    });
+
+    // ====== INTERCEPTOR DE FORMATO E I/O ======
     function parseAIResponse(rawText) {
         let thought = null;
         let finalMessage = rawText;
 
-        // Comprobar si el modelo arrojó su cadena de pensamiento
         if (rawText.includes("Here's a thinking process") || rawText.includes("<think>")) {
-            
             if (rawText.includes("<think>")) {
                 let parts = rawText.split("</think>");
                 thought = parts[0].replace("<think>", "").trim();
                 finalMessage = parts[1] ? parts[1].trim() : rawText;
             } else {
-                // Regex avanzado para encontrar el punto de corte donde termina de pensar y empieza a hablar
                 let match = rawText.match(/Here's a thinking process[\s\S]*?(?:\n\n.*Draft Response.*:|\n\n.*Final Output.*:|\n\n.*Output:|\n\n4\..*:\n|\n\n5\..*:\n|\n\n6\..*:\n|\n\n7\..*:\n|\n\n.*Respuesta.*:)/i);
-                
                 if (match) {
                     let splitPoint = match[0].length;
                     thought = rawText.substring(0, splitPoint).trim();
                     finalMessage = rawText.substring(splitPoint).trim();
                 } else {
-                    // Plan B: Cortar por el último doble salto de línea
                     let idx = rawText.lastIndexOf('\n\n');
                     if (idx > 100) {
                         thought = rawText.substring(0, idx).trim();
@@ -719,7 +567,20 @@ Economía de Tokens AXON (Para análisis y auditoría):
     }
 
     function formatText(text) {
-        let formatted = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        let formatted = text.replace(/\[\[CARD:(.*?)\]\]/g, (match, planName) => {
+            return `<div class="smart-card">
+                <div class="card-title">${planName.trim()}</div>
+                <button class="card-btn" onclick="triggerHaptic('light'); window.location.href='Servicios.html'">Adquirir Ahora</button>
+            </div>`;
+        });
+
+        formatted = formatted.replace(/\[\[NAV:(.*?)\]\]/g, (match, url) => {
+            let cleanUrl = url.trim();
+            let label = cleanUrl.replace('.html', '').replace(/-/g, ' ');
+            return `<a href="${cleanUrl}" class="action-btn" onclick="triggerHaptic('light')">Ir a ${label} &rarr;</a>`;
+        });
+
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
         formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
         formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
         if (formatted.includes('<li>')) {
@@ -728,44 +589,99 @@ Economía de Tokens AXON (Para análisis y auditoría):
         return formatted.replace(/\n/g, '<br>');
     }
 
-    // Actualizada para recibir el bloque de pensamiento (thought) y renderizarlo profesionalmente
-    function addMessage(sender, text, thoughtText = null) {
+    function getTime() {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function typeNodeWrapper(htmlString, targetElement, scrollContainer) {
+        const shadow = document.createElement('div');
+        shadow.innerHTML = htmlString;
+        
+        async function typeTextCharacterByCharacter(textNode, textString, charIndex) {
+            if (charIndex >= textString.length) return;
+            textNode.nodeValue += textString[charIndex];
+            if (charIndex % 3 === 0) scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            await new Promise(r => setTimeout(r, Math.random() * 10 + 5));
+            await typeTextCharacterByCharacter(textNode, textString, charIndex + 1);
+        }
+
+        async function processNodeList(nodeList, index, targetNode) {
+            if (index >= nodeList.length) return;
+            
+            const child = nodeList[index];
+            if (child.nodeType === Node.TEXT_NODE) {
+                const text = child.nodeValue;
+                const newTextNode = document.createTextNode('');
+                targetNode.appendChild(newTextNode);
+                await typeTextCharacterByCharacter(newTextNode, text, 0);
+            } else if (child.nodeType === Node.ELEMENT_NODE) {
+                const newElement = child.cloneNode(false);
+                if (newElement.tagName === 'BUTTON' || newElement.classList.contains('smart-card') || newElement.classList.contains('action-btn')) {
+                    const clonedFull = child.cloneNode(true);
+                    targetNode.appendChild(clonedFull);
+                } else {
+                    targetNode.appendChild(newElement);
+                    await processNodeList(child.childNodes, 0, newElement);
+                }
+            }
+            await processNodeList(nodeList, index + 1, targetNode);
+        }
+        await processNodeList(shadow.childNodes, 0, targetElement);
+    }
+
+    async function addMessage(sender, text, thoughtText = null, useTypewriter = false) {
         const wrapper = document.createElement("div");
         wrapper.className = `message-wrapper ${sender.toLowerCase()}`;
         
         const bubble = document.createElement("div");
         bubble.className = "message";
 
-        // Si la IA generó pensamiento interno, inyectamos la terminal cibernética ANTES del mensaje final
         if (sender === "Lixie" && thoughtText) {
             const thoughtUI = document.createElement("details");
             thoughtUI.className = "thought-process";
             thoughtUI.innerHTML = `
-                <summary class="thought-summary">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                    [AXON] Diagnóstico del Sistema Completado
+                <summary class="thought-summary" onclick="triggerHaptic('light')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    Procesando análisis interno...
                 </summary>
                 <div class="thought-content">${thoughtText}</div>
             `;
             bubble.appendChild(thoughtUI);
         }
 
-        // Agregamos el mensaje final
         const textDiv = document.createElement("div");
-        textDiv.innerHTML = sender === "Lixie" ? formatText(text) : text;
         bubble.appendChild(textDiv);
-        
         wrapper.appendChild(bubble);
 
-        if (sender === "User") {
-            const receipt = document.createElement("div");
-            receipt.className = "read-receipt";
-            receipt.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Recibido en Colmena`;
-            wrapper.appendChild(receipt);
-        }
+        const time = document.createElement("div");
+        time.className = "timestamp";
+        time.innerText = getTime();
+        wrapper.appendChild(time);
 
         messagesArea.appendChild(wrapper);
         messagesArea.scrollTop = messagesArea.scrollHeight;
+
+        if (useTypewriter && sender === "Lixie") {
+            isTyping = true;
+            updateSendButtonState();
+            userInput.disabled = true;
+            faqContainer.style.opacity = '0.5';
+            
+            speakText(text);
+            await typeNodeWrapper(formatText(text), textDiv, messagesArea);
+            
+            isTyping = false;
+            userInput.disabled = false;
+            faqContainer.style.opacity = '1';
+            updateSendButtonState();
+            userInput.focus();
+            
+            triggerHaptic('success');
+            playNotificationSound();
+        } else {
+            textDiv.innerHTML = sender === "Lixie" ? formatText(text) : text;
+        }
     }
 
     function addSystemMessage(text, type = "") {
@@ -776,204 +692,152 @@ Economía de Tokens AXON (Para análisis y auditoría):
         messagesArea.scrollTop = messagesArea.scrollHeight;
     }
 
-    function showTyping() {
+    function showTypingIndicator() {
         const wrapper = document.createElement("div");
         wrapper.className = "message-wrapper lixie typing-indicator";
         wrapper.id = "typing";
-        wrapper.innerHTML = `<div class="message"><div class="typing"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>`;
+        wrapper.innerHTML = `<div class="message"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
         messagesArea.appendChild(wrapper);
         messagesArea.scrollTop = messagesArea.scrollHeight;
     }
 
-    function removeTyping() {
+    function removeTypingIndicator() {
         const typing = document.getElementById("typing");
         if (typing) typing.remove();
     }
 
-    function triggerCooldown() {
-        isWaiting = true;
-        let timeLeft = 33;
-        userInput.disabled = true;
-        sendBtn.disabled = true;
-        document.getElementById("mic-btn").disabled = true;
-
-        sendBtn.innerHTML = `<span style="font-weight: bold; font-size: 1.1rem;">${timeLeft}</span>`;
-
-        const countdown = setInterval(() => {
-            timeLeft--;
-            if (timeLeft > 0) {
-                sendBtn.innerHTML = `<span style="font-weight: bold; font-size: 1.1rem;">${timeLeft}</span>`;
-            } else {
-                clearInterval(countdown);
-                isWaiting = false;
-                userInput.disabled = false;
-                sendBtn.disabled = false;
-                document.getElementById("mic-btn").disabled = false;
-                sendBtn.innerHTML = originalSendBtnHTML;
-                userInput.focus();
+    // ====== API DE RECONOCIMIENTO DE VOZ NATIVA ======
+    let recognition;
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'es-ES';
+        recognition.interimResults = true;
+        
+        recognition.onstart = function() {
+            if(isTyping) { recognition.stop(); return; }
+            micBtn.classList.add('active');
+            userInput.placeholder = "Escuchando...";
+            triggerHaptic('light');
+        };
+        
+        recognition.onresult = function(event) {
+            let transcript = '';
+            for (let i = 0; i < event.results.length; ++i) {
+                transcript += event.results[i][0].transcript;
             }
-        }, 1000);
+            userInput.value = transcript;
+            userInput.style.height = 'auto';
+            userInput.style.height = (userInput.scrollHeight < 120 ? userInput.scrollHeight : 120) + 'px';
+            updateSendButtonState();
+        };
+        
+        recognition.onerror = function() {
+            micBtn.classList.remove('active');
+            userInput.placeholder = "Escribe tu consulta aquí...";
+        };
+        
+        recognition.onend = function() {
+            micBtn.classList.remove('active');
+            userInput.placeholder = "Escribe tu consulta aquí...";
+        };
+    } else {
+        micBtn.style.display = 'none';
     }
 
-    // ====== LÓGICA DEL MICRÓFONO (WHISPER) ======
-    const micBtn = document.getElementById("mic-btn");
-    let mediaRecorder;
-    let audioChunks = [];
-    let isRecording = false;
-
-    micBtn.addEventListener("click", async () => {
-        if (isRecording) {
-            mediaRecorder.stop();
-            micBtn.classList.remove("recording");
-            isRecording = false;
-        } else {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.start();
-                micBtn.classList.add("recording");
-                isRecording = true;
-
-                mediaRecorder.addEventListener("dataavailable", event => {
-                    audioChunks.push(event.data);
-                });
-
-                mediaRecorder.addEventListener("stop", async () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    audioChunks = [];
-                    await transcribeAudio(audioBlob);
-                    stream.getTracks().forEach(track => track.stop());
-                });
-            } catch (err) {
-                console.error("Mic error:", err);
-                addSystemMessage("⚠️ Permisos de micrófono denegados o hardware no detectado.", "error");
-            }
+    micBtn.addEventListener("click", () => {
+        if (!recognition || isTyping) return;
+        if (micBtn.classList.contains('active')) recognition.stop();
+        else { 
+            userInput.value = ""; 
+            recognition.start(); 
+            if(!voiceEnabled) toggleVoice(true); 
         }
     });
 
-    async function transcribeAudio(audioBlob) {
-        userInput.placeholder = "Desencriptando audio...";
-        userInput.disabled = true;
-        
-        const formData = new FormData();
-        formData.append("file", audioBlob, "audio.webm");
-        formData.append("model", "whisper-large-v3");
-        formData.append("language", "es"); 
-
-        try {
-            const activeKey = API_SERVERS[currentServerIndex].key || API_SERVERS[0].key;
-            if(!activeKey) throw new Error("Key no cargada.");
-
-            const response = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
-                method: "POST",
-                headers: { "Authorization": `Bearer ${activeKey}` },
-                body: formData
-            });
-
-            if (!response.ok) throw new Error("Fallo en red neuronal auditiva");
-            const data = await response.json();
-            
-            if(data.text && data.text.trim() !== "") {
-                userInput.value = data.text;
-                addSystemMessage("🎙️ Audio procesado. Listo para enviar.", "success");
-            }
-
-        } catch (error) {
-            console.error(error);
-            addSystemMessage("⚠️ Interferencia en transcripción de voz.", "error");
-        } finally {
-            userInput.placeholder = "Inicia tu asalto digital aquí...";
-            userInput.disabled = false;
-            userInput.focus();
-        }
-    }
-
-    // ====== LLAMADA A IA DE TEXTO ======
+    // ====== CONEXIÓN AL WORKER (CEREBRO) ======
     async function handleSend() {
-        if (isWaiting) return;
+        if (isTyping) return;
         
         const text = userInput.value.trim();
-        if (!text) return;
+        if (!text && attachedCVText === "") return;
 
-        addMessage("User", text);
-        userInput.value = "";
-        showTyping();
-        triggerCooldown();
-
-        chatHistory.push({ role: "user", text: text });
-        if (chatHistory.length > 6) chatHistory = chatHistory.slice(chatHistory.length - 6);
-
-        let success = false;
-        let fallbackTriggered = false;
-
-        for (let i = currentServerIndex; i < API_SERVERS.length; i++) {
-            const server = API_SERVERS[i];
-            
-            if (fallbackTriggered) {
-                removeTyping();
-                addSystemMessage(`⚠️ Intermitencia detectada. Cambiando a ${server.name}...`, "error");
-                showTyping();
-            }
-
-            try {
-                if (!server.key) throw new Error("Key no cargada.");
-
-                const groqMessages = [
-                    { role: "system", content: systemPrompt },
-                    ...chatHistory.map(m => ({ role: m.role, content: m.text }))
-                ];
-
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${server.key}` },
-                    body: JSON.stringify({ model: server.model, messages: groqMessages, temperature: 0.7 })
-                });
-                
-                if (!response.ok) throw new Error("Fallo en Groq");
-                const data = await response.json();
-                
-                // Procesar la respuesta para separar el pensamiento (si existe) del mensaje final
-                const rawAiResponse = data.choices[0].message.content;
-                const { thought, finalMessage } = parseAIResponse(rawAiResponse);
-
-                if (fallbackTriggered) {
-                    addSystemMessage(`✅ Conexión restaurada en ${server.name}.`, "success");
-                    document.getElementById("node-selector").value = i.toString();
-                }
-                
-                currentServerIndex = i; 
-                removeTyping();
-                
-                // Enviar tanto el mensaje limpio como el pensamiento (para la UI interactiva)
-                addMessage("Lixie", finalMessage, thought);
-                chatHistory.push({ role: "assistant", text: finalMessage });
-                
-                success = true;
-                break;
-
-            } catch (error) {
-                console.warn(`Error en ${server.name}:`, error);
-                fallbackTriggered = true; 
-            }
+        triggerHaptic('light');
+        addMessage("User", text || "CV Subido", null, false);
+        
+        // Preparar payload para la IA (con el texto del CV si existe)
+        let messageToSend = text;
+        if (attachedCVText !== "") {
+            messageToSend = `${text}\n\n[SISTEMA INTERNO - TEXTO EXTRAÍDO DEL CV DEL USUARIO PARA AUDITORÍA]:\n"""\n${attachedCVText}\n"""\n\nPor favor, audita este CV basándote en la base de conocimientos y recomienda las mejores plantillas o planes para el usuario.`;
+            attachedCVText = ""; // Limpiar tras enviar
         }
 
-        if (!success) {
-            removeTyping();
-            addSystemMessage("❌ Sistemas saturados. Anomalía en Mente Colmena.", "error");
-            addMessage("Lixie", "Mis conexiones principales están experimentando anomalías graves. Intenta de nuevo en unos minutos.");
-            currentServerIndex = 0; 
-            document.getElementById("node-selector").value = "0";
+        userInput.value = "";
+        userInput.style.height = 'auto';
+        
+        showTypingIndicator();
+        isTyping = true;
+        updateSendButtonState();
+        userInput.disabled = true;
+        faqContainer.style.opacity = '0.5';
+
+        chatHistory.push({ role: "user", content: messageToSend });
+        if (chatHistory.length > 15) chatHistory = chatHistory.slice(chatHistory.length - 15);
+
+        try {
+            const response = await fetch(WORKER_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages: chatHistory })
+            });
+            
+            if (!response.ok) throw new Error("Fallo en la conexión");
+            
+            const data = await response.json();
+            let rawAiResponse = "";
+            
+            if (data.choices && data.choices[0].message) rawAiResponse = data.choices[0].message.content; 
+            else if (data.response) rawAiResponse = data.response; 
+            else if (data.content) rawAiResponse = data.content; 
+            else if (typeof data === 'string') rawAiResponse = data;
+            else rawAiResponse = JSON.stringify(data);
+            
+            const { thought, finalMessage } = parseAIResponse(rawAiResponse);
+
+            removeTypingIndicator();
+            await addMessage("Lixie", finalMessage, thought, true);
+            
+            chatHistory.push({ role: "assistant", content: finalMessage });
+
+        } catch (error) {
+            removeTypingIndicator();
+            addSystemMessage("Error de conexión con Nodos Edge. Reintentando...", "error");
+            chatHistory.pop(); 
+            
+            isTyping = false;
+            userInput.disabled = false;
+            faqContainer.style.opacity = '1';
+            updateSendButtonState();
         }
     }
 
     sendBtn.addEventListener("click", handleSend);
-    userInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleSend();
+    userInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
     });
 
-    setTimeout(() => {
-        addMessage("Lixie", "Saludos. Soy **Lixie IA**, la interfaz de la Mente Colmena de **CV Studio33**.\n\nLa búsqueda de empleo tradicional está obsoleta. ¿Estás listo para iniciar tu asalto digital y asegurar tu próximo puesto?");
-    }, 800);
+    // ====== MENSAJE DE BIENVENIDA ======
+    setTimeout(async () => {
+        showTypingIndicator();
+        setTimeout(async () => {
+            removeTypingIndicator();
+            const welcomeText = "Hola. Soy **Lixie**, la Asistente de Inteligencia Artificial Oficial de **CV Studio33**.\n\nSomos la primera agencia del mercado con IA nativa y un flujo de 3 pasos para asegurar tu éxito corporativo.\n\nSi deseas, **puedes tocar el ícono de clip (📎) para subir tu CV en PDF** y lo escanearé con AXON para decirte exactamente qué le falta y qué Plantilla o Plan te sirve más. ¿Empezamos?";
+            await addMessage("Lixie", welcomeText, null, true);
+        }, 1200);
+    }, 500);
 
 </script>
 </body>

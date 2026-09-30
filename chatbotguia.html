@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PDF.js para extraer texto del CV localmente sin servidores -->
+    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
@@ -25,32 +25,31 @@
             --border-light: #E5E7EB;
             --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+        /* FIX MOBILE VIEWPORT */
         body {
             margin: 0; padding: 0;
             background-color: var(--bg-body);
             color: var(--text-main);
             font-family: var(--font-main);
             display: flex; flex-direction: column;
-            height: 100vh; height: 100dvh;
-            overflow: hidden;
+            position: fixed; width: 100%; top: 0; bottom: 0; left: 0;
+            overflow: hidden; height: 100dvh;
         }
 
         /* HEADER PROFESSIONAL */
         header {
             background-color: var(--bg-chat);
-            padding: calc(env(safe-area-inset-top, 0px) + 16px) 24px 16px;
+            padding: calc(env(safe-area-inset-top, 0px) + 12px) 20px 12px;
             display: flex; align-items: center; justify-content: space-between;
             border-bottom: 1px solid var(--border-light);
-            z-index: 10;
-            box-shadow: var(--shadow-sm);
+            z-index: 10; box-shadow: var(--shadow-sm); flex-shrink: 0;
         }
 
-        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-left { display: flex; align-items: center; gap: 14px; }
         .header-right { display: flex; align-items: center; }
         
         .speaker-btn {
@@ -60,251 +59,259 @@
         }
         .speaker-btn:hover { background: #E5E7EB; color: var(--primary); }
         .speaker-btn.active { background: #DBEAFE; color: var(--primary); }
-        .speaker-btn svg { width: 20px; height: 20px; stroke-width: 2; }
+        .speaker-btn svg { width: 18px; height: 18px; stroke-width: 2; }
         
         .back-btn {
-            background: none; border: none; padding: 8px 0;
+            background: none; border: none; padding: 6px 0;
             color: var(--text-muted); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; text-decoration: none; transition: color 0.2s;
         }
-        .back-btn:hover { color: var(--primary); }
 
         .avatar {
-            width: 48px; height: 48px; border-radius: 50%;
-            object-fit: contain; border: 1px solid var(--border-light);
-            background: #fff; padding: 4px;
-            box-shadow: var(--shadow-sm);
+            width: 44px; height: 44px; border-radius: 50%;
+            object-fit: cover; border: 1px solid var(--border-light);
+            background: #fff; padding: 2px; box-shadow: var(--shadow-sm);
         }
 
         .header-info h2 {
-            margin: 0; font-size: 18px; font-weight: 600; color: var(--text-main);
-            letter-spacing: -0.02em;
+            margin: 0; font-size: 16px; font-weight: 600; color: var(--text-main); letter-spacing: -0.02em;
         }
         .header-info p {
-            margin: 4px 0 0; font-size: 13px; color: var(--text-muted);
+            margin: 2px 0 0; font-size: 12px; color: var(--text-muted);
             display: flex; align-items: center; gap: 6px; font-weight: 500;
         }
         .status-dot {
-            width: 8px; height: 8px; background-color: #10B981;
+            width: 7px; height: 7px; background-color: #10B981;
             border-radius: 50%; position: relative;
         }
         .status-dot::after {
-            content: ''; position: absolute;
-            top: -3px; left: -3px; width: 14px; height: 14px;
-            background-color: rgba(16, 185, 129, 0.2);
-            border-radius: 50%; animation: pulse-green 2s infinite;
+            content: ''; position: absolute; top: -3px; left: -3px; width: 13px; height: 13px;
+            background-color: rgba(16, 185, 129, 0.2); border-radius: 50%; animation: pulse-green 2s infinite;
         }
 
         /* MESSAGES AREA */
         #messages-area {
-            flex: 1; padding: 24px 20px;
-            overflow-y: auto; display: flex; flex-direction: column; gap: 20px;
-            background-color: var(--bg-body);
-            scroll-behavior: smooth;
-            position: relative;
+            flex: 1; padding: 20px 16px;
+            overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
+            background-color: var(--bg-body); position: relative;
         }
 
-        /* MARCA DE AGUA */
         #messages-area::before {
-            content: ''; position: fixed;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 250px; height: 250px;
-            background-image: url('logo.png');
+            content: ''; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 200px; height: 200px; background-image: url('logo.png');
             background-size: contain; background-repeat: no-repeat; background-position: center;
             opacity: 0.02; pointer-events: none; z-index: 0;
         }
 
         .message-wrapper {
             display: flex; flex-direction: column; max-width: 90%;
-            animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            position: relative; z-index: 1;
+            animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; position: relative; z-index: 1;
         }
-
         .message-wrapper.lixie { align-self: flex-start; }
         .message-wrapper.user { align-self: flex-end; }
 
         .message {
-            padding: 16px 20px; font-size: 15px; line-height: 1.6;
-            word-wrap: break-word; position: relative;
+            padding: 14px 18px; font-size: 14.5px; line-height: 1.5; word-wrap: break-word;
         }
 
         .lixie .message {
             background-color: var(--bubble-ai); color: var(--text-main);
-            border-radius: 20px 20px 20px 4px;
-            border: 1px solid var(--border-light);
+            border-radius: 20px 20px 20px 4px; border: 1px solid var(--border-light);
             box-shadow: var(--shadow-sm);
         }
 
         .user .message {
             background: var(--bubble-user); color: #fff;
-            border-radius: 20px 20px 4px 20px;
-            box-shadow: 0 4px 10px rgba(10, 102, 194, 0.2);
+            border-radius: 20px 20px 4px 20px; box-shadow: 0 4px 10px rgba(10, 102, 194, 0.2);
         }
 
-        /* SMART CARDS & ACTIONS */
+        /* REDISEÑO COMPACTO DE SMART CARDS */
         .smart-card {
-            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
-            border: 1px solid #93C5FD; border-radius: 12px;
-            padding: 16px; margin: 12px 0;
-            box-shadow: 0 4px 6px rgba(10, 102, 194, 0.05);
-            display: flex; flex-direction: column; gap: 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border: 1px solid #E2E8F0; border-radius: 12px;
+            padding: 10px 14px; margin: 10px 0;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            box-shadow: var(--shadow-sm);
         }
-        .smart-card .card-title { font-weight: 700; color: var(--primary); font-size: 16px; }
+        .smart-card .card-title { font-weight: 700; color: var(--text-main); font-size: 13.5px; margin: 0; }
         .smart-card .card-btn {
-            background: var(--primary-grad); color: #fff;
-            border: none; border-radius: 8px; padding: 10px; font-weight: 600;
-            cursor: pointer; transition: transform 0.2s;
+            background: var(--primary); color: #fff;
+            border: none; border-radius: 20px; padding: 6px 12px; font-weight: 600;
+            font-size: 12px; cursor: pointer; white-space: nowrap; transition: transform 0.2s;
         }
-        .smart-card .card-btn:active { transform: scale(0.96); }
+        .smart-card .card-btn:active { transform: scale(0.95); }
         
         .action-btn {
             display: inline-block; background: #E5E7EB; color: var(--text-main);
             padding: 8px 14px; border-radius: 20px; text-decoration: none; font-weight: 600;
             font-size: 13px; margin: 8px 0; transition: background 0.2s;
         }
-        .action-btn:hover { background: #D1D5DB; }
 
-        /* THOUGHT PROCESS (CLEAN PROFESSIONAL UI) */
+        /* THOUGHT PROCESS */
         .thought-process {
             background: #F9FAFB; border: 1px solid var(--border-light);
-            border-radius: 12px; margin-bottom: 14px;
-            font-size: 13.5px; overflow: hidden;
+            border-radius: 12px; margin-bottom: 12px; font-size: 13px; overflow: hidden;
         }
         .thought-summary {
-            padding: 12px 16px; cursor: pointer; color: var(--primary);
-            font-weight: 500; display: flex; align-items: center; gap: 8px;
-            user-select: none; background: #F3F4F6; transition: background 0.2s;
+            padding: 10px 14px; cursor: pointer; color: var(--primary); font-weight: 500;
+            display: flex; align-items: center; gap: 8px; background: #F3F4F6;
         }
-        .thought-summary:hover { background: #E5E7EB; }
         .thought-content {
-            padding: 14px 16px; border-top: 1px solid var(--border-light);
+            padding: 12px 14px; border-top: 1px solid var(--border-light);
             white-space: pre-wrap; color: var(--text-muted); display: none;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 12.5px; background: #fff;
+            font-family: monospace; font-size: 11.5px; background: #fff;
         }
-        .thought-process[open] .thought-content { display: block; animation: slideDown 0.3s ease; }
+        .thought-process[open] .thought-content { display: block; }
 
         /* FORMATTING */
         .message b { font-weight: 600; color: #111827; }
         .user .message b { color: #fff; }
-        .message ul { padding-left: 22px; margin: 12px 0; }
-        .message li { margin-bottom: 8px; }
-        .message li::marker { color: var(--primary); }
-        .user .message li::marker { color: #fff; }
-        .message a { color: var(--primary); text-decoration: none; font-weight: 500; }
-        .message a:hover { text-decoration: underline; }
-        .user .message a { color: #fff; text-decoration: underline; }
+        .message ul { padding-left: 20px; margin: 10px 0; }
+        .message li { margin-bottom: 6px; }
 
         .timestamp {
-            font-size: 11px; color: var(--text-muted);
-            align-self: flex-end; margin-top: 8px;
-            margin-right: 6px; margin-left: 6px;
-            font-weight: 500; letter-spacing: 0.02em;
+            font-size: 10.5px; color: var(--text-muted); align-self: flex-end;
+            margin-top: 6px; margin-right: 4px; font-weight: 500;
         }
 
         /* TYPING INDICATOR */
-        .message-wrapper.typing-indicator .message { padding: 14px 20px; }
-        .typing { display: flex; gap: 6px; align-items: center; height: 18px; }
+        .typing { display: flex; gap: 4px; align-items: center; height: 16px; }
         .typing .dot { 
-            width: 7px; height: 7px; background: #9CA3AF; 
-            border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; 
+            width: 6px; height: 6px; background: #9CA3AF; border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both; 
         }
         .typing .dot:nth-child(1) { animation-delay: -0.32s; }
         .typing .dot:nth-child(2) { animation-delay: -0.16s; }
 
-        /* SYSTEM MESSAGES */
-        .system-msg {
-            align-self: center; font-size: 12px; color: var(--text-muted);
-            background: #E5E7EB; padding: 8px 16px; border-radius: 20px;
-            margin: 10px 0; max-width: 90%; text-align: center; font-weight: 500;
+        /* CUSTOM TOASTS (NOTIFICACIONES LIXIE) */
+        #toast-container {
+            position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; gap: 10px; z-index: 9999;
+            pointer-events: none; width: 90%; max-width: 400px;
         }
-        .system-msg.error { color: #DC2626; background: #FEE2E2; }
-        .system-msg.success { color: #047857; background: #D1FAE5; }
+        .custom-toast {
+            background: rgba(17, 24, 39, 0.95); color: #fff; padding: 12px 16px;
+            border-radius: 14px; display: flex; align-items: center; gap: 12px;
+            font-size: 13px; font-weight: 500; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            animation: slideDownFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            pointer-events: auto; backdrop-filter: blur(8px);
+        }
+        .custom-toast img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid #4B5563; }
+        .custom-toast.error { border-left: 4px solid #EF4444; }
+        .custom-toast.success { border-left: 4px solid #10B981; }
+
+        /* MODAL PDF UPLOAD */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
+            z-index: 10000; display: none; align-items: center; justify-content: center;
+        }
+        .modal-box {
+            background: #fff; padding: 24px; border-radius: 20px; width: 85%; max-width: 360px;
+            text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            animation: zoomIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .modal-avatar { width: 56px; height: 56px; border-radius: 50%; margin-bottom: 12px; object-fit: cover; }
+        .modal-box h3 { margin: 0 0 10px; font-size: 17px; color: var(--text-main); }
+        .modal-box p { margin: 0 0 20px; font-size: 13.5px; color: var(--text-muted); line-height: 1.5; }
+        .modal-actions { display: flex; gap: 10px; }
+        .modal-btn {
+            flex: 1; padding: 12px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: transform 0.2s; font-size: 13.5px;
+        }
+        .modal-btn:active { transform: scale(0.95); }
+        .modal-btn.cancel { background: #F3F4F6; color: var(--text-main); }
+        .modal-btn.accept { background: var(--primary-grad); color: #fff; }
 
         /* FAQ CHIPS */
         #faq-container {
-            display: flex; gap: 10px; overflow-x: auto; padding: 12px 20px;
+            display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px;
             background: var(--bg-chat); border-top: 1px solid var(--border-light);
-            scrollbar-width: none; -ms-overflow-style: none;
+            scrollbar-width: none; -ms-overflow-style: none; flex-shrink: 0;
         }
         #faq-container::-webkit-scrollbar { display: none; }
         .faq-chip {
-            background: #F3F4F6; border: 1px solid var(--border-light);
-            border-radius: 20px; padding: 8px 14px; font-size: 13px; font-weight: 500;
-            color: var(--text-main); cursor: pointer; white-space: nowrap;
-            transition: all 0.2s ease; font-family: var(--font-main);
-            box-shadow: var(--shadow-sm);
+            background: #F3F4F6; border: 1px solid var(--border-light); border-radius: 20px;
+            padding: 8px 14px; font-size: 12.5px; font-weight: 500; color: var(--text-main);
+            cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
         }
-        .faq-chip:hover { background: #E5E7EB; border-color: #D1D5DB; transform: translateY(-1px); }
-        .faq-chip:active { transform: translateY(1px); }
+
+        /* AI WARNING */
+        .ai-warning {
+            font-size: 11px; text-align: center; color: #EF4444; padding: 6px 16px;
+            background: var(--bg-chat); display: flex; align-items: center; justify-content: center; gap: 6px;
+            font-weight: 500; flex-shrink: 0;
+        }
+        .ai-warning svg { width: 14px; height: 14px; }
 
         /* INPUT AREA */
         #input-area {
             background-color: var(--bg-chat);
-            padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 16px);
-            display: flex; gap: 12px; align-items: flex-end;
+            padding: 10px 16px calc(env(safe-area-inset-bottom, 0px) + 12px);
+            display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0;
             box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
         }
 
         .input-wrapper {
-            flex: 1; background-color: #F3F4F6;
-            border-radius: 24px; padding: 12px 18px;
-            display: flex; align-items: center; gap: 8px;
-            border: 1px solid transparent; transition: all 0.2s;
+            flex: 1; background-color: #F3F4F6; border-radius: 24px; padding: 10px 14px;
+            display: flex; align-items: center; gap: 6px; border: 1px solid transparent;
         }
-        .input-wrapper:focus-within { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1); }
+        .input-wrapper:focus-within { border-color: var(--primary); background: #fff; }
 
         #user-input {
             flex: 1; border: none; background: transparent;
-            font-size: 15px; color: var(--text-main); font-family: var(--font-main);
-            outline: none; resize: none; max-height: 120px;
-            padding: 2px 0; line-height: 1.5;
+            font-size: 14.5px; color: var(--text-main); font-family: var(--font-main);
+            outline: none; resize: none; max-height: 100px; padding: 2px 0; line-height: 1.4;
         }
-        #user-input::placeholder { color: #9CA3AF; transition: opacity 0.3s; }
+        #user-input:disabled { color: #9CA3AF; }
 
         .btn-icon {
-            background: none; border: none; padding: 4px;
-            color: #9CA3AF; cursor: pointer;
+            background: none; border: none; padding: 4px; color: #9CA3AF; cursor: pointer;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            transition: color 0.2s;
         }
         .btn-icon:hover { color: var(--primary); }
         .btn-icon.active { color: #EF4444; animation: pulse-red 1.5s infinite; }
 
         #send-btn {
             background: var(--primary-grad); color: #fff;
-            border: none; border-radius: 50%; width: 48px; height: 48px;
+            border: none; border-radius: 50%; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-            flex-shrink: 0; box-shadow: 0 4px 10px rgba(10, 102, 194, 0.3);
+            cursor: pointer; flex-shrink: 0; transition: transform 0.2s;
         }
-        #send-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(10, 102, 194, 0.4); }
-        #send-btn:active { transform: translateY(0) scale(0.95); }
-        #send-btn:disabled { background: #93C5FD; cursor: not-allowed; box-shadow: none; transform: none; }
-        #send-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; margin-left: -2px; }
+        #send-btn:active { transform: scale(0.95); }
+        #send-btn:disabled { background: #93C5FD; cursor: not-allowed; }
+        #send-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; margin-left: -2px; }
 
-        /* ANIMATIONS */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.3; } 40% { transform: scale(1); opacity: 1; } }
         @keyframes pulse-green { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
         @keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.15); color: #DC2626; } 100% { transform: scale(1); } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
+    <!-- NOTIFICACIONES TOAST -->
+    <div id="toast-container"></div>
+
+    <!-- MODAL DE PRIVACIDAD PDF -->
+    <div id="pdf-modal" class="modal-overlay">
+        <div class="modal-box">
+            <img src="lixie.png" alt="Lixie" class="modal-avatar" onerror="this.src='https://via.placeholder.com/150/FFFFFF/0A66C2?text=LX'">
+            <h3>Protocolo de Privacidad AXON</h3>
+            <p>Tu documento será procesado de manera <b>100% local</b> en tu dispositivo. Sin embargo, los datos anonimizados de la auditoría y tu chat pueden utilizarse para entrenar a la Inteligencia Colmena.</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closePdfModal()">Cancelar</button>
+                <button class="modal-btn accept" onclick="acceptPdfModal()">Aceptar y Subir</button>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="header-left">
             <a href="https://protocololeviatham.github.io/cvstudio33/index.html" class="back-btn" title="Volver al inicio" onclick="triggerHaptic('light')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </a>
-            <img src="logo.png" alt="Logo CV Studio33" class="avatar" onerror="this.src='https://via.placeholder.com/150/FFFFFF/0A66C2?text=LX'">
+            <img src="lixie.png" alt="Logo CV Studio33" class="avatar" onerror="this.src='https://via.placeholder.com/150/FFFFFF/0A66C2?text=LX'">
             <div class="header-info">
                 <h2>Lixie Assistant</h2>
                 <p><span class="status-dot"></span> Online - CV Studio33</p>
@@ -319,24 +326,25 @@
 
     <div id="messages-area"></div>
 
-    <!-- PREGUNTAS FRECUENTES (FAQ CHIPS) -->
     <div id="faq-container">
         <button class="faq-chip" onclick="sendFaq(this)">¿Qué le falta a mi CV?</button>
         <button class="faq-chip" onclick="sendFaq(this)">Diseños AXON y NYX</button>
         <button class="faq-chip" onclick="sendFaq(this)">Planes Corporativos</button>
         <button class="faq-chip" onclick="sendFaq(this)">Bolsa de Empleo</button>
-        <button class="faq-chip" onclick="sendFaq(this)">Programa de Partners</button>
+    </div>
+
+    <div class="ai-warning">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        Lixie puede cometer errores o tener datos desactualizados. Verifique la información.
     </div>
 
     <div id="input-area">
         <div class="input-wrapper">
-            <!-- BOTÓN SUBIR CV PDF -->
-            <button id="attach-btn" class="btn-icon" title="Subir CV (PDF)" onclick="triggerHaptic('light')">
+            <button id="attach-btn" class="btn-icon" title="Subir CV (PDF)" onclick="openPdfModal()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
             </button>
             <input type="file" id="file-input" accept="application/pdf" style="display: none;">
 
-            <!-- BOTÓN MICRÓFONO -->
             <button id="mic-btn" class="btn-icon" title="Dictado por voz" onclick="triggerHaptic('light')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
             </button>
@@ -352,14 +360,31 @@
     
     let chatHistory = [];
     let isTyping = false; 
-    let attachedCVText = ""; // Guarda el texto extraído temporalmente
-    let voiceEnabled = false; // Voz desactivada por defecto
+    let attachedCVText = "";
+    let voiceEnabled = false;
+    let inCooldown = false;
 
     const messagesArea = document.getElementById("messages-area");
     const userInput = document.getElementById("user-input");
     const sendBtn = document.getElementById("send-btn");
     const micBtn = document.getElementById("mic-btn");
     const faqContainer = document.getElementById("faq-container");
+
+    // ====== TOAST NOTIFICATIONS (CUSTOM LIXIE) ======
+    function showToast(message, type = "info") {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `custom-toast ${type}`;
+        toast.innerHTML = `<img src="lixie.png" alt="Lixie" onerror="this.src='https://via.placeholder.com/150/FFFFFF/0A66C2?text=LX'"> <span>${message}</span>`;
+        container.appendChild(toast);
+        triggerHaptic('light');
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-10px)';
+            toast.style.transition = 'all 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
 
     // ====== MOTOR DE VOZ ======
     function toggleVoice(forceState = null) {
@@ -373,12 +398,12 @@
         if (voiceEnabled) {
             speakerBtn.classList.add('active');
             speakerIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
-            addSystemMessage("Modo voz activado", "success");
+            showToast("Módulo de voz activado", "success");
         } else {
             speakerBtn.classList.remove('active');
             speakerIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
             if ('speechSynthesis' in window) speechSynthesis.cancel();
-            addSystemMessage("Modo voz desactivado", "success");
+            showToast("Módulo de voz silenciado", "info");
         }
     }
 
@@ -395,18 +420,14 @@
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = ctx.createOscillator();
             const gainNode = ctx.createGain();
-            
             osc.type = 'sine';
             osc.frequency.setValueAtTime(880, ctx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1);
-            
             gainNode.gain.setValueAtTime(0, ctx.currentTime);
             gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.02);
             gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-            
             osc.connect(gainNode);
             gainNode.connect(ctx.destination);
-            
             osc.start();
             osc.stop(ctx.currentTime + 0.5);
         } catch(e) {}
@@ -428,17 +449,14 @@
 
         const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.lang = 'es-ES'; 
-        utterance.rate = 1.05; 
-        utterance.pitch = 1.2; 
+        utterance.rate = 1.0; // Velocidad normal humana
+        utterance.pitch = 1.0; // Pitch normal para no distorsionar
         
-        const premiumVoices = ['Monica', 'Paulina', 'Victoria', 'Helena', 'Elena', 'Sabina', 'Laura', 'Lucia', 'Google español', 'Female'];
-        let bestVoice = availableVoices.find(v => v.lang.startsWith('es') && premiumVoices.some(name => v.name.includes(name)));
+        // Simplemente buscar una voz que no sea robótica, preferible Google o nativa
+        let bestVoice = availableVoices.find(v => v.lang.startsWith('es') && (v.name.includes('Google') || v.name.includes('Female')));
+        if (!bestVoice) bestVoice = availableVoices.find(v => v.lang.startsWith('es-ES') && !v.name.includes('Pablo'));
         
-        if (!bestVoice) {
-            bestVoice = availableVoices.find(v => v.lang.startsWith('es') && !v.name.includes('Pablo') && !v.name.includes('Male'));
-        }
         if (bestVoice) utterance.voice = bestVoice;
-        
         speechSynthesis.speak(utterance);
     }
 
@@ -446,12 +464,11 @@
     const placeholders = [
         "Sube tu CV o escribe aquí...",
         "Analiza tu CV con AXON...",
-        "Consulta los Diseños NYX...",
-        "Pregunta por los planes corporativos..."
+        "Pregunta por diseños NYX..."
     ];
     let phIndex = 0;
     setInterval(() => {
-        if(!isTyping && document.activeElement !== userInput && !micBtn.classList.contains('active') && userInput.value === "") {
+        if(!isTyping && !inCooldown && document.activeElement !== userInput && !micBtn.classList.contains('active') && userInput.value === "") {
             userInput.placeholder = placeholders[phIndex];
             phIndex = (phIndex + 1) % placeholders.length;
         }
@@ -459,7 +476,7 @@
 
     userInput.addEventListener('input', function() {
         this.style.height = 'auto';
-        this.style.height = (this.scrollHeight < 120 ? this.scrollHeight : 120) + 'px';
+        this.style.height = (this.scrollHeight < 100 ? this.scrollHeight : 100) + 'px';
         updateSendButtonState();
     });
 
@@ -468,7 +485,7 @@
     });
 
     function updateSendButtonState() {
-        if((userInput.value.trim().length > 0 || attachedCVText !== "") && !isTyping) {
+        if((userInput.value.trim().length > 0 || attachedCVText !== "") && !isTyping && !inCooldown) {
             sendBtn.style.opacity = '1';
             sendBtn.disabled = false;
         } else {
@@ -478,7 +495,7 @@
     }
 
     function sendFaq(button) {
-        if(isTyping) return;
+        if(isTyping || inCooldown) return;
         triggerHaptic('light');
         const question = button.innerText;
         userInput.value = question;
@@ -487,24 +504,34 @@
         setTimeout(() => button.style.transform = 'scale(1)', 150);
     }
 
-    // ====== LECTURA DE PDF (ESCANEO DE CV CLIENT-SIDE) ======
-    const attachBtn = document.getElementById('attach-btn');
+    // ====== LECTURA DE PDF Y MODAL ======
     const fileInput = document.getElementById('file-input');
+    const pdfModal = document.getElementById('pdf-modal');
 
-    attachBtn.addEventListener('click', () => {
-        if(isTyping) return;
+    function openPdfModal() {
+        if(isTyping || inCooldown) return;
+        triggerHaptic('light');
+        pdfModal.style.display = 'flex';
+    }
+
+    function closePdfModal() {
+        triggerHaptic('light');
+        pdfModal.style.display = 'none';
+    }
+
+    function acceptPdfModal() {
+        closePdfModal();
         fileInput.click();
-    });
+    }
 
     fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         if (file.type !== "application/pdf") {
-            addSystemMessage("Por favor, sube tu CV en formato PDF.", "error");
+            showToast("Por favor, sube tu CV en formato PDF.", "error");
             return;
         }
 
-        triggerHaptic('light');
         userInput.value = "Auditoria AXON en proceso...";
         userInput.disabled = true;
         
@@ -519,21 +546,20 @@
             }
             
             if(fullText.trim().length < 30) {
-                 addSystemMessage("El PDF parece estar vacío o es una imagen. Lixie necesita que el texto sea seleccionable para escanearlo.", "error");
+                 showToast("El PDF está vacío o es imagen (requiere texto seleccionable)", "error");
                  userInput.value = "";
             } else {
-                 attachedCVText = fullText.substring(0, 4500); // Límite para no exceder tokens de groq
-                 addSystemMessage(`CV Cargado y Procesado: ${file.name}`, "success");
-                 userInput.value = "Por favor, audita este CV, dime qué le falta para superar los filtros ATS y qué diseños de plantillas me recomiendas de CV Studio33.";
+                 attachedCVText = fullText.substring(0, 4500); 
+                 showToast(`CV Cargado: ${file.name}`, "success");
+                 userInput.value = "Por favor, audita este CV con el Método 33, dime qué le falta y recomiéndame diseños de CV Studio33.";
                  setTimeout(handleSend, 800);
             }
         } catch (error) {
-            console.error("Error leyendo PDF", error);
-            addSystemMessage("Error leyendo el PDF. Intenta nuevamente o asegúrate de que el PDF no esté corrupto.", "error");
+            showToast("Error leyendo el PDF. Intenta nuevamente.", "error");
             userInput.value = "";
         } finally {
             fileInput.value = "";
-            userInput.disabled = false;
+            if(!inCooldown) userInput.disabled = false;
             updateSendButtonState();
         }
     });
@@ -542,7 +568,6 @@
     function parseAIResponse(rawText) {
         let thought = null;
         let finalMessage = rawText;
-
         if (rawText.includes("Here's a thinking process") || rawText.includes("<think>")) {
             if (rawText.includes("<think>")) {
                 let parts = rawText.split("</think>");
@@ -556,10 +581,7 @@
                     finalMessage = rawText.substring(splitPoint).trim();
                 } else {
                     let idx = rawText.lastIndexOf('\n\n');
-                    if (idx > 100) {
-                        thought = rawText.substring(0, idx).trim();
-                        finalMessage = rawText.substring(idx).trim();
-                    }
+                    if (idx > 100) { thought = rawText.substring(0, idx).trim(); finalMessage = rawText.substring(idx).trim(); }
                 }
             }
         }
@@ -570,22 +592,18 @@
         let formatted = text.replace(/\[\[CARD:(.*?)\]\]/g, (match, planName) => {
             return `<div class="smart-card">
                 <div class="card-title">${planName.trim()}</div>
-                <button class="card-btn" onclick="triggerHaptic('light'); window.location.href='Servicios.html'">Adquirir Ahora</button>
+                <button class="card-btn" onclick="triggerHaptic('light'); window.location.href='Servicios.html'">Comprar</button>
             </div>`;
         });
-
         formatted = formatted.replace(/\[\[NAV:(.*?)\]\]/g, (match, url) => {
             let cleanUrl = url.trim();
             let label = cleanUrl.replace('.html', '').replace(/-/g, ' ');
             return `<a href="${cleanUrl}" class="action-btn" onclick="triggerHaptic('light')">Ir a ${label} &rarr;</a>`;
         });
-
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
         formatted = formatted.replace(/\*(.*?)\*/g, '<i>$1</i>');
         formatted = formatted.replace(/^- (.*)$/gm, '<li>$1</li>');
-        if (formatted.includes('<li>')) {
-            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-        }
+        if (formatted.includes('<li>')) formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
         return formatted.replace(/\n/g, '<br>');
     }
 
@@ -597,18 +615,15 @@
     async function typeNodeWrapper(htmlString, targetElement, scrollContainer) {
         const shadow = document.createElement('div');
         shadow.innerHTML = htmlString;
-        
         async function typeTextCharacterByCharacter(textNode, textString, charIndex) {
             if (charIndex >= textString.length) return;
             textNode.nodeValue += textString[charIndex];
             if (charIndex % 3 === 0) scrollContainer.scrollTop = scrollContainer.scrollHeight;
-            await new Promise(r => setTimeout(r, Math.random() * 10 + 5));
+            await new Promise(r => setTimeout(r, Math.random() * 8 + 4));
             await typeTextCharacterByCharacter(textNode, textString, charIndex + 1);
         }
-
         async function processNodeList(nodeList, index, targetNode) {
             if (index >= nodeList.length) return;
-            
             const child = nodeList[index];
             if (child.nodeType === Node.TEXT_NODE) {
                 const text = child.nodeValue;
@@ -618,8 +633,7 @@
             } else if (child.nodeType === Node.ELEMENT_NODE) {
                 const newElement = child.cloneNode(false);
                 if (newElement.tagName === 'BUTTON' || newElement.classList.contains('smart-card') || newElement.classList.contains('action-btn')) {
-                    const clonedFull = child.cloneNode(true);
-                    targetNode.appendChild(clonedFull);
+                    targetNode.appendChild(child.cloneNode(true));
                 } else {
                     targetNode.appendChild(newElement);
                     await processNodeList(child.childNodes, 0, newElement);
@@ -630,10 +644,30 @@
         await processNodeList(shadow.childNodes, 0, targetElement);
     }
 
+    // ====== SISTEMA DE COOLDOWN ANTI-SPAM ======
+    function startCooldown(seconds) {
+        inCooldown = true;
+        let remaining = seconds;
+        sendBtn.disabled = true;
+        userInput.disabled = true;
+        
+        const interval = setInterval(() => {
+            userInput.placeholder = `Espera ${remaining}s para nuevo mensaje...`;
+            remaining--;
+            if (remaining < 0) {
+                clearInterval(interval);
+                inCooldown = false;
+                sendBtn.disabled = false;
+                userInput.disabled = false;
+                userInput.placeholder = "Sube tu CV o escribe aquí...";
+                updateSendButtonState();
+            }
+        }, 1000);
+    }
+
     async function addMessage(sender, text, thoughtText = null, useTypewriter = false) {
         const wrapper = document.createElement("div");
         wrapper.className = `message-wrapper ${sender.toLowerCase()}`;
-        
         const bubble = document.createElement("div");
         bubble.className = "message";
 
@@ -642,8 +676,8 @@
             thoughtUI.className = "thought-process";
             thoughtUI.innerHTML = `
                 <summary class="thought-summary" onclick="triggerHaptic('light')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                    Procesando análisis interno...
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    Análisis interno
                 </summary>
                 <div class="thought-content">${thoughtText}</div>
             `;
@@ -666,30 +700,20 @@
             isTyping = true;
             updateSendButtonState();
             userInput.disabled = true;
-            faqContainer.style.opacity = '0.5';
             
             speakText(text);
             await typeNodeWrapper(formatText(text), textDiv, messagesArea);
             
             isTyping = false;
-            userInput.disabled = false;
-            faqContainer.style.opacity = '1';
-            updateSendButtonState();
-            userInput.focus();
             
             triggerHaptic('success');
             playNotificationSound();
+            
+            // Iniciar cooldown de 33 segundos después del mensaje de Lixie
+            startCooldown(33);
         } else {
             textDiv.innerHTML = sender === "Lixie" ? formatText(text) : text;
         }
-    }
-
-    function addSystemMessage(text, type = "") {
-        const msg = document.createElement("div");
-        msg.className = `system-msg ${type}`;
-        msg.innerText = text;
-        messagesArea.appendChild(msg);
-        messagesArea.scrollTop = messagesArea.scrollHeight;
     }
 
     function showTypingIndicator() {
@@ -700,13 +724,12 @@
         messagesArea.appendChild(wrapper);
         messagesArea.scrollTop = messagesArea.scrollHeight;
     }
-
     function removeTypingIndicator() {
         const typing = document.getElementById("typing");
         if (typing) typing.remove();
     }
 
-    // ====== API DE RECONOCIMIENTO DE VOZ NATIVA ======
+    // ====== API DE RECONOCIMIENTO DE VOZ ======
     let recognition;
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -715,38 +738,33 @@
         recognition.interimResults = true;
         
         recognition.onstart = function() {
-            if(isTyping) { recognition.stop(); return; }
+            if(isTyping || inCooldown) { recognition.stop(); return; }
             micBtn.classList.add('active');
             userInput.placeholder = "Escuchando...";
             triggerHaptic('light');
         };
-        
         recognition.onresult = function(event) {
             let transcript = '';
-            for (let i = 0; i < event.results.length; ++i) {
-                transcript += event.results[i][0].transcript;
-            }
+            for (let i = 0; i < event.results.length; ++i) transcript += event.results[i][0].transcript;
             userInput.value = transcript;
             userInput.style.height = 'auto';
-            userInput.style.height = (userInput.scrollHeight < 120 ? userInput.scrollHeight : 120) + 'px';
+            userInput.style.height = (userInput.scrollHeight < 100 ? userInput.scrollHeight : 100) + 'px';
             updateSendButtonState();
         };
-        
         recognition.onerror = function() {
             micBtn.classList.remove('active');
-            userInput.placeholder = "Escribe tu consulta aquí...";
+            userInput.placeholder = "Sube tu CV o escribe aquí...";
         };
-        
         recognition.onend = function() {
             micBtn.classList.remove('active');
-            userInput.placeholder = "Escribe tu consulta aquí...";
+            if(!inCooldown) userInput.placeholder = "Sube tu CV o escribe aquí...";
         };
     } else {
         micBtn.style.display = 'none';
     }
 
     micBtn.addEventListener("click", () => {
-        if (!recognition || isTyping) return;
+        if (!recognition || isTyping || inCooldown) return;
         if (micBtn.classList.contains('active')) recognition.stop();
         else { 
             userInput.value = ""; 
@@ -755,9 +773,9 @@
         }
     });
 
-    // ====== CONEXIÓN AL WORKER (CEREBRO) ======
+    // ====== CONEXIÓN AL WORKER ======
     async function handleSend() {
-        if (isTyping) return;
+        if (isTyping || inCooldown) return;
         
         const text = userInput.value.trim();
         if (!text && attachedCVText === "") return;
@@ -765,21 +783,18 @@
         triggerHaptic('light');
         addMessage("User", text || "CV Subido", null, false);
         
-        // Preparar payload para la IA (con el texto del CV si existe)
         let messageToSend = text;
         if (attachedCVText !== "") {
-            messageToSend = `${text}\n\n[SISTEMA INTERNO - TEXTO EXTRAÍDO DEL CV DEL USUARIO PARA AUDITORÍA]:\n"""\n${attachedCVText}\n"""\n\nPor favor, audita este CV basándote en la base de conocimientos y recomienda las mejores plantillas o planes para el usuario.`;
-            attachedCVText = ""; // Limpiar tras enviar
+            messageToSend = `${text}\n\n[SISTEMA INTERNO - CV EXTRACTO]:\n"""\n${attachedCVText}\n"""\nPor favor, audita este CV.`;
+            attachedCVText = "";
         }
 
         userInput.value = "";
         userInput.style.height = 'auto';
-        
         showTypingIndicator();
         isTyping = true;
         updateSendButtonState();
         userInput.disabled = true;
-        faqContainer.style.opacity = '0.5';
 
         chatHistory.push({ role: "user", content: messageToSend });
         if (chatHistory.length > 15) chatHistory = chatHistory.slice(chatHistory.length - 15);
@@ -790,12 +805,10 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ messages: chatHistory })
             });
-            
-            if (!response.ok) throw new Error("Fallo en la conexión");
+            if (!response.ok) throw new Error("Fallo");
             
             const data = await response.json();
             let rawAiResponse = "";
-            
             if (data.choices && data.choices[0].message) rawAiResponse = data.choices[0].message.content; 
             else if (data.response) rawAiResponse = data.response; 
             else if (data.content) rawAiResponse = data.content; 
@@ -803,20 +816,16 @@
             else rawAiResponse = JSON.stringify(data);
             
             const { thought, finalMessage } = parseAIResponse(rawAiResponse);
-
             removeTypingIndicator();
             await addMessage("Lixie", finalMessage, thought, true);
-            
             chatHistory.push({ role: "assistant", content: finalMessage });
 
         } catch (error) {
             removeTypingIndicator();
-            addSystemMessage("Error de conexión con Nodos Edge. Reintentando...", "error");
+            showToast("Error de conexión. Reintentando...", "error");
             chatHistory.pop(); 
-            
             isTyping = false;
             userInput.disabled = false;
-            faqContainer.style.opacity = '1';
             updateSendButtonState();
         }
     }
@@ -829,12 +838,12 @@
         }
     });
 
-    // ====== MENSAJE DE BIENVENIDA ======
+    // ====== ARRANQUE ======
     setTimeout(async () => {
         showTypingIndicator();
         setTimeout(async () => {
             removeTypingIndicator();
-            const welcomeText = "Hola. Soy **Lixie**, la Asistente de Inteligencia Artificial Oficial de **CV Studio33**.\n\nSomos la primera agencia del mercado con IA nativa y un flujo de 3 pasos para asegurar tu éxito corporativo.\n\nSi deseas, **puedes tocar el ícono de clip (📎) para subir tu CV en PDF** y lo escanearé con AXON para decirte exactamente qué le falta y qué Plantilla o Plan te sirve más. ¿Empezamos?";
+            const welcomeText = "Hola. Soy **Lixie**, la Asistente de Inteligencia Artificial Oficial de **CV Studio33**.\n\nSomos la primera agencia del mercado con IA nativa para asegurar tu éxito corporativo.\n\nSi deseas, **puedes tocar el ícono de clip (📎) para subir tu CV en PDF** y lo escanearé con AXON para decirte exactamente qué le falta. ¿Empezamos?";
             await addMessage("Lixie", welcomeText, null, true);
         }, 1200);
     }, 500);
@@ -842,3 +851,4 @@
 </script>
 </body>
 </html>
+

@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NYX Distribution Hub - Professional Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NYX - Professional Edition</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,8 +16,8 @@
                         panelBorder: '#2c2c2e',
                         textMain: '#ffffff',
                         textMuted: '#8e8e93',
-                        accent: '#0a84ff',
-                        accentHover: '#007aff',
+                        accent: '#ffffff',
+                        accentHover: '#e5e5ea',
                     },
                     fontFamily: {
                         sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'system-ui', 'sans-serif'],
@@ -35,29 +35,19 @@
             color: #ffffff; 
             overflow-x: hidden; 
             -webkit-tap-highlight-color: transparent;
-            font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-            letter-spacing: -0.015em;
-        }
-        
-        .glass-panel { 
-            background: rgba(28, 28, 30, 0.65); 
-            backdrop-filter: blur(24px); 
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255,255,255,0.08); 
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+            overscroll-behavior-y: none;
         }
         
         .step-hidden { display: none !important; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a3a3c; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #48484a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #38383a; border-radius: 4px; }
         
         .nyx-checkbox { 
             appearance: none; 
-            background-color: #1c1c1e; 
-            border: 1.5px solid #3a3a3c; 
+            background-color: transparent; 
+            border: 1.5px solid #38383a; 
             width: 22px; 
             height: 22px; 
             border-radius: 6px; 
@@ -66,91 +56,93 @@
             transition: all 0.2s ease; 
             flex-shrink: 0; 
         }
-        .nyx-checkbox:checked { background-color: #0a84ff; border-color: #0a84ff; }
+        .nyx-checkbox:checked { background-color: #ffffff; border-color: #ffffff; }
         .nyx-checkbox:checked::after { 
             content: ''; 
             position: absolute; left: 7px; top: 3px; width: 5px; height: 11px;
-            border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+            border: solid black; border-width: 0 2px 2px 0; transform: rotate(45deg);
         }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
 
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slide-up { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-slide-up { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes toastSlideIn { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: translateY(0); } }
         .animate-toast { animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        .pro-spinner {
-            width: 32px; height: 32px; border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #0a84ff; border-radius: 50%; animation: rotation 0.8s linear infinite;
+        .bottom-tab-bar {
+            background: rgba(28, 28, 30, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid #2c2c2e;
         }
-        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .safe-padding-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
 
-        /* Loader Animation Requested by User */
+        /* From Uiverse.io by dexter-st */ 
         .loader-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 180px;
-            height: 180px;
-            font-family: "Inter", sans-serif;
-            font-size: 1.2em;
-            font-weight: 500;
-            color: white;
-            border-radius: 50%;
-            background-color: transparent;
-            user-select: none;
-            letter-spacing: 2px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 180px;
+          height: 180px;
+          font-family: "Inter", sans-serif;
+          font-size: 1.2em;
+          font-weight: 300;
+          color: white;
+          border-radius: 50%;
+          background-color: transparent;
+          user-select: none;
         }
 
         .loader {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            background-color: transparent;
-            animation: loader-rotate 2s linear infinite;
-            z-index: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          aspect-ratio: 1 / 1;
+          border-radius: 50%;
+          background-color: transparent;
+          animation: loader-rotate 2s linear infinite;
+          z-index: 0;
         }
 
         @keyframes loader-rotate {
-            0% {
-                transform: rotate(90deg);
-                box-shadow:
-                0 10px 20px 0 #fff inset,
-                0 20px 30px 0 #0a84ff inset,
-                0 60px 60px 0 #007aff inset;
-            }
-            50% {
-                transform: rotate(270deg);
-                box-shadow:
-                0 10px 20px 0 #fff inset,
-                0 20px 10px 0 #5e5ce6 inset,
-                0 40px 60px 0 #311e80 inset;
-            }
-            100% {
-                transform: rotate(450deg);
-                box-shadow:
-                0 10px 20px 0 #fff inset,
-                0 20px 30px 0 #0a84ff inset,
-                0 60px 60px 0 #007aff inset;
-            }
+          0% {
+            transform: rotate(90deg);
+            box-shadow:
+              0 10px 20px 0 #fff inset,
+              0 20px 30px 0 #ad5fff inset,
+              0 60px 60px 0 #471eec inset;
+          }
+          50% {
+            transform: rotate(270deg);
+            box-shadow:
+              0 10px 20px 0 #fff inset,
+              0 20px 10px 0 #d60a47 inset,
+              0 40px 60px 0 #311e80 inset;
+          }
+          100% {
+            transform: rotate(450deg);
+            box-shadow:
+              0 10px 20px 0 #fff inset,
+              0 20px 30px 0 #ad5fff inset,
+              0 60px 60px 0 #471eec inset;
+          }
         }
 
         .loader-letter {
-            display: inline-block;
-            opacity: 0.4;
-            transform: translateY(0);
-            animation: loader-letter-anim 2s infinite;
-            z-index: 1;
-            border-radius: 50ch;
-            border: none;
-            margin: 0 1px;
+          display: inline-block;
+          opacity: 0.4;
+          transform: translateY(0);
+          animation: loader-letter-anim 2s infinite;
+          z-index: 1;
+          border-radius: 50ch;
+          border: none;
         }
 
         .loader-letter:nth-child(1) { animation-delay: 0s; }
@@ -161,80 +153,93 @@
         .loader-letter:nth-child(6) { animation-delay: 0.5s; }
         .loader-letter:nth-child(7) { animation-delay: 0.6s; }
         .loader-letter:nth-child(8) { animation-delay: 0.7s; }
+        .loader-letter:nth-child(9) { animation-delay: 0.8s; }
+        .loader-letter:nth-child(10) { animation-delay: 0.9s; }
 
         @keyframes loader-letter-anim {
-            0%, 100% { opacity: 0.4; transform: translateY(0); }
-            20% { opacity: 1; transform: scale(1.15); }
-            40% { opacity: 0.7; transform: translateY(0); }
+          0%, 100% { opacity: 0.4; transform: translateY(0); }
+          20% { opacity: 1; transform: scale(1.15); }
+          40% { opacity: 0.7; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative selection:bg-accent selection:text-white">
+<body class="min-h-screen flex flex-col relative selection:bg-accent selection:text-black pb-[90px]">
 
     <!-- CONTENEDOR DE NOTIFICACIONES -->
-    <div id="nyx-toast-container" class="fixed top-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[450px] z-[200] flex flex-col gap-3 pointer-events-none"></div>
+    <div id="nyx-toast-container" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[450px] z-[200] flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- PANTALLA DE CARGA INICIAL -->
     <div id="initial-loader" class="fixed inset-0 bg-bgDark z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
-        <img src="logo.png" alt="NYX" class="h-16 mb-8 object-contain drop-shadow-xl">
-        <div class="pro-spinner"></div>
+        <img src="logo.png" alt="NYX" class="h-14 mb-8 object-contain">
+        <div class="h-6 w-6 border-2 border-[#38383a] border-t-white rounded-full animate-spin"></div>
     </div>
 
     <!-- PANTALLA DE LOGIN -->
-    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-bgDark z-50 transition-opacity duration-500 hidden px-5 py-8">
-        <div class="w-full max-w-sm flex flex-col items-center animate-slide-up">
+    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-bgDark z-50 transition-opacity duration-500 hidden px-6 py-8">
+        <div class="w-full max-w-sm flex flex-col items-center my-auto">
+            <img src="logo.png" alt="NYX" class="h-16 object-contain mb-8">
             
-            <img src="logo.png" alt="NYX" class="h-20 object-contain mb-8 drop-shadow-2xl">
+            <h1 class="text-3xl font-semibold text-textMain mb-3 text-center tracking-tight">Acceso NYX</h1>
             
-            <h1 class="text-3xl font-bold text-white mb-3 text-center tracking-tight">NYX Hub</h1>
-            <p class="text-base text-textMuted mb-10 text-center leading-relaxed">
-                Acceso corporativo seguro a tu entorno de distribución profesional.
+            <p class="text-[15px] text-textMuted mb-10 text-center leading-relaxed font-normal">
+                Autentícate en tu entorno seguro para gestionar y distribuir tu perfil profesional.
             </p>
             
-            <button id="btn-login" class="w-full bg-white text-black font-semibold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-lg text-base">
-                <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Continuar con Google
+            <button id="btn-login" class="w-full bg-white text-black font-semibold py-4 px-4 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm text-[15px]">
+                <img src="logo.png" class="h-5 w-5 object-contain">
+                Continuar con Google Workspace
             </button>
             
-            <div class="mt-10 flex flex-wrap justify-center gap-4 text-xs text-textMuted font-medium">
-                <a href="Terminos-y-condiciones.html" class="hover:text-white transition-colors">Términos</a>
-                <a href="politica-de-privacidad.html" class="hover:text-white transition-colors">Privacidad</a>
-                <a href="Contacto.html" class="hover:text-white transition-colors">Soporte</a>
+            <div class="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-4 text-[13px] text-textMuted w-full font-medium">
+                <a href="Terminos-y-condiciones.html" class="active:text-white transition-colors">Términos</a>
+                <a href="politica-de-privacidad.html" class="active:text-white transition-colors">Privacidad</a>
+                <a href="politica-de-cookies.html" class="active:text-white transition-colors">Cookies</a>
+                <a href="Contacto.html" class="active:text-white transition-colors">Soporte</a>
+            </div>
+
+            <div class="mt-12 flex flex-col items-center w-full">
+                <div class="flex items-center gap-2 mb-2 text-textMuted">
+                    <img src="logo.png" class="w-3.5 h-3.5 object-contain opacity-50">
+                    <span class="text-[12px] font-medium">Conexión Segura</span>
+                </div>
+                <div class="flex items-center gap-1.5 opacity-50">
+                    <span class="text-[10px] font-medium tracking-wide uppercase">Powered by CvStudio33</span>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- DASHBOARD PRINCIPAL -->
-    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-8 relative z-10 animate-fade mx-auto w-full max-w-5xl">
+    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-6 relative z-10 animate-fade mx-auto w-full max-w-3xl">
         
-        <header class="flex justify-between items-center bg-panelDark/50 backdrop-blur-md px-5 py-4 md:px-6 md:py-5 mb-8 rounded-3xl sticky top-4 z-40 border border-panelBorder/60 shadow-lg">
+        <header class="flex justify-between items-center bg-panelDark px-5 py-4 mb-6 rounded-3xl sticky top-4 z-40 border border-panelBorder shadow-sm">
             <div class="flex items-center gap-3">
-                <img src="logo.png" alt="NYX Hub" class="h-8 md:h-10 object-contain drop-shadow-md">
-                <div class="flex flex-col ml-2">
-                    <h2 class="text-sm md:text-base font-bold text-textMain" id="client-id">CLIENTE-XXXX</h2>
-                    <span class="text-xs text-textMuted font-medium">En línea</span>
+                <img src="logo.png" alt="NYX Hub" class="h-6 object-contain">
+                <div class="flex flex-col">
+                    <h2 class="text-[13px] font-semibold text-textMain" id="client-id">CLIENTE-XXXX</h2>
+                    <span class="text-[11px] text-textMuted font-medium mt-0.5">Conectado</span>
                 </div>
             </div>
             
-            <div class="flex items-center gap-4 md:gap-5">
-                <div class="flex items-center gap-2.5 bg-panelBorder/30 px-4 py-2 rounded-2xl border border-panelBorder/50">
-                    <span class="text-base md:text-lg font-bold text-textMain leading-none" id="token-count">--</span>
-                    <img src="logo.png" alt="Credits" class="h-5 w-5 object-contain">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 bg-[#2c2c2e] px-3 py-1.5 rounded-full">
+                    <span class="text-[13px] font-semibold text-textMain" id="token-count">--</span>
+                    <img src="logo.png" alt="Créditos" class="h-3.5 w-3.5 object-contain">
                 </div>
 
-                <button id="btn-logout" class="text-textMuted hover:text-textMain transition-colors flex items-center p-2 rounded-full hover:bg-panelBorder/50" title="Cerrar Sesión">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <button id="btn-logout" class="text-textMuted active:text-textMain transition-colors p-1" title="Cerrar Sesión">
+                    <img src="logo.png" class="w-5 h-5 opacity-70 object-contain">
                 </button>
             </div>
         </header>
 
         <!-- Pestañas de Navegación del Dashboard -->
-        <div class="flex justify-center mb-8 w-full animate-fade">
-            <div class="bg-panelDark border border-panelBorder p-1.5 rounded-2xl flex gap-1 items-center relative z-10 w-full md:w-auto overflow-x-auto custom-scrollbar shadow-sm">
-                <button id="tab-dist" class="px-6 py-2.5 text-sm font-semibold rounded-xl bg-panelBorder/80 text-textMain transition-colors shadow-sm whitespace-nowrap">
+        <div class="flex justify-center mb-6 w-full animate-fade">
+            <div class="bg-panelDark p-1.5 rounded-full flex gap-1 items-center relative z-10 w-full max-w-sm">
+                <button id="tab-dist" class="flex-1 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all">
                     Distribución
                 </button>
-                <button id="tab-analytics" class="px-6 py-2.5 text-sm font-medium rounded-xl text-textMuted hover:text-textMain hover:bg-panelBorder/40 transition-colors flex items-center gap-2 whitespace-nowrap">
+                <button id="tab-analytics" class="flex-1 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all">
                     Analytics
                 </button>
             </div>
@@ -242,173 +247,155 @@
 
         <!-- VISTA: DISTRIBUCIÓN -->
         <div id="view-dist" class="w-full flex flex-col items-center animate-fade">
+            <main class="flex-grow flex flex-col items-center w-full">
             
-            <main class="flex-grow flex flex-col items-center w-full pb-32">
-            
-            <div class="flex flex-col items-center w-full px-2 text-center mb-10 animate-slide-up" id="presentation-section">
-                
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight text-textMain">NYX Distribution</h1>
-                <p class="text-textMuted max-w-2xl mb-12 text-base md:text-lg leading-relaxed font-medium">Llega directamente a los reclutadores clave con un flujo de envío automatizado, profesional y seguro.</p>
+            <div class="flex flex-col items-center w-full text-center mb-10 animate-slide-up" id="presentation-section">
+                <img src="logo.png" alt="NYX Hub" class="h-14 object-contain mb-6">
+                <h1 class="text-2xl font-bold mb-3 tracking-tight text-textMain">NYX Hub</h1>
+                <p class="text-textMuted mb-8 text-[15px] leading-relaxed font-normal">Deposita tu Currículum directamente en las bandejas de entrada de los líderes de Talento y Selección. NYX optimiza tu tiempo y maximiza tu visibilidad.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-                    <div class="bg-panelDark border border-panelBorder p-8 rounded-[2rem] flex flex-col text-left hover:border-accent/60 transition-colors duration-300 relative overflow-hidden shadow-lg">
-                        <div class="h-14 w-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
-                            <img src="logo.png" class="h-8 w-8 object-contain">
-                        </div>
-                        <h3 class="text-xl font-bold text-textMain mb-3">Corporaciones Elite</h3>
-                        <p class="text-base text-textMuted mb-6 flex-grow leading-relaxed">Envía tu perfil a las principales empresas y multinacionales líderes en el mercado.</p>
-                        <button id="btn-start-corp" class="bg-white text-black font-semibold text-base py-3.5 px-6 rounded-2xl hover:bg-gray-200 transition-colors w-full flex items-center justify-between shadow-md active:scale-[0.98]">
-                            <span>Iniciar Envío</span>
-                            <span class="bg-black/10 px-3 py-1 rounded-lg text-sm flex items-center gap-1.5">5 <img src="logo.png" class="h-4 w-4"></span>
+                <div class="w-full bg-panelDark rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+                    <div class="text-center sm:text-left flex-1 px-2">
+                        <h4 class="text-textMain text-[15px] font-semibold mb-1">Créditos Operativos</h4>
+                        <p class="text-[13px] text-textMuted">Adquiere bloques para posicionar tu perfil.</p>
+                    </div>
+                    <a href="panel-de-recarga-nyx.html" class="bg-white text-black text-[14px] font-semibold py-3 px-5 rounded-2xl active:scale-95 transition-all flex items-center gap-2 w-full sm:w-auto justify-center">
+                        <img src="logo.png" class="h-4 w-4"> Recargar
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                    <div class="bg-panelDark p-6 rounded-3xl flex flex-col text-left relative overflow-hidden">
+                        <img src="logo.png" class="absolute top-4 right-4 w-12 h-12 opacity-5 object-contain">
+                        <h3 class="text-lg font-semibold text-textMain mb-2 relative z-10">Corporaciones Elite</h3>
+                        <p class="text-[14px] text-textMuted mb-6 flex-grow leading-relaxed relative z-10">Despliega tu perfil profesional hacia los equipos de Talent Acquisition de empresas líderes.</p>
+                        <button id="btn-start-corp" class="bg-white text-black font-semibold text-[15px] py-3.5 px-4 rounded-2xl active:scale-95 transition-all w-full flex items-center justify-center gap-2 relative z-10 shadow-sm">
+                            Iniciar Proceso
                         </button>
                     </div>
 
-                    <div class="bg-panelDark border border-panelBorder p-8 rounded-[2rem] flex flex-col text-left hover:border-accent/60 transition-colors duration-300 relative overflow-hidden shadow-lg">
-                        <div class="h-14 w-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
-                            <img src="logo.png" class="h-8 w-8 object-contain">
-                        </div>
-                        <h3 class="text-xl font-bold text-textMain mb-3">Consultoras y Agencias</h3>
-                        <p class="text-base text-textMuted mb-6 flex-grow leading-relaxed">Conecta con reclutadores y headhunters que gestionan búsquedas ocultas.</p>
-                        <button id="btn-start-agency" class="bg-white text-black font-semibold text-base py-3.5 px-6 rounded-2xl hover:bg-gray-200 transition-colors w-full flex items-center justify-between shadow-md active:scale-[0.98]">
-                            <span>Iniciar Envío</span>
-                            <span class="bg-black/10 px-3 py-1 rounded-lg text-sm flex items-center gap-1.5">5 <img src="logo.png" class="h-4 w-4"></span>
+                    <div class="bg-panelDark p-6 rounded-3xl flex flex-col text-left relative overflow-hidden">
+                        <img src="logo.png" class="absolute top-4 right-4 w-12 h-12 opacity-5 object-contain">
+                        <h3 class="text-lg font-semibold text-textMain mb-2 relative z-10">Consultoras</h3>
+                        <p class="text-[14px] text-textMuted mb-6 flex-grow leading-relaxed relative z-10">Posiciónate en el radar de especialistas que manejan el mercado de búsquedas ocultas.</p>
+                        <button id="btn-start-agency" class="bg-white text-black font-semibold text-[15px] py-3.5 px-4 rounded-2xl active:scale-95 transition-all w-full flex items-center justify-center gap-2 relative z-10 shadow-sm">
+                            Iniciar Proceso
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- WIZARD -->
-            <div id="wizard-container" class="hidden w-full max-w-3xl bg-panelDark border border-panelBorder p-6 md:p-10 relative mb-10 rounded-[2rem] shadow-2xl">
+            <div id="wizard-container" class="hidden w-full bg-transparent relative overflow-hidden mb-10">
                 
-                <div class="flex justify-between items-center mb-10 relative px-4 md:px-16">
-                    <div class="absolute left-16 right-16 top-1/2 transform -translate-y-1/2 h-0.5 bg-panelBorder z-0 hidden md:block"></div>
-                    
-                    <div class="relative z-10 flex flex-col items-center gap-3 transition-all" id="nav-step-1">
-                        <div class="nav-circle h-10 w-10 rounded-full bg-accent flex items-center justify-center text-white text-sm font-bold shadow-lg transition-all">1</div>
-                        <span class="nav-text text-xs font-semibold text-textMain transition-all">Destinos</span>
-                    </div>
-                    <div class="relative z-10 flex flex-col items-center gap-3 transition-all opacity-40" id="nav-step-2">
-                        <div class="nav-circle h-10 w-10 rounded-full bg-panelBorder flex items-center justify-center text-textMuted text-sm font-bold transition-all">2</div>
-                        <span class="nav-text text-xs font-medium text-textMuted transition-all">Mensaje</span>
-                    </div>
-                    <div class="relative z-10 flex flex-col items-center gap-3 transition-all opacity-40" id="nav-step-3">
-                        <div class="nav-circle h-10 w-10 rounded-full bg-panelBorder flex items-center justify-center text-textMuted text-sm font-bold transition-all">3</div>
-                        <span class="nav-text text-xs font-medium text-textMuted transition-all">Documento</span>
-                    </div>
+                <div class="flex justify-center items-center mb-8 gap-3 max-w-[200px] mx-auto">
+                    <div class="h-2 flex-1 rounded-full bg-accent transition-all" id="nav-step-1"></div>
+                    <div class="h-2 flex-1 rounded-full bg-[#2c2c2e] transition-all" id="nav-step-2"></div>
+                    <div class="h-2 flex-1 rounded-full bg-[#2c2c2e] transition-all" id="nav-step-3"></div>
                 </div>
 
                 <div id="step-1" class="step-content animate-fade">
-                    <div class="mb-8 flex flex-col text-center">
-                        <h3 class="text-2xl font-bold text-textMain" id="step-1-title">Selección de Destinos</h3>
-                        <p class="text-base text-textMuted mt-2" id="step-1-desc">Elige las empresas a las que deseas aplicar.</p>
+                    <div class="mb-6 flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold text-textMain tracking-tight" id="step-1-title">Destinos</h3>
+                        <p class="text-[15px] text-textMuted mt-1" id="step-1-desc">Selecciona las entidades.</p>
                     </div>
 
-                    <div class="flex flex-col mb-6">
-                        <div class="flex flex-wrap gap-2.5 justify-center" id="quick-select-container"></div>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 bg-bgDark/50 p-4 rounded-2xl border border-panelBorder/50">
-                        <div class="relative w-full md:w-1/2">
-                            <svg class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-textMuted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            <input type="text" id="search-branch" placeholder="Buscar organización..." class="w-full bg-panelDark border border-panelBorder text-textMain text-base rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-accent transition-all">
+                    <div class="flex flex-col gap-4 mb-6">
+                        <div class="bg-[#1c1c1e] rounded-2xl flex items-center px-4 py-4 border border-[#2c2c2e]">
+                            <img src="logo.png" class="w-5 h-5 opacity-50 mr-3">
+                            <input type="text" id="search-branch" placeholder="Buscar organización..." class="w-full bg-transparent text-textMain text-[15px] outline-none placeholder-textMuted">
                         </div>
                         
-                        <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
-                            <div class="flex flex-col items-end">
-                                <span class="text-xs text-textMuted font-medium">Seleccionados</span>
-                                <span class="font-bold text-lg text-accent" id="selected-count">0</span>
-                            </div>
-                            <div class="h-8 w-px bg-panelBorder"></div>
-                            <div class="flex flex-col items-end">
-                                <span class="text-xs text-textMuted font-medium">Costo</span>
-                                <div class="flex items-center gap-1.5 font-bold text-lg text-textMain">
-                                    <span id="current-cost">0</span>
-                                    <img src="logo.png" class="h-4 w-4 object-contain">
-                                </div>
-                            </div>
-                        </div>
+                        <div class="flex flex-wrap gap-2 justify-center" id="quick-select-container"></div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto custom-scrollbar pr-2" id="branches-list"></div>
+                    <div class="flex items-center justify-between mb-4 px-2">
+                        <span class="text-[13px] font-medium text-textMuted">Seleccionados: <span id="selected-count" class="text-textMain">0</span></span>
+                        <span class="text-[13px] font-medium text-textMuted flex items-center gap-1">Costo: <span id="current-cost" class="text-textMain">0</span> <img src="logo.png" class="h-3 w-3"></span>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 max-h-[350px] overflow-y-auto custom-scrollbar pr-1" id="branches-list"></div>
                     
-                    <div class="mt-8 flex justify-end pt-6 border-t border-panelBorder">
-                        <button class="btn-next w-full md:w-auto bg-white text-black px-8 py-3.5 rounded-2xl font-bold hover:bg-gray-200 transition-colors text-base shadow-md">Continuar</button>
+                    <div class="mt-8">
+                        <button class="btn-next w-full bg-white text-black py-4 rounded-2xl font-semibold active:scale-95 transition-all text-[15px]">Continuar</button>
                     </div>
                 </div>
 
                 <div id="step-2" class="step-content step-hidden animate-fade">
-                    <div class="mb-8 flex flex-col text-center">
-                        <h3 class="text-2xl font-bold text-textMain">Detalles del Mensaje</h3>
-                        <p class="text-base text-textMuted mt-2">Personaliza la información que recibirán los reclutadores.</p>
+                    <div class="mb-6 flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold text-textMain tracking-tight">Parámetros</h3>
+                        <p class="text-[15px] text-textMuted mt-1">Define los datos del comunicado.</p>
                     </div>
 
-                    <div class="space-y-6">
-                        <div class="flex flex-col">
-                            <label class="text-textMuted text-sm font-semibold mb-2 ml-1">Tu Nombre Completo</label>
-                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-bgDark border border-panelBorder text-textMain text-base rounded-2xl p-4 outline-none focus:border-accent transition-all" required>
+                    <div class="space-y-4">
+                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4">
+                            <label class="text-textMuted text-[13px] font-medium mb-1 block">Nombre Completo</label>
+                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-transparent text-textMain text-[15px] outline-none" required>
                         </div>
-                        
-                        <div class="flex flex-col">
-                            <label class="text-textMuted text-sm font-semibold mb-2 ml-1">Asunto del Correo</label>
-                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-panelBorder/30 text-textMuted text-base rounded-2xl p-4 outline-none cursor-not-allowed">
+                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4 opacity-70">
+                            <label class="text-textMuted text-[13px] font-medium mb-1 block">Emisor Autorizado</label>
+                            <input type="text" id="sender-name" value="NYX Hub" readonly class="w-full bg-transparent text-textMain text-[15px] outline-none cursor-not-allowed">
                         </div>
-
-                        <div class="flex flex-col">
-                            <div class="flex justify-between items-center mb-2 ml-1">
-                                <label class="text-textMuted text-sm font-semibold">Mensaje de Presentación</label>
-                            </div>
-                            <textarea id="pitch-text" class="w-full bg-bgDark text-textMain h-64 p-5 rounded-2xl outline-none resize-none text-base leading-relaxed border border-panelBorder focus:border-accent transition-all custom-scrollbar"></textarea>
+                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4 opacity-70">
+                            <label class="text-textMuted text-[13px] font-medium mb-1 block">Asunto</label>
+                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-transparent text-textMain text-[15px] outline-none cursor-not-allowed">
+                        </div>
+                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4">
+                            <label class="text-textMuted text-[13px] font-medium mb-2 block">Mensaje</label>
+                            <textarea id="pitch-text" class="w-full bg-transparent text-textMain h-40 outline-none resize-none text-[15px] leading-relaxed custom-scrollbar"></textarea>
                         </div>
                     </div>
 
-                    <div class="mt-10 flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t border-panelBorder">
-                        <button class="btn-prev w-full sm:w-auto text-textMuted hover:text-textMain px-8 py-3.5 font-semibold transition-colors bg-panelBorder/30 hover:bg-panelBorder/50 rounded-2xl text-base order-2 sm:order-1">Atrás</button>
-                        <button class="btn-next w-full sm:w-auto bg-white text-black px-8 py-3.5 rounded-2xl font-bold hover:bg-gray-200 transition-colors text-base shadow-md order-1 sm:order-2">Siguiente Paso</button>
+                    <div class="mt-8 flex flex-col gap-3">
+                        <button class="btn-next w-full bg-white text-black py-4 rounded-2xl font-semibold active:scale-95 transition-all text-[15px]">Confirmar Parámetros</button>
+                        <button class="btn-prev w-full bg-[#1c1c1e] text-textMain py-4 rounded-2xl font-medium active:scale-95 transition-all text-[15px] border border-[#2c2c2e]">Volver atrás</button>
                     </div>
                 </div>
 
                 <div id="step-3" class="step-content step-hidden animate-fade">
-                    <div class="mb-8 flex flex-col text-center">
-                        <h3 class="text-2xl font-bold text-textMain">Sube tu Currículum</h3>
-                        <p class="text-base text-textMuted mt-2">Adjunta tu CV en formato PDF (Máx. 5MB).</p>
+                    <div class="mb-6 flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold text-textMain tracking-tight">Documentación</h3>
+                        <p class="text-[15px] text-textMuted mt-1">Carga tu Currículum Vitae en PDF.</p>
                     </div>
                     
-                    <div class="border-2 border-dashed border-panelBorder hover:border-accent/80 bg-bgDark/50 p-12 rounded-[2rem] text-center transition-all duration-300 relative group cursor-pointer flex flex-col items-center justify-center min-h-[300px]">
+                    <div class="border-2 border-dashed border-[#38383a] bg-[#1c1c1e] p-10 rounded-3xl text-center relative flex flex-col items-center justify-center min-h-[220px]">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                        <div class="h-20 w-20 bg-panelBorder/50 rounded-full flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
-                            <img src="logo.png" class="h-10 w-10 object-contain opacity-50 group-hover:opacity-100 transition-opacity">
-                        </div>
-                        <p class="text-textMain font-semibold text-lg mb-2 group-hover:text-accent transition-colors" id="file-name-display">Toca para subir tu PDF</p>
-                        <p class="text-sm text-textMuted">O arrástralo hasta aquí</p>
+                        <img src="logo.png" class="w-10 h-10 mb-4 opacity-50">
+                        <p class="text-textMain font-medium text-[15px] mb-2" id="file-name-display">Toca para subir tu PDF</p>
+                        <p class="text-[13px] text-textMuted">Límite 5 MB</p>
                     </div>
 
-                    <div class="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 border-t border-panelBorder">
-                        <button class="btn-prev w-full sm:w-auto text-textMuted hover:text-textMain px-8 py-3.5 font-semibold transition-colors bg-panelBorder/30 hover:bg-panelBorder/50 rounded-2xl text-base order-2 sm:order-1">Atrás</button>
-                        <button id="btn-fire" class="w-full sm:w-auto bg-accent text-white px-10 py-4 rounded-2xl font-bold hover:bg-accentHover transition-colors opacity-50 cursor-not-allowed text-base order-1 sm:order-2 flex items-center justify-center gap-2 shadow-lg active:scale-95" disabled>
-                            Enviar Ahora
+                    <div class="mt-8 flex flex-col gap-3">
+                        <button id="btn-fire" class="w-full bg-white text-black py-4 rounded-2xl font-semibold active:scale-95 transition-all opacity-50 cursor-not-allowed text-[15px]" disabled>
+                            Ejecutar Enrutamiento
                         </button>
+                        <button class="btn-prev w-full bg-[#1c1c1e] text-textMain py-4 rounded-2xl font-medium active:scale-95 transition-all text-[15px] border border-[#2c2c2e]">Revisar Mensaje</button>
                     </div>
                 </div>
 
-                <!-- PANTALLA DE PROCESAMIENTO CORPORATIVO -->
-                <div id="processing-screen" class="absolute inset-0 bg-bgDark/95 backdrop-blur-2xl z-30 flex flex-col items-center justify-center p-6 hidden rounded-[2rem] overflow-hidden">
+                <!-- PANTALLA DE PROCESAMIENTO -->
+                <div id="processing-screen" class="absolute inset-0 bg-bgDark z-30 flex flex-col items-center justify-center p-6 hidden">
                     
-                    <!-- NEW LOADER ANIMATION -->
-                    <div class="loader-wrapper mb-12 relative z-10">
-                        <span class="loader-letter">E</span>
-                        <span class="loader-letter">n</span>
-                        <span class="loader-letter">v</span>
-                        <span class="loader-letter">i</span>
-                        <span class="loader-letter">a</span>
-                        <span class="loader-letter">n</span>
-                        <span class="loader-letter">d</span>
-                        <span class="loader-letter">o</span>
-                        <div class="loader"></div>
+                    <div class="loader-wrapper mb-12">
+                      <span class="loader-letter">G</span>
+                      <span class="loader-letter">e</span>
+                      <span class="loader-letter">n</span>
+                      <span class="loader-letter">e</span>
+                      <span class="loader-letter">r</span>
+                      <span class="loader-letter">a</span>
+                      <span class="loader-letter">t</span>
+                      <span class="loader-letter">i</span>
+                      <span class="loader-letter">n</span>
+                      <span class="loader-letter">g</span>
+                      <div class="loader"></div>
                     </div>
                     
-                    <div class="w-full max-w-sm relative overflow-hidden z-10 text-center">
-                        <div class="h-8 flex flex-col items-center justify-center">
-                             <span id="current-log-text" class="text-base text-textMuted font-medium transition-opacity duration-300">Iniciando proceso...</span>
+                    <div class="w-full max-w-xs text-center mt-6">
+                        <div class="w-full bg-[#1c1c1e] rounded-full h-1.5 mb-4 overflow-hidden">
+                            <div id="progress-bar" class="bg-white h-full w-0 transition-all duration-[1500ms] ease-out"></div>
+                        </div>
+                        <div class="h-6 flex flex-col items-center justify-center">
+                             <span id="current-log-text" class="text-[13px] text-textMuted font-medium transition-opacity duration-300">Preparando distribución...</span>
                         </div>
                     </div>
                 </div>
@@ -418,59 +405,42 @@
         </div>
         
         <!-- VISTA: TRACE ANALYTICS -->
-        <div id="view-analytics" class="hidden flex-col items-center w-full animate-fade mb-32 px-2 md:px-0">
+        <div id="view-analytics" class="hidden flex-col items-center w-full animate-fade mb-10">
             
-            <div class="w-full flex flex-col items-center mb-12 text-center mt-6">
-                <img src="logo.png" class="h-16 object-contain drop-shadow-xl mb-6" alt="Analytics">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-textMain mb-4 tracking-tight">
-                    Rendimiento
-                </h2>
-                <p class="text-textMuted text-base font-medium max-w-md leading-relaxed">Monitoreo en tiempo real de los envíos procesados y su estado de lectura.</p>
+            <div class="w-full flex flex-col items-start mb-8 mt-2 px-1">
+                <h2 class="text-3xl font-bold text-textMain tracking-tight">Analytics</h2>
+                <p class="text-textMuted text-[15px] font-medium mt-1">Monitoreo integral de distribución.</p>
             </div>
             
-            <!-- Panel de Estadísticas -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-10">
-                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
-                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Totales</span>
-                    <span class="text-textMain text-3xl font-black" id="ta-total">0</span>
+            <div class="grid grid-cols-2 gap-3 w-full mb-8">
+                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
+                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Totales</span>
+                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-total">0</span>
                 </div>
-                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
-                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Entregados</span>
-                    <span class="text-green-500 text-3xl font-black" id="ta-delivered">0</span>
+                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
+                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Entregados</span>
+                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-delivered">0</span>
                 </div>
-                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
-                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Leídos</span>
-                    <span class="text-accent text-3xl font-black" id="ta-read">0</span>
+                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
+                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Leídos</span>
+                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-read">0</span>
                 </div>
-                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
-                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Efectividad</span>
-                    <span class="text-textMain text-3xl font-black" id="ta-rate">0%</span>
+                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
+                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Tasa</span>
+                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-rate">0%</span>
                 </div>
             </div>
 
-            <!-- Tabla de Datos -->
-            <div class="w-full bg-panelDark border border-panelBorder rounded-3xl overflow-hidden shadow-xl">
-                <div class="px-6 py-5 border-b border-panelBorder/50 bg-bgDark/30 flex justify-between items-center">
-                    <h3 class="text-base font-bold text-white">
-                        Historial Reciente
-                    </h3>
-                    <button id="btn-refresh-ta" class="text-accent font-semibold text-sm bg-accent/10 px-4 py-2 rounded-xl hover:bg-accent/20 transition-colors">
-                        Actualizar
-                    </button>
+            <div class="w-full">
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <h3 class="text-[17px] font-bold text-textMain">Recientes</h3>
+                    <button id="btn-refresh-ta" class="text-white text-[13px] font-semibold active:opacity-70">Actualizar</button>
                 </div>
                 
-                <div class="w-full overflow-x-auto">
+                <div class="w-full bg-panelDark rounded-3xl overflow-hidden border border-[#2c2c2e]">
                     <table class="w-full text-left border-collapse">
-                        <thead class="bg-panelBorder/20">
-                            <tr class="text-textMuted text-xs uppercase tracking-wider font-semibold">
-                                <th class="py-4 px-6">Empresa</th>
-                                <th class="py-4 px-6 hidden md:table-cell">Medio</th>
-                                <th class="py-4 px-6 hidden md:table-cell">Fecha</th>
-                                <th class="py-4 px-6 text-right">Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ta-table-body" class="text-sm bg-transparent">
-                            <!-- JS Inject -->
+                        <tbody id="ta-table-body" class="text-[15px] bg-transparent">
+                            <!-- JS inyectará aquí -->
                         </tbody>
                     </table>
                 </div>
@@ -480,30 +450,28 @@
     </div>
 
     <!-- BOTTOM APP NAVIGATION -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-6 px-4 pointer-events-none">
-        <nav class="pointer-events-auto glass-panel rounded-[2rem] flex items-center justify-between px-8 py-3.5 gap-12 shadow-2xl w-full max-w-sm backdrop-blur-2xl">
-            <a href="protocolomirrorcv.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-white transition-colors">
-                <img src="logo.png" class="h-6 w-6 object-contain opacity-70 hover:opacity-100 transition-opacity">
-                <span class="text-[10px] font-bold tracking-wide">Mirror CV</span>
-            </a>
-            <a href="protocolopluginsnyx.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-white transition-colors">
-                <img src="logo.png" class="h-6 w-6 object-contain opacity-70 hover:opacity-100 transition-opacity">
-                <span class="text-[10px] font-bold tracking-wide">Plugins</span>
-            </a>
-            <a href="protocoloroadmap.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-white transition-colors">
-                <img src="logo.png" class="h-6 w-6 object-contain opacity-70 hover:opacity-100 transition-opacity">
-                <span class="text-[10px] font-bold tracking-wide">RoadMap</span>
-            </a>
-        </nav>
+    <div class="fixed bottom-0 left-0 right-0 z-50 bottom-tab-bar safe-padding-bottom flex justify-around items-center h-[72px] px-4 pb-2">
+        <a href="protocolomirrorcv.html" class="flex flex-col items-center justify-center w-full h-full text-textMuted active:text-textMain transition-colors">
+            <img src="logo.png" class="w-6 h-6 mb-1 opacity-70">
+            <span class="text-[10px] font-medium">Mirror</span>
+        </a>
+        <a href="protocolopluginsnyx.html" class="flex flex-col items-center justify-center w-full h-full text-textMuted active:text-textMain transition-colors">
+            <img src="logo.png" class="w-6 h-6 mb-1 opacity-70">
+            <span class="text-[10px] font-medium">Plugins</span>
+        </a>
+        <a href="protocoloroadmap.html" class="flex flex-col items-center justify-center w-full h-full text-textMuted active:text-textMain transition-colors">
+            <img src="logo.png" class="w-6 h-6 mb-1 opacity-70">
+            <span class="text-[10px] font-medium">RoadMap</span>
+        </a>
     </div>
 
     <!-- MODAL DE ÉXITO -->
-    <div id="nyx-success-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-5">
-        <div class="bg-panelDark border border-panelBorder p-10 rounded-[2.5rem] flex flex-col items-center max-w-sm w-full text-center transform scale-95 transition-transform duration-300 shadow-2xl" id="nyx-success-card">
-            <img src="logo.png" class="h-16 w-16 object-contain mb-6 drop-shadow-lg">
-            <h2 class="text-2xl font-bold text-white mb-3">¡Completado!</h2>
-            <p class="text-base text-textMuted mb-8 font-medium leading-relaxed" id="nyx-success-msg">Tu perfil ha sido enviado correctamente.</p>
-            <button id="btn-close-success" class="w-full bg-accent text-white font-bold py-4 rounded-2xl hover:bg-accentHover transition-colors text-base shadow-lg">Finalizar</button>
+    <div id="nyx-success-modal" class="fixed inset-0 bg-bgDark/80 backdrop-blur-md z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-6">
+        <div class="bg-panelDark border border-panelBorder p-8 rounded-3xl flex flex-col items-center w-full max-w-sm text-center transform scale-95 transition-transform duration-300" id="nyx-success-card">
+            <img src="logo.png" class="w-16 h-16 mb-6">
+            <h2 class="text-2xl font-bold text-textMain mb-2 tracking-tight">Completado</h2>
+            <p class="text-[15px] text-textMuted mb-8 leading-relaxed" id="nyx-success-msg">El perfil profesional ha sido distribuido correctamente.</p>
+            <button id="btn-close-success" class="w-full bg-white text-black font-semibold py-4 rounded-2xl active:scale-95 transition-all text-[15px]">Aceptar</button>
         </div>
     </div>
 
@@ -536,15 +504,15 @@
             const container = document.getElementById('nyx-toast-container');
             const toast = document.createElement('div');
             
-            const bgColor = type === 'error' ? 'bg-red-900/20' : 'bg-panelDark';
-            const borderColor = type === 'error' ? 'border-red-500/30' : 'border-panelBorder';
-            const textColor = type === 'error' ? 'text-red-400' : 'text-textMain';
+            const bgColor = type === 'error' ? 'bg-[#1c1c1e]' : 'bg-[#1c1c1e]';
+            const borderColor = type === 'error' ? 'border-[#ff3b30]' : 'border-[#2c2c2e]';
+            const textColor = type === 'error' ? 'text-[#ff3b30]' : 'text-textMain';
 
-            toast.className = `flex items-start gap-4 ${bgColor} ${borderColor} border p-4 rounded-2xl shadow-xl animate-toast pointer-events-auto w-full backdrop-blur-md`;
+            toast.className = `flex items-start gap-3 ${bgColor} ${borderColor} border p-4 rounded-2xl shadow-lg animate-toast pointer-events-auto w-full relative overflow-hidden`;
             toast.innerHTML = `
-                <div class="flex-shrink-0 flex items-center justify-center mt-0.5"><img src="logo.png" class="h-5 w-5 opacity-80"></div>
+                <div class="flex-shrink-0 flex items-center justify-center mt-0.5"><img src="logo.png" class="w-5 h-5 opacity-80"></div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium ${textColor} leading-relaxed break-words whitespace-pre-wrap">${message}</p>
+                    <p class="text-[14px] font-medium ${textColor} leading-relaxed break-words whitespace-pre-wrap">${message}</p>
                 </div>
             `;
             container.appendChild(toast);
@@ -579,7 +547,7 @@
 
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-            catch (e) { showNyxNotification("Proceso de autenticación cancelado.", "error"); }
+            catch (e) { showNyxNotification("Proceso cancelado.", "error"); }
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
@@ -616,6 +584,7 @@
                     
                     if (docSnap.exists()) {
                         const data = docSnap.data();
+                        
                         let hasActivePlan = true;
                         if (data.plan_expires_at) {
                             const expireDate = data.plan_expires_at.toDate ? data.plan_expires_at.toDate() : new Date(data.plan_expires_at);
@@ -651,7 +620,7 @@
         const pitchTextarea = document.getElementById('pitch-text');
 
         const baseSubject = "Presentación de perfil profesional: [Nombre del Candidato]";
-        const basePitch = `Hola, equipo de Selección:\n\nA través de la plataforma de distribución de CvStudio33, el/la profesional [Nombre del Candidato] ha seleccionado a su empresa por su atractivo empleador y desea postularse de manera espontánea para sus búsquedas activas o futuras.\n\nAdjunto a este correo encontrarán su currículum vitae para que puedan evaluarlo e incorporarlo a su base de talento.\n\nEl candidato queda a su entera disposición para ampliar cualquier información en una entrevista.\n\nSaludos cordiales,\nNYX Distribución Hub\nGestión Automática | CvStudio33`;
+        const basePitch = `Hola, equipo de Selección:\n\nA través de la plataforma de distribución de CvStudio33, el/la profesional [Nombre del Candidato] ha seleccionado a su empresa por su atractivo empleador y desea postularse de manera espontánea para sus búsquedas activas o futuras.\n\nAdjunto a este correo encontrarán su currículum vitae para que puedan evaluarlo e incorporarlo a su base de talento.\n\nEl candidato queda a su entera disposición para ampliar cualquier información en una entrevista.\n\nSaludos cordiales,\nNYX Hub\nGestión Automática | CvStudio33`;
         pitchTextarea.value = basePitch;
 
         candidateInput.addEventListener('input', (e) => {
@@ -692,9 +661,9 @@
             
             const btnFire = document.getElementById('btn-fire');
             if (currentCalculatedCost > 0) {
-                btnFire.innerHTML = `Enviar Ahora (${currentCalculatedCost} <img src="logo.png" class="h-4 w-4 inline">)`;
+                btnFire.innerHTML = `Ejecutar (${currentCalculatedCost} <img src="logo.png" class="h-3 w-3 inline">)`;
             } else {
-                btnFire.innerHTML = `Enviar Ahora`;
+                btnFire.innerHTML = `Ejecutar Enrutamiento`;
             }
         };
 
@@ -704,8 +673,8 @@
             
             const createBtn = (count, label, tokens) => {
                 const btn = document.createElement('button');
-                btn.className = "bg-panelBorder/30 border border-panelBorder hover:border-accent hover:bg-accent/10 text-textMuted hover:text-white text-xs py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 font-medium";
-                btn.innerHTML = `<span>${label}</span> <span class="text-accent font-bold">${tokens}</span> <img src="logo.png" class="h-4 w-4">`;
+                btn.className = "bg-[#1c1c1e] text-textMain text-[13px] py-2 px-4 rounded-full transition-all font-medium flex items-center gap-1.5 border border-[#2c2c2e] active:bg-[#2c2c2e]";
+                btn.innerHTML = `<span>${label}</span> <span class="font-semibold ml-1">${tokens}</span> <img src="logo.png" class="h-3 w-3">`;
                 btn.onclick = () => {
                     selectedTargets.clear();
                     for(let i = 0; i < count && i < total; i++) selectedTargets.add(currentDistributionList[i]);
@@ -733,10 +702,10 @@
             filtered.forEach((b, i) => {
                 const isChecked = selectedTargets.has(b) ? 'checked' : '';
                 const div = document.createElement('div'); 
-                div.className = `flex items-center gap-3 bg-bgDark/40 p-4 rounded-2xl border ${isChecked ? 'border-accent bg-accent/5' : 'border-panelBorder/50'} transition-colors duration-200`;
+                div.className = `flex items-center gap-3 bg-[#1c1c1e] p-4 rounded-2xl border ${isChecked ? 'border-white' : 'border-[#2c2c2e]'} transition-all`;
                 div.innerHTML = `
                     <input type="checkbox" id="b-${i}" value="${b}" class="nyx-checkbox target-checkbox" ${isChecked}>
-                    <label for="b-${i}" class="text-sm cursor-pointer w-full text-textMain font-medium truncate">${b}</label>
+                    <label for="b-${i}" class="text-[15px] cursor-pointer w-full text-textMain font-medium truncate">${b}</label>
                 `;
                 branchesList.appendChild(div);
             });
@@ -747,12 +716,12 @@
                 const container = e.target.closest('div');
                 if (e.target.checked) {
                     selectedTargets.add(e.target.value);
-                    container.classList.remove('border-panelBorder/50');
-                    container.classList.add('border-accent', 'bg-accent/5');
+                    container.classList.remove('border-[#2c2c2e]');
+                    container.classList.add('border-white');
                 } else {
                     selectedTargets.delete(e.target.value);
-                    container.classList.add('border-panelBorder/50');
-                    container.classList.remove('border-accent', 'bg-accent/5');
+                    container.classList.add('border-[#2c2c2e]');
+                    container.classList.remove('border-white');
                 }
                 updateCostDisplay();
             }
@@ -772,9 +741,9 @@
             currentDistributionType = type;
             currentDistributionList = type === 'corp' ? allCorps : allAgencies;
             
-            document.getElementById('step-1-title').innerText = type === 'corp' ? "Destinos Corporativos" : "Agencias de Selección";
-            document.getElementById('step-1-desc').innerText = "Selecciona las organizaciones de destino.";
-            document.getElementById('search-branch').placeholder = type === 'corp' ? "Buscar empresa..." : "Buscar agencia...";
+            document.getElementById('step-1-title').innerText = type === 'corp' ? "Nodos Corporativos" : "Nodos de Reclutamiento";
+            document.getElementById('step-1-desc').innerText = type === 'corp' ? "Selecciona las entidades corporativas de destino." : "Selecciona las agencias especializadas de destino.";
+            document.getElementById('search-branch').placeholder = type === 'corp' ? "Buscar empresa..." : "Buscar firma...";
             
             selectedTargets.clear();
             document.getElementById('search-branch').value = "";
@@ -789,17 +758,10 @@
 
         const updateNavVisuals = () => {
             navSteps.forEach((nav, idx) => {
-                const circle = nav.querySelector('.nav-circle');
-                const text = nav.querySelector('.nav-text');
-                
                 if (idx <= currentStep) {
-                    nav.classList.remove('opacity-40');
-                    circle.className = "nav-circle h-10 w-10 rounded-full bg-accent flex items-center justify-center text-white text-sm font-bold shadow-lg transition-all";
-                    text.className = "nav-text text-xs font-semibold text-textMain transition-all";
+                    nav.className = "h-2 flex-1 rounded-full bg-white transition-all";
                 } else {
-                    nav.classList.add('opacity-40');
-                    circle.className = "nav-circle h-10 w-10 rounded-full bg-panelBorder flex items-center justify-center text-textMuted text-sm font-bold transition-all";
-                    text.className = "nav-text text-xs font-medium text-textMuted transition-all";
+                    nav.className = "h-2 flex-1 rounded-full bg-[#2c2c2e] transition-all";
                 }
             });
         };
@@ -838,15 +800,14 @@
             
             if (!file) return;
             if (file.type !== "application/pdf" || file.size > 5242880) {
-                showNyxNotification("El formato debe ser PDF y menor a 5 MB.", "error");
+                showNyxNotification("Formato PDF obligatorio. Límite 5 MB.", "error");
                 cvUpload.value = ''; return;
             }
             
             document.getElementById('file-name-display').textContent = file.name;
-            document.getElementById('file-name-display').classList.add('text-accent');
             const box = e.target.closest('div.border-dashed');
-            box.classList.replace('border-panelBorder', 'border-accent');
-            box.classList.add('bg-accent/5');
+            box.classList.replace('border-[#38383a]', 'border-white');
+            box.querySelector('img').classList.replace('opacity-50', 'opacity-100');
             
             const reader = new FileReader();
             reader.onload = (ev) => { 
@@ -868,7 +829,7 @@
                 tokenJWT: freshToken,
                 branches: finalTargetsArray,
                 expectedCost: currentCalculatedCost, 
-                senderName: "NYX Hub",
+                senderName: document.getElementById('sender-name').value.trim(),
                 subject: document.getElementById('email-subject').value.trim(),
                 pitch: document.getElementById('pitch-text').value,
                 cv_data: selectedFileBase64
@@ -876,18 +837,20 @@
 
             const procScreen = document.getElementById('processing-screen');
             const logText = document.getElementById('current-log-text');
+            const progressBar = document.getElementById('progress-bar');
             
             procScreen.classList.remove('hidden');
             
+            // Adjusted steps for 10-15 seconds native feel
             const processSteps = [
-                { msg: "Estableciendo conexión segura...", delay: 1500 },
-                { msg: "Validando credenciales de acceso...", delay: 1500 },
-                { msg: "Procesando documentación adjunta...", delay: 1800 },
-                { msg: "Enrutando perfiles al sistema...", delay: 1500 },
-                { msg: `Abriendo canales para ${finalTargetsArray.length} organizaciones...`, delay: 1800 },
-                { msg: "Ejecutando distribución masiva...", delay: 1800 },
-                { msg: "Confirmando acuses de recibo...", delay: 2500 },
-                { msg: "Finalizando proceso...", delay: 1600 }
+                { msg: "Preparando entorno de distribución...", prog: 10, delay: 1500 },
+                { msg: "Validando credenciales y perfil profesional...", prog: 20, delay: 1500 },
+                { msg: "Procesando y optimizando documento...", prog: 35, delay: 1500 },
+                { msg: "Generando comunicados personalizados...", prog: 45, delay: 1500 },
+                { msg: "Conectando con la red corporativa...", prog: 55, delay: 1500 },
+                { msg: `Enrutando hacia ${finalTargetsArray.length} organizaciones seleccionadas...`, prog: 70, delay: 1500 },
+                { msg: "Enviando paquetes de presentación...", prog: 85, delay: 2000 },
+                { msg: "Confirmando entregas con los servidores...", prog: 95, delay: 1500 }
             ];
 
             const runSimulation = async () => {
@@ -896,6 +859,7 @@
                     await new Promise(r => setTimeout(r, 300));
                     logText.innerText = step.msg;
                     logText.style.opacity = '1';
+                    progressBar.style.width = step.prog + '%';
                     await new Promise(r => setTimeout(r, step.delay - 300));
                 }
             };
@@ -910,16 +874,17 @@
                 await runSimulation(); 
                 try { await backendRequest; } catch(e) {}
 
+                progressBar.style.width = '100%';
                 logText.style.opacity = '0';
                 setTimeout(() => {
-                    logText.innerText = "¡Proceso finalizado!";
-                    logText.classList.add('text-white', 'font-bold');
+                    logText.innerText = "Despliegue finalizado exitosamente.";
                     logText.style.opacity = '1';
                 }, 300);
-                setTimeout(() => { showSuccessModal(`Tu perfil profesional ha sido enviado exitosamente a ${finalTargetsArray.length} lugares.`); }, 1500);
+                setTimeout(() => { showSuccessModal(`El perfil profesional ha sido distribuido exitosamente a ${finalTargetsArray.length} nodos.`); }, 1500);
                 
             } catch (error) {
-                setTimeout(() => { showSuccessModal(`Tu perfil profesional ha sido enviado exitosamente a ${finalTargetsArray.length} lugares.`); }, 1500);
+                progressBar.style.width = '100%';
+                setTimeout(() => { showSuccessModal(`El perfil profesional ha sido distribuido exitosamente a ${finalTargetsArray.length} nodos.`); }, 1500);
             }
         });
 
@@ -932,18 +897,17 @@
         const viewAnalytics = document.getElementById('view-analytics');
 
         tabDist?.addEventListener('click', () => {
-            tabDist.className = "px-6 py-2.5 text-sm font-semibold rounded-xl bg-panelBorder/80 text-textMain transition-colors shadow-sm whitespace-nowrap";
-            tabAnalytics.className = "px-6 py-2.5 text-sm font-medium rounded-xl text-textMuted hover:text-textMain hover:bg-panelBorder/40 transition-colors flex items-center gap-2 whitespace-nowrap";
+            tabDist.className = "flex-1 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all";
+            tabAnalytics.className = "flex-1 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all bg-transparent";
             viewAnalytics.classList.add('hidden');
             viewDist.classList.remove('hidden');
         });
 
         tabAnalytics?.addEventListener('click', () => {
-            tabAnalytics.className = "px-6 py-2.5 text-sm font-semibold rounded-xl bg-panelBorder/80 text-textMain transition-colors shadow-sm whitespace-nowrap";
-            tabDist.className = "px-6 py-2.5 text-sm font-medium rounded-xl text-textMuted hover:text-textMain hover:bg-panelBorder/40 transition-colors flex items-center gap-2 whitespace-nowrap";
+            tabAnalytics.className = "flex-1 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all";
+            tabDist.className = "flex-1 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all bg-transparent";
             viewDist.classList.add('hidden');
             viewAnalytics.classList.remove('hidden');
-            
             renderTraceAnalytics();
         });
 
@@ -965,7 +929,7 @@
 
                 if (!tracesList || tracesList.length === 0) {
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td colspan="4" class="py-16 text-center text-textMuted"><div class="flex flex-col items-center justify-center gap-4"><img src="logo.png" class="h-10 opacity-30"><span class="text-sm font-medium">Aún no hay registros de envíos.</span></div></td>`;
+                    tr.innerHTML = `<td colspan="2" class="py-12 text-center text-textMuted text-[14px]">No hay registros de distribución recientes.</td>`;
                     tbody.appendChild(tr);
                     
                     document.getElementById('ta-total').textContent = '0';
@@ -982,36 +946,31 @@
                     if (!t) return;
                     
                     const targetName = t.targetName || t.mapValue?.fields?.targetName?.stringValue || "Entidad Desconocida";
-                    const channel = t.channel || t.mapValue?.fields?.channel?.stringValue || "Directo";
-                    const date = t.date || t.mapValue?.fields?.date?.stringValue || "--/--/----";
                     const statusStr = String(t.status || t.mapValue?.fields?.status?.stringValue || "").toUpperCase();
+                    const date = t.date || t.mapValue?.fields?.date?.stringValue || "--/--/----";
 
                     let statusBadgeHTML = '';
                     
                     if (statusStr === 'LEIDO' || statusStr === 'READ') {
                         countRead++;
                         countDelivered++;
-                        statusBadgeHTML = `<span class="bg-accent/10 border border-accent/30 text-accent px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-accent animate-ping"></div>Leído</span>`;
+                        statusBadgeHTML = `<span class="text-white font-semibold text-[13px] bg-white/10 px-3 py-1 rounded-full">Leído</span>`;
                     } else if (statusStr === 'ENVIADO' || statusStr === 'DELIVERED') {
                         countDelivered++;
-                        statusBadgeHTML = `<span class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>Enviado</span>`;
+                        statusBadgeHTML = `<span class="text-textMuted font-semibold text-[13px] border border-[#2c2c2e] px-3 py-1 rounded-full">Entregado</span>`;
                     } else {
-                        statusBadgeHTML = `<span class="bg-panelBorder/50 border border-panelBorder text-textMuted px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-textMuted"></div>${statusStr || 'FALLIDO'}</span>`;
+                        statusBadgeHTML = `<span class="text-textMuted font-semibold text-[13px]">${statusStr || 'FALLIDO'}</span>`;
                     }
 
                     const tr = document.createElement('tr');
-                    tr.className = "border-b border-panelBorder/30 hover:bg-panelBorder/10 transition-colors";
+                    tr.className = "border-b border-[#2c2c2e] last:border-0 hover:bg-[#2c2c2e]/30 transition-colors cursor-pointer";
                     
                     tr.innerHTML = `
-                        <td class="py-5 px-6 text-textMain font-medium flex items-center gap-4 text-sm">
-                            <div class="h-10 w-10 rounded-2xl bg-bgDark border border-panelBorder/50 flex items-center justify-center flex-shrink-0 shadow-sm">
-                                <img src="logo.png" class="h-5 w-5 object-contain" alt="Target">
-                            </div>
-                            <span class="truncate max-w-[150px] sm:max-w-[250px] font-semibold">${targetName}</span>
+                        <td class="py-4 px-5 text-textMain font-medium flex flex-col justify-center gap-0.5">
+                            <span class="truncate max-w-[150px] sm:max-w-xs text-[15px]">${targetName}</span>
+                            <span class="text-[12px] text-textMuted">${date}</span>
                         </td>
-                        <td class="py-5 px-6 text-textMuted text-sm hidden md:table-cell">${channel}</td>
-                        <td class="py-5 px-6 text-textMuted text-sm hidden md:table-cell">${date}</td>
-                        <td class="py-5 px-6 text-right whitespace-nowrap">
+                        <td class="py-4 px-5 text-right">
                             ${statusBadgeHTML}
                         </td>
                     `;
@@ -1027,10 +986,11 @@
                 const rateEl = document.getElementById('ta-rate');
                 const rate = totalCount > 0 ? Math.round((countRead / totalCount) * 100) : 0;
                 rateEl.textContent = `${rate}%`;
+                rateEl.className = rate > 15 ? "text-white text-3xl font-bold tracking-tight transition-colors" : "text-textMain text-3xl font-bold tracking-tight transition-colors";
 
             } catch (error) {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="4" class="py-12 text-center text-red-500 font-medium">Ocurrió un error cargando los datos.</td>`;
+                tr.innerHTML = `<td colspan="2" class="py-12 text-center text-[#ff3b30] font-medium text-[14px]">Error cargando datos.</td>`;
                 tbody.appendChild(tr);
             }
         }
@@ -1038,9 +998,9 @@
         document.getElementById('btn-refresh-ta')?.addEventListener('click', () => {
             const tbody = document.getElementById('ta-table-body');
             if (tbody) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-16 text-center text-textMuted"><div class="flex justify-center"><div class="pro-spinner"></div></div></td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="2" class="py-10 text-center text-textMuted text-[14px]">Actualizando...</td></tr>`;
             }
-            setTimeout(renderTraceAnalytics, 500); 
+            setTimeout(renderTraceAnalytics, 400); 
         });
 
     </script>

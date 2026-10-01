@@ -11,16 +11,16 @@
             theme: {
                 extend: {
                     colors: { 
-                        bgDark: '#09090b',
-                        panelDark: '#121214',
-                        panelBorder: '#27272a',
-                        textMain: '#fafafa',
-                        textMuted: '#a1a1aa',
-                        accent: '#7c3aed',
-                        accentHover: '#6d28d9',
+                        bgDark: '#000000',
+                        panelDark: '#1c1c1e',
+                        panelBorder: '#2c2c2e',
+                        textMain: '#ffffff',
+                        textMuted: '#8e8e93',
+                        accent: '#0a84ff',
+                        accentHover: '#007aff',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'system-ui', 'sans-serif'],
                     }
                 }
             }
@@ -31,437 +31,384 @@
 
     <style>
         body { 
-            background-color: #09090b; 
-            color: #fafafa; 
+            background-color: #000000; 
+            color: #ffffff; 
             overflow-x: hidden; 
             -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+            letter-spacing: -0.015em;
         }
         
-        .bg-premium {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background: radial-gradient(circle at top center, rgba(124, 58, 237, 0.08), transparent 60%);
-            background-color: #09090b;
-        }
-
         .glass-panel { 
-            background: rgba(18, 18, 20, 0.7); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid #27272a; 
-            box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+            background: rgba(28, 28, 30, 0.65); 
+            backdrop-filter: blur(24px); 
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.08); 
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
         }
         
         .step-hidden { display: none !important; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #52525b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a3a3c; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #48484a; }
         
         .nyx-checkbox { 
             appearance: none; 
-            background-color: #121214; 
-            border: 1px solid #3f3f46; 
-            width: 18px; 
-            height: 18px; 
-            border-radius: 4px; 
+            background-color: #1c1c1e; 
+            border: 1.5px solid #3a3a3c; 
+            width: 22px; 
+            height: 22px; 
+            border-radius: 6px; 
             position: relative; 
             cursor: pointer; 
             transition: all 0.2s ease; 
             flex-shrink: 0; 
         }
-        .nyx-checkbox:checked { background-color: #7c3aed; border-color: #7c3aed; }
+        .nyx-checkbox:checked { background-color: #0a84ff; border-color: #0a84ff; }
         .nyx-checkbox:checked::after { 
             content: ''; 
-            position: absolute; left: 6px; top: 2px; width: 4px; height: 9px;
+            position: absolute; left: 7px; top: 3px; width: 5px; height: 11px;
             border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
         }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
 
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slide-up { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-slide-up { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes toastSlideIn { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: translateY(0); } }
         .animate-toast { animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         .pro-spinner {
-            width: 36px; height: 36px; border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #7c3aed; border-radius: 50%; animation: rotation 0.8s linear infinite;
+            width: 32px; height: 32px; border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #0a84ff; border-radius: 50%; animation: rotation 0.8s linear infinite;
         }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Uiverse.io Chip Loader adaptado */
-        .main-container { display: flex; justify-content: center; align-items: center; width: 100%; }
-        .trace-bg { stroke: #27272a; stroke-width: 1.8; fill: none; }
-        .trace-flow {
-            stroke-width: 1.8; fill: none; stroke-dasharray: 40 400; stroke-dashoffset: 438;
-            filter: drop-shadow(0 0 6px currentColor); animation: flow 3s cubic-bezier(0.5, 0, 0.9, 1) infinite;
+        /* Loader Animation Requested by User */
+        .loader-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 180px;
+            font-family: "Inter", sans-serif;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: white;
+            border-radius: 50%;
+            background-color: transparent;
+            user-select: none;
+            letter-spacing: 2px;
         }
-        .flow-accent { stroke: #7c3aed; color: #7c3aed; }
-        .flow-white { stroke: #a1a1aa; color: #a1a1aa; }
-        @keyframes flow { to { stroke-dashoffset: 0; } }
 
-        /* Uiverse.io Squares Loader */
-        .squares-loader { position: relative; width: 48px; height: 48px; transform: rotate(45deg); }
-        .squares-loader-square {
-            position: absolute; top: 0; left: 0; width: 14px; height: 14px; margin: 1px;
-            background: #7c3aed; animation: square-animation 10s ease-in-out infinite both;
+        .loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background-color: transparent;
+            animation: loader-rotate 2s linear infinite;
+            z-index: 0;
         }
-        @keyframes square-animation {
-            0%, 10.5%, 100% { left: 0; top: 0; }
-            12.5%, 23% { left: 16px; top: 0; }
-            25%, 35.5% { left: 32px; top: 0; }
-            37.5%, 48% { left: 32px; top: 16px; }
-            50%, 60.5% { left: 16px; top: 16px; }
-            62.5%, 73% { left: 16px; top: 32px; }
-            75%, 85.5% { left: 0; top: 32px; }
-            87.5%, 98% { left: 0; top: 16px; }
+
+        @keyframes loader-rotate {
+            0% {
+                transform: rotate(90deg);
+                box-shadow:
+                0 10px 20px 0 #fff inset,
+                0 20px 30px 0 #0a84ff inset,
+                0 60px 60px 0 #007aff inset;
+            }
+            50% {
+                transform: rotate(270deg);
+                box-shadow:
+                0 10px 20px 0 #fff inset,
+                0 20px 10px 0 #5e5ce6 inset,
+                0 40px 60px 0 #311e80 inset;
+            }
+            100% {
+                transform: rotate(450deg);
+                box-shadow:
+                0 10px 20px 0 #fff inset,
+                0 20px 30px 0 #0a84ff inset,
+                0 60px 60px 0 #007aff inset;
+            }
+        }
+
+        .loader-letter {
+            display: inline-block;
+            opacity: 0.4;
+            transform: translateY(0);
+            animation: loader-letter-anim 2s infinite;
+            z-index: 1;
+            border-radius: 50ch;
+            border: none;
+            margin: 0 1px;
+        }
+
+        .loader-letter:nth-child(1) { animation-delay: 0s; }
+        .loader-letter:nth-child(2) { animation-delay: 0.1s; }
+        .loader-letter:nth-child(3) { animation-delay: 0.2s; }
+        .loader-letter:nth-child(4) { animation-delay: 0.3s; }
+        .loader-letter:nth-child(5) { animation-delay: 0.4s; }
+        .loader-letter:nth-child(6) { animation-delay: 0.5s; }
+        .loader-letter:nth-child(7) { animation-delay: 0.6s; }
+        .loader-letter:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes loader-letter-anim {
+            0%, 100% { opacity: 0.4; transform: translateY(0); }
+            20% { opacity: 1; transform: scale(1.15); }
+            40% { opacity: 0.7; transform: translateY(0); }
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-accent selection:text-white">
 
-    <div class="bg-premium"></div>
-
     <!-- CONTENEDOR DE NOTIFICACIONES -->
-    <div id="nyx-toast-container" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[450px] z-[200] flex flex-col gap-3 pointer-events-none"></div>
+    <div id="nyx-toast-container" class="fixed top-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[450px] z-[200] flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- PANTALLA DE CARGA INICIAL -->
     <div id="initial-loader" class="fixed inset-0 bg-bgDark z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
-        <img src="logonyx.png" alt="NYX" class="h-8 mb-6 object-contain opacity-80">
+        <img src="logo.png" alt="NYX" class="h-16 mb-8 object-contain drop-shadow-xl">
         <div class="pro-spinner"></div>
-        <p class="text-[11px] text-textMuted font-medium mt-6 tracking-widest uppercase">Estableciendo conexión segura</p>
     </div>
 
     <!-- PANTALLA DE LOGIN -->
-    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-transparent z-50 transition-opacity duration-500 hidden px-4 py-8">
-        <div class="glass-panel rounded-3xl p-8 md:p-12 flex flex-col items-center w-full max-w-md my-auto border border-panelBorder/60 shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative overflow-hidden">
-            <!-- Modern background glow -->
-            <div class="absolute -top-24 -right-24 w-48 h-48 bg-accent/20 rounded-full blur-[64px] pointer-events-none"></div>
-            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-accent/10 rounded-full blur-[64px] pointer-events-none"></div>
-
-            <div class="h-16 w-16 bg-bgDark border border-panelBorder rounded-2xl flex items-center justify-center mb-6 shadow-inner relative z-10">
-                <img src="logonyx.png" alt="NYX" class="h-8 object-contain">
-            </div>
+    <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-bgDark z-50 transition-opacity duration-500 hidden px-5 py-8">
+        <div class="w-full max-w-sm flex flex-col items-center animate-slide-up">
             
-            <h1 class="text-2xl font-bold text-white mb-3 text-center tracking-tight relative z-10">Acceso Corporativo</h1>
+            <img src="logo.png" alt="NYX" class="h-20 object-contain mb-8 drop-shadow-2xl">
             
-            <p class="text-sm text-textMuted mb-10 text-center leading-relaxed font-medium relative z-10">
-                Autentícate en tu entorno seguro de NYX Hub para gestionar y distribuir tu perfil profesional de forma automatizada.
+            <h1 class="text-3xl font-bold text-white mb-3 text-center tracking-tight">NYX Hub</h1>
+            <p class="text-base text-textMuted mb-10 text-center leading-relaxed">
+                Acceso corporativo seguro a tu entorno de distribución profesional.
             </p>
             
-            <button id="btn-login" class="w-full bg-white text-black font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-100 transition-all hover:scale-[1.02] shadow-lg text-sm relative z-10">
+            <button id="btn-login" class="w-full bg-white text-black font-semibold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-lg text-base">
                 <svg class="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Continuar con Google Workspace
+                Continuar con Google
             </button>
             
-            <div class="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-3 text-xs text-textMuted w-full font-medium relative z-10">
+            <div class="mt-10 flex flex-wrap justify-center gap-4 text-xs text-textMuted font-medium">
                 <a href="Terminos-y-condiciones.html" class="hover:text-white transition-colors">Términos</a>
-                <span class="text-panelBorder/50 hidden sm:inline">•</span>
                 <a href="politica-de-privacidad.html" class="hover:text-white transition-colors">Privacidad</a>
-                <span class="text-panelBorder/50 hidden lg:inline">•</span>
-                <a href="politica-de-cookies.html" class="hover:text-white transition-colors">Cookies</a>
-                <span class="text-panelBorder/50 hidden sm:inline">•</span>
                 <a href="Contacto.html" class="hover:text-white transition-colors">Soporte</a>
-            </div>
-
-            <div class="mt-10 pt-6 border-t border-panelBorder/40 flex flex-col items-center w-full relative z-10">
-                <div class="flex items-center gap-2 mb-3 bg-panelDark/50 px-3 py-1.5 rounded-full border border-panelBorder/40">
-                    <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    <span class="text-[11px] text-textMuted font-medium">Conexión Encriptada TLS 1.3</span>
-                </div>
-                <div class="flex items-center gap-1.5 opacity-70">
-                    <img src="logo.png" class="h-3 object-contain opacity-80" alt="NYX">
-                    <span class="text-[9px] text-textMuted font-bold tracking-widest uppercase">Powered by CvStudio33</span>
-                </div>
             </div>
         </div>
     </div>
 
     <!-- DASHBOARD PRINCIPAL -->
-    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-6 relative z-10 animate-fade mx-auto w-full max-w-5xl">
+    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-8 relative z-10 animate-fade mx-auto w-full max-w-5xl">
         
-        <header class="flex justify-between items-center glass-panel px-4 py-3 md:px-6 md:py-4 mb-8 rounded-xl sticky top-4 z-40 border border-panelBorder">
+        <header class="flex justify-between items-center bg-panelDark/50 backdrop-blur-md px-5 py-4 md:px-6 md:py-5 mb-8 rounded-3xl sticky top-4 z-40 border border-panelBorder/60 shadow-lg">
             <div class="flex items-center gap-3">
-                <img src="logonyx.png" alt="NYX Hub" class="h-5 md:h-6 object-contain">
-                <div class="h-4 w-px bg-panelBorder hidden sm:block mx-2"></div>
-                <div class="flex flex-col">
-                    <h2 class="text-xs md:text-sm font-semibold text-textMain" id="client-id">CLIENTE-XXXX</h2>
-                    <div class="flex items-center gap-1.5 mt-0.5">
-                        <span class="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-1.5 w-1.5 md:h-2 md:w-2 bg-green-500"></span>
-                        </span>
-                        <span class="text-[10px] text-textMuted font-medium">Conectado a la red</span>
-                    </div>
+                <img src="logo.png" alt="NYX Hub" class="h-8 md:h-10 object-contain drop-shadow-md">
+                <div class="flex flex-col ml-2">
+                    <h2 class="text-sm md:text-base font-bold text-textMain" id="client-id">CLIENTE-XXXX</h2>
+                    <span class="text-xs text-textMuted font-medium">En línea</span>
                 </div>
             </div>
             
-            <div class="flex items-center gap-3 md:gap-4">
-                <div class="flex flex-col items-end mr-1 hidden sm:flex">
-                    <span class="text-[10px] text-textMuted font-medium uppercase tracking-wider mb-0.5">Balance de Créditos</span>
+            <div class="flex items-center gap-4 md:gap-5">
+                <div class="flex items-center gap-2.5 bg-panelBorder/30 px-4 py-2 rounded-2xl border border-panelBorder/50">
+                    <span class="text-base md:text-lg font-bold text-textMain leading-none" id="token-count">--</span>
+                    <img src="logo.png" alt="Credits" class="h-5 w-5 object-contain">
                 </div>
-                <div class="flex items-center gap-2 bg-panelDark px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-panelBorder">
-                    <span class="text-sm md:text-base font-semibold text-textMain leading-none" id="token-count">--</span>
-                    <img src="coinnyx.png" alt="Coin" class="h-4 w-4 object-contain">
-                </div>
-                
-                <div class="h-5 w-px bg-panelBorder mx-1 hidden sm:block"></div>
 
-                <button id="btn-logout" class="text-textMuted hover:text-textMain transition-colors flex items-center gap-2 p-1" title="Cerrar Sesión">
-                    <span class="text-xs font-medium hidden md:block">Cerrar sesión</span>
-                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <button id="btn-logout" class="text-textMuted hover:text-textMain transition-colors flex items-center p-2 rounded-full hover:bg-panelBorder/50" title="Cerrar Sesión">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 </button>
             </div>
         </header>
 
         <!-- Pestañas de Navegación del Dashboard -->
-        <div class="flex justify-center mb-6 w-full animate-fade">
-            <div class="glass-panel border border-panelBorder p-1 rounded-xl flex gap-1 items-center relative z-10 w-full md:w-auto overflow-x-auto custom-scrollbar">
-                <button id="tab-dist" class="px-5 py-2 text-sm font-semibold rounded-lg bg-panelBorder text-textMain transition-colors shadow-sm whitespace-nowrap">
-                    Distribución Activa
+        <div class="flex justify-center mb-8 w-full animate-fade">
+            <div class="bg-panelDark border border-panelBorder p-1.5 rounded-2xl flex gap-1 items-center relative z-10 w-full md:w-auto overflow-x-auto custom-scrollbar shadow-sm">
+                <button id="tab-dist" class="px-6 py-2.5 text-sm font-semibold rounded-xl bg-panelBorder/80 text-textMain transition-colors shadow-sm whitespace-nowrap">
+                    Distribución
                 </button>
-                <button id="tab-analytics" class="px-5 py-2 text-sm font-medium rounded-lg text-textMuted hover:text-textMain transition-colors flex items-center gap-2 whitespace-nowrap">
-                    <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012-2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    Trace Analytics
+                <button id="tab-analytics" class="px-6 py-2.5 text-sm font-medium rounded-xl text-textMuted hover:text-textMain hover:bg-panelBorder/40 transition-colors flex items-center gap-2 whitespace-nowrap">
+                    Analytics
                 </button>
             </div>
         </div>
 
         <!-- VISTA: DISTRIBUCIÓN -->
         <div id="view-dist" class="w-full flex flex-col items-center animate-fade">
-            <div class="w-full glass-panel border border-panelBorder rounded-xl p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-                <div class="text-center sm:text-left flex-1 px-2">
-                    <h4 class="text-textMain text-sm font-semibold flex items-center justify-center sm:justify-start gap-2 mb-1">Gestión de Créditos Operativos</h4>
-                    <p class="text-xs text-textMuted leading-relaxed">Adquiere bloques de distribución para continuar posicionando tu perfil en el mercado corporativo.</p>
-                </div>
-                <a href="panel-de-recarga-nyx.html" class="bg-white hover:bg-gray-100 text-black text-xs font-semibold py-2.5 px-5 rounded-lg transition-colors flex items-center gap-2 w-full sm:w-auto justify-center">
-                    <img src="coinnyx.png" class="h-3.5 w-3.5"> Adquirir Créditos
-                </a>
-            </div>
-
-            <main class="flex-grow flex flex-col items-center w-full pb-24">
+            
+            <main class="flex-grow flex flex-col items-center w-full pb-32">
             
             <div class="flex flex-col items-center w-full px-2 text-center mb-10 animate-slide-up" id="presentation-section">
-                <img src="logonyx.png" alt="NYX Hub" class="h-10 md:h-12 object-contain mb-6">
-                <h1 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-textMain">NYX Distribution Hub</h1>
-                <p class="text-textMuted max-w-3xl mb-10 text-sm md:text-base leading-relaxed font-medium">La plataforma definitiva para impulsar tu trayectoria. Nuestra infraestructura automatizada deposita tu Currículum Vitae directamente en las bandejas de entrada de los líderes de Talento y Selección. Diseñada bajo estándares de seguridad corporativa, NYX optimiza tu tiempo y maximiza tu visibilidad ante las organizaciones que realmente importan.</p>
+                
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight text-textMain">NYX Distribution</h1>
+                <p class="text-textMuted max-w-2xl mb-12 text-base md:text-lg leading-relaxed font-medium">Llega directamente a los reclutadores clave con un flujo de envío automatizado, profesional y seguro.</p>
 
-                <div class="bg-panelDark border border-panelBorder rounded-xl p-5 md:p-6 mb-12 max-w-3xl text-left relative overflow-hidden flex flex-col md:flex-row gap-5 items-start shadow-sm">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-accent"></div>
-                    <div>
-                        <h4 class="text-sm font-semibold text-textMain mb-2 flex items-center gap-2">
-                            <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            Ventaja Estratégica en el Mercado
-                        </h4>
-                        <p class="text-textMuted text-xs md:text-sm leading-relaxed mb-4">El problema del envío de correos manual es que frecuentemente terminan en carpetas de SPAM o son ignorados por formatos poco estandarizados. <strong>NYX Hub</strong> resuelve esto operando a través de una red certificada de alta reputación. Aplicamos protocolos de enrutamiento que garantizan una tasa de entrega excepcional. Tu perfil es presentado en un formato ejecutivo prioritario, aterrizando directamente en la Bandeja Principal de los reclutadores.</p>
-                        <a href="NyxTegnologia.html" class="text-accent hover:text-accentHover underline decoration-accent/50 underline-offset-4 transition-colors font-medium text-xs">Revisar documentación técnica de enrutamiento</a>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-4xl">
-                    <div class="glass-panel border border-panelBorder p-6 md:p-8 rounded-2xl flex flex-col text-left hover:border-accent/40 transition-colors group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity"><svg class="w-24 h-24 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-                        <h3 class="text-lg font-semibold text-textMain mb-3 relative z-10">Corporaciones Elite</h3>
-                        <p class="text-sm text-textMuted mb-4 flex-grow leading-relaxed relative z-10">Despliega tu perfil profesional directamente hacia los equipos de <em>Talent Acquisition</em> de las empresas líderes. Ideal para quienes buscan estabilidad y beneficios de primer nivel corporativo.</p>
-                        <p class="text-xs text-textMuted/70 mb-8 font-medium relative z-10"><strong class="text-textMuted">Alcance:</strong> Mercado Libre, Globant, Unilever, YPF, Entidades Bancarias, Firmas Tecnológicas, entre otras multinacionales.</p>
-                        <button id="btn-start-corp" class="bg-white text-black font-medium text-sm py-3 px-5 rounded-lg hover:bg-gray-100 transition-colors w-full flex items-center justify-between relative z-10">
-                            <span>Iniciar Proceso Corporativo</span>
-                            <span class="bg-gray-200/50 px-2.5 py-1 rounded text-xs font-semibold flex items-center gap-1.5">Desde <img src="coinnyx.png" class="h-3.5 w-3.5" alt="Tokens"> 5</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+                    <div class="bg-panelDark border border-panelBorder p-8 rounded-[2rem] flex flex-col text-left hover:border-accent/60 transition-colors duration-300 relative overflow-hidden shadow-lg">
+                        <div class="h-14 w-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
+                            <img src="logo.png" class="h-8 w-8 object-contain">
+                        </div>
+                        <h3 class="text-xl font-bold text-textMain mb-3">Corporaciones Elite</h3>
+                        <p class="text-base text-textMuted mb-6 flex-grow leading-relaxed">Envía tu perfil a las principales empresas y multinacionales líderes en el mercado.</p>
+                        <button id="btn-start-corp" class="bg-white text-black font-semibold text-base py-3.5 px-6 rounded-2xl hover:bg-gray-200 transition-colors w-full flex items-center justify-between shadow-md active:scale-[0.98]">
+                            <span>Iniciar Envío</span>
+                            <span class="bg-black/10 px-3 py-1 rounded-lg text-sm flex items-center gap-1.5">5 <img src="logo.png" class="h-4 w-4"></span>
                         </button>
                     </div>
 
-                    <div class="glass-panel border border-panelBorder p-6 md:p-8 rounded-2xl flex flex-col text-left hover:border-accent/40 transition-colors group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity"><svg class="w-24 h-24 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
-                        <h3 class="text-lg font-semibold text-textMain mb-3 relative z-10">Consultoras y Headhunters</h3>
-                        <p class="text-sm text-textMuted mb-4 flex-grow leading-relaxed relative z-10">Posiciónate en el radar de los especialistas que manejan el mercado de búsquedas ocultas. Estas firmas actúan como puente hacia miles de empresas que tercerizan su contratación.</p>
-                        <p class="text-xs text-textMuted/70 mb-8 font-medium relative z-10"><strong class="text-textMuted">Alcance:</strong> Adecco, Randstad, ManpowerGroup, Page Personnel, y agencias boutique especializadas en roles administrativos, operativos e IT.</p>
-                        <button id="btn-start-agency" class="bg-white text-black font-medium text-sm py-3 px-5 rounded-lg hover:bg-gray-100 transition-colors w-full flex items-center justify-between relative z-10">
-                            <span>Iniciar Proceso Agencias</span>
-                            <span class="bg-gray-200/50 px-2.5 py-1 rounded text-xs font-semibold flex items-center gap-1.5">Desde <img src="coinnyx.png" class="h-3.5 w-3.5" alt="Tokens"> 5</span>
+                    <div class="bg-panelDark border border-panelBorder p-8 rounded-[2rem] flex flex-col text-left hover:border-accent/60 transition-colors duration-300 relative overflow-hidden shadow-lg">
+                        <div class="h-14 w-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
+                            <img src="logo.png" class="h-8 w-8 object-contain">
+                        </div>
+                        <h3 class="text-xl font-bold text-textMain mb-3">Consultoras y Agencias</h3>
+                        <p class="text-base text-textMuted mb-6 flex-grow leading-relaxed">Conecta con reclutadores y headhunters que gestionan búsquedas ocultas.</p>
+                        <button id="btn-start-agency" class="bg-white text-black font-semibold text-base py-3.5 px-6 rounded-2xl hover:bg-gray-200 transition-colors w-full flex items-center justify-between shadow-md active:scale-[0.98]">
+                            <span>Iniciar Envío</span>
+                            <span class="bg-black/10 px-3 py-1 rounded-lg text-sm flex items-center gap-1.5">5 <img src="logo.png" class="h-4 w-4"></span>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- WIZARD -->
-            <div id="wizard-container" class="hidden w-full max-w-4xl glass-panel border border-panelBorder p-6 md:p-8 relative overflow-hidden mb-10 rounded-2xl">
+            <div id="wizard-container" class="hidden w-full max-w-3xl bg-panelDark border border-panelBorder p-6 md:p-10 relative mb-10 rounded-[2rem] shadow-2xl">
                 
-                <div class="flex justify-between items-center mb-10 relative px-2 md:px-12">
-                    <div class="absolute left-10 right-10 top-4 transform -translate-y-1/2 h-px bg-panelBorder z-0 hidden md:block"></div>
+                <div class="flex justify-between items-center mb-10 relative px-4 md:px-16">
+                    <div class="absolute left-16 right-16 top-1/2 transform -translate-y-1/2 h-0.5 bg-panelBorder z-0 hidden md:block"></div>
                     
-                    <div class="relative z-10 flex flex-col items-center gap-2 transition-all" id="nav-step-1">
-                        <div class="nav-circle h-8 w-8 rounded-full bg-accent flex items-center justify-center text-white text-xs font-semibold shadow-[0_0_12px_rgba(124,58,237,0.4)] transition-all">1</div>
-                        <span class="nav-text text-xs font-medium text-textMain transition-all tracking-wide">Destinos</span>
+                    <div class="relative z-10 flex flex-col items-center gap-3 transition-all" id="nav-step-1">
+                        <div class="nav-circle h-10 w-10 rounded-full bg-accent flex items-center justify-center text-white text-sm font-bold shadow-lg transition-all">1</div>
+                        <span class="nav-text text-xs font-semibold text-textMain transition-all">Destinos</span>
                     </div>
-                    <div class="relative z-10 flex flex-col items-center gap-2 transition-all opacity-40" id="nav-step-2">
-                        <div class="nav-circle h-8 w-8 rounded-full bg-panelDark border border-panelBorder flex items-center justify-center text-textMuted text-xs font-semibold transition-all">2</div>
-                        <span class="nav-text text-xs font-medium text-textMuted transition-all tracking-wide">Mensaje</span>
+                    <div class="relative z-10 flex flex-col items-center gap-3 transition-all opacity-40" id="nav-step-2">
+                        <div class="nav-circle h-10 w-10 rounded-full bg-panelBorder flex items-center justify-center text-textMuted text-sm font-bold transition-all">2</div>
+                        <span class="nav-text text-xs font-medium text-textMuted transition-all">Mensaje</span>
                     </div>
-                    <div class="relative z-10 flex flex-col items-center gap-2 transition-all opacity-40" id="nav-step-3">
-                        <div class="nav-circle h-8 w-8 rounded-full bg-panelDark border border-panelBorder flex items-center justify-center text-textMuted text-xs font-semibold transition-all">3</div>
-                        <span class="nav-text text-xs font-medium text-textMuted transition-all tracking-wide">Documento</span>
+                    <div class="relative z-10 flex flex-col items-center gap-3 transition-all opacity-40" id="nav-step-3">
+                        <div class="nav-circle h-10 w-10 rounded-full bg-panelBorder flex items-center justify-center text-textMuted text-sm font-bold transition-all">3</div>
+                        <span class="nav-text text-xs font-medium text-textMuted transition-all">Documento</span>
                     </div>
                 </div>
 
                 <div id="step-1" class="step-content animate-fade">
-                    <div class="mb-6 flex flex-col">
-                        <h3 class="text-xl font-semibold text-textMain" id="step-1-title">Selección de Nodos Destino</h3>
-                        <p class="text-sm text-textMuted mt-1" id="step-1-desc">Configura los receptores corporativos para el enrutamiento.</p>
+                    <div class="mb-8 flex flex-col text-center">
+                        <h3 class="text-2xl font-bold text-textMain" id="step-1-title">Selección de Destinos</h3>
+                        <p class="text-base text-textMuted mt-2" id="step-1-desc">Elige las empresas a las que deseas aplicar.</p>
                     </div>
 
-                    <div class="flex flex-col mb-6 bg-panelDark p-4 rounded-xl border border-panelBorder">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
-                            <span class="text-sm font-medium text-textMain">Selección por Lotes</span>
-                            <span class="text-[10px] text-textMuted bg-bgDark px-2.5 py-1 rounded border border-panelBorder">1 Lote = 50 Destinos</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2" id="quick-select-container"></div>
-                        <p class="text-[11px] text-textMuted mt-4 leading-relaxed">* Modalidad operativa: 5 créditos por lote. Al superar los 50 destinos mediante selección manual, el sistema asignará el volumen al siguiente nivel tarifario.</p>
+                    <div class="flex flex-col mb-6">
+                        <div class="flex flex-wrap gap-2.5 justify-center" id="quick-select-container"></div>
                     </div>
                     
-                    <div class="flex flex-col md:flex-row justify-between items-center mb-5 gap-4 bg-panelDark p-4 rounded-xl border border-panelBorder">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 bg-bgDark/50 p-4 rounded-2xl border border-panelBorder/50">
                         <div class="relative w-full md:w-1/2">
-                            <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-textMuted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            <input type="text" id="search-branch" placeholder="Buscar organización específica..." class="w-full bg-bgDark border border-panelBorder text-textMain text-sm rounded-lg py-2.5 pl-10 pr-3 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
+                            <svg class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-textMuted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="search-branch" placeholder="Buscar organización..." class="w-full bg-panelDark border border-panelBorder text-textMain text-base rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-accent transition-all">
                         </div>
                         
-                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-                            <div class="bg-accent/10 border border-accent/20 text-accent px-4 py-2 rounded-lg flex items-center justify-center gap-2 min-w-max">
-                                <span class="text-xs font-medium">Seleccionados:</span>
-                                <span class="font-semibold text-sm" id="selected-count">0</span>
+                        <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                            <div class="flex flex-col items-end">
+                                <span class="text-xs text-textMuted font-medium">Seleccionados</span>
+                                <span class="font-bold text-lg text-accent" id="selected-count">0</span>
                             </div>
-                            <div class="bg-bgDark border border-panelBorder text-textMain px-4 py-2 rounded-lg flex items-center justify-center gap-2 min-w-max">
-                                <span class="text-xs font-medium text-textMuted">Costo:</span>
-                                <span class="font-semibold text-sm" id="current-cost">0</span>
-                                <img src="coinnyx.png" class="h-3.5 w-3.5 object-contain">
+                            <div class="h-8 w-px bg-panelBorder"></div>
+                            <div class="flex flex-col items-end">
+                                <span class="text-xs text-textMuted font-medium">Costo</span>
+                                <div class="flex items-center gap-1.5 font-bold text-lg text-textMain">
+                                    <span id="current-cost">0</span>
+                                    <img src="logo.png" class="h-4 w-4 object-contain">
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto custom-scrollbar pr-2" id="branches-list"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[350px] overflow-y-auto custom-scrollbar pr-2" id="branches-list"></div>
                     
-                    <div class="mt-8 flex justify-end pt-5 border-t border-panelBorder">
-                        <button class="btn-next w-full sm:w-auto bg-white text-black px-6 py-2.5 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm">Continuar al Mensaje</button>
+                    <div class="mt-8 flex justify-end pt-6 border-t border-panelBorder">
+                        <button class="btn-next w-full md:w-auto bg-white text-black px-8 py-3.5 rounded-2xl font-bold hover:bg-gray-200 transition-colors text-base shadow-md">Continuar</button>
                     </div>
                 </div>
 
                 <div id="step-2" class="step-content step-hidden animate-fade">
-                    <div class="mb-6 flex flex-col">
-                        <h3 class="text-xl font-semibold text-textMain">Parámetros de Presentación</h3>
-                        <p class="text-sm text-textMuted mt-1">Define los datos del comunicado corporativo que recibirán los reclutadores.</p>
+                    <div class="mb-8 flex flex-col text-center">
+                        <h3 class="text-2xl font-bold text-textMain">Detalles del Mensaje</h3>
+                        <p class="text-base text-textMuted mt-2">Personaliza la información que recibirán los reclutadores.</p>
                     </div>
 
-                    <div class="bg-panelDark rounded-xl border border-panelBorder p-6 space-y-6">
-                        <div class="flex flex-col pb-5 border-b border-panelBorder">
-                            <label class="text-textMain text-sm font-medium mb-2">Nombre Completo del Profesional</label>
-                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-bgDark border border-panelBorder text-textMain text-sm rounded-lg p-3 outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all" required>
-                            <p class="text-xs text-textMuted mt-2">Este nombre se inyectará dinámicamente en el asunto y cuerpo del correo.</p>
+                    <div class="space-y-6">
+                        <div class="flex flex-col">
+                            <label class="text-textMuted text-sm font-semibold mb-2 ml-1">Tu Nombre Completo</label>
+                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-bgDark border border-panelBorder text-textMain text-base rounded-2xl p-4 outline-none focus:border-accent transition-all" required>
                         </div>
-                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                            <label class="text-textMuted text-xs font-medium uppercase tracking-wide md:w-32">Emisor Autorizado:</label>
-                            <input type="text" id="sender-name" value="NYX Hub - CvStudio33" readonly class="w-full bg-transparent text-accent text-sm font-semibold outline-none cursor-not-allowed">
+                        
+                        <div class="flex flex-col">
+                            <label class="text-textMuted text-sm font-semibold mb-2 ml-1">Asunto del Correo</label>
+                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-panelBorder/30 text-textMuted text-base rounded-2xl p-4 outline-none cursor-not-allowed">
                         </div>
-                        <div class="flex flex-col md:flex-row md:items-center pb-5 border-b border-panelBorder gap-2 md:gap-4">
-                            <label class="text-textMuted text-xs font-medium uppercase tracking-wide md:w-32">Asunto Formateado:</label>
-                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-transparent text-textMuted text-sm outline-none cursor-not-allowed">
-                        </div>
-                        <div class="flex flex-col pt-2">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 gap-2">
-                                <label class="text-textMain text-sm font-medium">Cuerpo del Comunicado</label>
-                                <span class="text-[11px] text-textMuted bg-bgDark px-2.5 py-1 rounded border border-panelBorder flex items-center">
-                                    <svg class="w-3.5 h-3.5 inline mr-1.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Recomendamos preservar la plantilla ejecutiva predeterminada.
-                                </span>
+
+                        <div class="flex flex-col">
+                            <div class="flex justify-between items-center mb-2 ml-1">
+                                <label class="text-textMuted text-sm font-semibold">Mensaje de Presentación</label>
                             </div>
-                            <textarea id="pitch-text" class="w-full bg-bgDark text-textMain h-56 p-4 rounded-lg outline-none resize-none text-sm leading-relaxed border border-panelBorder focus:border-accent focus:ring-1 focus:ring-accent transition-all custom-scrollbar"></textarea>
+                            <textarea id="pitch-text" class="w-full bg-bgDark text-textMain h-64 p-5 rounded-2xl outline-none resize-none text-base leading-relaxed border border-panelBorder focus:border-accent transition-all custom-scrollbar"></textarea>
                         </div>
                     </div>
 
-                    <div class="mt-8 flex flex-col sm:flex-row justify-between gap-3 pt-5 border-t border-panelBorder">
-                        <button class="btn-prev w-full sm:w-auto text-textMuted hover:text-textMain px-6 py-2.5 font-medium transition-colors bg-panelDark hover:bg-panelBorder rounded-lg border border-panelBorder text-sm order-2 sm:order-1">Volver a Destinos</button>
-                        <button class="btn-next w-full sm:w-auto bg-white text-black px-6 py-2.5 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm order-1 sm:order-2">Confirmar Parámetros</button>
+                    <div class="mt-10 flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t border-panelBorder">
+                        <button class="btn-prev w-full sm:w-auto text-textMuted hover:text-textMain px-8 py-3.5 font-semibold transition-colors bg-panelBorder/30 hover:bg-panelBorder/50 rounded-2xl text-base order-2 sm:order-1">Atrás</button>
+                        <button class="btn-next w-full sm:w-auto bg-white text-black px-8 py-3.5 rounded-2xl font-bold hover:bg-gray-200 transition-colors text-base shadow-md order-1 sm:order-2">Siguiente Paso</button>
                     </div>
                 </div>
 
                 <div id="step-3" class="step-content step-hidden animate-fade">
-                    <div class="mb-6 flex flex-col">
-                        <h3 class="text-xl font-semibold text-textMain">Documentación Profesional</h3>
-                        <p class="text-sm text-textMuted mt-1">Carga tu Currículum Vitae estandarizado en formato PDF para su distribución.</p>
+                    <div class="mb-8 flex flex-col text-center">
+                        <h3 class="text-2xl font-bold text-textMain">Sube tu Currículum</h3>
+                        <p class="text-base text-textMuted mt-2">Adjunta tu CV en formato PDF (Máx. 5MB).</p>
                     </div>
                     
-                    <div class="border-2 border-dashed border-panelBorder hover:border-accent/50 bg-panelDark hover:bg-accent/5 p-10 rounded-xl text-center transition-colors duration-300 relative group cursor-pointer flex flex-col items-center justify-center min-h-[260px]">
+                    <div class="border-2 border-dashed border-panelBorder hover:border-accent/80 bg-bgDark/50 p-12 rounded-[2rem] text-center transition-all duration-300 relative group cursor-pointer flex flex-col items-center justify-center min-h-[300px]">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                        <svg class="w-10 h-10 text-textMuted group-hover:text-accent mb-4 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                        <p class="text-textMain font-medium text-sm md:text-base mb-2 group-hover:text-accent transition-colors" id="file-name-display">Haz clic para seleccionar o arrastra tu PDF aquí</p>
-                        <p class="text-xs text-textMuted bg-bgDark px-3 py-1 rounded border border-panelBorder">Límite de procesamiento: 5 MB</p>
+                        <div class="h-20 w-20 bg-panelBorder/50 rounded-full flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
+                            <img src="logo.png" class="h-10 w-10 object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <p class="text-textMain font-semibold text-lg mb-2 group-hover:text-accent transition-colors" id="file-name-display">Toca para subir tu PDF</p>
+                        <p class="text-sm text-textMuted">O arrástralo hasta aquí</p>
                     </div>
 
-                    <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 pt-5 border-t border-panelBorder">
-                        <button class="btn-prev w-full sm:w-auto text-textMuted hover:text-textMain px-6 py-2.5 font-medium transition-colors bg-panelDark hover:bg-panelBorder rounded-lg border border-panelBorder text-sm order-2 sm:order-1">Revisar Mensaje</button>
-                        <button id="btn-fire" class="w-full sm:w-auto bg-accent text-white px-8 py-3 rounded-lg font-medium hover:bg-accentHover transition-colors opacity-50 cursor-not-allowed text-sm order-1 sm:order-2 flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(124,58,237,0.4)]" disabled>
-                            Ejecutar Enrutamiento <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <div class="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 border-t border-panelBorder">
+                        <button class="btn-prev w-full sm:w-auto text-textMuted hover:text-textMain px-8 py-3.5 font-semibold transition-colors bg-panelBorder/30 hover:bg-panelBorder/50 rounded-2xl text-base order-2 sm:order-1">Atrás</button>
+                        <button id="btn-fire" class="w-full sm:w-auto bg-accent text-white px-10 py-4 rounded-2xl font-bold hover:bg-accentHover transition-colors opacity-50 cursor-not-allowed text-base order-1 sm:order-2 flex items-center justify-center gap-2 shadow-lg active:scale-95" disabled>
+                            Enviar Ahora
                         </button>
                     </div>
                 </div>
 
                 <!-- PANTALLA DE PROCESAMIENTO CORPORATIVO -->
-                <div id="processing-screen" class="absolute inset-0 bg-bgDark/95 backdrop-blur-md z-30 flex flex-col items-center justify-center p-6 hidden rounded-2xl overflow-hidden">
-                    <div class="main-container absolute top-4 w-full opacity-50 pointer-events-none scale-75 md:scale-100 h-[250px] z-0">
-                        <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-lg">
-                            <defs>
-                                <linearGradient id="chipGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#121214"></stop><stop offset="100%" stop-color="#09090b"></stop></linearGradient>
-                                <linearGradient id="pinGradient" x1="1" y1="0" x2="0" y2="0"><stop offset="0%" stop-color="#3f3f46"></stop><stop offset="50%" stop-color="#27272a"></stop><stop offset="100%" stop-color="#18181b"></stop></linearGradient>
-                            </defs>
-                            <g id="traces">
-                                <path d="M100 100 H200 V210 H326" class="trace-bg"></path>
-                                <path d="M100 100 H200 V210 H326" class="trace-flow flow-accent"></path>
-                                <path d="M80 180 H180 V230 H326" class="trace-bg"></path>
-                                <path d="M80 180 H180 V230 H326" class="trace-flow flow-white"></path>
-                                <path d="M60 260 H150 V250 H326" class="trace-bg"></path>
-                                <path d="M60 260 H150 V250 H326" class="trace-flow flow-accent"></path>
-                                <path d="M100 350 H200 V270 H326" class="trace-bg"></path>
-                                <path d="M100 350 H200 V270 H326" class="trace-flow flow-white"></path>
-                                <path d="M700 90 H560 V210 H474" class="trace-bg"></path>
-                                <path d="M700 90 H560 V210 H474" class="trace-flow flow-white"></path>
-                                <path d="M740 160 H580 V230 H474" class="trace-bg"></path>
-                                <path d="M740 160 H580 V230 H474" class="trace-flow flow-accent"></path>
-                                <path d="M720 250 H590 V250 H474" class="trace-bg"></path>
-                                <path d="M720 250 H590 V250 H474" class="trace-flow flow-white"></path>
-                                <path d="M680 340 H570 V270 H474" class="trace-bg"></path>
-                                <path d="M680 340 H570 V270 H474" class="trace-flow flow-accent"></path>
-                            </g>
-                            <rect x="330" y="190" width="140" height="100" rx="16" ry="16" fill="url(#chipGradient)" stroke="#27272a" stroke-width="2" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.5))"></rect>
-                            <g>
-                                <rect x="322" y="205" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect><rect x="322" y="225" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect><rect x="322" y="245" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect><rect x="322" y="265" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
-                            </g>
-                            <g>
-                                <rect x="470" y="205" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect><rect x="470" y="225" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect><rect x="470" y="245" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect><rect x="470" y="265" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
-                            </g>
-                            <image href="logonyx.png" x="350" y="220" width="100" height="40" preserveAspectRatio="xMidYMid meet" />
-                            <circle cx="100" cy="100" r="4" fill="#3f3f46"></circle><circle cx="80" cy="180" r="4" fill="#3f3f46"></circle><circle cx="60" cy="260" r="4" fill="#3f3f46"></circle><circle cx="100" cy="350" r="4" fill="#3f3f46"></circle>
-                            <circle cx="700" cy="90" r="4" fill="#3f3f46"></circle><circle cx="740" cy="160" r="4" fill="#3f3f46"></circle><circle cx="720" cy="250" r="4" fill="#3f3f46"></circle><circle cx="680" cy="340" r="4" fill="#3f3f46"></circle>
-                        </svg>
-                    </div>
-
-                    <div class="squares-loader mb-12 mt-8 relative z-10">
-                        <div class="squares-loader-square" style="animation-delay: 0s;"></div><div class="squares-loader-square" style="animation-delay: -1.428s;"></div><div class="squares-loader-square" style="animation-delay: -2.857s;"></div><div class="squares-loader-square" style="animation-delay: -4.285s;"></div><div class="squares-loader-square" style="animation-delay: -5.714s;"></div><div class="squares-loader-square" style="animation-delay: -7.142s;"></div><div class="squares-loader-square" style="animation-delay: -8.571s;"></div>
+                <div id="processing-screen" class="absolute inset-0 bg-bgDark/95 backdrop-blur-2xl z-30 flex flex-col items-center justify-center p-6 hidden rounded-[2rem] overflow-hidden">
+                    
+                    <!-- NEW LOADER ANIMATION -->
+                    <div class="loader-wrapper mb-12 relative z-10">
+                        <span class="loader-letter">E</span>
+                        <span class="loader-letter">n</span>
+                        <span class="loader-letter">v</span>
+                        <span class="loader-letter">i</span>
+                        <span class="loader-letter">a</span>
+                        <span class="loader-letter">n</span>
+                        <span class="loader-letter">d</span>
+                        <span class="loader-letter">o</span>
+                        <div class="loader"></div>
                     </div>
                     
-                    <h2 class="text-xl font-semibold text-textMain mb-2 text-center relative z-10 flex items-center gap-3">
-                        <img src="logo.png" class="h-6 w-6 object-contain grayscale opacity-80" alt="CVStudio33"> Pasarela de Enrutamiento
-                    </h2>
-                    <p class="text-accent text-xs mb-10 text-center font-bold tracking-widest uppercase relative z-10 animate-pulse">Distribución en Progreso</p>
-                    
-                    <div class="w-full max-w-md bg-panelDark border border-panelBorder rounded-xl p-6 relative overflow-hidden z-10 shadow-2xl">
-                        <div class="w-full bg-bgDark rounded-full h-2 mb-6 overflow-hidden relative border border-panelBorder">
-                            <div id="progress-bar" class="bg-gradient-to-r from-accent to-accentHover h-full w-0 transition-all duration-[1200ms] ease-out relative shadow-[0_0_10px_rgba(124,58,237,0.5)]"></div>
-                        </div>
-                        <div class="h-6 flex flex-col items-center justify-center">
-                             <span id="current-log-text" class="text-xs text-textMuted font-medium transition-opacity duration-300">Estableciendo túnel seguro...</span>
+                    <div class="w-full max-w-sm relative overflow-hidden z-10 text-center">
+                        <div class="h-8 flex flex-col items-center justify-center">
+                             <span id="current-log-text" class="text-base text-textMuted font-medium transition-opacity duration-300">Iniciando proceso...</span>
                         </div>
                     </div>
                 </div>
@@ -470,65 +417,60 @@
             </main>
         </div>
         
-        <!-- VISTA: TRACE ANALYTICS (NUEVA ARQUITECTURA) -->
-        <div id="view-analytics" class="hidden flex-col items-center w-full animate-fade mb-24 px-4 md:px-0">
+        <!-- VISTA: TRACE ANALYTICS -->
+        <div id="view-analytics" class="hidden flex-col items-center w-full animate-fade mb-32 px-2 md:px-0">
             
-            <div class="w-full flex flex-col items-center mb-10 relative mt-4">
-                <div class="h-16 w-16 bg-panelDark border border-panelBorder rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                    <img src="logonyx.png" class="h-8 object-contain" alt="NYX Core">
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-textMain mb-3 flex items-center gap-3 tracking-tight">
-                    <img src="logonyx.png" class="h-6 object-contain opacity-90" alt="Radar">
-                    Radar de Trazabilidad
+            <div class="w-full flex flex-col items-center mb-12 text-center mt-6">
+                <img src="logo.png" class="h-16 object-contain drop-shadow-xl mb-6" alt="Analytics">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-textMain mb-4 tracking-tight">
+                    Rendimiento
                 </h2>
-                <p class="text-textMuted text-xs md:text-sm font-medium max-w-lg text-center leading-relaxed">Monitoreo integral de distribución y telemetría de aperturas procesadas a través de la infraestructura corporativa de NYX Hub y CvStudio33.</p>
+                <p class="text-textMuted text-base font-medium max-w-md leading-relaxed">Monitoreo en tiempo real de los envíos procesados y su estado de lectura.</p>
             </div>
             
             <!-- Panel de Estadísticas -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full mb-8">
-                <div class="bg-panelDark border border-panelBorder rounded-xl p-4 flex flex-col hover:border-accent/50 transition-colors">
-                    <span class="text-textMuted text-[9px] md:text-[10px] uppercase font-bold tracking-wider mb-1">Envíos Totales</span>
-                    <span class="text-textMain text-xl md:text-2xl font-bold" id="ta-total">0</span>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-10">
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
+                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Totales</span>
+                    <span class="text-textMain text-3xl font-black" id="ta-total">0</span>
                 </div>
-                <div class="bg-panelDark border border-panelBorder rounded-xl p-4 flex flex-col hover:border-accent/50 transition-colors">
-                    <span class="text-textMuted text-[9px] md:text-[10px] uppercase font-bold tracking-wider mb-1">Entregados</span>
-                    <span class="text-green-400 text-xl md:text-2xl font-bold" id="ta-delivered">0</span>
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
+                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Entregados</span>
+                    <span class="text-green-500 text-3xl font-black" id="ta-delivered">0</span>
                 </div>
-                <div class="bg-panelDark border border-panelBorder rounded-xl p-4 flex flex-col hover:border-accent/50 transition-colors">
-                    <span class="text-textMuted text-[9px] md:text-[10px] uppercase font-bold tracking-wider mb-1">Aperturas Confirmadas</span>
-                    <span class="text-accent text-xl md:text-2xl font-bold" id="ta-read">0</span>
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
+                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Leídos</span>
+                    <span class="text-accent text-3xl font-black" id="ta-read">0</span>
                 </div>
-                <div class="bg-panelDark border border-panelBorder rounded-xl p-4 flex flex-col hover:border-accent/50 transition-colors">
-                    <span class="text-textMuted text-[9px] md:text-[10px] uppercase font-bold tracking-wider mb-1">Tasa Efectividad</span>
-                    <span class="text-textMain text-xl md:text-2xl font-bold" id="ta-rate">0%</span>
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 flex flex-col items-center text-center shadow-md">
+                    <span class="text-textMuted text-xs uppercase font-bold tracking-wider mb-2">Efectividad</span>
+                    <span class="text-textMain text-3xl font-black" id="ta-rate">0%</span>
                 </div>
             </div>
 
             <!-- Tabla de Datos -->
-            <div class="w-full bg-panelDark/40 border border-panelBorder rounded-2xl overflow-hidden shadow-xl">
-                <div class="px-5 py-5 border-b border-panelBorder bg-panelDark flex justify-between items-center">
-                    <h3 class="text-sm md:text-base font-bold text-white flex items-center gap-2.5">
-                        <img src="logonyx.png" class="h-4 object-contain opacity-90">
-                        Despliegues Recientes
+            <div class="w-full bg-panelDark border border-panelBorder rounded-3xl overflow-hidden shadow-xl">
+                <div class="px-6 py-5 border-b border-panelBorder/50 bg-bgDark/30 flex justify-between items-center">
+                    <h3 class="text-base font-bold text-white">
+                        Historial Reciente
                     </h3>
-                    <button id="btn-refresh-ta" class="text-textMuted hover:text-white transition-colors bg-bgDark border border-panelBorder p-2 rounded-lg hover:border-accent shadow-sm flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        <span class="text-xs font-semibold hidden sm:inline">Actualizar</span>
+                    <button id="btn-refresh-ta" class="text-accent font-semibold text-sm bg-accent/10 px-4 py-2 rounded-xl hover:bg-accent/20 transition-colors">
+                        Actualizar
                     </button>
                 </div>
                 
-                <div class="w-full">
+                <div class="w-full overflow-x-auto">
                     <table class="w-full text-left border-collapse">
-                        <thead class="bg-bgDark/80 sticky top-0 z-10 border-b border-panelBorder">
-                            <tr class="text-textMuted text-[10px] md:text-xs uppercase tracking-wider font-bold">
-                                <th class="py-3.5 px-4 md:px-5">Destinatario</th>
-                                <th class="py-3.5 px-4 md:px-5 hidden md:table-cell">Canal</th>
-                                <th class="py-3.5 px-4 md:px-5 hidden md:table-cell">Fecha</th>
-                                <th class="py-3.5 px-4 md:px-5 text-right">Estado</th>
+                        <thead class="bg-panelBorder/20">
+                            <tr class="text-textMuted text-xs uppercase tracking-wider font-semibold">
+                                <th class="py-4 px-6">Empresa</th>
+                                <th class="py-4 px-6 hidden md:table-cell">Medio</th>
+                                <th class="py-4 px-6 hidden md:table-cell">Fecha</th>
+                                <th class="py-4 px-6 text-right">Estado</th>
                             </tr>
                         </thead>
                         <tbody id="ta-table-body" class="text-sm bg-transparent">
-                            <!-- El JS inyectará los elementos (<tr>) aquí de forma nativa -->
+                            <!-- JS Inject -->
                         </tbody>
                     </table>
                 </div>
@@ -538,35 +480,30 @@
     </div>
 
     <!-- BOTTOM APP NAVIGATION -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-4 px-4 pointer-events-none">
-        <nav class="pointer-events-auto glass-panel border border-panelBorder rounded-2xl flex items-end justify-between px-6 py-2 gap-8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] w-full max-w-sm backdrop-blur-xl bg-[#09090b]/80">
-            <a href="protocolomirrorcv.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-textMain transition-colors pb-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                <span class="text-[10px] font-semibold tracking-wide">Mirror CV</span>
+    <div class="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-6 px-4 pointer-events-none">
+        <nav class="pointer-events-auto glass-panel rounded-[2rem] flex items-center justify-between px-8 py-3.5 gap-12 shadow-2xl w-full max-w-sm backdrop-blur-2xl">
+            <a href="protocolomirrorcv.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-white transition-colors">
+                <img src="logo.png" class="h-6 w-6 object-contain opacity-70 hover:opacity-100 transition-opacity">
+                <span class="text-[10px] font-bold tracking-wide">Mirror CV</span>
             </a>
-            <a href="protocolopluginsnyx.html" class="relative flex flex-col items-center group -mt-6">
-                <div class="h-14 w-14 rounded-full bg-gradient-to-b from-panelDark to-bgDark border border-accent/50 flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.3)] group-hover:shadow-[0_0_30px_rgba(124,58,237,0.6)] group-hover:border-accent transition-all duration-300 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-accent/10 group-hover:bg-accent/20 transition-colors"></div>
-                    <img src="logonyx.png" class="h-6 object-contain relative z-10" alt="Plugins">
-                </div>
-                <span class="text-[10px] font-bold text-accent mt-2 tracking-widest uppercase">Plugins NYX</span>
+            <a href="protocolopluginsnyx.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-white transition-colors">
+                <img src="logo.png" class="h-6 w-6 object-contain opacity-70 hover:opacity-100 transition-opacity">
+                <span class="text-[10px] font-bold tracking-wide">Plugins</span>
             </a>
-            <a href="protocoloroadmap.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-textMain transition-colors pb-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                <span class="text-[10px] font-semibold tracking-wide">RoadMap</span>
+            <a href="protocoloroadmap.html" class="flex flex-col items-center gap-1.5 text-textMuted hover:text-white transition-colors">
+                <img src="logo.png" class="h-6 w-6 object-contain opacity-70 hover:opacity-100 transition-opacity">
+                <span class="text-[10px] font-bold tracking-wide">RoadMap</span>
             </a>
         </nav>
     </div>
 
     <!-- MODAL DE ÉXITO -->
-    <div id="nyx-success-modal" class="fixed inset-0 bg-bgDark/90 backdrop-blur-sm z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
-        <div class="glass-panel border border-panelBorder p-8 md:p-10 rounded-2xl flex flex-col items-center max-w-sm w-full text-center transform scale-95 transition-transform duration-300 relative overflow-hidden" id="nyx-success-card">
-            <div class="h-16 w-16 bg-accent/10 text-accent rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h2 class="text-xl font-semibold text-textMain mb-2">Operación Completada</h2>
-            <p class="text-sm text-textMuted mb-8 font-medium leading-relaxed" id="nyx-success-msg">El perfil profesional ha sido enrutado y distribuido correctamente a los nodos seleccionados.</p>
-            <button id="btn-close-success" class="w-full bg-white text-black font-medium py-2.5 rounded-lg hover:bg-gray-100 transition-colors text-sm w-full">Volver al Dashboard</button>
+    <div id="nyx-success-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-5">
+        <div class="bg-panelDark border border-panelBorder p-10 rounded-[2.5rem] flex flex-col items-center max-w-sm w-full text-center transform scale-95 transition-transform duration-300 shadow-2xl" id="nyx-success-card">
+            <img src="logo.png" class="h-16 w-16 object-contain mb-6 drop-shadow-lg">
+            <h2 class="text-2xl font-bold text-white mb-3">¡Completado!</h2>
+            <p class="text-base text-textMuted mb-8 font-medium leading-relaxed" id="nyx-success-msg">Tu perfil ha sido enviado correctamente.</p>
+            <button id="btn-close-success" class="w-full bg-accent text-white font-bold py-4 rounded-2xl hover:bg-accentHover transition-colors text-base shadow-lg">Finalizar</button>
         </div>
     </div>
 
@@ -599,18 +536,15 @@
             const container = document.getElementById('nyx-toast-container');
             const toast = document.createElement('div');
             
-            const bgColor = type === 'error' ? 'bg-red-950/30' : 'bg-panelDark';
-            const borderColor = type === 'error' ? 'border-red-900/40' : 'border-panelBorder';
+            const bgColor = type === 'error' ? 'bg-red-900/20' : 'bg-panelDark';
+            const borderColor = type === 'error' ? 'border-red-500/30' : 'border-panelBorder';
             const textColor = type === 'error' ? 'text-red-400' : 'text-textMain';
-            const icon = type === 'error' 
-                ? `<svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
-                : `<svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
-            toast.className = `flex items-start gap-3 ${bgColor} ${borderColor} border p-4 rounded-xl shadow-lg animate-toast pointer-events-auto w-full relative overflow-hidden`;
+            toast.className = `flex items-start gap-4 ${bgColor} ${borderColor} border p-4 rounded-2xl shadow-xl animate-toast pointer-events-auto w-full backdrop-blur-md`;
             toast.innerHTML = `
-                <div class="flex-shrink-0 flex items-center justify-center mt-0.5">${icon}</div>
+                <div class="flex-shrink-0 flex items-center justify-center mt-0.5"><img src="logo.png" class="h-5 w-5 opacity-80"></div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-[12px] md:text-sm font-medium ${textColor} leading-relaxed break-words whitespace-pre-wrap">${message}</p>
+                    <p class="text-sm font-medium ${textColor} leading-relaxed break-words whitespace-pre-wrap">${message}</p>
                 </div>
             `;
             container.appendChild(toast);
@@ -645,7 +579,7 @@
 
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-            catch (e) { showNyxNotification("Proceso de autenticación corporativa cancelado.", "error"); }
+            catch (e) { showNyxNotification("Proceso de autenticación cancelado.", "error"); }
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
@@ -676,17 +610,12 @@
 
                 if (unsubscribeSnapshot) unsubscribeSnapshot();
                 
-                // SISTEMA DE ESCUCHA FIEL DE LA BÓVEDA
                 unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
                     let tokens = 0;
                     let traces = [];
                     
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        
-                        console.log("NYX DEBUG - Snapshot de Firebase Detectado.");
-                        console.log("NYX DEBUG - Data bruta de Traces:", data.traces);
-                        
                         let hasActivePlan = true;
                         if (data.plan_expires_at) {
                             const expireDate = data.plan_expires_at.toDate ? data.plan_expires_at.toDate() : new Date(data.plan_expires_at);
@@ -763,9 +692,9 @@
             
             const btnFire = document.getElementById('btn-fire');
             if (currentCalculatedCost > 0) {
-                btnFire.innerHTML = `Ejecutar Enrutamiento (${currentCalculatedCost} <img src="coinnyx.png" class="h-3 w-3 inline">) <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+                btnFire.innerHTML = `Enviar Ahora (${currentCalculatedCost} <img src="logo.png" class="h-4 w-4 inline">)`;
             } else {
-                btnFire.innerHTML = `Ejecutar Enrutamiento <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+                btnFire.innerHTML = `Enviar Ahora`;
             }
         };
 
@@ -775,8 +704,8 @@
             
             const createBtn = (count, label, tokens) => {
                 const btn = document.createElement('button');
-                btn.className = "bg-panelDark border border-panelBorder hover:border-accent/60 hover:bg-accent/5 text-textMuted hover:text-textMain text-[11px] md:text-xs py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1.5 flex-grow sm:flex-grow-0 font-medium";
-                btn.innerHTML = `<span>${label}</span> <span class="text-accent font-semibold ml-1">${tokens}</span> <img src="coinnyx.png" class="h-3.5 w-3.5">`;
+                btn.className = "bg-panelBorder/30 border border-panelBorder hover:border-accent hover:bg-accent/10 text-textMuted hover:text-white text-xs py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 font-medium";
+                btn.innerHTML = `<span>${label}</span> <span class="text-accent font-bold">${tokens}</span> <img src="logo.png" class="h-4 w-4">`;
                 btn.onclick = () => {
                     selectedTargets.clear();
                     for(let i = 0; i < count && i < total; i++) selectedTargets.add(currentDistributionList[i]);
@@ -804,10 +733,10 @@
             filtered.forEach((b, i) => {
                 const isChecked = selectedTargets.has(b) ? 'checked' : '';
                 const div = document.createElement('div'); 
-                div.className = `flex items-center gap-3 bg-panelDark p-3 rounded-lg border ${isChecked ? 'border-accent bg-accent/5' : 'border-panelBorder hover:border-zinc-700'} transition-colors duration-200`;
+                div.className = `flex items-center gap-3 bg-bgDark/40 p-4 rounded-2xl border ${isChecked ? 'border-accent bg-accent/5' : 'border-panelBorder/50'} transition-colors duration-200`;
                 div.innerHTML = `
                     <input type="checkbox" id="b-${i}" value="${b}" class="nyx-checkbox target-checkbox" ${isChecked}>
-                    <label for="b-${i}" class="text-xs md:text-sm cursor-pointer w-full text-textMain font-medium truncate">${b}</label>
+                    <label for="b-${i}" class="text-sm cursor-pointer w-full text-textMain font-medium truncate">${b}</label>
                 `;
                 branchesList.appendChild(div);
             });
@@ -818,11 +747,11 @@
                 const container = e.target.closest('div');
                 if (e.target.checked) {
                     selectedTargets.add(e.target.value);
-                    container.classList.remove('border-panelBorder', 'hover:border-zinc-700');
+                    container.classList.remove('border-panelBorder/50');
                     container.classList.add('border-accent', 'bg-accent/5');
                 } else {
                     selectedTargets.delete(e.target.value);
-                    container.classList.add('border-panelBorder', 'hover:border-zinc-700');
+                    container.classList.add('border-panelBorder/50');
                     container.classList.remove('border-accent', 'bg-accent/5');
                 }
                 updateCostDisplay();
@@ -843,9 +772,9 @@
             currentDistributionType = type;
             currentDistributionList = type === 'corp' ? allCorps : allAgencies;
             
-            document.getElementById('step-1-title').innerText = type === 'corp' ? "Nodos Corporativos" : "Nodos de Reclutamiento";
-            document.getElementById('step-1-desc').innerText = type === 'corp' ? "Selecciona las entidades corporativas de destino." : "Selecciona las agencias especializadas de destino.";
-            document.getElementById('search-branch').placeholder = type === 'corp' ? "Buscar empresa..." : "Buscar firma...";
+            document.getElementById('step-1-title').innerText = type === 'corp' ? "Destinos Corporativos" : "Agencias de Selección";
+            document.getElementById('step-1-desc').innerText = "Selecciona las organizaciones de destino.";
+            document.getElementById('search-branch').placeholder = type === 'corp' ? "Buscar empresa..." : "Buscar agencia...";
             
             selectedTargets.clear();
             document.getElementById('search-branch').value = "";
@@ -865,12 +794,12 @@
                 
                 if (idx <= currentStep) {
                     nav.classList.remove('opacity-40');
-                    circle.className = "nav-circle h-8 w-8 rounded-full bg-accent flex items-center justify-center text-white text-xs font-semibold shadow-[0_0_12px_rgba(124,58,237,0.4)] transition-all";
-                    text.className = "nav-text text-xs font-medium text-textMain transition-all tracking-wide";
+                    circle.className = "nav-circle h-10 w-10 rounded-full bg-accent flex items-center justify-center text-white text-sm font-bold shadow-lg transition-all";
+                    text.className = "nav-text text-xs font-semibold text-textMain transition-all";
                 } else {
                     nav.classList.add('opacity-40');
-                    circle.className = "nav-circle h-8 w-8 rounded-full bg-panelDark border border-panelBorder flex items-center justify-center text-textMuted text-xs font-semibold transition-all";
-                    text.className = "nav-text text-xs font-medium text-textMuted transition-all tracking-wide";
+                    circle.className = "nav-circle h-10 w-10 rounded-full bg-panelBorder flex items-center justify-center text-textMuted text-sm font-bold transition-all";
+                    text.className = "nav-text text-xs font-medium text-textMuted transition-all";
                 }
             });
         };
@@ -909,7 +838,7 @@
             
             if (!file) return;
             if (file.type !== "application/pdf" || file.size > 5242880) {
-                showNyxNotification("Formato PDF obligatorio. Límite 5 MB.", "error");
+                showNyxNotification("El formato debe ser PDF y menor a 5 MB.", "error");
                 cvUpload.value = ''; return;
             }
             
@@ -918,7 +847,6 @@
             const box = e.target.closest('div.border-dashed');
             box.classList.replace('border-panelBorder', 'border-accent');
             box.classList.add('bg-accent/5');
-            box.querySelector('svg').classList.add('text-accent');
             
             const reader = new FileReader();
             reader.onload = (ev) => { 
@@ -940,7 +868,7 @@
                 tokenJWT: freshToken,
                 branches: finalTargetsArray,
                 expectedCost: currentCalculatedCost, 
-                senderName: document.getElementById('sender-name').value.trim(),
+                senderName: "NYX Hub",
                 subject: document.getElementById('email-subject').value.trim(),
                 pitch: document.getElementById('pitch-text').value,
                 cv_data: selectedFileBase64
@@ -948,19 +876,18 @@
 
             const procScreen = document.getElementById('processing-screen');
             const logText = document.getElementById('current-log-text');
-            const progressBar = document.getElementById('progress-bar');
             
             procScreen.classList.remove('hidden');
             
             const processSteps = [
-                { msg: "Estableciendo túneles seguros con los nodos destino...", prog: 10, delay: 1000 },
-                { msg: "Verificando firmas y certificaciones de enrutamiento...", prog: 20, delay: 1200 },
-                { msg: "Transcodificando documentación adjunta (PDF)...", prog: 35, delay: 1500 },
-                { msg: "Aplicando encriptación End-to-End en el cuerpo del mensaje...", prog: 45, delay: 1200 },
-                { msg: "Sincronizando protocolos SMTP de la red corporativa...", prog: 55, delay: 1600 },
-                { msg: `Abriendo canales directos hacia ${finalTargetsArray.length} servidores receptores...`, prog: 70, delay: 1400 },
-                { msg: "Iniciando despliegue de paquetes de datos en paralelo...", prog: 85, delay: 2000 },
-                { msg: "Recopilando acuses de recibo de los departamentos HR...", prog: 95, delay: 1500 }
+                { msg: "Estableciendo conexión segura...", delay: 1500 },
+                { msg: "Validando credenciales de acceso...", delay: 1500 },
+                { msg: "Procesando documentación adjunta...", delay: 1800 },
+                { msg: "Enrutando perfiles al sistema...", delay: 1500 },
+                { msg: `Abriendo canales para ${finalTargetsArray.length} organizaciones...`, delay: 1800 },
+                { msg: "Ejecutando distribución masiva...", delay: 1800 },
+                { msg: "Confirmando acuses de recibo...", delay: 2500 },
+                { msg: "Finalizando proceso...", delay: 1600 }
             ];
 
             const runSimulation = async () => {
@@ -969,7 +896,6 @@
                     await new Promise(r => setTimeout(r, 300));
                     logText.innerText = step.msg;
                     logText.style.opacity = '1';
-                    progressBar.style.width = step.prog + '%';
                     await new Promise(r => setTimeout(r, step.delay - 300));
                 }
             };
@@ -984,23 +910,21 @@
                 await runSimulation(); 
                 try { await backendRequest; } catch(e) {}
 
-                progressBar.style.width = '100%';
                 logText.style.opacity = '0';
                 setTimeout(() => {
-                    logText.innerText = "Despliegue finalizado exitosamente.";
-                    logText.classList.add('text-white');
+                    logText.innerText = "¡Proceso finalizado!";
+                    logText.classList.add('text-white', 'font-bold');
                     logText.style.opacity = '1';
                 }, 300);
-                setTimeout(() => { showSuccessModal(`El perfil profesional ha sido distribuido exitosamente a ${finalTargetsArray.length} nodos.`); }, 1500);
+                setTimeout(() => { showSuccessModal(`Tu perfil profesional ha sido enviado exitosamente a ${finalTargetsArray.length} lugares.`); }, 1500);
                 
             } catch (error) {
-                progressBar.style.width = '100%';
-                setTimeout(() => { showSuccessModal(`El perfil profesional ha sido distribuido exitosamente a ${finalTargetsArray.length} nodos.`); }, 1500);
+                setTimeout(() => { showSuccessModal(`Tu perfil profesional ha sido enviado exitosamente a ${finalTargetsArray.length} lugares.`); }, 1500);
             }
         });
 
         // ==============================================
-        // MÓDULO TRACE ANALYTICS 4.0 - DOM NATIVO
+        // MÓDULO TRACE ANALYTICS
         // ==============================================
         const tabDist = document.getElementById('tab-dist');
         const tabAnalytics = document.getElementById('tab-analytics');
@@ -1008,41 +932,31 @@
         const viewAnalytics = document.getElementById('view-analytics');
 
         tabDist?.addEventListener('click', () => {
-            tabDist.className = "px-5 py-2 text-sm font-semibold rounded-lg bg-panelBorder text-textMain transition-colors shadow-sm whitespace-nowrap";
-            tabAnalytics.className = "px-5 py-2 text-sm font-medium rounded-lg text-textMuted hover:text-textMain transition-colors flex items-center gap-2 whitespace-nowrap";
+            tabDist.className = "px-6 py-2.5 text-sm font-semibold rounded-xl bg-panelBorder/80 text-textMain transition-colors shadow-sm whitespace-nowrap";
+            tabAnalytics.className = "px-6 py-2.5 text-sm font-medium rounded-xl text-textMuted hover:text-textMain hover:bg-panelBorder/40 transition-colors flex items-center gap-2 whitespace-nowrap";
             viewAnalytics.classList.add('hidden');
             viewDist.classList.remove('hidden');
         });
 
         tabAnalytics?.addEventListener('click', () => {
-            console.log("NYX DEBUG - Pestaña Trace Analytics clickeada");
-            tabAnalytics.className = "px-5 py-2 text-sm font-semibold rounded-lg bg-panelBorder text-textMain transition-colors shadow-sm flex items-center gap-2 whitespace-nowrap";
-            tabDist.className = "px-5 py-2 text-sm font-medium rounded-lg text-textMuted hover:text-textMain transition-colors whitespace-nowrap";
+            tabAnalytics.className = "px-6 py-2.5 text-sm font-semibold rounded-xl bg-panelBorder/80 text-textMain transition-colors shadow-sm whitespace-nowrap";
+            tabDist.className = "px-6 py-2.5 text-sm font-medium rounded-xl text-textMuted hover:text-textMain hover:bg-panelBorder/40 transition-colors flex items-center gap-2 whitespace-nowrap";
             viewDist.classList.add('hidden');
             viewAnalytics.classList.remove('hidden');
             
-            // Forzar renderizado
             renderTraceAnalytics();
         });
 
         function renderTraceAnalytics() {
-            console.log("NYX DEBUG - Iniciando renderizado de la tabla de Trace Analytics");
-            
             const tbody = document.getElementById('ta-table-body');
-            if (!tbody) {
-                console.error("NYX DEBUG - ERROR FATAL: El elemento tbody (ta-table-body) no existe en el HTML.");
-                return;
-            }
+            if (!tbody) return;
 
             try {
-                // Limpiar la tabla de forma segura borrando todos los hijos
                 while (tbody.firstChild) { tbody.removeChild(tbody.firstChild); }
 
                 let tracesList = [];
                 const rawData = currentUserData.traces;
-                console.log("NYX DEBUG - currentUserData.traces recibido:", rawData);
 
-                // Convertir a un array seguro garantizado
                 if (Array.isArray(rawData)) {
                     tracesList = rawData;
                 } else if (rawData && typeof rawData === 'object') {
@@ -1050,9 +964,8 @@
                 }
 
                 if (!tracesList || tracesList.length === 0) {
-                    console.log("NYX DEBUG - El array de traces está vacío o no existe aún.");
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td colspan="4" class="py-12 text-center text-textMuted"><div class="flex flex-col items-center justify-center gap-3"><svg class="w-8 h-8 text-panelBorder" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg><span class="text-xs font-medium tracking-wide">No se detectaron registros de enrutamiento en la Bóveda.</span></div></td>`;
+                    tr.innerHTML = `<td colspan="4" class="py-16 text-center text-textMuted"><div class="flex flex-col items-center justify-center gap-4"><img src="logo.png" class="h-10 opacity-30"><span class="text-sm font-medium">Aún no hay registros de envíos.</span></div></td>`;
                     tbody.appendChild(tr);
                     
                     document.getElementById('ta-total').textContent = '0';
@@ -1065,14 +978,11 @@
                 let countDelivered = 0;
                 let countRead = 0;
 
-                console.log(`NYX DEBUG - Inyectando ${tracesList.length} elementos al DOM...`);
-
-                tracesList.forEach((t, index) => {
+                tracesList.forEach((t) => {
                     if (!t) return;
                     
-                    // Soporte universal para el formato crudo REST o nativo SDK
                     const targetName = t.targetName || t.mapValue?.fields?.targetName?.stringValue || "Entidad Desconocida";
-                    const channel = t.channel || t.mapValue?.fields?.channel?.stringValue || "Network NYX";
+                    const channel = t.channel || t.mapValue?.fields?.channel?.stringValue || "Directo";
                     const date = t.date || t.mapValue?.fields?.date?.stringValue || "--/--/----";
                     const statusStr = String(t.status || t.mapValue?.fields?.status?.stringValue || "").toUpperCase();
 
@@ -1081,70 +991,34 @@
                     if (statusStr === 'LEIDO' || statusStr === 'READ') {
                         countRead++;
                         countDelivered++;
-                        statusBadgeHTML = `<span class="bg-accent/10 border border-accent/20 text-accent px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto shadow-[0_0_10px_rgba(124,58,237,0.2)]"><div class="h-1.5 w-1.5 rounded-full bg-accent animate-ping"></div>Leído</span>`;
+                        statusBadgeHTML = `<span class="bg-accent/10 border border-accent/30 text-accent px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-accent animate-ping"></div>Leído</span>`;
                     } else if (statusStr === 'ENVIADO' || statusStr === 'DELIVERED') {
                         countDelivered++;
-                        statusBadgeHTML = `<span class="bg-green-500/10 border border-green-500/20 text-green-400 px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>Entregado</span>`;
+                        statusBadgeHTML = `<span class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>Enviado</span>`;
                     } else {
-                        statusBadgeHTML = `<span class="bg-panelBorder/50 border border-panelBorder text-textMuted px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-textMuted"></div>${statusStr || 'FALLIDO'}</span>`;
+                        statusBadgeHTML = `<span class="bg-panelBorder/50 border border-panelBorder text-textMuted px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase flex items-center gap-2 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-textMuted"></div>${statusStr || 'FALLIDO'}</span>`;
                     }
 
                     const tr = document.createElement('tr');
-                    tr.className = "border-b border-panelBorder/40 hover:bg-panelDark/80 transition-colors group cursor-pointer";
-                    tr.onclick = function() {
-                        const detailRow = this.nextElementSibling;
-                        if(detailRow && detailRow.classList.contains('mobile-detail-row')) {
-                            detailRow.classList.toggle('hidden');
-                            const icon = this.querySelector('.expand-icon');
-                            if(icon) icon.classList.toggle('rotate-180');
-                        }
-                    };
+                    tr.className = "border-b border-panelBorder/30 hover:bg-panelBorder/10 transition-colors";
                     
                     tr.innerHTML = `
-                        <td class="py-4 px-4 md:px-5 text-textMain font-medium flex items-center gap-3 text-xs md:text-sm">
-                            <div class="h-8 w-8 rounded-lg bg-bgDark border border-panelBorder flex items-center justify-center shadow-sm flex-shrink-0 group-hover:border-accent/50 transition-colors">
-                                <img src="logonyx.png" class="h-4 w-4 object-contain opacity-80 group-hover:opacity-100 transition-all" alt="NYX">
+                        <td class="py-5 px-6 text-textMain font-medium flex items-center gap-4 text-sm">
+                            <div class="h-10 w-10 rounded-2xl bg-bgDark border border-panelBorder/50 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <img src="logo.png" class="h-5 w-5 object-contain" alt="Target">
                             </div>
-                            <span class="truncate max-w-[140px] sm:max-w-[200px] md:max-w-xs font-semibold" title="${targetName}">${targetName}</span>
+                            <span class="truncate max-w-[150px] sm:max-w-[250px] font-semibold">${targetName}</span>
                         </td>
-                        <td class="py-4 px-4 md:px-5 text-textMuted text-xs hidden md:table-cell">${channel}</td>
-                        <td class="py-4 px-4 md:px-5 text-textMuted text-xs font-mono hidden md:table-cell">${date}</td>
-                        <td class="py-4 px-4 md:px-5 text-right whitespace-nowrap">
-                            <div class="flex items-center justify-end gap-2 md:gap-0">
-                                ${statusBadgeHTML}
-                                <svg class="w-4 h-4 text-textMuted md:hidden expand-icon transition-transform ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
+                        <td class="py-5 px-6 text-textMuted text-sm hidden md:table-cell">${channel}</td>
+                        <td class="py-5 px-6 text-textMuted text-sm hidden md:table-cell">${date}</td>
+                        <td class="py-5 px-6 text-right whitespace-nowrap">
+                            ${statusBadgeHTML}
                         </td>
                     `;
                     
                     tbody.appendChild(tr);
-
-                    const detailTr = document.createElement('tr');
-                    detailTr.className = "mobile-detail-row hidden md:hidden bg-bgDark/50 border-b border-panelBorder/40 shadow-inner";
-                    detailTr.innerHTML = `
-                        <td colspan="4" class="p-4">
-                            <div class="flex flex-col gap-3 text-xs">
-                                <div class="flex justify-between items-center border-b border-panelBorder/40 pb-2">
-                                    <span class="text-textMuted font-medium uppercase tracking-wider text-[10px]">Canal de Envío</span>
-                                    <span class="text-white font-medium">${channel}</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-panelBorder/40 pb-2">
-                                    <span class="text-textMuted font-medium uppercase tracking-wider text-[10px]">Fecha</span>
-                                    <span class="text-white font-mono">${date}</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-textMuted font-medium uppercase tracking-wider text-[10px]">Plataforma</span>
-                                    <span class="text-white font-medium flex items-center gap-1.5"><img src="logonyx.png" class="h-3 object-contain"> NYX Hub</span>
-                                </div>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(detailTr);
                 });
 
-                console.log("NYX DEBUG - Renderizado de DOM completado con éxito.");
-
-                // Actualizar Estadísticas Top
                 const totalCount = tracesList.length;
                 document.getElementById('ta-total').textContent = totalCount.toString();
                 document.getElementById('ta-delivered').textContent = countDelivered.toString();
@@ -1153,27 +1027,23 @@
                 const rateEl = document.getElementById('ta-rate');
                 const rate = totalCount > 0 ? Math.round((countRead / totalCount) * 100) : 0;
                 rateEl.textContent = `${rate}%`;
-                rateEl.className = rate > 15 ? "text-accent text-xl md:text-2xl font-bold transition-colors" : "text-textMain text-xl md:text-2xl font-bold transition-colors";
 
             } catch (error) {
-                console.error("NYX DEBUG - CATCH FATAL ERROR:", error);
-                
-                // Mostrar visualmente el error para no dejar al usuario a ciegas
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="4" class="py-12 text-center text-red-500 font-medium">Ocurrió un error leyendo los datos del servidor.<br><span class="text-xs text-textMuted">${error.message}</span></td>`;
+                tr.innerHTML = `<td colspan="4" class="py-12 text-center text-red-500 font-medium">Ocurrió un error cargando los datos.</td>`;
                 tbody.appendChild(tr);
             }
         }
 
         document.getElementById('btn-refresh-ta')?.addEventListener('click', () => {
-            console.log("NYX DEBUG - Refresco manual disparado.");
             const tbody = document.getElementById('ta-table-body');
             if (tbody) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-10 text-center text-textMuted"><div class="flex flex-col items-center justify-center"><div class="pro-spinner mb-3 h-6 w-6"></div><span class="text-xs font-medium">Reconstruyendo telemetría de red...</span></div></td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="py-16 text-center text-textMuted"><div class="flex justify-center"><div class="pro-spinner"></div></div></td></tr>`;
             }
-            setTimeout(renderTraceAnalytics, 400); 
+            setTimeout(renderTraceAnalytics, 500); 
         });
 
     </script>
 </body>
 </html>
+

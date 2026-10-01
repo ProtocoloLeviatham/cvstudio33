@@ -72,77 +72,30 @@
         @keyframes toastSlideIn { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: translateY(0); } }
         .animate-toast { animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        .bottom-tab-bar {
-            background: rgba(28, 28, 30, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid #2c2c2e;
-        }
-        .safe-padding-bottom {
-            padding-bottom: env(safe-area-inset-bottom, 20px);
-        }
-
-        /* From Uiverse.io by dexter-st */ 
+        /* Uiverse Loader */ 
         .loader-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 180px;
-          height: 180px;
-          font-family: "Inter", sans-serif;
-          font-size: 1.2em;
-          font-weight: 300;
-          color: white;
-          border-radius: 50%;
-          background-color: transparent;
+          position: relative; display: flex; align-items: center; justify-content: center;
+          width: 180px; height: 180px; font-family: "Inter", sans-serif; font-size: 1.2em;
+          font-weight: 300; color: white; border-radius: 50%; background-color: transparent;
           user-select: none;
         }
 
         .loader {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          aspect-ratio: 1 / 1;
-          border-radius: 50%;
-          background-color: transparent;
-          animation: loader-rotate 2s linear infinite;
-          z-index: 0;
+          position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 1 / 1;
+          border-radius: 50%; background-color: transparent;
+          animation: loader-rotate 2s linear infinite; z-index: 0;
         }
 
         @keyframes loader-rotate {
-          0% {
-            transform: rotate(90deg);
-            box-shadow:
-              0 10px 20px 0 #fff inset,
-              0 20px 30px 0 #ad5fff inset,
-              0 60px 60px 0 #471eec inset;
-          }
-          50% {
-            transform: rotate(270deg);
-            box-shadow:
-              0 10px 20px 0 #fff inset,
-              0 20px 10px 0 #d60a47 inset,
-              0 40px 60px 0 #311e80 inset;
-          }
-          100% {
-            transform: rotate(450deg);
-            box-shadow:
-              0 10px 20px 0 #fff inset,
-              0 20px 30px 0 #ad5fff inset,
-              0 60px 60px 0 #471eec inset;
-          }
+          0% { transform: rotate(90deg); box-shadow: 0 10px 20px 0 #fff inset, 0 20px 30px 0 #ad5fff inset, 0 60px 60px 0 #471eec inset; }
+          50% { transform: rotate(270deg); box-shadow: 0 10px 20px 0 #fff inset, 0 20px 10px 0 #d60a47 inset, 0 40px 60px 0 #311e80 inset; }
+          100% { transform: rotate(450deg); box-shadow: 0 10px 20px 0 #fff inset, 0 20px 30px 0 #ad5fff inset, 0 60px 60px 0 #471eec inset; }
         }
 
         .loader-letter {
-          display: inline-block;
-          opacity: 0.4;
-          transform: translateY(0);
-          animation: loader-letter-anim 2s infinite;
-          z-index: 1;
-          border-radius: 50ch;
-          border: none;
+          display: inline-block; opacity: 0.4; transform: translateY(0);
+          animation: loader-letter-anim 2s infinite; z-index: 1;
+          border-radius: 50ch; border: none;
         }
 
         .loader-letter:nth-child(1) { animation-delay: 0s; }
@@ -165,10 +118,8 @@
 </head>
 <body class="min-h-screen flex flex-col relative selection:bg-accent selection:text-black pb-[90px]">
 
-    <!-- CONTENEDOR DE NOTIFICACIONES -->
     <div id="nyx-toast-container" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[450px] z-[200] flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- PANTALLA DE CARGA INICIAL -->
     <div id="initial-loader" class="fixed inset-0 bg-bgDark z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
         <img src="logo.png" alt="NYX" class="h-14 mb-8 object-contain">
         <div class="h-6 w-6 border-2 border-[#38383a] border-t-white rounded-full animate-spin"></div>
@@ -178,11 +129,9 @@
     <div id="login-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-bgDark z-50 transition-opacity duration-500 hidden px-6 py-8">
         <div class="w-full max-w-sm flex flex-col items-center my-auto">
             <img src="logo.png" alt="NYX" class="h-16 object-contain mb-8">
-            
-            <h1 class="text-3xl font-semibold text-textMain mb-3 text-center tracking-tight">Acceso NYX</h1>
-            
+            <h1 class="text-3xl font-semibold text-textMain mb-3 text-center tracking-tight">Acceso Corporativo</h1>
             <p class="text-[15px] text-textMuted mb-10 text-center leading-relaxed font-normal">
-                Autentícate en tu entorno seguro para gestionar y distribuir tu perfil profesional.
+                Autentícate en tu entorno seguro de NYX Hub para gestionar y distribuir tu perfil profesional de forma automatizada.
             </p>
             
             <button id="btn-login" class="w-full bg-white text-black font-semibold py-4 px-4 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm text-[15px]">
@@ -197,10 +146,10 @@
                 <a href="Contacto.html" class="active:text-white transition-colors">Soporte</a>
             </div>
 
-            <div class="mt-12 flex flex-col items-center w-full">
-                <div class="flex items-center gap-2 mb-2 text-textMuted">
+            <div class="mt-12 flex flex-col items-center w-full pt-6 border-t border-panelBorder">
+                <div class="flex items-center gap-2 mb-3 bg-panelDark px-3 py-1.5 rounded-full border border-panelBorder">
                     <img src="logo.png" class="w-3.5 h-3.5 object-contain opacity-50">
-                    <span class="text-[12px] font-medium">Conexión Segura</span>
+                    <span class="text-[11px] text-textMuted font-medium">Conexión Encriptada TLS 1.3</span>
                 </div>
                 <div class="flex items-center gap-1.5 opacity-50">
                     <span class="text-[10px] font-medium tracking-wide uppercase">Powered by CvStudio33</span>
@@ -210,14 +159,14 @@
     </div>
 
     <!-- DASHBOARD PRINCIPAL -->
-    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-6 relative z-10 animate-fade mx-auto w-full max-w-3xl">
+    <div id="dashboard-screen" class="hidden flex-col min-h-screen p-4 md:p-6 relative z-10 animate-fade mx-auto w-full max-w-5xl">
         
-        <header class="flex justify-between items-center bg-panelDark px-5 py-4 mb-6 rounded-3xl sticky top-4 z-40 border border-panelBorder shadow-sm">
+        <header class="flex justify-between items-center bg-panelDark px-5 py-4 mb-8 rounded-3xl sticky top-4 z-40 border border-panelBorder shadow-sm">
             <div class="flex items-center gap-3">
                 <img src="logo.png" alt="NYX Hub" class="h-6 object-contain">
                 <div class="flex flex-col">
                     <h2 class="text-[13px] font-semibold text-textMain" id="client-id">CLIENTE-XXXX</h2>
-                    <span class="text-[11px] text-textMuted font-medium mt-0.5">Conectado</span>
+                    <span class="text-[11px] text-textMuted font-medium mt-0.5">Conectado a la red</span>
                 </div>
             </div>
             
@@ -226,7 +175,6 @@
                     <span class="text-[13px] font-semibold text-textMain" id="token-count">--</span>
                     <img src="logo.png" alt="Créditos" class="h-3.5 w-3.5 object-contain">
                 </div>
-
                 <button id="btn-logout" class="text-textMuted active:text-textMain transition-colors p-1" title="Cerrar Sesión">
                     <img src="logo.png" class="w-5 h-5 opacity-70 object-contain">
                 </button>
@@ -235,148 +183,194 @@
 
         <!-- Pestañas de Navegación del Dashboard -->
         <div class="flex justify-center mb-6 w-full animate-fade">
-            <div class="bg-panelDark p-1.5 rounded-full flex gap-1 items-center relative z-10 w-full max-w-sm">
-                <button id="tab-dist" class="flex-1 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all">
-                    Distribución
+            <div class="bg-panelDark p-1.5 rounded-full flex gap-1 items-center relative z-10 w-full md:w-auto">
+                <button id="tab-dist" class="px-6 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all whitespace-nowrap">
+                    Distribución Activa
                 </button>
-                <button id="tab-analytics" class="flex-1 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all">
-                    Analytics
+                <button id="tab-analytics" class="px-6 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all flex justify-center items-center gap-2 whitespace-nowrap">
+                    <img src="logo.png" class="w-4 h-4 opacity-70">
+                    Trace Analytics
                 </button>
             </div>
         </div>
 
         <!-- VISTA: DISTRIBUCIÓN -->
         <div id="view-dist" class="w-full flex flex-col items-center animate-fade">
-            <main class="flex-grow flex flex-col items-center w-full">
-            
-            <div class="flex flex-col items-center w-full text-center mb-10 animate-slide-up" id="presentation-section">
-                <img src="logo.png" alt="NYX Hub" class="h-14 object-contain mb-6">
-                <h1 class="text-2xl font-bold mb-3 tracking-tight text-textMain">NYX Hub</h1>
-                <p class="text-textMuted mb-8 text-[15px] leading-relaxed font-normal">Deposita tu Currículum directamente en las bandejas de entrada de los líderes de Talento y Selección. NYX optimiza tu tiempo y maximiza tu visibilidad.</p>
+            <div class="w-full bg-panelDark border border-panelBorder rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 max-w-4xl">
+                <div class="text-center sm:text-left flex-1 px-2">
+                    <h4 class="text-textMain text-[15px] font-semibold flex items-center justify-center sm:justify-start gap-2 mb-1">Gestión de Créditos Operativos</h4>
+                    <p class="text-[13px] text-textMuted leading-relaxed">Adquiere bloques de distribución para continuar posicionando tu perfil en el mercado corporativo.</p>
+                </div>
+                <a href="panel-de-recarga-nyx.html" class="bg-white text-black text-[14px] font-semibold py-3 px-5 rounded-2xl active:scale-95 transition-all flex items-center gap-2 w-full sm:w-auto justify-center">
+                    <img src="logo.png" class="h-4 w-4"> Adquirir Créditos
+                </a>
+            </div>
 
-                <div class="w-full bg-panelDark rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-                    <div class="text-center sm:text-left flex-1 px-2">
-                        <h4 class="text-textMain text-[15px] font-semibold mb-1">Créditos Operativos</h4>
-                        <p class="text-[13px] text-textMuted">Adquiere bloques para posicionar tu perfil.</p>
+            <main class="flex-grow flex flex-col items-center w-full pb-24">
+            
+            <div class="flex flex-col items-center w-full px-2 text-center mb-10 animate-slide-up" id="presentation-section">
+                <img src="logo.png" alt="NYX Hub" class="h-14 mb-6 object-contain">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-textMain">NYX Distribution Hub</h1>
+                <p class="text-textMuted max-w-3xl mb-10 text-[15px] md:text-[16px] leading-relaxed font-normal">La plataforma definitiva para impulsar tu trayectoria. Nuestra infraestructura automatizada deposita tu Currículum Vitae directamente en las bandejas de entrada de los líderes de Talento y Selección. Diseñada bajo estándares de seguridad corporativa, NYX optimiza tu tiempo y maximiza tu visibilidad ante las organizaciones que realmente importan.</p>
+
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-6 mb-12 max-w-3xl text-left flex flex-col md:flex-row gap-5 items-start">
+                    <div>
+                        <h4 class="text-[15px] font-semibold text-textMain mb-2 flex items-center gap-2">
+                            <img src="logo.png" class="w-4 h-4"> Ventaja Estratégica en el Mercado
+                        </h4>
+                        <p class="text-textMuted text-[14px] leading-relaxed mb-4">El problema del envío de correos manual es que frecuentemente terminan en carpetas de SPAM o son ignorados por formatos poco estandarizados. <strong>NYX Hub</strong> resuelve esto operando a través de una red certificada de alta reputación. Aplicamos protocolos de enrutamiento que garantizan una tasa de entrega excepcional. Tu perfil es presentado en un formato ejecutivo prioritario, aterrizando directamente en la Bandeja Principal de los reclutadores.</p>
+                        <a href="NyxTegnologia.html" class="text-white underline decoration-white/50 underline-offset-4 transition-colors font-medium text-[13px]">Revisar documentación técnica de enrutamiento</a>
                     </div>
-                    <a href="panel-de-recarga-nyx.html" class="bg-white text-black text-[14px] font-semibold py-3 px-5 rounded-2xl active:scale-95 transition-all flex items-center gap-2 w-full sm:w-auto justify-center">
-                        <img src="logo.png" class="h-4 w-4"> Recargar
-                    </a>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                    <div class="bg-panelDark p-6 rounded-3xl flex flex-col text-left relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-4xl">
+                    <div class="bg-panelDark border border-panelBorder p-8 rounded-3xl flex flex-col text-left relative overflow-hidden">
                         <img src="logo.png" class="absolute top-4 right-4 w-12 h-12 opacity-5 object-contain">
-                        <h3 class="text-lg font-semibold text-textMain mb-2 relative z-10">Corporaciones Elite</h3>
-                        <p class="text-[14px] text-textMuted mb-6 flex-grow leading-relaxed relative z-10">Despliega tu perfil profesional hacia los equipos de Talent Acquisition de empresas líderes.</p>
-                        <button id="btn-start-corp" class="bg-white text-black font-semibold text-[15px] py-3.5 px-4 rounded-2xl active:scale-95 transition-all w-full flex items-center justify-center gap-2 relative z-10 shadow-sm">
-                            Iniciar Proceso
+                        <h3 class="text-lg font-semibold text-textMain mb-3 relative z-10">Corporaciones Elite</h3>
+                        <p class="text-[14px] text-textMuted mb-4 flex-grow leading-relaxed relative z-10">Despliega tu perfil profesional directamente hacia los equipos de <em>Talent Acquisition</em> de las empresas líderes. Ideal para quienes buscan estabilidad y beneficios de primer nivel corporativo.</p>
+                        <p class="text-[13px] text-textMuted/70 mb-8 font-medium relative z-10"><strong class="text-textMuted">Alcance:</strong> Mercado Libre, Globant, Unilever, YPF, Entidades Bancarias, Firmas Tecnológicas, entre otras multinacionales.</p>
+                        <button id="btn-start-corp" class="bg-white text-black font-semibold text-[15px] py-3.5 px-4 rounded-2xl active:scale-95 transition-all w-full flex items-center justify-between relative z-10 shadow-sm">
+                            <span>Iniciar Proceso Corporativo</span>
+                            <span class="bg-gray-200 px-2.5 py-1 rounded-md text-[12px] text-black font-semibold flex items-center gap-1.5">Desde <img src="logo.png" class="h-3 w-3"> 5</span>
                         </button>
                     </div>
 
-                    <div class="bg-panelDark p-6 rounded-3xl flex flex-col text-left relative overflow-hidden">
+                    <div class="bg-panelDark border border-panelBorder p-8 rounded-3xl flex flex-col text-left relative overflow-hidden">
                         <img src="logo.png" class="absolute top-4 right-4 w-12 h-12 opacity-5 object-contain">
-                        <h3 class="text-lg font-semibold text-textMain mb-2 relative z-10">Consultoras</h3>
-                        <p class="text-[14px] text-textMuted mb-6 flex-grow leading-relaxed relative z-10">Posiciónate en el radar de especialistas que manejan el mercado de búsquedas ocultas.</p>
-                        <button id="btn-start-agency" class="bg-white text-black font-semibold text-[15px] py-3.5 px-4 rounded-2xl active:scale-95 transition-all w-full flex items-center justify-center gap-2 relative z-10 shadow-sm">
-                            Iniciar Proceso
+                        <h3 class="text-lg font-semibold text-textMain mb-3 relative z-10">Consultoras y Headhunters</h3>
+                        <p class="text-[14px] text-textMuted mb-4 flex-grow leading-relaxed relative z-10">Posiciónate en el radar de los especialistas que manejan el mercado de búsquedas ocultas. Estas firmas actúan como puente hacia miles de empresas que tercerizan su contratación.</p>
+                        <p class="text-[13px] text-textMuted/70 mb-8 font-medium relative z-10"><strong class="text-textMuted">Alcance:</strong> Adecco, Randstad, ManpowerGroup, Page Personnel, y agencias boutique especializadas en roles administrativos, operativos e IT.</p>
+                        <button id="btn-start-agency" class="bg-white text-black font-semibold text-[15px] py-3.5 px-4 rounded-2xl active:scale-95 transition-all w-full flex items-center justify-between relative z-10 shadow-sm">
+                            <span>Iniciar Proceso Agencias</span>
+                            <span class="bg-gray-200 px-2.5 py-1 rounded-md text-[12px] text-black font-semibold flex items-center gap-1.5">Desde <img src="logo.png" class="h-3 w-3"> 5</span>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- WIZARD -->
-            <div id="wizard-container" class="hidden w-full bg-transparent relative overflow-hidden mb-10">
+            <div id="wizard-container" class="hidden w-full max-w-4xl bg-panelDark border border-panelBorder p-6 md:p-8 relative overflow-hidden mb-10 rounded-3xl">
                 
-                <div class="flex justify-center items-center mb-8 gap-3 max-w-[200px] mx-auto">
-                    <div class="h-2 flex-1 rounded-full bg-accent transition-all" id="nav-step-1"></div>
-                    <div class="h-2 flex-1 rounded-full bg-[#2c2c2e] transition-all" id="nav-step-2"></div>
-                    <div class="h-2 flex-1 rounded-full bg-[#2c2c2e] transition-all" id="nav-step-3"></div>
+                <div class="flex justify-between items-center mb-10 relative px-2 md:px-12">
+                    <div class="absolute left-10 right-10 top-4 transform -translate-y-1/2 h-px bg-[#2c2c2e] z-0 hidden md:block"></div>
+                    
+                    <div class="relative z-10 flex flex-col items-center gap-2 transition-all" id="nav-step-1">
+                        <div class="nav-circle h-8 w-8 rounded-full bg-white flex items-center justify-center text-black text-xs font-semibold transition-all">1</div>
+                        <span class="nav-text text-[12px] font-medium text-textMain transition-all">Destinos</span>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center gap-2 transition-all opacity-40" id="nav-step-2">
+                        <div class="nav-circle h-8 w-8 rounded-full bg-[#1c1c1e] border border-[#2c2c2e] flex items-center justify-center text-textMuted text-xs font-semibold transition-all">2</div>
+                        <span class="nav-text text-[12px] font-medium text-textMuted transition-all">Mensaje</span>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center gap-2 transition-all opacity-40" id="nav-step-3">
+                        <div class="nav-circle h-8 w-8 rounded-full bg-[#1c1c1e] border border-[#2c2c2e] flex items-center justify-center text-textMuted text-xs font-semibold transition-all">3</div>
+                        <span class="nav-text text-[12px] font-medium text-textMuted transition-all">Documento</span>
+                    </div>
                 </div>
 
                 <div id="step-1" class="step-content animate-fade">
-                    <div class="mb-6 flex flex-col items-center text-center">
-                        <h3 class="text-2xl font-bold text-textMain tracking-tight" id="step-1-title">Destinos</h3>
-                        <p class="text-[15px] text-textMuted mt-1" id="step-1-desc">Selecciona las entidades.</p>
+                    <div class="mb-6 flex flex-col">
+                        <h3 class="text-xl font-semibold text-textMain" id="step-1-title">Selección de Nodos Destino</h3>
+                        <p class="text-[14px] text-textMuted mt-1" id="step-1-desc">Configura los receptores corporativos para el enrutamiento.</p>
                     </div>
 
-                    <div class="flex flex-col gap-4 mb-6">
-                        <div class="bg-[#1c1c1e] rounded-2xl flex items-center px-4 py-4 border border-[#2c2c2e]">
-                            <img src="logo.png" class="w-5 h-5 opacity-50 mr-3">
-                            <input type="text" id="search-branch" placeholder="Buscar organización..." class="w-full bg-transparent text-textMain text-[15px] outline-none placeholder-textMuted">
+                    <div class="flex flex-col mb-6 bg-[#000000] p-4 rounded-2xl border border-[#2c2c2e]">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                            <span class="text-[14px] font-medium text-textMain">Selección por Lotes</span>
+                            <span class="text-[11px] text-textMuted bg-[#1c1c1e] px-2.5 py-1 rounded-md border border-[#2c2c2e]">1 Lote = 50 Destinos</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2" id="quick-select-container"></div>
+                        <p class="text-[12px] text-textMuted mt-4 leading-relaxed">* Modalidad operativa: 5 créditos por lote. Al superar los 50 destinos mediante selección manual, el sistema asignará el volumen al siguiente nivel tarifario.</p>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-5 gap-4 bg-[#000000] p-4 rounded-2xl border border-[#2c2c2e]">
+                        <div class="relative w-full md:w-1/2">
+                            <img src="logo.png" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 opacity-50">
+                            <input type="text" id="search-branch" placeholder="Buscar organización específica..." class="w-full bg-[#1c1c1e] border border-[#2c2c2e] text-textMain text-[14px] rounded-xl py-3 pl-10 pr-3 outline-none">
                         </div>
                         
-                        <div class="flex flex-wrap gap-2 justify-center" id="quick-select-container"></div>
+                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                            <div class="bg-[#1c1c1e] border border-[#2c2c2e] text-white px-4 py-2 rounded-xl flex items-center justify-center gap-2 min-w-max">
+                                <span class="text-[12px] font-medium">Seleccionados:</span>
+                                <span class="font-semibold text-[14px]" id="selected-count">0</span>
+                            </div>
+                            <div class="bg-[#1c1c1e] border border-[#2c2c2e] text-textMain px-4 py-2 rounded-xl flex items-center justify-center gap-2 min-w-max">
+                                <span class="text-[12px] font-medium text-textMuted">Costo:</span>
+                                <span class="font-semibold text-[14px]" id="current-cost">0</span>
+                                <img src="logo.png" class="h-3.5 w-3.5 object-contain">
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="flex items-center justify-between mb-4 px-2">
-                        <span class="text-[13px] font-medium text-textMuted">Seleccionados: <span id="selected-count" class="text-textMain">0</span></span>
-                        <span class="text-[13px] font-medium text-textMuted flex items-center gap-1">Costo: <span id="current-cost" class="text-textMain">0</span> <img src="logo.png" class="h-3 w-3"></span>
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-2 max-h-[350px] overflow-y-auto custom-scrollbar pr-1" id="branches-list"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto custom-scrollbar pr-2" id="branches-list"></div>
                     
-                    <div class="mt-8">
-                        <button class="btn-next w-full bg-white text-black py-4 rounded-2xl font-semibold active:scale-95 transition-all text-[15px]">Continuar</button>
+                    <div class="mt-8 flex justify-end pt-5 border-t border-[#2c2c2e]">
+                        <button class="btn-next w-full sm:w-auto bg-white text-black px-6 py-3 rounded-xl font-semibold active:scale-95 transition-all text-[14px]">Continuar al Mensaje</button>
                     </div>
                 </div>
 
                 <div id="step-2" class="step-content step-hidden animate-fade">
-                    <div class="mb-6 flex flex-col items-center text-center">
-                        <h3 class="text-2xl font-bold text-textMain tracking-tight">Parámetros</h3>
-                        <p class="text-[15px] text-textMuted mt-1">Define los datos del comunicado.</p>
+                    <div class="mb-6 flex flex-col">
+                        <h3 class="text-xl font-semibold text-textMain">Parámetros de Presentación</h3>
+                        <p class="text-[14px] text-textMuted mt-1">Define los datos del comunicado corporativo que recibirán los reclutadores.</p>
                     </div>
 
-                    <div class="space-y-4">
-                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4">
-                            <label class="text-textMuted text-[13px] font-medium mb-1 block">Nombre Completo</label>
-                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-transparent text-textMain text-[15px] outline-none" required>
+                    <div class="bg-[#000000] rounded-2xl border border-[#2c2c2e] p-6 space-y-6">
+                        <div class="flex flex-col pb-5 border-b border-[#2c2c2e]">
+                            <label class="text-textMain text-[14px] font-medium mb-2">Nombre Completo del Profesional</label>
+                            <input type="text" id="candidate-name" placeholder="Ej: Juan Pérez" class="w-full bg-[#1c1c1e] border border-[#2c2c2e] text-textMain text-[15px] rounded-xl p-3 outline-none" required>
+                            <p class="text-[12px] text-textMuted mt-2">Este nombre se inyectará dinámicamente en el asunto y cuerpo del correo.</p>
                         </div>
-                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4 opacity-70">
-                            <label class="text-textMuted text-[13px] font-medium mb-1 block">Emisor Autorizado</label>
-                            <input type="text" id="sender-name" value="NYX Hub" readonly class="w-full bg-transparent text-textMain text-[15px] outline-none cursor-not-allowed">
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                            <label class="text-textMuted text-[12px] font-medium uppercase tracking-wide md:w-32">Emisor Autorizado:</label>
+                            <input type="text" id="sender-name" value="NYX Hub - CvStudio33" readonly class="w-full bg-transparent text-white text-[14px] font-semibold outline-none cursor-not-allowed">
                         </div>
-                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4 opacity-70">
-                            <label class="text-textMuted text-[13px] font-medium mb-1 block">Asunto</label>
-                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-transparent text-textMain text-[15px] outline-none cursor-not-allowed">
+                        <div class="flex flex-col md:flex-row md:items-center pb-5 border-b border-[#2c2c2e] gap-2 md:gap-4">
+                            <label class="text-textMuted text-[12px] font-medium uppercase tracking-wide md:w-32">Asunto Formateado:</label>
+                            <input type="text" id="email-subject" value="Presentación de perfil profesional: [Nombre del Candidato]" readonly class="w-full bg-transparent text-textMuted text-[14px] outline-none cursor-not-allowed">
                         </div>
-                        <div class="bg-[#1c1c1e] rounded-2xl border border-[#2c2c2e] p-4">
-                            <label class="text-textMuted text-[13px] font-medium mb-2 block">Mensaje</label>
-                            <textarea id="pitch-text" class="w-full bg-transparent text-textMain h-40 outline-none resize-none text-[15px] leading-relaxed custom-scrollbar"></textarea>
+                        <div class="flex flex-col pt-2">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 gap-2">
+                                <label class="text-textMain text-[14px] font-medium">Cuerpo del Comunicado</label>
+                                <span class="text-[12px] text-textMuted bg-[#1c1c1e] px-2.5 py-1 rounded-md border border-[#2c2c2e] flex items-center">
+                                    <img src="logo.png" class="w-3 h-3 inline mr-1.5">
+                                    Recomendamos preservar la plantilla ejecutiva.
+                                </span>
+                            </div>
+                            <textarea id="pitch-text" class="w-full bg-[#1c1c1e] text-textMain h-56 p-4 rounded-xl outline-none resize-none text-[14px] leading-relaxed border border-[#2c2c2e] custom-scrollbar"></textarea>
                         </div>
                     </div>
 
-                    <div class="mt-8 flex flex-col gap-3">
-                        <button class="btn-next w-full bg-white text-black py-4 rounded-2xl font-semibold active:scale-95 transition-all text-[15px]">Confirmar Parámetros</button>
-                        <button class="btn-prev w-full bg-[#1c1c1e] text-textMain py-4 rounded-2xl font-medium active:scale-95 transition-all text-[15px] border border-[#2c2c2e]">Volver atrás</button>
+                    <div class="mt-8 flex flex-col sm:flex-row justify-between gap-3 pt-5 border-t border-[#2c2c2e]">
+                        <button class="btn-prev w-full sm:w-auto bg-[#1c1c1e] text-textMain px-6 py-3 font-medium transition-colors rounded-xl border border-[#2c2c2e] text-[14px] order-2 sm:order-1">Volver a Destinos</button>
+                        <button class="btn-next w-full sm:w-auto bg-white text-black px-6 py-3 rounded-xl font-semibold active:scale-95 transition-all text-[14px] order-1 sm:order-2">Confirmar Parámetros</button>
                     </div>
                 </div>
 
                 <div id="step-3" class="step-content step-hidden animate-fade">
-                    <div class="mb-6 flex flex-col items-center text-center">
-                        <h3 class="text-2xl font-bold text-textMain tracking-tight">Documentación</h3>
-                        <p class="text-[15px] text-textMuted mt-1">Carga tu Currículum Vitae en PDF.</p>
+                    <div class="mb-6 flex flex-col">
+                        <h3 class="text-xl font-semibold text-textMain">Documentación Profesional</h3>
+                        <p class="text-[14px] text-textMuted mt-1">Carga tu Currículum Vitae estandarizado en formato PDF para su distribución.</p>
                     </div>
                     
-                    <div class="border-2 border-dashed border-[#38383a] bg-[#1c1c1e] p-10 rounded-3xl text-center relative flex flex-col items-center justify-center min-h-[220px]">
+                    <div class="border-2 border-dashed border-[#38383a] bg-[#000000] p-10 rounded-2xl text-center relative flex flex-col items-center justify-center min-h-[260px]">
                         <input type="file" id="cv-upload" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                        <img src="logo.png" class="w-10 h-10 mb-4 opacity-50">
-                        <p class="text-textMain font-medium text-[15px] mb-2" id="file-name-display">Toca para subir tu PDF</p>
-                        <p class="text-[13px] text-textMuted">Límite 5 MB</p>
+                        <img src="logo.png" class="w-10 h-10 opacity-50 mb-4" id="upload-icon">
+                        <p class="text-textMain font-medium text-[15px] mb-2" id="file-name-display">Haz clic para seleccionar tu PDF aquí</p>
+                        <p class="text-[12px] text-textMuted bg-[#1c1c1e] px-3 py-1 rounded-md border border-[#2c2c2e]">Límite de procesamiento: 5 MB</p>
                     </div>
 
-                    <div class="mt-8 flex flex-col gap-3">
-                        <button id="btn-fire" class="w-full bg-white text-black py-4 rounded-2xl font-semibold active:scale-95 transition-all opacity-50 cursor-not-allowed text-[15px]" disabled>
-                            Ejecutar Enrutamiento
+                    <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 pt-5 border-t border-[#2c2c2e]">
+                        <button class="btn-prev w-full sm:w-auto bg-[#1c1c1e] text-textMain px-6 py-3 font-medium transition-colors rounded-xl border border-[#2c2c2e] text-[14px] order-2 sm:order-1">Revisar Mensaje</button>
+                        <button id="btn-fire" class="w-full sm:w-auto bg-white text-black px-8 py-3 rounded-xl font-semibold active:scale-95 transition-all opacity-50 cursor-not-allowed text-[14px] order-1 sm:order-2 flex items-center justify-center gap-2" disabled>
+                            Ejecutar Enrutamiento <img src="logo.png" class="w-4 h-4 inline">
                         </button>
-                        <button class="btn-prev w-full bg-[#1c1c1e] text-textMain py-4 rounded-2xl font-medium active:scale-95 transition-all text-[15px] border border-[#2c2c2e]">Revisar Mensaje</button>
                     </div>
                 </div>
 
                 <!-- PANTALLA DE PROCESAMIENTO -->
-                <div id="processing-screen" class="absolute inset-0 bg-bgDark z-30 flex flex-col items-center justify-center p-6 hidden">
-                    
-                    <div class="loader-wrapper mb-12">
+                <div id="processing-screen" class="absolute inset-0 bg-[#000000]/95 backdrop-blur-xl z-30 flex flex-col items-center justify-center p-6 hidden rounded-3xl overflow-hidden">
+                    <div class="loader-wrapper mb-12 relative z-10">
                       <span class="loader-letter">G</span>
                       <span class="loader-letter">e</span>
                       <span class="loader-letter">n</span>
@@ -390,57 +384,81 @@
                       <div class="loader"></div>
                     </div>
                     
-                    <div class="w-full max-w-xs text-center mt-6">
-                        <div class="w-full bg-[#1c1c1e] rounded-full h-1.5 mb-4 overflow-hidden">
-                            <div id="progress-bar" class="bg-white h-full w-0 transition-all duration-[1500ms] ease-out"></div>
+                    <h2 class="text-xl font-semibold text-textMain mb-2 text-center relative z-10 flex items-center gap-3">
+                        <img src="logo.png" class="h-6 w-6 object-contain grayscale opacity-80" alt="NYX"> Pasarela de Enrutamiento
+                    </h2>
+                    <p class="text-white text-[12px] mb-10 text-center font-bold tracking-widest uppercase relative z-10 animate-pulse">Distribución en Progreso</p>
+                    
+                    <div class="w-full max-w-md bg-panelDark border border-panelBorder rounded-2xl p-6 relative overflow-hidden z-10 shadow-2xl">
+                        <div class="w-full bg-[#000000] rounded-full h-2 mb-6 overflow-hidden relative border border-[#2c2c2e]">
+                            <div id="progress-bar" class="bg-white h-full w-0 transition-all duration-[1200ms] ease-out relative"></div>
                         </div>
                         <div class="h-6 flex flex-col items-center justify-center">
-                             <span id="current-log-text" class="text-[13px] text-textMuted font-medium transition-opacity duration-300">Preparando distribución...</span>
+                             <span id="current-log-text" class="text-[13px] text-textMuted font-medium transition-opacity duration-300">Estableciendo túnel seguro...</span>
                         </div>
                     </div>
                 </div>
-
             </div>
             </main>
         </div>
-        
-        <!-- VISTA: TRACE ANALYTICS -->
-        <div id="view-analytics" class="hidden flex-col items-center w-full animate-fade mb-10">
+
+        <!-- VISTA: TRACE ANALYTICS (NUEVA ARQUITECTURA) -->
+        <div id="view-analytics" class="hidden flex-col items-center w-full animate-fade mb-24 px-4 md:px-0">
             
-            <div class="w-full flex flex-col items-start mb-8 mt-2 px-1">
-                <h2 class="text-3xl font-bold text-textMain tracking-tight">Analytics</h2>
-                <p class="text-textMuted text-[15px] font-medium mt-1">Monitoreo integral de distribución.</p>
+            <div class="w-full flex flex-col items-center mb-10 relative mt-4">
+                <div class="h-16 w-16 bg-panelDark border border-panelBorder rounded-3xl flex items-center justify-center mb-6 shadow-sm">
+                    <img src="logo.png" class="h-8 object-contain">
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-textMain mb-3 flex items-center gap-3 tracking-tight">
+                    Radar de Trazabilidad
+                </h2>
+                <p class="text-textMuted text-[13px] md:text-[14px] font-medium max-w-lg text-center leading-relaxed">Monitoreo integral de distribución y telemetría de aperturas procesadas a través de la infraestructura corporativa de NYX Hub y CvStudio33.</p>
             </div>
             
-            <div class="grid grid-cols-2 gap-3 w-full mb-8">
-                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
-                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Totales</span>
-                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-total">0</span>
+            <!-- Panel de Estadísticas -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full mb-8">
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-5 flex flex-col">
+                    <span class="text-textMuted text-[10px] md:text-[11px] uppercase font-bold tracking-wider mb-2">Envíos Totales</span>
+                    <span class="text-textMain text-2xl md:text-3xl font-bold" id="ta-total">0</span>
                 </div>
-                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
-                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Entregados</span>
-                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-delivered">0</span>
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-5 flex flex-col">
+                    <span class="text-textMuted text-[10px] md:text-[11px] uppercase font-bold tracking-wider mb-2">Entregados</span>
+                    <span class="text-white text-2xl md:text-3xl font-bold" id="ta-delivered">0</span>
                 </div>
-                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
-                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Leídos</span>
-                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-read">0</span>
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-5 flex flex-col">
+                    <span class="text-textMuted text-[10px] md:text-[11px] uppercase font-bold tracking-wider mb-2">Aperturas Confirmadas</span>
+                    <span class="text-white text-2xl md:text-3xl font-bold" id="ta-read">0</span>
                 </div>
-                <div class="bg-panelDark rounded-3xl p-5 flex flex-col border border-[#2c2c2e]">
-                    <span class="text-textMuted text-[11px] uppercase font-semibold tracking-wider mb-2">Tasa</span>
-                    <span class="text-textMain text-3xl font-bold tracking-tight" id="ta-rate">0%</span>
+                <div class="bg-panelDark border border-panelBorder rounded-3xl p-5 flex flex-col">
+                    <span class="text-textMuted text-[10px] md:text-[11px] uppercase font-bold tracking-wider mb-2">Tasa Efectividad</span>
+                    <span class="text-textMain text-2xl md:text-3xl font-bold" id="ta-rate">0%</span>
                 </div>
             </div>
 
-            <div class="w-full">
-                <div class="flex justify-between items-center mb-4 px-2">
-                    <h3 class="text-[17px] font-bold text-textMain">Recientes</h3>
-                    <button id="btn-refresh-ta" class="text-white text-[13px] font-semibold active:opacity-70">Actualizar</button>
+            <!-- Tabla de Datos -->
+            <div class="w-full bg-panelDark border border-panelBorder rounded-3xl overflow-hidden shadow-sm">
+                <div class="px-5 py-5 border-b border-panelBorder bg-panelDark flex justify-between items-center">
+                    <h3 class="text-[15px] md:text-[16px] font-bold text-white flex items-center gap-2.5">
+                        Despliegues Recientes
+                    </h3>
+                    <button id="btn-refresh-ta" class="text-textMuted hover:text-white transition-colors bg-[#000000] border border-panelBorder px-3 py-2 rounded-xl flex items-center gap-2">
+                        <img src="logo.png" class="w-4 h-4 opacity-70">
+                        <span class="text-[13px] font-semibold hidden sm:inline">Actualizar</span>
+                    </button>
                 </div>
                 
-                <div class="w-full bg-panelDark rounded-3xl overflow-hidden border border-[#2c2c2e]">
+                <div class="w-full">
                     <table class="w-full text-left border-collapse">
-                        <tbody id="ta-table-body" class="text-[15px] bg-transparent">
-                            <!-- JS inyectará aquí -->
+                        <thead class="bg-[#000000] sticky top-0 z-10 border-b border-panelBorder">
+                            <tr class="text-textMuted text-[11px] uppercase tracking-wider font-bold">
+                                <th class="py-4 px-5">Destinatario</th>
+                                <th class="py-4 px-5 hidden md:table-cell">Canal</th>
+                                <th class="py-4 px-5 hidden md:table-cell">Fecha</th>
+                                <th class="py-4 px-5 text-right">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ta-table-body" class="text-[14px] bg-transparent">
+                            <!-- El JS inyectará los elementos (<tr>) aquí de forma nativa -->
                         </tbody>
                     </table>
                 </div>
@@ -461,17 +479,17 @@
         </a>
         <a href="protocolopluginsnyx.html" class="flex flex-col items-center justify-center w-full h-full text-textMuted active:text-textMain transition-colors">
             <img src="logo.png" class="w-5 h-5 mb-1 opacity-70">
-            <span class="text-[10px] font-medium">Plugins NYX</span>
+            <span class="text-[10px] font-medium">Chrono Hub</span>
         </a>
     </div>
 
     <!-- MODAL DE ÉXITO -->
-    <div id="nyx-success-modal" class="fixed inset-0 bg-bgDark/80 backdrop-blur-md z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-6">
+    <div id="nyx-success-modal" class="fixed inset-0 bg-[#000000]/80 backdrop-blur-md z-[300] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300 px-6">
         <div class="bg-panelDark border border-panelBorder p-8 rounded-3xl flex flex-col items-center w-full max-w-sm text-center transform scale-95 transition-transform duration-300" id="nyx-success-card">
             <img src="logo.png" class="w-16 h-16 mb-6">
-            <h2 class="text-2xl font-bold text-textMain mb-2 tracking-tight">Completado</h2>
-            <p class="text-[15px] text-textMuted mb-8 leading-relaxed" id="nyx-success-msg">El perfil profesional ha sido distribuido correctamente.</p>
-            <button id="btn-close-success" class="w-full bg-white text-black font-semibold py-4 rounded-2xl active:scale-95 transition-all text-[15px]">Aceptar</button>
+            <h2 class="text-2xl font-bold text-textMain mb-2 tracking-tight">Operación Completada</h2>
+            <p class="text-[15px] text-textMuted mb-8 leading-relaxed" id="nyx-success-msg">El perfil profesional ha sido enrutado y distribuido correctamente a los nodos seleccionados.</p>
+            <button id="btn-close-success" class="w-full bg-white text-black font-semibold py-4 rounded-2xl active:scale-95 transition-all text-[15px]">Volver al Dashboard</button>
         </div>
     </div>
 
@@ -505,7 +523,7 @@
             const toast = document.createElement('div');
             
             const bgColor = type === 'error' ? 'bg-[#1c1c1e]' : 'bg-[#1c1c1e]';
-            const borderColor = type === 'error' ? 'border-[#ff3b30]' : 'border-[#2c2c2e]';
+            const borderColor = type === 'error' ? 'border-[#ff3b30]/50' : 'border-[#2c2c2e]';
             const textColor = type === 'error' ? 'text-[#ff3b30]' : 'text-textMain';
 
             toast.className = `flex items-start gap-3 ${bgColor} ${borderColor} border p-4 rounded-2xl shadow-lg animate-toast pointer-events-auto w-full relative overflow-hidden`;
@@ -547,7 +565,7 @@
 
         document.getElementById('btn-login').addEventListener('click', async () => {
             try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
-            catch (e) { showNyxNotification("Proceso cancelado.", "error"); }
+            catch (e) { showNyxNotification("Proceso de autenticación corporativa cancelado.", "error"); }
         });
 
         document.getElementById('btn-logout').addEventListener('click', () => {
@@ -620,7 +638,7 @@
         const pitchTextarea = document.getElementById('pitch-text');
 
         const baseSubject = "Presentación de perfil profesional: [Nombre del Candidato]";
-        const basePitch = `Hola, equipo de Selección:\n\nA través de la plataforma de distribución de CvStudio33, el/la profesional [Nombre del Candidato] ha seleccionado a su empresa por su atractivo empleador y desea postularse de manera espontánea para sus búsquedas activas o futuras.\n\nAdjunto a este correo encontrarán su currículum vitae para que puedan evaluarlo e incorporarlo a su base de talento.\n\nEl candidato queda a su entera disposición para ampliar cualquier información en una entrevista.\n\nSaludos cordiales,\nNYX Hub\nGestión Automática | CvStudio33`;
+        const basePitch = `Hola, equipo de Selección:\n\nA través de la plataforma de distribución de CvStudio33, el/la profesional [Nombre del Candidato] ha seleccionado a su empresa por su atractivo empleador y desea postularse de manera espontánea para sus búsquedas activas o futuras.\n\nAdjunto a este correo encontrarán su currículum vitae para que puedan evaluarlo e incorporarlo a su base de talento.\n\nEl candidato queda a su entera disposición para ampliar cualquier información en una entrevista.\n\nSaludos cordiales,\nNYX Distribución Hub\nGestión Automática | CvStudio33`;
         pitchTextarea.value = basePitch;
 
         candidateInput.addEventListener('input', (e) => {
@@ -661,9 +679,9 @@
             
             const btnFire = document.getElementById('btn-fire');
             if (currentCalculatedCost > 0) {
-                btnFire.innerHTML = `Ejecutar (${currentCalculatedCost} <img src="logo.png" class="h-3 w-3 inline">)`;
+                btnFire.innerHTML = `Ejecutar Enrutamiento (${currentCalculatedCost} <img src="logo.png" class="h-3 w-3 inline">) <img src="logo.png" class="w-4 h-4 inline ml-1">`;
             } else {
-                btnFire.innerHTML = `Ejecutar Enrutamiento`;
+                btnFire.innerHTML = `Ejecutar Enrutamiento <img src="logo.png" class="w-4 h-4 inline ml-1">`;
             }
         };
 
@@ -673,8 +691,8 @@
             
             const createBtn = (count, label, tokens) => {
                 const btn = document.createElement('button');
-                btn.className = "bg-[#1c1c1e] text-textMain text-[13px] py-2 px-4 rounded-full transition-all font-medium flex items-center gap-1.5 border border-[#2c2c2e] active:bg-[#2c2c2e]";
-                btn.innerHTML = `<span>${label}</span> <span class="font-semibold ml-1">${tokens}</span> <img src="logo.png" class="h-3 w-3">`;
+                btn.className = "bg-[#1c1c1e] border border-[#2c2c2e] hover:border-white/60 hover:bg-white/5 text-textMuted hover:text-textMain text-[12px] py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1.5 flex-grow sm:flex-grow-0 font-medium";
+                btn.innerHTML = `<span>${label}</span> <span class="text-white font-semibold ml-1">${tokens}</span> <img src="logo.png" class="h-3.5 w-3.5">`;
                 btn.onclick = () => {
                     selectedTargets.clear();
                     for(let i = 0; i < count && i < total; i++) selectedTargets.add(currentDistributionList[i]);
@@ -702,10 +720,10 @@
             filtered.forEach((b, i) => {
                 const isChecked = selectedTargets.has(b) ? 'checked' : '';
                 const div = document.createElement('div'); 
-                div.className = `flex items-center gap-3 bg-[#1c1c1e] p-4 rounded-2xl border ${isChecked ? 'border-white' : 'border-[#2c2c2e]'} transition-all`;
+                div.className = `flex items-center gap-3 bg-[#1c1c1e] p-4 rounded-2xl border ${isChecked ? 'border-white bg-white/5' : 'border-[#2c2c2e] hover:border-[#3c3c3e]'} transition-colors duration-200`;
                 div.innerHTML = `
                     <input type="checkbox" id="b-${i}" value="${b}" class="nyx-checkbox target-checkbox" ${isChecked}>
-                    <label for="b-${i}" class="text-[15px] cursor-pointer w-full text-textMain font-medium truncate">${b}</label>
+                    <label for="b-${i}" class="text-[14px] cursor-pointer w-full text-textMain font-medium truncate">${b}</label>
                 `;
                 branchesList.appendChild(div);
             });
@@ -716,12 +734,12 @@
                 const container = e.target.closest('div');
                 if (e.target.checked) {
                     selectedTargets.add(e.target.value);
-                    container.classList.remove('border-[#2c2c2e]');
-                    container.classList.add('border-white');
+                    container.classList.remove('border-[#2c2c2e]', 'hover:border-[#3c3c3e]');
+                    container.classList.add('border-white', 'bg-white/5');
                 } else {
                     selectedTargets.delete(e.target.value);
-                    container.classList.add('border-[#2c2c2e]');
-                    container.classList.remove('border-white');
+                    container.classList.add('border-[#2c2c2e]', 'hover:border-[#3c3c3e]');
+                    container.classList.remove('border-white', 'bg-white/5');
                 }
                 updateCostDisplay();
             }
@@ -758,10 +776,17 @@
 
         const updateNavVisuals = () => {
             navSteps.forEach((nav, idx) => {
+                const circle = nav.querySelector('.nav-circle');
+                const text = nav.querySelector('.nav-text');
+                
                 if (idx <= currentStep) {
-                    nav.className = "h-2 flex-1 rounded-full bg-white transition-all";
+                    nav.classList.remove('opacity-40');
+                    circle.className = "nav-circle h-8 w-8 rounded-full bg-white flex items-center justify-center text-black text-xs font-semibold shadow-[0_0_12px_rgba(255,255,255,0.4)] transition-all";
+                    text.className = "nav-text text-[12px] font-medium text-textMain transition-all tracking-wide";
                 } else {
-                    nav.className = "h-2 flex-1 rounded-full bg-[#2c2c2e] transition-all";
+                    nav.classList.add('opacity-40');
+                    circle.className = "nav-circle h-8 w-8 rounded-full bg-[#1c1c1e] border border-[#2c2c2e] flex items-center justify-center text-textMuted text-xs font-semibold transition-all";
+                    text.className = "nav-text text-[12px] font-medium text-textMuted transition-all tracking-wide";
                 }
             });
         };
@@ -805,9 +830,11 @@
             }
             
             document.getElementById('file-name-display').textContent = file.name;
+            document.getElementById('file-name-display').classList.add('text-white');
             const box = e.target.closest('div.border-dashed');
             box.classList.replace('border-[#38383a]', 'border-white');
-            box.querySelector('img').classList.replace('opacity-50', 'opacity-100');
+            box.classList.add('bg-white/5');
+            document.getElementById('upload-icon').classList.replace('opacity-50', 'opacity-100');
             
             const reader = new FileReader();
             reader.onload = (ev) => { 
@@ -841,16 +868,15 @@
             
             procScreen.classList.remove('hidden');
             
-            // Adjusted steps for 10-15 seconds native feel
             const processSteps = [
-                { msg: "Preparando entorno de distribución...", prog: 10, delay: 1500 },
-                { msg: "Validando credenciales y perfil profesional...", prog: 20, delay: 1500 },
-                { msg: "Procesando y optimizando documento...", prog: 35, delay: 1500 },
-                { msg: "Generando comunicados personalizados...", prog: 45, delay: 1500 },
-                { msg: "Conectando con la red corporativa...", prog: 55, delay: 1500 },
-                { msg: `Enrutando hacia ${finalTargetsArray.length} organizaciones seleccionadas...`, prog: 70, delay: 1500 },
-                { msg: "Enviando paquetes de presentación...", prog: 85, delay: 2000 },
-                { msg: "Confirmando entregas con los servidores...", prog: 95, delay: 1500 }
+                { msg: "Estableciendo túneles seguros con los nodos destino...", prog: 10, delay: 1000 },
+                { msg: "Verificando firmas y certificaciones de enrutamiento...", prog: 20, delay: 1200 },
+                { msg: "Transcodificando documentación adjunta (PDF)...", prog: 35, delay: 1500 },
+                { msg: "Aplicando encriptación End-to-End en el cuerpo del mensaje...", prog: 45, delay: 1200 },
+                { msg: "Sincronizando protocolos SMTP de la red corporativa...", prog: 55, delay: 1600 },
+                { msg: `Abriendo canales directos hacia ${finalTargetsArray.length} servidores receptores...`, prog: 70, delay: 1400 },
+                { msg: "Iniciando despliegue de paquetes de datos en paralelo...", prog: 85, delay: 2000 },
+                { msg: "Recopilando acuses de recibo de los departamentos HR...", prog: 95, delay: 1500 }
             ];
 
             const runSimulation = async () => {
@@ -878,6 +904,7 @@
                 logText.style.opacity = '0';
                 setTimeout(() => {
                     logText.innerText = "Despliegue finalizado exitosamente.";
+                    logText.classList.add('text-white');
                     logText.style.opacity = '1';
                 }, 300);
                 setTimeout(() => { showSuccessModal(`El perfil profesional ha sido distribuido exitosamente a ${finalTargetsArray.length} nodos.`); }, 1500);
@@ -889,7 +916,7 @@
         });
 
         // ==============================================
-        // MÓDULO TRACE ANALYTICS
+        // MÓDULO TRACE ANALYTICS 4.0 - DOM NATIVO
         // ==============================================
         const tabDist = document.getElementById('tab-dist');
         const tabAnalytics = document.getElementById('tab-analytics');
@@ -897,15 +924,15 @@
         const viewAnalytics = document.getElementById('view-analytics');
 
         tabDist?.addEventListener('click', () => {
-            tabDist.className = "flex-1 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all";
-            tabAnalytics.className = "flex-1 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all bg-transparent";
+            tabDist.className = "px-6 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all whitespace-nowrap";
+            tabAnalytics.className = "px-6 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all flex justify-center items-center gap-2 whitespace-nowrap";
             viewAnalytics.classList.add('hidden');
             viewDist.classList.remove('hidden');
         });
 
         tabAnalytics?.addEventListener('click', () => {
-            tabAnalytics.className = "flex-1 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm transition-all";
-            tabDist.className = "flex-1 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all bg-transparent";
+            tabAnalytics.className = "px-6 py-2 text-[14px] font-semibold rounded-full bg-[#2c2c2e] text-textMain shadow-sm flex items-center gap-2 whitespace-nowrap";
+            tabDist.className = "px-6 py-2 text-[14px] font-medium rounded-full text-textMuted active:text-textMain transition-all whitespace-nowrap";
             viewDist.classList.add('hidden');
             viewAnalytics.classList.remove('hidden');
             renderTraceAnalytics();
@@ -929,7 +956,7 @@
 
                 if (!tracesList || tracesList.length === 0) {
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td colspan="2" class="py-12 text-center text-textMuted text-[14px]">No hay registros de distribución recientes.</td>`;
+                    tr.innerHTML = `<td colspan="4" class="py-12 text-center text-textMuted"><div class="flex flex-col items-center justify-center gap-3"><span class="text-xs font-medium tracking-wide">No se detectaron registros de enrutamiento en la Bóveda.</span></div></td>`;
                     tbody.appendChild(tr);
                     
                     document.getElementById('ta-total').textContent = '0';
@@ -942,40 +969,76 @@
                 let countDelivered = 0;
                 let countRead = 0;
 
-                tracesList.forEach((t) => {
+                tracesList.forEach((t, index) => {
                     if (!t) return;
                     
                     const targetName = t.targetName || t.mapValue?.fields?.targetName?.stringValue || "Entidad Desconocida";
-                    const statusStr = String(t.status || t.mapValue?.fields?.status?.stringValue || "").toUpperCase();
+                    const channel = t.channel || t.mapValue?.fields?.channel?.stringValue || "Network NYX";
                     const date = t.date || t.mapValue?.fields?.date?.stringValue || "--/--/----";
+                    const statusStr = String(t.status || t.mapValue?.fields?.status?.stringValue || "").toUpperCase();
 
                     let statusBadgeHTML = '';
                     
                     if (statusStr === 'LEIDO' || statusStr === 'READ') {
                         countRead++;
                         countDelivered++;
-                        statusBadgeHTML = `<span class="text-white font-semibold text-[13px] bg-white/10 px-3 py-1 rounded-full">Leído</span>`;
+                        statusBadgeHTML = `<span class="bg-white/10 border border-white/20 text-white px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto shadow-[0_0_10px_rgba(255,255,255,0.2)]"><div class="h-1.5 w-1.5 rounded-full bg-white animate-ping"></div>Leído</span>`;
                     } else if (statusStr === 'ENVIADO' || statusStr === 'DELIVERED') {
                         countDelivered++;
-                        statusBadgeHTML = `<span class="text-textMuted font-semibold text-[13px] border border-[#2c2c2e] px-3 py-1 rounded-full">Entregado</span>`;
+                        statusBadgeHTML = `<span class="bg-[#1c1c1e] border border-[#2c2c2e] text-textMuted px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-[#38383a]"></div>Entregado</span>`;
                     } else {
-                        statusBadgeHTML = `<span class="text-textMuted font-semibold text-[13px]">${statusStr || 'FALLIDO'}</span>`;
+                        statusBadgeHTML = `<span class="bg-panelBorder/50 border border-panelBorder text-textMuted px-2.5 py-1 rounded-md text-[9px] md:text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 w-max ml-auto"><div class="h-1.5 w-1.5 rounded-full bg-textMuted"></div>${statusStr || 'FALLIDO'}</span>`;
                     }
 
                     const tr = document.createElement('tr');
-                    tr.className = "border-b border-[#2c2c2e] last:border-0 hover:bg-[#2c2c2e]/30 transition-colors cursor-pointer";
+                    tr.className = "border-b border-panelBorder/40 hover:bg-[#1c1c1e] transition-colors group cursor-pointer";
+                    tr.onclick = function() {
+                        const detailRow = this.nextElementSibling;
+                        if(detailRow && detailRow.classList.contains('mobile-detail-row')) {
+                            detailRow.classList.toggle('hidden');
+                        }
+                    };
                     
                     tr.innerHTML = `
-                        <td class="py-4 px-5 text-textMain font-medium flex flex-col justify-center gap-0.5">
-                            <span class="truncate max-w-[150px] sm:max-w-xs text-[15px]">${targetName}</span>
-                            <span class="text-[12px] text-textMuted">${date}</span>
+                        <td class="py-4 px-4 md:px-5 text-textMain font-medium flex items-center gap-3 text-[14px]">
+                            <div class="h-8 w-8 rounded-lg bg-[#000000] border border-[#2c2c2e] flex items-center justify-center shadow-sm flex-shrink-0 group-hover:border-white/50 transition-colors">
+                                <img src="logo.png" class="h-4 w-4 object-contain opacity-80 group-hover:opacity-100 transition-all">
+                            </div>
+                            <span class="truncate max-w-[140px] sm:max-w-[200px] md:max-w-xs font-semibold" title="${targetName}">${targetName}</span>
                         </td>
-                        <td class="py-4 px-5 text-right">
-                            ${statusBadgeHTML}
+                        <td class="py-4 px-4 md:px-5 text-textMuted text-[13px] hidden md:table-cell">${channel}</td>
+                        <td class="py-4 px-4 md:px-5 text-textMuted text-[13px] font-mono hidden md:table-cell">${date}</td>
+                        <td class="py-4 px-4 md:px-5 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-2 md:gap-0">
+                                ${statusBadgeHTML}
+                                <img src="logo.png" class="w-3 h-3 opacity-50 md:hidden ml-2 transition-transform">
+                            </div>
                         </td>
                     `;
                     
                     tbody.appendChild(tr);
+
+                    const detailTr = document.createElement('tr');
+                    detailTr.className = "mobile-detail-row hidden md:hidden bg-[#000000]/50 border-b border-panelBorder/40 shadow-inner";
+                    detailTr.innerHTML = `
+                        <td colspan="4" class="p-4">
+                            <div class="flex flex-col gap-3 text-[13px]">
+                                <div class="flex justify-between items-center border-b border-panelBorder/40 pb-2">
+                                    <span class="text-textMuted font-medium uppercase tracking-wider text-[10px]">Canal de Envío</span>
+                                    <span class="text-white font-medium">${channel}</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-panelBorder/40 pb-2">
+                                    <span class="text-textMuted font-medium uppercase tracking-wider text-[10px]">Fecha</span>
+                                    <span class="text-white font-mono">${date}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-textMuted font-medium uppercase tracking-wider text-[10px]">Plataforma</span>
+                                    <span class="text-white font-medium flex items-center gap-1.5"><img src="logo.png" class="h-3 object-contain"> NYX Hub</span>
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(detailTr);
                 });
 
                 const totalCount = tracesList.length;
@@ -986,11 +1049,11 @@
                 const rateEl = document.getElementById('ta-rate');
                 const rate = totalCount > 0 ? Math.round((countRead / totalCount) * 100) : 0;
                 rateEl.textContent = `${rate}%`;
-                rateEl.className = rate > 15 ? "text-white text-3xl font-bold tracking-tight transition-colors" : "text-textMain text-3xl font-bold tracking-tight transition-colors";
+                rateEl.className = rate > 15 ? "text-white text-2xl md:text-3xl font-bold transition-colors" : "text-textMain text-2xl md:text-3xl font-bold transition-colors";
 
             } catch (error) {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="2" class="py-12 text-center text-[#ff3b30] font-medium text-[14px]">Error cargando datos.</td>`;
+                tr.innerHTML = `<td colspan="4" class="py-12 text-center text-red-500 font-medium">Ocurrió un error leyendo los datos del servidor.</td>`;
                 tbody.appendChild(tr);
             }
         }
@@ -998,7 +1061,7 @@
         document.getElementById('btn-refresh-ta')?.addEventListener('click', () => {
             const tbody = document.getElementById('ta-table-body');
             if (tbody) {
-                tbody.innerHTML = `<tr><td colspan="2" class="py-10 text-center text-textMuted text-[14px]">Actualizando...</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="py-10 text-center text-textMuted"><div class="flex flex-col items-center justify-center"><div class="pro-spinner mb-3 h-6 w-6 border-t-white"></div><span class="text-[13px] font-medium">Reconstruyendo telemetría...</span></div></td></tr>`;
             }
             setTimeout(renderTraceAnalytics, 400); 
         });
@@ -1006,4 +1069,6 @@
     </script>
 </body>
 </html>
+
+
 

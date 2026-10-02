@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Roadmap Oficial | CV Studio33</title>
+    <meta name="theme-color" content="#0a0a0a">
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        },
+                        surface: {
+                            50: '#171717',
+                            100: '#111111',
+                            200: '#0a0a0a',
+                        }
+                    }
+                }
+            }
+        }
+
+        // Base de Datos del Buscador Inteligente
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('searchDocs', () => ({
+                query: '',
+                open: false,
+                items: [
+                    { id: 'vision', title: 'Laboratorio de Futuro', desc: 'Introducción al Roadmap de CV Studio33' },
+                    { id: 'scheduler', title: 'Scheduler Pro', desc: 'Bots de análisis de zonas horarias y envíos' },
+                    { id: 'video-intro', title: 'Video Intro Generador', desc: 'Presentación en video hiperrealista con clonación IA' },
+                    { id: 'leads-bridge', title: 'Leads Bridge', desc: 'Inyección en tableros Notion/Trello/HubSpot' },
+                    { id: 'mobile', title: 'La Revolución Móvil', desc: 'App nativa oficial en desarrollo avanzado' },
+                    { id: 'updates', title: 'Actualizaciones en Curso', desc: 'Ingeniería Obsesiva Hacia el Top 1 y Contacto' }
+                ],
+                get filteredItems() {
+                    if (this.query.trim() === '') return [];
+                    const q = this.query.toLowerCase().trim();
+                    return this.items.filter(i => 
+                        i.title.toLowerCase().includes(q) || 
+                        i.desc.toLowerCase().includes(q)
+                    );
+                },
+                goTo(id) {
+                    this.open = false;
+                    this.query = '';
+                    
+                    // Si estamos en movil, cerramos el menu principal
+                    if (document.querySelector('[x-data="{ mobileMenuOpen: false }"]')) {
+                        // Dispatch event or just let it scroll
+                        window.dispatchEvent(new CustomEvent('close-mobile-menu'));
+                    }
+                    
+                    const el = document.getElementById(id);
+                    if (el) {
+                        const y = el.getBoundingClientRect().top + window.scrollY - 100; // Offset para el header fijo
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    }
+                }
+            }))
+        })
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+        
+        .glass-header {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .doc-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        .doc-card:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            background: #141414;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .gradient-border {
+            position: relative;
+            background: #111111;
+            background-clip: padding-box;
+            border: 1px solid transparent;
+            border-radius: 12px;
+        }
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -1px;
+            border-radius: inherit;
+            background: linear-gradient(to bottom right, rgba(139, 92, 246, 0.5), rgba(255, 255, 255, 0.05));
+        }
+
+        /* --- BUSCADOR PROFESIONAL --- */
+        .cir-search {
+          display: none; 
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          max-width: 320px;
+          height: 40px;
+          padding: 0 8px 0 16px;
+          background: #111111; 
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 999px;
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 18px 36px -22px rgba(0, 0, 0, 0.5);
+          transition: border-color 220ms ease, box-shadow 220ms ease;
+          position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .cir-search { display: inline-flex; }
+        }
+
+        .cir-search--mobile {
+            display: inline-flex !important;
+            max-width: 100%;
+        }
+
+        .cir-search__icon {
+          width: 16px;
+          height: 16px;
+          color: #8a93a3;
+          flex-shrink: 0;
+        }
+
+        .cir-search__field {
+          flex: 1;
+          min-width: 0;
+          border: 0;
+          outline: 0;
+          background: transparent;
+          font: inherit;
+          font-size: 13px;
+          color: #ffffff;
+        }
+
+        .cir-search__field::placeholder {
+          color: #5b6472;
+        }
+
+        .cir-search__kbd {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 24px;
+          padding: 0 8px;
+          background: #1a1a1a;
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 999px;
+        }
+
+        .cir-search:focus-within {
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2), 0 18px 36px -22px rgba(0, 0, 0, 0.5);
+        }
+
+        .cir-search--hero {
+            display: inline-flex;
+            max-width: 100%;
+            height: 56px;
+            padding: 0 12px 0 20px;
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        .cir-search--hero .cir-search__icon {
+            width: 20px;
+            height: 20px;
+        }
+        .cir-search--hero .cir-search__field {
+            font-size: 16px;
+        }
+        .cir-search--hero .cir-search__kbd {
+            height: 32px;
+            padding: 0 12px;
+        }
+
+        .brand-icon-list {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.4));
+        }
+        
+        .search-results-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: #3f3f46 transparent;
+        }
+        .search-results-dropdown::-webkit-scrollbar {
+            width: 4px;
+        }
+        .search-results-dropdown::-webkit-scrollbar-thumb {
+            background-color: #3f3f46;
+            border-radius: 4px;
+        }
+
+        /* From Uiverse.io by Yaya12085 (Adapted for Dark Mode) */ 
+        .playstore-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 1);
+          padding: 0.625rem 1.5rem;
+          text-align: center;
+          color: rgba(0, 0, 0, 1);
+          outline: 0;
+          transition: all  .2s ease;
+          text-decoration: none;
+        }
+
+        .playstore-button:hover {
+          background-color: transparent;
+          color: rgba(255, 255, 255, 1);
+          border-color: rgba(255, 255, 255, 1);
+        }
+
+        .icon {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+
+        .texts {
+          margin-left: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          line-height: 1;
+        }
+
+        .text-1 {
+          margin-bottom: 0.25rem;
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
+
+        .text-2 {
+          font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased" x-data="{ mobileMenuOpen: false }" @close-mobile-menu.window="mobileMenuOpen = false">
+
+    <!-- Navbar / Header (Sticky) -->
+    <header class="fixed top-0 w-full z-50 glass-header" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-4">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 -ml-2 text-gray-400 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <a href="#" class="flex items-center group flex-shrink-0">
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-7 w-auto object-contain mr-2">
+                    <span class="font-display font-bold text-xl tracking-tight text-white group-hover:text-brand-400 transition-colors hidden sm:block">CV Studio<span class="text-brand-500">33</span></span>
+                </a>
+            </div>
+
+            <div class="flex-1 max-w-lg hidden md:flex justify-center px-4 relative" x-data="searchDocs">
+                <label class="cir-search" @click.away="open = false">
+                    <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.34-4.34"></path>
+                    </svg>
+                    <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Buscar en el roadmap..." autocomplete="off" />
+                    <kbd class="cir-search__kbd">
+                        <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </kbd>
+                </label>
+                
+                <div x-show="open && query.length > 0" x-cloak class="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-[400px] mt-2 bg-[#171717] border border-white/10 rounded-xl shadow-2xl max-h-80 overflow-y-auto z-50 search-results-dropdown">
+                    <template x-for="item in filteredItems" :key="item.title">
+                        <button @click="goTo(item.id)" class="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-brand-500/10 transition-colors flex flex-col group cursor-pointer">
+                            <span class="text-white font-semibold text-sm group-hover:text-brand-400" x-text="item.title"></span>
+                            <span class="text-gray-400 text-xs mt-0.5" x-text="item.desc"></span>
+                        </button>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="px-4 py-6 text-center text-gray-500 text-sm">
+                        No se encontraron resultados para "<span x-text="query" class="text-gray-300"></span>"
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 flex-shrink-0">
+                <a href="#" class="px-5 py-2.5 bg-white text-black text-xs md:text-sm font-bold rounded-lg hover:bg-gray-200 transition-colors shadow-lg whitespace-nowrap">
+                    Acceder a CV Studio33
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar Navigation -->
+    <div x-show="mobileMenuOpen" class="fixed inset-0 z-40 lg:hidden" style="display: none;">
+        <div x-show="mobileMenuOpen" x-transition.opacity class="fixed inset-0 bg-black/80 backdrop-blur-sm" @click="mobileMenuOpen = false"></div>
+        <nav x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="-translate-x-full"
+             class="fixed top-0 left-0 bottom-0 w-4/5 max-w-sm bg-surface-100 border-r border-white/10 pt-20 pb-10 px-6 overflow-y-auto shadow-2xl flex flex-col">
+            
+            <div class="mb-8 relative" x-data="searchDocs">
+                <label class="cir-search cir-search--mobile">
+                    <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.34-4.34"></path></svg>
+                    <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Buscar..." autocomplete="off"/>
+                </label>
+                
+                <div x-show="open && query.length > 0" x-cloak class="mt-2 bg-[#171717] border border-white/10 rounded-xl shadow-xl max-h-60 overflow-y-auto search-results-dropdown absolute w-full z-50 left-0 top-full">
+                    <template x-for="item in filteredItems" :key="item.title">
+                        <button @click="goTo(item.id)" class="w-full text-left px-3 py-2 border-b border-white/5 hover:bg-white/5 flex flex-col">
+                            <span class="text-white font-medium text-xs" x-text="item.title"></span>
+                        </button>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="p-3 text-center text-gray-500 text-xs">
+                        Sin resultados.
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6 flex-1">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Roadmap CV Studio33</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#vision" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Laboratorio de Futuro</a></li>
+                        <li><a href="#scheduler" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Scheduler Pro</a></li>
+                        <li><a href="#video-intro" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Video Intro Generador</a></li>
+                        <li><a href="#leads-bridge" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white">Leads Bridge</a></li>
+                        <li><a href="#mobile" @click="mobileMenuOpen = false" class="block text-sm text-gray-300 hover:text-white mt-2 flex items-center gap-2"><img src="logo.png" class="w-3 h-3 object-contain opacity-70"> La Revolución Móvil</a></li>
+                        <li><a href="#updates" @click="mobileMenuOpen = false" class="block text-sm text-brand-400 font-medium hover:text-brand-300 mt-2 flex items-center gap-2"><img src="logo.png" class="w-3 h-3 object-contain"> Actualizaciones en Curso</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-white/5 pb-4">
+                 <a href="#" class="flex items-center group">
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-6 w-auto object-contain mr-2 opacity-50">
+                    <span class="font-display font-bold text-sm tracking-tight text-gray-500">CV Studio<span class="text-brand-500">33</span></span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Layout Principal Desktop/Mobile -->
+    <div class="max-w-[1400px] mx-auto pt-20 flex relative z-20">
+        
+        <!-- Sidebar Fija Desktop -->
+        <aside class="hidden lg:block w-64 shrink-0 fixed h-[calc(100vh-5rem)] overflow-y-auto border-r border-white/5 pt-10 pb-20 pr-6 pl-4 xl:pl-0">
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Roadmap CV Studio33</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#vision" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Laboratorio de Futuro</a></li>
+                        <li><a href="#scheduler" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Scheduler Pro</a></li>
+                        <li><a href="#video-intro" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Video Intro Generador</a></li>
+                        <li><a href="#leads-bridge" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors">Leads Bridge</a></li>
+                        <li><a href="#mobile" class="block text-sm text-gray-400 hover:text-brand-400 transition-colors mt-2 flex items-center gap-2"><img src="logo.png" class="w-3 h-3 object-contain opacity-70"> La Revolución Móvil</a></li>
+                        <li><a href="#updates" class="block text-sm text-brand-400 font-medium hover:text-brand-300 transition-colors mt-2 flex items-center gap-2"><img src="logo.png" class="w-3 h-3 object-contain"> Actualizaciones en Curso</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="w-full lg:pl-72 xl:pl-80 pt-10 pb-24 px-4 sm:px-6">
+            
+            <!-- Hero / Introducción Roadmap -->
+            <section id="vision" class="mb-20 pt-6 flex flex-col items-start">
+                
+                <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-brand-900/30 border border-brand-500/30">
+                    <img src="logo.png" class="w-3.5 h-3.5 object-contain" alt="">
+                    <span class="text-brand-300 text-xs font-bold tracking-wide uppercase">CV Studio33 • Roadmap Oficial</span>
+                </div>
+                
+                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
+                    Laboratorio de Futuro: <br class="hidden sm:block"/>
+                    <span class="gradient-text">Roadmap</span>
+                </h1>
+                
+                <p class="text-gray-400 text-lg md:text-xl mb-10 max-w-3xl leading-relaxed">
+                    Nuestro equipo de desarrollo trabaja sin descanso para evolucionar <strong class="text-white">CV Studio33</strong>. Estos son los módulos en fase de prueba Alfa que cambiarán el sistema laboral para siempre.
+                </p>
+
+                <!-- BUSCADOR HERO (Principal y Grande) CON ALPINE JS -->
+                <div class="w-full max-w-2xl mb-14 relative z-30" x-data="searchDocs">
+                    <label class="cir-search cir-search--hero w-full" @click.away="open = false">
+                        <svg class="cir-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.34-4.34"></path>
+                        </svg>
+                        <input x-model="query" @focus="open = true" @input="open = true" class="cir-search__field" type="search" placeholder="Busca en el roadmap (Ej. Scheduler)..." autocomplete="off"/>
+                        <kbd class="cir-search__kbd hidden sm:inline-flex">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </kbd>
+                    </label>
+
+                    <div x-show="open && query.length > 0" x-cloak class="absolute top-full left-0 w-full mt-2 bg-[#171717] border border-white/10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] max-h-80 overflow-y-auto search-results-dropdown">
+                        <template x-for="item in filteredItems" :key="item.title">
+                            <button @click="goTo(item.id)" class="w-full text-left px-5 py-4 border-b border-white/5 hover:bg-brand-500/10 transition-colors flex flex-col group cursor-pointer">
+                                <span class="text-white font-bold text-base group-hover:text-brand-400" x-text="item.title"></span>
+                                <span class="text-gray-400 text-sm mt-1" x-text="item.desc"></span>
+                            </button>
+                        </template>
+                        <div x-show="filteredItems.length === 0" class="px-5 py-8 text-center text-gray-500 text-base">
+                            Término "<span x-text="query" class="text-gray-300 font-bold"></span>" no encontrado en el roadmap.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5 my-16" />
+
+            <!-- Módulos Alfa -->
+            <section class="mb-20">
+                <div class="mb-10">
+                    <h2 class="font-display text-3xl font-bold mb-4 text-white">Módulos en Fase Alfa: El Futuro del Reclutamiento</h2>
+                    <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
+                        No nos conformamos con el presente. En el Laboratorio de Futuro de CV Studio33 estamos perfeccionando tecnologías disruptivas diseñadas para otorgarte una ventaja competitiva desleal. Conoce cómo funcionarán y qué beneficios aportarán a tu búsqueda laboral.
+                    </p>
+                </div>
+
+                <div class="space-y-12">
+                    <!-- Scheduler Pro -->
+                    <div id="scheduler" class="pt-8 border-t border-white/5 relative group">
+                        <div class="absolute -inset-4 bg-brand-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 blur-xl"></div>
+                        <div class="relative">
+                            <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                                <img src="logo.png" class="brand-icon-list w-6 h-6" alt="">
+                                Scheduler Pro
+                            </h3>
+                            <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-5">Temporización Milimétrica e Inteligencia Horaria</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-8 text-sm">
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">¿Cómo funciona?</h4>
+                                    <p class="text-gray-300 leading-relaxed mb-4">
+                                        Nuestros bots de reconocimiento realizan un análisis profundo de la infraestructura digital de la empresa objetivo. CV Studio33 cruza datos de zonas horarias, ubicación de sucursales, patrones de conexión en plataformas profesionales (como LinkedIn) y horas pico de publicación en su web oficial. Con esto, calcula el "milisegundo exacto" en el que el equipo de RRHH inicia su jornada laboral.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Tu Ventaja Absoluta</h4>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        Se acabaron los correos perdidos en la bandeja de entrada. <strong class="text-white">Tu solicitud será literalmente el primer correo</strong> que vea el reclutador al sentarse con su café matutino. Esta sincronización perfecta garantiza hasta un 85% más de tasa de apertura, posicionándote psicológicamente como la opción más fresca y relevante del día.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Intro Generador -->
+                    <div id="video-intro" class="pt-8 border-t border-white/5 relative group">
+                        <div class="absolute -inset-4 bg-cyan-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 blur-xl"></div>
+                        <div class="relative">
+                            <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                                <img src="logo.png" class="brand-icon-list filter hue-rotate-180 w-6 h-6" alt="">
+                                Video Intro Generador
+                            </h3>
+                            <p class="text-cyan-400 font-mono text-xs tracking-wider uppercase mb-5">Clonación Biométrica y Presentación IA</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-8 text-sm">
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">¿Cómo funciona?</h4>
+                                    <p class="text-gray-300 leading-relaxed mb-4">
+                                        A través de una integración nativa con APIs de generación de video generativo, solo necesitas subir una foto estática de tu perfil y una muestra de voz de 10 segundos. La IA de CV Studio33 clona tu tono de voz y genera un video en alta definición (4K) hiperrealista. El guion es escrito dinámicamente por la IA tras analizar la oferta de trabajo, tocando los puntos de dolor exactos que la empresa busca resolver.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Tu Ventaja Absoluta</h4>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        Destruye la barrera de la "Carta de Presentación" tradicional. En lugar de enviar un documento aburrido, envías un <em>pitch</em> de 30 segundos donde tú mismo (tu avatar IA) te presentas de forma impecable, carismática y sin nervios. Esto genera un efecto "Wow" inmediato, demostrando dominio tecnológico y asegurando que te recuerden por encima de cientos de candidatos en texto plano.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leads Bridge -->
+                    <div id="leads-bridge" class="pt-8 border-t border-white/5 relative group">
+                        <div class="absolute -inset-4 bg-brand-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 blur-xl"></div>
+                        <div class="relative">
+                            <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                                <img src="logo.png" class="brand-icon-list w-6 h-6" alt="">
+                                Leads Bridge
+                            </h3>
+                            <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-5">Inyección Directa de Perfiles en Tableros de Trabajo</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-8 text-sm">
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">¿Cómo funciona?</h4>
+                                    <p class="text-gray-300 leading-relaxed mb-4">
+                                        Nuestra tecnología de "Scraping de Infraestructura" audita las conexiones públicas de la empresa para detectar qué software de gestión interna utilizan (Notion, Trello, HubSpot o Jira). En lugar de enviar un email pasivo, Leads Bridge utiliza conexiones webhooks y backdoors éticos para "inyectar" tu perfil directamente dentro de sus tableros Kanban, formateado exactamente como una ficha de candidato estándar.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Tu Ventaja Absoluta</h4>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        Te saltas el embudo tradicional de "Bandeja de Entrada -> Filtro ATS -> Aprobación Humana". Al aparecer de repente en su tablero de trabajo en la columna "Candidatos a Revisar", generas la percepción psicológica de que ya fuiste pre-aprobado por un reclutador interno o referido por alguien de alto nivel. Pasas directamente a la fase de entrevista técnica.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5 my-16" />
+
+            <!-- Revolución Móvil -->
+            <section id="mobile" class="mb-20">
+                <div class="p-8 md:p-12 rounded-2xl bg-gradient-to-br from-[#111111] to-[#1a1a1a] border border-brand-500/30 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 opacity-10">
+                        <img src="logo.png" class="w-64 h-64 object-contain" alt="">
+                    </div>
+                    
+                    <div class="relative z-10 max-w-4xl">
+                        <div class="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded bg-brand-500/10 text-brand-400 text-xs font-bold uppercase tracking-wider">
+                            Fase de Desarrollo Avanzado
+                        </div>
+                        <h2 class="font-display text-3xl md:text-5xl font-bold mb-6 text-white leading-tight">
+                            Próximamente: La Revolución Móvil de <br/><span class="gradient-text">CV Studio33</span>
+                        </h2>
+                        
+                        <p class="text-gray-300 text-base md:text-lg mb-6 leading-relaxed">
+                            El equipo de ingenieros de <strong class="text-white">CV Studio33</strong> se encuentra desarrollando nuestra aplicación nativa oficial, que pronto estará disponible globalmente en Google Play Store. No estamos haciendo una simple adaptación web; estamos construyendo la <strong>herramienta definitiva de disrupción laboral</strong> con la tecnología más agresiva de todo Internet.
+                        </p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-6 mb-10 mt-8">
+                            <div class="bg-black/40 border border-white/5 p-5 rounded-xl">
+                                <h4 class="text-brand-300 font-bold mb-2 flex items-center gap-2">
+                                    <img src="logo.png" class="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" alt="">
+                                    Control Absoluto en tu Bolsillo
+                                </h4>
+                                <p class="text-gray-400 text-sm leading-relaxed">Recibe notificaciones push en tiempo real cuando un director de HR abra tu currículum. Observa las estadísticas de calor y tiempo de lectura directamente desde tu celular, permitiéndote tomar decisiones estratégicas al instante mientras estás en movimiento.</p>
+                            </div>
+                            <div class="bg-black/40 border border-white/5 p-5 rounded-xl">
+                                <h4 class="text-brand-300 font-bold mb-2 flex items-center gap-2">
+                                    <img src="logo.png" class="w-4 h-4 object-contain filter drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" alt="">
+                                    Automatización "One-Tap"
+                                </h4>
+                                <p class="text-gray-400 text-sm leading-relaxed">Desliza para aplicar (Tinder-style) a decenas de vacantes ocultas filtradas previamente por nuestra IA. Un solo toque activará la reescritura de tu CV, el envío cronometrado y el seguimiento, ahorrándote cientos de horas de frustración frente a la computadora.</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-400 text-sm md:text-base mb-10 leading-relaxed max-w-3xl border-l-2 border-brand-500 pl-4 py-2">
+                            Garantizamos que una vez lanzada, buscar trabajo dejará de ser una tarea pesada y desmoralizante. Esta app será la llave maestra para que cualquier profesional logre ubicarse en posiciones élite sin luchar contra las lentas e injustas automatizaciones corporativas. Prepárate para empoderar tu carrera.
+                        </p>
+
+                        <!-- Botón Uiverse.io adaptado al modo oscuro -->
+                        <a class="playstore-button" href="#">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 512 512">
+                            <path d="M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z"></path>
+                          </svg>
+                          <span class="texts">
+                            <span class="text-1">GET IT ON</span>
+                            <span class="text-2">Google Play</span>
+                          </span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-white/5 my-16" />
+
+            <!-- Nuevas Actualizaciones en Curso -->
+            <section id="updates" class="mb-10">
+                <div class="p-8 border border-brand-500/30 bg-surface-50 rounded-xl relative">
+                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-3">
+                        <img src="logo.png" class="w-6 h-6 object-contain filter drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" alt="">
+                        Actualizaciones en Curso
+                    </h3>
+                    <p class="text-brand-400 font-mono text-xs tracking-wider uppercase mb-5">Ingeniería Obsesiva Hacia el Top 1</p>
+                    
+                    <p class="text-gray-300 text-base leading-relaxed mb-6">
+                        La innovación no se detiene aquí. Existen decenas de módulos y optimizaciones secundarias operando en paralelo en nuestros laboratorios privados. Nuestro equipo de ingenieros, liderado principalmente por nuestro fundador, se encuentra trabajando obsesivamente, 24/7, con un objetivo inquebrantable: <strong>posicionar a CV Studio33 como la herramienta Top 1 a nivel mundial</strong> en disrupción laboral y reclutamiento inteligente.
+                    </p>
+                    
+                    <div class="bg-black/50 p-6 rounded-lg border border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h4 class="text-white font-bold mb-2">Buscamos tu Visión</h4>
+                            <p class="text-gray-400 text-sm">
+                                Somos una comunidad enfocada en el crecimiento mutuo. Si tienes ideas revolucionarias, propuestas de mejora o funciones que crees que romperían el mercado, nuestro equipo directivo te lo agradecerá profundamente.
+                            </p>
+                        </div>
+                        <a href="mailto:CvStudio33@gmail.com" class="flex-shrink-0 inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-500 text-white px-6 py-3 rounded-lg font-bold text-sm transition-colors shadow-lg">
+                            <img src="logo.png" class="w-4 h-4 object-contain brightness-0 invert" alt="">
+                            CvStudio33@gmail.com
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer Documentación Extendido -->
+    <footer class="border-t border-white/5 bg-[#0a0a0a] pt-16 pb-12 px-4 md:px-8 mt-auto relative z-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12 flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
+                <a href="#" class="flex items-center group flex-shrink-0">
+                    <img src="logo.png" alt="CV Studio33 Logo" class="h-8 w-auto object-contain mr-3 opacity-50 group-hover:opacity-100 transition-opacity">
+                    <span class="font-display font-bold text-2xl tracking-tight text-gray-500 group-hover:text-white transition-colors">CV Studio<span class="text-brand-500 group-hover:text-brand-400 transition-colors">33</span></span>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-sm text-gray-500 mb-12">
+                <!-- Legal Block 1 -->
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-4 uppercase tracking-wider text-xs">Aviso Legal de Uso (SaaS)</h4>
+                    <p class="leading-relaxed mb-4 text-xs text-justify">
+                        CV Studio33 ("la Plataforma") opera estrictamente como un proveedor neutral de Software as a Service. Toda la tecnología de inteligencia artificial y automatización es ejecutada bajo la orden directa y responsabilidad absoluta del Usuario Final.
+                    </p>
+                </div>
+
+                <!-- Legal Block 2 -->
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-4 uppercase tracking-wider text-xs">Cumplimiento de Privacidad (GDPR/CCPA)</h4>
+                    <p class="leading-relaxed mb-4 text-xs text-justify">
+                        Todo procesamiento algorítmico de PII (Información Personal Identificable) extraída se realiza en "Cold Storage" (almacenamiento temporal frío). La información es procesada mediante encriptación AES-256 y destruida automáticamente.
+                    </p>
+                </div>
+
+                <!-- Links Legales y Contacto -->
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-4 uppercase tracking-wider text-xs">Documentos Oficiales & Contacto</h4>
+                    <ul class="space-y-3 text-xs">
+                        <li><a href="terminos-y-condiciones.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Términos y Condiciones de Servicio</a></li>
+                        <li><a href="politica-de-privacidad.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Política de Privacidad</a></li>
+                        <li><a href="politica-de-cookies.html" class="hover:text-brand-400 transition-colors flex items-center gap-2"><span>→</span> Política de Cookies</a></li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <a href="#" class="inline-flex items-center gap-2 bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] px-4 py-2.5 rounded-lg transition-colors text-xs font-bold w-full justify-center">
+                            SOPORTE OFICIAL (TELEGRAM)
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col border-t border-white/5 pt-8">
+                <p class="text-xs text-gray-600 text-center uppercase tracking-widest font-mono">
+                    &copy; 2026-2027 CV Studio33. Todos los derechos reservados.
+                </p>
+                <p class="text-[10px] text-gray-700 text-center mt-2 max-w-3xl mx-auto">
+                    El código fuente, la arquitectura de la Colmena (Hive Mind), y las redes neuronales subyacentes son propiedad intelectual estrictamente protegida. Prohibida su ingeniería inversa, distribución no autorizada o reventa bajo pena de persecución legal internacional (DMCA y leyes de derechos de autor corporativo).
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+

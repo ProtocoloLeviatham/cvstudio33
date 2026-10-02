@@ -8,11 +8,11 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
+    <!-- FontAwesome (Mantenido por compatibilidad de JS en los botones y spinners) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Animaciones Extraídas (MacBook, 3D Loader, SVG Rings, Sparkle Button) -->
     <link rel="stylesheet" href="animations.css">
@@ -22,13 +22,12 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#020617', 
-                        textMain: '#cbd5e1',
+                        primary: '#f8fafc', 
+                        textMain: '#334155',
                     },
                     fontFamily: {
                         heading: ['Montserrat', 'sans-serif'],
                         sans: ['Open Sans', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
             }
@@ -38,56 +37,86 @@
     <style>
         body { 
             font-family: 'Open Sans', sans-serif; 
-            background-color: #020617; 
-            color: #cbd5e1; 
+            background-color: #f8fafc; /* Fondo limpio y moderno de App Nativa */
+            color: #334155; 
             -webkit-font-smoothing: antialiased;
         }
 
-        .glass-card {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        /* Estilo de Tarjetas Modernas (Native App Look) */
+        .app-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .hub-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-        }
-        .hub-card:hover {
-            background: rgba(30, 41, 59, 0.9);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        .app-card-interactive:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
         }
 
         .google-btn {
-            background: #ffffff; color: #333333; transition: all 0.3s ease;
+            background: #ffffff;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s ease;
         }
-        .google-btn:hover { background: #f1f5f9; transform: translateY(-2px); }
+        .google-btn:hover {
+            background: #f1f5f9;
+        }
+
+        /* From Uiverse.io by Yaya12085 */ 
+        .playstore-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid #000;
+          border-radius: 9999px;
+          background-color: rgba(0, 0, 0, 1);
+          padding: 0.625rem 1.5rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 1);
+          outline: 0;
+          transition: all  .2s ease;
+          text-decoration: none;
+        }
+
+        .playstore-button:hover {
+          background-color: transparent;
+          color: rgba(0, 0, 0, 1);
+        }
+
+        .icon {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+
+        .texts {
+          margin-left: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          line-height: 1;
+        }
+
+        .text-1 {
+          margin-bottom: 0.25rem;
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
+
+        .text-2 {
+          font-weight: 600;
+        }
 
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-        .bg-grid {
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            mask-image: radial-gradient(circle at center, black, transparent 80%);
-            animation: moveGrid 20s linear infinite;
-        }
-        @keyframes moveGrid { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="selection:bg-slate-700 selection:text-white overflow-x-hidden">
-
-    <div class="bg-grid"></div>
+<body class="selection:bg-blue-500 selection:text-white overflow-x-hidden">
 
     <!-- ==============================================
          1. PRELOADER (MACBOOK)
@@ -110,13 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-24 text-center">
-                <div class="flex items-center gap-2 justify-center mb-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
-                    <p class="text-[10px] md:text-xs font-mono text-white uppercase tracking-[0.3em]">Cifrado AES-256 Activo</p>
-                </div>
-                <p class="text-[9px] text-slate-500 font-mono tracking-widest">INFRAESTRUCTURA SEGURA CV STUDIO33</p>
-            </div>
+            <!-- Se eliminaron los textos de 'cifrado aes-256' y 'infraestructura segura' para un diseño más moderno y profesional -->
         </div>
     </div>
 
@@ -155,8 +178,8 @@
   </div>
 </div>
         <div class="mt-16 text-center z-10">
-            <p class="text-xs font-mono text-white uppercase tracking-[0.3em] animate-pulse">Acceso Autorizado</p>
-            <p class="text-[10px] text-slate-500 mt-2 font-mono">Ensamblando ecosistema VIP...</p>
+            <p class="text-xs font-sans text-white uppercase tracking-[0.3em] animate-pulse">Acceso Autorizado</p>
+            <p class="text-[10px] text-slate-500 mt-2 font-sans">Ensamblando ecosistema VIP...</p>
         </div>
     </div>
 
@@ -184,28 +207,29 @@
     <main id="app-container" class="relative w-full min-h-screen p-4 md:p-8 opacity-0 hidden transition-opacity duration-1000">
         
         <!-- VISTA 1: LOGIN -->
-        <div id="login-view" class="w-full max-w-md mx-auto mt-[10vh] hidden">
-            <div class="glass-card rounded-3xl p-8 md:p-10 text-center relative overflow-hidden">
-                <div class="absolute -top-20 -right-20 w-40 h-40 bg-white/5 rounded-full blur-[50px] pointer-events-none"></div>
-                <div class="relative z-10">
-                    <img src="logo.png" alt="CV Studio33" class="h-16 mx-auto mb-6 opacity-90">
-                    
-                    <h1 class="text-2xl md:text-3xl font-heading font-black text-white mb-3 tracking-tight">Acceso Corporativo</h1>
-                    <p class="text-[13px] text-slate-400 mb-8 font-light leading-relaxed">
-                        Infraestructura protegida bajo protocolos <strong>Zero-Data Retention</strong>. Su identidad profesional está 100% resguardada.
-                    </p>
-                    
-                    <button id="btn-login" class="google-btn w-full flex items-center justify-center gap-4 py-3.5 px-6 rounded-xl font-bold text-sm">
-                        <i class="fa-solid fa-shield-halved text-lg"></i>
-                        <span>Autenticación Segura</span>
-                    </button>
-                    <div id="login-error" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs text-red-400 font-mono text-left"></div>
+        <div id="login-view" class="w-full max-w-sm mx-auto mt-[12vh] hidden">
+            <div class="app-card p-8 md:p-10 text-center flex flex-col items-center">
+                <div class="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100">
+                    <img src="logo.png" alt="CV Studio33" class="h-12 object-contain">
+                </div>
+                
+                <h1 class="text-2xl font-heading font-bold text-slate-900 mb-2">Bienvenido</h1>
+                <p class="text-sm text-slate-500 mb-8 font-light">
+                    Tu ecosistema profesional de alto rendimiento.
+                </p>
+                
+                <button id="btn-login" class="google-btn w-full flex items-center justify-center gap-3 py-3.5 px-6 rounded-xl font-semibold text-sm shadow-sm">
+                    <img src="logo.png" class="w-5 h-5 object-contain" alt="Google">
+                    <span>Continúa con Google</span>
+                </button>
+                <div id="login-error" class="hidden mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600 font-sans text-left w-full"></div>
 
-                    <div class="mt-8 pt-6 border-t border-white/10 text-[10px] md:text-xs text-slate-500 leading-relaxed">
-                        Al ingresar, certifica que aprueba nuestra arquitectura legal:<br>
-                        <a href="terminos-y-condiciones.html" class="text-white hover:underline">SLA</a> | 
-                        <a href="politica-de-privacidad.html" class="text-white hover:underline">Privacidad</a> | 
-                        <a href="politica-de-cookies.html" class="text-white hover:underline">Cookies</a>
+                <div class="mt-8 pt-6 border-t border-slate-100 text-[11px] text-slate-400 leading-relaxed w-full">
+                    Al ingresar, aceptas nuestra normativa:<br>
+                    <div class="flex flex-col gap-1 mt-3">
+                        <a href="terminos-y-condiciones.html" class="text-slate-600 font-medium hover:text-blue-600 transition-colors">Términos y Condiciones</a>
+                        <a href="politica-de-privacidad.html" class="text-slate-600 font-medium hover:text-blue-600 transition-colors">Política de Privacidad</a>
+                        <a href="politica-de-cookies.html" class="text-slate-600 font-medium hover:text-blue-600 transition-colors">Política de Cookies</a>
                     </div>
                 </div>
             </div>
@@ -214,34 +238,34 @@
         <!-- VISTA 2: ECOSISTEMA (HUB) -->
         <div id="profile-view" class="w-full max-w-7xl mx-auto hidden grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- COLUMNA IZQUIERDA (Perfil - Estático) -->
-            <div class="lg:col-span-4 xl:col-span-3 glass-card rounded-3xl p-6 md:p-8 h-fit z-10">
+            <!-- COLUMNA IZQUIERDA (Perfil) -->
+            <div class="lg:col-span-4 xl:col-span-3 app-card p-6 md:p-8 h-fit z-10 lg:sticky lg:top-8">
                 <div class="text-center mb-6">
                     <div class="relative inline-block group">
-                        <div class="w-24 h-24 rounded-full p-1 bg-white/10 shadow-2xl">
-                            <img id="user-photo" src="logo.png" alt="Profile" class="w-full h-full rounded-full object-cover border-2 border-[#020617] bg-slate-900">
+                        <div class="w-24 h-24 rounded-full p-1 bg-white shadow-md border border-slate-100">
+                            <img id="user-photo" src="logo.png" alt="Profile" class="w-full h-full rounded-full object-cover bg-slate-50">
                         </div>
-                        <label for="local-photo-upload" class="absolute bottom-0 right-0 w-8 h-8 bg-slate-700 hover:bg-slate-600 rounded-full flex items-center justify-center cursor-pointer shadow-lg border-2 border-[#020617] transition-colors">
-                            <i class="fa-solid fa-camera text-white text-[10px]"></i>
+                        <label for="local-photo-upload" class="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-colors border-2 border-white">
+                            <img src="logo.png" class="w-3.5 h-3.5 object-contain invert brightness-0">
                             <input type="file" id="local-photo-upload" class="hidden" accept="image/*">
                         </label>
                     </div>
-                    <h2 id="user-name" class="text-xl font-heading font-black text-white mt-4 tracking-tight">Cargando...</h2>
-                    <p id="user-email" class="text-xs text-slate-400 font-mono mt-1">...</p>
+                    <h2 id="user-name" class="text-xl font-heading font-black text-slate-900 mt-4 tracking-tight">Cargando...</h2>
+                    <p id="user-email" class="text-xs text-slate-500 mt-1">...</p>
                 </div>
 
                 <div class="space-y-3 mb-8">
-                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/30 border border-white/5">
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-100">
                         <span class="text-[10px] uppercase text-slate-500 font-bold">Estado</span>
-                        <span class="text-[10px] text-white font-mono bg-white/10 px-2 py-0.5 rounded">Verificada</span>
+                        <span class="text-[10px] text-blue-700 font-bold bg-blue-100 px-2 py-0.5 rounded-full">Verificada</span>
                     </div>
-                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-800/30 border border-white/5">
+                    <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-100">
                         <span class="text-[10px] uppercase text-slate-500 font-bold">Acceso</span>
-                        <span class="text-[10px] text-white font-mono">Ecosistema Central</span>
+                        <span class="text-[10px] text-slate-700 font-bold">Ecosistema Central</span>
                     </div>
                 </div>
 
-                <button id="btn-logout" class="w-full py-3.5 px-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all text-center">
+                <button id="btn-logout" class="w-full py-3.5 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold uppercase tracking-wider transition-all text-center shadow-sm">
                     Cerrar Sesión
                 </button>
             </div>
@@ -249,150 +273,202 @@
             <!-- COLUMNA DERECHA (Tarjetas Informativas Profesionales) -->
             <div class="lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
                 
-                <div class="glass-card rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="app-card p-6 md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-blue-700 to-indigo-800 text-white border-none shadow-lg">
                     <div>
-                        <h3 class="text-2xl md:text-3xl font-heading font-black text-white tracking-tight">El Ecosistema CV Studio33</h3>
-                        <p class="text-sm text-slate-400 mt-2 font-light leading-relaxed max-w-2xl">
+                        <h3 class="text-2xl md:text-3xl font-heading font-black tracking-tight text-white">El Ecosistema CV Studio33</h3>
+                        <p class="text-sm text-blue-100 mt-2 font-light leading-relaxed max-w-2xl">
                             Bienvenido a la red de vinculación profesional definitiva. Como Asesor, nosotros le entregamos la infraestructura pesada; usted aporta la conexión orgánica y el cierre estratégico. Seleccione el módulo para comenzar.
                         </p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
                     <!-- Panel de Gestión Estratégica -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="PanelDeGestion-Ventas.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
-                            <h4 class="text-lg font-bold text-white font-heading">Panel de Gestión Estratégica</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="PanelDeGestion-Ventas.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Panel de Gestión Estratégica</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             Acceda a métricas avanzadas y proyección operativa de alto rendimiento. Nuestra infraestructura está diseñada para maximizar su eficiencia en la colocación de talento, brindándole herramientas de nivel Agencia para multiplicar su alcance.<br><br>
                             Escale su modelo de negocio gestionando su propia red de vinculación y obtenga retornos sustanciales apalancándose en nuestro ecosistema tecnológico integral.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-blue-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-blue-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Panel NYX IA -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="protocolonyx.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logonyx.png" class="w-10 h-10 object-contain drop-shadow-md" onerror="this.src='logo.png'">
-                            <h4 class="text-lg font-bold text-white font-heading">Panel Nyx IA</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="protocolonyx.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center border border-indigo-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Panel Nyx IA</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             NYX opera como una red neuronal ofensiva, calibrada con más de 10 millones de puntos de datos de contratación. Reestructura la arquitectura de sus datos profesionales para optimizar la indexación en sistemas globales.<br><br>
                             Despliega ingeniería inversa para identificar carencias semánticas, asegurando que su perfil obtenga una ventaja técnica sobre la competencia y sea categorizado como 'Candidato Óptimo'.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-indigo-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Panel AXON -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="protocoloaxon.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logoaxon.png" class="w-10 h-10 object-contain drop-shadow-md" onerror="this.src='logo.png'">
-                            <h4 class="text-lg font-bold text-white font-heading">Panel Axón BOT ATS</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="protocoloaxon.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Panel Axón BOT ATS</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             AXON constituye el componente de auditoría avanzada del ecosistema. Mediante técnicas de Deep Learning, funciona como un simulador vivo detectando discrepancias de competencias y errores críticos de formato.<br><br>
                             Proporciona un cálculo de probabilidad matemática de éxito basado en evidencia histórica. Operamos bajo el paradigma de riesgo cero mediante auditorías predictivas infalibles.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-emerald-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Suite VIP -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="Bolsadetrabajovip.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
-                            <h4 class="text-lg font-bold text-white font-heading">Acceso a SUITE VIP</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="Bolsadetrabajovip.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center border border-amber-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Acceso a SUITE VIP</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             Acceso exclusivo al "Mercado Oculto", donde se gestionan el 70% de las vacantes de alto nivel que no se publican en portales masivos.<br><br>
                             Ofrece un ecosistema de alertas estratégicas tempranas, guías de negociación salarial comprobadas y networking avanzado. Anticipamos oportunidades antes de su difusión pública.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-amber-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Creación de CV -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="servicio-de-creación-cv.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
-                            <h4 class="text-lg font-bold text-white font-heading">Creación de CV por CV Studio33</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="servicio-de-creación-cv.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center border border-violet-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Creación de CV por CV Studio33</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             Implementamos la Metodología 33: Precisión, Estrategia y Tecnología. Realizamos un Diagnóstico Forense de tu trayectoria para detectar brechas y errores estructurales que bloquean tu visibilidad.<br><br>
                             Aplicamos neuro-copywriting corporativo transformando tareas aburridas en logros con métricas (KPIs), finalizando con un diseño híbrido legible para algoritmos y humanos. Certificado y validado.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-violet-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-violet-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Biblioteca -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="biblioteca-de-plantillas.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
-                            <h4 class="text-lg font-bold text-white font-heading">Biblioteca de Plantillas Cv ATS</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="biblioteca-de-plantillas.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center border border-rose-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Biblioteca de Plantillas Cv ATS</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             Accede a la arquitectura visual definitiva. Desde Diseños Especiales certificados por AXON para lectura rápida, hasta Diseños Avanzados (Optimización NYX) con inyección de palabras clave.<br><br>
                             Incluye acceso a los diseños ELITE: con más del 87% de aprobación en filtros corporativos estrictos, bases de datos masivas y el Kit Total de Plugins para estructurar vacíos temporales estratégicamente.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-rose-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Empleos -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="EmpleosCvstudio33.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
-                            <h4 class="text-lg font-bold text-white font-heading">Lista de Empleos</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="EmpleosCvstudio33.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-50 flex items-center justify-center border border-cyan-100">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Lista de Empleos</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             Bienvenido a la red de vinculación profesional. Centralizamos, auditamos y actualizamos constantemente la base de datos de contratación más robusta del mercado corporativo e internacional.<br><br>
                             Encuentra oportunidades locales de alta jerarquía o posiciones globales con modalidades flexibles, asegurando que tu perfil optimizado llegue exactamente a los tomadores de decisión.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-cyan-600 uppercase tracking-wider flex items-center gap-1 group-hover:text-cyan-800 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
 
                     <!-- Partnerships -->
-                    <div class="hub-card rounded-2xl p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="Partnerships.html">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="logo.png" class="w-10 h-10 object-contain drop-shadow-md">
-                            <h4 class="text-lg font-bold text-white font-heading">Únete a Nosotros</h4>
+                    <div class="app-card app-card-interactive p-6 flex flex-col h-full cursor-pointer group btn-redirect" data-url="Partnerships.html">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center border border-slate-200">
+                                <img src="logo.png" class="w-6 h-6 object-contain">
+                            </div>
+                            <h4 class="text-base font-bold text-slate-900 font-heading leading-tight">Únete a Nosotros</h4>
                         </div>
-                        <p class="text-xs text-slate-300 flex-grow leading-relaxed mb-4">
+                        <p class="text-[13px] text-slate-600 flex-grow leading-relaxed mb-4">
                             NYX & AXON PARTNERSHIP. Si es estratega de carrera, obtenga acceso ilimitado a nuestra infraestructura tecnológica para producir perfiles optimizados masivamente.<br><br>
                             Le entregamos un agente autónomo personalizado para que opere su negocio con conexión neural directa a nuestros sistemas, garantizando tasas de lectura superiores al 99% sin sacrificar calidad técnica.
                         </p>
-                        <div class="text-[10px] font-bold text-white uppercase tracking-wider flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">Ingresar <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1 group-hover:text-slate-900 transition-colors">
+                            Ingresar <img src="logo.png" class="w-3.5 h-3.5 inline-block ml-1 opacity-70">
+                        </div>
                     </div>
                 </div>
                 
                 <!-- NUEVA SECCIÓN: APP FUTURA -->
-                <div class="mt-2 glass-card rounded-3xl p-8 border border-blue-500/30 relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-transparent opacity-50"></div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-4">
-                            <i class="fa-brands fa-google-play text-2xl text-blue-400"></i>
-                            <h3 class="text-xl md:text-2xl font-heading font-black text-white tracking-tight">Próximamente: La Revolución Móvil de CV Studio33</h3>
-                        </div>
-                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
-                            El equipo de ingenieros de <strong>CV Studio33</strong> se encuentra desarrollando nuestra aplicación nativa oficial para <strong>Google Play Store</strong>. No será una simple adaptación; estamos construyendo la herramienta definitiva con las mejoras más brutales y disruptivas de todo Internet.
-                        </p>
-                        <p class="text-sm text-slate-300 leading-relaxed mb-6">
-                            Garantizamos que una vez lanzada, conseguir trabajo dejará de ser una tarea pesada y frustrante. Esta app será la llave maestra para que cualquier profesional logre ubicarse en el mercado sin tener que luchar eternamente contra las automatizaciones de las grandes empresas y los rechazos algorítmicos. Prepárese para llevar todo el poder de nuestra infraestructura de grado corporativo directamente en su bolsillo.
-                        </p>
-                        <div class="flex items-center gap-2">
-                            <span class="relative flex h-3 w-3">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                            </span>
-                            <span class="text-xs font-mono text-blue-300 uppercase tracking-widest font-bold">En fase de desarrollo avanzado</span>
+                <div class="mt-2 app-card p-8 border border-blue-100 bg-blue-50/30 relative overflow-hidden group">
+                    <div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6">
+                        <div class="flex-1">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 mb-4 text-center sm:text-left">
+                                <img src="logo.png" class="w-8 h-8 object-contain mt-1 hidden sm:block">
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-heading font-black text-slate-900 tracking-tight">Próximamente: La Revolución Móvil de CV Studio33</h3>
+                                    <div class="flex items-center justify-center sm:justify-start gap-2 mt-2">
+                                        <span class="relative flex h-2.5 w-2.5">
+                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                                        </span>
+                                        <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">En fase de desarrollo avanzado</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4 text-center sm:text-left">
+                                El equipo de ingenieros de <strong>CV Studio33</strong> se encuentra desarrollando nuestra aplicación nativa oficial para <strong>Google Play Store</strong>. No será una simple adaptación; estamos construyendo la herramienta definitiva con las mejoras más brutales y disruptivas de todo Internet.
+                            </p>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-6 text-center sm:text-left">
+                                Garantizamos que una vez lanzada, conseguir trabajo dejará de ser una tarea pesada y frustrante. Esta app será la llave maestra para que cualquier profesional logre ubicarse en el mercado sin tener que luchar eternamente contra las automatizaciones de las grandes empresas y los rechazos algorítmicos. Prepárese para llevar todo el poder de nuestra infraestructura de grado corporativo directamente en su bolsillo.
+                            </p>
+                            
+                            <!-- Uiverse Google Play Button -->
+                            <div class="flex justify-center sm:justify-start">
+                                <a class="playstore-button" href="#">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 512 512">
+                                    <path d="M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z"></path>
+                                  </svg>
+                                  <span class="texts">
+                                    <span class="text-1">GET IT ON</span>
+                                    <span class="text-2">Google Play</span>
+                                  </span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Documentación Técnica extraída del prompt -->
-                <div class="mt-4 mb-20 flex flex-wrap gap-4 text-xs">
-                    <button class="btn-redirect px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors font-mono" data-url="NyxTegnologia.html">Documentación NYX</button>
-                    <button class="btn-redirect px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors font-mono" data-url="Axon.html">Documentación AXON</button>
+                <div class="mt-4 mb-20 flex flex-wrap gap-4 justify-center sm:justify-start">
+                    <button class="btn-redirect px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:shadow-sm text-slate-700 transition-all font-semibold text-xs flex items-center gap-2" data-url="NyxTegnologia.html">
+                        <img src="logo.png" class="w-4 h-4 object-contain"> Documentación NYX
+                    </button>
+                    <button class="btn-redirect px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:shadow-sm text-slate-700 transition-all font-semibold text-xs flex items-center gap-2" data-url="Axon.html">
+                        <img src="logo.png" class="w-4 h-4 object-contain"> Documentación AXON
+                    </button>
                 </div>
 
             </div>
@@ -400,14 +476,14 @@
     </main>
 
     <!-- TOAST INSPIRACIÓN VIP -->
-    <div id="motivational-toast" class="fixed bottom-24 right-6 z-50 max-w-[300px] bg-slate-900/95 backdrop-blur-md border border-slate-700 p-5 rounded-2xl shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300">
-        <p id="motivational-text" class="text-xs text-slate-300 leading-relaxed font-sans"></p>
+    <div id="motivational-toast" class="fixed bottom-24 right-6 z-50 max-w-[300px] bg-white border border-slate-200 p-5 rounded-2xl shadow-xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300">
+        <p id="motivational-text" class="text-sm text-slate-700 leading-relaxed font-sans font-medium"></p>
     </div>
 
     <!-- BOTÓN INSPIRACIÓN -->
     <div class="fixed bottom-6 right-6 z-50">
-        <button id="btn-motivate" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2 border border-blue-400/30">
-            <i class="fa-solid fa-lightbulb"></i>
+        <button id="btn-motivate" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold py-3 px-5 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2">
+            <img src="logo.png" class="w-4 h-4 object-contain invert brightness-0">
             <span>Motivación</span>
         </button>
     </div>

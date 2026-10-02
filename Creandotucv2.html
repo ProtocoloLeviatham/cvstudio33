@@ -465,39 +465,45 @@
         /* Impresión (PDF real ATS) */
         @media print {
             body, html { 
-                margin: 0; 
-                padding: 0; 
+                margin: 0 !important; 
+                padding: 0 !important; 
                 background: white !important; 
+                width: 100% !important;
+                height: 100% !important;
             }
             /* Ocultar elementos de UI */
-            .top-navbar, .editor-panel, .bottom-nav-container, .no-print { 
+            .top-navbar, .editor-panel, .bottom-nav-container, .no-print, #share-modal, #custom-toast { 
                 display: none !important; 
             }
             /* Restaurar flujo del documento para asegurar renderizado */
             .app-container, .main-content, .preview-panel, #preview-wrapper {
                 display: block !important;
                 height: auto !important;
-                position: static !important;
+                position: relative !important;
                 overflow: visible !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                background: white !important;
+                background: transparent !important;
                 width: 100% !important;
+                max-width: 100% !important;
                 transform: none !important;
             }
             /* Formatear página A4 */
             .a4-page {
-                position: static !important;
+                position: relative !important;
                 box-shadow: none !important; 
-                width: 100% !important;
-                max-width: 100% !important;
-                padding: 0 !important;
-                margin: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                max-width: none !important;
+                margin: 0 auto !important;
                 background: white !important;
+                page-break-after: auto;
             }
-            .left-column {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
 
             @page { margin: 0; size: A4 portrait; }
@@ -1540,5 +1546,4 @@
 </script>
 </body>
 </html>
-
 

@@ -513,7 +513,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let currentUserData = { tokens: 0, traces: [] };
+        let currentUserData = { tokens: 0, traces: [], isMonthlyActive: false };
         let userIdFormat = "";
         let selectedFileBase64 = null;
         let unsubscribeSnapshot = null;
@@ -599,6 +599,7 @@
                 unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
                     let tokens = 0;
                     let traces = [];
+                    let isMonthlyActive = false;
                     
                     if (docSnap.exists()) {
                         const data = docSnap.data();
@@ -608,13 +609,20 @@
                             const expireDate = data.plan_expires_at.toDate ? data.plan_expires_at.toDate() : new Date(data.plan_expires_at);
                             if (new Date() > expireDate) hasActivePlan = false;
                         }
+
+                        if (hasActivePlan && data.plan_type === "mensual_nyx") {
+                            isMonthlyActive = true;
+                        }
+
                         if (hasActivePlan) tokens = data.tokens_nyx || 0;
                         traces = data.traces || [];
                     }
                     
                     currentUserData.tokens = tokens;
                     currentUserData.traces = traces;
-                    tokenDisplay.textContent = tokens;
+                    currentUserData.isMonthlyActive = isMonthlyActive;
+                    
+                    tokenDisplay.textContent = isMonthlyActive ? "SUSCRIPCIÓN MENSUAL" : tokens;
 
                     if (!document.getElementById('view-analytics').classList.contains('hidden')) {
                         renderTraceAnalytics();
@@ -675,13 +683,23 @@
             const size = selectedTargets.size;
             countDisplay.textContent = size;
             currentCalculatedCost = getCostForTargets(size);
-            costDisplay.textContent = currentCalculatedCost;
             
             const btnFire = document.getElementById('btn-fire');
-            if (currentCalculatedCost > 0) {
-                btnFire.innerHTML = `Ejecutar Enrutamiento (${currentCalculatedCost} <img src="logo.png" class="h-3 w-3 inline">) <img src="logo.png" class="w-4 h-4 inline ml-1">`;
+            
+            if (currentUserData.isMonthlyActive) {
+                costDisplay.textContent = "0";
+                if (currentCalculatedCost > 0) {
+                    btnFire.innerHTML = `Ejecutar Enrutamiento (Plan Mensual) <img src="logo.png" class="w-4 h-4 inline ml-1">`;
+                } else {
+                    btnFire.innerHTML = `Ejecutar Enrutamiento <img src="logo.png" class="w-4 h-4 inline ml-1">`;
+                }
             } else {
-                btnFire.innerHTML = `Ejecutar Enrutamiento <img src="logo.png" class="w-4 h-4 inline ml-1">`;
+                costDisplay.textContent = currentCalculatedCost;
+                if (currentCalculatedCost > 0) {
+                    btnFire.innerHTML = `Ejecutar Enrutamiento (${currentCalculatedCost} <img src="logo.png" class="h-3 w-3 inline">) <img src="logo.png" class="w-4 h-4 inline ml-1">`;
+                } else {
+                    btnFire.innerHTML = `Ejecutar Enrutamiento <img src="logo.png" class="w-4 h-4 inline ml-1">`;
+                }
             }
         };
 
@@ -754,7 +772,7 @@
         let currentStep = 0;
 
         const startWizard = (type) => {
-            if(currentUserData.tokens < 5) return showNyxNotification(`Saldo insuficiente. Créditos actuales: ${currentUserData.tokens}.`, "error");
+            if(!currentUserData.isMonthlyActive && currentUserData.tokens < 5) return showNyxNotification(`Saldo insuficiente. Créditos actuales: ${currentUserData.tokens}.`, "error");
             
             currentDistributionType = type;
             currentDistributionList = type === 'corp' ? allCorps : allAgencies;
@@ -795,7 +813,7 @@
             btn.addEventListener('click', () => {
                 if (currentStep === 0) {
                     if (selectedTargets.size === 0) return showNyxNotification("Selecciona al menos un destino.", "error");
-                    if (currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Saldo insuficiente. Tienes ${currentUserData.tokens} créditos y requieres ${currentCalculatedCost}.`, "error");
+                    if (!currentUserData.isMonthlyActive && currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Saldo insuficiente. Tienes ${currentUserData.tokens} créditos y requieres ${currentCalculatedCost}.`, "error");
                 }
                 if (currentStep === 1) {
                     if (!candidateInput.value.trim()) return showNyxNotification("Nombre obligatorio.", "error");
@@ -846,7 +864,7 @@
 
         btnFire.addEventListener('click', async () => {
             if(selectedTargets.size === 0) return showNyxNotification("Destinos vacíos.", "error");
-            if(currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Créditos insuficientes.`, "error");
+            if(!currentUserData.isMonthlyActive && currentUserData.tokens < currentCalculatedCost) return showNyxNotification(`Créditos insuficientes.`, "error");
             
             const freshToken = await auth.currentUser.getIdToken(true); 
             const finalTargetsArray = Array.from(selectedTargets);
@@ -856,6 +874,7 @@
                 tokenJWT: freshToken,
                 branches: finalTargetsArray,
                 expectedCost: currentCalculatedCost, 
+                isMonthlyActive: currentUserData.isMonthlyActive,
                 senderName: document.getElementById('sender-name').value.trim(),
                 subject: document.getElementById('email-subject').value.trim(),
                 pitch: document.getElementById('pitch-text').value,
@@ -1069,6 +1088,7 @@
     </script>
 </body>
 </html>
+
 
 
 

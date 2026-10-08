@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Interfaz Blanca y Cooldown Actualizados -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -15,9 +16,9 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        background: '#09090b', /* Zinc 950 */
-                        surface: '#18181b', /* Zinc 900 */
-                        border: 'rgba(255, 255, 255, 0.08)',
+                        background: '#f8fafc', /* Slate 50 */
+                        surface: '#ffffff', /* White */
+                        border: '#e2e8f0',
                         brand: { 500: '#3b82f6', 600: '#2563eb' } /* Blue */
                     }
                 }
@@ -28,7 +29,7 @@
     <style>
         body { 
             background-color: theme('colors.background'); 
-            color: #f4f4f5; 
+            color: #0f172a; 
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
@@ -39,12 +40,12 @@
             background-color: theme('colors.surface');
             border: 1px solid theme('colors.border');
             border-radius: 20px;
-            box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.05);
         }
 
         /* Inputs Native */
         .native-input {
-            background-color: #27272a; /* Zinc 800 */
+            background-color: #f1f5f9; /* Slate 100 */
             border: 1px solid transparent;
             color: white;
             border-radius: 14px;
@@ -53,13 +54,13 @@
         }
         .native-input:focus {
             border-color: theme('colors.brand.500');
-            background-color: #27272a;
+            background-color: #ffffff;
             outline: none;
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
         .native-select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 1.2em;
@@ -98,12 +99,12 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="selection:bg-brand-500 selection:text-white relative pb-10">
+<body class="selection:bg-brand-500 selection:text-slate-900 relative pb-10">
 
     <!-- OVERLAY DE CARGA Y SEGURIDAD -->
     <div id="auth-loader" class="fixed inset-0 bg-background z-[200] flex flex-col justify-center items-center transition-opacity duration-500">
         <img src="logo.png" alt="CVStudio33" class="w-20 h-20 mb-6 object-contain spinner-img">
-        <p class="text-sm text-zinc-400 font-medium">Verificando Credenciales de Operador...</p>
+        <p class="text-sm text-slate-500 font-medium">Verificando Credenciales de Operador...</p>
     </div>
 
     <!-- NAVEGACIÓN SUPERIOR FIJA -->
@@ -111,9 +112,9 @@
         <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <img src="logo.png" alt="Logo" class="w-6 h-6 object-contain">
-                <span class="text-lg font-semibold text-white tracking-tight">CVStudio<span class="text-brand-500">33</span></span>
+                <span class="text-lg font-semibold text-slate-900 tracking-tight">CVStudio<span class="text-brand-500">33</span></span>
             </div>
-            <a href="PanelDeGestion-Ventas.html" class="text-xs font-medium text-zinc-300 hover:text-white bg-white/5 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 btn-active">
+            <a href="PanelDeGestion-Ventas.html" class="text-xs font-medium text-slate-700 hover:text-slate-900 bg-white/5 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 btn-active">
                 <img src="logo.png" alt="icon" class="icon-logo w-3 h-3 opacity-70">
                 <span class="hidden sm:inline">Volver a Tesorería</span><span class="sm:hidden">Volver</span>
             </a>
@@ -122,26 +123,26 @@
 
     <!-- NAVEGACIÓN MÓVIL (PÍLDORAS) -->
     <div class="lg:hidden sticky top-14 z-40 bg-background/90 backdrop-blur-xl border-b border-border py-2.5 px-4 overflow-x-auto flex gap-2">
-        <a href="#motor-ia" class="text-xs whitespace-nowrap bg-brand-500/10 text-brand-500 px-4 py-2 rounded-full font-medium btn-active">Motor IA</a>
-        <a href="#ecosistema-agencia" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">La Agencia & NYX</a>
-        <a href="#modulo-1" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">1. Panel</a>
-        <a href="#modulo-2" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">2. Cliente</a>
-        <a href="#modulo-3" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">3. Precios</a>
-        <a href="#modulo-4" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">4. Ganchos</a>
-        <a href="#modulo-5" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">5. Cierres</a>
-        <a href="#modulo-6" class="text-xs whitespace-nowrap bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full font-medium btn-active">6. Objeciones</a>
+        <a href="#motor-ia" class="text-xs whitespace-nowrap bg-brand-100 text-brand-700 px-4 py-2 rounded-full font-medium btn-active">Motor IA</a>
+        <a href="#ecosistema-agencia" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">La Agencia & NYX</a>
+        <a href="#modulo-1" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">1. Panel</a>
+        <a href="#modulo-2" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">2. Cliente</a>
+        <a href="#modulo-3" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">3. Precios</a>
+        <a href="#modulo-4" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">4. Ganchos</a>
+        <a href="#modulo-5" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">5. Cierres</a>
+        <a href="#modulo-6" class="text-xs whitespace-nowrap bg-slate-100 text-slate-700 px-4 py-2 rounded-full font-medium btn-active">6. Objeciones</a>
     </div>
 
     <!-- CABECERA HERO CORPORATIVA -->
     <div class="py-10 px-4 text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-border mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-border mb-4">
             <div class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></div>
-            <span class="text-xs text-zinc-300 font-medium">Infraestructura de Tráfico Activa</span>
+            <span class="text-xs text-slate-700 font-medium">Infraestructura de Tráfico Activa</span>
         </div>
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 leading-tight">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4 leading-tight">
             Academia de Marketing Corporativo
         </h1>
-        <p class="text-sm text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+        <p class="text-sm text-slate-500 leading-relaxed max-w-2xl mx-auto">
             No somos diseñadores de currículums; somos <b>la Agencia de Empleabilidad Tecnológica definitiva</b>. Integre la Inteligencia Artificial para la prospección masiva y utilice la doctrina corporativa para el cierre efectivo de activos.
         </p>
     </div>
@@ -152,19 +153,19 @@
         <!-- SIDEBAR DE ÍNDICE (Fijo en PC) -->
         <aside class="hidden lg:block w-64 shrink-0">
             <div class="app-card p-5 sticky top-28">
-                <h3 class="text-white font-semibold mb-4 text-sm flex items-center gap-2 pb-3 border-b border-border">
+                <h3 class="text-slate-900 font-semibold mb-4 text-sm flex items-center gap-2 pb-3 border-b border-border">
                     <img src="logo.png" class="icon-logo"> Nodos de Operación
                 </h3>
-                <ul class="space-y-1 text-sm text-zinc-400 font-medium">
-                    <li><a href="#motor-ia" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all"><img src="logo.png" class="icon-logo"> Generador Inteligente</a></li>
-                    <li><a href="#ecosistema-agencia" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all"><img src="logo.png" class="icon-logo"> Agencia & NYX/AXON</a></li>
-                    <li class="pt-3 pb-1 text-xs text-zinc-500 font-semibold px-2">Playbook (Guía Técnica)</li>
-                    <li><a href="#modulo-1" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all">1. Dominio del Panel</a></li>
-                    <li><a href="#modulo-2" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all">2. 15 Perfiles de Cliente</a></li>
-                    <li><a href="#modulo-3" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all">3. Tabla de Precios</a></li>
-                    <li><a href="#modulo-4" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all">4. 15 Ganchos Virales</a></li>
-                    <li><a href="#modulo-5" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all">5. 12 Flujos de Cierre</a></li>
-                    <li><a href="#modulo-6" class="flex items-center gap-2 p-2 hover:bg-zinc-800 rounded-lg hover:text-white transition-all">6. 12 Objeciones Reales</a></li>
+                <ul class="space-y-1 text-sm text-slate-500 font-medium">
+                    <li><a href="#motor-ia" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all"><img src="logo.png" class="icon-logo"> Generador Inteligente</a></li>
+                    <li><a href="#ecosistema-agencia" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all"><img src="logo.png" class="icon-logo"> Agencia & NYX/AXON</a></li>
+                    <li class="pt-3 pb-1 text-xs text-slate-400 font-semibold px-2">Playbook (Guía Técnica)</li>
+                    <li><a href="#modulo-1" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all">1. Dominio del Panel</a></li>
+                    <li><a href="#modulo-2" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all">2. 15 Perfiles de Cliente</a></li>
+                    <li><a href="#modulo-3" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all">3. Tabla de Precios</a></li>
+                    <li><a href="#modulo-4" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all">4. 15 Ganchos Virales</a></li>
+                    <li><a href="#modulo-5" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all">5. 12 Flujos de Cierre</a></li>
+                    <li><a href="#modulo-6" class="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg hover:text-slate-900 transition-all">6. 12 Objeciones Reales</a></li>
                 </ul>
             </div>
         </aside>
@@ -177,10 +178,10 @@
             <!-- ================================================================= -->
             <section id="motor-ia" class="scroll-mt-28">
                 <div class="app-card overflow-hidden">
-                    <div class="p-5 sm:p-6 border-b border-border flex items-center gap-3 bg-zinc-900/50">
+                    <div class="p-5 sm:p-6 border-b border-border flex items-center gap-3 bg-white/50">
                         <img src="logo.png" alt="NYX Logo" class="w-10 h-10 object-contain">
                         <div>
-                            <h2 class="text-lg font-semibold text-white">Forja de Contenido IA</h2>
+                            <h2 class="text-lg font-semibold text-slate-900">Forja de Contenido IA</h2>
                             <p class="text-xs text-brand-400">Enlazado a NYX Core Engine & Gemini Advanced API</p>
                         </div>
                     </div>
@@ -188,13 +189,13 @@
                     <div class="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
                         <!-- FORMULARIO DE ENTRADA AVANZADO -->
                         <div class="lg:col-span-5 space-y-5">
-                            <h4 class="text-sm font-semibold text-white flex items-center gap-2">
+                            <h4 class="text-sm font-semibold text-slate-900 flex items-center gap-2">
                                 <img src="logo.png" class="icon-logo"> Parámetros de Síntesis
                             </h4>
                             
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-xs text-zinc-400 mb-1.5 font-medium">1. Plataforma de Despliegue</label>
+                                    <label class="block text-xs text-slate-500 mb-1.5 font-medium">1. Plataforma de Despliegue</label>
                                     <select id="ia-platform" class="native-input native-select py-3 px-4 text-sm font-medium">
                                         <option value="TikTok">TikTok (Formato Viral Rápido)</option>
                                         <option value="Instagram Reels">Instagram Reels (Vertical)</option>
@@ -205,7 +206,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-zinc-400 mb-1.5 font-medium">2. Selector de Gancho (33 Opciones)</label>
+                                    <label class="block text-xs text-slate-500 mb-1.5 font-medium">2. Selector de Gancho (33 Opciones)</label>
                                     <select id="ia-hook" class="native-input native-select py-3 px-4 text-sm font-medium">
                                         <option value="Auto">Dejar que la IA invente el gancho ideal...</option>
                                         <optgroup label="Tácticas de Miedo & ATS">
@@ -258,7 +259,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-zinc-400 mb-1.5 font-medium">3. Tono de Comunicación</label>
+                                    <label class="block text-xs text-slate-500 mb-1.5 font-medium">3. Tono de Comunicación</label>
                                     <select id="ia-tone" class="native-input native-select py-3 px-4 text-sm font-medium">
                                         <option value="Empático y Cercano">Empático y Orgánico (Hablando de tú a tú, sincero)</option>
                                         <option value="Autoridad Corporativa">Autoridad Corporativa (Elegante, directo y experto)</option>
@@ -266,7 +267,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-zinc-400 mb-1.5 font-medium">4. Formato de Aparición Visual</label>
+                                    <label class="block text-xs text-slate-500 mb-1.5 font-medium">4. Formato de Aparición Visual</label>
                                     <select id="ia-appearance" class="native-input native-select py-3 px-4 text-sm font-medium">
                                         <option value="Cámara y Microfono">Me grabaré hablando a cámara (Formato Personal)</option>
                                         <option value="Avatar IA">Haré un video 100% con IA (Avatar Inteligente/Voz Clonada)</option>
@@ -274,21 +275,29 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-zinc-400 mb-1.5 font-medium">5. Herramientas de Edición/Voz (Contexto IA)</label>
-                                    <textarea id="ia-tools" rows="2" class="native-input py-3 px-4 text-sm font-medium placeholder-zinc-600 resize-none" placeholder="Explique a la IA qué programas usará. Ej: Usaré CapCut, hablaré a cámara con micrófono de solapa, y pondré imágenes de fondo..."></textarea>
+                                    <label class="block text-xs text-slate-500 mb-1.5 font-medium">5. Herramientas de Edición/Voz (Contexto IA)</label>
+                                    <textarea id="ia-tools" rows="2" class="native-input py-3 px-4 text-sm font-medium placeholder-slate-400 resize-none" placeholder="Explique a la IA qué programas usará. Ej: Usaré CapCut, hablaré a cámara con micrófono de solapa, y pondré imágenes de fondo..."></textarea>
+                                    <div class="mt-2 p-3 bg-brand-50 border border-brand-100 rounded-lg">
+                                        <p class="text-xs text-brand-700 font-semibold mb-1 flex items-center gap-1"><img src="logo.png" class="w-3 h-3 opacity-80"> Arsenal de Herramientas Recomendadas:</p>
+                                        <p class="text-[11px] text-brand-600 leading-relaxed">
+                                            <b>Video y Edición:</b> CapCut Pro (Subtítulos dinámicos), Premiere Pro, OpusClip (Recortes IA).<br>
+                                            <b>Voz y Audio:</b> ElevenLabs (Voces IA hiperrealistas), Adobe Podcast (Limpieza de audio), Micrófonos DJI/Rode.<br>
+                                            <b>Visuales:</b> Midjourney (Imágenes de apoyo), Canva Pro, HeyGen (Avatares IA corporativos).
+                                        </p>
+                                    </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-zinc-400 mb-1.5 font-medium">6. Idea Principal (Su toque personal)</label>
+                                    <label class="block text-xs text-slate-500 mb-1.5 font-medium">6. Idea Principal (Su toque personal)</label>
                                     <textarea id="ia-idea" rows="3" class="native-input py-3 px-4 text-sm font-medium placeholder-zinc-600 resize-none" placeholder="Escriba de qué quiere que trate el contenido. Ej: Quiero contar la historia de un cliente que no pasaba filtros y le vendí el paquete Tier 1..."></textarea>
                                 </div>
                             </div>
 
                             <div class="pt-2 space-y-3">
                                 <button id="btn-generate-content" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-medium py-3.5 rounded-xl transition flex items-center justify-center gap-2 btn-active">
-                                    <img src="logo.png" class="icon-logo filter brightness-0 invert"> GENERAR GUION INDIVIDUAL
+                                    <img src="logo.png" class="icon-logo "> GENERAR GUION INDIVIDUAL
                                 </button>
-                                <button id="btn-generate-weekly" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3.5 rounded-xl transition flex items-center justify-center gap-2 btn-active">
-                                    <img src="logo.png" class="icon-logo filter brightness-0 invert"> GENERAR PORTAFOLIO SEMANAL
+                                <button id="btn-generate-weekly" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3.5 rounded-xl transition flex items-center justify-center gap-2 btn-active">
+                                    <img src="logo.png" class="icon-logo "> GENERAR PORTAFOLIO SEMANAL
                                 </button>
                             </div>
                         </div>
@@ -296,66 +305,86 @@
                         <!-- SALIDA DE LA IA -->
                         <div class="lg:col-span-7 flex flex-col">
                             <div id="ai-waiting" class="flex-1 min-h-[450px] flex flex-col items-center justify-center border border-dashed border-border rounded-2xl bg-background text-center p-6 transition-all duration-300">
-                                <div class="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-4 border border-border shadow-sm">
+                                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 border border-border shadow-sm">
                                     <img src="logo.png" class="w-8 h-8 object-contain opacity-50">
                                 </div>
-                                <p class="text-sm text-zinc-400 font-medium">Consola Neuronal en Reposo.</p>
-                                <p class="text-xs text-zinc-500 mt-2 max-w-sm mx-auto leading-relaxed">Seleccione sus variables y ejecute el procesamiento para obtener estrategias blindadas y listas para publicar.</p>
+                                <p class="text-sm text-slate-500 font-medium">Consola Neuronal en Reposo.</p>
+                                <p class="text-xs text-slate-400 mt-2 max-w-sm mx-auto leading-relaxed">Seleccione sus variables y ejecute el procesamiento para obtener estrategias blindadas y listas para publicar.</p>
                             </div>
 
                             <div id="ai-results" class="hidden flex-1 flex flex-col bg-background border border-border rounded-2xl overflow-hidden shadow-sm">
-                                <div class="bg-zinc-900 px-4 py-3 border-b border-border flex items-center justify-between">
+                                <div class="bg-white px-4 py-3 border-b border-border flex items-center justify-between">
                                     <div class="flex items-center gap-2">
                                         <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                        <span class="text-xs text-zinc-300 font-medium">Output.json / Síntesis Exitosa</span>
+                                        <span class="text-xs text-slate-700 font-medium">Output.json / Síntesis Exitosa</span>
                                     </div>
-                                    <span class="text-[10px] text-zinc-400 bg-zinc-800 px-2 py-1 rounded-md border border-border">200 OK</span>
+                                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-1 rounded-md border border-border">200 OK</span>
                                 </div>
                                 
                                 <div class="p-5 overflow-y-auto flex-1 max-h-[500px]">
                                     <!-- CONTENEDOR PARA RESULTADO INDIVIDUAL -->
-                                    <div id="result-single" class="space-y-6">
-                                        <div>
-                                            <span class="text-xs text-zinc-400 font-semibold mb-2 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Gancho (Segundos 0-3)</span>
-                                            <div class="bg-zinc-900 p-4 rounded-xl border border-border">
-                                                <p id="out-hook" class="text-white text-sm font-semibold leading-relaxed"></p>
+                                    <div id="result-single" class="space-y-5">
+                                        <div class="border border-brand-100 bg-brand-50 rounded-2xl overflow-hidden shadow-sm">
+                                            <div class="bg-brand-600 px-4 py-2 flex items-center gap-2">
+                                                <img src="logo.png" class="w-4 h-4 filter brightness-0 invert">
+                                                <h3 class="text-white text-[11px] font-bold uppercase tracking-wider">1. Gancho Inicial (0-3s)</h3>
+                                            </div>
+                                            <div class="p-5">
+                                                <p id="out-hook" class="text-brand-900 text-base font-bold leading-relaxed"></p>
                                             </div>
                                         </div>
-                                        <div>
-                                            <span class="text-xs text-zinc-400 font-semibold mb-2 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Directriz Visual y Herramientas</span>
-                                            <div class="bg-zinc-900 p-4 rounded-xl border border-border">
-                                                <p id="out-visual" class="text-zinc-300 text-sm leading-relaxed"></p>
+
+                                        <div class="border border-slate-200 bg-white rounded-2xl overflow-hidden shadow-sm">
+                                            <div class="bg-slate-100 border-b border-slate-200 px-4 py-2 flex items-center gap-2">
+                                                <img src="logo.png" class="w-4 h-4 opacity-60">
+                                                <h3 class="text-slate-600 text-[11px] font-bold uppercase tracking-wider">2. Directriz Visual & Herramientas</h3>
+                                            </div>
+                                            <div class="p-5">
+                                                <p id="out-visual" class="text-slate-700 text-sm leading-relaxed"></p>
                                             </div>
                                         </div>
-                                        <div>
-                                            <span class="text-xs text-zinc-400 font-semibold mb-2 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Guion Oral (Locución)</span>
-                                            <div class="bg-zinc-900 p-5 rounded-xl border border-border">
-                                                <p id="out-script" class="text-white text-sm leading-relaxed whitespace-pre-wrap"></p>
+
+                                        <div class="border-l-4 border-l-brand-500 bg-white border border-slate-200 rounded-r-2xl overflow-hidden shadow-md">
+                                            <div class="bg-slate-50 border-b border-slate-200 px-4 py-2 flex items-center gap-2">
+                                                <img src="logo.png" class="w-4 h-4 opacity-60">
+                                                <h3 class="text-slate-800 text-[11px] font-bold uppercase tracking-wider">3. Guion Oral (Locución)</h3>
+                                            </div>
+                                            <div class="p-6">
+                                                <p id="out-script" class="text-slate-900 text-[15px] font-medium leading-relaxed whitespace-pre-wrap"></p>
                                             </div>
                                         </div>
-                                        <div>
-                                            <span class="text-xs text-zinc-400 font-semibold mb-2 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Descripción y #Hashtags</span>
-                                            <div class="bg-zinc-900 p-4 rounded-xl border border-border">
-                                                <p id="out-copy" class="text-zinc-400 text-sm leading-relaxed whitespace-pre-wrap"></p>
+
+                                        <div class="border border-slate-200 bg-slate-50 rounded-2xl overflow-hidden shadow-sm">
+                                            <div class="bg-slate-200/50 border-b border-slate-200 px-4 py-2 flex items-center gap-2">
+                                                <img src="logo.png" class="w-4 h-4 opacity-60">
+                                                <h3 class="text-slate-600 text-[11px] font-bold uppercase tracking-wider">4. Copy para Descripción & Hashtags</h3>
+                                            </div>
+                                            <div class="p-5">
+                                                <p id="out-copy" class="text-slate-500 text-sm leading-relaxed whitespace-pre-wrap"></p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- CONTENEDOR PARA RESULTADO SEMANAL -->
                                     <div id="result-weekly" class="hidden">
-                                        <span class="text-xs text-zinc-400 font-semibold mb-3 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Portafolio de Planificación Semanal (1-7)</span>
-                                        <div class="bg-zinc-900 p-5 rounded-xl border border-border">
-                                            <div id="out-weekly-content" class="text-white text-sm leading-relaxed font-sans"></div>
+                                        <div class="border border-brand-200 bg-white rounded-2xl overflow-hidden shadow-md">
+                                            <div class="bg-gradient-to-r from-brand-600 to-brand-500 px-5 py-3 flex items-center gap-3">
+                                                <img src="logo.png" class="w-5 h-5 filter brightness-0 invert">
+                                                <h3 class="text-white text-sm font-bold uppercase tracking-wide">Portafolio de Planificación Semanal</h3>
+                                            </div>
+                                            <div class="p-6 bg-slate-50/50">
+                                                <div id="out-weekly-content" class="text-slate-800 text-sm leading-relaxed font-sans space-y-3"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="flex flex-col sm:flex-row gap-3 p-4 border-t border-border bg-zinc-900">
-                                    <button id="btn-copy-all" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 btn-active">
-                                        <img src="logo.png" class="icon-logo filter brightness-0 invert"> EXTRAER AL PORTAPAPELES
+                                <div class="flex flex-col sm:flex-row gap-3 p-4 border-t border-border bg-white">
+                                    <button id="btn-copy-all" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 btn-active">
+                                        <img src="logo.png" class="icon-logo "> EXTRAER AL PORTAPAPELES
                                     </button>
-                                    <button id="btn-download-txt" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 btn-active">
-                                        <img src="logo.png" class="icon-logo filter brightness-0 invert"> DESCARGAR TXT NYX
+                                    <button id="btn-download-txt" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 btn-active">
+                                        <img src="logo.png" class="icon-logo "> DESCARGAR TXT NYX
                                     </button>
                                 </div>
                             </div>
@@ -370,26 +399,26 @@
             <section id="ecosistema-agencia" class="scroll-mt-28">
                 <div class="mb-5 border-b border-border pb-3">
                     <span class="text-brand-500 font-semibold text-xs block mb-1">Directriz de Posicionamiento</span>
-                    <h2 class="text-xl sm:text-2xl font-bold text-white">Venda la Agencia, no el Papel.</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Venda la Agencia, no el Papel.</h2>
                 </div>
                 
                 <div class="app-card p-5 sm:p-6 mb-8">
-                    <p class="text-sm text-zinc-300 mb-6 leading-relaxed">
+                    <p class="text-sm text-slate-700 mb-6 leading-relaxed">
                         Para cerrar ventas masivas, cambie su discurso. <b>Usted no vende "diseños bonitos de currículum"; usted representa a CVStudio33, una Agencia de Empleo y Tecnología.</b> En la crisis actual de desempleo mundial, postularse por la vía tradicional es inútil. Si el cliente no invierte en infraestructura tecnológica corporativa para vulnerar los sistemas ATS, no conseguirá el empleo. Y el gancho definitivo es que <b>ninguna otra agencia en el mercado ofrece acceso a Inteligencias Artificiales operativas propias (NYX y AXON).</b>
                     </p>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         
                         <!-- NYX CARD -->
-                        <div class="bg-zinc-900 border border-border p-5 rounded-2xl">
+                        <div class="bg-white border border-border p-5 rounded-2xl">
                             <div class="flex items-center gap-3 mb-3">
                                 <img src="logonyx.png" alt="NYX" class="w-10 h-10 object-contain">
                                 <div>
-                                    <h3 class="text-base font-bold text-white">Terminal NYX</h3>
-                                    <p class="text-xs text-zinc-400">Procesamiento Cognitivo</p>
+                                    <h3 class="text-base font-bold text-slate-900">Terminal NYX</h3>
+                                    <p class="text-xs text-slate-500">Procesamiento Cognitivo</p>
                                 </div>
                             </div>
-                            <div class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+                            <div class="space-y-2 text-sm text-slate-500 leading-relaxed">
                                 <p>NYX es la IA que revolucionará las contrataciones. Es un <i>Distribution Hub</i> cognitivo. El problema de los candidatos no es solo llegar a la entrevista, es <b>qué decir cuando están ahí</b>.</p>
                                 <p>Venda a NYX como el simulador y coach personal del cliente. Funciona por suscripción mensual o inyección de tokens. Prepara psicológicamente al postulante, analiza el puesto al que aplica y le dicta exactamente cómo responder a Recursos Humanos para asegurar la vacante.</p>
                                 <a href="https://protocololeviatham.github.io/cvstudio33/NyxTegnologia.html" target="_blank" class="inline-block mt-1 text-brand-400 hover:text-brand-300 font-medium">Explorar Arquitectura NYX &rarr;</a>
@@ -397,15 +426,15 @@
                         </div>
 
                         <!-- AXON CARD -->
-                        <div class="bg-zinc-900 border border-border p-5 rounded-2xl">
+                        <div class="bg-white border border-border p-5 rounded-2xl">
                             <div class="flex items-center gap-3 mb-3">
                                 <img src="logoaxon.png" alt="AXON" class="w-10 h-10 object-contain">
                                 <div>
-                                    <h3 class="text-base font-bold text-white">Terminal AXON</h3>
-                                    <p class="text-xs text-zinc-400">Procesamiento Táctico</p>
+                                    <h3 class="text-base font-bold text-slate-900">Terminal AXON</h3>
+                                    <p class="text-xs text-slate-500">Procesamiento Táctico</p>
                                 </div>
                             </div>
-                            <div class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+                            <div class="space-y-2 text-sm text-slate-500 leading-relaxed">
                                 <p>Mientras NYX piensa, AXON ejecuta. AXON es un <b>plugin IA de NYX que actúa con bases de datos globales de empleos y configuraciones.</b> Simula ser un bot ATS de cada empresa; con esto sabrás si pasas o no pasas para tu rubro deseado.</p>
                                 <p>Venda los Tokens de AXON a profesionales que ya tienen empleo pero necesitan una ventaja desleal corporativa en su día a día, o para aquellos que necesitan redactar cartas de presentación de impacto crítico en segundos.</p>
                                 <a href="https://protocololeviatham.github.io/cvstudio33/Axon.html" target="_blank" class="inline-block mt-1 text-brand-400 hover:text-brand-300 font-medium">Explorar Arquitectura AXON &rarr;</a>
@@ -413,17 +442,17 @@
                         </div>
                         
                         <!-- DISTRIBUTION HUB CARD -->
-                        <div class="bg-zinc-900 border border-border p-5 rounded-2xl lg:col-span-2 mt-2">
+                        <div class="bg-white border border-border p-5 rounded-2xl lg:col-span-2 mt-2">
                             <div class="flex items-center gap-3 mb-3">
                                 <img src="logo.png" class="icon-logo-lg opacity-80">
                                 <div>
-                                    <h3 class="text-base font-bold text-white">Distribution Hub</h3>
-                                    <p class="text-xs text-zinc-400">Músculo de Envío Masivo-Selectivo</p>
+                                    <h3 class="text-base font-bold text-slate-900">Distribution Hub</h3>
+                                    <p class="text-xs text-slate-500">Músculo de Envío Masivo-Selectivo</p>
                                 </div>
                             </div>
-                            <div class="space-y-3 text-sm text-zinc-400 leading-relaxed">
+                            <div class="space-y-3 text-sm text-slate-500 leading-relaxed">
                                 <p>Mediante la integración estratégica con infraestructuras de alto nivel como Resend y Mailrelay, NYX es capaz de gestionar más de 50,000 envíos mensuales. Esta tecnología asegura una tasa de entrega superior al 98%, utilizando protocolos anti-spam avanzados, rotación de IPs dedicadas y "envíos inteligentes" con pausas aleatorias que imitan a la perfección el comportamiento humano para evitar bloqueos por volumen excesivo.</p>
-                                <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 font-medium text-xs text-zinc-300">
+                                <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 font-medium text-xs text-slate-700">
                                     <li class="flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-60"> Infraestructura Enterprise dedicada.</li>
                                     <li class="flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-60"> Tasa de entrega en Bandeja Principal >98%.</li>
                                     <li class="flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-60"> Simulación algorítmica humana.</li>
@@ -440,7 +469,7 @@
             <!-- Separador Visual -->
             <div class="flex items-center gap-4 py-4">
                 <div class="h-px bg-border flex-1"></div>
-                <span class="text-[10px] font-semibold text-zinc-500 uppercase px-3 py-1 bg-zinc-900 rounded-full border border-border">Inicia Manual Operativo</span>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase px-3 py-1 bg-white rounded-full border border-border">Inicia Manual Operativo</span>
                 <div class="h-px bg-border flex-1"></div>
             </div>
 
@@ -448,18 +477,18 @@
             <!-- MÓDULO 1: LA DOCTRINA DEL PANEL Y GANANCIAS                       -->
             <!-- ================================================================= -->
             <section id="modulo-1" class="scroll-mt-28">
-                <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
                     <img src="logo.png" class="icon-logo"> 01. Entendiendo su Negocio y Ganancias
                 </h2>
                 
-                <div class="app-card p-5 sm:p-6 text-sm text-zinc-300 leading-relaxed mb-6">
+                <div class="app-card p-5 sm:p-6 text-sm text-slate-700 leading-relaxed mb-6">
                     <p class="mb-4">Como Asesor, nosotros le entregamos la infraestructura pesada (pasarelas de pago, Inteligencia Artificial y diseño algorítmico); usted aporta la conexión orgánica con el cliente y el cierre estratégico de la venta.</p>
                     
-                    <div class="bg-zinc-900 border border-border p-5 rounded-2xl mb-4">
-                        <h4 class="text-white font-semibold mb-2 text-base">Proyección Realista de Ingresos:</h4>
+                    <div class="bg-white border border-border p-5 rounded-2xl mb-4">
+                        <h4 class="text-slate-900 font-semibold mb-2 text-base">Proyección Realista de Ingresos:</h4>
                         
                         <div class="mb-5">
-                            <p class="mb-3 text-zinc-400">El mercado laboral está quebrado. Hay miles enviando CVs a la basura diariamente. Si dedica <b>1 a 2 horas al día</b> subiendo contenido a TikTok/Reels usando nuestro Motor IA y responde de forma profesional por WhatsApp, un flujo estándar orgánico es de <b>1 a 2 ventas diarias</b>.</p>
+                            <p class="mb-3 text-slate-500">El mercado laboral está quebrado. Hay miles enviando CVs a la basura diariamente. Si dedica <b>1 a 2 horas al día</b> subiendo contenido a TikTok/Reels usando nuestro Motor IA y responde de forma profesional por WhatsApp, un flujo estándar orgánico es de <b>1 a 2 ventas diarias</b>.</p>
                             <ul class="space-y-2 text-zinc-200 font-medium">
                                 <li class="flex items-start gap-2"><img src="logo.png" class="icon-logo mt-1 opacity-70"> 10 Ventas Semanales del Paquete Corporativo ($10.500 ARS).</li>
                                 <li class="flex items-start gap-2"><img src="logo.png" class="icon-logo mt-1 opacity-70"> Comisión limpia en Panel (45% + Bonos del 80%): Aprox. $55.000 ARS Semanales.</li>
@@ -469,56 +498,56 @@
                         
                         <div class="mt-5 space-y-4 pt-4 border-t border-border">
                             <div class="border-l-[3px] border-zinc-700 pl-4">
-                                <h5 class="text-white font-semibold text-sm">Escala Media (4 a 6 horas diarias)</h5>
-                                <p class="text-zinc-400 text-xs mt-1">Implementando contenido estructurado diario, seguimiento activo de leads y networking en grupos. <b class="text-zinc-200 block mt-1">Proyección Mensual: $600.000 a $900.000 ARS reales.</b></p>
+                                <h5 class="text-slate-900 font-semibold text-sm">Escala Media (4 a 6 horas diarias)</h5>
+                                <p class="text-slate-500 text-xs mt-1">Implementando contenido estructurado diario, seguimiento activo de leads y networking en grupos. <b class="text-zinc-200 block mt-1">Proyección Mensual: $600.000 a $900.000 ARS reales.</b></p>
                             </div>
                             <div class="border-l-[3px] border-zinc-700 pl-4">
-                                <h5 class="text-white font-semibold text-sm">Jornada Entera (Dedicación Exclusiva 8hs)</h5>
-                                <p class="text-zinc-400 text-xs mt-1">Operando automatizaciones con NYX, explotando LinkedIn Premium y aplicando pauta mínima en Meta Ads. <b class="text-zinc-200 block mt-1">Proyección Mensual: $1.500.000 a $2.500.000 ARS reales.</b></p>
+                                <h5 class="text-slate-900 font-semibold text-sm">Jornada Entera (Dedicación Exclusiva 8hs)</h5>
+                                <p class="text-slate-500 text-xs mt-1">Operando automatizaciones con NYX, explotando LinkedIn Premium y aplicando pauta mínima en Meta Ads. <b class="text-zinc-200 block mt-1">Proyección Mensual: $1.500.000 a $2.500.000 ARS reales.</b></p>
                             </div>
                             <div class="border-l-[3px] border-zinc-700 pl-4">
-                                <h5 class="text-white font-semibold text-sm">Infraestructura de Equipo (Nivel Agencia)</h5>
-                                <p class="text-zinc-400 text-xs mt-1">Contratando 1 o 2 setters para responder DMs básicos mientras usted se encarga de los cierres ejecutivos de alto valor (Tier 1 + NYX anual). <b class="text-zinc-200 block mt-1">Proyección Mensual: Cifras superiores a $4.000.000 ARS reales.</b></p>
+                                <h5 class="text-slate-900 font-semibold text-sm">Infraestructura de Equipo (Nivel Agencia)</h5>
+                                <p class="text-slate-500 text-xs mt-1">Contratando 1 o 2 setters para responder DMs básicos mientras usted se encarga de los cierres ejecutivos de alto valor (Tier 1 + NYX anual). <b class="text-zinc-200 block mt-1">Proyección Mensual: Cifras superiores a $4.000.000 ARS reales.</b></p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-zinc-900 border border-border p-5 rounded-2xl mb-4">
-                        <h4 class="text-sm font-semibold text-white mb-4 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Guía de Uso Operativo del Sistema</h4>
-                        <div class="space-y-4 text-xs text-zinc-400 leading-relaxed">
+                    <div class="bg-white border border-border p-5 rounded-2xl mb-4">
+                        <h4 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Guía de Uso Operativo del Sistema</h4>
+                        <div class="space-y-4 text-xs text-slate-500 leading-relaxed">
                             <div class="flex items-start gap-3">
-                                <div class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold shrink-0">1</div>
+                                <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold shrink-0">1</div>
                                 <p><b>Panel Principal (Tesorería):</b> Utilice el panel principal para gestionar sus ganancias, ver métricas generales y controlar los accesos financieros de la agencia.</p>
                             </div>
                             <div class="flex items-start gap-3">
-                                <div class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold shrink-0">2</div>
+                                <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold shrink-0">2</div>
                                 <p><b>Este Panel (Operaciones & Marketing):</b> Aquí se concentra la prospección. Usted define el cliente ideal, selecciona los ganchos virales y prepara su estrategia de ataque.</p>
                             </div>
                             <div class="flex items-start gap-3">
-                                <div class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold shrink-0">3</div>
+                                <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold shrink-0">3</div>
                                 <p><b>Generador de Guiones IA:</b> Configure las variables en el motor superior de Cerebro 4. La IA (NYX) procesará 3 llamadas internas a la API de Google Studio para entregarle un guion de calidad extrema, estructurado y sin fallas operativas.</p>
                             </div>
                             <div class="flex items-start gap-3">
-                                <div class="w-6 h-6 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold shrink-0">4</div>
+                                <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold shrink-0">4</div>
                                 <p><b>Redes Sociales:</b> Tome el contenido exportado (TXT o Portapapeles), grabe su material (en TikTok, Reels o LinkedIn) siguiendo las directrices visuales, y redirija el tráfico hacia su WhatsApp usando los Flujos de Cierre de este manual.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-zinc-900 border border-border p-5 rounded-2xl">
-                        <h4 class="text-sm font-semibold text-white mb-4 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Auditoría de Perfil Público</h4>
-                        <div class="space-y-3 text-xs text-zinc-400">
+                    <div class="bg-white border border-border p-5 rounded-2xl">
+                        <h4 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2"><img src="logo.png" class="icon-logo opacity-70"> Auditoría de Perfil Público</h4>
+                        <div class="space-y-3 text-xs text-slate-500">
                             <label class="flex items-start gap-3 cursor-pointer group">
-                                <input type="checkbox" class="mt-0.5 accent-brand-500 w-4 h-4 bg-zinc-900 border-border rounded">
-                                <span class="group-hover:text-white transition-colors">¿Su foto de perfil es corporativa o utiliza un logo sobrio?</span>
+                                <input type="checkbox" class="mt-0.5 accent-brand-500 w-4 h-4 bg-white border-border rounded">
+                                <span class="group-hover:text-slate-900 transition-colors">¿Su foto de perfil es corporativa o utiliza un logo sobrio?</span>
                             </label>
                             <label class="flex items-start gap-3 cursor-pointer group">
-                                <input type="checkbox" class="mt-0.5 accent-brand-500 w-4 h-4 bg-zinc-900 border-border rounded">
-                                <span class="group-hover:text-white transition-colors">¿La biografía indica claramente que representa a CVStudio33?</span>
+                                <input type="checkbox" class="mt-0.5 accent-brand-500 w-4 h-4 bg-white border-border rounded">
+                                <span class="group-hover:text-slate-900 transition-colors">¿La biografía indica claramente que representa a CVStudio33?</span>
                             </label>
                             <label class="flex items-start gap-3 cursor-pointer group">
-                                <input type="checkbox" class="mt-0.5 accent-brand-500 w-4 h-4 bg-zinc-900 border-border rounded">
-                                <span class="group-hover:text-white transition-colors">¿Su enlace de contacto (WhatsApp/Linktree) está visible y funciona?</span>
+                                <input type="checkbox" class="mt-0.5 accent-brand-500 w-4 h-4 bg-white border-border rounded">
+                                <span class="group-hover:text-slate-900 transition-colors">¿Su enlace de contacto (WhatsApp/Linktree) está visible y funciona?</span>
                             </label>
                         </div>
                     </div>
@@ -529,86 +558,86 @@
             <!-- MÓDULO 2: 15 PERFILES DE CLIENTE IDEAL (BLANCOS)                  -->
             <!-- ================================================================= -->
             <section id="modulo-2" class="scroll-mt-28">
-                <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-slate-900 mb-2 flex items-center gap-2">
                     <img src="logo.png" class="icon-logo"> 02. A quién le vendemos (15 Perfiles)
                 </h2>
-                <p class="text-sm text-zinc-400 mb-6">Usted no le habla igual a un gerente que a un chico que busca su primer empleo. Conozca los dolores exactos de cada perfil para saber qué fibra tocar.</p>
+                <p class="text-sm text-slate-500 mb-6">Usted no le habla igual a un gerente que a un chico que busca su primer empleo. Conozca los dolores exactos de cada perfil para saber qué fibra tocar.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">1. El "Desesperado"</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Meses sin trabajo. Manda decenas de CVs por Computrabajo y nadie lo llama. Su autoestima está por el suelo.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "No sos vos, es el formato que los robots de RRHH rechazan."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">1. El "Desesperado"</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Meses sin trabajo. Manda decenas de CVs por Computrabajo y nadie lo llama. Su autoestima está por el suelo.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "No sos vos, es el formato que los robots de RRHH rechazan."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">2. El Estancado</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Tiene empleo pero su sueldo no le alcanza. Quiere aplicar a empresas de afuera (Remoto/USD).</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Tu CV actual grita 'empleado barato'. Hagamos uno de alto perfil."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">2. El Estancado</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Tiene empleo pero su sueldo no le alcanza. Quiere aplicar a empresas de afuera (Remoto/USD).</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Tu CV actual grita 'empleado barato'. Hagamos uno de alto perfil."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">3. El Ejecutivo (C-Level)</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Gerentes o directores. No tienen tiempo para redactar. Buscan confidencialidad y máxima sobriedad.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Diseño minimalista y optimización de jerarquía."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">3. El Ejecutivo (C-Level)</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Gerentes o directores. No tienen tiempo para redactar. Buscan confidencialidad y máxima sobriedad.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Diseño minimalista y optimización de jerarquía."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">4. El "Junior" (Primer Empleo)</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Recién graduado, sin experiencia. Su CV está vacío y no sabe cómo destacar sus habilidades blandas.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Resaltamos tu potencial académico y actitud profesional."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">4. El "Junior" (Primer Empleo)</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Recién graduado, sin experiencia. Su CV está vacío y no sabe cómo destacar sus habilidades blandas.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Resaltamos tu potencial académico y actitud profesional."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">5. El Profesional +45 Años</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Mucha experiencia pero siente que el mercado lo discrimina por su edad. CV en formatos viejos (Word 2010).</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Modernizamos tu perfil para que compitas con los millennials."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">5. El Profesional +45 Años</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Mucha experiencia pero siente que el mercado lo discrimina por su edad. CV en formatos viejos (Word 2010).</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Modernizamos tu perfil para que compitas con los millennials."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">6. El Reinventado</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Cambiando de rubro (Ej: Era contador, ahora estudió programación). Su CV confunde a los reclutadores.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Redirigimos tu narrativa hacia tus nuevas habilidades."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">6. El Reinventado</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Cambiando de rubro (Ej: Era contador, ahora estudió programación). Su CV confunde a los reclutadores.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Redirigimos tu narrativa hacia tus nuevas habilidades."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">7. El Freelancer Cansado</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Vivió años de proyectos sueltos y ahora quiere estabilidad corporativa (obra social, aguinaldo).</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Traducimos tu portafolio a un formato corporativo tradicional."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">7. El Freelancer Cansado</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Vivió años de proyectos sueltos y ahora quiere estabilidad corporativa (obra social, aguinaldo).</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Traducimos tu portafolio a un formato corporativo tradicional."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">8. Retorno Laboral (Pausas)</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Pausaron su carrera por años para criar hijos y temen que el "hueco" en el CV los deje fuera.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Formato funcional para ocultar baches de tiempo temporales."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">8. Retorno Laboral (Pausas)</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Pausaron su carrera por años para criar hijos y temen que el "hueco" en el CV los deje fuera.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Formato funcional para ocultar baches de tiempo temporales."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">9. El Trabajador Tóxico</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Está en una empresa que detesta. Necesita escapar rápido pero trabajando 9hs no tiene tiempo de armar el CV.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Dejá tu perfil en nuestras manos mientras vos seguís trabajando."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">9. El Trabajador Tóxico</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Está en una empresa que detesta. Necesita escapar rápido pero trabajando 9hs no tiene tiempo de armar el CV.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Dejá tu perfil en nuestras manos mientras vos seguís trabajando."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">10. El "Tech Layoff"</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Despedido recientemente de una empresa IT. Hay mucha competencia y necesita destacarse RÁPIDO.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Optimización técnica extrema con palabras clave exactas."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">10. El "Tech Layoff"</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Despedido recientemente de una empresa IT. Hay mucha competencia y necesita destacarse RÁPIDO.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Optimización técnica extrema con palabras clave exactas."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">11. El Migrante</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Se mudó a otro país (Ej: España o Miami) y se dio cuenta que su CV latino no sirve para los estándares de allá.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Adaptamos tu perfil a la normativa del mercado internacional."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">11. El Migrante</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Se mudó a otro país (Ej: España o Miami) y se dio cuenta que su CV latino no sirve para los estándares de allá.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Adaptamos tu perfil a la normativa del mercado internacional."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">12. El Sobrecalificado</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Tiene 3 masters pero lo rechazan de puestos normales porque piensan que cobrará carísimo. Hay que recortar.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Filtramos y enfocamos tu perfil solo en lo necesario."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">12. El Sobrecalificado</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Tiene 3 masters pero lo rechazan de puestos normales porque piensan que cobrará carísimo. Hay que recortar.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Filtramos y enfocamos tu perfil solo en lo necesario."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">13. El CV Canva (Lindo pero inútil)</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Hizo un CV hermoso lleno de gráficos de barras y colores, pero las IA no pueden leer imágenes.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Ángulo: "Cambiamos estética inútil por estructura técnica legible."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">13. El CV Canva (Lindo pero inútil)</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Hizo un CV hermoso lleno de gráficos de barras y colores, pero las IA no pueden leer imágenes.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Ángulo: "Cambiamos estética inútil por estructura técnica legible."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">14. El "Ghosteado"</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Llega a las entrevistas, le dicen "te llamamos", y desaparecen. Su CV está bien, falla su oratoria.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Venta IA: "Usá Tokens NYX para practicar qué decir después de la entrevista."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">14. El "Ghosteado"</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Llega a las entrevistas, le dicen "te llamamos", y desaparecen. Su CV está bien, falla su oratoria.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Venta IA: "Usá Tokens NYX para practicar qué decir después de la entrevista."</p></div>
                     </div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl">
-                        <h4 class="text-white text-sm font-semibold mb-1">15. El Pánico Escénico</h4>
-                        <p class="text-[11px] text-zinc-400 mb-3">Transpira, tartamudea y se pone nervioso frente al de RRHH. Necesita estar 100% preparado.</p>
-                        <div class="bg-zinc-800 p-2 rounded-lg"><p class="text-[10px] text-zinc-300 font-medium">Venta IA: "Tokens AXON te genera simulacros exactos para tu puesto."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl">
+                        <h4 class="text-slate-900 text-sm font-semibold mb-1">15. El Pánico Escénico</h4>
+                        <p class="text-[11px] text-slate-500 mb-3">Transpira, tartamudea y se pone nervioso frente al de RRHH. Necesita estar 100% preparado.</p>
+                        <div class="bg-slate-100 p-2 rounded-lg"><p class="text-[10px] text-slate-700 font-medium">Venta IA: "Tokens AXON te genera simulacros exactos para tu puesto."</p></div>
                     </div>
                 </div>
             </section>
@@ -617,26 +646,26 @@
             <!-- MÓDULO 3: PRECIOS Y PRESENTACIÓN                                  -->
             <!-- ================================================================= -->
             <section id="modulo-3" class="scroll-mt-28">
-                <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
                     <img src="logo.png" class="icon-logo"> 03. Guía de Precios y Valor Relativo
                 </h2>
                 
-                <div class="app-card p-5 sm:p-6 text-sm text-zinc-300">
+                <div class="app-card p-5 sm:p-6 text-sm text-slate-700">
                     <p class="mb-5">El precio es relativo al dolor del cliente. Nunca envíe los precios de golpe como si fuera el menú de un restaurante. Presente el precio atado a la <b>Solución</b> y posicione a CVStudio como la Agencia integral.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                            <h4 class="text-white font-semibold mb-3">Infraestructura CVStudio33</h4>
+                        <div class="bg-white p-5 rounded-2xl border border-border">
+                            <h4 class="text-slate-900 font-semibold mb-3">Infraestructura CVStudio33</h4>
                             <ul class="space-y-3 text-xs">
-                                <li class="flex justify-between items-center"><span>Paquete Tier 1 (Máximo Nivel Corporativo)</span> <b class="text-zinc-100 bg-zinc-800 px-2 py-1 rounded">$10.500 ARS</b></li>
-                                <li class="flex justify-between items-center"><span>Paquete Tier 2 (Diseño Intermedio)</span> <b class="text-zinc-100 bg-zinc-800 px-2 py-1 rounded">$6.500 ARS</b></li>
-                                <li class="flex justify-between items-center"><span>Paquete Tier 3 (Plantilla Básica)</span> <b class="text-zinc-100 bg-zinc-800 px-2 py-1 rounded">$3.500 ARS</b></li>
-                                <li class="flex justify-between items-center border-t border-border pt-3 mt-3"><span>Suscripciones / Tokens NYX y AXON</span> <b class="text-zinc-100 bg-zinc-800 px-2 py-1 rounded">$2.000 - $40.000 ARS</b></li>
+                                <li class="flex justify-between items-center"><span>Paquete Tier 1 (Máximo Nivel Corporativo)</span> <b class="text-zinc-100 bg-slate-100 px-2 py-1 rounded">$10.500 ARS</b></li>
+                                <li class="flex justify-between items-center"><span>Paquete Tier 2 (Diseño Intermedio)</span> <b class="text-zinc-100 bg-slate-100 px-2 py-1 rounded">$6.500 ARS</b></li>
+                                <li class="flex justify-between items-center"><span>Paquete Tier 3 (Plantilla Básica)</span> <b class="text-zinc-100 bg-slate-100 px-2 py-1 rounded">$3.500 ARS</b></li>
+                                <li class="flex justify-between items-center border-t border-border pt-3 mt-3"><span>Suscripciones / Tokens NYX y AXON</span> <b class="text-zinc-100 bg-slate-100 px-2 py-1 rounded">$2.000 - $40.000 ARS</b></li>
                             </ul>
                         </div>
-                        <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                            <h4 class="text-white font-semibold mb-3">Táctica del "Downsell"</h4>
-                            <p class="text-xs text-zinc-400 leading-relaxed">Siempre ofrezca el <b>Tier 1 ($10.500)</b> diciendo que es el que garantiza evadir los filtros corporativos. Si el cliente dice "No llego con la plata", usted lo "salva" ofreciendo el <b>Tier 2 ($6.500)</b> como un favor especial. De esta manera, el Tier 2 parece un rescate económico y la venta se cierra más fácil.</p>
+                        <div class="bg-white p-5 rounded-2xl border border-border">
+                            <h4 class="text-slate-900 font-semibold mb-3">Táctica del "Downsell"</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">Siempre ofrezca el <b>Tier 1 ($10.500)</b> diciendo que es el que garantiza evadir los filtros corporativos. Si el cliente dice "No llego con la plata", usted lo "salva" ofreciendo el <b>Tier 2 ($6.500)</b> como un favor especial. De esta manera, el Tier 2 parece un rescate económico y la venta se cierra más fácil.</p>
                         </div>
                     </div>
                 </div>
@@ -646,27 +675,27 @@
             <!-- MÓDULO 4: 15 GANCHOS ORGÁNICOS                                    -->
             <!-- ================================================================= -->
             <section id="modulo-4" class="scroll-mt-28">
-                <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-slate-900 mb-2 flex items-center gap-2">
                     <img src="logo.png" class="icon-logo"> 04. 15 Ganchos Virales (Para Reels/TikTok)
                 </h2>
-                <p class="text-sm text-zinc-400 mb-6">Grábese diciendo estas frases en los primeros 3 segundos de su video. Es la psicología pura de "detener el scroll" antes de que el usuario pase al siguiente video.</p>
+                <p class="text-sm text-slate-500 mb-6">Grábese diciendo estas frases en los primeros 3 segundos de su video. Es la psicología pura de "detener el scroll" antes de que el usuario pase al siguiente video.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">1. Miedo ATS</span><p class="text-sm text-zinc-200">"El 75% de los currículums hoy los lee un robot, y el tuyo está siendo descartado..."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">2. Error de Diseño</span><p class="text-sm text-zinc-200">"Si hiciste tu CV con esas plantillas lindas de Canva, tengo malas noticias para vos..."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">3. Aspiracional USD</span><p class="text-sm text-zinc-200">"Así se ve exactamente el CV de una persona que trabaja remoto y cobra en dólares."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">4. Validación Social</span><p class="text-sm text-zinc-200">"Esta chica llevaba 8 meses desempleada. Cambiamos este detalle y la llamaron en 3 días."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">5. Cansancio Laboral</span><p class="text-sm text-zinc-200">"¿Mandás decenas de CVs por LinkedIn todos los días y sentís que estás enviándolos a la nada?"</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">6. El "Hack" de Agencia</span><p class="text-sm text-zinc-200">"Trabajo en la Agencia CVStudio33 y te voy a revelar el secreto que Recursos Humanos te oculta."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">7. Para Mayores de 45</span><p class="text-sm text-zinc-200">"Si tenés más de 40 años, no te están descartando por tu edad, te descartan por cómo se ve tu perfil..."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">8. Activos NYX</span><p class="text-sm text-zinc-200">"¿Te ponés nervioso en las entrevistas de trabajo? Dejá que esta Inteligencia Artificial (NYX) te dicte qué decir."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">9. Simulador IA</span><p class="text-sm text-zinc-200">"Con esta herramienta de Agencia podés saber qué te va a preguntar RRHH antes de ir a la entrevista..."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">10. Errores Comunes</span><p class="text-sm text-zinc-200">"3 cosas que tenés en tu CV ahora mismo y que están haciendo que el sistema te rechace."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">11. Sin Experiencia</span><p class="text-sm text-zinc-200">"Cómo armar un currículum que llame la atención de empresas aunque no tengas NADA de experiencia previa."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">12. El Formato Prohibido</span><p class="text-sm text-zinc-200">"Si tu CV tiene barras de habilidades de 1 a 5 estrellas, pausá este video. Estás arruinando tu carrera."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">13. Despido Reciente</span><p class="text-sm text-zinc-200">"¿Te acaban de despedir? Inyectá tu perfil en nuestra agencia hoy si querés estar trabajando de nuevo este mes."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">14. Comparativa Visual</span><p class="text-sm text-zinc-200">"(Mostrar foto) Este CV gana $300.000, y este otro CV gana $1.500.000. Te explico la diferencia."</p></div>
-                    <div class="bg-zinc-900 border border-border p-4 rounded-2xl md:col-span-2"><span class="text-[10px] text-zinc-500 font-semibold mb-1.5 block">15. Gancho Frontal / Directo</span><p class="text-sm text-zinc-200">"Dejá de rogar por trabajo. Si tu CV no está optimizado con tegnología ATS, nadie lo va a leer. Comentá 'EMPLEO' y te doy acceso a CVStudio33."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">1. Miedo ATS</span><p class="text-sm text-zinc-200">"El 75% de los currículums hoy los lee un robot, y el tuyo está siendo descartado..."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">2. Error de Diseño</span><p class="text-sm text-zinc-200">"Si hiciste tu CV con esas plantillas lindas de Canva, tengo malas noticias para vos..."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">3. Aspiracional USD</span><p class="text-sm text-zinc-200">"Así se ve exactamente el CV de una persona que trabaja remoto y cobra en dólares."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">4. Validación Social</span><p class="text-sm text-zinc-200">"Esta chica llevaba 8 meses desempleada. Cambiamos este detalle y la llamaron en 3 días."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">5. Cansancio Laboral</span><p class="text-sm text-zinc-200">"¿Mandás decenas de CVs por LinkedIn todos los días y sentís que estás enviándolos a la nada?"</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">6. El "Hack" de Agencia</span><p class="text-sm text-zinc-200">"Trabajo en la Agencia CVStudio33 y te voy a revelar el secreto que Recursos Humanos te oculta."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">7. Para Mayores de 45</span><p class="text-sm text-zinc-200">"Si tenés más de 40 años, no te están descartando por tu edad, te descartan por cómo se ve tu perfil..."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">8. Activos NYX</span><p class="text-sm text-zinc-200">"¿Te ponés nervioso en las entrevistas de trabajo? Dejá que esta Inteligencia Artificial (NYX) te dicte qué decir."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">9. Simulador IA</span><p class="text-sm text-zinc-200">"Con esta herramienta de Agencia podés saber qué te va a preguntar RRHH antes de ir a la entrevista..."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">10. Errores Comunes</span><p class="text-sm text-zinc-200">"3 cosas que tenés en tu CV ahora mismo y que están haciendo que el sistema te rechace."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">11. Sin Experiencia</span><p class="text-sm text-zinc-200">"Cómo armar un currículum que llame la atención de empresas aunque no tengas NADA de experiencia previa."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">12. El Formato Prohibido</span><p class="text-sm text-zinc-200">"Si tu CV tiene barras de habilidades de 1 a 5 estrellas, pausá este video. Estás arruinando tu carrera."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">13. Despido Reciente</span><p class="text-sm text-zinc-200">"¿Te acaban de despedir? Inyectá tu perfil en nuestra agencia hoy si querés estar trabajando de nuevo este mes."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">14. Comparativa Visual</span><p class="text-sm text-zinc-200">"(Mostrar foto) Este CV gana $300.000, y este otro CV gana $1.500.000. Te explico la diferencia."</p></div>
+                    <div class="bg-white border border-border p-4 rounded-2xl md:col-span-2"><span class="text-[10px] text-slate-400 font-semibold mb-1.5 block">15. Gancho Frontal / Directo</span><p class="text-sm text-zinc-200">"Dejá de rogar por trabajo. Si tu CV no está optimizado con tegnología ATS, nadie lo va a leer. Comentá 'EMPLEO' y te doy acceso a CVStudio33."</p></div>
                 </div>
             </section>
 
@@ -674,128 +703,128 @@
             <!-- MÓDULO 5: 12 FLUJOS DE CIERRE (WHATSAPP)                          -->
             <!-- ================================================================= -->
             <section id="modulo-5" class="scroll-mt-28">
-                <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-slate-900 mb-2 flex items-center gap-2">
                     <img src="logo.png" class="icon-logo"> 05. 12 Flujos de Cierre (La Conversación)
                 </h2>
-                <p class="text-sm text-zinc-400 mb-6">El cliente llega a su chat con miedo e incertidumbre por la falta de trabajo. Usted debe ser el experto de la Agencia: Pregunta (Diagnóstico), receta la solución tecnológica y cobra.</p>
+                <p class="text-sm text-slate-500 mb-6">El cliente llega a su chat con miedo e incertidumbre por la falta de trabajo. Usted debe ser el experto de la Agencia: Pregunta (Diagnóstico), receta la solución tecnológica y cobra.</p>
                 
                 <div class="app-card p-5 mb-5">
-                    <h3 class="text-sm font-semibold text-white mb-4">1. El Flujo Maestro Corporativo</h3>
+                    <h3 class="text-sm font-semibold text-slate-900 mb-4">1. El Flujo Maestro Corporativo</h3>
                     <div class="space-y-4">
-                        <div class="flex flex-col items-end gap-1"><span class="text-[10px] text-zinc-500 font-medium px-1">Usted (Diagnóstico)</span><div class="bg-brand-600 text-white text-sm p-3.5 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed shadow-sm">"Hola [Nombre], gracias por comunicarte con la Agencia CVStudio33. Para auditar tu caso técnico: ¿De qué estás buscando trabajo y hace cuánto no lográs llegar a una entrevista?"</div></div>
-                        <div class="flex flex-col items-start gap-1"><span class="text-[10px] text-zinc-500 font-medium px-1">Cliente</span><div class="bg-zinc-800 text-zinc-200 text-sm p-3.5 rounded-2xl rounded-tl-sm max-w-[85%] leading-relaxed shadow-sm">"Busco de administrativo. Llevo 5 meses mandando y nada, nadie me contesta."</div></div>
-                        <div class="flex flex-col items-end gap-1"><span class="text-[10px] text-zinc-500 font-medium px-1">Usted (Valor / Solución)</span><div class="bg-brand-600 text-white text-sm p-3.5 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed shadow-sm">"Es un problema clásico en el sistema actual. El error no es tu experiencia, es que usás un formato que los robots de las empresas (Sistemas ATS) bloquean automáticamente. Te recomiendo asignar el Paquete Tier 1 ($10.500) para estructurarlo bajo norma algorítmica y que llegues a manos humanas hoy mismo."</div></div>
-                        <div class="flex flex-col items-end gap-1"><span class="text-[10px] text-zinc-500 font-medium px-1">Usted (Cierre Seguro)</span><div class="bg-zinc-700 text-white text-sm p-3.5 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed shadow-sm">"¿Estás listo para dejar de perder el tiempo y que te llamen? Confirmame y te envío el enlace de nuestra pasarela de pagos para darte de alta en el sistema."</div></div>
+                        <div class="flex flex-col items-end gap-1"><span class="text-[10px] text-slate-400 font-medium px-1">Usted (Diagnóstico)</span><div class="bg-brand-600 text-white text-sm p-3.5 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed shadow-sm">"Hola [Nombre], gracias por comunicarte con la Agencia CVStudio33. Para auditar tu caso técnico: ¿De qué estás buscando trabajo y hace cuánto no lográs llegar a una entrevista?"</div></div>
+                        <div class="flex flex-col items-start gap-1"><span class="text-[10px] text-slate-400 font-medium px-1">Cliente</span><div class="bg-slate-100 text-zinc-200 text-sm p-3.5 rounded-2xl rounded-tl-sm max-w-[85%] leading-relaxed shadow-sm">"Busco de administrativo. Llevo 5 meses mandando y nada, nadie me contesta."</div></div>
+                        <div class="flex flex-col items-end gap-1"><span class="text-[10px] text-slate-400 font-medium px-1">Usted (Valor / Solución)</span><div class="bg-brand-600 text-white text-sm p-3.5 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed shadow-sm">"Es un problema clásico en el sistema actual. El error no es tu experiencia, es que usás un formato que los robots de las empresas (Sistemas ATS) bloquean automáticamente. Te recomiendo asignar el Paquete Tier 1 ($10.500) para estructurarlo bajo norma algorítmica y que llegues a manos humanas hoy mismo."</div></div>
+                        <div class="flex flex-col items-end gap-1"><span class="text-[10px] text-slate-400 font-medium px-1">Usted (Cierre Seguro)</span><div class="bg-slate-200 text-slate-900 text-sm p-3.5 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed shadow-sm">"¿Estás listo para dejar de perder el tiempo y que te llamen? Confirmame y te envío el enlace de nuestra pasarela de pagos para darte de alta en el sistema."</div></div>
                     </div>
                 </div>
 
                 <div class="space-y-2.5">
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             2. El Cierre "Downsell" (Cuando dice que es muy caro)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Entiendo perfectamente que $10.500 puede ser un esfuerzo estando desempleado. Pero míralo así: es una inversión minúscula comparada con recuperar tu salario completo. Para que no te quedes fuera del mercado, hagamos esto: Arrancamos con el Paquete Intermedio de $6.500. Te cubrimos la estructura vital para que pases los filtros. Te dejo el link por acá."
                         </div>
                     </details>
                     
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             3. El Cierre por Urgencia / Escasez
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Las vacantes corporativas para el puesto que buscás se están cerrando rapidísimo esta semana. Si inyectamos tu perfil optimizado en CVStudio hoy, podés estar figurando en las bases de datos de RRHH mañana a primera hora. ¿Te genero el comprobante de pago de $10.500 así congelamos tu lugar en los servidores?"
                         </div>
                     </details>
 
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             4. El Cierre para Venta de NYX (Simulador IA)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Llegar a la entrevista gracias al CV es solo la mitad de la batalla; saber qué responder al reclutador es lo que asegura el contrato. Con el Pack de Tokens IA NYX, nuestra inteligencia cognitiva te va a auditar antes de que vayas. Te simula preguntas difíciles y te dicta respuestas exitosas. ¿Avanzamos con este pack tecnológico para asegurar esa oportunidad?"
                         </div>
                     </details>
 
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             5. El Cierre de Autoridad (Para Ejecutivos / C-Level)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Para posiciones gerenciales, en CVStudio no usamos plantillas genéricas. Aplicamos una arquitectura limpia de jerarquía ejecutiva. El valor es de $10.500 ARS. Un monto insignificante comparado con el sueldo en dólares que vas a negociar. Confirmame y te paso el acceso VIP a la pasarela."
                         </div>
                     </details>
 
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             6. El Cierre para Estudiantes / Junior
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Al no tener experiencia laboral, tu diseño debe resaltar tu actitud y potencial de aprendizaje de una forma muy estratégica para que los selectores no descarten tu perfil por verlo vacío. Te armamos la optimización por $6.500. Es el empujón inicial de Agencia que necesitás. ¿Te paso el enlace?"
                         </div>
                     </details>
 
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             7. El Cierre de Seguimiento Silencioso (Día siguiente)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Hola [Nombre], ¿cómo estás? Ayer la Agencia cerró la agenda de operaciones y dejé tu cupo en stand-by. Sabiendo que necesitás conseguir entrevistas urgente para esta semana, ¿te reactivo el link de pago así lo dejamos solucionado hoy mismo y tu perfil empieza a circular?"
                         </div>
                     </details>
 
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             8. El Cierre Consultivo Firme (Demasiadas preguntas)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Basado en todas tus dudas, está clarísimo que el formato actual de tu perfil es el causante de tus rechazos. No sigamos analizando el problema; la Agencia tiene la tecnología para solucionarlo. Te genero el link de $10.500 y empezamos el desarrollo ya mismo. ¿Damos el paso?"
                         </div>
                     </details>
                     
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             9. El Cierre Asumido Directo
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Perfecto, el Paquete Premium de CVStudio33 ($10.500) es exactamente la medicina que necesita tu búsqueda laboral. Te dejo el link de cobro oficial acá abajo. Avisame apenas impacte así te pido los datos y lo enviamos al servidor de optimización."
                         </div>
                     </details>
                     
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             10. El Cierre Upsell Combinado (CV + NYX)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Pago recibido, excelente. Habiendo hecho esto con tu CV, lo más probable es que te llamen la semana que viene sí o sí. ¿Querés que te sumemos a tu cuenta corporativa un pack de Tokens NYX por $2.000 extra? Así la IA te entrena en tu casa para que no te pongas nervioso frente al reclutador."
                         </div>
                     </details>
 
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             11. El Cierre "Inversión Futura" (Seguridad Financiera)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Entendelo como la única inversión inteligente que vas a hacer en el año. Un solo pago de $10.500 para tener el respaldo de una Agencia Tecnológica y un CV que vas a usar por años para destrabar sueldos mucho mayores. No hay mejor ecuación de vida. Acá tenés el acceso seguro para abonarlo."
                         </div>
                     </details>
                     
-                    <details class="group bg-zinc-900 border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
-                        <summary class="p-4 cursor-pointer text-sm font-semibold text-white flex justify-between items-center active:bg-zinc-800 transition">
+                    <details class="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition-all">
+                        <summary class="p-4 cursor-pointer text-sm font-semibold text-slate-900 flex justify-between items-center active:bg-slate-100 transition">
                             12. El Cierre AXON (Para profesionales ocupados)
                             <img src="logo.png" class="icon-logo opacity-50 group-open:rotate-180 transition-transform">
                         </summary>
-                        <div class="p-4 text-sm text-zinc-300 border-t border-border bg-zinc-900/50 leading-relaxed">
+                        <div class="p-4 text-sm text-slate-700 border-t border-border bg-white/50 leading-relaxed">
                             "Veo que no tenés tiempo para armar cartas de presentación para cada empresa. La terminal AXON de CVStudio está pensada para esto: procesamiento táctico en segundos. Te redacta todo con tu estilo profesional. Te activo el paquete de tokens por $3.500 así automatizás tu búsqueda laboral hoy."
                         </div>
                     </details>
@@ -806,70 +835,70 @@
             <!-- MÓDULO 6: 12 OBJECIONES Y NEUTRALIZACIONES                        -->
             <!-- ================================================================= -->
             <section id="modulo-6" class="scroll-mt-28">
-                <h2 class="text-xl font-semibold text-white mb-2 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-slate-900 mb-2 flex items-center gap-2">
                     <img src="logo.png" class="icon-logo"> 06. Aikido Comercial: Neutralización de Objeciones
                 </h2>
-                <p class="text-sm text-zinc-400 mb-6">El cliente sin trabajo tiene miedo y pondrá excusas financieras o de desconfianza. No discuta; use la lógica, mencione a la Agencia y desarme la objeción con profesionalismo.</p>
+                <p class="text-sm text-slate-500 mb-6">El cliente sin trabajo tiene miedo y pondrá excusas financieras o de desconfianza. No discuta; use la lógica, mencione a la Agencia y desarme la objeción con profesionalismo.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">1. "Me parece muy caro / No tengo plata"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"¿Comparado con qué? Caro es seguir un mes más sin trabajar y perder un sueldo entero de 500 mil pesos por no haber invertido 10 mil en CVStudio33. Si estás ajustado, arrancamos con el paquete intermedio para que no te quedes fuera del mercado tecnológico."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">1. "Me parece muy caro / No tengo plata"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"¿Comparado con qué? Caro es seguir un mes más sin trabajar y perder un sueldo entero de 500 mil pesos por no haber invertido 10 mil en CVStudio33. Si estás ajustado, arrancamos con el paquete intermedio para que no te quedes fuera del mercado tecnológico."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">2. "¿Me garantizan el trabajo?"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Ninguna agencia seria te garantiza la firma del contrato porque eso depende de cómo rindas frente al gerente. CVStudio33 te garantiza vulnerar los filtros robóticos (ATS) para obligar a que te llamen y te sienten en esa silla. Ahí depende de vos, o de usar nuestra IA NYX para entrenarte."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">2. "¿Me garantizan el trabajo?"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Ninguna agencia seria te garantiza la firma del contrato porque eso depende de cómo rindas frente al gerente. CVStudio33 te garantiza vulnerar los filtros robóticos (ATS) para obligar a que te llamen y te sienten en esa silla. Ahí depende de vos, o de usar nuestra IA NYX para entrenarte."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">3. "Uso ChatGPT y me lo hago gratis"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"ChatGPT te escribe texto básico, pero no programa la arquitectura ni las palabras clave invisibles que requieren los escáneres ATS de las empresas multinacionales. Nuestra Agencia te da la infraestructura completa, no solo un texto bonito."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">3. "Uso ChatGPT y me lo hago gratis"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"ChatGPT te escribe texto básico, pero no programa la arquitectura ni las palabras clave invisibles que requieren los escáneres ATS de las empresas multinacionales. Nuestra Agencia te da la infraestructura completa, no solo un texto bonito."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">4. "Mi CV ya es re lindo (Canva)"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Ese es tu mayor error. Los CVs llenos de barras de colores y diseños de Canva son ilegibles para los robots de reclutamiento (ATS). Ellos ven una imagen rota y te descartan. En CVStudio cambiamos estética inútil por estructura tecnológica que sí funciona."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">4. "Mi CV ya es re lindo (Canva)"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Ese es tu mayor error. Los CVs llenos de barras de colores y diseños de Canva son ilegibles para los robots de reclutamiento (ATS). Ellos ven una imagen rota y te descartan. En CVStudio cambiamos estética inútil por estructura tecnológica que sí funciona."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">5. "Déjame pensarlo / A fin de mes cobro"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Totalmente comprensible. Solo te advierto como Asesor: mientras esperás a fin de mes, las vacantes actuales se están llenando con candidatos que sí están optimizados por agencias. ¿Seguro querés regalarle tu puesto a otro por no arrancar hoy?"</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">5. "Déjame pensarlo / A fin de mes cobro"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Totalmente comprensible. Solo te advierto como Asesor: mientras esperás a fin de mes, las vacantes actuales se están llenando con candidatos que sí están optimizados por agencias. ¿Seguro querés regalarle tu puesto a otro por no arrancar hoy?"</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">6. "¿Es seguro el link? Me da miedo"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Operamos exclusivamente con la infraestructura encriptada de Mercado Pago. CVStudio33 no toca ni ve tus datos bancarios; todo está asegurado por ellos. Es exactamente igual y tan seguro como comprar en Mercado Libre."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">6. "¿Es seguro el link? Me da miedo"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Operamos exclusivamente con la infraestructura encriptada de Mercado Pago. CVStudio33 no toca ni ve tus datos bancarios; todo está asegurado por ellos. Es exactamente igual y tan seguro como comprar en Mercado Libre."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">7. "No sé qué es eso de ATS o tecnología"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Significa Applicant Tracking System. Cuando mandás tu CV por mail o ZonaJobs, no lo lee un humano, lo escanea un robot corporativo. Si tu CV no tiene la programación correcta, el robot lo borra. Nuestra Agencia diseña documentos para dominar a ese robot."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">7. "No sé qué es eso de ATS o tecnología"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Significa Applicant Tracking System. Cuando mandás tu CV por mail o ZonaJobs, no lo lee un humano, lo escanea un robot corporativo. Si tu CV no tiene la programación correcta, el robot lo borra. Nuestra Agencia diseña documentos para dominar a ese robot."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">8. "¿Lo hace un humano o la IA de CVStudio?"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Es un protocolo híbrido corporativo. Nuestros algoritmos (AXON) reestructuran tus datos masivos para precisión robótica, y nuestros Asesores humanos de CVStudio auditan el diseño final para darle el toque empático que un gerente humano espera leer."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">8. "¿Lo hace un humano o la IA de CVStudio?"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Es un protocolo híbrido corporativo. Nuestros algoritmos (AXON) reestructuran tus datos masivos para precisión robótica, y nuestros Asesores humanos de CVStudio auditan el diseño final para darle el toque empático que un gerente humano espera leer."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">9. "Un amigo de Recursos Humanos me lo armó"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Excelente. Pero tu amigo de RRHH sabe de psicología, no programa software. Él te armó un texto humano, pero ese texto seguramente está fallando en los escáneres tecnológicos modernos. Para asegurarte el puesto, necesitás el respaldo de una Agencia."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">9. "Un amigo de Recursos Humanos me lo armó"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Excelente. Pero tu amigo de RRHH sabe de psicología, no programa software. Él te armó un texto humano, pero ese texto seguramente está fallando en los escáneres tecnológicos modernos. Para asegurarte el puesto, necesitás el respaldo de una Agencia."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">10. "No tengo tarjeta de crédito o débito"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Nuestra pasarela es totalmente abierta. El enlace de la Agencia te permite generar un ticket para pagar en efectivo en cualquier Rapipago o PagoFácil, o simplemente podés hacer una transferencia con el dinero que tengas en cualquier billetera virtual."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">10. "No tengo tarjeta de crédito o débito"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Nuestra pasarela es totalmente abierta. El enlace de la Agencia te permite generar un ticket para pagar en efectivo en cualquier Rapipago o PagoFácil, o simplemente podés hacer una transferencia con el dinero que tengas en cualquier billetera virtual."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">11. "¿Por qué confiar en CVStudio33 y no en otra?"</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Porque somos los únicos que no te abandonan. Somos una Agencia Tecnológica integral: Te armamos el perfil para que te llamen, y si lo necesitás, te damos acceso a NYX (nuestra Inteligencia Artificial privada) para entrenarte para la entrevista final. Solucionamos todo el problema."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">11. "¿Por qué confiar en CVStudio33 y no en otra?"</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Porque somos los únicos que no te abandonan. Somos una Agencia Tecnológica integral: Te armamos el perfil para que te llamen, y si lo necesitás, te damos acceso a NYX (nuestra Inteligencia Artificial privada) para entrenarte para la entrevista final. Solucionamos todo el problema."</p>
                     </div>
 
-                    <div class="bg-zinc-900 p-5 rounded-2xl border border-border">
-                        <p class="text-white text-sm font-semibold mb-2">12. "Mejor sigo buscando por mi cuenta..."</p>
-                        <p class="text-zinc-400 text-sm leading-relaxed">"Si mandar CVs ciegamente no te dio resultados en los últimos 4 meses, ¿por qué creés que te funcionaría mañana? Estás chocando contra una pared algorítmica. Es momento de probar el sistema corporativo. El link está ahí arriba cuando estés listo para salir del desempleo."</p>
+                    <div class="bg-white p-5 rounded-2xl border border-border">
+                        <p class="text-slate-900 text-sm font-semibold mb-2">12. "Mejor sigo buscando por mi cuenta..."</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">"Si mandar CVs ciegamente no te dio resultados en los últimos 4 meses, ¿por qué creés que te funcionaría mañana? Estás chocando contra una pared algorítmica. Es momento de probar el sistema corporativo. El link está ahí arriba cuando estés listo para salir del desempleo."</p>
                     </div>
                 </div>
             </section>
@@ -879,14 +908,14 @@
 
     <footer class="w-full text-center border-t border-border py-8 mt-6 bg-surface/50 relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
-            <div class="flex flex-wrap justify-center gap-4 mb-4 text-xs text-zinc-400 font-medium">
-                <a href="terminos-y-condiciones.html" class="hover:text-white transition">Términos y Condiciones</a>
+            <div class="flex flex-wrap justify-center gap-4 mb-4 text-xs text-slate-500 font-medium">
+                <a href="terminos-y-condiciones.html" class="hover:text-slate-900 transition">Términos y Condiciones</a>
                 <span class="text-zinc-700 hidden sm:inline">|</span>
-                <a href="politica-de-privacidad.html" class="hover:text-white transition">Política de Privacidad</a>
+                <a href="politica-de-privacidad.html" class="hover:text-slate-900 transition">Política de Privacidad</a>
                 <span class="text-zinc-700 hidden sm:inline">|</span>
-                <a href="politica-de-cookies.html" class="hover:text-white transition">Política de Cookies</a>
+                <a href="politica-de-cookies.html" class="hover:text-slate-900 transition">Política de Cookies</a>
             </div>
-            <p class="text-xs text-zinc-500 font-medium">
+            <p class="text-xs text-slate-400 font-medium">
                 &copy; 2026 CVStudio33 | Agencia de Empleabilidad Tecnológica
             </p>
         </div>
@@ -928,18 +957,45 @@
         const resultSingle = document.getElementById('result-single');
         const resultWeekly = document.getElementById('result-weekly');
         
+        
+        // --- COOLDOWN LOGIC ---
+        const COOLDOWN_MINUTES = 33;
+        const COOLDOWN_MS = COOLDOWN_MINUTES * 60 * 1000;
+        
+        function checkCooldown() {
+            const lastGen = localStorage.getItem('cvstudio_last_generation');
+            if (lastGen) {
+                const elapsed = Date.now() - parseInt(lastGen);
+                if (elapsed < COOLDOWN_MS) {
+                    return Math.ceil((COOLDOWN_MS - elapsed) / 60000);
+                }
+            }
+            return 0;
+        }
+
+        function handleCooldownAlert(timeLeft) {
+            alert(`⏳ El motor IA está en enfriamiento preventivo (Cooldown).
+
+Por favor espera ${timeLeft} minutos antes de volver a generar contenido para evitar saturación de la API.`);
+        }
+
+        function setCooldown() {
+            localStorage.setItem('cvstudio_last_generation', Date.now().toString());
+        }
+
         async function fetchToCerebro(payload, btnElement, loadingText) {
+
             const originalText = btnElement.innerHTML;
             
             try {
-                btnElement.innerHTML = `<img src="logo.png" class="icon-logo spinner-img filter brightness-0 invert mr-2"> PROCESANDO...`;
+                btnElement.innerHTML = `<img src="logo.png" class="icon-logo spinner-img  mr-2"> PROCESANDO...`;
                 btnElement.disabled = true;
                 if(btnElement.id === 'btn-generate-content') btnGenerateWeekly.disabled = true;
                 if(btnElement.id === 'btn-generate-weekly') btnGenerate.disabled = true;
                 
                 aiResults.classList.add('hidden');
                 aiWaiting.classList.remove('hidden');
-                aiWaiting.innerHTML = `<img src="logo.png" class="w-8 h-8 object-contain spinner-img mb-4 opacity-70"><p class="text-xs text-zinc-400 font-semibold">${loadingText}</p>`;
+                aiWaiting.innerHTML = `<img src="logo.png" class="w-8 h-8 object-contain spinner-img mb-4 opacity-70"><p class="text-xs text-slate-500 font-semibold">${loadingText}</p>`;
 
                 const res = await fetch(CEREBRO_4_URL, {
                     method: 'POST',
@@ -960,6 +1016,7 @@
                 
                 aiWaiting.classList.add('hidden');
                 aiResults.classList.remove('hidden');
+                setCooldown();
                 
                 return data;
 
@@ -967,7 +1024,7 @@
                 console.error("Detalle del Error:", error);
                 aiWaiting.innerHTML = `<img src="logo.png" class="w-10 h-10 object-contain mb-4 filter sepia hue-rotate-[-50deg] saturate-[5]">
                                        <p class="text-sm text-red-500 font-semibold">Alerta en Cerebro 4</p>
-                                       <p class="text-xs text-zinc-500 mt-2 max-w-sm mx-auto">${error.message}</p>`;
+                                       <p class="text-xs text-slate-400 mt-2 max-w-sm mx-auto">${error.message}</p>`;
                 return null;
             } finally {
                 btnElement.innerHTML = originalText;
@@ -978,6 +1035,14 @@
         }
 
         btnGenerate.addEventListener('click', async () => {
+            const timeLeft = checkCooldown();
+            if (timeLeft > 0) {
+                handleCooldownAlert(timeLeft);
+                return;
+            }
+            const confirmGen = confirm("⚠️ ATENCIÓN: Generar contenido activará un enfriamiento (cooldown) de 33 minutos en el Motor IA.\n\n¿Deseas proceder con la generación individual?");
+            if (!confirmGen) return;
+
             const platformEl = document.getElementById('ia-platform');
             const hookEl = document.getElementById('ia-hook');
             const toneEl = document.getElementById('ia-tone');
@@ -1010,6 +1075,14 @@
         });
 
         btnGenerateWeekly.addEventListener('click', async () => {
+            const timeLeft = checkCooldown();
+            if (timeLeft > 0) {
+                handleCooldownAlert(timeLeft);
+                return;
+            }
+            const confirmGen = confirm("⚠️ ATENCIÓN: Generar contenido activará un enfriamiento (cooldown) de 33 minutos en el Motor IA.\n\n¿Deseas proceder con la generación del portafolio semanal?");
+            if (!confirmGen) return;
+
             const platformEl = document.getElementById('ia-platform');
             const toneEl = document.getElementById('ia-tone');
             const appearanceEl = document.getElementById('ia-appearance');
@@ -1055,12 +1128,12 @@
             navigator.clipboard.writeText(fullText).then(() => {
                 const btn = document.getElementById('btn-copy-all');
                 const orig = btn.innerHTML;
-                btn.innerHTML = '<img src="logo.png" class="icon-logo filter brightness-0 invert mr-2"> DATA COPIADA AL PORTAPAPELES';
-                btn.classList.add('bg-zinc-700');
+                btn.innerHTML = '<img src="logo.png" class="icon-logo  mr-2"> DATA COPIADA AL PORTAPAPELES';
+                btn.classList.add('bg-slate-200');
                 
                 setTimeout(() => {
                     btn.innerHTML = orig;
-                    btn.classList.remove('bg-zinc-700');
+                    btn.classList.remove('bg-slate-200');
                 }, 3000);
             });
         });
@@ -1070,7 +1143,7 @@
             const btn = document.getElementById('btn-download-txt');
             const originalText = btn.innerHTML;
 
-            btn.innerHTML = '<img src="logo.png" class="icon-logo spinner-img filter brightness-0 invert mr-2"> GENERANDO TXT...';
+            btn.innerHTML = '<img src="logo.png" class="icon-logo spinner-img  mr-2"> GENERANDO TXT...';
             
             if (!resultSingle.classList.contains('hidden')) {
                 const hook = document.getElementById('out-hook').innerText;
@@ -1093,13 +1166,14 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            btn.innerHTML = '<img src="logo.png" class="icon-logo filter brightness-0 invert mr-2"> TXT DESCARGADO';
-            btn.classList.add('bg-zinc-700');
+            btn.innerHTML = '<img src="logo.png" class="icon-logo  mr-2"> TXT DESCARGADO';
+            btn.classList.add('bg-slate-200');
             setTimeout(() => {
                 btn.innerHTML = originalText;
-                btn.classList.remove('bg-zinc-700');
+                btn.classList.remove('bg-slate-200');
             }, 3000);
         });
     </script>
 </body>
 </html>
+
